@@ -8,6 +8,7 @@ module StripeAPI.Types.OnlineAcceptance where
 
 import qualified Control.Monad.Fail
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -30,7 +31,7 @@ import StripeAPI.TypeAlias
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
--- | Defines the data type for the schema online_acceptance
+-- | Defines the object schema located at @components.schemas.online_acceptance@ in the specification.
 data OnlineAcceptance
   = OnlineAcceptance
       { -- | ip_address: The IP address from which the Mandate was accepted by the customer.
@@ -52,8 +53,16 @@ data OnlineAcceptance
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON OnlineAcceptance where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "ip_address" (onlineAcceptanceIpAddress obj) : (Data.Aeson..=) "user_agent" (onlineAcceptanceUserAgent obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "ip_address" (onlineAcceptanceIpAddress obj) GHC.Base.<> (Data.Aeson..=) "user_agent" (onlineAcceptanceUserAgent obj))
+  toJSON obj = Data.Aeson.Types.Internal.object ("ip_address" Data.Aeson.Types.ToJSON..= onlineAcceptanceIpAddress obj : "user_agent" Data.Aeson.Types.ToJSON..= onlineAcceptanceUserAgent obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("ip_address" Data.Aeson.Types.ToJSON..= onlineAcceptanceIpAddress obj) GHC.Base.<> ("user_agent" Data.Aeson.Types.ToJSON..= onlineAcceptanceUserAgent obj))
 
 instance Data.Aeson.Types.FromJSON.FromJSON OnlineAcceptance where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "OnlineAcceptance" (\obj -> (GHC.Base.pure OnlineAcceptance GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "ip_address")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "user_agent"))
+
+-- | Create a new 'OnlineAcceptance' with all required fields.
+mkOnlineAcceptance :: OnlineAcceptance
+mkOnlineAcceptance =
+  OnlineAcceptance
+    { onlineAcceptanceIpAddress = GHC.Maybe.Nothing,
+      onlineAcceptanceUserAgent = GHC.Maybe.Nothing
+    }

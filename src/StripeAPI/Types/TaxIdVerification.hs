@@ -8,6 +8,7 @@ module StripeAPI.Types.TaxIdVerification where
 
 import qualified Control.Monad.Fail
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -30,7 +31,7 @@ import StripeAPI.TypeAlias
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
--- | Defines the data type for the schema tax_id_verification
+-- | Defines the object schema located at @components.schemas.tax_id_verification@ in the specification.
 data TaxIdVerification
   = TaxIdVerification
       { -- | status: Verification status, one of \`pending\`, \`verified\`, \`unverified\`, or \`unavailable\`.
@@ -54,38 +55,56 @@ data TaxIdVerification
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON TaxIdVerification where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "status" (taxIdVerificationStatus obj) : (Data.Aeson..=) "verified_address" (taxIdVerificationVerifiedAddress obj) : (Data.Aeson..=) "verified_name" (taxIdVerificationVerifiedName obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "status" (taxIdVerificationStatus obj) GHC.Base.<> ((Data.Aeson..=) "verified_address" (taxIdVerificationVerifiedAddress obj) GHC.Base.<> (Data.Aeson..=) "verified_name" (taxIdVerificationVerifiedName obj)))
+  toJSON obj = Data.Aeson.Types.Internal.object ("status" Data.Aeson.Types.ToJSON..= taxIdVerificationStatus obj : "verified_address" Data.Aeson.Types.ToJSON..= taxIdVerificationVerifiedAddress obj : "verified_name" Data.Aeson.Types.ToJSON..= taxIdVerificationVerifiedName obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("status" Data.Aeson.Types.ToJSON..= taxIdVerificationStatus obj) GHC.Base.<> (("verified_address" Data.Aeson.Types.ToJSON..= taxIdVerificationVerifiedAddress obj) GHC.Base.<> ("verified_name" Data.Aeson.Types.ToJSON..= taxIdVerificationVerifiedName obj)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON TaxIdVerification where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "TaxIdVerification" (\obj -> ((GHC.Base.pure TaxIdVerification GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "status")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "verified_address")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "verified_name"))
 
--- | Defines the enum schema tax_id_verificationStatus\'
+-- | Create a new 'TaxIdVerification' with all required fields.
+mkTaxIdVerification ::
+  -- | 'taxIdVerificationStatus'
+  TaxIdVerificationStatus' ->
+  TaxIdVerification
+mkTaxIdVerification taxIdVerificationStatus =
+  TaxIdVerification
+    { taxIdVerificationStatus = taxIdVerificationStatus,
+      taxIdVerificationVerifiedAddress = GHC.Maybe.Nothing,
+      taxIdVerificationVerifiedName = GHC.Maybe.Nothing
+    }
+
+-- | Defines the enum schema located at @components.schemas.tax_id_verification.properties.status@ in the specification.
 --
 -- Verification status, one of \`pending\`, \`verified\`, \`unverified\`, or \`unavailable\`.
 data TaxIdVerificationStatus'
-  = TaxIdVerificationStatus'EnumOther Data.Aeson.Types.Internal.Value
-  | TaxIdVerificationStatus'EnumTyped Data.Text.Internal.Text
-  | TaxIdVerificationStatus'EnumStringPending
-  | TaxIdVerificationStatus'EnumStringUnavailable
-  | TaxIdVerificationStatus'EnumStringUnverified
-  | TaxIdVerificationStatus'EnumStringVerified
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    TaxIdVerificationStatus'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    TaxIdVerificationStatus'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"pending"@
+    TaxIdVerificationStatus'EnumPending
+  | -- | Represents the JSON value @"unavailable"@
+    TaxIdVerificationStatus'EnumUnavailable
+  | -- | Represents the JSON value @"unverified"@
+    TaxIdVerificationStatus'EnumUnverified
+  | -- | Represents the JSON value @"verified"@
+    TaxIdVerificationStatus'EnumVerified
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
 instance Data.Aeson.Types.ToJSON.ToJSON TaxIdVerificationStatus' where
-  toJSON (TaxIdVerificationStatus'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (TaxIdVerificationStatus'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (TaxIdVerificationStatus'EnumStringPending) = "pending"
-  toJSON (TaxIdVerificationStatus'EnumStringUnavailable) = "unavailable"
-  toJSON (TaxIdVerificationStatus'EnumStringUnverified) = "unverified"
-  toJSON (TaxIdVerificationStatus'EnumStringVerified) = "verified"
+  toJSON (TaxIdVerificationStatus'Other val) = val
+  toJSON (TaxIdVerificationStatus'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (TaxIdVerificationStatus'EnumPending) = "pending"
+  toJSON (TaxIdVerificationStatus'EnumUnavailable) = "unavailable"
+  toJSON (TaxIdVerificationStatus'EnumUnverified) = "unverified"
+  toJSON (TaxIdVerificationStatus'EnumVerified) = "verified"
 
 instance Data.Aeson.Types.FromJSON.FromJSON TaxIdVerificationStatus' where
   parseJSON val =
     GHC.Base.pure
-      ( if  | val GHC.Classes.== "pending" -> TaxIdVerificationStatus'EnumStringPending
-            | val GHC.Classes.== "unavailable" -> TaxIdVerificationStatus'EnumStringUnavailable
-            | val GHC.Classes.== "unverified" -> TaxIdVerificationStatus'EnumStringUnverified
-            | val GHC.Classes.== "verified" -> TaxIdVerificationStatus'EnumStringVerified
-            | GHC.Base.otherwise -> TaxIdVerificationStatus'EnumOther val
+      ( if  | val GHC.Classes.== "pending" -> TaxIdVerificationStatus'EnumPending
+            | val GHC.Classes.== "unavailable" -> TaxIdVerificationStatus'EnumUnavailable
+            | val GHC.Classes.== "unverified" -> TaxIdVerificationStatus'EnumUnverified
+            | val GHC.Classes.== "verified" -> TaxIdVerificationStatus'EnumVerified
+            | GHC.Base.otherwise -> TaxIdVerificationStatus'Other val
       )

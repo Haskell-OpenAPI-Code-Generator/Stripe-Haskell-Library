@@ -8,6 +8,7 @@ module StripeAPI.Types.DeletedInvoice where
 
 import qualified Control.Monad.Fail
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -30,19 +31,15 @@ import StripeAPI.TypeAlias
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
--- | Defines the data type for the schema deleted_invoice
+-- | Defines the object schema located at @components.schemas.deleted_invoice@ in the specification.
 data DeletedInvoice
   = DeletedInvoice
-      { -- | deleted: Always true for a deleted object
-        deletedInvoiceDeleted :: DeletedInvoiceDeleted',
-        -- | id: Unique identifier for the object.
+      { -- | id: Unique identifier for the object.
         --
         -- Constraints:
         --
         -- * Maximum length of 5000
-        deletedInvoiceId :: Data.Text.Internal.Text,
-        -- | object: String representing the object\'s type. Objects of the same type share the same value.
-        deletedInvoiceObject :: DeletedInvoiceObject'
+        deletedInvoiceId :: Data.Text.Internal.Text
       }
   deriving
     ( GHC.Show.Show,
@@ -50,50 +47,15 @@ data DeletedInvoice
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON DeletedInvoice where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "deleted" (deletedInvoiceDeleted obj) : (Data.Aeson..=) "id" (deletedInvoiceId obj) : (Data.Aeson..=) "object" (deletedInvoiceObject obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "deleted" (deletedInvoiceDeleted obj) GHC.Base.<> ((Data.Aeson..=) "id" (deletedInvoiceId obj) GHC.Base.<> (Data.Aeson..=) "object" (deletedInvoiceObject obj)))
+  toJSON obj = Data.Aeson.Types.Internal.object ("id" Data.Aeson.Types.ToJSON..= deletedInvoiceId obj : "deleted" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.Bool GHC.Types.True : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "invoice" : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("id" Data.Aeson.Types.ToJSON..= deletedInvoiceId obj) GHC.Base.<> (("deleted" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.Bool GHC.Types.True) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "invoice")))
 
 instance Data.Aeson.Types.FromJSON.FromJSON DeletedInvoice where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "DeletedInvoice" (\obj -> ((GHC.Base.pure DeletedInvoice GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "deleted")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "object"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "DeletedInvoice" (\obj -> GHC.Base.pure DeletedInvoice GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id"))
 
--- | Defines the enum schema deleted_invoiceDeleted\'
---
--- Always true for a deleted object
-data DeletedInvoiceDeleted'
-  = DeletedInvoiceDeleted'EnumOther Data.Aeson.Types.Internal.Value
-  | DeletedInvoiceDeleted'EnumTyped GHC.Types.Bool
-  | DeletedInvoiceDeleted'EnumBoolTrue
-  deriving (GHC.Show.Show, GHC.Classes.Eq)
-
-instance Data.Aeson.Types.ToJSON.ToJSON DeletedInvoiceDeleted' where
-  toJSON (DeletedInvoiceDeleted'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (DeletedInvoiceDeleted'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (DeletedInvoiceDeleted'EnumBoolTrue) = Data.Aeson.Types.Internal.Bool GHC.Types.True
-
-instance Data.Aeson.Types.FromJSON.FromJSON DeletedInvoiceDeleted' where
-  parseJSON val =
-    GHC.Base.pure
-      ( if  | val GHC.Classes.== Data.Aeson.Types.Internal.Bool GHC.Types.True -> DeletedInvoiceDeleted'EnumBoolTrue
-            | GHC.Base.otherwise -> DeletedInvoiceDeleted'EnumOther val
-      )
-
--- | Defines the enum schema deleted_invoiceObject\'
---
--- String representing the object\'s type. Objects of the same type share the same value.
-data DeletedInvoiceObject'
-  = DeletedInvoiceObject'EnumOther Data.Aeson.Types.Internal.Value
-  | DeletedInvoiceObject'EnumTyped Data.Text.Internal.Text
-  | DeletedInvoiceObject'EnumStringInvoice
-  deriving (GHC.Show.Show, GHC.Classes.Eq)
-
-instance Data.Aeson.Types.ToJSON.ToJSON DeletedInvoiceObject' where
-  toJSON (DeletedInvoiceObject'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (DeletedInvoiceObject'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (DeletedInvoiceObject'EnumStringInvoice) = "invoice"
-
-instance Data.Aeson.Types.FromJSON.FromJSON DeletedInvoiceObject' where
-  parseJSON val =
-    GHC.Base.pure
-      ( if  | val GHC.Classes.== "invoice" -> DeletedInvoiceObject'EnumStringInvoice
-            | GHC.Base.otherwise -> DeletedInvoiceObject'EnumOther val
-      )
+-- | Create a new 'DeletedInvoice' with all required fields.
+mkDeletedInvoice ::
+  -- | 'deletedInvoiceId'
+  Data.Text.Internal.Text ->
+  DeletedInvoice
+mkDeletedInvoice deletedInvoiceId = DeletedInvoice {deletedInvoiceId = deletedInvoiceId}

@@ -10,6 +10,7 @@ module StripeAPI.Operations.GetCustomersCustomerSubscriptions where
 import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -85,7 +86,7 @@ getCustomersCustomerSubscriptions parameters =
         ]
     )
 
--- | Defines the data type for the schema getCustomersCustomerSubscriptionsParameters
+-- | Defines the object schema located at @paths.\/v1\/customers\/{customer}\/subscriptions.GET.parameters@ in the specification.
 data GetCustomersCustomerSubscriptionsParameters
   = GetCustomersCustomerSubscriptionsParameters
       { -- | pathCustomer: Represents the parameter named \'customer\'
@@ -125,11 +126,25 @@ data GetCustomersCustomerSubscriptionsParameters
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetCustomersCustomerSubscriptionsParameters where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "pathCustomer" (getCustomersCustomerSubscriptionsParametersPathCustomer obj) : (Data.Aeson..=) "queryEnding_before" (getCustomersCustomerSubscriptionsParametersQueryEndingBefore obj) : (Data.Aeson..=) "queryExpand" (getCustomersCustomerSubscriptionsParametersQueryExpand obj) : (Data.Aeson..=) "queryLimit" (getCustomersCustomerSubscriptionsParametersQueryLimit obj) : (Data.Aeson..=) "queryStarting_after" (getCustomersCustomerSubscriptionsParametersQueryStartingAfter obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "pathCustomer" (getCustomersCustomerSubscriptionsParametersPathCustomer obj) GHC.Base.<> ((Data.Aeson..=) "queryEnding_before" (getCustomersCustomerSubscriptionsParametersQueryEndingBefore obj) GHC.Base.<> ((Data.Aeson..=) "queryExpand" (getCustomersCustomerSubscriptionsParametersQueryExpand obj) GHC.Base.<> ((Data.Aeson..=) "queryLimit" (getCustomersCustomerSubscriptionsParametersQueryLimit obj) GHC.Base.<> (Data.Aeson..=) "queryStarting_after" (getCustomersCustomerSubscriptionsParametersQueryStartingAfter obj)))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("pathCustomer" Data.Aeson.Types.ToJSON..= getCustomersCustomerSubscriptionsParametersPathCustomer obj : "queryEnding_before" Data.Aeson.Types.ToJSON..= getCustomersCustomerSubscriptionsParametersQueryEndingBefore obj : "queryExpand" Data.Aeson.Types.ToJSON..= getCustomersCustomerSubscriptionsParametersQueryExpand obj : "queryLimit" Data.Aeson.Types.ToJSON..= getCustomersCustomerSubscriptionsParametersQueryLimit obj : "queryStarting_after" Data.Aeson.Types.ToJSON..= getCustomersCustomerSubscriptionsParametersQueryStartingAfter obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("pathCustomer" Data.Aeson.Types.ToJSON..= getCustomersCustomerSubscriptionsParametersPathCustomer obj) GHC.Base.<> (("queryEnding_before" Data.Aeson.Types.ToJSON..= getCustomersCustomerSubscriptionsParametersQueryEndingBefore obj) GHC.Base.<> (("queryExpand" Data.Aeson.Types.ToJSON..= getCustomersCustomerSubscriptionsParametersQueryExpand obj) GHC.Base.<> (("queryLimit" Data.Aeson.Types.ToJSON..= getCustomersCustomerSubscriptionsParametersQueryLimit obj) GHC.Base.<> ("queryStarting_after" Data.Aeson.Types.ToJSON..= getCustomersCustomerSubscriptionsParametersQueryStartingAfter obj)))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetCustomersCustomerSubscriptionsParameters where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "GetCustomersCustomerSubscriptionsParameters" (\obj -> ((((GHC.Base.pure GetCustomersCustomerSubscriptionsParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathCustomer")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryEnding_before")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryExpand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryLimit")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryStarting_after"))
+
+-- | Create a new 'GetCustomersCustomerSubscriptionsParameters' with all required fields.
+mkGetCustomersCustomerSubscriptionsParameters ::
+  -- | 'getCustomersCustomerSubscriptionsParametersPathCustomer'
+  Data.Text.Internal.Text ->
+  GetCustomersCustomerSubscriptionsParameters
+mkGetCustomersCustomerSubscriptionsParameters getCustomersCustomerSubscriptionsParametersPathCustomer =
+  GetCustomersCustomerSubscriptionsParameters
+    { getCustomersCustomerSubscriptionsParametersPathCustomer = getCustomersCustomerSubscriptionsParametersPathCustomer,
+      getCustomersCustomerSubscriptionsParametersQueryEndingBefore = GHC.Maybe.Nothing,
+      getCustomersCustomerSubscriptionsParametersQueryExpand = GHC.Maybe.Nothing,
+      getCustomersCustomerSubscriptionsParametersQueryLimit = GHC.Maybe.Nothing,
+      getCustomersCustomerSubscriptionsParametersQueryStartingAfter = GHC.Maybe.Nothing
+    }
 
 -- | Represents a response of the operation 'getCustomersCustomerSubscriptions'.
 --
@@ -143,15 +158,13 @@ data GetCustomersCustomerSubscriptionsResponse
     GetCustomersCustomerSubscriptionsResponseDefault Error
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
--- | Defines the data type for the schema GetCustomersCustomerSubscriptionsResponseBody200
+-- | Defines the object schema located at @paths.\/v1\/customers\/{customer}\/subscriptions.GET.responses.200.content.application\/json.schema@ in the specification.
 data GetCustomersCustomerSubscriptionsResponseBody200
   = GetCustomersCustomerSubscriptionsResponseBody200
       { -- | data: Details about each object.
         getCustomersCustomerSubscriptionsResponseBody200Data :: ([Subscription]),
         -- | has_more: True if this list has another page of items after this one that can be fetched.
         getCustomersCustomerSubscriptionsResponseBody200HasMore :: GHC.Types.Bool,
-        -- | object: String representing the object\'s type. Objects of the same type share the same value. Always has the value \`list\`.
-        getCustomersCustomerSubscriptionsResponseBody200Object :: GetCustomersCustomerSubscriptionsResponseBody200Object',
         -- | url: The URL where this list can be accessed.
         --
         -- Constraints:
@@ -165,29 +178,24 @@ data GetCustomersCustomerSubscriptionsResponseBody200
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetCustomersCustomerSubscriptionsResponseBody200 where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "data" (getCustomersCustomerSubscriptionsResponseBody200Data obj) : (Data.Aeson..=) "has_more" (getCustomersCustomerSubscriptionsResponseBody200HasMore obj) : (Data.Aeson..=) "object" (getCustomersCustomerSubscriptionsResponseBody200Object obj) : (Data.Aeson..=) "url" (getCustomersCustomerSubscriptionsResponseBody200Url obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "data" (getCustomersCustomerSubscriptionsResponseBody200Data obj) GHC.Base.<> ((Data.Aeson..=) "has_more" (getCustomersCustomerSubscriptionsResponseBody200HasMore obj) GHC.Base.<> ((Data.Aeson..=) "object" (getCustomersCustomerSubscriptionsResponseBody200Object obj) GHC.Base.<> (Data.Aeson..=) "url" (getCustomersCustomerSubscriptionsResponseBody200Url obj))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("data" Data.Aeson.Types.ToJSON..= getCustomersCustomerSubscriptionsResponseBody200Data obj : "has_more" Data.Aeson.Types.ToJSON..= getCustomersCustomerSubscriptionsResponseBody200HasMore obj : "url" Data.Aeson.Types.ToJSON..= getCustomersCustomerSubscriptionsResponseBody200Url obj : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "list" : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("data" Data.Aeson.Types.ToJSON..= getCustomersCustomerSubscriptionsResponseBody200Data obj) GHC.Base.<> (("has_more" Data.Aeson.Types.ToJSON..= getCustomersCustomerSubscriptionsResponseBody200HasMore obj) GHC.Base.<> (("url" Data.Aeson.Types.ToJSON..= getCustomersCustomerSubscriptionsResponseBody200Url obj) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "list"))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetCustomersCustomerSubscriptionsResponseBody200 where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetCustomersCustomerSubscriptionsResponseBody200" (\obj -> (((GHC.Base.pure GetCustomersCustomerSubscriptionsResponseBody200 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "has_more")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "object")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "url"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetCustomersCustomerSubscriptionsResponseBody200" (\obj -> ((GHC.Base.pure GetCustomersCustomerSubscriptionsResponseBody200 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "has_more")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "url"))
 
--- | Defines the enum schema GetCustomersCustomerSubscriptionsResponseBody200Object\'
---
--- String representing the object\'s type. Objects of the same type share the same value. Always has the value \`list\`.
-data GetCustomersCustomerSubscriptionsResponseBody200Object'
-  = GetCustomersCustomerSubscriptionsResponseBody200Object'EnumOther Data.Aeson.Types.Internal.Value
-  | GetCustomersCustomerSubscriptionsResponseBody200Object'EnumTyped Data.Text.Internal.Text
-  | GetCustomersCustomerSubscriptionsResponseBody200Object'EnumStringList
-  deriving (GHC.Show.Show, GHC.Classes.Eq)
-
-instance Data.Aeson.Types.ToJSON.ToJSON GetCustomersCustomerSubscriptionsResponseBody200Object' where
-  toJSON (GetCustomersCustomerSubscriptionsResponseBody200Object'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (GetCustomersCustomerSubscriptionsResponseBody200Object'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (GetCustomersCustomerSubscriptionsResponseBody200Object'EnumStringList) = "list"
-
-instance Data.Aeson.Types.FromJSON.FromJSON GetCustomersCustomerSubscriptionsResponseBody200Object' where
-  parseJSON val =
-    GHC.Base.pure
-      ( if  | val GHC.Classes.== "list" -> GetCustomersCustomerSubscriptionsResponseBody200Object'EnumStringList
-            | GHC.Base.otherwise -> GetCustomersCustomerSubscriptionsResponseBody200Object'EnumOther val
-      )
+-- | Create a new 'GetCustomersCustomerSubscriptionsResponseBody200' with all required fields.
+mkGetCustomersCustomerSubscriptionsResponseBody200 ::
+  -- | 'getCustomersCustomerSubscriptionsResponseBody200Data'
+  [Subscription] ->
+  -- | 'getCustomersCustomerSubscriptionsResponseBody200HasMore'
+  GHC.Types.Bool ->
+  -- | 'getCustomersCustomerSubscriptionsResponseBody200Url'
+  Data.Text.Internal.Text ->
+  GetCustomersCustomerSubscriptionsResponseBody200
+mkGetCustomersCustomerSubscriptionsResponseBody200 getCustomersCustomerSubscriptionsResponseBody200Data getCustomersCustomerSubscriptionsResponseBody200HasMore getCustomersCustomerSubscriptionsResponseBody200Url =
+  GetCustomersCustomerSubscriptionsResponseBody200
+    { getCustomersCustomerSubscriptionsResponseBody200Data = getCustomersCustomerSubscriptionsResponseBody200Data,
+      getCustomersCustomerSubscriptionsResponseBody200HasMore = getCustomersCustomerSubscriptionsResponseBody200HasMore,
+      getCustomersCustomerSubscriptionsResponseBody200Url = getCustomersCustomerSubscriptionsResponseBody200Url
+    }

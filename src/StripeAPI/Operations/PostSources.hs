@@ -10,6 +10,7 @@ module StripeAPI.Operations.PostSources where
 import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -77,7 +78,7 @@ postSources body =
     )
     (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack "/v1/sources") [] body StripeAPI.Common.RequestBodyEncodingFormData)
 
--- | Defines the data type for the schema postSourcesRequestBody
+-- | Defines the object schema located at @paths.\/v1\/sources.POST.requestBody.content.application\/x-www-form-urlencoded.schema@ in the specification.
 data PostSourcesRequestBody
   = PostSourcesRequestBody
       { -- | amount: Amount associated with the source. This is the amount for which the source will be chargeable once ready. Required for \`single_use\` sources. Not supported for \`receiver\` type sources, where charge amount may not be specified until funds land.
@@ -147,43 +148,71 @@ data PostSourcesRequestBody
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostSourcesRequestBody where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "amount" (postSourcesRequestBodyAmount obj) : (Data.Aeson..=) "currency" (postSourcesRequestBodyCurrency obj) : (Data.Aeson..=) "customer" (postSourcesRequestBodyCustomer obj) : (Data.Aeson..=) "expand" (postSourcesRequestBodyExpand obj) : (Data.Aeson..=) "flow" (postSourcesRequestBodyFlow obj) : (Data.Aeson..=) "mandate" (postSourcesRequestBodyMandate obj) : (Data.Aeson..=) "metadata" (postSourcesRequestBodyMetadata obj) : (Data.Aeson..=) "original_source" (postSourcesRequestBodyOriginalSource obj) : (Data.Aeson..=) "owner" (postSourcesRequestBodyOwner obj) : (Data.Aeson..=) "receiver" (postSourcesRequestBodyReceiver obj) : (Data.Aeson..=) "redirect" (postSourcesRequestBodyRedirect obj) : (Data.Aeson..=) "source_order" (postSourcesRequestBodySourceOrder obj) : (Data.Aeson..=) "statement_descriptor" (postSourcesRequestBodyStatementDescriptor obj) : (Data.Aeson..=) "token" (postSourcesRequestBodyToken obj) : (Data.Aeson..=) "type" (postSourcesRequestBodyType obj) : (Data.Aeson..=) "usage" (postSourcesRequestBodyUsage obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "amount" (postSourcesRequestBodyAmount obj) GHC.Base.<> ((Data.Aeson..=) "currency" (postSourcesRequestBodyCurrency obj) GHC.Base.<> ((Data.Aeson..=) "customer" (postSourcesRequestBodyCustomer obj) GHC.Base.<> ((Data.Aeson..=) "expand" (postSourcesRequestBodyExpand obj) GHC.Base.<> ((Data.Aeson..=) "flow" (postSourcesRequestBodyFlow obj) GHC.Base.<> ((Data.Aeson..=) "mandate" (postSourcesRequestBodyMandate obj) GHC.Base.<> ((Data.Aeson..=) "metadata" (postSourcesRequestBodyMetadata obj) GHC.Base.<> ((Data.Aeson..=) "original_source" (postSourcesRequestBodyOriginalSource obj) GHC.Base.<> ((Data.Aeson..=) "owner" (postSourcesRequestBodyOwner obj) GHC.Base.<> ((Data.Aeson..=) "receiver" (postSourcesRequestBodyReceiver obj) GHC.Base.<> ((Data.Aeson..=) "redirect" (postSourcesRequestBodyRedirect obj) GHC.Base.<> ((Data.Aeson..=) "source_order" (postSourcesRequestBodySourceOrder obj) GHC.Base.<> ((Data.Aeson..=) "statement_descriptor" (postSourcesRequestBodyStatementDescriptor obj) GHC.Base.<> ((Data.Aeson..=) "token" (postSourcesRequestBodyToken obj) GHC.Base.<> ((Data.Aeson..=) "type" (postSourcesRequestBodyType obj) GHC.Base.<> (Data.Aeson..=) "usage" (postSourcesRequestBodyUsage obj))))))))))))))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("amount" Data.Aeson.Types.ToJSON..= postSourcesRequestBodyAmount obj : "currency" Data.Aeson.Types.ToJSON..= postSourcesRequestBodyCurrency obj : "customer" Data.Aeson.Types.ToJSON..= postSourcesRequestBodyCustomer obj : "expand" Data.Aeson.Types.ToJSON..= postSourcesRequestBodyExpand obj : "flow" Data.Aeson.Types.ToJSON..= postSourcesRequestBodyFlow obj : "mandate" Data.Aeson.Types.ToJSON..= postSourcesRequestBodyMandate obj : "metadata" Data.Aeson.Types.ToJSON..= postSourcesRequestBodyMetadata obj : "original_source" Data.Aeson.Types.ToJSON..= postSourcesRequestBodyOriginalSource obj : "owner" Data.Aeson.Types.ToJSON..= postSourcesRequestBodyOwner obj : "receiver" Data.Aeson.Types.ToJSON..= postSourcesRequestBodyReceiver obj : "redirect" Data.Aeson.Types.ToJSON..= postSourcesRequestBodyRedirect obj : "source_order" Data.Aeson.Types.ToJSON..= postSourcesRequestBodySourceOrder obj : "statement_descriptor" Data.Aeson.Types.ToJSON..= postSourcesRequestBodyStatementDescriptor obj : "token" Data.Aeson.Types.ToJSON..= postSourcesRequestBodyToken obj : "type" Data.Aeson.Types.ToJSON..= postSourcesRequestBodyType obj : "usage" Data.Aeson.Types.ToJSON..= postSourcesRequestBodyUsage obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("amount" Data.Aeson.Types.ToJSON..= postSourcesRequestBodyAmount obj) GHC.Base.<> (("currency" Data.Aeson.Types.ToJSON..= postSourcesRequestBodyCurrency obj) GHC.Base.<> (("customer" Data.Aeson.Types.ToJSON..= postSourcesRequestBodyCustomer obj) GHC.Base.<> (("expand" Data.Aeson.Types.ToJSON..= postSourcesRequestBodyExpand obj) GHC.Base.<> (("flow" Data.Aeson.Types.ToJSON..= postSourcesRequestBodyFlow obj) GHC.Base.<> (("mandate" Data.Aeson.Types.ToJSON..= postSourcesRequestBodyMandate obj) GHC.Base.<> (("metadata" Data.Aeson.Types.ToJSON..= postSourcesRequestBodyMetadata obj) GHC.Base.<> (("original_source" Data.Aeson.Types.ToJSON..= postSourcesRequestBodyOriginalSource obj) GHC.Base.<> (("owner" Data.Aeson.Types.ToJSON..= postSourcesRequestBodyOwner obj) GHC.Base.<> (("receiver" Data.Aeson.Types.ToJSON..= postSourcesRequestBodyReceiver obj) GHC.Base.<> (("redirect" Data.Aeson.Types.ToJSON..= postSourcesRequestBodyRedirect obj) GHC.Base.<> (("source_order" Data.Aeson.Types.ToJSON..= postSourcesRequestBodySourceOrder obj) GHC.Base.<> (("statement_descriptor" Data.Aeson.Types.ToJSON..= postSourcesRequestBodyStatementDescriptor obj) GHC.Base.<> (("token" Data.Aeson.Types.ToJSON..= postSourcesRequestBodyToken obj) GHC.Base.<> (("type" Data.Aeson.Types.ToJSON..= postSourcesRequestBodyType obj) GHC.Base.<> ("usage" Data.Aeson.Types.ToJSON..= postSourcesRequestBodyUsage obj))))))))))))))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostSourcesRequestBody where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PostSourcesRequestBody" (\obj -> (((((((((((((((GHC.Base.pure PostSourcesRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "customer")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "flow")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "mandate")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "original_source")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "owner")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "receiver")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "redirect")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "source_order")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "statement_descriptor")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "token")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "type")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "usage"))
 
--- | Defines the enum schema postSourcesRequestBodyFlow\'
+-- | Create a new 'PostSourcesRequestBody' with all required fields.
+mkPostSourcesRequestBody :: PostSourcesRequestBody
+mkPostSourcesRequestBody =
+  PostSourcesRequestBody
+    { postSourcesRequestBodyAmount = GHC.Maybe.Nothing,
+      postSourcesRequestBodyCurrency = GHC.Maybe.Nothing,
+      postSourcesRequestBodyCustomer = GHC.Maybe.Nothing,
+      postSourcesRequestBodyExpand = GHC.Maybe.Nothing,
+      postSourcesRequestBodyFlow = GHC.Maybe.Nothing,
+      postSourcesRequestBodyMandate = GHC.Maybe.Nothing,
+      postSourcesRequestBodyMetadata = GHC.Maybe.Nothing,
+      postSourcesRequestBodyOriginalSource = GHC.Maybe.Nothing,
+      postSourcesRequestBodyOwner = GHC.Maybe.Nothing,
+      postSourcesRequestBodyReceiver = GHC.Maybe.Nothing,
+      postSourcesRequestBodyRedirect = GHC.Maybe.Nothing,
+      postSourcesRequestBodySourceOrder = GHC.Maybe.Nothing,
+      postSourcesRequestBodyStatementDescriptor = GHC.Maybe.Nothing,
+      postSourcesRequestBodyToken = GHC.Maybe.Nothing,
+      postSourcesRequestBodyType = GHC.Maybe.Nothing,
+      postSourcesRequestBodyUsage = GHC.Maybe.Nothing
+    }
+
+-- | Defines the enum schema located at @paths.\/v1\/sources.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.flow@ in the specification.
 --
 -- The authentication \`flow\` of the source to create. \`flow\` is one of \`redirect\`, \`receiver\`, \`code_verification\`, \`none\`. It is generally inferred unless a type supports multiple flows.
 data PostSourcesRequestBodyFlow'
-  = PostSourcesRequestBodyFlow'EnumOther Data.Aeson.Types.Internal.Value
-  | PostSourcesRequestBodyFlow'EnumTyped Data.Text.Internal.Text
-  | PostSourcesRequestBodyFlow'EnumStringCodeVerification
-  | PostSourcesRequestBodyFlow'EnumStringNone
-  | PostSourcesRequestBodyFlow'EnumStringReceiver
-  | PostSourcesRequestBodyFlow'EnumStringRedirect
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    PostSourcesRequestBodyFlow'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    PostSourcesRequestBodyFlow'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"code_verification"@
+    PostSourcesRequestBodyFlow'EnumCodeVerification
+  | -- | Represents the JSON value @"none"@
+    PostSourcesRequestBodyFlow'EnumNone
+  | -- | Represents the JSON value @"receiver"@
+    PostSourcesRequestBodyFlow'EnumReceiver
+  | -- | Represents the JSON value @"redirect"@
+    PostSourcesRequestBodyFlow'EnumRedirect
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostSourcesRequestBodyFlow' where
-  toJSON (PostSourcesRequestBodyFlow'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostSourcesRequestBodyFlow'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostSourcesRequestBodyFlow'EnumStringCodeVerification) = "code_verification"
-  toJSON (PostSourcesRequestBodyFlow'EnumStringNone) = "none"
-  toJSON (PostSourcesRequestBodyFlow'EnumStringReceiver) = "receiver"
-  toJSON (PostSourcesRequestBodyFlow'EnumStringRedirect) = "redirect"
+  toJSON (PostSourcesRequestBodyFlow'Other val) = val
+  toJSON (PostSourcesRequestBodyFlow'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PostSourcesRequestBodyFlow'EnumCodeVerification) = "code_verification"
+  toJSON (PostSourcesRequestBodyFlow'EnumNone) = "none"
+  toJSON (PostSourcesRequestBodyFlow'EnumReceiver) = "receiver"
+  toJSON (PostSourcesRequestBodyFlow'EnumRedirect) = "redirect"
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostSourcesRequestBodyFlow' where
   parseJSON val =
     GHC.Base.pure
-      ( if  | val GHC.Classes.== "code_verification" -> PostSourcesRequestBodyFlow'EnumStringCodeVerification
-            | val GHC.Classes.== "none" -> PostSourcesRequestBodyFlow'EnumStringNone
-            | val GHC.Classes.== "receiver" -> PostSourcesRequestBodyFlow'EnumStringReceiver
-            | val GHC.Classes.== "redirect" -> PostSourcesRequestBodyFlow'EnumStringRedirect
-            | GHC.Base.otherwise -> PostSourcesRequestBodyFlow'EnumOther val
+      ( if  | val GHC.Classes.== "code_verification" -> PostSourcesRequestBodyFlow'EnumCodeVerification
+            | val GHC.Classes.== "none" -> PostSourcesRequestBodyFlow'EnumNone
+            | val GHC.Classes.== "receiver" -> PostSourcesRequestBodyFlow'EnumReceiver
+            | val GHC.Classes.== "redirect" -> PostSourcesRequestBodyFlow'EnumRedirect
+            | GHC.Base.otherwise -> PostSourcesRequestBodyFlow'Other val
       )
 
--- | Defines the data type for the schema postSourcesRequestBodyMandate\'
+-- | Defines the object schema located at @paths.\/v1\/sources.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.mandate@ in the specification.
 --
 -- Information about a mandate possibility attached to a source object (generally for bank debits) as well as its acceptance status.
 data PostSourcesRequestBodyMandate'
@@ -213,13 +242,24 @@ data PostSourcesRequestBodyMandate'
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostSourcesRequestBodyMandate' where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "acceptance" (postSourcesRequestBodyMandate'Acceptance obj) : (Data.Aeson..=) "amount" (postSourcesRequestBodyMandate'Amount obj) : (Data.Aeson..=) "currency" (postSourcesRequestBodyMandate'Currency obj) : (Data.Aeson..=) "interval" (postSourcesRequestBodyMandate'Interval obj) : (Data.Aeson..=) "notification_method" (postSourcesRequestBodyMandate'NotificationMethod obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "acceptance" (postSourcesRequestBodyMandate'Acceptance obj) GHC.Base.<> ((Data.Aeson..=) "amount" (postSourcesRequestBodyMandate'Amount obj) GHC.Base.<> ((Data.Aeson..=) "currency" (postSourcesRequestBodyMandate'Currency obj) GHC.Base.<> ((Data.Aeson..=) "interval" (postSourcesRequestBodyMandate'Interval obj) GHC.Base.<> (Data.Aeson..=) "notification_method" (postSourcesRequestBodyMandate'NotificationMethod obj)))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("acceptance" Data.Aeson.Types.ToJSON..= postSourcesRequestBodyMandate'Acceptance obj : "amount" Data.Aeson.Types.ToJSON..= postSourcesRequestBodyMandate'Amount obj : "currency" Data.Aeson.Types.ToJSON..= postSourcesRequestBodyMandate'Currency obj : "interval" Data.Aeson.Types.ToJSON..= postSourcesRequestBodyMandate'Interval obj : "notification_method" Data.Aeson.Types.ToJSON..= postSourcesRequestBodyMandate'NotificationMethod obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("acceptance" Data.Aeson.Types.ToJSON..= postSourcesRequestBodyMandate'Acceptance obj) GHC.Base.<> (("amount" Data.Aeson.Types.ToJSON..= postSourcesRequestBodyMandate'Amount obj) GHC.Base.<> (("currency" Data.Aeson.Types.ToJSON..= postSourcesRequestBodyMandate'Currency obj) GHC.Base.<> (("interval" Data.Aeson.Types.ToJSON..= postSourcesRequestBodyMandate'Interval obj) GHC.Base.<> ("notification_method" Data.Aeson.Types.ToJSON..= postSourcesRequestBodyMandate'NotificationMethod obj)))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostSourcesRequestBodyMandate' where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PostSourcesRequestBodyMandate'" (\obj -> ((((GHC.Base.pure PostSourcesRequestBodyMandate' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "acceptance")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "interval")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "notification_method"))
 
--- | Defines the data type for the schema postSourcesRequestBodyMandate\'Acceptance\'
+-- | Create a new 'PostSourcesRequestBodyMandate'' with all required fields.
+mkPostSourcesRequestBodyMandate' :: PostSourcesRequestBodyMandate'
+mkPostSourcesRequestBodyMandate' =
+  PostSourcesRequestBodyMandate'
+    { postSourcesRequestBodyMandate'Acceptance = GHC.Maybe.Nothing,
+      postSourcesRequestBodyMandate'Amount = GHC.Maybe.Nothing,
+      postSourcesRequestBodyMandate'Currency = GHC.Maybe.Nothing,
+      postSourcesRequestBodyMandate'Interval = GHC.Maybe.Nothing,
+      postSourcesRequestBodyMandate'NotificationMethod = GHC.Maybe.Nothing
+    }
+
+-- | Defines the object schema located at @paths.\/v1\/sources.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.mandate.properties.acceptance@ in the specification.
 data PostSourcesRequestBodyMandate'Acceptance'
   = PostSourcesRequestBodyMandate'Acceptance'
       { -- | date
@@ -255,13 +295,29 @@ data PostSourcesRequestBodyMandate'Acceptance'
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostSourcesRequestBodyMandate'Acceptance' where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "date" (postSourcesRequestBodyMandate'Acceptance'Date obj) : (Data.Aeson..=) "ip" (postSourcesRequestBodyMandate'Acceptance'Ip obj) : (Data.Aeson..=) "offline" (postSourcesRequestBodyMandate'Acceptance'Offline obj) : (Data.Aeson..=) "online" (postSourcesRequestBodyMandate'Acceptance'Online obj) : (Data.Aeson..=) "status" (postSourcesRequestBodyMandate'Acceptance'Status obj) : (Data.Aeson..=) "type" (postSourcesRequestBodyMandate'Acceptance'Type obj) : (Data.Aeson..=) "user_agent" (postSourcesRequestBodyMandate'Acceptance'UserAgent obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "date" (postSourcesRequestBodyMandate'Acceptance'Date obj) GHC.Base.<> ((Data.Aeson..=) "ip" (postSourcesRequestBodyMandate'Acceptance'Ip obj) GHC.Base.<> ((Data.Aeson..=) "offline" (postSourcesRequestBodyMandate'Acceptance'Offline obj) GHC.Base.<> ((Data.Aeson..=) "online" (postSourcesRequestBodyMandate'Acceptance'Online obj) GHC.Base.<> ((Data.Aeson..=) "status" (postSourcesRequestBodyMandate'Acceptance'Status obj) GHC.Base.<> ((Data.Aeson..=) "type" (postSourcesRequestBodyMandate'Acceptance'Type obj) GHC.Base.<> (Data.Aeson..=) "user_agent" (postSourcesRequestBodyMandate'Acceptance'UserAgent obj)))))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("date" Data.Aeson.Types.ToJSON..= postSourcesRequestBodyMandate'Acceptance'Date obj : "ip" Data.Aeson.Types.ToJSON..= postSourcesRequestBodyMandate'Acceptance'Ip obj : "offline" Data.Aeson.Types.ToJSON..= postSourcesRequestBodyMandate'Acceptance'Offline obj : "online" Data.Aeson.Types.ToJSON..= postSourcesRequestBodyMandate'Acceptance'Online obj : "status" Data.Aeson.Types.ToJSON..= postSourcesRequestBodyMandate'Acceptance'Status obj : "type" Data.Aeson.Types.ToJSON..= postSourcesRequestBodyMandate'Acceptance'Type obj : "user_agent" Data.Aeson.Types.ToJSON..= postSourcesRequestBodyMandate'Acceptance'UserAgent obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("date" Data.Aeson.Types.ToJSON..= postSourcesRequestBodyMandate'Acceptance'Date obj) GHC.Base.<> (("ip" Data.Aeson.Types.ToJSON..= postSourcesRequestBodyMandate'Acceptance'Ip obj) GHC.Base.<> (("offline" Data.Aeson.Types.ToJSON..= postSourcesRequestBodyMandate'Acceptance'Offline obj) GHC.Base.<> (("online" Data.Aeson.Types.ToJSON..= postSourcesRequestBodyMandate'Acceptance'Online obj) GHC.Base.<> (("status" Data.Aeson.Types.ToJSON..= postSourcesRequestBodyMandate'Acceptance'Status obj) GHC.Base.<> (("type" Data.Aeson.Types.ToJSON..= postSourcesRequestBodyMandate'Acceptance'Type obj) GHC.Base.<> ("user_agent" Data.Aeson.Types.ToJSON..= postSourcesRequestBodyMandate'Acceptance'UserAgent obj)))))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostSourcesRequestBodyMandate'Acceptance' where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PostSourcesRequestBodyMandate'Acceptance'" (\obj -> ((((((GHC.Base.pure PostSourcesRequestBodyMandate'Acceptance' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "date")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "ip")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "offline")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "online")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "status")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "type")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "user_agent"))
 
--- | Defines the data type for the schema postSourcesRequestBodyMandate\'Acceptance\'Offline\'
+-- | Create a new 'PostSourcesRequestBodyMandate'Acceptance'' with all required fields.
+mkPostSourcesRequestBodyMandate'Acceptance' ::
+  -- | 'postSourcesRequestBodyMandate'Acceptance'Status'
+  PostSourcesRequestBodyMandate'Acceptance'Status' ->
+  PostSourcesRequestBodyMandate'Acceptance'
+mkPostSourcesRequestBodyMandate'Acceptance' postSourcesRequestBodyMandate'Acceptance'Status =
+  PostSourcesRequestBodyMandate'Acceptance'
+    { postSourcesRequestBodyMandate'Acceptance'Date = GHC.Maybe.Nothing,
+      postSourcesRequestBodyMandate'Acceptance'Ip = GHC.Maybe.Nothing,
+      postSourcesRequestBodyMandate'Acceptance'Offline = GHC.Maybe.Nothing,
+      postSourcesRequestBodyMandate'Acceptance'Online = GHC.Maybe.Nothing,
+      postSourcesRequestBodyMandate'Acceptance'Status = postSourcesRequestBodyMandate'Acceptance'Status,
+      postSourcesRequestBodyMandate'Acceptance'Type = GHC.Maybe.Nothing,
+      postSourcesRequestBodyMandate'Acceptance'UserAgent = GHC.Maybe.Nothing
+    }
+
+-- | Defines the object schema located at @paths.\/v1\/sources.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.mandate.properties.acceptance.properties.offline@ in the specification.
 data PostSourcesRequestBodyMandate'Acceptance'Offline'
   = PostSourcesRequestBodyMandate'Acceptance'Offline'
       { -- | contact_email
@@ -273,13 +329,20 @@ data PostSourcesRequestBodyMandate'Acceptance'Offline'
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostSourcesRequestBodyMandate'Acceptance'Offline' where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "contact_email" (postSourcesRequestBodyMandate'Acceptance'Offline'ContactEmail obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "contact_email" (postSourcesRequestBodyMandate'Acceptance'Offline'ContactEmail obj))
+  toJSON obj = Data.Aeson.Types.Internal.object ("contact_email" Data.Aeson.Types.ToJSON..= postSourcesRequestBodyMandate'Acceptance'Offline'ContactEmail obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs ("contact_email" Data.Aeson.Types.ToJSON..= postSourcesRequestBodyMandate'Acceptance'Offline'ContactEmail obj)
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostSourcesRequestBodyMandate'Acceptance'Offline' where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PostSourcesRequestBodyMandate'Acceptance'Offline'" (\obj -> GHC.Base.pure PostSourcesRequestBodyMandate'Acceptance'Offline' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "contact_email"))
 
--- | Defines the data type for the schema postSourcesRequestBodyMandate\'Acceptance\'Online\'
+-- | Create a new 'PostSourcesRequestBodyMandate'Acceptance'Offline'' with all required fields.
+mkPostSourcesRequestBodyMandate'Acceptance'Offline' ::
+  -- | 'postSourcesRequestBodyMandate'Acceptance'Offline'ContactEmail'
+  Data.Text.Internal.Text ->
+  PostSourcesRequestBodyMandate'Acceptance'Offline'
+mkPostSourcesRequestBodyMandate'Acceptance'Offline' postSourcesRequestBodyMandate'Acceptance'Offline'ContactEmail = PostSourcesRequestBodyMandate'Acceptance'Offline' {postSourcesRequestBodyMandate'Acceptance'Offline'ContactEmail = postSourcesRequestBodyMandate'Acceptance'Offline'ContactEmail}
+
+-- | Defines the object schema located at @paths.\/v1\/sources.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.mandate.properties.acceptance.properties.online@ in the specification.
 data PostSourcesRequestBodyMandate'Acceptance'Online'
   = PostSourcesRequestBodyMandate'Acceptance'Online'
       { -- | date
@@ -299,155 +362,168 @@ data PostSourcesRequestBodyMandate'Acceptance'Online'
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostSourcesRequestBodyMandate'Acceptance'Online' where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "date" (postSourcesRequestBodyMandate'Acceptance'Online'Date obj) : (Data.Aeson..=) "ip" (postSourcesRequestBodyMandate'Acceptance'Online'Ip obj) : (Data.Aeson..=) "user_agent" (postSourcesRequestBodyMandate'Acceptance'Online'UserAgent obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "date" (postSourcesRequestBodyMandate'Acceptance'Online'Date obj) GHC.Base.<> ((Data.Aeson..=) "ip" (postSourcesRequestBodyMandate'Acceptance'Online'Ip obj) GHC.Base.<> (Data.Aeson..=) "user_agent" (postSourcesRequestBodyMandate'Acceptance'Online'UserAgent obj)))
+  toJSON obj = Data.Aeson.Types.Internal.object ("date" Data.Aeson.Types.ToJSON..= postSourcesRequestBodyMandate'Acceptance'Online'Date obj : "ip" Data.Aeson.Types.ToJSON..= postSourcesRequestBodyMandate'Acceptance'Online'Ip obj : "user_agent" Data.Aeson.Types.ToJSON..= postSourcesRequestBodyMandate'Acceptance'Online'UserAgent obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("date" Data.Aeson.Types.ToJSON..= postSourcesRequestBodyMandate'Acceptance'Online'Date obj) GHC.Base.<> (("ip" Data.Aeson.Types.ToJSON..= postSourcesRequestBodyMandate'Acceptance'Online'Ip obj) GHC.Base.<> ("user_agent" Data.Aeson.Types.ToJSON..= postSourcesRequestBodyMandate'Acceptance'Online'UserAgent obj)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostSourcesRequestBodyMandate'Acceptance'Online' where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PostSourcesRequestBodyMandate'Acceptance'Online'" (\obj -> ((GHC.Base.pure PostSourcesRequestBodyMandate'Acceptance'Online' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "date")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "ip")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "user_agent"))
 
--- | Defines the enum schema postSourcesRequestBodyMandate\'Acceptance\'Status\'
+-- | Create a new 'PostSourcesRequestBodyMandate'Acceptance'Online'' with all required fields.
+mkPostSourcesRequestBodyMandate'Acceptance'Online' :: PostSourcesRequestBodyMandate'Acceptance'Online'
+mkPostSourcesRequestBodyMandate'Acceptance'Online' =
+  PostSourcesRequestBodyMandate'Acceptance'Online'
+    { postSourcesRequestBodyMandate'Acceptance'Online'Date = GHC.Maybe.Nothing,
+      postSourcesRequestBodyMandate'Acceptance'Online'Ip = GHC.Maybe.Nothing,
+      postSourcesRequestBodyMandate'Acceptance'Online'UserAgent = GHC.Maybe.Nothing
+    }
+
+-- | Defines the enum schema located at @paths.\/v1\/sources.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.mandate.properties.acceptance.properties.status@ in the specification.
 data PostSourcesRequestBodyMandate'Acceptance'Status'
-  = PostSourcesRequestBodyMandate'Acceptance'Status'EnumOther Data.Aeson.Types.Internal.Value
-  | PostSourcesRequestBodyMandate'Acceptance'Status'EnumTyped Data.Text.Internal.Text
-  | PostSourcesRequestBodyMandate'Acceptance'Status'EnumStringAccepted
-  | PostSourcesRequestBodyMandate'Acceptance'Status'EnumStringPending
-  | PostSourcesRequestBodyMandate'Acceptance'Status'EnumStringRefused
-  | PostSourcesRequestBodyMandate'Acceptance'Status'EnumStringRevoked
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    PostSourcesRequestBodyMandate'Acceptance'Status'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    PostSourcesRequestBodyMandate'Acceptance'Status'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"accepted"@
+    PostSourcesRequestBodyMandate'Acceptance'Status'EnumAccepted
+  | -- | Represents the JSON value @"pending"@
+    PostSourcesRequestBodyMandate'Acceptance'Status'EnumPending
+  | -- | Represents the JSON value @"refused"@
+    PostSourcesRequestBodyMandate'Acceptance'Status'EnumRefused
+  | -- | Represents the JSON value @"revoked"@
+    PostSourcesRequestBodyMandate'Acceptance'Status'EnumRevoked
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostSourcesRequestBodyMandate'Acceptance'Status' where
-  toJSON (PostSourcesRequestBodyMandate'Acceptance'Status'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostSourcesRequestBodyMandate'Acceptance'Status'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostSourcesRequestBodyMandate'Acceptance'Status'EnumStringAccepted) = "accepted"
-  toJSON (PostSourcesRequestBodyMandate'Acceptance'Status'EnumStringPending) = "pending"
-  toJSON (PostSourcesRequestBodyMandate'Acceptance'Status'EnumStringRefused) = "refused"
-  toJSON (PostSourcesRequestBodyMandate'Acceptance'Status'EnumStringRevoked) = "revoked"
+  toJSON (PostSourcesRequestBodyMandate'Acceptance'Status'Other val) = val
+  toJSON (PostSourcesRequestBodyMandate'Acceptance'Status'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PostSourcesRequestBodyMandate'Acceptance'Status'EnumAccepted) = "accepted"
+  toJSON (PostSourcesRequestBodyMandate'Acceptance'Status'EnumPending) = "pending"
+  toJSON (PostSourcesRequestBodyMandate'Acceptance'Status'EnumRefused) = "refused"
+  toJSON (PostSourcesRequestBodyMandate'Acceptance'Status'EnumRevoked) = "revoked"
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostSourcesRequestBodyMandate'Acceptance'Status' where
   parseJSON val =
     GHC.Base.pure
-      ( if  | val GHC.Classes.== "accepted" -> PostSourcesRequestBodyMandate'Acceptance'Status'EnumStringAccepted
-            | val GHC.Classes.== "pending" -> PostSourcesRequestBodyMandate'Acceptance'Status'EnumStringPending
-            | val GHC.Classes.== "refused" -> PostSourcesRequestBodyMandate'Acceptance'Status'EnumStringRefused
-            | val GHC.Classes.== "revoked" -> PostSourcesRequestBodyMandate'Acceptance'Status'EnumStringRevoked
-            | GHC.Base.otherwise -> PostSourcesRequestBodyMandate'Acceptance'Status'EnumOther val
+      ( if  | val GHC.Classes.== "accepted" -> PostSourcesRequestBodyMandate'Acceptance'Status'EnumAccepted
+            | val GHC.Classes.== "pending" -> PostSourcesRequestBodyMandate'Acceptance'Status'EnumPending
+            | val GHC.Classes.== "refused" -> PostSourcesRequestBodyMandate'Acceptance'Status'EnumRefused
+            | val GHC.Classes.== "revoked" -> PostSourcesRequestBodyMandate'Acceptance'Status'EnumRevoked
+            | GHC.Base.otherwise -> PostSourcesRequestBodyMandate'Acceptance'Status'Other val
       )
 
--- | Defines the enum schema postSourcesRequestBodyMandate\'Acceptance\'Type\'
+-- | Defines the enum schema located at @paths.\/v1\/sources.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.mandate.properties.acceptance.properties.type@ in the specification.
 data PostSourcesRequestBodyMandate'Acceptance'Type'
-  = PostSourcesRequestBodyMandate'Acceptance'Type'EnumOther Data.Aeson.Types.Internal.Value
-  | PostSourcesRequestBodyMandate'Acceptance'Type'EnumTyped Data.Text.Internal.Text
-  | PostSourcesRequestBodyMandate'Acceptance'Type'EnumStringOffline
-  | PostSourcesRequestBodyMandate'Acceptance'Type'EnumStringOnline
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    PostSourcesRequestBodyMandate'Acceptance'Type'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    PostSourcesRequestBodyMandate'Acceptance'Type'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"offline"@
+    PostSourcesRequestBodyMandate'Acceptance'Type'EnumOffline
+  | -- | Represents the JSON value @"online"@
+    PostSourcesRequestBodyMandate'Acceptance'Type'EnumOnline
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostSourcesRequestBodyMandate'Acceptance'Type' where
-  toJSON (PostSourcesRequestBodyMandate'Acceptance'Type'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostSourcesRequestBodyMandate'Acceptance'Type'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostSourcesRequestBodyMandate'Acceptance'Type'EnumStringOffline) = "offline"
-  toJSON (PostSourcesRequestBodyMandate'Acceptance'Type'EnumStringOnline) = "online"
+  toJSON (PostSourcesRequestBodyMandate'Acceptance'Type'Other val) = val
+  toJSON (PostSourcesRequestBodyMandate'Acceptance'Type'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PostSourcesRequestBodyMandate'Acceptance'Type'EnumOffline) = "offline"
+  toJSON (PostSourcesRequestBodyMandate'Acceptance'Type'EnumOnline) = "online"
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostSourcesRequestBodyMandate'Acceptance'Type' where
   parseJSON val =
     GHC.Base.pure
-      ( if  | val GHC.Classes.== "offline" -> PostSourcesRequestBodyMandate'Acceptance'Type'EnumStringOffline
-            | val GHC.Classes.== "online" -> PostSourcesRequestBodyMandate'Acceptance'Type'EnumStringOnline
-            | GHC.Base.otherwise -> PostSourcesRequestBodyMandate'Acceptance'Type'EnumOther val
+      ( if  | val GHC.Classes.== "offline" -> PostSourcesRequestBodyMandate'Acceptance'Type'EnumOffline
+            | val GHC.Classes.== "online" -> PostSourcesRequestBodyMandate'Acceptance'Type'EnumOnline
+            | GHC.Base.otherwise -> PostSourcesRequestBodyMandate'Acceptance'Type'Other val
       )
 
--- | Defines the enum schema postSourcesRequestBodyMandate\'Amount\'OneOf1
-data PostSourcesRequestBodyMandate'Amount'OneOf1
-  = PostSourcesRequestBodyMandate'Amount'OneOf1EnumOther Data.Aeson.Types.Internal.Value
-  | PostSourcesRequestBodyMandate'Amount'OneOf1EnumTyped Data.Text.Internal.Text
-  | PostSourcesRequestBodyMandate'Amount'OneOf1EnumString_
-  deriving (GHC.Show.Show, GHC.Classes.Eq)
-
-instance Data.Aeson.Types.ToJSON.ToJSON PostSourcesRequestBodyMandate'Amount'OneOf1 where
-  toJSON (PostSourcesRequestBodyMandate'Amount'OneOf1EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostSourcesRequestBodyMandate'Amount'OneOf1EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostSourcesRequestBodyMandate'Amount'OneOf1EnumString_) = ""
-
-instance Data.Aeson.Types.FromJSON.FromJSON PostSourcesRequestBodyMandate'Amount'OneOf1 where
-  parseJSON val =
-    GHC.Base.pure
-      ( if  | val GHC.Classes.== "" -> PostSourcesRequestBodyMandate'Amount'OneOf1EnumString_
-            | GHC.Base.otherwise -> PostSourcesRequestBodyMandate'Amount'OneOf1EnumOther val
-      )
-
--- | Define the one-of schema postSourcesRequestBodyMandate\'Amount\'
+-- | Defines the oneOf schema located at @paths.\/v1\/sources.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.mandate.properties.amount.anyOf@ in the specification.
 data PostSourcesRequestBodyMandate'Amount'Variants
-  = PostSourcesRequestBodyMandate'Amount'PostSourcesRequestBodyMandate'Amount'OneOf1 PostSourcesRequestBodyMandate'Amount'OneOf1
+  = -- | Represents the JSON value @""@
+    PostSourcesRequestBodyMandate'Amount'EmptyString
   | PostSourcesRequestBodyMandate'Amount'Int GHC.Types.Int
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostSourcesRequestBodyMandate'Amount'Variants where
-  toJSON (PostSourcesRequestBodyMandate'Amount'PostSourcesRequestBodyMandate'Amount'OneOf1 a) = Data.Aeson.Types.ToJSON.toJSON a
   toJSON (PostSourcesRequestBodyMandate'Amount'Int a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (PostSourcesRequestBodyMandate'Amount'EmptyString) = ""
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostSourcesRequestBodyMandate'Amount'Variants where
-  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
-    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ PostSourcesRequestBodyMandate'Amount'PostSourcesRequestBodyMandate'Amount'OneOf1 a
-    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ PostSourcesRequestBodyMandate'Amount'Int a
-      Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+  parseJSON val =
+    if  | val GHC.Classes.== "" -> GHC.Base.pure PostSourcesRequestBodyMandate'Amount'EmptyString
+        | GHC.Base.otherwise -> case (PostSourcesRequestBodyMandate'Amount'Int Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched" of
+          Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+          Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
--- | Defines the enum schema postSourcesRequestBodyMandate\'Interval\'
+-- | Defines the enum schema located at @paths.\/v1\/sources.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.mandate.properties.interval@ in the specification.
 data PostSourcesRequestBodyMandate'Interval'
-  = PostSourcesRequestBodyMandate'Interval'EnumOther Data.Aeson.Types.Internal.Value
-  | PostSourcesRequestBodyMandate'Interval'EnumTyped Data.Text.Internal.Text
-  | PostSourcesRequestBodyMandate'Interval'EnumStringOneTime
-  | PostSourcesRequestBodyMandate'Interval'EnumStringScheduled
-  | PostSourcesRequestBodyMandate'Interval'EnumStringVariable
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    PostSourcesRequestBodyMandate'Interval'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    PostSourcesRequestBodyMandate'Interval'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"one_time"@
+    PostSourcesRequestBodyMandate'Interval'EnumOneTime
+  | -- | Represents the JSON value @"scheduled"@
+    PostSourcesRequestBodyMandate'Interval'EnumScheduled
+  | -- | Represents the JSON value @"variable"@
+    PostSourcesRequestBodyMandate'Interval'EnumVariable
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostSourcesRequestBodyMandate'Interval' where
-  toJSON (PostSourcesRequestBodyMandate'Interval'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostSourcesRequestBodyMandate'Interval'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostSourcesRequestBodyMandate'Interval'EnumStringOneTime) = "one_time"
-  toJSON (PostSourcesRequestBodyMandate'Interval'EnumStringScheduled) = "scheduled"
-  toJSON (PostSourcesRequestBodyMandate'Interval'EnumStringVariable) = "variable"
+  toJSON (PostSourcesRequestBodyMandate'Interval'Other val) = val
+  toJSON (PostSourcesRequestBodyMandate'Interval'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PostSourcesRequestBodyMandate'Interval'EnumOneTime) = "one_time"
+  toJSON (PostSourcesRequestBodyMandate'Interval'EnumScheduled) = "scheduled"
+  toJSON (PostSourcesRequestBodyMandate'Interval'EnumVariable) = "variable"
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostSourcesRequestBodyMandate'Interval' where
   parseJSON val =
     GHC.Base.pure
-      ( if  | val GHC.Classes.== "one_time" -> PostSourcesRequestBodyMandate'Interval'EnumStringOneTime
-            | val GHC.Classes.== "scheduled" -> PostSourcesRequestBodyMandate'Interval'EnumStringScheduled
-            | val GHC.Classes.== "variable" -> PostSourcesRequestBodyMandate'Interval'EnumStringVariable
-            | GHC.Base.otherwise -> PostSourcesRequestBodyMandate'Interval'EnumOther val
+      ( if  | val GHC.Classes.== "one_time" -> PostSourcesRequestBodyMandate'Interval'EnumOneTime
+            | val GHC.Classes.== "scheduled" -> PostSourcesRequestBodyMandate'Interval'EnumScheduled
+            | val GHC.Classes.== "variable" -> PostSourcesRequestBodyMandate'Interval'EnumVariable
+            | GHC.Base.otherwise -> PostSourcesRequestBodyMandate'Interval'Other val
       )
 
--- | Defines the enum schema postSourcesRequestBodyMandate\'Notification_method\'
+-- | Defines the enum schema located at @paths.\/v1\/sources.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.mandate.properties.notification_method@ in the specification.
 data PostSourcesRequestBodyMandate'NotificationMethod'
-  = PostSourcesRequestBodyMandate'NotificationMethod'EnumOther Data.Aeson.Types.Internal.Value
-  | PostSourcesRequestBodyMandate'NotificationMethod'EnumTyped Data.Text.Internal.Text
-  | PostSourcesRequestBodyMandate'NotificationMethod'EnumStringDeprecatedNone
-  | PostSourcesRequestBodyMandate'NotificationMethod'EnumStringEmail
-  | PostSourcesRequestBodyMandate'NotificationMethod'EnumStringManual
-  | PostSourcesRequestBodyMandate'NotificationMethod'EnumStringNone
-  | PostSourcesRequestBodyMandate'NotificationMethod'EnumStringStripeEmail
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    PostSourcesRequestBodyMandate'NotificationMethod'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    PostSourcesRequestBodyMandate'NotificationMethod'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"deprecated_none"@
+    PostSourcesRequestBodyMandate'NotificationMethod'EnumDeprecatedNone
+  | -- | Represents the JSON value @"email"@
+    PostSourcesRequestBodyMandate'NotificationMethod'EnumEmail
+  | -- | Represents the JSON value @"manual"@
+    PostSourcesRequestBodyMandate'NotificationMethod'EnumManual
+  | -- | Represents the JSON value @"none"@
+    PostSourcesRequestBodyMandate'NotificationMethod'EnumNone
+  | -- | Represents the JSON value @"stripe_email"@
+    PostSourcesRequestBodyMandate'NotificationMethod'EnumStripeEmail
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostSourcesRequestBodyMandate'NotificationMethod' where
-  toJSON (PostSourcesRequestBodyMandate'NotificationMethod'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostSourcesRequestBodyMandate'NotificationMethod'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostSourcesRequestBodyMandate'NotificationMethod'EnumStringDeprecatedNone) = "deprecated_none"
-  toJSON (PostSourcesRequestBodyMandate'NotificationMethod'EnumStringEmail) = "email"
-  toJSON (PostSourcesRequestBodyMandate'NotificationMethod'EnumStringManual) = "manual"
-  toJSON (PostSourcesRequestBodyMandate'NotificationMethod'EnumStringNone) = "none"
-  toJSON (PostSourcesRequestBodyMandate'NotificationMethod'EnumStringStripeEmail) = "stripe_email"
+  toJSON (PostSourcesRequestBodyMandate'NotificationMethod'Other val) = val
+  toJSON (PostSourcesRequestBodyMandate'NotificationMethod'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PostSourcesRequestBodyMandate'NotificationMethod'EnumDeprecatedNone) = "deprecated_none"
+  toJSON (PostSourcesRequestBodyMandate'NotificationMethod'EnumEmail) = "email"
+  toJSON (PostSourcesRequestBodyMandate'NotificationMethod'EnumManual) = "manual"
+  toJSON (PostSourcesRequestBodyMandate'NotificationMethod'EnumNone) = "none"
+  toJSON (PostSourcesRequestBodyMandate'NotificationMethod'EnumStripeEmail) = "stripe_email"
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostSourcesRequestBodyMandate'NotificationMethod' where
   parseJSON val =
     GHC.Base.pure
-      ( if  | val GHC.Classes.== "deprecated_none" -> PostSourcesRequestBodyMandate'NotificationMethod'EnumStringDeprecatedNone
-            | val GHC.Classes.== "email" -> PostSourcesRequestBodyMandate'NotificationMethod'EnumStringEmail
-            | val GHC.Classes.== "manual" -> PostSourcesRequestBodyMandate'NotificationMethod'EnumStringManual
-            | val GHC.Classes.== "none" -> PostSourcesRequestBodyMandate'NotificationMethod'EnumStringNone
-            | val GHC.Classes.== "stripe_email" -> PostSourcesRequestBodyMandate'NotificationMethod'EnumStringStripeEmail
-            | GHC.Base.otherwise -> PostSourcesRequestBodyMandate'NotificationMethod'EnumOther val
+      ( if  | val GHC.Classes.== "deprecated_none" -> PostSourcesRequestBodyMandate'NotificationMethod'EnumDeprecatedNone
+            | val GHC.Classes.== "email" -> PostSourcesRequestBodyMandate'NotificationMethod'EnumEmail
+            | val GHC.Classes.== "manual" -> PostSourcesRequestBodyMandate'NotificationMethod'EnumManual
+            | val GHC.Classes.== "none" -> PostSourcesRequestBodyMandate'NotificationMethod'EnumNone
+            | val GHC.Classes.== "stripe_email" -> PostSourcesRequestBodyMandate'NotificationMethod'EnumStripeEmail
+            | GHC.Base.otherwise -> PostSourcesRequestBodyMandate'NotificationMethod'Other val
       )
 
--- | Defines the data type for the schema postSourcesRequestBodyOwner\'
+-- | Defines the object schema located at @paths.\/v1\/sources.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.owner@ in the specification.
 --
 -- Information about the owner of the payment instrument that may be used or required by particular source types.
 data PostSourcesRequestBodyOwner'
@@ -475,13 +551,23 @@ data PostSourcesRequestBodyOwner'
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostSourcesRequestBodyOwner' where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "address" (postSourcesRequestBodyOwner'Address obj) : (Data.Aeson..=) "email" (postSourcesRequestBodyOwner'Email obj) : (Data.Aeson..=) "name" (postSourcesRequestBodyOwner'Name obj) : (Data.Aeson..=) "phone" (postSourcesRequestBodyOwner'Phone obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "address" (postSourcesRequestBodyOwner'Address obj) GHC.Base.<> ((Data.Aeson..=) "email" (postSourcesRequestBodyOwner'Email obj) GHC.Base.<> ((Data.Aeson..=) "name" (postSourcesRequestBodyOwner'Name obj) GHC.Base.<> (Data.Aeson..=) "phone" (postSourcesRequestBodyOwner'Phone obj))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("address" Data.Aeson.Types.ToJSON..= postSourcesRequestBodyOwner'Address obj : "email" Data.Aeson.Types.ToJSON..= postSourcesRequestBodyOwner'Email obj : "name" Data.Aeson.Types.ToJSON..= postSourcesRequestBodyOwner'Name obj : "phone" Data.Aeson.Types.ToJSON..= postSourcesRequestBodyOwner'Phone obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("address" Data.Aeson.Types.ToJSON..= postSourcesRequestBodyOwner'Address obj) GHC.Base.<> (("email" Data.Aeson.Types.ToJSON..= postSourcesRequestBodyOwner'Email obj) GHC.Base.<> (("name" Data.Aeson.Types.ToJSON..= postSourcesRequestBodyOwner'Name obj) GHC.Base.<> ("phone" Data.Aeson.Types.ToJSON..= postSourcesRequestBodyOwner'Phone obj))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostSourcesRequestBodyOwner' where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PostSourcesRequestBodyOwner'" (\obj -> (((GHC.Base.pure PostSourcesRequestBodyOwner' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "address")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "email")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "phone"))
 
--- | Defines the data type for the schema postSourcesRequestBodyOwner\'Address\'
+-- | Create a new 'PostSourcesRequestBodyOwner'' with all required fields.
+mkPostSourcesRequestBodyOwner' :: PostSourcesRequestBodyOwner'
+mkPostSourcesRequestBodyOwner' =
+  PostSourcesRequestBodyOwner'
+    { postSourcesRequestBodyOwner'Address = GHC.Maybe.Nothing,
+      postSourcesRequestBodyOwner'Email = GHC.Maybe.Nothing,
+      postSourcesRequestBodyOwner'Name = GHC.Maybe.Nothing,
+      postSourcesRequestBodyOwner'Phone = GHC.Maybe.Nothing
+    }
+
+-- | Defines the object schema located at @paths.\/v1\/sources.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.owner.properties.address@ in the specification.
 data PostSourcesRequestBodyOwner'Address'
   = PostSourcesRequestBodyOwner'Address'
       { -- | city
@@ -527,13 +613,25 @@ data PostSourcesRequestBodyOwner'Address'
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostSourcesRequestBodyOwner'Address' where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "city" (postSourcesRequestBodyOwner'Address'City obj) : (Data.Aeson..=) "country" (postSourcesRequestBodyOwner'Address'Country obj) : (Data.Aeson..=) "line1" (postSourcesRequestBodyOwner'Address'Line1 obj) : (Data.Aeson..=) "line2" (postSourcesRequestBodyOwner'Address'Line2 obj) : (Data.Aeson..=) "postal_code" (postSourcesRequestBodyOwner'Address'PostalCode obj) : (Data.Aeson..=) "state" (postSourcesRequestBodyOwner'Address'State obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "city" (postSourcesRequestBodyOwner'Address'City obj) GHC.Base.<> ((Data.Aeson..=) "country" (postSourcesRequestBodyOwner'Address'Country obj) GHC.Base.<> ((Data.Aeson..=) "line1" (postSourcesRequestBodyOwner'Address'Line1 obj) GHC.Base.<> ((Data.Aeson..=) "line2" (postSourcesRequestBodyOwner'Address'Line2 obj) GHC.Base.<> ((Data.Aeson..=) "postal_code" (postSourcesRequestBodyOwner'Address'PostalCode obj) GHC.Base.<> (Data.Aeson..=) "state" (postSourcesRequestBodyOwner'Address'State obj))))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("city" Data.Aeson.Types.ToJSON..= postSourcesRequestBodyOwner'Address'City obj : "country" Data.Aeson.Types.ToJSON..= postSourcesRequestBodyOwner'Address'Country obj : "line1" Data.Aeson.Types.ToJSON..= postSourcesRequestBodyOwner'Address'Line1 obj : "line2" Data.Aeson.Types.ToJSON..= postSourcesRequestBodyOwner'Address'Line2 obj : "postal_code" Data.Aeson.Types.ToJSON..= postSourcesRequestBodyOwner'Address'PostalCode obj : "state" Data.Aeson.Types.ToJSON..= postSourcesRequestBodyOwner'Address'State obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("city" Data.Aeson.Types.ToJSON..= postSourcesRequestBodyOwner'Address'City obj) GHC.Base.<> (("country" Data.Aeson.Types.ToJSON..= postSourcesRequestBodyOwner'Address'Country obj) GHC.Base.<> (("line1" Data.Aeson.Types.ToJSON..= postSourcesRequestBodyOwner'Address'Line1 obj) GHC.Base.<> (("line2" Data.Aeson.Types.ToJSON..= postSourcesRequestBodyOwner'Address'Line2 obj) GHC.Base.<> (("postal_code" Data.Aeson.Types.ToJSON..= postSourcesRequestBodyOwner'Address'PostalCode obj) GHC.Base.<> ("state" Data.Aeson.Types.ToJSON..= postSourcesRequestBodyOwner'Address'State obj))))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostSourcesRequestBodyOwner'Address' where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PostSourcesRequestBodyOwner'Address'" (\obj -> (((((GHC.Base.pure PostSourcesRequestBodyOwner'Address' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "city")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "country")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "line1")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "line2")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "postal_code")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "state"))
 
--- | Defines the data type for the schema postSourcesRequestBodyReceiver\'
+-- | Create a new 'PostSourcesRequestBodyOwner'Address'' with all required fields.
+mkPostSourcesRequestBodyOwner'Address' :: PostSourcesRequestBodyOwner'Address'
+mkPostSourcesRequestBodyOwner'Address' =
+  PostSourcesRequestBodyOwner'Address'
+    { postSourcesRequestBodyOwner'Address'City = GHC.Maybe.Nothing,
+      postSourcesRequestBodyOwner'Address'Country = GHC.Maybe.Nothing,
+      postSourcesRequestBodyOwner'Address'Line1 = GHC.Maybe.Nothing,
+      postSourcesRequestBodyOwner'Address'Line2 = GHC.Maybe.Nothing,
+      postSourcesRequestBodyOwner'Address'PostalCode = GHC.Maybe.Nothing,
+      postSourcesRequestBodyOwner'Address'State = GHC.Maybe.Nothing
+    }
+
+-- | Defines the object schema located at @paths.\/v1\/sources.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.receiver@ in the specification.
 --
 -- Optional parameters for the receiver flow. Can be set only if the source is a receiver (\`flow\` is \`receiver\`).
 data PostSourcesRequestBodyReceiver'
@@ -551,38 +649,47 @@ data PostSourcesRequestBodyReceiver'
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostSourcesRequestBodyReceiver' where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "refund_attributes_method" (postSourcesRequestBodyReceiver'RefundAttributesMethod obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "refund_attributes_method" (postSourcesRequestBodyReceiver'RefundAttributesMethod obj))
+  toJSON obj = Data.Aeson.Types.Internal.object ("refund_attributes_method" Data.Aeson.Types.ToJSON..= postSourcesRequestBodyReceiver'RefundAttributesMethod obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs ("refund_attributes_method" Data.Aeson.Types.ToJSON..= postSourcesRequestBodyReceiver'RefundAttributesMethod obj)
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostSourcesRequestBodyReceiver' where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PostSourcesRequestBodyReceiver'" (\obj -> GHC.Base.pure PostSourcesRequestBodyReceiver' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "refund_attributes_method"))
 
--- | Defines the enum schema postSourcesRequestBodyReceiver\'Refund_attributes_method\'
+-- | Create a new 'PostSourcesRequestBodyReceiver'' with all required fields.
+mkPostSourcesRequestBodyReceiver' :: PostSourcesRequestBodyReceiver'
+mkPostSourcesRequestBodyReceiver' = PostSourcesRequestBodyReceiver' {postSourcesRequestBodyReceiver'RefundAttributesMethod = GHC.Maybe.Nothing}
+
+-- | Defines the enum schema located at @paths.\/v1\/sources.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.receiver.properties.refund_attributes_method@ in the specification.
 data PostSourcesRequestBodyReceiver'RefundAttributesMethod'
-  = PostSourcesRequestBodyReceiver'RefundAttributesMethod'EnumOther Data.Aeson.Types.Internal.Value
-  | PostSourcesRequestBodyReceiver'RefundAttributesMethod'EnumTyped Data.Text.Internal.Text
-  | PostSourcesRequestBodyReceiver'RefundAttributesMethod'EnumStringEmail
-  | PostSourcesRequestBodyReceiver'RefundAttributesMethod'EnumStringManual
-  | PostSourcesRequestBodyReceiver'RefundAttributesMethod'EnumStringNone
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    PostSourcesRequestBodyReceiver'RefundAttributesMethod'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    PostSourcesRequestBodyReceiver'RefundAttributesMethod'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"email"@
+    PostSourcesRequestBodyReceiver'RefundAttributesMethod'EnumEmail
+  | -- | Represents the JSON value @"manual"@
+    PostSourcesRequestBodyReceiver'RefundAttributesMethod'EnumManual
+  | -- | Represents the JSON value @"none"@
+    PostSourcesRequestBodyReceiver'RefundAttributesMethod'EnumNone
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostSourcesRequestBodyReceiver'RefundAttributesMethod' where
-  toJSON (PostSourcesRequestBodyReceiver'RefundAttributesMethod'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostSourcesRequestBodyReceiver'RefundAttributesMethod'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostSourcesRequestBodyReceiver'RefundAttributesMethod'EnumStringEmail) = "email"
-  toJSON (PostSourcesRequestBodyReceiver'RefundAttributesMethod'EnumStringManual) = "manual"
-  toJSON (PostSourcesRequestBodyReceiver'RefundAttributesMethod'EnumStringNone) = "none"
+  toJSON (PostSourcesRequestBodyReceiver'RefundAttributesMethod'Other val) = val
+  toJSON (PostSourcesRequestBodyReceiver'RefundAttributesMethod'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PostSourcesRequestBodyReceiver'RefundAttributesMethod'EnumEmail) = "email"
+  toJSON (PostSourcesRequestBodyReceiver'RefundAttributesMethod'EnumManual) = "manual"
+  toJSON (PostSourcesRequestBodyReceiver'RefundAttributesMethod'EnumNone) = "none"
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostSourcesRequestBodyReceiver'RefundAttributesMethod' where
   parseJSON val =
     GHC.Base.pure
-      ( if  | val GHC.Classes.== "email" -> PostSourcesRequestBodyReceiver'RefundAttributesMethod'EnumStringEmail
-            | val GHC.Classes.== "manual" -> PostSourcesRequestBodyReceiver'RefundAttributesMethod'EnumStringManual
-            | val GHC.Classes.== "none" -> PostSourcesRequestBodyReceiver'RefundAttributesMethod'EnumStringNone
-            | GHC.Base.otherwise -> PostSourcesRequestBodyReceiver'RefundAttributesMethod'EnumOther val
+      ( if  | val GHC.Classes.== "email" -> PostSourcesRequestBodyReceiver'RefundAttributesMethod'EnumEmail
+            | val GHC.Classes.== "manual" -> PostSourcesRequestBodyReceiver'RefundAttributesMethod'EnumManual
+            | val GHC.Classes.== "none" -> PostSourcesRequestBodyReceiver'RefundAttributesMethod'EnumNone
+            | GHC.Base.otherwise -> PostSourcesRequestBodyReceiver'RefundAttributesMethod'Other val
       )
 
--- | Defines the data type for the schema postSourcesRequestBodyRedirect\'
+-- | Defines the object schema located at @paths.\/v1\/sources.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.redirect@ in the specification.
 --
 -- Parameters required for the redirect flow. Required if the source is authenticated by a redirect (\`flow\` is \`redirect\`).
 data PostSourcesRequestBodyRedirect'
@@ -596,13 +703,20 @@ data PostSourcesRequestBodyRedirect'
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostSourcesRequestBodyRedirect' where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "return_url" (postSourcesRequestBodyRedirect'ReturnUrl obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "return_url" (postSourcesRequestBodyRedirect'ReturnUrl obj))
+  toJSON obj = Data.Aeson.Types.Internal.object ("return_url" Data.Aeson.Types.ToJSON..= postSourcesRequestBodyRedirect'ReturnUrl obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs ("return_url" Data.Aeson.Types.ToJSON..= postSourcesRequestBodyRedirect'ReturnUrl obj)
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostSourcesRequestBodyRedirect' where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PostSourcesRequestBodyRedirect'" (\obj -> GHC.Base.pure PostSourcesRequestBodyRedirect' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "return_url"))
 
--- | Defines the data type for the schema postSourcesRequestBodySource_order\'
+-- | Create a new 'PostSourcesRequestBodyRedirect'' with all required fields.
+mkPostSourcesRequestBodyRedirect' ::
+  -- | 'postSourcesRequestBodyRedirect'ReturnUrl'
+  Data.Text.Internal.Text ->
+  PostSourcesRequestBodyRedirect'
+mkPostSourcesRequestBodyRedirect' postSourcesRequestBodyRedirect'ReturnUrl = PostSourcesRequestBodyRedirect' {postSourcesRequestBodyRedirect'ReturnUrl = postSourcesRequestBodyRedirect'ReturnUrl}
+
+-- | Defines the object schema located at @paths.\/v1\/sources.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.source_order@ in the specification.
 --
 -- Information about the items and shipping associated with the source. Required for transactional credit (for example Klarna) sources before you can charge it.
 data PostSourcesRequestBodySourceOrder'
@@ -618,13 +732,21 @@ data PostSourcesRequestBodySourceOrder'
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostSourcesRequestBodySourceOrder' where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "items" (postSourcesRequestBodySourceOrder'Items obj) : (Data.Aeson..=) "shipping" (postSourcesRequestBodySourceOrder'Shipping obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "items" (postSourcesRequestBodySourceOrder'Items obj) GHC.Base.<> (Data.Aeson..=) "shipping" (postSourcesRequestBodySourceOrder'Shipping obj))
+  toJSON obj = Data.Aeson.Types.Internal.object ("items" Data.Aeson.Types.ToJSON..= postSourcesRequestBodySourceOrder'Items obj : "shipping" Data.Aeson.Types.ToJSON..= postSourcesRequestBodySourceOrder'Shipping obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("items" Data.Aeson.Types.ToJSON..= postSourcesRequestBodySourceOrder'Items obj) GHC.Base.<> ("shipping" Data.Aeson.Types.ToJSON..= postSourcesRequestBodySourceOrder'Shipping obj))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostSourcesRequestBodySourceOrder' where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PostSourcesRequestBodySourceOrder'" (\obj -> (GHC.Base.pure PostSourcesRequestBodySourceOrder' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "items")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "shipping"))
 
--- | Defines the data type for the schema postSourcesRequestBodySource_order\'Items\'
+-- | Create a new 'PostSourcesRequestBodySourceOrder'' with all required fields.
+mkPostSourcesRequestBodySourceOrder' :: PostSourcesRequestBodySourceOrder'
+mkPostSourcesRequestBodySourceOrder' =
+  PostSourcesRequestBodySourceOrder'
+    { postSourcesRequestBodySourceOrder'Items = GHC.Maybe.Nothing,
+      postSourcesRequestBodySourceOrder'Shipping = GHC.Maybe.Nothing
+    }
+
+-- | Defines the object schema located at @paths.\/v1\/sources.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.source_order.properties.items.items@ in the specification.
 data PostSourcesRequestBodySourceOrder'Items'
   = PostSourcesRequestBodySourceOrder'Items'
       { -- | amount
@@ -658,41 +780,59 @@ data PostSourcesRequestBodySourceOrder'Items'
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostSourcesRequestBodySourceOrder'Items' where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "amount" (postSourcesRequestBodySourceOrder'Items'Amount obj) : (Data.Aeson..=) "currency" (postSourcesRequestBodySourceOrder'Items'Currency obj) : (Data.Aeson..=) "description" (postSourcesRequestBodySourceOrder'Items'Description obj) : (Data.Aeson..=) "parent" (postSourcesRequestBodySourceOrder'Items'Parent obj) : (Data.Aeson..=) "quantity" (postSourcesRequestBodySourceOrder'Items'Quantity obj) : (Data.Aeson..=) "type" (postSourcesRequestBodySourceOrder'Items'Type obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "amount" (postSourcesRequestBodySourceOrder'Items'Amount obj) GHC.Base.<> ((Data.Aeson..=) "currency" (postSourcesRequestBodySourceOrder'Items'Currency obj) GHC.Base.<> ((Data.Aeson..=) "description" (postSourcesRequestBodySourceOrder'Items'Description obj) GHC.Base.<> ((Data.Aeson..=) "parent" (postSourcesRequestBodySourceOrder'Items'Parent obj) GHC.Base.<> ((Data.Aeson..=) "quantity" (postSourcesRequestBodySourceOrder'Items'Quantity obj) GHC.Base.<> (Data.Aeson..=) "type" (postSourcesRequestBodySourceOrder'Items'Type obj))))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("amount" Data.Aeson.Types.ToJSON..= postSourcesRequestBodySourceOrder'Items'Amount obj : "currency" Data.Aeson.Types.ToJSON..= postSourcesRequestBodySourceOrder'Items'Currency obj : "description" Data.Aeson.Types.ToJSON..= postSourcesRequestBodySourceOrder'Items'Description obj : "parent" Data.Aeson.Types.ToJSON..= postSourcesRequestBodySourceOrder'Items'Parent obj : "quantity" Data.Aeson.Types.ToJSON..= postSourcesRequestBodySourceOrder'Items'Quantity obj : "type" Data.Aeson.Types.ToJSON..= postSourcesRequestBodySourceOrder'Items'Type obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("amount" Data.Aeson.Types.ToJSON..= postSourcesRequestBodySourceOrder'Items'Amount obj) GHC.Base.<> (("currency" Data.Aeson.Types.ToJSON..= postSourcesRequestBodySourceOrder'Items'Currency obj) GHC.Base.<> (("description" Data.Aeson.Types.ToJSON..= postSourcesRequestBodySourceOrder'Items'Description obj) GHC.Base.<> (("parent" Data.Aeson.Types.ToJSON..= postSourcesRequestBodySourceOrder'Items'Parent obj) GHC.Base.<> (("quantity" Data.Aeson.Types.ToJSON..= postSourcesRequestBodySourceOrder'Items'Quantity obj) GHC.Base.<> ("type" Data.Aeson.Types.ToJSON..= postSourcesRequestBodySourceOrder'Items'Type obj))))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostSourcesRequestBodySourceOrder'Items' where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PostSourcesRequestBodySourceOrder'Items'" (\obj -> (((((GHC.Base.pure PostSourcesRequestBodySourceOrder'Items' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "description")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "parent")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "quantity")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "type"))
 
--- | Defines the enum schema postSourcesRequestBodySource_order\'Items\'Type\'
+-- | Create a new 'PostSourcesRequestBodySourceOrder'Items'' with all required fields.
+mkPostSourcesRequestBodySourceOrder'Items' :: PostSourcesRequestBodySourceOrder'Items'
+mkPostSourcesRequestBodySourceOrder'Items' =
+  PostSourcesRequestBodySourceOrder'Items'
+    { postSourcesRequestBodySourceOrder'Items'Amount = GHC.Maybe.Nothing,
+      postSourcesRequestBodySourceOrder'Items'Currency = GHC.Maybe.Nothing,
+      postSourcesRequestBodySourceOrder'Items'Description = GHC.Maybe.Nothing,
+      postSourcesRequestBodySourceOrder'Items'Parent = GHC.Maybe.Nothing,
+      postSourcesRequestBodySourceOrder'Items'Quantity = GHC.Maybe.Nothing,
+      postSourcesRequestBodySourceOrder'Items'Type = GHC.Maybe.Nothing
+    }
+
+-- | Defines the enum schema located at @paths.\/v1\/sources.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.source_order.properties.items.items.properties.type@ in the specification.
 data PostSourcesRequestBodySourceOrder'Items'Type'
-  = PostSourcesRequestBodySourceOrder'Items'Type'EnumOther Data.Aeson.Types.Internal.Value
-  | PostSourcesRequestBodySourceOrder'Items'Type'EnumTyped Data.Text.Internal.Text
-  | PostSourcesRequestBodySourceOrder'Items'Type'EnumStringDiscount
-  | PostSourcesRequestBodySourceOrder'Items'Type'EnumStringShipping
-  | PostSourcesRequestBodySourceOrder'Items'Type'EnumStringSku
-  | PostSourcesRequestBodySourceOrder'Items'Type'EnumStringTax
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    PostSourcesRequestBodySourceOrder'Items'Type'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    PostSourcesRequestBodySourceOrder'Items'Type'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"discount"@
+    PostSourcesRequestBodySourceOrder'Items'Type'EnumDiscount
+  | -- | Represents the JSON value @"shipping"@
+    PostSourcesRequestBodySourceOrder'Items'Type'EnumShipping
+  | -- | Represents the JSON value @"sku"@
+    PostSourcesRequestBodySourceOrder'Items'Type'EnumSku
+  | -- | Represents the JSON value @"tax"@
+    PostSourcesRequestBodySourceOrder'Items'Type'EnumTax
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostSourcesRequestBodySourceOrder'Items'Type' where
-  toJSON (PostSourcesRequestBodySourceOrder'Items'Type'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostSourcesRequestBodySourceOrder'Items'Type'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostSourcesRequestBodySourceOrder'Items'Type'EnumStringDiscount) = "discount"
-  toJSON (PostSourcesRequestBodySourceOrder'Items'Type'EnumStringShipping) = "shipping"
-  toJSON (PostSourcesRequestBodySourceOrder'Items'Type'EnumStringSku) = "sku"
-  toJSON (PostSourcesRequestBodySourceOrder'Items'Type'EnumStringTax) = "tax"
+  toJSON (PostSourcesRequestBodySourceOrder'Items'Type'Other val) = val
+  toJSON (PostSourcesRequestBodySourceOrder'Items'Type'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PostSourcesRequestBodySourceOrder'Items'Type'EnumDiscount) = "discount"
+  toJSON (PostSourcesRequestBodySourceOrder'Items'Type'EnumShipping) = "shipping"
+  toJSON (PostSourcesRequestBodySourceOrder'Items'Type'EnumSku) = "sku"
+  toJSON (PostSourcesRequestBodySourceOrder'Items'Type'EnumTax) = "tax"
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostSourcesRequestBodySourceOrder'Items'Type' where
   parseJSON val =
     GHC.Base.pure
-      ( if  | val GHC.Classes.== "discount" -> PostSourcesRequestBodySourceOrder'Items'Type'EnumStringDiscount
-            | val GHC.Classes.== "shipping" -> PostSourcesRequestBodySourceOrder'Items'Type'EnumStringShipping
-            | val GHC.Classes.== "sku" -> PostSourcesRequestBodySourceOrder'Items'Type'EnumStringSku
-            | val GHC.Classes.== "tax" -> PostSourcesRequestBodySourceOrder'Items'Type'EnumStringTax
-            | GHC.Base.otherwise -> PostSourcesRequestBodySourceOrder'Items'Type'EnumOther val
+      ( if  | val GHC.Classes.== "discount" -> PostSourcesRequestBodySourceOrder'Items'Type'EnumDiscount
+            | val GHC.Classes.== "shipping" -> PostSourcesRequestBodySourceOrder'Items'Type'EnumShipping
+            | val GHC.Classes.== "sku" -> PostSourcesRequestBodySourceOrder'Items'Type'EnumSku
+            | val GHC.Classes.== "tax" -> PostSourcesRequestBodySourceOrder'Items'Type'EnumTax
+            | GHC.Base.otherwise -> PostSourcesRequestBodySourceOrder'Items'Type'Other val
       )
 
--- | Defines the data type for the schema postSourcesRequestBodySource_order\'Shipping\'
+-- | Defines the object schema located at @paths.\/v1\/sources.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.source_order.properties.shipping@ in the specification.
 data PostSourcesRequestBodySourceOrder'Shipping'
   = PostSourcesRequestBodySourceOrder'Shipping'
       { -- | address
@@ -728,13 +868,27 @@ data PostSourcesRequestBodySourceOrder'Shipping'
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostSourcesRequestBodySourceOrder'Shipping' where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "address" (postSourcesRequestBodySourceOrder'Shipping'Address obj) : (Data.Aeson..=) "carrier" (postSourcesRequestBodySourceOrder'Shipping'Carrier obj) : (Data.Aeson..=) "name" (postSourcesRequestBodySourceOrder'Shipping'Name obj) : (Data.Aeson..=) "phone" (postSourcesRequestBodySourceOrder'Shipping'Phone obj) : (Data.Aeson..=) "tracking_number" (postSourcesRequestBodySourceOrder'Shipping'TrackingNumber obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "address" (postSourcesRequestBodySourceOrder'Shipping'Address obj) GHC.Base.<> ((Data.Aeson..=) "carrier" (postSourcesRequestBodySourceOrder'Shipping'Carrier obj) GHC.Base.<> ((Data.Aeson..=) "name" (postSourcesRequestBodySourceOrder'Shipping'Name obj) GHC.Base.<> ((Data.Aeson..=) "phone" (postSourcesRequestBodySourceOrder'Shipping'Phone obj) GHC.Base.<> (Data.Aeson..=) "tracking_number" (postSourcesRequestBodySourceOrder'Shipping'TrackingNumber obj)))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("address" Data.Aeson.Types.ToJSON..= postSourcesRequestBodySourceOrder'Shipping'Address obj : "carrier" Data.Aeson.Types.ToJSON..= postSourcesRequestBodySourceOrder'Shipping'Carrier obj : "name" Data.Aeson.Types.ToJSON..= postSourcesRequestBodySourceOrder'Shipping'Name obj : "phone" Data.Aeson.Types.ToJSON..= postSourcesRequestBodySourceOrder'Shipping'Phone obj : "tracking_number" Data.Aeson.Types.ToJSON..= postSourcesRequestBodySourceOrder'Shipping'TrackingNumber obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("address" Data.Aeson.Types.ToJSON..= postSourcesRequestBodySourceOrder'Shipping'Address obj) GHC.Base.<> (("carrier" Data.Aeson.Types.ToJSON..= postSourcesRequestBodySourceOrder'Shipping'Carrier obj) GHC.Base.<> (("name" Data.Aeson.Types.ToJSON..= postSourcesRequestBodySourceOrder'Shipping'Name obj) GHC.Base.<> (("phone" Data.Aeson.Types.ToJSON..= postSourcesRequestBodySourceOrder'Shipping'Phone obj) GHC.Base.<> ("tracking_number" Data.Aeson.Types.ToJSON..= postSourcesRequestBodySourceOrder'Shipping'TrackingNumber obj)))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostSourcesRequestBodySourceOrder'Shipping' where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PostSourcesRequestBodySourceOrder'Shipping'" (\obj -> ((((GHC.Base.pure PostSourcesRequestBodySourceOrder'Shipping' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "address")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "carrier")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "phone")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "tracking_number"))
 
--- | Defines the data type for the schema postSourcesRequestBodySource_order\'Shipping\'Address\'
+-- | Create a new 'PostSourcesRequestBodySourceOrder'Shipping'' with all required fields.
+mkPostSourcesRequestBodySourceOrder'Shipping' ::
+  -- | 'postSourcesRequestBodySourceOrder'Shipping'Address'
+  PostSourcesRequestBodySourceOrder'Shipping'Address' ->
+  PostSourcesRequestBodySourceOrder'Shipping'
+mkPostSourcesRequestBodySourceOrder'Shipping' postSourcesRequestBodySourceOrder'Shipping'Address =
+  PostSourcesRequestBodySourceOrder'Shipping'
+    { postSourcesRequestBodySourceOrder'Shipping'Address = postSourcesRequestBodySourceOrder'Shipping'Address,
+      postSourcesRequestBodySourceOrder'Shipping'Carrier = GHC.Maybe.Nothing,
+      postSourcesRequestBodySourceOrder'Shipping'Name = GHC.Maybe.Nothing,
+      postSourcesRequestBodySourceOrder'Shipping'Phone = GHC.Maybe.Nothing,
+      postSourcesRequestBodySourceOrder'Shipping'TrackingNumber = GHC.Maybe.Nothing
+    }
+
+-- | Defines the object schema located at @paths.\/v1\/sources.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.source_order.properties.shipping.properties.address@ in the specification.
 data PostSourcesRequestBodySourceOrder'Shipping'Address'
   = PostSourcesRequestBodySourceOrder'Shipping'Address'
       { -- | city
@@ -780,32 +934,51 @@ data PostSourcesRequestBodySourceOrder'Shipping'Address'
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostSourcesRequestBodySourceOrder'Shipping'Address' where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "city" (postSourcesRequestBodySourceOrder'Shipping'Address'City obj) : (Data.Aeson..=) "country" (postSourcesRequestBodySourceOrder'Shipping'Address'Country obj) : (Data.Aeson..=) "line1" (postSourcesRequestBodySourceOrder'Shipping'Address'Line1 obj) : (Data.Aeson..=) "line2" (postSourcesRequestBodySourceOrder'Shipping'Address'Line2 obj) : (Data.Aeson..=) "postal_code" (postSourcesRequestBodySourceOrder'Shipping'Address'PostalCode obj) : (Data.Aeson..=) "state" (postSourcesRequestBodySourceOrder'Shipping'Address'State obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "city" (postSourcesRequestBodySourceOrder'Shipping'Address'City obj) GHC.Base.<> ((Data.Aeson..=) "country" (postSourcesRequestBodySourceOrder'Shipping'Address'Country obj) GHC.Base.<> ((Data.Aeson..=) "line1" (postSourcesRequestBodySourceOrder'Shipping'Address'Line1 obj) GHC.Base.<> ((Data.Aeson..=) "line2" (postSourcesRequestBodySourceOrder'Shipping'Address'Line2 obj) GHC.Base.<> ((Data.Aeson..=) "postal_code" (postSourcesRequestBodySourceOrder'Shipping'Address'PostalCode obj) GHC.Base.<> (Data.Aeson..=) "state" (postSourcesRequestBodySourceOrder'Shipping'Address'State obj))))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("city" Data.Aeson.Types.ToJSON..= postSourcesRequestBodySourceOrder'Shipping'Address'City obj : "country" Data.Aeson.Types.ToJSON..= postSourcesRequestBodySourceOrder'Shipping'Address'Country obj : "line1" Data.Aeson.Types.ToJSON..= postSourcesRequestBodySourceOrder'Shipping'Address'Line1 obj : "line2" Data.Aeson.Types.ToJSON..= postSourcesRequestBodySourceOrder'Shipping'Address'Line2 obj : "postal_code" Data.Aeson.Types.ToJSON..= postSourcesRequestBodySourceOrder'Shipping'Address'PostalCode obj : "state" Data.Aeson.Types.ToJSON..= postSourcesRequestBodySourceOrder'Shipping'Address'State obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("city" Data.Aeson.Types.ToJSON..= postSourcesRequestBodySourceOrder'Shipping'Address'City obj) GHC.Base.<> (("country" Data.Aeson.Types.ToJSON..= postSourcesRequestBodySourceOrder'Shipping'Address'Country obj) GHC.Base.<> (("line1" Data.Aeson.Types.ToJSON..= postSourcesRequestBodySourceOrder'Shipping'Address'Line1 obj) GHC.Base.<> (("line2" Data.Aeson.Types.ToJSON..= postSourcesRequestBodySourceOrder'Shipping'Address'Line2 obj) GHC.Base.<> (("postal_code" Data.Aeson.Types.ToJSON..= postSourcesRequestBodySourceOrder'Shipping'Address'PostalCode obj) GHC.Base.<> ("state" Data.Aeson.Types.ToJSON..= postSourcesRequestBodySourceOrder'Shipping'Address'State obj))))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostSourcesRequestBodySourceOrder'Shipping'Address' where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PostSourcesRequestBodySourceOrder'Shipping'Address'" (\obj -> (((((GHC.Base.pure PostSourcesRequestBodySourceOrder'Shipping'Address' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "city")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "country")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "line1")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "line2")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "postal_code")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "state"))
 
--- | Defines the enum schema postSourcesRequestBodyUsage\'
+-- | Create a new 'PostSourcesRequestBodySourceOrder'Shipping'Address'' with all required fields.
+mkPostSourcesRequestBodySourceOrder'Shipping'Address' ::
+  -- | 'postSourcesRequestBodySourceOrder'Shipping'Address'Line1'
+  Data.Text.Internal.Text ->
+  PostSourcesRequestBodySourceOrder'Shipping'Address'
+mkPostSourcesRequestBodySourceOrder'Shipping'Address' postSourcesRequestBodySourceOrder'Shipping'Address'Line1 =
+  PostSourcesRequestBodySourceOrder'Shipping'Address'
+    { postSourcesRequestBodySourceOrder'Shipping'Address'City = GHC.Maybe.Nothing,
+      postSourcesRequestBodySourceOrder'Shipping'Address'Country = GHC.Maybe.Nothing,
+      postSourcesRequestBodySourceOrder'Shipping'Address'Line1 = postSourcesRequestBodySourceOrder'Shipping'Address'Line1,
+      postSourcesRequestBodySourceOrder'Shipping'Address'Line2 = GHC.Maybe.Nothing,
+      postSourcesRequestBodySourceOrder'Shipping'Address'PostalCode = GHC.Maybe.Nothing,
+      postSourcesRequestBodySourceOrder'Shipping'Address'State = GHC.Maybe.Nothing
+    }
+
+-- | Defines the enum schema located at @paths.\/v1\/sources.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.usage@ in the specification.
 data PostSourcesRequestBodyUsage'
-  = PostSourcesRequestBodyUsage'EnumOther Data.Aeson.Types.Internal.Value
-  | PostSourcesRequestBodyUsage'EnumTyped Data.Text.Internal.Text
-  | PostSourcesRequestBodyUsage'EnumStringReusable
-  | PostSourcesRequestBodyUsage'EnumStringSingleUse
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    PostSourcesRequestBodyUsage'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    PostSourcesRequestBodyUsage'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"reusable"@
+    PostSourcesRequestBodyUsage'EnumReusable
+  | -- | Represents the JSON value @"single_use"@
+    PostSourcesRequestBodyUsage'EnumSingleUse
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostSourcesRequestBodyUsage' where
-  toJSON (PostSourcesRequestBodyUsage'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostSourcesRequestBodyUsage'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostSourcesRequestBodyUsage'EnumStringReusable) = "reusable"
-  toJSON (PostSourcesRequestBodyUsage'EnumStringSingleUse) = "single_use"
+  toJSON (PostSourcesRequestBodyUsage'Other val) = val
+  toJSON (PostSourcesRequestBodyUsage'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PostSourcesRequestBodyUsage'EnumReusable) = "reusable"
+  toJSON (PostSourcesRequestBodyUsage'EnumSingleUse) = "single_use"
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostSourcesRequestBodyUsage' where
   parseJSON val =
     GHC.Base.pure
-      ( if  | val GHC.Classes.== "reusable" -> PostSourcesRequestBodyUsage'EnumStringReusable
-            | val GHC.Classes.== "single_use" -> PostSourcesRequestBodyUsage'EnumStringSingleUse
-            | GHC.Base.otherwise -> PostSourcesRequestBodyUsage'EnumOther val
+      ( if  | val GHC.Classes.== "reusable" -> PostSourcesRequestBodyUsage'EnumReusable
+            | val GHC.Classes.== "single_use" -> PostSourcesRequestBodyUsage'EnumSingleUse
+            | GHC.Base.otherwise -> PostSourcesRequestBodyUsage'Other val
       )
 
 -- | Represents a response of the operation 'postSources'.

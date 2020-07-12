@@ -8,6 +8,7 @@ module StripeAPI.Types.FileLink where
 
 import qualified Control.Monad.Fail
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -31,7 +32,7 @@ import {-# SOURCE #-} StripeAPI.Types.File
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
--- | Defines the data type for the schema file_link
+-- | Defines the object schema located at @components.schemas.file_link@ in the specification.
 --
 -- To share the contents of a \`File\` object with non-Stripe users, you can
 -- create a \`FileLink\`. \`FileLink\`s contain a URL that can be used to
@@ -56,8 +57,6 @@ data FileLink
         fileLinkLivemode :: GHC.Types.Bool,
         -- | metadata: Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
         fileLinkMetadata :: Data.Aeson.Types.Internal.Object,
-        -- | object: String representing the object\'s type. Objects of the same type share the same value.
-        fileLinkObject :: FileLinkObject',
         -- | url: The publicly accessible URL to download the file.
         --
         -- Constraints:
@@ -71,13 +70,40 @@ data FileLink
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON FileLink where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "created" (fileLinkCreated obj) : (Data.Aeson..=) "expired" (fileLinkExpired obj) : (Data.Aeson..=) "expires_at" (fileLinkExpiresAt obj) : (Data.Aeson..=) "file" (fileLinkFile obj) : (Data.Aeson..=) "id" (fileLinkId obj) : (Data.Aeson..=) "livemode" (fileLinkLivemode obj) : (Data.Aeson..=) "metadata" (fileLinkMetadata obj) : (Data.Aeson..=) "object" (fileLinkObject obj) : (Data.Aeson..=) "url" (fileLinkUrl obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "created" (fileLinkCreated obj) GHC.Base.<> ((Data.Aeson..=) "expired" (fileLinkExpired obj) GHC.Base.<> ((Data.Aeson..=) "expires_at" (fileLinkExpiresAt obj) GHC.Base.<> ((Data.Aeson..=) "file" (fileLinkFile obj) GHC.Base.<> ((Data.Aeson..=) "id" (fileLinkId obj) GHC.Base.<> ((Data.Aeson..=) "livemode" (fileLinkLivemode obj) GHC.Base.<> ((Data.Aeson..=) "metadata" (fileLinkMetadata obj) GHC.Base.<> ((Data.Aeson..=) "object" (fileLinkObject obj) GHC.Base.<> (Data.Aeson..=) "url" (fileLinkUrl obj)))))))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("created" Data.Aeson.Types.ToJSON..= fileLinkCreated obj : "expired" Data.Aeson.Types.ToJSON..= fileLinkExpired obj : "expires_at" Data.Aeson.Types.ToJSON..= fileLinkExpiresAt obj : "file" Data.Aeson.Types.ToJSON..= fileLinkFile obj : "id" Data.Aeson.Types.ToJSON..= fileLinkId obj : "livemode" Data.Aeson.Types.ToJSON..= fileLinkLivemode obj : "metadata" Data.Aeson.Types.ToJSON..= fileLinkMetadata obj : "url" Data.Aeson.Types.ToJSON..= fileLinkUrl obj : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "file_link" : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("created" Data.Aeson.Types.ToJSON..= fileLinkCreated obj) GHC.Base.<> (("expired" Data.Aeson.Types.ToJSON..= fileLinkExpired obj) GHC.Base.<> (("expires_at" Data.Aeson.Types.ToJSON..= fileLinkExpiresAt obj) GHC.Base.<> (("file" Data.Aeson.Types.ToJSON..= fileLinkFile obj) GHC.Base.<> (("id" Data.Aeson.Types.ToJSON..= fileLinkId obj) GHC.Base.<> (("livemode" Data.Aeson.Types.ToJSON..= fileLinkLivemode obj) GHC.Base.<> (("metadata" Data.Aeson.Types.ToJSON..= fileLinkMetadata obj) GHC.Base.<> (("url" Data.Aeson.Types.ToJSON..= fileLinkUrl obj) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "file_link")))))))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON FileLink where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "FileLink" (\obj -> ((((((((GHC.Base.pure FileLink GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "created")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "expired")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "expires_at")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "file")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "livemode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "object")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "url"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "FileLink" (\obj -> (((((((GHC.Base.pure FileLink GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "created")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "expired")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "expires_at")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "file")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "livemode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "url"))
 
--- | Define the one-of schema file_linkFile\'
+-- | Create a new 'FileLink' with all required fields.
+mkFileLink ::
+  -- | 'fileLinkCreated'
+  GHC.Types.Int ->
+  -- | 'fileLinkExpired'
+  GHC.Types.Bool ->
+  -- | 'fileLinkFile'
+  FileLinkFile'Variants ->
+  -- | 'fileLinkId'
+  Data.Text.Internal.Text ->
+  -- | 'fileLinkLivemode'
+  GHC.Types.Bool ->
+  -- | 'fileLinkMetadata'
+  Data.Aeson.Types.Internal.Object ->
+  FileLink
+mkFileLink fileLinkCreated fileLinkExpired fileLinkFile fileLinkId fileLinkLivemode fileLinkMetadata =
+  FileLink
+    { fileLinkCreated = fileLinkCreated,
+      fileLinkExpired = fileLinkExpired,
+      fileLinkExpiresAt = GHC.Maybe.Nothing,
+      fileLinkFile = fileLinkFile,
+      fileLinkId = fileLinkId,
+      fileLinkLivemode = fileLinkLivemode,
+      fileLinkMetadata = fileLinkMetadata,
+      fileLinkUrl = GHC.Maybe.Nothing
+    }
+
+-- | Defines the oneOf schema located at @components.schemas.file_link.properties.file.anyOf@ in the specification.
 --
 -- The file object this link points to.
 data FileLinkFile'Variants
@@ -90,29 +116,6 @@ instance Data.Aeson.Types.ToJSON.ToJSON FileLinkFile'Variants where
   toJSON (FileLinkFile'Text a) = Data.Aeson.Types.ToJSON.toJSON a
 
 instance Data.Aeson.Types.FromJSON.FromJSON FileLinkFile'Variants where
-  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
-    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ FileLinkFile'File a
-    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ FileLinkFile'Text a
-      Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
-
--- | Defines the enum schema file_linkObject\'
---
--- String representing the object\'s type. Objects of the same type share the same value.
-data FileLinkObject'
-  = FileLinkObject'EnumOther Data.Aeson.Types.Internal.Value
-  | FileLinkObject'EnumTyped Data.Text.Internal.Text
-  | FileLinkObject'EnumStringFileLink
-  deriving (GHC.Show.Show, GHC.Classes.Eq)
-
-instance Data.Aeson.Types.ToJSON.ToJSON FileLinkObject' where
-  toJSON (FileLinkObject'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (FileLinkObject'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (FileLinkObject'EnumStringFileLink) = "file_link"
-
-instance Data.Aeson.Types.FromJSON.FromJSON FileLinkObject' where
-  parseJSON val =
-    GHC.Base.pure
-      ( if  | val GHC.Classes.== "file_link" -> FileLinkObject'EnumStringFileLink
-            | GHC.Base.otherwise -> FileLinkObject'EnumOther val
-      )
+  parseJSON val = case (FileLinkFile'File Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((FileLinkFile'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched") of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+    Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a

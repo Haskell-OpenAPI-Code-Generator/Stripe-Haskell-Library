@@ -10,6 +10,7 @@ module StripeAPI.Operations.GetFileLinksLink where
 import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -77,7 +78,7 @@ getFileLinksLink parameters =
     )
     (StripeAPI.Common.doCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET") (Data.Text.pack ("/v1/file_links/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel (getFileLinksLinkParametersPathLink parameters))) GHC.Base.++ ""))) [StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getFileLinksLinkParametersQueryExpand parameters) (Data.Text.pack "deepObject") GHC.Types.True])
 
--- | Defines the data type for the schema getFileLinksLinkParameters
+-- | Defines the object schema located at @paths.\/v1\/file_links\/{link}.GET.parameters@ in the specification.
 data GetFileLinksLinkParameters
   = GetFileLinksLinkParameters
       { -- | pathLink: Represents the parameter named \'link\'
@@ -93,11 +94,22 @@ data GetFileLinksLinkParameters
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetFileLinksLinkParameters where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "pathLink" (getFileLinksLinkParametersPathLink obj) : (Data.Aeson..=) "queryExpand" (getFileLinksLinkParametersQueryExpand obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "pathLink" (getFileLinksLinkParametersPathLink obj) GHC.Base.<> (Data.Aeson..=) "queryExpand" (getFileLinksLinkParametersQueryExpand obj))
+  toJSON obj = Data.Aeson.Types.Internal.object ("pathLink" Data.Aeson.Types.ToJSON..= getFileLinksLinkParametersPathLink obj : "queryExpand" Data.Aeson.Types.ToJSON..= getFileLinksLinkParametersQueryExpand obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("pathLink" Data.Aeson.Types.ToJSON..= getFileLinksLinkParametersPathLink obj) GHC.Base.<> ("queryExpand" Data.Aeson.Types.ToJSON..= getFileLinksLinkParametersQueryExpand obj))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetFileLinksLinkParameters where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "GetFileLinksLinkParameters" (\obj -> (GHC.Base.pure GetFileLinksLinkParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathLink")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryExpand"))
+
+-- | Create a new 'GetFileLinksLinkParameters' with all required fields.
+mkGetFileLinksLinkParameters ::
+  -- | 'getFileLinksLinkParametersPathLink'
+  Data.Text.Internal.Text ->
+  GetFileLinksLinkParameters
+mkGetFileLinksLinkParameters getFileLinksLinkParametersPathLink =
+  GetFileLinksLinkParameters
+    { getFileLinksLinkParametersPathLink = getFileLinksLinkParametersPathLink,
+      getFileLinksLinkParametersQueryExpand = GHC.Maybe.Nothing
+    }
 
 -- | Represents a response of the operation 'getFileLinksLink'.
 --

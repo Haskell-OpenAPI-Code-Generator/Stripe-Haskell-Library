@@ -10,6 +10,7 @@ module StripeAPI.Operations.PostInvoicesInvoicePay where
 import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -81,7 +82,7 @@ postInvoicesInvoicePay
       )
       (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack ("/v1/invoices/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel invoice)) GHC.Base.++ "/pay"))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
 
--- | Defines the data type for the schema postInvoicesInvoicePayRequestBody
+-- | Defines the object schema located at @paths.\/v1\/invoices\/{invoice}\/pay.POST.requestBody.content.application\/x-www-form-urlencoded.schema@ in the specification.
 data PostInvoicesInvoicePayRequestBody
   = PostInvoicesInvoicePayRequestBody
       { -- | expand: Specifies which fields in the response should be expanded.
@@ -113,11 +114,23 @@ data PostInvoicesInvoicePayRequestBody
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostInvoicesInvoicePayRequestBody where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "expand" (postInvoicesInvoicePayRequestBodyExpand obj) : (Data.Aeson..=) "forgive" (postInvoicesInvoicePayRequestBodyForgive obj) : (Data.Aeson..=) "off_session" (postInvoicesInvoicePayRequestBodyOffSession obj) : (Data.Aeson..=) "paid_out_of_band" (postInvoicesInvoicePayRequestBodyPaidOutOfBand obj) : (Data.Aeson..=) "payment_method" (postInvoicesInvoicePayRequestBodyPaymentMethod obj) : (Data.Aeson..=) "source" (postInvoicesInvoicePayRequestBodySource obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "expand" (postInvoicesInvoicePayRequestBodyExpand obj) GHC.Base.<> ((Data.Aeson..=) "forgive" (postInvoicesInvoicePayRequestBodyForgive obj) GHC.Base.<> ((Data.Aeson..=) "off_session" (postInvoicesInvoicePayRequestBodyOffSession obj) GHC.Base.<> ((Data.Aeson..=) "paid_out_of_band" (postInvoicesInvoicePayRequestBodyPaidOutOfBand obj) GHC.Base.<> ((Data.Aeson..=) "payment_method" (postInvoicesInvoicePayRequestBodyPaymentMethod obj) GHC.Base.<> (Data.Aeson..=) "source" (postInvoicesInvoicePayRequestBodySource obj))))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("expand" Data.Aeson.Types.ToJSON..= postInvoicesInvoicePayRequestBodyExpand obj : "forgive" Data.Aeson.Types.ToJSON..= postInvoicesInvoicePayRequestBodyForgive obj : "off_session" Data.Aeson.Types.ToJSON..= postInvoicesInvoicePayRequestBodyOffSession obj : "paid_out_of_band" Data.Aeson.Types.ToJSON..= postInvoicesInvoicePayRequestBodyPaidOutOfBand obj : "payment_method" Data.Aeson.Types.ToJSON..= postInvoicesInvoicePayRequestBodyPaymentMethod obj : "source" Data.Aeson.Types.ToJSON..= postInvoicesInvoicePayRequestBodySource obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("expand" Data.Aeson.Types.ToJSON..= postInvoicesInvoicePayRequestBodyExpand obj) GHC.Base.<> (("forgive" Data.Aeson.Types.ToJSON..= postInvoicesInvoicePayRequestBodyForgive obj) GHC.Base.<> (("off_session" Data.Aeson.Types.ToJSON..= postInvoicesInvoicePayRequestBodyOffSession obj) GHC.Base.<> (("paid_out_of_band" Data.Aeson.Types.ToJSON..= postInvoicesInvoicePayRequestBodyPaidOutOfBand obj) GHC.Base.<> (("payment_method" Data.Aeson.Types.ToJSON..= postInvoicesInvoicePayRequestBodyPaymentMethod obj) GHC.Base.<> ("source" Data.Aeson.Types.ToJSON..= postInvoicesInvoicePayRequestBodySource obj))))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostInvoicesInvoicePayRequestBody where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PostInvoicesInvoicePayRequestBody" (\obj -> (((((GHC.Base.pure PostInvoicesInvoicePayRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "forgive")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "off_session")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "paid_out_of_band")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "payment_method")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "source"))
+
+-- | Create a new 'PostInvoicesInvoicePayRequestBody' with all required fields.
+mkPostInvoicesInvoicePayRequestBody :: PostInvoicesInvoicePayRequestBody
+mkPostInvoicesInvoicePayRequestBody =
+  PostInvoicesInvoicePayRequestBody
+    { postInvoicesInvoicePayRequestBodyExpand = GHC.Maybe.Nothing,
+      postInvoicesInvoicePayRequestBodyForgive = GHC.Maybe.Nothing,
+      postInvoicesInvoicePayRequestBodyOffSession = GHC.Maybe.Nothing,
+      postInvoicesInvoicePayRequestBodyPaidOutOfBand = GHC.Maybe.Nothing,
+      postInvoicesInvoicePayRequestBodyPaymentMethod = GHC.Maybe.Nothing,
+      postInvoicesInvoicePayRequestBodySource = GHC.Maybe.Nothing
+    }
 
 -- | Represents a response of the operation 'postInvoicesInvoicePay'.
 --

@@ -8,6 +8,7 @@ module StripeAPI.Types.CountrySpecVerificationFields where
 
 import qualified Control.Monad.Fail
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -31,7 +32,7 @@ import {-# SOURCE #-} StripeAPI.Types.CountrySpecVerificationFieldDetails
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
--- | Defines the data type for the schema country_spec_verification_fields
+-- | Defines the object schema located at @components.schemas.country_spec_verification_fields@ in the specification.
 data CountrySpecVerificationFields
   = CountrySpecVerificationFields
       { -- | company:
@@ -45,8 +46,21 @@ data CountrySpecVerificationFields
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON CountrySpecVerificationFields where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "company" (countrySpecVerificationFieldsCompany obj) : (Data.Aeson..=) "individual" (countrySpecVerificationFieldsIndividual obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "company" (countrySpecVerificationFieldsCompany obj) GHC.Base.<> (Data.Aeson..=) "individual" (countrySpecVerificationFieldsIndividual obj))
+  toJSON obj = Data.Aeson.Types.Internal.object ("company" Data.Aeson.Types.ToJSON..= countrySpecVerificationFieldsCompany obj : "individual" Data.Aeson.Types.ToJSON..= countrySpecVerificationFieldsIndividual obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("company" Data.Aeson.Types.ToJSON..= countrySpecVerificationFieldsCompany obj) GHC.Base.<> ("individual" Data.Aeson.Types.ToJSON..= countrySpecVerificationFieldsIndividual obj))
 
 instance Data.Aeson.Types.FromJSON.FromJSON CountrySpecVerificationFields where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "CountrySpecVerificationFields" (\obj -> (GHC.Base.pure CountrySpecVerificationFields GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "company")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "individual"))
+
+-- | Create a new 'CountrySpecVerificationFields' with all required fields.
+mkCountrySpecVerificationFields ::
+  -- | 'countrySpecVerificationFieldsCompany'
+  CountrySpecVerificationFieldDetails ->
+  -- | 'countrySpecVerificationFieldsIndividual'
+  CountrySpecVerificationFieldDetails ->
+  CountrySpecVerificationFields
+mkCountrySpecVerificationFields countrySpecVerificationFieldsCompany countrySpecVerificationFieldsIndividual =
+  CountrySpecVerificationFields
+    { countrySpecVerificationFieldsCompany = countrySpecVerificationFieldsCompany,
+      countrySpecVerificationFieldsIndividual = countrySpecVerificationFieldsIndividual
+    }

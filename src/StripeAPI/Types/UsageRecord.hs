@@ -8,6 +8,7 @@ module StripeAPI.Types.UsageRecord where
 
 import qualified Control.Monad.Fail
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -30,7 +31,7 @@ import StripeAPI.TypeAlias
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
--- | Defines the data type for the schema usage_record
+-- | Defines the object schema located at @components.schemas.usage_record@ in the specification.
 --
 -- Usage records allow you to report customer usage and metrics to Stripe for
 -- metered billing of subscription plans.
@@ -46,8 +47,6 @@ data UsageRecord
         usageRecordId :: Data.Text.Internal.Text,
         -- | livemode: Has the value \`true\` if the object exists in live mode or the value \`false\` if the object exists in test mode.
         usageRecordLivemode :: GHC.Types.Bool,
-        -- | object: String representing the object\'s type. Objects of the same type share the same value.
-        usageRecordObject :: UsageRecordObject',
         -- | quantity: The usage quantity for the specified date.
         usageRecordQuantity :: GHC.Types.Int,
         -- | subscription_item: The ID of the subscription item this usage record contains data for.
@@ -65,29 +64,30 @@ data UsageRecord
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON UsageRecord where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "id" (usageRecordId obj) : (Data.Aeson..=) "livemode" (usageRecordLivemode obj) : (Data.Aeson..=) "object" (usageRecordObject obj) : (Data.Aeson..=) "quantity" (usageRecordQuantity obj) : (Data.Aeson..=) "subscription_item" (usageRecordSubscriptionItem obj) : (Data.Aeson..=) "timestamp" (usageRecordTimestamp obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "id" (usageRecordId obj) GHC.Base.<> ((Data.Aeson..=) "livemode" (usageRecordLivemode obj) GHC.Base.<> ((Data.Aeson..=) "object" (usageRecordObject obj) GHC.Base.<> ((Data.Aeson..=) "quantity" (usageRecordQuantity obj) GHC.Base.<> ((Data.Aeson..=) "subscription_item" (usageRecordSubscriptionItem obj) GHC.Base.<> (Data.Aeson..=) "timestamp" (usageRecordTimestamp obj))))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("id" Data.Aeson.Types.ToJSON..= usageRecordId obj : "livemode" Data.Aeson.Types.ToJSON..= usageRecordLivemode obj : "quantity" Data.Aeson.Types.ToJSON..= usageRecordQuantity obj : "subscription_item" Data.Aeson.Types.ToJSON..= usageRecordSubscriptionItem obj : "timestamp" Data.Aeson.Types.ToJSON..= usageRecordTimestamp obj : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "usage_record" : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("id" Data.Aeson.Types.ToJSON..= usageRecordId obj) GHC.Base.<> (("livemode" Data.Aeson.Types.ToJSON..= usageRecordLivemode obj) GHC.Base.<> (("quantity" Data.Aeson.Types.ToJSON..= usageRecordQuantity obj) GHC.Base.<> (("subscription_item" Data.Aeson.Types.ToJSON..= usageRecordSubscriptionItem obj) GHC.Base.<> (("timestamp" Data.Aeson.Types.ToJSON..= usageRecordTimestamp obj) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "usage_record"))))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON UsageRecord where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "UsageRecord" (\obj -> (((((GHC.Base.pure UsageRecord GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "livemode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "object")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "quantity")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "subscription_item")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "timestamp"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "UsageRecord" (\obj -> ((((GHC.Base.pure UsageRecord GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "livemode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "quantity")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "subscription_item")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "timestamp"))
 
--- | Defines the enum schema usage_recordObject\'
---
--- String representing the object\'s type. Objects of the same type share the same value.
-data UsageRecordObject'
-  = UsageRecordObject'EnumOther Data.Aeson.Types.Internal.Value
-  | UsageRecordObject'EnumTyped Data.Text.Internal.Text
-  | UsageRecordObject'EnumStringUsageRecord
-  deriving (GHC.Show.Show, GHC.Classes.Eq)
-
-instance Data.Aeson.Types.ToJSON.ToJSON UsageRecordObject' where
-  toJSON (UsageRecordObject'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (UsageRecordObject'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (UsageRecordObject'EnumStringUsageRecord) = "usage_record"
-
-instance Data.Aeson.Types.FromJSON.FromJSON UsageRecordObject' where
-  parseJSON val =
-    GHC.Base.pure
-      ( if  | val GHC.Classes.== "usage_record" -> UsageRecordObject'EnumStringUsageRecord
-            | GHC.Base.otherwise -> UsageRecordObject'EnumOther val
-      )
+-- | Create a new 'UsageRecord' with all required fields.
+mkUsageRecord ::
+  -- | 'usageRecordId'
+  Data.Text.Internal.Text ->
+  -- | 'usageRecordLivemode'
+  GHC.Types.Bool ->
+  -- | 'usageRecordQuantity'
+  GHC.Types.Int ->
+  -- | 'usageRecordSubscriptionItem'
+  Data.Text.Internal.Text ->
+  -- | 'usageRecordTimestamp'
+  GHC.Types.Int ->
+  UsageRecord
+mkUsageRecord usageRecordId usageRecordLivemode usageRecordQuantity usageRecordSubscriptionItem usageRecordTimestamp =
+  UsageRecord
+    { usageRecordId = usageRecordId,
+      usageRecordLivemode = usageRecordLivemode,
+      usageRecordQuantity = usageRecordQuantity,
+      usageRecordSubscriptionItem = usageRecordSubscriptionItem,
+      usageRecordTimestamp = usageRecordTimestamp
+    }

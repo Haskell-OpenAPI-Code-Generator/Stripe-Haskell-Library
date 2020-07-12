@@ -8,6 +8,7 @@ module StripeAPI.Types.PaymentMethodDetailsSofort where
 
 import qualified Control.Monad.Fail
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -30,7 +31,7 @@ import StripeAPI.TypeAlias
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
--- | Defines the data type for the schema payment_method_details_sofort
+-- | Defines the object schema located at @components.schemas.payment_method_details_sofort@ in the specification.
 data PaymentMethodDetailsSofort
   = PaymentMethodDetailsSofort
       { -- | bank_code: Bank code of bank associated with the bank account.
@@ -77,8 +78,20 @@ data PaymentMethodDetailsSofort
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PaymentMethodDetailsSofort where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "bank_code" (paymentMethodDetailsSofortBankCode obj) : (Data.Aeson..=) "bank_name" (paymentMethodDetailsSofortBankName obj) : (Data.Aeson..=) "bic" (paymentMethodDetailsSofortBic obj) : (Data.Aeson..=) "country" (paymentMethodDetailsSofortCountry obj) : (Data.Aeson..=) "iban_last4" (paymentMethodDetailsSofortIbanLast4 obj) : (Data.Aeson..=) "verified_name" (paymentMethodDetailsSofortVerifiedName obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "bank_code" (paymentMethodDetailsSofortBankCode obj) GHC.Base.<> ((Data.Aeson..=) "bank_name" (paymentMethodDetailsSofortBankName obj) GHC.Base.<> ((Data.Aeson..=) "bic" (paymentMethodDetailsSofortBic obj) GHC.Base.<> ((Data.Aeson..=) "country" (paymentMethodDetailsSofortCountry obj) GHC.Base.<> ((Data.Aeson..=) "iban_last4" (paymentMethodDetailsSofortIbanLast4 obj) GHC.Base.<> (Data.Aeson..=) "verified_name" (paymentMethodDetailsSofortVerifiedName obj))))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("bank_code" Data.Aeson.Types.ToJSON..= paymentMethodDetailsSofortBankCode obj : "bank_name" Data.Aeson.Types.ToJSON..= paymentMethodDetailsSofortBankName obj : "bic" Data.Aeson.Types.ToJSON..= paymentMethodDetailsSofortBic obj : "country" Data.Aeson.Types.ToJSON..= paymentMethodDetailsSofortCountry obj : "iban_last4" Data.Aeson.Types.ToJSON..= paymentMethodDetailsSofortIbanLast4 obj : "verified_name" Data.Aeson.Types.ToJSON..= paymentMethodDetailsSofortVerifiedName obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("bank_code" Data.Aeson.Types.ToJSON..= paymentMethodDetailsSofortBankCode obj) GHC.Base.<> (("bank_name" Data.Aeson.Types.ToJSON..= paymentMethodDetailsSofortBankName obj) GHC.Base.<> (("bic" Data.Aeson.Types.ToJSON..= paymentMethodDetailsSofortBic obj) GHC.Base.<> (("country" Data.Aeson.Types.ToJSON..= paymentMethodDetailsSofortCountry obj) GHC.Base.<> (("iban_last4" Data.Aeson.Types.ToJSON..= paymentMethodDetailsSofortIbanLast4 obj) GHC.Base.<> ("verified_name" Data.Aeson.Types.ToJSON..= paymentMethodDetailsSofortVerifiedName obj))))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PaymentMethodDetailsSofort where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PaymentMethodDetailsSofort" (\obj -> (((((GHC.Base.pure PaymentMethodDetailsSofort GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "bank_code")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "bank_name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "bic")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "country")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "iban_last4")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "verified_name"))
+
+-- | Create a new 'PaymentMethodDetailsSofort' with all required fields.
+mkPaymentMethodDetailsSofort :: PaymentMethodDetailsSofort
+mkPaymentMethodDetailsSofort =
+  PaymentMethodDetailsSofort
+    { paymentMethodDetailsSofortBankCode = GHC.Maybe.Nothing,
+      paymentMethodDetailsSofortBankName = GHC.Maybe.Nothing,
+      paymentMethodDetailsSofortBic = GHC.Maybe.Nothing,
+      paymentMethodDetailsSofortCountry = GHC.Maybe.Nothing,
+      paymentMethodDetailsSofortIbanLast4 = GHC.Maybe.Nothing,
+      paymentMethodDetailsSofortVerifiedName = GHC.Maybe.Nothing
+    }

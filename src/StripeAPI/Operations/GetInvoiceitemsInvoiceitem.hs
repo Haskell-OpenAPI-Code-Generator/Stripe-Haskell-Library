@@ -10,6 +10,7 @@ module StripeAPI.Operations.GetInvoiceitemsInvoiceitem where
 import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -77,7 +78,7 @@ getInvoiceitemsInvoiceitem parameters =
     )
     (StripeAPI.Common.doCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET") (Data.Text.pack ("/v1/invoiceitems/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel (getInvoiceitemsInvoiceitemParametersPathInvoiceitem parameters))) GHC.Base.++ ""))) [StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getInvoiceitemsInvoiceitemParametersQueryExpand parameters) (Data.Text.pack "deepObject") GHC.Types.True])
 
--- | Defines the data type for the schema getInvoiceitemsInvoiceitemParameters
+-- | Defines the object schema located at @paths.\/v1\/invoiceitems\/{invoiceitem}.GET.parameters@ in the specification.
 data GetInvoiceitemsInvoiceitemParameters
   = GetInvoiceitemsInvoiceitemParameters
       { -- | pathInvoiceitem: Represents the parameter named \'invoiceitem\'
@@ -97,11 +98,22 @@ data GetInvoiceitemsInvoiceitemParameters
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetInvoiceitemsInvoiceitemParameters where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "pathInvoiceitem" (getInvoiceitemsInvoiceitemParametersPathInvoiceitem obj) : (Data.Aeson..=) "queryExpand" (getInvoiceitemsInvoiceitemParametersQueryExpand obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "pathInvoiceitem" (getInvoiceitemsInvoiceitemParametersPathInvoiceitem obj) GHC.Base.<> (Data.Aeson..=) "queryExpand" (getInvoiceitemsInvoiceitemParametersQueryExpand obj))
+  toJSON obj = Data.Aeson.Types.Internal.object ("pathInvoiceitem" Data.Aeson.Types.ToJSON..= getInvoiceitemsInvoiceitemParametersPathInvoiceitem obj : "queryExpand" Data.Aeson.Types.ToJSON..= getInvoiceitemsInvoiceitemParametersQueryExpand obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("pathInvoiceitem" Data.Aeson.Types.ToJSON..= getInvoiceitemsInvoiceitemParametersPathInvoiceitem obj) GHC.Base.<> ("queryExpand" Data.Aeson.Types.ToJSON..= getInvoiceitemsInvoiceitemParametersQueryExpand obj))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetInvoiceitemsInvoiceitemParameters where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "GetInvoiceitemsInvoiceitemParameters" (\obj -> (GHC.Base.pure GetInvoiceitemsInvoiceitemParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathInvoiceitem")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryExpand"))
+
+-- | Create a new 'GetInvoiceitemsInvoiceitemParameters' with all required fields.
+mkGetInvoiceitemsInvoiceitemParameters ::
+  -- | 'getInvoiceitemsInvoiceitemParametersPathInvoiceitem'
+  Data.Text.Internal.Text ->
+  GetInvoiceitemsInvoiceitemParameters
+mkGetInvoiceitemsInvoiceitemParameters getInvoiceitemsInvoiceitemParametersPathInvoiceitem =
+  GetInvoiceitemsInvoiceitemParameters
+    { getInvoiceitemsInvoiceitemParametersPathInvoiceitem = getInvoiceitemsInvoiceitemParametersPathInvoiceitem,
+      getInvoiceitemsInvoiceitemParametersQueryExpand = GHC.Maybe.Nothing
+    }
 
 -- | Represents a response of the operation 'getInvoiceitemsInvoiceitem'.
 --

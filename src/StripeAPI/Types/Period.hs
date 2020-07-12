@@ -8,6 +8,7 @@ module StripeAPI.Types.Period where
 
 import qualified Control.Monad.Fail
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -30,7 +31,7 @@ import StripeAPI.TypeAlias
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
--- | Defines the data type for the schema period
+-- | Defines the object schema located at @components.schemas.period@ in the specification.
 data Period
   = Period
       { -- | end: The end date of this usage period. All usage up to and including this point in time is included.
@@ -44,8 +45,16 @@ data Period
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON Period where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "end" (periodEnd obj) : (Data.Aeson..=) "start" (periodStart obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "end" (periodEnd obj) GHC.Base.<> (Data.Aeson..=) "start" (periodStart obj))
+  toJSON obj = Data.Aeson.Types.Internal.object ("end" Data.Aeson.Types.ToJSON..= periodEnd obj : "start" Data.Aeson.Types.ToJSON..= periodStart obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("end" Data.Aeson.Types.ToJSON..= periodEnd obj) GHC.Base.<> ("start" Data.Aeson.Types.ToJSON..= periodStart obj))
 
 instance Data.Aeson.Types.FromJSON.FromJSON Period where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "Period" (\obj -> (GHC.Base.pure Period GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "end")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "start"))
+
+-- | Create a new 'Period' with all required fields.
+mkPeriod :: Period
+mkPeriod =
+  Period
+    { periodEnd = GHC.Maybe.Nothing,
+      periodStart = GHC.Maybe.Nothing
+    }

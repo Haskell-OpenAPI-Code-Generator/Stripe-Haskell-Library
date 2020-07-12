@@ -10,6 +10,7 @@ module StripeAPI.Operations.PostAccountLoginLinks where
 import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -79,7 +80,7 @@ postAccountLoginLinks body =
     )
     (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack "/v1/account/login_links") [] (GHC.Maybe.Just body) StripeAPI.Common.RequestBodyEncodingFormData)
 
--- | Defines the data type for the schema postAccountLoginLinksRequestBody
+-- | Defines the object schema located at @paths.\/v1\/account\/login_links.POST.requestBody.content.application\/x-www-form-urlencoded.schema@ in the specification.
 data PostAccountLoginLinksRequestBody
   = PostAccountLoginLinksRequestBody
       { -- | account
@@ -99,11 +100,23 @@ data PostAccountLoginLinksRequestBody
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostAccountLoginLinksRequestBody where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "account" (postAccountLoginLinksRequestBodyAccount obj) : (Data.Aeson..=) "expand" (postAccountLoginLinksRequestBodyExpand obj) : (Data.Aeson..=) "redirect_url" (postAccountLoginLinksRequestBodyRedirectUrl obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "account" (postAccountLoginLinksRequestBodyAccount obj) GHC.Base.<> ((Data.Aeson..=) "expand" (postAccountLoginLinksRequestBodyExpand obj) GHC.Base.<> (Data.Aeson..=) "redirect_url" (postAccountLoginLinksRequestBodyRedirectUrl obj)))
+  toJSON obj = Data.Aeson.Types.Internal.object ("account" Data.Aeson.Types.ToJSON..= postAccountLoginLinksRequestBodyAccount obj : "expand" Data.Aeson.Types.ToJSON..= postAccountLoginLinksRequestBodyExpand obj : "redirect_url" Data.Aeson.Types.ToJSON..= postAccountLoginLinksRequestBodyRedirectUrl obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("account" Data.Aeson.Types.ToJSON..= postAccountLoginLinksRequestBodyAccount obj) GHC.Base.<> (("expand" Data.Aeson.Types.ToJSON..= postAccountLoginLinksRequestBodyExpand obj) GHC.Base.<> ("redirect_url" Data.Aeson.Types.ToJSON..= postAccountLoginLinksRequestBodyRedirectUrl obj)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostAccountLoginLinksRequestBody where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PostAccountLoginLinksRequestBody" (\obj -> ((GHC.Base.pure PostAccountLoginLinksRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "account")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "redirect_url"))
+
+-- | Create a new 'PostAccountLoginLinksRequestBody' with all required fields.
+mkPostAccountLoginLinksRequestBody ::
+  -- | 'postAccountLoginLinksRequestBodyAccount'
+  Data.Text.Internal.Text ->
+  PostAccountLoginLinksRequestBody
+mkPostAccountLoginLinksRequestBody postAccountLoginLinksRequestBodyAccount =
+  PostAccountLoginLinksRequestBody
+    { postAccountLoginLinksRequestBodyAccount = postAccountLoginLinksRequestBodyAccount,
+      postAccountLoginLinksRequestBodyExpand = GHC.Maybe.Nothing,
+      postAccountLoginLinksRequestBodyRedirectUrl = GHC.Maybe.Nothing
+    }
 
 -- | Represents a response of the operation 'postAccountLoginLinks'.
 --

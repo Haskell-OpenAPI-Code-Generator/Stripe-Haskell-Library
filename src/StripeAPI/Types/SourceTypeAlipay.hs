@@ -8,6 +8,7 @@ module StripeAPI.Types.SourceTypeAlipay where
 
 import qualified Control.Monad.Fail
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -30,7 +31,7 @@ import StripeAPI.TypeAlias
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
--- | Defines the data type for the schema source_type_alipay
+-- | Defines the object schema located at @components.schemas.source_type_alipay@ in the specification.
 data SourceTypeAlipay
   = SourceTypeAlipay
       { -- | data_string
@@ -46,8 +47,17 @@ data SourceTypeAlipay
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON SourceTypeAlipay where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "data_string" (sourceTypeAlipayDataString obj) : (Data.Aeson..=) "native_url" (sourceTypeAlipayNativeUrl obj) : (Data.Aeson..=) "statement_descriptor" (sourceTypeAlipayStatementDescriptor obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "data_string" (sourceTypeAlipayDataString obj) GHC.Base.<> ((Data.Aeson..=) "native_url" (sourceTypeAlipayNativeUrl obj) GHC.Base.<> (Data.Aeson..=) "statement_descriptor" (sourceTypeAlipayStatementDescriptor obj)))
+  toJSON obj = Data.Aeson.Types.Internal.object ("data_string" Data.Aeson.Types.ToJSON..= sourceTypeAlipayDataString obj : "native_url" Data.Aeson.Types.ToJSON..= sourceTypeAlipayNativeUrl obj : "statement_descriptor" Data.Aeson.Types.ToJSON..= sourceTypeAlipayStatementDescriptor obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("data_string" Data.Aeson.Types.ToJSON..= sourceTypeAlipayDataString obj) GHC.Base.<> (("native_url" Data.Aeson.Types.ToJSON..= sourceTypeAlipayNativeUrl obj) GHC.Base.<> ("statement_descriptor" Data.Aeson.Types.ToJSON..= sourceTypeAlipayStatementDescriptor obj)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON SourceTypeAlipay where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "SourceTypeAlipay" (\obj -> ((GHC.Base.pure SourceTypeAlipay GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "data_string")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "native_url")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "statement_descriptor"))
+
+-- | Create a new 'SourceTypeAlipay' with all required fields.
+mkSourceTypeAlipay :: SourceTypeAlipay
+mkSourceTypeAlipay =
+  SourceTypeAlipay
+    { sourceTypeAlipayDataString = GHC.Maybe.Nothing,
+      sourceTypeAlipayNativeUrl = GHC.Maybe.Nothing,
+      sourceTypeAlipayStatementDescriptor = GHC.Maybe.Nothing
+    }

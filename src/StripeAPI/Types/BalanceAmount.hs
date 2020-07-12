@@ -8,6 +8,7 @@ module StripeAPI.Types.BalanceAmount where
 
 import qualified Control.Monad.Fail
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -31,7 +32,7 @@ import {-# SOURCE #-} StripeAPI.Types.BalanceAmountBySourceType
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
--- | Defines the data type for the schema balance_amount
+-- | Defines the object schema located at @components.schemas.balance_amount@ in the specification.
 data BalanceAmount
   = BalanceAmount
       { -- | amount: Balance amount.
@@ -47,8 +48,22 @@ data BalanceAmount
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON BalanceAmount where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "amount" (balanceAmountAmount obj) : (Data.Aeson..=) "currency" (balanceAmountCurrency obj) : (Data.Aeson..=) "source_types" (balanceAmountSourceTypes obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "amount" (balanceAmountAmount obj) GHC.Base.<> ((Data.Aeson..=) "currency" (balanceAmountCurrency obj) GHC.Base.<> (Data.Aeson..=) "source_types" (balanceAmountSourceTypes obj)))
+  toJSON obj = Data.Aeson.Types.Internal.object ("amount" Data.Aeson.Types.ToJSON..= balanceAmountAmount obj : "currency" Data.Aeson.Types.ToJSON..= balanceAmountCurrency obj : "source_types" Data.Aeson.Types.ToJSON..= balanceAmountSourceTypes obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("amount" Data.Aeson.Types.ToJSON..= balanceAmountAmount obj) GHC.Base.<> (("currency" Data.Aeson.Types.ToJSON..= balanceAmountCurrency obj) GHC.Base.<> ("source_types" Data.Aeson.Types.ToJSON..= balanceAmountSourceTypes obj)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON BalanceAmount where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "BalanceAmount" (\obj -> ((GHC.Base.pure BalanceAmount GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "source_types"))
+
+-- | Create a new 'BalanceAmount' with all required fields.
+mkBalanceAmount ::
+  -- | 'balanceAmountAmount'
+  GHC.Types.Int ->
+  -- | 'balanceAmountCurrency'
+  Data.Text.Internal.Text ->
+  BalanceAmount
+mkBalanceAmount balanceAmountAmount balanceAmountCurrency =
+  BalanceAmount
+    { balanceAmountAmount = balanceAmountAmount,
+      balanceAmountCurrency = balanceAmountCurrency,
+      balanceAmountSourceTypes = GHC.Maybe.Nothing
+    }

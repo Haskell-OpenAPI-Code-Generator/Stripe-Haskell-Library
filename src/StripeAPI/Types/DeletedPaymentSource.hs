@@ -8,6 +8,7 @@ module StripeAPI.Types.DeletedPaymentSource where
 
 import qualified Control.Monad.Fail
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -34,7 +35,7 @@ import {-# SOURCE #-} StripeAPI.Types.DeletedCard
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
--- | Defines the data type for the schema deleted_payment_source
+-- | Defines the object schema located at @components.schemas.deleted_payment_source.anyOf@ in the specification.
 data DeletedPaymentSource
   = DeletedPaymentSource
       { -- | currency: Three-letter [ISO code for the currency](https:\/\/stripe.com\/docs\/payouts) paid out to the bank account.
@@ -43,16 +44,12 @@ data DeletedPaymentSource
         --
         -- * Maximum length of 5000
         deletedPaymentSourceCurrency :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
-        -- | deleted: Always true for a deleted object
-        deletedPaymentSourceDeleted :: (GHC.Maybe.Maybe DeletedPaymentSourceDeleted'),
         -- | id: Unique identifier for the object.
         --
         -- Constraints:
         --
         -- * Maximum length of 5000
-        deletedPaymentSourceId :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
-        -- | object: String representing the object\'s type. Objects of the same type share the same value.
-        deletedPaymentSourceObject :: (GHC.Maybe.Maybe DeletedPaymentSourceObject')
+        deletedPaymentSourceId :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
       }
   deriving
     ( GHC.Show.Show,
@@ -60,50 +57,16 @@ data DeletedPaymentSource
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON DeletedPaymentSource where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "currency" (deletedPaymentSourceCurrency obj) : (Data.Aeson..=) "deleted" (deletedPaymentSourceDeleted obj) : (Data.Aeson..=) "id" (deletedPaymentSourceId obj) : (Data.Aeson..=) "object" (deletedPaymentSourceObject obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "currency" (deletedPaymentSourceCurrency obj) GHC.Base.<> ((Data.Aeson..=) "deleted" (deletedPaymentSourceDeleted obj) GHC.Base.<> ((Data.Aeson..=) "id" (deletedPaymentSourceId obj) GHC.Base.<> (Data.Aeson..=) "object" (deletedPaymentSourceObject obj))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("currency" Data.Aeson.Types.ToJSON..= deletedPaymentSourceCurrency obj : "id" Data.Aeson.Types.ToJSON..= deletedPaymentSourceId obj : "deleted" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.Bool GHC.Types.True : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "alipay_account" : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("currency" Data.Aeson.Types.ToJSON..= deletedPaymentSourceCurrency obj) GHC.Base.<> (("id" Data.Aeson.Types.ToJSON..= deletedPaymentSourceId obj) GHC.Base.<> (("deleted" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.Bool GHC.Types.True) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "alipay_account"))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON DeletedPaymentSource where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "DeletedPaymentSource" (\obj -> (((GHC.Base.pure DeletedPaymentSource GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "deleted")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "object"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "DeletedPaymentSource" (\obj -> (GHC.Base.pure DeletedPaymentSource GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "id"))
 
--- | Defines the enum schema deleted_payment_sourceDeleted\'
---
--- Always true for a deleted object
-data DeletedPaymentSourceDeleted'
-  = DeletedPaymentSourceDeleted'EnumOther Data.Aeson.Types.Internal.Value
-  | DeletedPaymentSourceDeleted'EnumTyped GHC.Types.Bool
-  | DeletedPaymentSourceDeleted'EnumBoolTrue
-  deriving (GHC.Show.Show, GHC.Classes.Eq)
-
-instance Data.Aeson.Types.ToJSON.ToJSON DeletedPaymentSourceDeleted' where
-  toJSON (DeletedPaymentSourceDeleted'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (DeletedPaymentSourceDeleted'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (DeletedPaymentSourceDeleted'EnumBoolTrue) = Data.Aeson.Types.Internal.Bool GHC.Types.True
-
-instance Data.Aeson.Types.FromJSON.FromJSON DeletedPaymentSourceDeleted' where
-  parseJSON val =
-    GHC.Base.pure
-      ( if  | val GHC.Classes.== Data.Aeson.Types.Internal.Bool GHC.Types.True -> DeletedPaymentSourceDeleted'EnumBoolTrue
-            | GHC.Base.otherwise -> DeletedPaymentSourceDeleted'EnumOther val
-      )
-
--- | Defines the enum schema deleted_payment_sourceObject\'
---
--- String representing the object\'s type. Objects of the same type share the same value.
-data DeletedPaymentSourceObject'
-  = DeletedPaymentSourceObject'EnumOther Data.Aeson.Types.Internal.Value
-  | DeletedPaymentSourceObject'EnumTyped Data.Text.Internal.Text
-  | DeletedPaymentSourceObject'EnumStringAlipayAccount
-  deriving (GHC.Show.Show, GHC.Classes.Eq)
-
-instance Data.Aeson.Types.ToJSON.ToJSON DeletedPaymentSourceObject' where
-  toJSON (DeletedPaymentSourceObject'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (DeletedPaymentSourceObject'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (DeletedPaymentSourceObject'EnumStringAlipayAccount) = "alipay_account"
-
-instance Data.Aeson.Types.FromJSON.FromJSON DeletedPaymentSourceObject' where
-  parseJSON val =
-    GHC.Base.pure
-      ( if  | val GHC.Classes.== "alipay_account" -> DeletedPaymentSourceObject'EnumStringAlipayAccount
-            | GHC.Base.otherwise -> DeletedPaymentSourceObject'EnumOther val
-      )
+-- | Create a new 'DeletedPaymentSource' with all required fields.
+mkDeletedPaymentSource :: DeletedPaymentSource
+mkDeletedPaymentSource =
+  DeletedPaymentSource
+    { deletedPaymentSourceCurrency = GHC.Maybe.Nothing,
+      deletedPaymentSourceId = GHC.Maybe.Nothing
+    }

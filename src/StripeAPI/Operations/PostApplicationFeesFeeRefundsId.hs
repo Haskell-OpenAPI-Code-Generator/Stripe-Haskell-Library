@@ -10,6 +10,7 @@ module StripeAPI.Operations.PostApplicationFeesFeeRefundsId where
 import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -83,7 +84,7 @@ postApplicationFeesFeeRefundsId
       )
       (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack ("/v1/application_fees/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel (postApplicationFeesFeeRefundsIdParametersPathFee parameters))) GHC.Base.++ ("/refunds/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel (postApplicationFeesFeeRefundsIdParametersPathId parameters))) GHC.Base.++ ""))))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
 
--- | Defines the data type for the schema postApplicationFeesFeeRefundsIdParameters
+-- | Defines the object schema located at @paths.\/v1\/application_fees\/{fee}\/refunds\/{id}.POST.parameters@ in the specification.
 data PostApplicationFeesFeeRefundsIdParameters
   = PostApplicationFeesFeeRefundsIdParameters
       { -- | pathFee: Represents the parameter named \'fee\'
@@ -105,13 +106,26 @@ data PostApplicationFeesFeeRefundsIdParameters
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostApplicationFeesFeeRefundsIdParameters where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "pathFee" (postApplicationFeesFeeRefundsIdParametersPathFee obj) : (Data.Aeson..=) "pathId" (postApplicationFeesFeeRefundsIdParametersPathId obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "pathFee" (postApplicationFeesFeeRefundsIdParametersPathFee obj) GHC.Base.<> (Data.Aeson..=) "pathId" (postApplicationFeesFeeRefundsIdParametersPathId obj))
+  toJSON obj = Data.Aeson.Types.Internal.object ("pathFee" Data.Aeson.Types.ToJSON..= postApplicationFeesFeeRefundsIdParametersPathFee obj : "pathId" Data.Aeson.Types.ToJSON..= postApplicationFeesFeeRefundsIdParametersPathId obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("pathFee" Data.Aeson.Types.ToJSON..= postApplicationFeesFeeRefundsIdParametersPathFee obj) GHC.Base.<> ("pathId" Data.Aeson.Types.ToJSON..= postApplicationFeesFeeRefundsIdParametersPathId obj))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostApplicationFeesFeeRefundsIdParameters where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PostApplicationFeesFeeRefundsIdParameters" (\obj -> (GHC.Base.pure PostApplicationFeesFeeRefundsIdParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathFee")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathId"))
 
--- | Defines the data type for the schema postApplicationFeesFeeRefundsIdRequestBody
+-- | Create a new 'PostApplicationFeesFeeRefundsIdParameters' with all required fields.
+mkPostApplicationFeesFeeRefundsIdParameters ::
+  -- | 'postApplicationFeesFeeRefundsIdParametersPathFee'
+  Data.Text.Internal.Text ->
+  -- | 'postApplicationFeesFeeRefundsIdParametersPathId'
+  Data.Text.Internal.Text ->
+  PostApplicationFeesFeeRefundsIdParameters
+mkPostApplicationFeesFeeRefundsIdParameters postApplicationFeesFeeRefundsIdParametersPathFee postApplicationFeesFeeRefundsIdParametersPathId =
+  PostApplicationFeesFeeRefundsIdParameters
+    { postApplicationFeesFeeRefundsIdParametersPathFee = postApplicationFeesFeeRefundsIdParametersPathFee,
+      postApplicationFeesFeeRefundsIdParametersPathId = postApplicationFeesFeeRefundsIdParametersPathId
+    }
+
+-- | Defines the object schema located at @paths.\/v1\/application_fees\/{fee}\/refunds\/{id}.POST.requestBody.content.application\/x-www-form-urlencoded.schema@ in the specification.
 data PostApplicationFeesFeeRefundsIdRequestBody
   = PostApplicationFeesFeeRefundsIdRequestBody
       { -- | expand: Specifies which fields in the response should be expanded.
@@ -125,11 +139,19 @@ data PostApplicationFeesFeeRefundsIdRequestBody
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostApplicationFeesFeeRefundsIdRequestBody where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "expand" (postApplicationFeesFeeRefundsIdRequestBodyExpand obj) : (Data.Aeson..=) "metadata" (postApplicationFeesFeeRefundsIdRequestBodyMetadata obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "expand" (postApplicationFeesFeeRefundsIdRequestBodyExpand obj) GHC.Base.<> (Data.Aeson..=) "metadata" (postApplicationFeesFeeRefundsIdRequestBodyMetadata obj))
+  toJSON obj = Data.Aeson.Types.Internal.object ("expand" Data.Aeson.Types.ToJSON..= postApplicationFeesFeeRefundsIdRequestBodyExpand obj : "metadata" Data.Aeson.Types.ToJSON..= postApplicationFeesFeeRefundsIdRequestBodyMetadata obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("expand" Data.Aeson.Types.ToJSON..= postApplicationFeesFeeRefundsIdRequestBodyExpand obj) GHC.Base.<> ("metadata" Data.Aeson.Types.ToJSON..= postApplicationFeesFeeRefundsIdRequestBodyMetadata obj))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostApplicationFeesFeeRefundsIdRequestBody where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PostApplicationFeesFeeRefundsIdRequestBody" (\obj -> (GHC.Base.pure PostApplicationFeesFeeRefundsIdRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "metadata"))
+
+-- | Create a new 'PostApplicationFeesFeeRefundsIdRequestBody' with all required fields.
+mkPostApplicationFeesFeeRefundsIdRequestBody :: PostApplicationFeesFeeRefundsIdRequestBody
+mkPostApplicationFeesFeeRefundsIdRequestBody =
+  PostApplicationFeesFeeRefundsIdRequestBody
+    { postApplicationFeesFeeRefundsIdRequestBodyExpand = GHC.Maybe.Nothing,
+      postApplicationFeesFeeRefundsIdRequestBodyMetadata = GHC.Maybe.Nothing
+    }
 
 -- | Represents a response of the operation 'postApplicationFeesFeeRefundsId'.
 --

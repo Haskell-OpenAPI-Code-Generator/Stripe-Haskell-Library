@@ -10,6 +10,7 @@ module StripeAPI.Operations.PostCoupons where
 import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -79,7 +80,7 @@ postCoupons body =
     )
     (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack "/v1/coupons") [] (GHC.Maybe.Just body) StripeAPI.Common.RequestBodyEncodingFormData)
 
--- | Defines the data type for the schema postCouponsRequestBody
+-- | Defines the object schema located at @paths.\/v1\/coupons.POST.requestBody.content.application\/x-www-form-urlencoded.schema@ in the specification.
 data PostCouponsRequestBody
   = PostCouponsRequestBody
       { -- | amount_off: A positive integer representing the amount to subtract from an invoice total (required if \`percent_off\` is not passed).
@@ -123,37 +124,62 @@ data PostCouponsRequestBody
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostCouponsRequestBody where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "amount_off" (postCouponsRequestBodyAmountOff obj) : (Data.Aeson..=) "currency" (postCouponsRequestBodyCurrency obj) : (Data.Aeson..=) "duration" (postCouponsRequestBodyDuration obj) : (Data.Aeson..=) "duration_in_months" (postCouponsRequestBodyDurationInMonths obj) : (Data.Aeson..=) "expand" (postCouponsRequestBodyExpand obj) : (Data.Aeson..=) "id" (postCouponsRequestBodyId obj) : (Data.Aeson..=) "max_redemptions" (postCouponsRequestBodyMaxRedemptions obj) : (Data.Aeson..=) "metadata" (postCouponsRequestBodyMetadata obj) : (Data.Aeson..=) "name" (postCouponsRequestBodyName obj) : (Data.Aeson..=) "percent_off" (postCouponsRequestBodyPercentOff obj) : (Data.Aeson..=) "redeem_by" (postCouponsRequestBodyRedeemBy obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "amount_off" (postCouponsRequestBodyAmountOff obj) GHC.Base.<> ((Data.Aeson..=) "currency" (postCouponsRequestBodyCurrency obj) GHC.Base.<> ((Data.Aeson..=) "duration" (postCouponsRequestBodyDuration obj) GHC.Base.<> ((Data.Aeson..=) "duration_in_months" (postCouponsRequestBodyDurationInMonths obj) GHC.Base.<> ((Data.Aeson..=) "expand" (postCouponsRequestBodyExpand obj) GHC.Base.<> ((Data.Aeson..=) "id" (postCouponsRequestBodyId obj) GHC.Base.<> ((Data.Aeson..=) "max_redemptions" (postCouponsRequestBodyMaxRedemptions obj) GHC.Base.<> ((Data.Aeson..=) "metadata" (postCouponsRequestBodyMetadata obj) GHC.Base.<> ((Data.Aeson..=) "name" (postCouponsRequestBodyName obj) GHC.Base.<> ((Data.Aeson..=) "percent_off" (postCouponsRequestBodyPercentOff obj) GHC.Base.<> (Data.Aeson..=) "redeem_by" (postCouponsRequestBodyRedeemBy obj)))))))))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("amount_off" Data.Aeson.Types.ToJSON..= postCouponsRequestBodyAmountOff obj : "currency" Data.Aeson.Types.ToJSON..= postCouponsRequestBodyCurrency obj : "duration" Data.Aeson.Types.ToJSON..= postCouponsRequestBodyDuration obj : "duration_in_months" Data.Aeson.Types.ToJSON..= postCouponsRequestBodyDurationInMonths obj : "expand" Data.Aeson.Types.ToJSON..= postCouponsRequestBodyExpand obj : "id" Data.Aeson.Types.ToJSON..= postCouponsRequestBodyId obj : "max_redemptions" Data.Aeson.Types.ToJSON..= postCouponsRequestBodyMaxRedemptions obj : "metadata" Data.Aeson.Types.ToJSON..= postCouponsRequestBodyMetadata obj : "name" Data.Aeson.Types.ToJSON..= postCouponsRequestBodyName obj : "percent_off" Data.Aeson.Types.ToJSON..= postCouponsRequestBodyPercentOff obj : "redeem_by" Data.Aeson.Types.ToJSON..= postCouponsRequestBodyRedeemBy obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("amount_off" Data.Aeson.Types.ToJSON..= postCouponsRequestBodyAmountOff obj) GHC.Base.<> (("currency" Data.Aeson.Types.ToJSON..= postCouponsRequestBodyCurrency obj) GHC.Base.<> (("duration" Data.Aeson.Types.ToJSON..= postCouponsRequestBodyDuration obj) GHC.Base.<> (("duration_in_months" Data.Aeson.Types.ToJSON..= postCouponsRequestBodyDurationInMonths obj) GHC.Base.<> (("expand" Data.Aeson.Types.ToJSON..= postCouponsRequestBodyExpand obj) GHC.Base.<> (("id" Data.Aeson.Types.ToJSON..= postCouponsRequestBodyId obj) GHC.Base.<> (("max_redemptions" Data.Aeson.Types.ToJSON..= postCouponsRequestBodyMaxRedemptions obj) GHC.Base.<> (("metadata" Data.Aeson.Types.ToJSON..= postCouponsRequestBodyMetadata obj) GHC.Base.<> (("name" Data.Aeson.Types.ToJSON..= postCouponsRequestBodyName obj) GHC.Base.<> (("percent_off" Data.Aeson.Types.ToJSON..= postCouponsRequestBodyPercentOff obj) GHC.Base.<> ("redeem_by" Data.Aeson.Types.ToJSON..= postCouponsRequestBodyRedeemBy obj)))))))))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostCouponsRequestBody where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PostCouponsRequestBody" (\obj -> ((((((((((GHC.Base.pure PostCouponsRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "amount_off")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "duration")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "duration_in_months")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "max_redemptions")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "percent_off")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "redeem_by"))
 
--- | Defines the enum schema postCouponsRequestBodyDuration\'
+-- | Create a new 'PostCouponsRequestBody' with all required fields.
+mkPostCouponsRequestBody ::
+  -- | 'postCouponsRequestBodyDuration'
+  PostCouponsRequestBodyDuration' ->
+  PostCouponsRequestBody
+mkPostCouponsRequestBody postCouponsRequestBodyDuration =
+  PostCouponsRequestBody
+    { postCouponsRequestBodyAmountOff = GHC.Maybe.Nothing,
+      postCouponsRequestBodyCurrency = GHC.Maybe.Nothing,
+      postCouponsRequestBodyDuration = postCouponsRequestBodyDuration,
+      postCouponsRequestBodyDurationInMonths = GHC.Maybe.Nothing,
+      postCouponsRequestBodyExpand = GHC.Maybe.Nothing,
+      postCouponsRequestBodyId = GHC.Maybe.Nothing,
+      postCouponsRequestBodyMaxRedemptions = GHC.Maybe.Nothing,
+      postCouponsRequestBodyMetadata = GHC.Maybe.Nothing,
+      postCouponsRequestBodyName = GHC.Maybe.Nothing,
+      postCouponsRequestBodyPercentOff = GHC.Maybe.Nothing,
+      postCouponsRequestBodyRedeemBy = GHC.Maybe.Nothing
+    }
+
+-- | Defines the enum schema located at @paths.\/v1\/coupons.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.duration@ in the specification.
 --
 -- Specifies how long the discount will be in effect. Can be \`forever\`, \`once\`, or \`repeating\`.
 data PostCouponsRequestBodyDuration'
-  = PostCouponsRequestBodyDuration'EnumOther Data.Aeson.Types.Internal.Value
-  | PostCouponsRequestBodyDuration'EnumTyped Data.Text.Internal.Text
-  | PostCouponsRequestBodyDuration'EnumStringForever
-  | PostCouponsRequestBodyDuration'EnumStringOnce
-  | PostCouponsRequestBodyDuration'EnumStringRepeating
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    PostCouponsRequestBodyDuration'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    PostCouponsRequestBodyDuration'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"forever"@
+    PostCouponsRequestBodyDuration'EnumForever
+  | -- | Represents the JSON value @"once"@
+    PostCouponsRequestBodyDuration'EnumOnce
+  | -- | Represents the JSON value @"repeating"@
+    PostCouponsRequestBodyDuration'EnumRepeating
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostCouponsRequestBodyDuration' where
-  toJSON (PostCouponsRequestBodyDuration'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostCouponsRequestBodyDuration'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostCouponsRequestBodyDuration'EnumStringForever) = "forever"
-  toJSON (PostCouponsRequestBodyDuration'EnumStringOnce) = "once"
-  toJSON (PostCouponsRequestBodyDuration'EnumStringRepeating) = "repeating"
+  toJSON (PostCouponsRequestBodyDuration'Other val) = val
+  toJSON (PostCouponsRequestBodyDuration'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PostCouponsRequestBodyDuration'EnumForever) = "forever"
+  toJSON (PostCouponsRequestBodyDuration'EnumOnce) = "once"
+  toJSON (PostCouponsRequestBodyDuration'EnumRepeating) = "repeating"
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostCouponsRequestBodyDuration' where
   parseJSON val =
     GHC.Base.pure
-      ( if  | val GHC.Classes.== "forever" -> PostCouponsRequestBodyDuration'EnumStringForever
-            | val GHC.Classes.== "once" -> PostCouponsRequestBodyDuration'EnumStringOnce
-            | val GHC.Classes.== "repeating" -> PostCouponsRequestBodyDuration'EnumStringRepeating
-            | GHC.Base.otherwise -> PostCouponsRequestBodyDuration'EnumOther val
+      ( if  | val GHC.Classes.== "forever" -> PostCouponsRequestBodyDuration'EnumForever
+            | val GHC.Classes.== "once" -> PostCouponsRequestBodyDuration'EnumOnce
+            | val GHC.Classes.== "repeating" -> PostCouponsRequestBodyDuration'EnumRepeating
+            | GHC.Base.otherwise -> PostCouponsRequestBodyDuration'Other val
       )
 
 -- | Represents a response of the operation 'postCoupons'.

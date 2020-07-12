@@ -1,11 +1,11 @@
 module StripeAPI.Types.AccountBrandingSettings where
 import Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Types.Internal
-data AccountBrandingSettings 
-instance Show AccountBrandingSettings 
-instance Eq AccountBrandingSettings 
-instance FromJSON AccountBrandingSettings 
-instance ToJSON AccountBrandingSettings 
+data AccountBrandingSettings
+instance Show AccountBrandingSettings
+instance Eq AccountBrandingSettings
+instance FromJSON AccountBrandingSettings
+instance ToJSON AccountBrandingSettings
 data AccountBrandingSettingsIcon'Variants
 instance Show AccountBrandingSettingsIcon'Variants
 instance Eq AccountBrandingSettingsIcon'Variants

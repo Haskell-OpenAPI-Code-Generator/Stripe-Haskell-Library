@@ -10,6 +10,7 @@ module StripeAPI.Operations.GetCustomersCustomerTaxIdsId where
 import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -77,7 +78,7 @@ getCustomersCustomerTaxIdsId parameters =
     )
     (StripeAPI.Common.doCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET") (Data.Text.pack ("/v1/customers/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel (getCustomersCustomerTaxIdsIdParametersPathCustomer parameters))) GHC.Base.++ ("/tax_ids/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel (getCustomersCustomerTaxIdsIdParametersPathId parameters))) GHC.Base.++ ""))))) [StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getCustomersCustomerTaxIdsIdParametersQueryExpand parameters) (Data.Text.pack "deepObject") GHC.Types.True])
 
--- | Defines the data type for the schema getCustomersCustomerTaxIdsIdParameters
+-- | Defines the object schema located at @paths.\/v1\/customers\/{customer}\/tax_ids\/{id}.GET.parameters@ in the specification.
 data GetCustomersCustomerTaxIdsIdParameters
   = GetCustomersCustomerTaxIdsIdParameters
       { -- | pathCustomer: Represents the parameter named \'customer\'
@@ -99,11 +100,25 @@ data GetCustomersCustomerTaxIdsIdParameters
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetCustomersCustomerTaxIdsIdParameters where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "pathCustomer" (getCustomersCustomerTaxIdsIdParametersPathCustomer obj) : (Data.Aeson..=) "pathId" (getCustomersCustomerTaxIdsIdParametersPathId obj) : (Data.Aeson..=) "queryExpand" (getCustomersCustomerTaxIdsIdParametersQueryExpand obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "pathCustomer" (getCustomersCustomerTaxIdsIdParametersPathCustomer obj) GHC.Base.<> ((Data.Aeson..=) "pathId" (getCustomersCustomerTaxIdsIdParametersPathId obj) GHC.Base.<> (Data.Aeson..=) "queryExpand" (getCustomersCustomerTaxIdsIdParametersQueryExpand obj)))
+  toJSON obj = Data.Aeson.Types.Internal.object ("pathCustomer" Data.Aeson.Types.ToJSON..= getCustomersCustomerTaxIdsIdParametersPathCustomer obj : "pathId" Data.Aeson.Types.ToJSON..= getCustomersCustomerTaxIdsIdParametersPathId obj : "queryExpand" Data.Aeson.Types.ToJSON..= getCustomersCustomerTaxIdsIdParametersQueryExpand obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("pathCustomer" Data.Aeson.Types.ToJSON..= getCustomersCustomerTaxIdsIdParametersPathCustomer obj) GHC.Base.<> (("pathId" Data.Aeson.Types.ToJSON..= getCustomersCustomerTaxIdsIdParametersPathId obj) GHC.Base.<> ("queryExpand" Data.Aeson.Types.ToJSON..= getCustomersCustomerTaxIdsIdParametersQueryExpand obj)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetCustomersCustomerTaxIdsIdParameters where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "GetCustomersCustomerTaxIdsIdParameters" (\obj -> ((GHC.Base.pure GetCustomersCustomerTaxIdsIdParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathCustomer")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathId")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryExpand"))
+
+-- | Create a new 'GetCustomersCustomerTaxIdsIdParameters' with all required fields.
+mkGetCustomersCustomerTaxIdsIdParameters ::
+  -- | 'getCustomersCustomerTaxIdsIdParametersPathCustomer'
+  Data.Text.Internal.Text ->
+  -- | 'getCustomersCustomerTaxIdsIdParametersPathId'
+  Data.Text.Internal.Text ->
+  GetCustomersCustomerTaxIdsIdParameters
+mkGetCustomersCustomerTaxIdsIdParameters getCustomersCustomerTaxIdsIdParametersPathCustomer getCustomersCustomerTaxIdsIdParametersPathId =
+  GetCustomersCustomerTaxIdsIdParameters
+    { getCustomersCustomerTaxIdsIdParametersPathCustomer = getCustomersCustomerTaxIdsIdParametersPathCustomer,
+      getCustomersCustomerTaxIdsIdParametersPathId = getCustomersCustomerTaxIdsIdParametersPathId,
+      getCustomersCustomerTaxIdsIdParametersQueryExpand = GHC.Maybe.Nothing
+    }
 
 -- | Represents a response of the operation 'getCustomersCustomerTaxIdsId'.
 --

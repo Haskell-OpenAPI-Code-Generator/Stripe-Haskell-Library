@@ -1,8 +1,8 @@
 module StripeAPI.Types.SourceMandateNotificationSepaDebitData where
 import Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Types.Internal
-data SourceMandateNotificationSepaDebitData 
-instance Show SourceMandateNotificationSepaDebitData 
-instance Eq SourceMandateNotificationSepaDebitData 
-instance FromJSON SourceMandateNotificationSepaDebitData 
-instance ToJSON SourceMandateNotificationSepaDebitData 
+data SourceMandateNotificationSepaDebitData
+instance Show SourceMandateNotificationSepaDebitData
+instance Eq SourceMandateNotificationSepaDebitData
+instance FromJSON SourceMandateNotificationSepaDebitData
+instance ToJSON SourceMandateNotificationSepaDebitData

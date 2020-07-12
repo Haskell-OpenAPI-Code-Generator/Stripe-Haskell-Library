@@ -10,6 +10,7 @@ module StripeAPI.Operations.Get3dSecureThreeDSecure where
 import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -77,7 +78,7 @@ get3dSecureThreeDSecure parameters =
     )
     (StripeAPI.Common.doCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET") (Data.Text.pack ("/v1/3d_secure/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel (get3dSecureThreeDSecureParametersPathThreeDSecure parameters))) GHC.Base.++ ""))) [StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> get3dSecureThreeDSecureParametersQueryExpand parameters) (Data.Text.pack "deepObject") GHC.Types.True])
 
--- | Defines the data type for the schema get3dSecureThreeDSecureParameters
+-- | Defines the object schema located at @paths.\/v1\/3d_secure\/{three_d_secure}.GET.parameters@ in the specification.
 data Get3dSecureThreeDSecureParameters
   = Get3dSecureThreeDSecureParameters
       { -- | pathThree_d_secure: Represents the parameter named \'three_d_secure\'
@@ -97,11 +98,22 @@ data Get3dSecureThreeDSecureParameters
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON Get3dSecureThreeDSecureParameters where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "pathThree_d_secure" (get3dSecureThreeDSecureParametersPathThreeDSecure obj) : (Data.Aeson..=) "queryExpand" (get3dSecureThreeDSecureParametersQueryExpand obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "pathThree_d_secure" (get3dSecureThreeDSecureParametersPathThreeDSecure obj) GHC.Base.<> (Data.Aeson..=) "queryExpand" (get3dSecureThreeDSecureParametersQueryExpand obj))
+  toJSON obj = Data.Aeson.Types.Internal.object ("pathThree_d_secure" Data.Aeson.Types.ToJSON..= get3dSecureThreeDSecureParametersPathThreeDSecure obj : "queryExpand" Data.Aeson.Types.ToJSON..= get3dSecureThreeDSecureParametersQueryExpand obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("pathThree_d_secure" Data.Aeson.Types.ToJSON..= get3dSecureThreeDSecureParametersPathThreeDSecure obj) GHC.Base.<> ("queryExpand" Data.Aeson.Types.ToJSON..= get3dSecureThreeDSecureParametersQueryExpand obj))
 
 instance Data.Aeson.Types.FromJSON.FromJSON Get3dSecureThreeDSecureParameters where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "Get3dSecureThreeDSecureParameters" (\obj -> (GHC.Base.pure Get3dSecureThreeDSecureParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathThree_d_secure")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryExpand"))
+
+-- | Create a new 'Get3dSecureThreeDSecureParameters' with all required fields.
+mkGet3dSecureThreeDSecureParameters ::
+  -- | 'get3dSecureThreeDSecureParametersPathThreeDSecure'
+  Data.Text.Internal.Text ->
+  Get3dSecureThreeDSecureParameters
+mkGet3dSecureThreeDSecureParameters get3dSecureThreeDSecureParametersPathThreeDSecure =
+  Get3dSecureThreeDSecureParameters
+    { get3dSecureThreeDSecureParametersPathThreeDSecure = get3dSecureThreeDSecureParametersPathThreeDSecure,
+      get3dSecureThreeDSecureParametersQueryExpand = GHC.Maybe.Nothing
+    }
 
 -- | Represents a response of the operation 'get3dSecureThreeDSecure'.
 --

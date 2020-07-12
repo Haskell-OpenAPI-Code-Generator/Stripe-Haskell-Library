@@ -8,6 +8,7 @@ module StripeAPI.Types.SourceReceiverFlow where
 
 import qualified Control.Monad.Fail
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -30,7 +31,7 @@ import StripeAPI.TypeAlias
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
--- | Defines the data type for the schema source_receiver_flow
+-- | Defines the object schema located at @components.schemas.source_receiver_flow@ in the specification.
 data SourceReceiverFlow
   = SourceReceiverFlow
       { -- | address: The address of the receiver source. This is the value that should be communicated to the customer to send their funds to.
@@ -64,8 +65,31 @@ data SourceReceiverFlow
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON SourceReceiverFlow where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "address" (sourceReceiverFlowAddress obj) : (Data.Aeson..=) "amount_charged" (sourceReceiverFlowAmountCharged obj) : (Data.Aeson..=) "amount_received" (sourceReceiverFlowAmountReceived obj) : (Data.Aeson..=) "amount_returned" (sourceReceiverFlowAmountReturned obj) : (Data.Aeson..=) "refund_attributes_method" (sourceReceiverFlowRefundAttributesMethod obj) : (Data.Aeson..=) "refund_attributes_status" (sourceReceiverFlowRefundAttributesStatus obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "address" (sourceReceiverFlowAddress obj) GHC.Base.<> ((Data.Aeson..=) "amount_charged" (sourceReceiverFlowAmountCharged obj) GHC.Base.<> ((Data.Aeson..=) "amount_received" (sourceReceiverFlowAmountReceived obj) GHC.Base.<> ((Data.Aeson..=) "amount_returned" (sourceReceiverFlowAmountReturned obj) GHC.Base.<> ((Data.Aeson..=) "refund_attributes_method" (sourceReceiverFlowRefundAttributesMethod obj) GHC.Base.<> (Data.Aeson..=) "refund_attributes_status" (sourceReceiverFlowRefundAttributesStatus obj))))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("address" Data.Aeson.Types.ToJSON..= sourceReceiverFlowAddress obj : "amount_charged" Data.Aeson.Types.ToJSON..= sourceReceiverFlowAmountCharged obj : "amount_received" Data.Aeson.Types.ToJSON..= sourceReceiverFlowAmountReceived obj : "amount_returned" Data.Aeson.Types.ToJSON..= sourceReceiverFlowAmountReturned obj : "refund_attributes_method" Data.Aeson.Types.ToJSON..= sourceReceiverFlowRefundAttributesMethod obj : "refund_attributes_status" Data.Aeson.Types.ToJSON..= sourceReceiverFlowRefundAttributesStatus obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("address" Data.Aeson.Types.ToJSON..= sourceReceiverFlowAddress obj) GHC.Base.<> (("amount_charged" Data.Aeson.Types.ToJSON..= sourceReceiverFlowAmountCharged obj) GHC.Base.<> (("amount_received" Data.Aeson.Types.ToJSON..= sourceReceiverFlowAmountReceived obj) GHC.Base.<> (("amount_returned" Data.Aeson.Types.ToJSON..= sourceReceiverFlowAmountReturned obj) GHC.Base.<> (("refund_attributes_method" Data.Aeson.Types.ToJSON..= sourceReceiverFlowRefundAttributesMethod obj) GHC.Base.<> ("refund_attributes_status" Data.Aeson.Types.ToJSON..= sourceReceiverFlowRefundAttributesStatus obj))))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON SourceReceiverFlow where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "SourceReceiverFlow" (\obj -> (((((GHC.Base.pure SourceReceiverFlow GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "address")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "amount_charged")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "amount_received")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "amount_returned")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "refund_attributes_method")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "refund_attributes_status"))
+
+-- | Create a new 'SourceReceiverFlow' with all required fields.
+mkSourceReceiverFlow ::
+  -- | 'sourceReceiverFlowAmountCharged'
+  GHC.Types.Int ->
+  -- | 'sourceReceiverFlowAmountReceived'
+  GHC.Types.Int ->
+  -- | 'sourceReceiverFlowAmountReturned'
+  GHC.Types.Int ->
+  -- | 'sourceReceiverFlowRefundAttributesMethod'
+  Data.Text.Internal.Text ->
+  -- | 'sourceReceiverFlowRefundAttributesStatus'
+  Data.Text.Internal.Text ->
+  SourceReceiverFlow
+mkSourceReceiverFlow sourceReceiverFlowAmountCharged sourceReceiverFlowAmountReceived sourceReceiverFlowAmountReturned sourceReceiverFlowRefundAttributesMethod sourceReceiverFlowRefundAttributesStatus =
+  SourceReceiverFlow
+    { sourceReceiverFlowAddress = GHC.Maybe.Nothing,
+      sourceReceiverFlowAmountCharged = sourceReceiverFlowAmountCharged,
+      sourceReceiverFlowAmountReceived = sourceReceiverFlowAmountReceived,
+      sourceReceiverFlowAmountReturned = sourceReceiverFlowAmountReturned,
+      sourceReceiverFlowRefundAttributesMethod = sourceReceiverFlowRefundAttributesMethod,
+      sourceReceiverFlowRefundAttributesStatus = sourceReceiverFlowRefundAttributesStatus
+    }

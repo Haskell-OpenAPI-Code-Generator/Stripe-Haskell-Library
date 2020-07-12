@@ -10,6 +10,7 @@ module StripeAPI.Operations.PostSubscriptionItemsSubscriptionItemUsageRecords wh
 import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -87,7 +88,7 @@ postSubscriptionItemsSubscriptionItemUsageRecords
       )
       (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack ("/v1/subscription_items/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel subscriptionItem)) GHC.Base.++ "/usage_records"))) [] (GHC.Maybe.Just body) StripeAPI.Common.RequestBodyEncodingFormData)
 
--- | Defines the data type for the schema postSubscriptionItemsSubscriptionItemUsageRecordsRequestBody
+-- | Defines the object schema located at @paths.\/v1\/subscription_items\/{subscription_item}\/usage_records.POST.requestBody.content.application\/x-www-form-urlencoded.schema@ in the specification.
 data PostSubscriptionItemsSubscriptionItemUsageRecordsRequestBody
   = PostSubscriptionItemsSubscriptionItemUsageRecordsRequestBody
       { -- | action: Valid values are \`increment\` (default) or \`set\`. When using \`increment\` the specified \`quantity\` will be added to the usage at the specified timestamp. The \`set\` action will overwrite the usage quantity at that timestamp. If the subscription has [billing thresholds](https:\/\/stripe.com\/docs\/api\/subscriptions\/object\#subscription_object-billing_thresholds), \`increment\` is the only allowed value.
@@ -109,34 +110,53 @@ data PostSubscriptionItemsSubscriptionItemUsageRecordsRequestBody
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostSubscriptionItemsSubscriptionItemUsageRecordsRequestBody where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "action" (postSubscriptionItemsSubscriptionItemUsageRecordsRequestBodyAction obj) : (Data.Aeson..=) "expand" (postSubscriptionItemsSubscriptionItemUsageRecordsRequestBodyExpand obj) : (Data.Aeson..=) "quantity" (postSubscriptionItemsSubscriptionItemUsageRecordsRequestBodyQuantity obj) : (Data.Aeson..=) "timestamp" (postSubscriptionItemsSubscriptionItemUsageRecordsRequestBodyTimestamp obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "action" (postSubscriptionItemsSubscriptionItemUsageRecordsRequestBodyAction obj) GHC.Base.<> ((Data.Aeson..=) "expand" (postSubscriptionItemsSubscriptionItemUsageRecordsRequestBodyExpand obj) GHC.Base.<> ((Data.Aeson..=) "quantity" (postSubscriptionItemsSubscriptionItemUsageRecordsRequestBodyQuantity obj) GHC.Base.<> (Data.Aeson..=) "timestamp" (postSubscriptionItemsSubscriptionItemUsageRecordsRequestBodyTimestamp obj))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("action" Data.Aeson.Types.ToJSON..= postSubscriptionItemsSubscriptionItemUsageRecordsRequestBodyAction obj : "expand" Data.Aeson.Types.ToJSON..= postSubscriptionItemsSubscriptionItemUsageRecordsRequestBodyExpand obj : "quantity" Data.Aeson.Types.ToJSON..= postSubscriptionItemsSubscriptionItemUsageRecordsRequestBodyQuantity obj : "timestamp" Data.Aeson.Types.ToJSON..= postSubscriptionItemsSubscriptionItemUsageRecordsRequestBodyTimestamp obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("action" Data.Aeson.Types.ToJSON..= postSubscriptionItemsSubscriptionItemUsageRecordsRequestBodyAction obj) GHC.Base.<> (("expand" Data.Aeson.Types.ToJSON..= postSubscriptionItemsSubscriptionItemUsageRecordsRequestBodyExpand obj) GHC.Base.<> (("quantity" Data.Aeson.Types.ToJSON..= postSubscriptionItemsSubscriptionItemUsageRecordsRequestBodyQuantity obj) GHC.Base.<> ("timestamp" Data.Aeson.Types.ToJSON..= postSubscriptionItemsSubscriptionItemUsageRecordsRequestBodyTimestamp obj))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostSubscriptionItemsSubscriptionItemUsageRecordsRequestBody where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PostSubscriptionItemsSubscriptionItemUsageRecordsRequestBody" (\obj -> (((GHC.Base.pure PostSubscriptionItemsSubscriptionItemUsageRecordsRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "action")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "quantity")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "timestamp"))
 
--- | Defines the enum schema postSubscriptionItemsSubscriptionItemUsageRecordsRequestBodyAction\'
+-- | Create a new 'PostSubscriptionItemsSubscriptionItemUsageRecordsRequestBody' with all required fields.
+mkPostSubscriptionItemsSubscriptionItemUsageRecordsRequestBody ::
+  -- | 'postSubscriptionItemsSubscriptionItemUsageRecordsRequestBodyQuantity'
+  GHC.Types.Int ->
+  -- | 'postSubscriptionItemsSubscriptionItemUsageRecordsRequestBodyTimestamp'
+  GHC.Types.Int ->
+  PostSubscriptionItemsSubscriptionItemUsageRecordsRequestBody
+mkPostSubscriptionItemsSubscriptionItemUsageRecordsRequestBody postSubscriptionItemsSubscriptionItemUsageRecordsRequestBodyQuantity postSubscriptionItemsSubscriptionItemUsageRecordsRequestBodyTimestamp =
+  PostSubscriptionItemsSubscriptionItemUsageRecordsRequestBody
+    { postSubscriptionItemsSubscriptionItemUsageRecordsRequestBodyAction = GHC.Maybe.Nothing,
+      postSubscriptionItemsSubscriptionItemUsageRecordsRequestBodyExpand = GHC.Maybe.Nothing,
+      postSubscriptionItemsSubscriptionItemUsageRecordsRequestBodyQuantity = postSubscriptionItemsSubscriptionItemUsageRecordsRequestBodyQuantity,
+      postSubscriptionItemsSubscriptionItemUsageRecordsRequestBodyTimestamp = postSubscriptionItemsSubscriptionItemUsageRecordsRequestBodyTimestamp
+    }
+
+-- | Defines the enum schema located at @paths.\/v1\/subscription_items\/{subscription_item}\/usage_records.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.action@ in the specification.
 --
 -- Valid values are \`increment\` (default) or \`set\`. When using \`increment\` the specified \`quantity\` will be added to the usage at the specified timestamp. The \`set\` action will overwrite the usage quantity at that timestamp. If the subscription has [billing thresholds](https:\/\/stripe.com\/docs\/api\/subscriptions\/object\#subscription_object-billing_thresholds), \`increment\` is the only allowed value.
 data PostSubscriptionItemsSubscriptionItemUsageRecordsRequestBodyAction'
-  = PostSubscriptionItemsSubscriptionItemUsageRecordsRequestBodyAction'EnumOther Data.Aeson.Types.Internal.Value
-  | PostSubscriptionItemsSubscriptionItemUsageRecordsRequestBodyAction'EnumTyped Data.Text.Internal.Text
-  | PostSubscriptionItemsSubscriptionItemUsageRecordsRequestBodyAction'EnumStringIncrement
-  | PostSubscriptionItemsSubscriptionItemUsageRecordsRequestBodyAction'EnumStringSet
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    PostSubscriptionItemsSubscriptionItemUsageRecordsRequestBodyAction'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    PostSubscriptionItemsSubscriptionItemUsageRecordsRequestBodyAction'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"increment"@
+    PostSubscriptionItemsSubscriptionItemUsageRecordsRequestBodyAction'EnumIncrement
+  | -- | Represents the JSON value @"set"@
+    PostSubscriptionItemsSubscriptionItemUsageRecordsRequestBodyAction'EnumSet
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostSubscriptionItemsSubscriptionItemUsageRecordsRequestBodyAction' where
-  toJSON (PostSubscriptionItemsSubscriptionItemUsageRecordsRequestBodyAction'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostSubscriptionItemsSubscriptionItemUsageRecordsRequestBodyAction'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostSubscriptionItemsSubscriptionItemUsageRecordsRequestBodyAction'EnumStringIncrement) = "increment"
-  toJSON (PostSubscriptionItemsSubscriptionItemUsageRecordsRequestBodyAction'EnumStringSet) = "set"
+  toJSON (PostSubscriptionItemsSubscriptionItemUsageRecordsRequestBodyAction'Other val) = val
+  toJSON (PostSubscriptionItemsSubscriptionItemUsageRecordsRequestBodyAction'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PostSubscriptionItemsSubscriptionItemUsageRecordsRequestBodyAction'EnumIncrement) = "increment"
+  toJSON (PostSubscriptionItemsSubscriptionItemUsageRecordsRequestBodyAction'EnumSet) = "set"
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostSubscriptionItemsSubscriptionItemUsageRecordsRequestBodyAction' where
   parseJSON val =
     GHC.Base.pure
-      ( if  | val GHC.Classes.== "increment" -> PostSubscriptionItemsSubscriptionItemUsageRecordsRequestBodyAction'EnumStringIncrement
-            | val GHC.Classes.== "set" -> PostSubscriptionItemsSubscriptionItemUsageRecordsRequestBodyAction'EnumStringSet
-            | GHC.Base.otherwise -> PostSubscriptionItemsSubscriptionItemUsageRecordsRequestBodyAction'EnumOther val
+      ( if  | val GHC.Classes.== "increment" -> PostSubscriptionItemsSubscriptionItemUsageRecordsRequestBodyAction'EnumIncrement
+            | val GHC.Classes.== "set" -> PostSubscriptionItemsSubscriptionItemUsageRecordsRequestBodyAction'EnumSet
+            | GHC.Base.otherwise -> PostSubscriptionItemsSubscriptionItemUsageRecordsRequestBodyAction'Other val
       )
 
 -- | Represents a response of the operation 'postSubscriptionItemsSubscriptionItemUsageRecords'.

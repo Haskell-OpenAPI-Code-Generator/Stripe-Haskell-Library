@@ -8,6 +8,7 @@ module StripeAPI.Types.SetupIntentPaymentMethodOptionsCard where
 
 import qualified Control.Monad.Fail
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -30,7 +31,7 @@ import StripeAPI.TypeAlias
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
--- | Defines the data type for the schema setup_intent_payment_method_options_card
+-- | Defines the object schema located at @components.schemas.setup_intent_payment_method_options_card@ in the specification.
 data SetupIntentPaymentMethodOptionsCard
   = SetupIntentPaymentMethodOptionsCard
       { -- | request_three_d_secure: We strongly recommend that you rely on our SCA Engine to automatically prompt your customers for authentication based on risk level and [other requirements](https:\/\/stripe.com\/docs\/strong-customer-authentication). However, if you wish to request 3D Secure based on logic from your own fraud engine, provide this option. Permitted values include: \`automatic\` or \`any\`. If not provided, defaults to \`automatic\`. Read our guide on [manually requesting 3D Secure](https:\/\/stripe.com\/docs\/payments\/3d-secure\#manual-three-ds) for more information on how this configuration interacts with Radar and our SCA Engine.
@@ -42,35 +43,44 @@ data SetupIntentPaymentMethodOptionsCard
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON SetupIntentPaymentMethodOptionsCard where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "request_three_d_secure" (setupIntentPaymentMethodOptionsCardRequestThreeDSecure obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "request_three_d_secure" (setupIntentPaymentMethodOptionsCardRequestThreeDSecure obj))
+  toJSON obj = Data.Aeson.Types.Internal.object ("request_three_d_secure" Data.Aeson.Types.ToJSON..= setupIntentPaymentMethodOptionsCardRequestThreeDSecure obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs ("request_three_d_secure" Data.Aeson.Types.ToJSON..= setupIntentPaymentMethodOptionsCardRequestThreeDSecure obj)
 
 instance Data.Aeson.Types.FromJSON.FromJSON SetupIntentPaymentMethodOptionsCard where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "SetupIntentPaymentMethodOptionsCard" (\obj -> GHC.Base.pure SetupIntentPaymentMethodOptionsCard GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "request_three_d_secure"))
 
--- | Defines the enum schema setup_intent_payment_method_options_cardRequest_three_d_secure\'
+-- | Create a new 'SetupIntentPaymentMethodOptionsCard' with all required fields.
+mkSetupIntentPaymentMethodOptionsCard :: SetupIntentPaymentMethodOptionsCard
+mkSetupIntentPaymentMethodOptionsCard = SetupIntentPaymentMethodOptionsCard {setupIntentPaymentMethodOptionsCardRequestThreeDSecure = GHC.Maybe.Nothing}
+
+-- | Defines the enum schema located at @components.schemas.setup_intent_payment_method_options_card.properties.request_three_d_secure@ in the specification.
 --
 -- We strongly recommend that you rely on our SCA Engine to automatically prompt your customers for authentication based on risk level and [other requirements](https:\/\/stripe.com\/docs\/strong-customer-authentication). However, if you wish to request 3D Secure based on logic from your own fraud engine, provide this option. Permitted values include: \`automatic\` or \`any\`. If not provided, defaults to \`automatic\`. Read our guide on [manually requesting 3D Secure](https:\/\/stripe.com\/docs\/payments\/3d-secure\#manual-three-ds) for more information on how this configuration interacts with Radar and our SCA Engine.
 data SetupIntentPaymentMethodOptionsCardRequestThreeDSecure'
-  = SetupIntentPaymentMethodOptionsCardRequestThreeDSecure'EnumOther Data.Aeson.Types.Internal.Value
-  | SetupIntentPaymentMethodOptionsCardRequestThreeDSecure'EnumTyped Data.Text.Internal.Text
-  | SetupIntentPaymentMethodOptionsCardRequestThreeDSecure'EnumStringAny
-  | SetupIntentPaymentMethodOptionsCardRequestThreeDSecure'EnumStringAutomatic
-  | SetupIntentPaymentMethodOptionsCardRequestThreeDSecure'EnumStringChallengeOnly
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    SetupIntentPaymentMethodOptionsCardRequestThreeDSecure'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    SetupIntentPaymentMethodOptionsCardRequestThreeDSecure'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"any"@
+    SetupIntentPaymentMethodOptionsCardRequestThreeDSecure'EnumAny
+  | -- | Represents the JSON value @"automatic"@
+    SetupIntentPaymentMethodOptionsCardRequestThreeDSecure'EnumAutomatic
+  | -- | Represents the JSON value @"challenge_only"@
+    SetupIntentPaymentMethodOptionsCardRequestThreeDSecure'EnumChallengeOnly
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
 instance Data.Aeson.Types.ToJSON.ToJSON SetupIntentPaymentMethodOptionsCardRequestThreeDSecure' where
-  toJSON (SetupIntentPaymentMethodOptionsCardRequestThreeDSecure'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (SetupIntentPaymentMethodOptionsCardRequestThreeDSecure'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (SetupIntentPaymentMethodOptionsCardRequestThreeDSecure'EnumStringAny) = "any"
-  toJSON (SetupIntentPaymentMethodOptionsCardRequestThreeDSecure'EnumStringAutomatic) = "automatic"
-  toJSON (SetupIntentPaymentMethodOptionsCardRequestThreeDSecure'EnumStringChallengeOnly) = "challenge_only"
+  toJSON (SetupIntentPaymentMethodOptionsCardRequestThreeDSecure'Other val) = val
+  toJSON (SetupIntentPaymentMethodOptionsCardRequestThreeDSecure'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (SetupIntentPaymentMethodOptionsCardRequestThreeDSecure'EnumAny) = "any"
+  toJSON (SetupIntentPaymentMethodOptionsCardRequestThreeDSecure'EnumAutomatic) = "automatic"
+  toJSON (SetupIntentPaymentMethodOptionsCardRequestThreeDSecure'EnumChallengeOnly) = "challenge_only"
 
 instance Data.Aeson.Types.FromJSON.FromJSON SetupIntentPaymentMethodOptionsCardRequestThreeDSecure' where
   parseJSON val =
     GHC.Base.pure
-      ( if  | val GHC.Classes.== "any" -> SetupIntentPaymentMethodOptionsCardRequestThreeDSecure'EnumStringAny
-            | val GHC.Classes.== "automatic" -> SetupIntentPaymentMethodOptionsCardRequestThreeDSecure'EnumStringAutomatic
-            | val GHC.Classes.== "challenge_only" -> SetupIntentPaymentMethodOptionsCardRequestThreeDSecure'EnumStringChallengeOnly
-            | GHC.Base.otherwise -> SetupIntentPaymentMethodOptionsCardRequestThreeDSecure'EnumOther val
+      ( if  | val GHC.Classes.== "any" -> SetupIntentPaymentMethodOptionsCardRequestThreeDSecure'EnumAny
+            | val GHC.Classes.== "automatic" -> SetupIntentPaymentMethodOptionsCardRequestThreeDSecure'EnumAutomatic
+            | val GHC.Classes.== "challenge_only" -> SetupIntentPaymentMethodOptionsCardRequestThreeDSecure'EnumChallengeOnly
+            | GHC.Base.otherwise -> SetupIntentPaymentMethodOptionsCardRequestThreeDSecure'Other val
       )

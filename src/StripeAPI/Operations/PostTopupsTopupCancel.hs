@@ -10,6 +10,7 @@ module StripeAPI.Operations.PostTopupsTopupCancel where
 import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -81,7 +82,7 @@ postTopupsTopupCancel
       )
       (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack ("/v1/topups/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel topup)) GHC.Base.++ "/cancel"))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
 
--- | Defines the data type for the schema postTopupsTopupCancelRequestBody
+-- | Defines the object schema located at @paths.\/v1\/topups\/{topup}\/cancel.POST.requestBody.content.application\/x-www-form-urlencoded.schema@ in the specification.
 data PostTopupsTopupCancelRequestBody
   = PostTopupsTopupCancelRequestBody
       { -- | expand: Specifies which fields in the response should be expanded.
@@ -93,11 +94,15 @@ data PostTopupsTopupCancelRequestBody
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostTopupsTopupCancelRequestBody where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "expand" (postTopupsTopupCancelRequestBodyExpand obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "expand" (postTopupsTopupCancelRequestBodyExpand obj))
+  toJSON obj = Data.Aeson.Types.Internal.object ("expand" Data.Aeson.Types.ToJSON..= postTopupsTopupCancelRequestBodyExpand obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs ("expand" Data.Aeson.Types.ToJSON..= postTopupsTopupCancelRequestBodyExpand obj)
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostTopupsTopupCancelRequestBody where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PostTopupsTopupCancelRequestBody" (\obj -> GHC.Base.pure PostTopupsTopupCancelRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "expand"))
+
+-- | Create a new 'PostTopupsTopupCancelRequestBody' with all required fields.
+mkPostTopupsTopupCancelRequestBody :: PostTopupsTopupCancelRequestBody
+mkPostTopupsTopupCancelRequestBody = PostTopupsTopupCancelRequestBody {postTopupsTopupCancelRequestBodyExpand = GHC.Maybe.Nothing}
 
 -- | Represents a response of the operation 'postTopupsTopupCancel'.
 --

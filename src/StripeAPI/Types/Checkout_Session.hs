@@ -8,6 +8,7 @@ module StripeAPI.Types.Checkout_Session where
 
 import qualified Control.Monad.Fail
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -35,7 +36,7 @@ import {-# SOURCE #-} StripeAPI.Types.Subscription
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
--- | Defines the data type for the schema checkout.session
+-- | Defines the object schema located at @components.schemas.checkout.session@ in the specification.
 --
 -- A Checkout Session represents your customer\'s session as they pay for
 -- one-time purchases or subscriptions through [Checkout](https:\/\/stripe.com\/docs\/payments\/checkout).
@@ -106,8 +107,6 @@ data Checkout'session
         checkout'sessionMetadata :: (GHC.Maybe.Maybe Data.Aeson.Types.Internal.Object),
         -- | mode: The mode of the Checkout Session, one of \`payment\`, \`setup\`, or \`subscription\`.
         checkout'sessionMode :: (GHC.Maybe.Maybe Checkout'sessionMode'),
-        -- | object: String representing the object\'s type. Objects of the same type share the same value.
-        checkout'sessionObject :: Checkout'sessionObject',
         -- | payment_intent: The ID of the PaymentIntent for Checkout Sessions in \`payment\` mode.
         checkout'sessionPaymentIntent :: (GHC.Maybe.Maybe Checkout'sessionPaymentIntent'Variants),
         -- | payment_method_types: A list of the types of payment methods (e.g. card) this Checkout
@@ -136,13 +135,47 @@ data Checkout'session
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON Checkout'session where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "billing_address_collection" (checkout'sessionBillingAddressCollection obj) : (Data.Aeson..=) "cancel_url" (checkout'sessionCancelUrl obj) : (Data.Aeson..=) "client_reference_id" (checkout'sessionClientReferenceId obj) : (Data.Aeson..=) "customer" (checkout'sessionCustomer obj) : (Data.Aeson..=) "customer_email" (checkout'sessionCustomerEmail obj) : (Data.Aeson..=) "display_items" (checkout'sessionDisplayItems obj) : (Data.Aeson..=) "id" (checkout'sessionId obj) : (Data.Aeson..=) "livemode" (checkout'sessionLivemode obj) : (Data.Aeson..=) "locale" (checkout'sessionLocale obj) : (Data.Aeson..=) "metadata" (checkout'sessionMetadata obj) : (Data.Aeson..=) "mode" (checkout'sessionMode obj) : (Data.Aeson..=) "object" (checkout'sessionObject obj) : (Data.Aeson..=) "payment_intent" (checkout'sessionPaymentIntent obj) : (Data.Aeson..=) "payment_method_types" (checkout'sessionPaymentMethodTypes obj) : (Data.Aeson..=) "setup_intent" (checkout'sessionSetupIntent obj) : (Data.Aeson..=) "submit_type" (checkout'sessionSubmitType obj) : (Data.Aeson..=) "subscription" (checkout'sessionSubscription obj) : (Data.Aeson..=) "success_url" (checkout'sessionSuccessUrl obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "billing_address_collection" (checkout'sessionBillingAddressCollection obj) GHC.Base.<> ((Data.Aeson..=) "cancel_url" (checkout'sessionCancelUrl obj) GHC.Base.<> ((Data.Aeson..=) "client_reference_id" (checkout'sessionClientReferenceId obj) GHC.Base.<> ((Data.Aeson..=) "customer" (checkout'sessionCustomer obj) GHC.Base.<> ((Data.Aeson..=) "customer_email" (checkout'sessionCustomerEmail obj) GHC.Base.<> ((Data.Aeson..=) "display_items" (checkout'sessionDisplayItems obj) GHC.Base.<> ((Data.Aeson..=) "id" (checkout'sessionId obj) GHC.Base.<> ((Data.Aeson..=) "livemode" (checkout'sessionLivemode obj) GHC.Base.<> ((Data.Aeson..=) "locale" (checkout'sessionLocale obj) GHC.Base.<> ((Data.Aeson..=) "metadata" (checkout'sessionMetadata obj) GHC.Base.<> ((Data.Aeson..=) "mode" (checkout'sessionMode obj) GHC.Base.<> ((Data.Aeson..=) "object" (checkout'sessionObject obj) GHC.Base.<> ((Data.Aeson..=) "payment_intent" (checkout'sessionPaymentIntent obj) GHC.Base.<> ((Data.Aeson..=) "payment_method_types" (checkout'sessionPaymentMethodTypes obj) GHC.Base.<> ((Data.Aeson..=) "setup_intent" (checkout'sessionSetupIntent obj) GHC.Base.<> ((Data.Aeson..=) "submit_type" (checkout'sessionSubmitType obj) GHC.Base.<> ((Data.Aeson..=) "subscription" (checkout'sessionSubscription obj) GHC.Base.<> (Data.Aeson..=) "success_url" (checkout'sessionSuccessUrl obj))))))))))))))))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("billing_address_collection" Data.Aeson.Types.ToJSON..= checkout'sessionBillingAddressCollection obj : "cancel_url" Data.Aeson.Types.ToJSON..= checkout'sessionCancelUrl obj : "client_reference_id" Data.Aeson.Types.ToJSON..= checkout'sessionClientReferenceId obj : "customer" Data.Aeson.Types.ToJSON..= checkout'sessionCustomer obj : "customer_email" Data.Aeson.Types.ToJSON..= checkout'sessionCustomerEmail obj : "display_items" Data.Aeson.Types.ToJSON..= checkout'sessionDisplayItems obj : "id" Data.Aeson.Types.ToJSON..= checkout'sessionId obj : "livemode" Data.Aeson.Types.ToJSON..= checkout'sessionLivemode obj : "locale" Data.Aeson.Types.ToJSON..= checkout'sessionLocale obj : "metadata" Data.Aeson.Types.ToJSON..= checkout'sessionMetadata obj : "mode" Data.Aeson.Types.ToJSON..= checkout'sessionMode obj : "payment_intent" Data.Aeson.Types.ToJSON..= checkout'sessionPaymentIntent obj : "payment_method_types" Data.Aeson.Types.ToJSON..= checkout'sessionPaymentMethodTypes obj : "setup_intent" Data.Aeson.Types.ToJSON..= checkout'sessionSetupIntent obj : "submit_type" Data.Aeson.Types.ToJSON..= checkout'sessionSubmitType obj : "subscription" Data.Aeson.Types.ToJSON..= checkout'sessionSubscription obj : "success_url" Data.Aeson.Types.ToJSON..= checkout'sessionSuccessUrl obj : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "checkout.session" : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("billing_address_collection" Data.Aeson.Types.ToJSON..= checkout'sessionBillingAddressCollection obj) GHC.Base.<> (("cancel_url" Data.Aeson.Types.ToJSON..= checkout'sessionCancelUrl obj) GHC.Base.<> (("client_reference_id" Data.Aeson.Types.ToJSON..= checkout'sessionClientReferenceId obj) GHC.Base.<> (("customer" Data.Aeson.Types.ToJSON..= checkout'sessionCustomer obj) GHC.Base.<> (("customer_email" Data.Aeson.Types.ToJSON..= checkout'sessionCustomerEmail obj) GHC.Base.<> (("display_items" Data.Aeson.Types.ToJSON..= checkout'sessionDisplayItems obj) GHC.Base.<> (("id" Data.Aeson.Types.ToJSON..= checkout'sessionId obj) GHC.Base.<> (("livemode" Data.Aeson.Types.ToJSON..= checkout'sessionLivemode obj) GHC.Base.<> (("locale" Data.Aeson.Types.ToJSON..= checkout'sessionLocale obj) GHC.Base.<> (("metadata" Data.Aeson.Types.ToJSON..= checkout'sessionMetadata obj) GHC.Base.<> (("mode" Data.Aeson.Types.ToJSON..= checkout'sessionMode obj) GHC.Base.<> (("payment_intent" Data.Aeson.Types.ToJSON..= checkout'sessionPaymentIntent obj) GHC.Base.<> (("payment_method_types" Data.Aeson.Types.ToJSON..= checkout'sessionPaymentMethodTypes obj) GHC.Base.<> (("setup_intent" Data.Aeson.Types.ToJSON..= checkout'sessionSetupIntent obj) GHC.Base.<> (("submit_type" Data.Aeson.Types.ToJSON..= checkout'sessionSubmitType obj) GHC.Base.<> (("subscription" Data.Aeson.Types.ToJSON..= checkout'sessionSubscription obj) GHC.Base.<> (("success_url" Data.Aeson.Types.ToJSON..= checkout'sessionSuccessUrl obj) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "checkout.session"))))))))))))))))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON Checkout'session where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "Checkout'session" (\obj -> (((((((((((((((((GHC.Base.pure Checkout'session GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "billing_address_collection")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "cancel_url")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "client_reference_id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "customer")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "customer_email")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "display_items")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "livemode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "locale")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "mode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "object")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "payment_intent")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "payment_method_types")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "setup_intent")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "submit_type")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "subscription")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "success_url"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "Checkout'session" (\obj -> ((((((((((((((((GHC.Base.pure Checkout'session GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "billing_address_collection")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "cancel_url")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "client_reference_id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "customer")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "customer_email")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "display_items")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "livemode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "locale")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "mode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "payment_intent")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "payment_method_types")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "setup_intent")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "submit_type")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "subscription")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "success_url"))
 
--- | Define the one-of schema checkout.sessionCustomer\'
+-- | Create a new 'Checkout'session' with all required fields.
+mkCheckout'session ::
+  -- | 'checkout'sessionCancelUrl'
+  Data.Text.Internal.Text ->
+  -- | 'checkout'sessionId'
+  Data.Text.Internal.Text ->
+  -- | 'checkout'sessionLivemode'
+  GHC.Types.Bool ->
+  -- | 'checkout'sessionPaymentMethodTypes'
+  [Data.Text.Internal.Text] ->
+  -- | 'checkout'sessionSuccessUrl'
+  Data.Text.Internal.Text ->
+  Checkout'session
+mkCheckout'session checkout'sessionCancelUrl checkout'sessionId checkout'sessionLivemode checkout'sessionPaymentMethodTypes checkout'sessionSuccessUrl =
+  Checkout'session
+    { checkout'sessionBillingAddressCollection = GHC.Maybe.Nothing,
+      checkout'sessionCancelUrl = checkout'sessionCancelUrl,
+      checkout'sessionClientReferenceId = GHC.Maybe.Nothing,
+      checkout'sessionCustomer = GHC.Maybe.Nothing,
+      checkout'sessionCustomerEmail = GHC.Maybe.Nothing,
+      checkout'sessionDisplayItems = GHC.Maybe.Nothing,
+      checkout'sessionId = checkout'sessionId,
+      checkout'sessionLivemode = checkout'sessionLivemode,
+      checkout'sessionLocale = GHC.Maybe.Nothing,
+      checkout'sessionMetadata = GHC.Maybe.Nothing,
+      checkout'sessionMode = GHC.Maybe.Nothing,
+      checkout'sessionPaymentIntent = GHC.Maybe.Nothing,
+      checkout'sessionPaymentMethodTypes = checkout'sessionPaymentMethodTypes,
+      checkout'sessionSetupIntent = GHC.Maybe.Nothing,
+      checkout'sessionSubmitType = GHC.Maybe.Nothing,
+      checkout'sessionSubscription = GHC.Maybe.Nothing,
+      checkout'sessionSuccessUrl = checkout'sessionSuccessUrl
+    }
+
+-- | Defines the oneOf schema located at @components.schemas.checkout.session.properties.customer.anyOf@ in the specification.
 --
 -- The ID of the customer for this session.
 -- For Checkout Sessions in \`payment\` or \`subscription\` mode, Checkout
@@ -159,127 +192,127 @@ instance Data.Aeson.Types.ToJSON.ToJSON Checkout'sessionCustomer'Variants where
   toJSON (Checkout'sessionCustomer'Text a) = Data.Aeson.Types.ToJSON.toJSON a
 
 instance Data.Aeson.Types.FromJSON.FromJSON Checkout'sessionCustomer'Variants where
-  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
-    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ Checkout'sessionCustomer'Customer a
-    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ Checkout'sessionCustomer'Text a
-      Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+  parseJSON val = case (Checkout'sessionCustomer'Customer Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((Checkout'sessionCustomer'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched") of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+    Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
--- | Defines the enum schema checkout.sessionLocale\'
+-- | Defines the enum schema located at @components.schemas.checkout.session.properties.locale@ in the specification.
 --
 -- The IETF language tag of the locale Checkout is displayed in. If blank or \`auto\`, the browser\'s locale is used.
 data Checkout'sessionLocale'
-  = Checkout'sessionLocale'EnumOther Data.Aeson.Types.Internal.Value
-  | Checkout'sessionLocale'EnumTyped Data.Text.Internal.Text
-  | Checkout'sessionLocale'EnumStringAuto
-  | Checkout'sessionLocale'EnumStringDa
-  | Checkout'sessionLocale'EnumStringDe
-  | Checkout'sessionLocale'EnumStringEn
-  | Checkout'sessionLocale'EnumStringEs
-  | Checkout'sessionLocale'EnumStringFi
-  | Checkout'sessionLocale'EnumStringFr
-  | Checkout'sessionLocale'EnumStringIt
-  | Checkout'sessionLocale'EnumStringJa
-  | Checkout'sessionLocale'EnumStringMs
-  | Checkout'sessionLocale'EnumStringNb
-  | Checkout'sessionLocale'EnumStringNl
-  | Checkout'sessionLocale'EnumStringPl
-  | Checkout'sessionLocale'EnumStringPt
-  | Checkout'sessionLocale'EnumStringSv
-  | Checkout'sessionLocale'EnumStringZh
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    Checkout'sessionLocale'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    Checkout'sessionLocale'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"auto"@
+    Checkout'sessionLocale'EnumAuto
+  | -- | Represents the JSON value @"da"@
+    Checkout'sessionLocale'EnumDa
+  | -- | Represents the JSON value @"de"@
+    Checkout'sessionLocale'EnumDe
+  | -- | Represents the JSON value @"en"@
+    Checkout'sessionLocale'EnumEn
+  | -- | Represents the JSON value @"es"@
+    Checkout'sessionLocale'EnumEs
+  | -- | Represents the JSON value @"fi"@
+    Checkout'sessionLocale'EnumFi
+  | -- | Represents the JSON value @"fr"@
+    Checkout'sessionLocale'EnumFr
+  | -- | Represents the JSON value @"it"@
+    Checkout'sessionLocale'EnumIt
+  | -- | Represents the JSON value @"ja"@
+    Checkout'sessionLocale'EnumJa
+  | -- | Represents the JSON value @"ms"@
+    Checkout'sessionLocale'EnumMs
+  | -- | Represents the JSON value @"nb"@
+    Checkout'sessionLocale'EnumNb
+  | -- | Represents the JSON value @"nl"@
+    Checkout'sessionLocale'EnumNl
+  | -- | Represents the JSON value @"pl"@
+    Checkout'sessionLocale'EnumPl
+  | -- | Represents the JSON value @"pt"@
+    Checkout'sessionLocale'EnumPt
+  | -- | Represents the JSON value @"sv"@
+    Checkout'sessionLocale'EnumSv
+  | -- | Represents the JSON value @"zh"@
+    Checkout'sessionLocale'EnumZh
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
 instance Data.Aeson.Types.ToJSON.ToJSON Checkout'sessionLocale' where
-  toJSON (Checkout'sessionLocale'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (Checkout'sessionLocale'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (Checkout'sessionLocale'EnumStringAuto) = "auto"
-  toJSON (Checkout'sessionLocale'EnumStringDa) = "da"
-  toJSON (Checkout'sessionLocale'EnumStringDe) = "de"
-  toJSON (Checkout'sessionLocale'EnumStringEn) = "en"
-  toJSON (Checkout'sessionLocale'EnumStringEs) = "es"
-  toJSON (Checkout'sessionLocale'EnumStringFi) = "fi"
-  toJSON (Checkout'sessionLocale'EnumStringFr) = "fr"
-  toJSON (Checkout'sessionLocale'EnumStringIt) = "it"
-  toJSON (Checkout'sessionLocale'EnumStringJa) = "ja"
-  toJSON (Checkout'sessionLocale'EnumStringMs) = "ms"
-  toJSON (Checkout'sessionLocale'EnumStringNb) = "nb"
-  toJSON (Checkout'sessionLocale'EnumStringNl) = "nl"
-  toJSON (Checkout'sessionLocale'EnumStringPl) = "pl"
-  toJSON (Checkout'sessionLocale'EnumStringPt) = "pt"
-  toJSON (Checkout'sessionLocale'EnumStringSv) = "sv"
-  toJSON (Checkout'sessionLocale'EnumStringZh) = "zh"
+  toJSON (Checkout'sessionLocale'Other val) = val
+  toJSON (Checkout'sessionLocale'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (Checkout'sessionLocale'EnumAuto) = "auto"
+  toJSON (Checkout'sessionLocale'EnumDa) = "da"
+  toJSON (Checkout'sessionLocale'EnumDe) = "de"
+  toJSON (Checkout'sessionLocale'EnumEn) = "en"
+  toJSON (Checkout'sessionLocale'EnumEs) = "es"
+  toJSON (Checkout'sessionLocale'EnumFi) = "fi"
+  toJSON (Checkout'sessionLocale'EnumFr) = "fr"
+  toJSON (Checkout'sessionLocale'EnumIt) = "it"
+  toJSON (Checkout'sessionLocale'EnumJa) = "ja"
+  toJSON (Checkout'sessionLocale'EnumMs) = "ms"
+  toJSON (Checkout'sessionLocale'EnumNb) = "nb"
+  toJSON (Checkout'sessionLocale'EnumNl) = "nl"
+  toJSON (Checkout'sessionLocale'EnumPl) = "pl"
+  toJSON (Checkout'sessionLocale'EnumPt) = "pt"
+  toJSON (Checkout'sessionLocale'EnumSv) = "sv"
+  toJSON (Checkout'sessionLocale'EnumZh) = "zh"
 
 instance Data.Aeson.Types.FromJSON.FromJSON Checkout'sessionLocale' where
   parseJSON val =
     GHC.Base.pure
-      ( if  | val GHC.Classes.== "auto" -> Checkout'sessionLocale'EnumStringAuto
-            | val GHC.Classes.== "da" -> Checkout'sessionLocale'EnumStringDa
-            | val GHC.Classes.== "de" -> Checkout'sessionLocale'EnumStringDe
-            | val GHC.Classes.== "en" -> Checkout'sessionLocale'EnumStringEn
-            | val GHC.Classes.== "es" -> Checkout'sessionLocale'EnumStringEs
-            | val GHC.Classes.== "fi" -> Checkout'sessionLocale'EnumStringFi
-            | val GHC.Classes.== "fr" -> Checkout'sessionLocale'EnumStringFr
-            | val GHC.Classes.== "it" -> Checkout'sessionLocale'EnumStringIt
-            | val GHC.Classes.== "ja" -> Checkout'sessionLocale'EnumStringJa
-            | val GHC.Classes.== "ms" -> Checkout'sessionLocale'EnumStringMs
-            | val GHC.Classes.== "nb" -> Checkout'sessionLocale'EnumStringNb
-            | val GHC.Classes.== "nl" -> Checkout'sessionLocale'EnumStringNl
-            | val GHC.Classes.== "pl" -> Checkout'sessionLocale'EnumStringPl
-            | val GHC.Classes.== "pt" -> Checkout'sessionLocale'EnumStringPt
-            | val GHC.Classes.== "sv" -> Checkout'sessionLocale'EnumStringSv
-            | val GHC.Classes.== "zh" -> Checkout'sessionLocale'EnumStringZh
-            | GHC.Base.otherwise -> Checkout'sessionLocale'EnumOther val
+      ( if  | val GHC.Classes.== "auto" -> Checkout'sessionLocale'EnumAuto
+            | val GHC.Classes.== "da" -> Checkout'sessionLocale'EnumDa
+            | val GHC.Classes.== "de" -> Checkout'sessionLocale'EnumDe
+            | val GHC.Classes.== "en" -> Checkout'sessionLocale'EnumEn
+            | val GHC.Classes.== "es" -> Checkout'sessionLocale'EnumEs
+            | val GHC.Classes.== "fi" -> Checkout'sessionLocale'EnumFi
+            | val GHC.Classes.== "fr" -> Checkout'sessionLocale'EnumFr
+            | val GHC.Classes.== "it" -> Checkout'sessionLocale'EnumIt
+            | val GHC.Classes.== "ja" -> Checkout'sessionLocale'EnumJa
+            | val GHC.Classes.== "ms" -> Checkout'sessionLocale'EnumMs
+            | val GHC.Classes.== "nb" -> Checkout'sessionLocale'EnumNb
+            | val GHC.Classes.== "nl" -> Checkout'sessionLocale'EnumNl
+            | val GHC.Classes.== "pl" -> Checkout'sessionLocale'EnumPl
+            | val GHC.Classes.== "pt" -> Checkout'sessionLocale'EnumPt
+            | val GHC.Classes.== "sv" -> Checkout'sessionLocale'EnumSv
+            | val GHC.Classes.== "zh" -> Checkout'sessionLocale'EnumZh
+            | GHC.Base.otherwise -> Checkout'sessionLocale'Other val
       )
 
--- | Defines the enum schema checkout.sessionMode\'
+-- | Defines the enum schema located at @components.schemas.checkout.session.properties.mode@ in the specification.
 --
 -- The mode of the Checkout Session, one of \`payment\`, \`setup\`, or \`subscription\`.
 data Checkout'sessionMode'
-  = Checkout'sessionMode'EnumOther Data.Aeson.Types.Internal.Value
-  | Checkout'sessionMode'EnumTyped Data.Text.Internal.Text
-  | Checkout'sessionMode'EnumStringPayment
-  | Checkout'sessionMode'EnumStringSetup
-  | Checkout'sessionMode'EnumStringSubscription
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    Checkout'sessionMode'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    Checkout'sessionMode'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"payment"@
+    Checkout'sessionMode'EnumPayment
+  | -- | Represents the JSON value @"setup"@
+    Checkout'sessionMode'EnumSetup
+  | -- | Represents the JSON value @"subscription"@
+    Checkout'sessionMode'EnumSubscription
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
 instance Data.Aeson.Types.ToJSON.ToJSON Checkout'sessionMode' where
-  toJSON (Checkout'sessionMode'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (Checkout'sessionMode'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (Checkout'sessionMode'EnumStringPayment) = "payment"
-  toJSON (Checkout'sessionMode'EnumStringSetup) = "setup"
-  toJSON (Checkout'sessionMode'EnumStringSubscription) = "subscription"
+  toJSON (Checkout'sessionMode'Other val) = val
+  toJSON (Checkout'sessionMode'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (Checkout'sessionMode'EnumPayment) = "payment"
+  toJSON (Checkout'sessionMode'EnumSetup) = "setup"
+  toJSON (Checkout'sessionMode'EnumSubscription) = "subscription"
 
 instance Data.Aeson.Types.FromJSON.FromJSON Checkout'sessionMode' where
   parseJSON val =
     GHC.Base.pure
-      ( if  | val GHC.Classes.== "payment" -> Checkout'sessionMode'EnumStringPayment
-            | val GHC.Classes.== "setup" -> Checkout'sessionMode'EnumStringSetup
-            | val GHC.Classes.== "subscription" -> Checkout'sessionMode'EnumStringSubscription
-            | GHC.Base.otherwise -> Checkout'sessionMode'EnumOther val
+      ( if  | val GHC.Classes.== "payment" -> Checkout'sessionMode'EnumPayment
+            | val GHC.Classes.== "setup" -> Checkout'sessionMode'EnumSetup
+            | val GHC.Classes.== "subscription" -> Checkout'sessionMode'EnumSubscription
+            | GHC.Base.otherwise -> Checkout'sessionMode'Other val
       )
 
--- | Defines the enum schema checkout.sessionObject\'
---
--- String representing the object\'s type. Objects of the same type share the same value.
-data Checkout'sessionObject'
-  = Checkout'sessionObject'EnumOther Data.Aeson.Types.Internal.Value
-  | Checkout'sessionObject'EnumTyped Data.Text.Internal.Text
-  | Checkout'sessionObject'EnumStringCheckout'session
-  deriving (GHC.Show.Show, GHC.Classes.Eq)
-
-instance Data.Aeson.Types.ToJSON.ToJSON Checkout'sessionObject' where
-  toJSON (Checkout'sessionObject'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (Checkout'sessionObject'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (Checkout'sessionObject'EnumStringCheckout'session) = "checkout.session"
-
-instance Data.Aeson.Types.FromJSON.FromJSON Checkout'sessionObject' where
-  parseJSON val =
-    GHC.Base.pure
-      ( if  | val GHC.Classes.== "checkout.session" -> Checkout'sessionObject'EnumStringCheckout'session
-            | GHC.Base.otherwise -> Checkout'sessionObject'EnumOther val
-      )
-
--- | Define the one-of schema checkout.sessionPayment_intent\'
+-- | Defines the oneOf schema located at @components.schemas.checkout.session.properties.payment_intent.anyOf@ in the specification.
 --
 -- The ID of the PaymentIntent for Checkout Sessions in \`payment\` mode.
 data Checkout'sessionPaymentIntent'Variants
@@ -292,13 +325,11 @@ instance Data.Aeson.Types.ToJSON.ToJSON Checkout'sessionPaymentIntent'Variants w
   toJSON (Checkout'sessionPaymentIntent'Text a) = Data.Aeson.Types.ToJSON.toJSON a
 
 instance Data.Aeson.Types.FromJSON.FromJSON Checkout'sessionPaymentIntent'Variants where
-  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
-    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ Checkout'sessionPaymentIntent'PaymentIntent a
-    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ Checkout'sessionPaymentIntent'Text a
-      Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+  parseJSON val = case (Checkout'sessionPaymentIntent'PaymentIntent Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((Checkout'sessionPaymentIntent'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched") of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+    Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
--- | Define the one-of schema checkout.sessionSetup_intent\'
+-- | Defines the oneOf schema located at @components.schemas.checkout.session.properties.setup_intent.anyOf@ in the specification.
 --
 -- The ID of the SetupIntent for Checkout Sessions in \`setup\` mode.
 data Checkout'sessionSetupIntent'Variants
@@ -311,46 +342,50 @@ instance Data.Aeson.Types.ToJSON.ToJSON Checkout'sessionSetupIntent'Variants whe
   toJSON (Checkout'sessionSetupIntent'Text a) = Data.Aeson.Types.ToJSON.toJSON a
 
 instance Data.Aeson.Types.FromJSON.FromJSON Checkout'sessionSetupIntent'Variants where
-  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
-    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ Checkout'sessionSetupIntent'SetupIntent a
-    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ Checkout'sessionSetupIntent'Text a
-      Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+  parseJSON val = case (Checkout'sessionSetupIntent'SetupIntent Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((Checkout'sessionSetupIntent'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched") of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+    Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
--- | Defines the enum schema checkout.sessionSubmit_type\'
+-- | Defines the enum schema located at @components.schemas.checkout.session.properties.submit_type@ in the specification.
 --
 -- Describes the type of transaction being performed by Checkout in order to customize
 -- relevant text on the page, such as the submit button. \`submit_type\` can only be
 -- specified on Checkout Sessions in \`payment\` mode, but not Checkout Sessions
 -- in \`subscription\` or \`setup\` mode.
 data Checkout'sessionSubmitType'
-  = Checkout'sessionSubmitType'EnumOther Data.Aeson.Types.Internal.Value
-  | Checkout'sessionSubmitType'EnumTyped Data.Text.Internal.Text
-  | Checkout'sessionSubmitType'EnumStringAuto
-  | Checkout'sessionSubmitType'EnumStringBook
-  | Checkout'sessionSubmitType'EnumStringDonate
-  | Checkout'sessionSubmitType'EnumStringPay
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    Checkout'sessionSubmitType'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    Checkout'sessionSubmitType'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"auto"@
+    Checkout'sessionSubmitType'EnumAuto
+  | -- | Represents the JSON value @"book"@
+    Checkout'sessionSubmitType'EnumBook
+  | -- | Represents the JSON value @"donate"@
+    Checkout'sessionSubmitType'EnumDonate
+  | -- | Represents the JSON value @"pay"@
+    Checkout'sessionSubmitType'EnumPay
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
 instance Data.Aeson.Types.ToJSON.ToJSON Checkout'sessionSubmitType' where
-  toJSON (Checkout'sessionSubmitType'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (Checkout'sessionSubmitType'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (Checkout'sessionSubmitType'EnumStringAuto) = "auto"
-  toJSON (Checkout'sessionSubmitType'EnumStringBook) = "book"
-  toJSON (Checkout'sessionSubmitType'EnumStringDonate) = "donate"
-  toJSON (Checkout'sessionSubmitType'EnumStringPay) = "pay"
+  toJSON (Checkout'sessionSubmitType'Other val) = val
+  toJSON (Checkout'sessionSubmitType'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (Checkout'sessionSubmitType'EnumAuto) = "auto"
+  toJSON (Checkout'sessionSubmitType'EnumBook) = "book"
+  toJSON (Checkout'sessionSubmitType'EnumDonate) = "donate"
+  toJSON (Checkout'sessionSubmitType'EnumPay) = "pay"
 
 instance Data.Aeson.Types.FromJSON.FromJSON Checkout'sessionSubmitType' where
   parseJSON val =
     GHC.Base.pure
-      ( if  | val GHC.Classes.== "auto" -> Checkout'sessionSubmitType'EnumStringAuto
-            | val GHC.Classes.== "book" -> Checkout'sessionSubmitType'EnumStringBook
-            | val GHC.Classes.== "donate" -> Checkout'sessionSubmitType'EnumStringDonate
-            | val GHC.Classes.== "pay" -> Checkout'sessionSubmitType'EnumStringPay
-            | GHC.Base.otherwise -> Checkout'sessionSubmitType'EnumOther val
+      ( if  | val GHC.Classes.== "auto" -> Checkout'sessionSubmitType'EnumAuto
+            | val GHC.Classes.== "book" -> Checkout'sessionSubmitType'EnumBook
+            | val GHC.Classes.== "donate" -> Checkout'sessionSubmitType'EnumDonate
+            | val GHC.Classes.== "pay" -> Checkout'sessionSubmitType'EnumPay
+            | GHC.Base.otherwise -> Checkout'sessionSubmitType'Other val
       )
 
--- | Define the one-of schema checkout.sessionSubscription\'
+-- | Defines the oneOf schema located at @components.schemas.checkout.session.properties.subscription.anyOf@ in the specification.
 --
 -- The ID of the subscription for Checkout Sessions in \`subscription\` mode.
 data Checkout'sessionSubscription'Variants
@@ -363,8 +398,6 @@ instance Data.Aeson.Types.ToJSON.ToJSON Checkout'sessionSubscription'Variants wh
   toJSON (Checkout'sessionSubscription'Text a) = Data.Aeson.Types.ToJSON.toJSON a
 
 instance Data.Aeson.Types.FromJSON.FromJSON Checkout'sessionSubscription'Variants where
-  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
-    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ Checkout'sessionSubscription'Subscription a
-    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ Checkout'sessionSubscription'Text a
-      Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+  parseJSON val = case (Checkout'sessionSubscription'Subscription Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((Checkout'sessionSubscription'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched") of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+    Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a

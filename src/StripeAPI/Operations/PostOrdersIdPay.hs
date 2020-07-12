@@ -10,6 +10,7 @@ module StripeAPI.Operations.PostOrdersIdPay where
 import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -81,7 +82,7 @@ postOrdersIdPay
       )
       (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack ("/v1/orders/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel id)) GHC.Base.++ "/pay"))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
 
--- | Defines the data type for the schema postOrdersIdPayRequestBody
+-- | Defines the object schema located at @paths.\/v1\/orders\/{id}\/pay.POST.requestBody.content.application\/x-www-form-urlencoded.schema@ in the specification.
 data PostOrdersIdPayRequestBody
   = PostOrdersIdPayRequestBody
       { -- | application_fee: A fee in %s that will be applied to the order and transferred to the application owner\'s Stripe account. The request must be made with an OAuth key or the \`Stripe-Account\` header in order to take an application fee. For more information, see the application fees [documentation](https:\/\/stripe.com\/docs\/connect\/direct-charges\#collecting-fees).
@@ -115,11 +116,23 @@ data PostOrdersIdPayRequestBody
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostOrdersIdPayRequestBody where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "application_fee" (postOrdersIdPayRequestBodyApplicationFee obj) : (Data.Aeson..=) "customer" (postOrdersIdPayRequestBodyCustomer obj) : (Data.Aeson..=) "email" (postOrdersIdPayRequestBodyEmail obj) : (Data.Aeson..=) "expand" (postOrdersIdPayRequestBodyExpand obj) : (Data.Aeson..=) "metadata" (postOrdersIdPayRequestBodyMetadata obj) : (Data.Aeson..=) "source" (postOrdersIdPayRequestBodySource obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "application_fee" (postOrdersIdPayRequestBodyApplicationFee obj) GHC.Base.<> ((Data.Aeson..=) "customer" (postOrdersIdPayRequestBodyCustomer obj) GHC.Base.<> ((Data.Aeson..=) "email" (postOrdersIdPayRequestBodyEmail obj) GHC.Base.<> ((Data.Aeson..=) "expand" (postOrdersIdPayRequestBodyExpand obj) GHC.Base.<> ((Data.Aeson..=) "metadata" (postOrdersIdPayRequestBodyMetadata obj) GHC.Base.<> (Data.Aeson..=) "source" (postOrdersIdPayRequestBodySource obj))))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("application_fee" Data.Aeson.Types.ToJSON..= postOrdersIdPayRequestBodyApplicationFee obj : "customer" Data.Aeson.Types.ToJSON..= postOrdersIdPayRequestBodyCustomer obj : "email" Data.Aeson.Types.ToJSON..= postOrdersIdPayRequestBodyEmail obj : "expand" Data.Aeson.Types.ToJSON..= postOrdersIdPayRequestBodyExpand obj : "metadata" Data.Aeson.Types.ToJSON..= postOrdersIdPayRequestBodyMetadata obj : "source" Data.Aeson.Types.ToJSON..= postOrdersIdPayRequestBodySource obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("application_fee" Data.Aeson.Types.ToJSON..= postOrdersIdPayRequestBodyApplicationFee obj) GHC.Base.<> (("customer" Data.Aeson.Types.ToJSON..= postOrdersIdPayRequestBodyCustomer obj) GHC.Base.<> (("email" Data.Aeson.Types.ToJSON..= postOrdersIdPayRequestBodyEmail obj) GHC.Base.<> (("expand" Data.Aeson.Types.ToJSON..= postOrdersIdPayRequestBodyExpand obj) GHC.Base.<> (("metadata" Data.Aeson.Types.ToJSON..= postOrdersIdPayRequestBodyMetadata obj) GHC.Base.<> ("source" Data.Aeson.Types.ToJSON..= postOrdersIdPayRequestBodySource obj))))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostOrdersIdPayRequestBody where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PostOrdersIdPayRequestBody" (\obj -> (((((GHC.Base.pure PostOrdersIdPayRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "application_fee")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "customer")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "email")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "source"))
+
+-- | Create a new 'PostOrdersIdPayRequestBody' with all required fields.
+mkPostOrdersIdPayRequestBody :: PostOrdersIdPayRequestBody
+mkPostOrdersIdPayRequestBody =
+  PostOrdersIdPayRequestBody
+    { postOrdersIdPayRequestBodyApplicationFee = GHC.Maybe.Nothing,
+      postOrdersIdPayRequestBodyCustomer = GHC.Maybe.Nothing,
+      postOrdersIdPayRequestBodyEmail = GHC.Maybe.Nothing,
+      postOrdersIdPayRequestBodyExpand = GHC.Maybe.Nothing,
+      postOrdersIdPayRequestBodyMetadata = GHC.Maybe.Nothing,
+      postOrdersIdPayRequestBodySource = GHC.Maybe.Nothing
+    }
 
 -- | Represents a response of the operation 'postOrdersIdPay'.
 --

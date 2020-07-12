@@ -10,6 +10,7 @@ module StripeAPI.Operations.GetIssuingTransactionsTransaction where
 import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -77,7 +78,7 @@ getIssuingTransactionsTransaction parameters =
     )
     (StripeAPI.Common.doCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET") (Data.Text.pack ("/v1/issuing/transactions/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel (getIssuingTransactionsTransactionParametersPathTransaction parameters))) GHC.Base.++ ""))) [StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getIssuingTransactionsTransactionParametersQueryExpand parameters) (Data.Text.pack "deepObject") GHC.Types.True])
 
--- | Defines the data type for the schema getIssuingTransactionsTransactionParameters
+-- | Defines the object schema located at @paths.\/v1\/issuing\/transactions\/{transaction}.GET.parameters@ in the specification.
 data GetIssuingTransactionsTransactionParameters
   = GetIssuingTransactionsTransactionParameters
       { -- | pathTransaction: Represents the parameter named \'transaction\'
@@ -97,11 +98,22 @@ data GetIssuingTransactionsTransactionParameters
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetIssuingTransactionsTransactionParameters where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "pathTransaction" (getIssuingTransactionsTransactionParametersPathTransaction obj) : (Data.Aeson..=) "queryExpand" (getIssuingTransactionsTransactionParametersQueryExpand obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "pathTransaction" (getIssuingTransactionsTransactionParametersPathTransaction obj) GHC.Base.<> (Data.Aeson..=) "queryExpand" (getIssuingTransactionsTransactionParametersQueryExpand obj))
+  toJSON obj = Data.Aeson.Types.Internal.object ("pathTransaction" Data.Aeson.Types.ToJSON..= getIssuingTransactionsTransactionParametersPathTransaction obj : "queryExpand" Data.Aeson.Types.ToJSON..= getIssuingTransactionsTransactionParametersQueryExpand obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("pathTransaction" Data.Aeson.Types.ToJSON..= getIssuingTransactionsTransactionParametersPathTransaction obj) GHC.Base.<> ("queryExpand" Data.Aeson.Types.ToJSON..= getIssuingTransactionsTransactionParametersQueryExpand obj))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetIssuingTransactionsTransactionParameters where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "GetIssuingTransactionsTransactionParameters" (\obj -> (GHC.Base.pure GetIssuingTransactionsTransactionParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathTransaction")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryExpand"))
+
+-- | Create a new 'GetIssuingTransactionsTransactionParameters' with all required fields.
+mkGetIssuingTransactionsTransactionParameters ::
+  -- | 'getIssuingTransactionsTransactionParametersPathTransaction'
+  Data.Text.Internal.Text ->
+  GetIssuingTransactionsTransactionParameters
+mkGetIssuingTransactionsTransactionParameters getIssuingTransactionsTransactionParametersPathTransaction =
+  GetIssuingTransactionsTransactionParameters
+    { getIssuingTransactionsTransactionParametersPathTransaction = getIssuingTransactionsTransactionParametersPathTransaction,
+      getIssuingTransactionsTransactionParametersQueryExpand = GHC.Maybe.Nothing
+    }
 
 -- | Represents a response of the operation 'getIssuingTransactionsTransaction'.
 --

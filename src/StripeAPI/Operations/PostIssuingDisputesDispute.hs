@@ -10,6 +10,7 @@ module StripeAPI.Operations.PostIssuingDisputesDispute where
 import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -81,7 +82,7 @@ postIssuingDisputesDispute
       )
       (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack ("/v1/issuing/disputes/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel dispute)) GHC.Base.++ ""))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
 
--- | Defines the data type for the schema postIssuingDisputesDisputeRequestBody
+-- | Defines the object schema located at @paths.\/v1\/issuing\/disputes\/{dispute}.POST.requestBody.content.application\/x-www-form-urlencoded.schema@ in the specification.
 data PostIssuingDisputesDisputeRequestBody
   = PostIssuingDisputesDisputeRequestBody
       { -- | expand: Specifies which fields in the response should be expanded.
@@ -95,11 +96,19 @@ data PostIssuingDisputesDisputeRequestBody
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostIssuingDisputesDisputeRequestBody where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "expand" (postIssuingDisputesDisputeRequestBodyExpand obj) : (Data.Aeson..=) "metadata" (postIssuingDisputesDisputeRequestBodyMetadata obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "expand" (postIssuingDisputesDisputeRequestBodyExpand obj) GHC.Base.<> (Data.Aeson..=) "metadata" (postIssuingDisputesDisputeRequestBodyMetadata obj))
+  toJSON obj = Data.Aeson.Types.Internal.object ("expand" Data.Aeson.Types.ToJSON..= postIssuingDisputesDisputeRequestBodyExpand obj : "metadata" Data.Aeson.Types.ToJSON..= postIssuingDisputesDisputeRequestBodyMetadata obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("expand" Data.Aeson.Types.ToJSON..= postIssuingDisputesDisputeRequestBodyExpand obj) GHC.Base.<> ("metadata" Data.Aeson.Types.ToJSON..= postIssuingDisputesDisputeRequestBodyMetadata obj))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostIssuingDisputesDisputeRequestBody where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PostIssuingDisputesDisputeRequestBody" (\obj -> (GHC.Base.pure PostIssuingDisputesDisputeRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "metadata"))
+
+-- | Create a new 'PostIssuingDisputesDisputeRequestBody' with all required fields.
+mkPostIssuingDisputesDisputeRequestBody :: PostIssuingDisputesDisputeRequestBody
+mkPostIssuingDisputesDisputeRequestBody =
+  PostIssuingDisputesDisputeRequestBody
+    { postIssuingDisputesDisputeRequestBodyExpand = GHC.Maybe.Nothing,
+      postIssuingDisputesDisputeRequestBodyMetadata = GHC.Maybe.Nothing
+    }
 
 -- | Represents a response of the operation 'postIssuingDisputesDispute'.
 --

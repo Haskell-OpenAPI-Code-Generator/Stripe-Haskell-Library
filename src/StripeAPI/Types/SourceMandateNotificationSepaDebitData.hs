@@ -8,6 +8,7 @@ module StripeAPI.Types.SourceMandateNotificationSepaDebitData where
 
 import qualified Control.Monad.Fail
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -30,7 +31,7 @@ import StripeAPI.TypeAlias
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
--- | Defines the data type for the schema source_mandate_notification_sepa_debit_data
+-- | Defines the object schema located at @components.schemas.source_mandate_notification_sepa_debit_data@ in the specification.
 data SourceMandateNotificationSepaDebitData
   = SourceMandateNotificationSepaDebitData
       { -- | creditor_identifier: SEPA creditor ID.
@@ -58,8 +59,17 @@ data SourceMandateNotificationSepaDebitData
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON SourceMandateNotificationSepaDebitData where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "creditor_identifier" (sourceMandateNotificationSepaDebitDataCreditorIdentifier obj) : (Data.Aeson..=) "last4" (sourceMandateNotificationSepaDebitDataLast4 obj) : (Data.Aeson..=) "mandate_reference" (sourceMandateNotificationSepaDebitDataMandateReference obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "creditor_identifier" (sourceMandateNotificationSepaDebitDataCreditorIdentifier obj) GHC.Base.<> ((Data.Aeson..=) "last4" (sourceMandateNotificationSepaDebitDataLast4 obj) GHC.Base.<> (Data.Aeson..=) "mandate_reference" (sourceMandateNotificationSepaDebitDataMandateReference obj)))
+  toJSON obj = Data.Aeson.Types.Internal.object ("creditor_identifier" Data.Aeson.Types.ToJSON..= sourceMandateNotificationSepaDebitDataCreditorIdentifier obj : "last4" Data.Aeson.Types.ToJSON..= sourceMandateNotificationSepaDebitDataLast4 obj : "mandate_reference" Data.Aeson.Types.ToJSON..= sourceMandateNotificationSepaDebitDataMandateReference obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("creditor_identifier" Data.Aeson.Types.ToJSON..= sourceMandateNotificationSepaDebitDataCreditorIdentifier obj) GHC.Base.<> (("last4" Data.Aeson.Types.ToJSON..= sourceMandateNotificationSepaDebitDataLast4 obj) GHC.Base.<> ("mandate_reference" Data.Aeson.Types.ToJSON..= sourceMandateNotificationSepaDebitDataMandateReference obj)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON SourceMandateNotificationSepaDebitData where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "SourceMandateNotificationSepaDebitData" (\obj -> ((GHC.Base.pure SourceMandateNotificationSepaDebitData GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "creditor_identifier")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "last4")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "mandate_reference"))
+
+-- | Create a new 'SourceMandateNotificationSepaDebitData' with all required fields.
+mkSourceMandateNotificationSepaDebitData :: SourceMandateNotificationSepaDebitData
+mkSourceMandateNotificationSepaDebitData =
+  SourceMandateNotificationSepaDebitData
+    { sourceMandateNotificationSepaDebitDataCreditorIdentifier = GHC.Maybe.Nothing,
+      sourceMandateNotificationSepaDebitDataLast4 = GHC.Maybe.Nothing,
+      sourceMandateNotificationSepaDebitDataMandateReference = GHC.Maybe.Nothing
+    }

@@ -10,6 +10,7 @@ module StripeAPI.Operations.GetFilesFile where
 import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -77,7 +78,7 @@ getFilesFile parameters =
     )
     (StripeAPI.Common.doCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET") (Data.Text.pack ("/v1/files/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel (getFilesFileParametersPathFile parameters))) GHC.Base.++ ""))) [StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getFilesFileParametersQueryExpand parameters) (Data.Text.pack "deepObject") GHC.Types.True])
 
--- | Defines the data type for the schema getFilesFileParameters
+-- | Defines the object schema located at @paths.\/v1\/files\/{file}.GET.parameters@ in the specification.
 data GetFilesFileParameters
   = GetFilesFileParameters
       { -- | pathFile: Represents the parameter named \'file\'
@@ -97,11 +98,22 @@ data GetFilesFileParameters
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetFilesFileParameters where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "pathFile" (getFilesFileParametersPathFile obj) : (Data.Aeson..=) "queryExpand" (getFilesFileParametersQueryExpand obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "pathFile" (getFilesFileParametersPathFile obj) GHC.Base.<> (Data.Aeson..=) "queryExpand" (getFilesFileParametersQueryExpand obj))
+  toJSON obj = Data.Aeson.Types.Internal.object ("pathFile" Data.Aeson.Types.ToJSON..= getFilesFileParametersPathFile obj : "queryExpand" Data.Aeson.Types.ToJSON..= getFilesFileParametersQueryExpand obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("pathFile" Data.Aeson.Types.ToJSON..= getFilesFileParametersPathFile obj) GHC.Base.<> ("queryExpand" Data.Aeson.Types.ToJSON..= getFilesFileParametersQueryExpand obj))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetFilesFileParameters where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "GetFilesFileParameters" (\obj -> (GHC.Base.pure GetFilesFileParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathFile")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryExpand"))
+
+-- | Create a new 'GetFilesFileParameters' with all required fields.
+mkGetFilesFileParameters ::
+  -- | 'getFilesFileParametersPathFile'
+  Data.Text.Internal.Text ->
+  GetFilesFileParameters
+mkGetFilesFileParameters getFilesFileParametersPathFile =
+  GetFilesFileParameters
+    { getFilesFileParametersPathFile = getFilesFileParametersPathFile,
+      getFilesFileParametersQueryExpand = GHC.Maybe.Nothing
+    }
 
 -- | Represents a response of the operation 'getFilesFile'.
 --

@@ -10,6 +10,7 @@ module StripeAPI.Operations.GetCustomersCustomerSubscriptionsSubscriptionExposed
 import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -77,7 +78,7 @@ getCustomersCustomerSubscriptionsSubscriptionExposedId parameters =
     )
     (StripeAPI.Common.doCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET") (Data.Text.pack ("/v1/customers/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel (getCustomersCustomerSubscriptionsSubscriptionExposedIdParametersPathCustomer parameters))) GHC.Base.++ ("/subscriptions/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel (getCustomersCustomerSubscriptionsSubscriptionExposedIdParametersPathSubscriptionExposedId parameters))) GHC.Base.++ ""))))) [StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getCustomersCustomerSubscriptionsSubscriptionExposedIdParametersQueryExpand parameters) (Data.Text.pack "deepObject") GHC.Types.True])
 
--- | Defines the data type for the schema getCustomersCustomerSubscriptionsSubscriptionExposedIdParameters
+-- | Defines the object schema located at @paths.\/v1\/customers\/{customer}\/subscriptions\/{subscription_exposed_id}.GET.parameters@ in the specification.
 data GetCustomersCustomerSubscriptionsSubscriptionExposedIdParameters
   = GetCustomersCustomerSubscriptionsSubscriptionExposedIdParameters
       { -- | pathCustomer: Represents the parameter named \'customer\'
@@ -103,11 +104,25 @@ data GetCustomersCustomerSubscriptionsSubscriptionExposedIdParameters
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetCustomersCustomerSubscriptionsSubscriptionExposedIdParameters where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "pathCustomer" (getCustomersCustomerSubscriptionsSubscriptionExposedIdParametersPathCustomer obj) : (Data.Aeson..=) "pathSubscription_exposed_id" (getCustomersCustomerSubscriptionsSubscriptionExposedIdParametersPathSubscriptionExposedId obj) : (Data.Aeson..=) "queryExpand" (getCustomersCustomerSubscriptionsSubscriptionExposedIdParametersQueryExpand obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "pathCustomer" (getCustomersCustomerSubscriptionsSubscriptionExposedIdParametersPathCustomer obj) GHC.Base.<> ((Data.Aeson..=) "pathSubscription_exposed_id" (getCustomersCustomerSubscriptionsSubscriptionExposedIdParametersPathSubscriptionExposedId obj) GHC.Base.<> (Data.Aeson..=) "queryExpand" (getCustomersCustomerSubscriptionsSubscriptionExposedIdParametersQueryExpand obj)))
+  toJSON obj = Data.Aeson.Types.Internal.object ("pathCustomer" Data.Aeson.Types.ToJSON..= getCustomersCustomerSubscriptionsSubscriptionExposedIdParametersPathCustomer obj : "pathSubscription_exposed_id" Data.Aeson.Types.ToJSON..= getCustomersCustomerSubscriptionsSubscriptionExposedIdParametersPathSubscriptionExposedId obj : "queryExpand" Data.Aeson.Types.ToJSON..= getCustomersCustomerSubscriptionsSubscriptionExposedIdParametersQueryExpand obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("pathCustomer" Data.Aeson.Types.ToJSON..= getCustomersCustomerSubscriptionsSubscriptionExposedIdParametersPathCustomer obj) GHC.Base.<> (("pathSubscription_exposed_id" Data.Aeson.Types.ToJSON..= getCustomersCustomerSubscriptionsSubscriptionExposedIdParametersPathSubscriptionExposedId obj) GHC.Base.<> ("queryExpand" Data.Aeson.Types.ToJSON..= getCustomersCustomerSubscriptionsSubscriptionExposedIdParametersQueryExpand obj)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetCustomersCustomerSubscriptionsSubscriptionExposedIdParameters where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "GetCustomersCustomerSubscriptionsSubscriptionExposedIdParameters" (\obj -> ((GHC.Base.pure GetCustomersCustomerSubscriptionsSubscriptionExposedIdParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathCustomer")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathSubscription_exposed_id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryExpand"))
+
+-- | Create a new 'GetCustomersCustomerSubscriptionsSubscriptionExposedIdParameters' with all required fields.
+mkGetCustomersCustomerSubscriptionsSubscriptionExposedIdParameters ::
+  -- | 'getCustomersCustomerSubscriptionsSubscriptionExposedIdParametersPathCustomer'
+  Data.Text.Internal.Text ->
+  -- | 'getCustomersCustomerSubscriptionsSubscriptionExposedIdParametersPathSubscriptionExposedId'
+  Data.Text.Internal.Text ->
+  GetCustomersCustomerSubscriptionsSubscriptionExposedIdParameters
+mkGetCustomersCustomerSubscriptionsSubscriptionExposedIdParameters getCustomersCustomerSubscriptionsSubscriptionExposedIdParametersPathCustomer getCustomersCustomerSubscriptionsSubscriptionExposedIdParametersPathSubscriptionExposedId =
+  GetCustomersCustomerSubscriptionsSubscriptionExposedIdParameters
+    { getCustomersCustomerSubscriptionsSubscriptionExposedIdParametersPathCustomer = getCustomersCustomerSubscriptionsSubscriptionExposedIdParametersPathCustomer,
+      getCustomersCustomerSubscriptionsSubscriptionExposedIdParametersPathSubscriptionExposedId = getCustomersCustomerSubscriptionsSubscriptionExposedIdParametersPathSubscriptionExposedId,
+      getCustomersCustomerSubscriptionsSubscriptionExposedIdParametersQueryExpand = GHC.Maybe.Nothing
+    }
 
 -- | Represents a response of the operation 'getCustomersCustomerSubscriptionsSubscriptionExposedId'.
 --

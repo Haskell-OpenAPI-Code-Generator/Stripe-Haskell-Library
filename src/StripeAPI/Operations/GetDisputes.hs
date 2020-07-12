@@ -10,6 +10,7 @@ module StripeAPI.Operations.GetDisputes where
 import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -88,7 +89,7 @@ getDisputes parameters =
         ]
     )
 
--- | Defines the data type for the schema getDisputesParameters
+-- | Defines the object schema located at @paths.\/v1\/disputes.GET.parameters@ in the specification.
 data GetDisputesParameters
   = GetDisputesParameters
       { -- | queryCharge: Represents the parameter named \'charge\'
@@ -140,13 +141,26 @@ data GetDisputesParameters
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetDisputesParameters where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "queryCharge" (getDisputesParametersQueryCharge obj) : (Data.Aeson..=) "queryCreated" (getDisputesParametersQueryCreated obj) : (Data.Aeson..=) "queryEnding_before" (getDisputesParametersQueryEndingBefore obj) : (Data.Aeson..=) "queryExpand" (getDisputesParametersQueryExpand obj) : (Data.Aeson..=) "queryLimit" (getDisputesParametersQueryLimit obj) : (Data.Aeson..=) "queryPayment_intent" (getDisputesParametersQueryPaymentIntent obj) : (Data.Aeson..=) "queryStarting_after" (getDisputesParametersQueryStartingAfter obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "queryCharge" (getDisputesParametersQueryCharge obj) GHC.Base.<> ((Data.Aeson..=) "queryCreated" (getDisputesParametersQueryCreated obj) GHC.Base.<> ((Data.Aeson..=) "queryEnding_before" (getDisputesParametersQueryEndingBefore obj) GHC.Base.<> ((Data.Aeson..=) "queryExpand" (getDisputesParametersQueryExpand obj) GHC.Base.<> ((Data.Aeson..=) "queryLimit" (getDisputesParametersQueryLimit obj) GHC.Base.<> ((Data.Aeson..=) "queryPayment_intent" (getDisputesParametersQueryPaymentIntent obj) GHC.Base.<> (Data.Aeson..=) "queryStarting_after" (getDisputesParametersQueryStartingAfter obj)))))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("queryCharge" Data.Aeson.Types.ToJSON..= getDisputesParametersQueryCharge obj : "queryCreated" Data.Aeson.Types.ToJSON..= getDisputesParametersQueryCreated obj : "queryEnding_before" Data.Aeson.Types.ToJSON..= getDisputesParametersQueryEndingBefore obj : "queryExpand" Data.Aeson.Types.ToJSON..= getDisputesParametersQueryExpand obj : "queryLimit" Data.Aeson.Types.ToJSON..= getDisputesParametersQueryLimit obj : "queryPayment_intent" Data.Aeson.Types.ToJSON..= getDisputesParametersQueryPaymentIntent obj : "queryStarting_after" Data.Aeson.Types.ToJSON..= getDisputesParametersQueryStartingAfter obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("queryCharge" Data.Aeson.Types.ToJSON..= getDisputesParametersQueryCharge obj) GHC.Base.<> (("queryCreated" Data.Aeson.Types.ToJSON..= getDisputesParametersQueryCreated obj) GHC.Base.<> (("queryEnding_before" Data.Aeson.Types.ToJSON..= getDisputesParametersQueryEndingBefore obj) GHC.Base.<> (("queryExpand" Data.Aeson.Types.ToJSON..= getDisputesParametersQueryExpand obj) GHC.Base.<> (("queryLimit" Data.Aeson.Types.ToJSON..= getDisputesParametersQueryLimit obj) GHC.Base.<> (("queryPayment_intent" Data.Aeson.Types.ToJSON..= getDisputesParametersQueryPaymentIntent obj) GHC.Base.<> ("queryStarting_after" Data.Aeson.Types.ToJSON..= getDisputesParametersQueryStartingAfter obj)))))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetDisputesParameters where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "GetDisputesParameters" (\obj -> ((((((GHC.Base.pure GetDisputesParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryCharge")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryCreated")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryEnding_before")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryExpand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryLimit")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryPayment_intent")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryStarting_after"))
 
--- | Defines the data type for the schema getDisputesParametersQueryCreated\'OneOf2
+-- | Create a new 'GetDisputesParameters' with all required fields.
+mkGetDisputesParameters :: GetDisputesParameters
+mkGetDisputesParameters =
+  GetDisputesParameters
+    { getDisputesParametersQueryCharge = GHC.Maybe.Nothing,
+      getDisputesParametersQueryCreated = GHC.Maybe.Nothing,
+      getDisputesParametersQueryEndingBefore = GHC.Maybe.Nothing,
+      getDisputesParametersQueryExpand = GHC.Maybe.Nothing,
+      getDisputesParametersQueryLimit = GHC.Maybe.Nothing,
+      getDisputesParametersQueryPaymentIntent = GHC.Maybe.Nothing,
+      getDisputesParametersQueryStartingAfter = GHC.Maybe.Nothing
+    }
+
+-- | Defines the object schema located at @paths.\/v1\/disputes.GET.parameters.properties.queryCreated.anyOf@ in the specification.
 data GetDisputesParametersQueryCreated'OneOf2
   = GetDisputesParametersQueryCreated'OneOf2
       { -- | gt
@@ -164,13 +178,23 @@ data GetDisputesParametersQueryCreated'OneOf2
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetDisputesParametersQueryCreated'OneOf2 where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "gt" (getDisputesParametersQueryCreated'OneOf2Gt obj) : (Data.Aeson..=) "gte" (getDisputesParametersQueryCreated'OneOf2Gte obj) : (Data.Aeson..=) "lt" (getDisputesParametersQueryCreated'OneOf2Lt obj) : (Data.Aeson..=) "lte" (getDisputesParametersQueryCreated'OneOf2Lte obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "gt" (getDisputesParametersQueryCreated'OneOf2Gt obj) GHC.Base.<> ((Data.Aeson..=) "gte" (getDisputesParametersQueryCreated'OneOf2Gte obj) GHC.Base.<> ((Data.Aeson..=) "lt" (getDisputesParametersQueryCreated'OneOf2Lt obj) GHC.Base.<> (Data.Aeson..=) "lte" (getDisputesParametersQueryCreated'OneOf2Lte obj))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("gt" Data.Aeson.Types.ToJSON..= getDisputesParametersQueryCreated'OneOf2Gt obj : "gte" Data.Aeson.Types.ToJSON..= getDisputesParametersQueryCreated'OneOf2Gte obj : "lt" Data.Aeson.Types.ToJSON..= getDisputesParametersQueryCreated'OneOf2Lt obj : "lte" Data.Aeson.Types.ToJSON..= getDisputesParametersQueryCreated'OneOf2Lte obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("gt" Data.Aeson.Types.ToJSON..= getDisputesParametersQueryCreated'OneOf2Gt obj) GHC.Base.<> (("gte" Data.Aeson.Types.ToJSON..= getDisputesParametersQueryCreated'OneOf2Gte obj) GHC.Base.<> (("lt" Data.Aeson.Types.ToJSON..= getDisputesParametersQueryCreated'OneOf2Lt obj) GHC.Base.<> ("lte" Data.Aeson.Types.ToJSON..= getDisputesParametersQueryCreated'OneOf2Lte obj))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetDisputesParametersQueryCreated'OneOf2 where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "GetDisputesParametersQueryCreated'OneOf2" (\obj -> (((GHC.Base.pure GetDisputesParametersQueryCreated'OneOf2 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "gt")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "gte")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "lt")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "lte"))
 
--- | Define the one-of schema getDisputesParametersQueryCreated\'
+-- | Create a new 'GetDisputesParametersQueryCreated'OneOf2' with all required fields.
+mkGetDisputesParametersQueryCreated'OneOf2 :: GetDisputesParametersQueryCreated'OneOf2
+mkGetDisputesParametersQueryCreated'OneOf2 =
+  GetDisputesParametersQueryCreated'OneOf2
+    { getDisputesParametersQueryCreated'OneOf2Gt = GHC.Maybe.Nothing,
+      getDisputesParametersQueryCreated'OneOf2Gte = GHC.Maybe.Nothing,
+      getDisputesParametersQueryCreated'OneOf2Lt = GHC.Maybe.Nothing,
+      getDisputesParametersQueryCreated'OneOf2Lte = GHC.Maybe.Nothing
+    }
+
+-- | Defines the oneOf schema located at @paths.\/v1\/disputes.GET.parameters.properties.queryCreated.anyOf@ in the specification.
 --
 -- Represents the parameter named \'created\'
 data GetDisputesParametersQueryCreated'Variants
@@ -183,11 +207,9 @@ instance Data.Aeson.Types.ToJSON.ToJSON GetDisputesParametersQueryCreated'Varian
   toJSON (GetDisputesParametersQueryCreated'GetDisputesParametersQueryCreated'OneOf2 a) = Data.Aeson.Types.ToJSON.toJSON a
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetDisputesParametersQueryCreated'Variants where
-  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
-    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ GetDisputesParametersQueryCreated'Int a
-    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ GetDisputesParametersQueryCreated'GetDisputesParametersQueryCreated'OneOf2 a
-      Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+  parseJSON val = case (GetDisputesParametersQueryCreated'Int Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((GetDisputesParametersQueryCreated'GetDisputesParametersQueryCreated'OneOf2 Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched") of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+    Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
 -- | Represents a response of the operation 'getDisputes'.
 --
@@ -201,15 +223,13 @@ data GetDisputesResponse
     GetDisputesResponseDefault Error
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
--- | Defines the data type for the schema GetDisputesResponseBody200
+-- | Defines the object schema located at @paths.\/v1\/disputes.GET.responses.200.content.application\/json.schema@ in the specification.
 data GetDisputesResponseBody200
   = GetDisputesResponseBody200
       { -- | data
         getDisputesResponseBody200Data :: ([Dispute]),
         -- | has_more: True if this list has another page of items after this one that can be fetched.
         getDisputesResponseBody200HasMore :: GHC.Types.Bool,
-        -- | object: String representing the object\'s type. Objects of the same type share the same value. Always has the value \`list\`.
-        getDisputesResponseBody200Object :: GetDisputesResponseBody200Object',
         -- | url: The URL where this list can be accessed.
         --
         -- Constraints:
@@ -224,29 +244,24 @@ data GetDisputesResponseBody200
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetDisputesResponseBody200 where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "data" (getDisputesResponseBody200Data obj) : (Data.Aeson..=) "has_more" (getDisputesResponseBody200HasMore obj) : (Data.Aeson..=) "object" (getDisputesResponseBody200Object obj) : (Data.Aeson..=) "url" (getDisputesResponseBody200Url obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "data" (getDisputesResponseBody200Data obj) GHC.Base.<> ((Data.Aeson..=) "has_more" (getDisputesResponseBody200HasMore obj) GHC.Base.<> ((Data.Aeson..=) "object" (getDisputesResponseBody200Object obj) GHC.Base.<> (Data.Aeson..=) "url" (getDisputesResponseBody200Url obj))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("data" Data.Aeson.Types.ToJSON..= getDisputesResponseBody200Data obj : "has_more" Data.Aeson.Types.ToJSON..= getDisputesResponseBody200HasMore obj : "url" Data.Aeson.Types.ToJSON..= getDisputesResponseBody200Url obj : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "list" : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("data" Data.Aeson.Types.ToJSON..= getDisputesResponseBody200Data obj) GHC.Base.<> (("has_more" Data.Aeson.Types.ToJSON..= getDisputesResponseBody200HasMore obj) GHC.Base.<> (("url" Data.Aeson.Types.ToJSON..= getDisputesResponseBody200Url obj) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "list"))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetDisputesResponseBody200 where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetDisputesResponseBody200" (\obj -> (((GHC.Base.pure GetDisputesResponseBody200 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "has_more")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "object")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "url"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetDisputesResponseBody200" (\obj -> ((GHC.Base.pure GetDisputesResponseBody200 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "has_more")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "url"))
 
--- | Defines the enum schema GetDisputesResponseBody200Object\'
---
--- String representing the object\'s type. Objects of the same type share the same value. Always has the value \`list\`.
-data GetDisputesResponseBody200Object'
-  = GetDisputesResponseBody200Object'EnumOther Data.Aeson.Types.Internal.Value
-  | GetDisputesResponseBody200Object'EnumTyped Data.Text.Internal.Text
-  | GetDisputesResponseBody200Object'EnumStringList
-  deriving (GHC.Show.Show, GHC.Classes.Eq)
-
-instance Data.Aeson.Types.ToJSON.ToJSON GetDisputesResponseBody200Object' where
-  toJSON (GetDisputesResponseBody200Object'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (GetDisputesResponseBody200Object'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (GetDisputesResponseBody200Object'EnumStringList) = "list"
-
-instance Data.Aeson.Types.FromJSON.FromJSON GetDisputesResponseBody200Object' where
-  parseJSON val =
-    GHC.Base.pure
-      ( if  | val GHC.Classes.== "list" -> GetDisputesResponseBody200Object'EnumStringList
-            | GHC.Base.otherwise -> GetDisputesResponseBody200Object'EnumOther val
-      )
+-- | Create a new 'GetDisputesResponseBody200' with all required fields.
+mkGetDisputesResponseBody200 ::
+  -- | 'getDisputesResponseBody200Data'
+  [Dispute] ->
+  -- | 'getDisputesResponseBody200HasMore'
+  GHC.Types.Bool ->
+  -- | 'getDisputesResponseBody200Url'
+  Data.Text.Internal.Text ->
+  GetDisputesResponseBody200
+mkGetDisputesResponseBody200 getDisputesResponseBody200Data getDisputesResponseBody200HasMore getDisputesResponseBody200Url =
+  GetDisputesResponseBody200
+    { getDisputesResponseBody200Data = getDisputesResponseBody200Data,
+      getDisputesResponseBody200HasMore = getDisputesResponseBody200HasMore,
+      getDisputesResponseBody200Url = getDisputesResponseBody200Url
+    }

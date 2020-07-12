@@ -10,6 +10,7 @@ module StripeAPI.Operations.PostIssuingAuthorizationsAuthorizationApprove where
 import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -81,7 +82,7 @@ postIssuingAuthorizationsAuthorizationApprove
       )
       (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack ("/v1/issuing/authorizations/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel authorization)) GHC.Base.++ "/approve"))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
 
--- | Defines the data type for the schema postIssuingAuthorizationsAuthorizationApproveRequestBody
+-- | Defines the object schema located at @paths.\/v1\/issuing\/authorizations\/{authorization}\/approve.POST.requestBody.content.application\/x-www-form-urlencoded.schema@ in the specification.
 data PostIssuingAuthorizationsAuthorizationApproveRequestBody
   = PostIssuingAuthorizationsAuthorizationApproveRequestBody
       { -- | expand: Specifies which fields in the response should be expanded.
@@ -97,49 +98,40 @@ data PostIssuingAuthorizationsAuthorizationApproveRequestBody
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostIssuingAuthorizationsAuthorizationApproveRequestBody where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "expand" (postIssuingAuthorizationsAuthorizationApproveRequestBodyExpand obj) : (Data.Aeson..=) "held_amount" (postIssuingAuthorizationsAuthorizationApproveRequestBodyHeldAmount obj) : (Data.Aeson..=) "metadata" (postIssuingAuthorizationsAuthorizationApproveRequestBodyMetadata obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "expand" (postIssuingAuthorizationsAuthorizationApproveRequestBodyExpand obj) GHC.Base.<> ((Data.Aeson..=) "held_amount" (postIssuingAuthorizationsAuthorizationApproveRequestBodyHeldAmount obj) GHC.Base.<> (Data.Aeson..=) "metadata" (postIssuingAuthorizationsAuthorizationApproveRequestBodyMetadata obj)))
+  toJSON obj = Data.Aeson.Types.Internal.object ("expand" Data.Aeson.Types.ToJSON..= postIssuingAuthorizationsAuthorizationApproveRequestBodyExpand obj : "held_amount" Data.Aeson.Types.ToJSON..= postIssuingAuthorizationsAuthorizationApproveRequestBodyHeldAmount obj : "metadata" Data.Aeson.Types.ToJSON..= postIssuingAuthorizationsAuthorizationApproveRequestBodyMetadata obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("expand" Data.Aeson.Types.ToJSON..= postIssuingAuthorizationsAuthorizationApproveRequestBodyExpand obj) GHC.Base.<> (("held_amount" Data.Aeson.Types.ToJSON..= postIssuingAuthorizationsAuthorizationApproveRequestBodyHeldAmount obj) GHC.Base.<> ("metadata" Data.Aeson.Types.ToJSON..= postIssuingAuthorizationsAuthorizationApproveRequestBodyMetadata obj)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostIssuingAuthorizationsAuthorizationApproveRequestBody where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PostIssuingAuthorizationsAuthorizationApproveRequestBody" (\obj -> ((GHC.Base.pure PostIssuingAuthorizationsAuthorizationApproveRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "held_amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "metadata"))
 
--- | Defines the enum schema postIssuingAuthorizationsAuthorizationApproveRequestBodyMetadata\'OneOf1
-data PostIssuingAuthorizationsAuthorizationApproveRequestBodyMetadata'OneOf1
-  = PostIssuingAuthorizationsAuthorizationApproveRequestBodyMetadata'OneOf1EnumOther Data.Aeson.Types.Internal.Value
-  | PostIssuingAuthorizationsAuthorizationApproveRequestBodyMetadata'OneOf1EnumTyped Data.Text.Internal.Text
-  | PostIssuingAuthorizationsAuthorizationApproveRequestBodyMetadata'OneOf1EnumString_
-  deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Create a new 'PostIssuingAuthorizationsAuthorizationApproveRequestBody' with all required fields.
+mkPostIssuingAuthorizationsAuthorizationApproveRequestBody :: PostIssuingAuthorizationsAuthorizationApproveRequestBody
+mkPostIssuingAuthorizationsAuthorizationApproveRequestBody =
+  PostIssuingAuthorizationsAuthorizationApproveRequestBody
+    { postIssuingAuthorizationsAuthorizationApproveRequestBodyExpand = GHC.Maybe.Nothing,
+      postIssuingAuthorizationsAuthorizationApproveRequestBodyHeldAmount = GHC.Maybe.Nothing,
+      postIssuingAuthorizationsAuthorizationApproveRequestBodyMetadata = GHC.Maybe.Nothing
+    }
 
-instance Data.Aeson.Types.ToJSON.ToJSON PostIssuingAuthorizationsAuthorizationApproveRequestBodyMetadata'OneOf1 where
-  toJSON (PostIssuingAuthorizationsAuthorizationApproveRequestBodyMetadata'OneOf1EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostIssuingAuthorizationsAuthorizationApproveRequestBodyMetadata'OneOf1EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostIssuingAuthorizationsAuthorizationApproveRequestBodyMetadata'OneOf1EnumString_) = ""
-
-instance Data.Aeson.Types.FromJSON.FromJSON PostIssuingAuthorizationsAuthorizationApproveRequestBodyMetadata'OneOf1 where
-  parseJSON val =
-    GHC.Base.pure
-      ( if  | val GHC.Classes.== "" -> PostIssuingAuthorizationsAuthorizationApproveRequestBodyMetadata'OneOf1EnumString_
-            | GHC.Base.otherwise -> PostIssuingAuthorizationsAuthorizationApproveRequestBodyMetadata'OneOf1EnumOther val
-      )
-
--- | Define the one-of schema postIssuingAuthorizationsAuthorizationApproveRequestBodyMetadata\'
+-- | Defines the oneOf schema located at @paths.\/v1\/issuing\/authorizations\/{authorization}\/approve.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.metadata.anyOf@ in the specification.
 --
 -- Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to \`metadata\`.
 data PostIssuingAuthorizationsAuthorizationApproveRequestBodyMetadata'Variants
-  = PostIssuingAuthorizationsAuthorizationApproveRequestBodyMetadata'PostIssuingAuthorizationsAuthorizationApproveRequestBodyMetadata'OneOf1 PostIssuingAuthorizationsAuthorizationApproveRequestBodyMetadata'OneOf1
+  = -- | Represents the JSON value @""@
+    PostIssuingAuthorizationsAuthorizationApproveRequestBodyMetadata'EmptyString
   | PostIssuingAuthorizationsAuthorizationApproveRequestBodyMetadata'Object Data.Aeson.Types.Internal.Object
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostIssuingAuthorizationsAuthorizationApproveRequestBodyMetadata'Variants where
-  toJSON (PostIssuingAuthorizationsAuthorizationApproveRequestBodyMetadata'PostIssuingAuthorizationsAuthorizationApproveRequestBodyMetadata'OneOf1 a) = Data.Aeson.Types.ToJSON.toJSON a
   toJSON (PostIssuingAuthorizationsAuthorizationApproveRequestBodyMetadata'Object a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (PostIssuingAuthorizationsAuthorizationApproveRequestBodyMetadata'EmptyString) = ""
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostIssuingAuthorizationsAuthorizationApproveRequestBodyMetadata'Variants where
-  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
-    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ PostIssuingAuthorizationsAuthorizationApproveRequestBodyMetadata'PostIssuingAuthorizationsAuthorizationApproveRequestBodyMetadata'OneOf1 a
-    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ PostIssuingAuthorizationsAuthorizationApproveRequestBodyMetadata'Object a
-      Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+  parseJSON val =
+    if  | val GHC.Classes.== "" -> GHC.Base.pure PostIssuingAuthorizationsAuthorizationApproveRequestBodyMetadata'EmptyString
+        | GHC.Base.otherwise -> case (PostIssuingAuthorizationsAuthorizationApproveRequestBodyMetadata'Object Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched" of
+          Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+          Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
 -- | Represents a response of the operation 'postIssuingAuthorizationsAuthorizationApprove'.
 --

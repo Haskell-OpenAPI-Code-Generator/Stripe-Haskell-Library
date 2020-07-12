@@ -1,11 +1,11 @@
 module StripeAPI.Types.CreditNote where
 import Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Types.Internal
-data CreditNote 
-instance Show CreditNote 
-instance Eq CreditNote 
-instance FromJSON CreditNote 
-instance ToJSON CreditNote 
+data CreditNote
+instance Show CreditNote
+instance Eq CreditNote
+instance FromJSON CreditNote
+instance ToJSON CreditNote
 data CreditNoteCustomer'Variants
 instance Show CreditNoteCustomer'Variants
 instance Eq CreditNoteCustomer'Variants
@@ -21,21 +21,11 @@ instance Show CreditNoteInvoice'Variants
 instance Eq CreditNoteInvoice'Variants
 instance FromJSON CreditNoteInvoice'Variants
 instance ToJSON CreditNoteInvoice'Variants
-data CreditNoteLines' 
-instance Show CreditNoteLines' 
-instance Eq CreditNoteLines' 
-instance FromJSON CreditNoteLines' 
-instance ToJSON CreditNoteLines' 
-data CreditNoteLines'Object'
-instance Show CreditNoteLines'Object'
-instance Eq CreditNoteLines'Object'
-instance FromJSON CreditNoteLines'Object'
-instance ToJSON CreditNoteLines'Object'
-data CreditNoteObject'
-instance Show CreditNoteObject'
-instance Eq CreditNoteObject'
-instance FromJSON CreditNoteObject'
-instance ToJSON CreditNoteObject'
+data CreditNoteLines'
+instance Show CreditNoteLines'
+instance Eq CreditNoteLines'
+instance FromJSON CreditNoteLines'
+instance ToJSON CreditNoteLines'
 data CreditNoteReason'
 instance Show CreditNoteReason'
 instance Eq CreditNoteReason'

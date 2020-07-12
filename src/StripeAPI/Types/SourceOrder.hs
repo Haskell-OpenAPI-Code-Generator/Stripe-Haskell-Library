@@ -8,6 +8,7 @@ module StripeAPI.Types.SourceOrder where
 
 import qualified Control.Monad.Fail
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -32,7 +33,7 @@ import {-# SOURCE #-} StripeAPI.Types.SourceOrderItem
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
--- | Defines the data type for the schema source_order
+-- | Defines the object schema located at @components.schemas.source_order@ in the specification.
 data SourceOrder
   = SourceOrder
       { -- | amount: A positive integer in the smallest currency unit (that is, 100 cents for \$1.00, or 1 for ¥1, Japanese Yen being a zero-decimal currency) representing the total amount for the order.
@@ -56,8 +57,24 @@ data SourceOrder
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON SourceOrder where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "amount" (sourceOrderAmount obj) : (Data.Aeson..=) "currency" (sourceOrderCurrency obj) : (Data.Aeson..=) "email" (sourceOrderEmail obj) : (Data.Aeson..=) "items" (sourceOrderItems obj) : (Data.Aeson..=) "shipping" (sourceOrderShipping obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "amount" (sourceOrderAmount obj) GHC.Base.<> ((Data.Aeson..=) "currency" (sourceOrderCurrency obj) GHC.Base.<> ((Data.Aeson..=) "email" (sourceOrderEmail obj) GHC.Base.<> ((Data.Aeson..=) "items" (sourceOrderItems obj) GHC.Base.<> (Data.Aeson..=) "shipping" (sourceOrderShipping obj)))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("amount" Data.Aeson.Types.ToJSON..= sourceOrderAmount obj : "currency" Data.Aeson.Types.ToJSON..= sourceOrderCurrency obj : "email" Data.Aeson.Types.ToJSON..= sourceOrderEmail obj : "items" Data.Aeson.Types.ToJSON..= sourceOrderItems obj : "shipping" Data.Aeson.Types.ToJSON..= sourceOrderShipping obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("amount" Data.Aeson.Types.ToJSON..= sourceOrderAmount obj) GHC.Base.<> (("currency" Data.Aeson.Types.ToJSON..= sourceOrderCurrency obj) GHC.Base.<> (("email" Data.Aeson.Types.ToJSON..= sourceOrderEmail obj) GHC.Base.<> (("items" Data.Aeson.Types.ToJSON..= sourceOrderItems obj) GHC.Base.<> ("shipping" Data.Aeson.Types.ToJSON..= sourceOrderShipping obj)))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON SourceOrder where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "SourceOrder" (\obj -> ((((GHC.Base.pure SourceOrder GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "email")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "items")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "shipping"))
+
+-- | Create a new 'SourceOrder' with all required fields.
+mkSourceOrder ::
+  -- | 'sourceOrderAmount'
+  GHC.Types.Int ->
+  -- | 'sourceOrderCurrency'
+  Data.Text.Internal.Text ->
+  SourceOrder
+mkSourceOrder sourceOrderAmount sourceOrderCurrency =
+  SourceOrder
+    { sourceOrderAmount = sourceOrderAmount,
+      sourceOrderCurrency = sourceOrderCurrency,
+      sourceOrderEmail = GHC.Maybe.Nothing,
+      sourceOrderItems = GHC.Maybe.Nothing,
+      sourceOrderShipping = GHC.Maybe.Nothing
+    }

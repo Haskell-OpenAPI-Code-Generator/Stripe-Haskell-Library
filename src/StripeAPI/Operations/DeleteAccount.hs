@@ -10,6 +10,7 @@ module StripeAPI.Operations.DeleteAccount where
 import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -81,7 +82,7 @@ deleteAccount body =
     )
     (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "DELETE") (Data.Text.pack "/v1/account") [] body StripeAPI.Common.RequestBodyEncodingFormData)
 
--- | Defines the data type for the schema deleteAccountRequestBody
+-- | Defines the object schema located at @paths.\/v1\/account.DELETE.requestBody.content.application\/x-www-form-urlencoded.schema@ in the specification.
 data DeleteAccountRequestBody
   = DeleteAccountRequestBody
       { -- | account
@@ -97,11 +98,15 @@ data DeleteAccountRequestBody
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON DeleteAccountRequestBody where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "account" (deleteAccountRequestBodyAccount obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "account" (deleteAccountRequestBodyAccount obj))
+  toJSON obj = Data.Aeson.Types.Internal.object ("account" Data.Aeson.Types.ToJSON..= deleteAccountRequestBodyAccount obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs ("account" Data.Aeson.Types.ToJSON..= deleteAccountRequestBodyAccount obj)
 
 instance Data.Aeson.Types.FromJSON.FromJSON DeleteAccountRequestBody where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "DeleteAccountRequestBody" (\obj -> GHC.Base.pure DeleteAccountRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "account"))
+
+-- | Create a new 'DeleteAccountRequestBody' with all required fields.
+mkDeleteAccountRequestBody :: DeleteAccountRequestBody
+mkDeleteAccountRequestBody = DeleteAccountRequestBody {deleteAccountRequestBodyAccount = GHC.Maybe.Nothing}
 
 -- | Represents a response of the operation 'deleteAccount'.
 --

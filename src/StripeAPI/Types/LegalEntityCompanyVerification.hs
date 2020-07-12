@@ -8,6 +8,7 @@ module StripeAPI.Types.LegalEntityCompanyVerification where
 
 import qualified Control.Monad.Fail
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -31,7 +32,7 @@ import {-# SOURCE #-} StripeAPI.Types.LegalEntityCompanyVerificationDocument
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
--- | Defines the data type for the schema legal_entity_company_verification
+-- | Defines the object schema located at @components.schemas.legal_entity_company_verification@ in the specification.
 data LegalEntityCompanyVerification
   = LegalEntityCompanyVerification
       { -- | document:
@@ -43,8 +44,15 @@ data LegalEntityCompanyVerification
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON LegalEntityCompanyVerification where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "document" (legalEntityCompanyVerificationDocument obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "document" (legalEntityCompanyVerificationDocument obj))
+  toJSON obj = Data.Aeson.Types.Internal.object ("document" Data.Aeson.Types.ToJSON..= legalEntityCompanyVerificationDocument obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs ("document" Data.Aeson.Types.ToJSON..= legalEntityCompanyVerificationDocument obj)
 
 instance Data.Aeson.Types.FromJSON.FromJSON LegalEntityCompanyVerification where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "LegalEntityCompanyVerification" (\obj -> GHC.Base.pure LegalEntityCompanyVerification GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "document"))
+
+-- | Create a new 'LegalEntityCompanyVerification' with all required fields.
+mkLegalEntityCompanyVerification ::
+  -- | 'legalEntityCompanyVerificationDocument'
+  LegalEntityCompanyVerificationDocument ->
+  LegalEntityCompanyVerification
+mkLegalEntityCompanyVerification legalEntityCompanyVerificationDocument = LegalEntityCompanyVerification {legalEntityCompanyVerificationDocument = legalEntityCompanyVerificationDocument}

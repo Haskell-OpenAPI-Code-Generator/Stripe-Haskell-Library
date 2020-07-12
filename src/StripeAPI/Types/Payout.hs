@@ -8,6 +8,7 @@ module StripeAPI.Types.Payout where
 
 import qualified Control.Monad.Fail
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -35,7 +36,7 @@ import {-# SOURCE #-} StripeAPI.Types.DeletedCard
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
--- | Defines the data type for the schema payout
+-- | Defines the object schema located at @components.schemas.payout@ in the specification.
 --
 -- A \`Payout\` object is created when you receive funds from Stripe, or when you
 -- initiate a payout to either a bank account or debit card of a [connected
@@ -97,8 +98,6 @@ data Payout
         --
         -- * Maximum length of 5000
         payoutMethod :: Data.Text.Internal.Text,
-        -- | object: String representing the object\'s type. Objects of the same type share the same value.
-        payoutObject :: PayoutObject',
         -- | source_type: The source balance this payout came from. One of \`card\`, \`fpx\`, or \`bank_account\`.
         --
         -- Constraints:
@@ -126,13 +125,63 @@ data Payout
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON Payout where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "amount" (payoutAmount obj) : (Data.Aeson..=) "arrival_date" (payoutArrivalDate obj) : (Data.Aeson..=) "automatic" (payoutAutomatic obj) : (Data.Aeson..=) "balance_transaction" (payoutBalanceTransaction obj) : (Data.Aeson..=) "created" (payoutCreated obj) : (Data.Aeson..=) "currency" (payoutCurrency obj) : (Data.Aeson..=) "description" (payoutDescription obj) : (Data.Aeson..=) "destination" (payoutDestination obj) : (Data.Aeson..=) "failure_balance_transaction" (payoutFailureBalanceTransaction obj) : (Data.Aeson..=) "failure_code" (payoutFailureCode obj) : (Data.Aeson..=) "failure_message" (payoutFailureMessage obj) : (Data.Aeson..=) "id" (payoutId obj) : (Data.Aeson..=) "livemode" (payoutLivemode obj) : (Data.Aeson..=) "metadata" (payoutMetadata obj) : (Data.Aeson..=) "method" (payoutMethod obj) : (Data.Aeson..=) "object" (payoutObject obj) : (Data.Aeson..=) "source_type" (payoutSourceType obj) : (Data.Aeson..=) "statement_descriptor" (payoutStatementDescriptor obj) : (Data.Aeson..=) "status" (payoutStatus obj) : (Data.Aeson..=) "type" (payoutType obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "amount" (payoutAmount obj) GHC.Base.<> ((Data.Aeson..=) "arrival_date" (payoutArrivalDate obj) GHC.Base.<> ((Data.Aeson..=) "automatic" (payoutAutomatic obj) GHC.Base.<> ((Data.Aeson..=) "balance_transaction" (payoutBalanceTransaction obj) GHC.Base.<> ((Data.Aeson..=) "created" (payoutCreated obj) GHC.Base.<> ((Data.Aeson..=) "currency" (payoutCurrency obj) GHC.Base.<> ((Data.Aeson..=) "description" (payoutDescription obj) GHC.Base.<> ((Data.Aeson..=) "destination" (payoutDestination obj) GHC.Base.<> ((Data.Aeson..=) "failure_balance_transaction" (payoutFailureBalanceTransaction obj) GHC.Base.<> ((Data.Aeson..=) "failure_code" (payoutFailureCode obj) GHC.Base.<> ((Data.Aeson..=) "failure_message" (payoutFailureMessage obj) GHC.Base.<> ((Data.Aeson..=) "id" (payoutId obj) GHC.Base.<> ((Data.Aeson..=) "livemode" (payoutLivemode obj) GHC.Base.<> ((Data.Aeson..=) "metadata" (payoutMetadata obj) GHC.Base.<> ((Data.Aeson..=) "method" (payoutMethod obj) GHC.Base.<> ((Data.Aeson..=) "object" (payoutObject obj) GHC.Base.<> ((Data.Aeson..=) "source_type" (payoutSourceType obj) GHC.Base.<> ((Data.Aeson..=) "statement_descriptor" (payoutStatementDescriptor obj) GHC.Base.<> ((Data.Aeson..=) "status" (payoutStatus obj) GHC.Base.<> (Data.Aeson..=) "type" (payoutType obj))))))))))))))))))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("amount" Data.Aeson.Types.ToJSON..= payoutAmount obj : "arrival_date" Data.Aeson.Types.ToJSON..= payoutArrivalDate obj : "automatic" Data.Aeson.Types.ToJSON..= payoutAutomatic obj : "balance_transaction" Data.Aeson.Types.ToJSON..= payoutBalanceTransaction obj : "created" Data.Aeson.Types.ToJSON..= payoutCreated obj : "currency" Data.Aeson.Types.ToJSON..= payoutCurrency obj : "description" Data.Aeson.Types.ToJSON..= payoutDescription obj : "destination" Data.Aeson.Types.ToJSON..= payoutDestination obj : "failure_balance_transaction" Data.Aeson.Types.ToJSON..= payoutFailureBalanceTransaction obj : "failure_code" Data.Aeson.Types.ToJSON..= payoutFailureCode obj : "failure_message" Data.Aeson.Types.ToJSON..= payoutFailureMessage obj : "id" Data.Aeson.Types.ToJSON..= payoutId obj : "livemode" Data.Aeson.Types.ToJSON..= payoutLivemode obj : "metadata" Data.Aeson.Types.ToJSON..= payoutMetadata obj : "method" Data.Aeson.Types.ToJSON..= payoutMethod obj : "source_type" Data.Aeson.Types.ToJSON..= payoutSourceType obj : "statement_descriptor" Data.Aeson.Types.ToJSON..= payoutStatementDescriptor obj : "status" Data.Aeson.Types.ToJSON..= payoutStatus obj : "type" Data.Aeson.Types.ToJSON..= payoutType obj : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "payout" : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("amount" Data.Aeson.Types.ToJSON..= payoutAmount obj) GHC.Base.<> (("arrival_date" Data.Aeson.Types.ToJSON..= payoutArrivalDate obj) GHC.Base.<> (("automatic" Data.Aeson.Types.ToJSON..= payoutAutomatic obj) GHC.Base.<> (("balance_transaction" Data.Aeson.Types.ToJSON..= payoutBalanceTransaction obj) GHC.Base.<> (("created" Data.Aeson.Types.ToJSON..= payoutCreated obj) GHC.Base.<> (("currency" Data.Aeson.Types.ToJSON..= payoutCurrency obj) GHC.Base.<> (("description" Data.Aeson.Types.ToJSON..= payoutDescription obj) GHC.Base.<> (("destination" Data.Aeson.Types.ToJSON..= payoutDestination obj) GHC.Base.<> (("failure_balance_transaction" Data.Aeson.Types.ToJSON..= payoutFailureBalanceTransaction obj) GHC.Base.<> (("failure_code" Data.Aeson.Types.ToJSON..= payoutFailureCode obj) GHC.Base.<> (("failure_message" Data.Aeson.Types.ToJSON..= payoutFailureMessage obj) GHC.Base.<> (("id" Data.Aeson.Types.ToJSON..= payoutId obj) GHC.Base.<> (("livemode" Data.Aeson.Types.ToJSON..= payoutLivemode obj) GHC.Base.<> (("metadata" Data.Aeson.Types.ToJSON..= payoutMetadata obj) GHC.Base.<> (("method" Data.Aeson.Types.ToJSON..= payoutMethod obj) GHC.Base.<> (("source_type" Data.Aeson.Types.ToJSON..= payoutSourceType obj) GHC.Base.<> (("statement_descriptor" Data.Aeson.Types.ToJSON..= payoutStatementDescriptor obj) GHC.Base.<> (("status" Data.Aeson.Types.ToJSON..= payoutStatus obj) GHC.Base.<> (("type" Data.Aeson.Types.ToJSON..= payoutType obj) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "payout"))))))))))))))))))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON Payout where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "Payout" (\obj -> (((((((((((((((((((GHC.Base.pure Payout GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "arrival_date")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "automatic")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "balance_transaction")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "created")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "description")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "destination")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "failure_balance_transaction")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "failure_code")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "failure_message")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "livemode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "method")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "object")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "source_type")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "statement_descriptor")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "status")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "type"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "Payout" (\obj -> ((((((((((((((((((GHC.Base.pure Payout GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "arrival_date")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "automatic")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "balance_transaction")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "created")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "description")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "destination")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "failure_balance_transaction")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "failure_code")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "failure_message")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "livemode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "method")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "source_type")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "statement_descriptor")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "status")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "type"))
 
--- | Define the one-of schema payoutBalance_transaction\'
+-- | Create a new 'Payout' with all required fields.
+mkPayout ::
+  -- | 'payoutAmount'
+  GHC.Types.Int ->
+  -- | 'payoutArrivalDate'
+  GHC.Types.Int ->
+  -- | 'payoutAutomatic'
+  GHC.Types.Bool ->
+  -- | 'payoutCreated'
+  GHC.Types.Int ->
+  -- | 'payoutCurrency'
+  Data.Text.Internal.Text ->
+  -- | 'payoutId'
+  Data.Text.Internal.Text ->
+  -- | 'payoutLivemode'
+  GHC.Types.Bool ->
+  -- | 'payoutMetadata'
+  Data.Aeson.Types.Internal.Object ->
+  -- | 'payoutMethod'
+  Data.Text.Internal.Text ->
+  -- | 'payoutSourceType'
+  Data.Text.Internal.Text ->
+  -- | 'payoutStatus'
+  Data.Text.Internal.Text ->
+  -- | 'payoutType'
+  PayoutType' ->
+  Payout
+mkPayout payoutAmount payoutArrivalDate payoutAutomatic payoutCreated payoutCurrency payoutId payoutLivemode payoutMetadata payoutMethod payoutSourceType payoutStatus payoutType =
+  Payout
+    { payoutAmount = payoutAmount,
+      payoutArrivalDate = payoutArrivalDate,
+      payoutAutomatic = payoutAutomatic,
+      payoutBalanceTransaction = GHC.Maybe.Nothing,
+      payoutCreated = payoutCreated,
+      payoutCurrency = payoutCurrency,
+      payoutDescription = GHC.Maybe.Nothing,
+      payoutDestination = GHC.Maybe.Nothing,
+      payoutFailureBalanceTransaction = GHC.Maybe.Nothing,
+      payoutFailureCode = GHC.Maybe.Nothing,
+      payoutFailureMessage = GHC.Maybe.Nothing,
+      payoutId = payoutId,
+      payoutLivemode = payoutLivemode,
+      payoutMetadata = payoutMetadata,
+      payoutMethod = payoutMethod,
+      payoutSourceType = payoutSourceType,
+      payoutStatementDescriptor = GHC.Maybe.Nothing,
+      payoutStatus = payoutStatus,
+      payoutType = payoutType
+    }
+
+-- | Defines the oneOf schema located at @components.schemas.payout.properties.balance_transaction.anyOf@ in the specification.
 --
 -- ID of the balance transaction that describes the impact of this payout on your account balance.
 data PayoutBalanceTransaction'Variants
@@ -145,13 +194,11 @@ instance Data.Aeson.Types.ToJSON.ToJSON PayoutBalanceTransaction'Variants where
   toJSON (PayoutBalanceTransaction'Text a) = Data.Aeson.Types.ToJSON.toJSON a
 
 instance Data.Aeson.Types.FromJSON.FromJSON PayoutBalanceTransaction'Variants where
-  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
-    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ PayoutBalanceTransaction'BalanceTransaction a
-    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ PayoutBalanceTransaction'Text a
-      Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+  parseJSON val = case (PayoutBalanceTransaction'BalanceTransaction Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((PayoutBalanceTransaction'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched") of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+    Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
--- | Define the one-of schema payoutDestination\'
+-- | Defines the oneOf schema located at @components.schemas.payout.properties.destination.anyOf@ in the specification.
 --
 -- ID of the bank account or card the payout was sent to.
 data PayoutDestination'Variants
@@ -170,19 +217,11 @@ instance Data.Aeson.Types.ToJSON.ToJSON PayoutDestination'Variants where
   toJSON (PayoutDestination'Text a) = Data.Aeson.Types.ToJSON.toJSON a
 
 instance Data.Aeson.Types.FromJSON.FromJSON PayoutDestination'Variants where
-  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
-    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ PayoutDestination'BankAccount a
-    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ PayoutDestination'Card a
-      Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-        Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ PayoutDestination'DeletedBankAccount a
-        Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-          Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ PayoutDestination'DeletedCard a
-          Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-            Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ PayoutDestination'Text a
-            Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+  parseJSON val = case (PayoutDestination'BankAccount Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((PayoutDestination'Card Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((PayoutDestination'DeletedBankAccount Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((PayoutDestination'DeletedCard Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((PayoutDestination'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched")))) of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+    Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
--- | Define the one-of schema payoutFailure_balance_transaction\'
+-- | Defines the oneOf schema located at @components.schemas.payout.properties.failure_balance_transaction.anyOf@ in the specification.
 --
 -- If the payout failed or was canceled, this will be the ID of the balance transaction that reversed the initial balance transaction, and puts the funds from the failed payout back in your balance.
 data PayoutFailureBalanceTransaction'Variants
@@ -195,53 +234,34 @@ instance Data.Aeson.Types.ToJSON.ToJSON PayoutFailureBalanceTransaction'Variants
   toJSON (PayoutFailureBalanceTransaction'Text a) = Data.Aeson.Types.ToJSON.toJSON a
 
 instance Data.Aeson.Types.FromJSON.FromJSON PayoutFailureBalanceTransaction'Variants where
-  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
-    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ PayoutFailureBalanceTransaction'BalanceTransaction a
-    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ PayoutFailureBalanceTransaction'Text a
-      Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+  parseJSON val = case (PayoutFailureBalanceTransaction'BalanceTransaction Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((PayoutFailureBalanceTransaction'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched") of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+    Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
--- | Defines the enum schema payoutObject\'
---
--- String representing the object\'s type. Objects of the same type share the same value.
-data PayoutObject'
-  = PayoutObject'EnumOther Data.Aeson.Types.Internal.Value
-  | PayoutObject'EnumTyped Data.Text.Internal.Text
-  | PayoutObject'EnumStringPayout
-  deriving (GHC.Show.Show, GHC.Classes.Eq)
-
-instance Data.Aeson.Types.ToJSON.ToJSON PayoutObject' where
-  toJSON (PayoutObject'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PayoutObject'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PayoutObject'EnumStringPayout) = "payout"
-
-instance Data.Aeson.Types.FromJSON.FromJSON PayoutObject' where
-  parseJSON val =
-    GHC.Base.pure
-      ( if  | val GHC.Classes.== "payout" -> PayoutObject'EnumStringPayout
-            | GHC.Base.otherwise -> PayoutObject'EnumOther val
-      )
-
--- | Defines the enum schema payoutType\'
+-- | Defines the enum schema located at @components.schemas.payout.properties.type@ in the specification.
 --
 -- Can be \`bank_account\` or \`card\`.
 data PayoutType'
-  = PayoutType'EnumOther Data.Aeson.Types.Internal.Value
-  | PayoutType'EnumTyped Data.Text.Internal.Text
-  | PayoutType'EnumStringBankAccount
-  | PayoutType'EnumStringCard
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    PayoutType'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    PayoutType'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"bank_account"@
+    PayoutType'EnumBankAccount
+  | -- | Represents the JSON value @"card"@
+    PayoutType'EnumCard
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
 instance Data.Aeson.Types.ToJSON.ToJSON PayoutType' where
-  toJSON (PayoutType'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PayoutType'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PayoutType'EnumStringBankAccount) = "bank_account"
-  toJSON (PayoutType'EnumStringCard) = "card"
+  toJSON (PayoutType'Other val) = val
+  toJSON (PayoutType'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PayoutType'EnumBankAccount) = "bank_account"
+  toJSON (PayoutType'EnumCard) = "card"
 
 instance Data.Aeson.Types.FromJSON.FromJSON PayoutType' where
   parseJSON val =
     GHC.Base.pure
-      ( if  | val GHC.Classes.== "bank_account" -> PayoutType'EnumStringBankAccount
-            | val GHC.Classes.== "card" -> PayoutType'EnumStringCard
-            | GHC.Base.otherwise -> PayoutType'EnumOther val
+      ( if  | val GHC.Classes.== "bank_account" -> PayoutType'EnumBankAccount
+            | val GHC.Classes.== "card" -> PayoutType'EnumCard
+            | GHC.Base.otherwise -> PayoutType'Other val
       )

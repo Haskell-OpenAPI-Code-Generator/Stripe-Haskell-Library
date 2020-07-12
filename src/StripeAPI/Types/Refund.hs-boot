@@ -1,11 +1,11 @@
 module StripeAPI.Types.Refund where
 import Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Types.Internal
-data Refund 
-instance Show Refund 
-instance Eq Refund 
-instance FromJSON Refund 
-instance ToJSON Refund 
+data Refund
+instance Show Refund
+instance Eq Refund
+instance FromJSON Refund
+instance ToJSON Refund
 data RefundBalanceTransaction'Variants
 instance Show RefundBalanceTransaction'Variants
 instance Eq RefundBalanceTransaction'Variants
@@ -21,11 +21,6 @@ instance Show RefundFailureBalanceTransaction'Variants
 instance Eq RefundFailureBalanceTransaction'Variants
 instance FromJSON RefundFailureBalanceTransaction'Variants
 instance ToJSON RefundFailureBalanceTransaction'Variants
-data RefundObject'
-instance Show RefundObject'
-instance Eq RefundObject'
-instance FromJSON RefundObject'
-instance ToJSON RefundObject'
 data RefundPaymentIntent'Variants
 instance Show RefundPaymentIntent'Variants
 instance Eq RefundPaymentIntent'Variants

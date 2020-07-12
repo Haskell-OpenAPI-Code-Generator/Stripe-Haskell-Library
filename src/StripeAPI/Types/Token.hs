@@ -8,6 +8,7 @@ module StripeAPI.Types.Token where
 
 import qualified Control.Monad.Fail
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -32,7 +33,7 @@ import {-# SOURCE #-} StripeAPI.Types.Card
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
--- | Defines the data type for the schema token
+-- | Defines the object schema located at @components.schemas.token@ in the specification.
 --
 -- Tokenization is the process Stripe uses to collect sensitive card or bank
 -- account details, or personally identifiable information (PII), directly from
@@ -88,8 +89,6 @@ data Token
         tokenId :: Data.Text.Internal.Text,
         -- | livemode: Has the value \`true\` if the object exists in live mode or the value \`false\` if the object exists in test mode.
         tokenLivemode :: GHC.Types.Bool,
-        -- | object: String representing the object\'s type. Objects of the same type share the same value.
-        tokenObject :: TokenObject',
         -- | type: Type of the token: \`account\`, \`bank_account\`, \`card\`, or \`pii\`.
         --
         -- Constraints:
@@ -105,29 +104,33 @@ data Token
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON Token where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "bank_account" (tokenBankAccount obj) : (Data.Aeson..=) "card" (tokenCard obj) : (Data.Aeson..=) "client_ip" (tokenClientIp obj) : (Data.Aeson..=) "created" (tokenCreated obj) : (Data.Aeson..=) "id" (tokenId obj) : (Data.Aeson..=) "livemode" (tokenLivemode obj) : (Data.Aeson..=) "object" (tokenObject obj) : (Data.Aeson..=) "type" (tokenType obj) : (Data.Aeson..=) "used" (tokenUsed obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "bank_account" (tokenBankAccount obj) GHC.Base.<> ((Data.Aeson..=) "card" (tokenCard obj) GHC.Base.<> ((Data.Aeson..=) "client_ip" (tokenClientIp obj) GHC.Base.<> ((Data.Aeson..=) "created" (tokenCreated obj) GHC.Base.<> ((Data.Aeson..=) "id" (tokenId obj) GHC.Base.<> ((Data.Aeson..=) "livemode" (tokenLivemode obj) GHC.Base.<> ((Data.Aeson..=) "object" (tokenObject obj) GHC.Base.<> ((Data.Aeson..=) "type" (tokenType obj) GHC.Base.<> (Data.Aeson..=) "used" (tokenUsed obj)))))))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("bank_account" Data.Aeson.Types.ToJSON..= tokenBankAccount obj : "card" Data.Aeson.Types.ToJSON..= tokenCard obj : "client_ip" Data.Aeson.Types.ToJSON..= tokenClientIp obj : "created" Data.Aeson.Types.ToJSON..= tokenCreated obj : "id" Data.Aeson.Types.ToJSON..= tokenId obj : "livemode" Data.Aeson.Types.ToJSON..= tokenLivemode obj : "type" Data.Aeson.Types.ToJSON..= tokenType obj : "used" Data.Aeson.Types.ToJSON..= tokenUsed obj : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "token" : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("bank_account" Data.Aeson.Types.ToJSON..= tokenBankAccount obj) GHC.Base.<> (("card" Data.Aeson.Types.ToJSON..= tokenCard obj) GHC.Base.<> (("client_ip" Data.Aeson.Types.ToJSON..= tokenClientIp obj) GHC.Base.<> (("created" Data.Aeson.Types.ToJSON..= tokenCreated obj) GHC.Base.<> (("id" Data.Aeson.Types.ToJSON..= tokenId obj) GHC.Base.<> (("livemode" Data.Aeson.Types.ToJSON..= tokenLivemode obj) GHC.Base.<> (("type" Data.Aeson.Types.ToJSON..= tokenType obj) GHC.Base.<> (("used" Data.Aeson.Types.ToJSON..= tokenUsed obj) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "token")))))))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON Token where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "Token" (\obj -> ((((((((GHC.Base.pure Token GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "bank_account")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "card")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "client_ip")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "created")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "livemode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "object")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "type")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "used"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "Token" (\obj -> (((((((GHC.Base.pure Token GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "bank_account")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "card")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "client_ip")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "created")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "livemode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "type")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "used"))
 
--- | Defines the enum schema tokenObject\'
---
--- String representing the object\'s type. Objects of the same type share the same value.
-data TokenObject'
-  = TokenObject'EnumOther Data.Aeson.Types.Internal.Value
-  | TokenObject'EnumTyped Data.Text.Internal.Text
-  | TokenObject'EnumStringToken
-  deriving (GHC.Show.Show, GHC.Classes.Eq)
-
-instance Data.Aeson.Types.ToJSON.ToJSON TokenObject' where
-  toJSON (TokenObject'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (TokenObject'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (TokenObject'EnumStringToken) = "token"
-
-instance Data.Aeson.Types.FromJSON.FromJSON TokenObject' where
-  parseJSON val =
-    GHC.Base.pure
-      ( if  | val GHC.Classes.== "token" -> TokenObject'EnumStringToken
-            | GHC.Base.otherwise -> TokenObject'EnumOther val
-      )
+-- | Create a new 'Token' with all required fields.
+mkToken ::
+  -- | 'tokenCreated'
+  GHC.Types.Int ->
+  -- | 'tokenId'
+  Data.Text.Internal.Text ->
+  -- | 'tokenLivemode'
+  GHC.Types.Bool ->
+  -- | 'tokenType'
+  Data.Text.Internal.Text ->
+  -- | 'tokenUsed'
+  GHC.Types.Bool ->
+  Token
+mkToken tokenCreated tokenId tokenLivemode tokenType tokenUsed =
+  Token
+    { tokenBankAccount = GHC.Maybe.Nothing,
+      tokenCard = GHC.Maybe.Nothing,
+      tokenClientIp = GHC.Maybe.Nothing,
+      tokenCreated = tokenCreated,
+      tokenId = tokenId,
+      tokenLivemode = tokenLivemode,
+      tokenType = tokenType,
+      tokenUsed = tokenUsed
+    }

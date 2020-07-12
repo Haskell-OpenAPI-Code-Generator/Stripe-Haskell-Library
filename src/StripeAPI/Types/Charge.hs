@@ -8,6 +8,7 @@ module StripeAPI.Types.Charge where
 
 import qualified Control.Monad.Fail
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -62,7 +63,7 @@ import {-# SOURCE #-} StripeAPI.Types.Transfer
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
--- | Defines the data type for the schema charge
+-- | Defines the object schema located at @components.schemas.charge@ in the specification.
 --
 -- To charge a credit or a debit card, you create a \`Charge\` object. You can
 -- retrieve and refund individual charges as well as list all charges. Charges
@@ -127,8 +128,6 @@ data Charge
         chargeLivemode :: GHC.Types.Bool,
         -- | metadata: Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
         chargeMetadata :: Data.Aeson.Types.Internal.Object,
-        -- | object: String representing the object\'s type. Objects of the same type share the same value.
-        chargeObject :: ChargeObject',
         -- | on_behalf_of: The account (if any) the charge was made on behalf of without triggering an automatic transfer. See the [Connect documentation](https:\/\/stripe.com\/docs\/connect\/charges-transfers) for details.
         chargeOnBehalfOf :: (GHC.Maybe.Maybe ChargeOnBehalfOf'Variants),
         -- | order: ID of the order this charge is for if one exists.
@@ -214,13 +213,91 @@ data Charge
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON Charge where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "amount" (chargeAmount obj) : (Data.Aeson..=) "amount_refunded" (chargeAmountRefunded obj) : (Data.Aeson..=) "application" (chargeApplication obj) : (Data.Aeson..=) "application_fee" (chargeApplicationFee obj) : (Data.Aeson..=) "application_fee_amount" (chargeApplicationFeeAmount obj) : (Data.Aeson..=) "balance_transaction" (chargeBalanceTransaction obj) : (Data.Aeson..=) "billing_details" (chargeBillingDetails obj) : (Data.Aeson..=) "captured" (chargeCaptured obj) : (Data.Aeson..=) "created" (chargeCreated obj) : (Data.Aeson..=) "currency" (chargeCurrency obj) : (Data.Aeson..=) "customer" (chargeCustomer obj) : (Data.Aeson..=) "description" (chargeDescription obj) : (Data.Aeson..=) "disputed" (chargeDisputed obj) : (Data.Aeson..=) "failure_code" (chargeFailureCode obj) : (Data.Aeson..=) "failure_message" (chargeFailureMessage obj) : (Data.Aeson..=) "fraud_details" (chargeFraudDetails obj) : (Data.Aeson..=) "id" (chargeId obj) : (Data.Aeson..=) "invoice" (chargeInvoice obj) : (Data.Aeson..=) "livemode" (chargeLivemode obj) : (Data.Aeson..=) "metadata" (chargeMetadata obj) : (Data.Aeson..=) "object" (chargeObject obj) : (Data.Aeson..=) "on_behalf_of" (chargeOnBehalfOf obj) : (Data.Aeson..=) "order" (chargeOrder obj) : (Data.Aeson..=) "outcome" (chargeOutcome obj) : (Data.Aeson..=) "paid" (chargePaid obj) : (Data.Aeson..=) "payment_intent" (chargePaymentIntent obj) : (Data.Aeson..=) "payment_method" (chargePaymentMethod obj) : (Data.Aeson..=) "payment_method_details" (chargePaymentMethodDetails obj) : (Data.Aeson..=) "receipt_email" (chargeReceiptEmail obj) : (Data.Aeson..=) "receipt_number" (chargeReceiptNumber obj) : (Data.Aeson..=) "receipt_url" (chargeReceiptUrl obj) : (Data.Aeson..=) "refunded" (chargeRefunded obj) : (Data.Aeson..=) "refunds" (chargeRefunds obj) : (Data.Aeson..=) "review" (chargeReview obj) : (Data.Aeson..=) "shipping" (chargeShipping obj) : (Data.Aeson..=) "source_transfer" (chargeSourceTransfer obj) : (Data.Aeson..=) "statement_descriptor" (chargeStatementDescriptor obj) : (Data.Aeson..=) "statement_descriptor_suffix" (chargeStatementDescriptorSuffix obj) : (Data.Aeson..=) "status" (chargeStatus obj) : (Data.Aeson..=) "transfer" (chargeTransfer obj) : (Data.Aeson..=) "transfer_data" (chargeTransferData obj) : (Data.Aeson..=) "transfer_group" (chargeTransferGroup obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "amount" (chargeAmount obj) GHC.Base.<> ((Data.Aeson..=) "amount_refunded" (chargeAmountRefunded obj) GHC.Base.<> ((Data.Aeson..=) "application" (chargeApplication obj) GHC.Base.<> ((Data.Aeson..=) "application_fee" (chargeApplicationFee obj) GHC.Base.<> ((Data.Aeson..=) "application_fee_amount" (chargeApplicationFeeAmount obj) GHC.Base.<> ((Data.Aeson..=) "balance_transaction" (chargeBalanceTransaction obj) GHC.Base.<> ((Data.Aeson..=) "billing_details" (chargeBillingDetails obj) GHC.Base.<> ((Data.Aeson..=) "captured" (chargeCaptured obj) GHC.Base.<> ((Data.Aeson..=) "created" (chargeCreated obj) GHC.Base.<> ((Data.Aeson..=) "currency" (chargeCurrency obj) GHC.Base.<> ((Data.Aeson..=) "customer" (chargeCustomer obj) GHC.Base.<> ((Data.Aeson..=) "description" (chargeDescription obj) GHC.Base.<> ((Data.Aeson..=) "disputed" (chargeDisputed obj) GHC.Base.<> ((Data.Aeson..=) "failure_code" (chargeFailureCode obj) GHC.Base.<> ((Data.Aeson..=) "failure_message" (chargeFailureMessage obj) GHC.Base.<> ((Data.Aeson..=) "fraud_details" (chargeFraudDetails obj) GHC.Base.<> ((Data.Aeson..=) "id" (chargeId obj) GHC.Base.<> ((Data.Aeson..=) "invoice" (chargeInvoice obj) GHC.Base.<> ((Data.Aeson..=) "livemode" (chargeLivemode obj) GHC.Base.<> ((Data.Aeson..=) "metadata" (chargeMetadata obj) GHC.Base.<> ((Data.Aeson..=) "object" (chargeObject obj) GHC.Base.<> ((Data.Aeson..=) "on_behalf_of" (chargeOnBehalfOf obj) GHC.Base.<> ((Data.Aeson..=) "order" (chargeOrder obj) GHC.Base.<> ((Data.Aeson..=) "outcome" (chargeOutcome obj) GHC.Base.<> ((Data.Aeson..=) "paid" (chargePaid obj) GHC.Base.<> ((Data.Aeson..=) "payment_intent" (chargePaymentIntent obj) GHC.Base.<> ((Data.Aeson..=) "payment_method" (chargePaymentMethod obj) GHC.Base.<> ((Data.Aeson..=) "payment_method_details" (chargePaymentMethodDetails obj) GHC.Base.<> ((Data.Aeson..=) "receipt_email" (chargeReceiptEmail obj) GHC.Base.<> ((Data.Aeson..=) "receipt_number" (chargeReceiptNumber obj) GHC.Base.<> ((Data.Aeson..=) "receipt_url" (chargeReceiptUrl obj) GHC.Base.<> ((Data.Aeson..=) "refunded" (chargeRefunded obj) GHC.Base.<> ((Data.Aeson..=) "refunds" (chargeRefunds obj) GHC.Base.<> ((Data.Aeson..=) "review" (chargeReview obj) GHC.Base.<> ((Data.Aeson..=) "shipping" (chargeShipping obj) GHC.Base.<> ((Data.Aeson..=) "source_transfer" (chargeSourceTransfer obj) GHC.Base.<> ((Data.Aeson..=) "statement_descriptor" (chargeStatementDescriptor obj) GHC.Base.<> ((Data.Aeson..=) "statement_descriptor_suffix" (chargeStatementDescriptorSuffix obj) GHC.Base.<> ((Data.Aeson..=) "status" (chargeStatus obj) GHC.Base.<> ((Data.Aeson..=) "transfer" (chargeTransfer obj) GHC.Base.<> ((Data.Aeson..=) "transfer_data" (chargeTransferData obj) GHC.Base.<> (Data.Aeson..=) "transfer_group" (chargeTransferGroup obj))))))))))))))))))))))))))))))))))))))))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("amount" Data.Aeson.Types.ToJSON..= chargeAmount obj : "amount_refunded" Data.Aeson.Types.ToJSON..= chargeAmountRefunded obj : "application" Data.Aeson.Types.ToJSON..= chargeApplication obj : "application_fee" Data.Aeson.Types.ToJSON..= chargeApplicationFee obj : "application_fee_amount" Data.Aeson.Types.ToJSON..= chargeApplicationFeeAmount obj : "balance_transaction" Data.Aeson.Types.ToJSON..= chargeBalanceTransaction obj : "billing_details" Data.Aeson.Types.ToJSON..= chargeBillingDetails obj : "captured" Data.Aeson.Types.ToJSON..= chargeCaptured obj : "created" Data.Aeson.Types.ToJSON..= chargeCreated obj : "currency" Data.Aeson.Types.ToJSON..= chargeCurrency obj : "customer" Data.Aeson.Types.ToJSON..= chargeCustomer obj : "description" Data.Aeson.Types.ToJSON..= chargeDescription obj : "disputed" Data.Aeson.Types.ToJSON..= chargeDisputed obj : "failure_code" Data.Aeson.Types.ToJSON..= chargeFailureCode obj : "failure_message" Data.Aeson.Types.ToJSON..= chargeFailureMessage obj : "fraud_details" Data.Aeson.Types.ToJSON..= chargeFraudDetails obj : "id" Data.Aeson.Types.ToJSON..= chargeId obj : "invoice" Data.Aeson.Types.ToJSON..= chargeInvoice obj : "livemode" Data.Aeson.Types.ToJSON..= chargeLivemode obj : "metadata" Data.Aeson.Types.ToJSON..= chargeMetadata obj : "on_behalf_of" Data.Aeson.Types.ToJSON..= chargeOnBehalfOf obj : "order" Data.Aeson.Types.ToJSON..= chargeOrder obj : "outcome" Data.Aeson.Types.ToJSON..= chargeOutcome obj : "paid" Data.Aeson.Types.ToJSON..= chargePaid obj : "payment_intent" Data.Aeson.Types.ToJSON..= chargePaymentIntent obj : "payment_method" Data.Aeson.Types.ToJSON..= chargePaymentMethod obj : "payment_method_details" Data.Aeson.Types.ToJSON..= chargePaymentMethodDetails obj : "receipt_email" Data.Aeson.Types.ToJSON..= chargeReceiptEmail obj : "receipt_number" Data.Aeson.Types.ToJSON..= chargeReceiptNumber obj : "receipt_url" Data.Aeson.Types.ToJSON..= chargeReceiptUrl obj : "refunded" Data.Aeson.Types.ToJSON..= chargeRefunded obj : "refunds" Data.Aeson.Types.ToJSON..= chargeRefunds obj : "review" Data.Aeson.Types.ToJSON..= chargeReview obj : "shipping" Data.Aeson.Types.ToJSON..= chargeShipping obj : "source_transfer" Data.Aeson.Types.ToJSON..= chargeSourceTransfer obj : "statement_descriptor" Data.Aeson.Types.ToJSON..= chargeStatementDescriptor obj : "statement_descriptor_suffix" Data.Aeson.Types.ToJSON..= chargeStatementDescriptorSuffix obj : "status" Data.Aeson.Types.ToJSON..= chargeStatus obj : "transfer" Data.Aeson.Types.ToJSON..= chargeTransfer obj : "transfer_data" Data.Aeson.Types.ToJSON..= chargeTransferData obj : "transfer_group" Data.Aeson.Types.ToJSON..= chargeTransferGroup obj : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "charge" : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("amount" Data.Aeson.Types.ToJSON..= chargeAmount obj) GHC.Base.<> (("amount_refunded" Data.Aeson.Types.ToJSON..= chargeAmountRefunded obj) GHC.Base.<> (("application" Data.Aeson.Types.ToJSON..= chargeApplication obj) GHC.Base.<> (("application_fee" Data.Aeson.Types.ToJSON..= chargeApplicationFee obj) GHC.Base.<> (("application_fee_amount" Data.Aeson.Types.ToJSON..= chargeApplicationFeeAmount obj) GHC.Base.<> (("balance_transaction" Data.Aeson.Types.ToJSON..= chargeBalanceTransaction obj) GHC.Base.<> (("billing_details" Data.Aeson.Types.ToJSON..= chargeBillingDetails obj) GHC.Base.<> (("captured" Data.Aeson.Types.ToJSON..= chargeCaptured obj) GHC.Base.<> (("created" Data.Aeson.Types.ToJSON..= chargeCreated obj) GHC.Base.<> (("currency" Data.Aeson.Types.ToJSON..= chargeCurrency obj) GHC.Base.<> (("customer" Data.Aeson.Types.ToJSON..= chargeCustomer obj) GHC.Base.<> (("description" Data.Aeson.Types.ToJSON..= chargeDescription obj) GHC.Base.<> (("disputed" Data.Aeson.Types.ToJSON..= chargeDisputed obj) GHC.Base.<> (("failure_code" Data.Aeson.Types.ToJSON..= chargeFailureCode obj) GHC.Base.<> (("failure_message" Data.Aeson.Types.ToJSON..= chargeFailureMessage obj) GHC.Base.<> (("fraud_details" Data.Aeson.Types.ToJSON..= chargeFraudDetails obj) GHC.Base.<> (("id" Data.Aeson.Types.ToJSON..= chargeId obj) GHC.Base.<> (("invoice" Data.Aeson.Types.ToJSON..= chargeInvoice obj) GHC.Base.<> (("livemode" Data.Aeson.Types.ToJSON..= chargeLivemode obj) GHC.Base.<> (("metadata" Data.Aeson.Types.ToJSON..= chargeMetadata obj) GHC.Base.<> (("on_behalf_of" Data.Aeson.Types.ToJSON..= chargeOnBehalfOf obj) GHC.Base.<> (("order" Data.Aeson.Types.ToJSON..= chargeOrder obj) GHC.Base.<> (("outcome" Data.Aeson.Types.ToJSON..= chargeOutcome obj) GHC.Base.<> (("paid" Data.Aeson.Types.ToJSON..= chargePaid obj) GHC.Base.<> (("payment_intent" Data.Aeson.Types.ToJSON..= chargePaymentIntent obj) GHC.Base.<> (("payment_method" Data.Aeson.Types.ToJSON..= chargePaymentMethod obj) GHC.Base.<> (("payment_method_details" Data.Aeson.Types.ToJSON..= chargePaymentMethodDetails obj) GHC.Base.<> (("receipt_email" Data.Aeson.Types.ToJSON..= chargeReceiptEmail obj) GHC.Base.<> (("receipt_number" Data.Aeson.Types.ToJSON..= chargeReceiptNumber obj) GHC.Base.<> (("receipt_url" Data.Aeson.Types.ToJSON..= chargeReceiptUrl obj) GHC.Base.<> (("refunded" Data.Aeson.Types.ToJSON..= chargeRefunded obj) GHC.Base.<> (("refunds" Data.Aeson.Types.ToJSON..= chargeRefunds obj) GHC.Base.<> (("review" Data.Aeson.Types.ToJSON..= chargeReview obj) GHC.Base.<> (("shipping" Data.Aeson.Types.ToJSON..= chargeShipping obj) GHC.Base.<> (("source_transfer" Data.Aeson.Types.ToJSON..= chargeSourceTransfer obj) GHC.Base.<> (("statement_descriptor" Data.Aeson.Types.ToJSON..= chargeStatementDescriptor obj) GHC.Base.<> (("statement_descriptor_suffix" Data.Aeson.Types.ToJSON..= chargeStatementDescriptorSuffix obj) GHC.Base.<> (("status" Data.Aeson.Types.ToJSON..= chargeStatus obj) GHC.Base.<> (("transfer" Data.Aeson.Types.ToJSON..= chargeTransfer obj) GHC.Base.<> (("transfer_data" Data.Aeson.Types.ToJSON..= chargeTransferData obj) GHC.Base.<> (("transfer_group" Data.Aeson.Types.ToJSON..= chargeTransferGroup obj) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "charge"))))))))))))))))))))))))))))))))))))))))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON Charge where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "Charge" (\obj -> (((((((((((((((((((((((((((((((((((((((((GHC.Base.pure Charge GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "amount_refunded")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "application")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "application_fee")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "application_fee_amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "balance_transaction")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "billing_details")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "captured")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "created")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "customer")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "description")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "disputed")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "failure_code")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "failure_message")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "fraud_details")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "invoice")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "livemode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "object")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "on_behalf_of")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "order")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "outcome")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "paid")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "payment_intent")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "payment_method")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "payment_method_details")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "receipt_email")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "receipt_number")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "receipt_url")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "refunded")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "refunds")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "review")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "shipping")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "source_transfer")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "statement_descriptor")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "statement_descriptor_suffix")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "status")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "transfer")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "transfer_data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "transfer_group"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "Charge" (\obj -> ((((((((((((((((((((((((((((((((((((((((GHC.Base.pure Charge GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "amount_refunded")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "application")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "application_fee")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "application_fee_amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "balance_transaction")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "billing_details")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "captured")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "created")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "customer")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "description")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "disputed")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "failure_code")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "failure_message")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "fraud_details")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "invoice")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "livemode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "on_behalf_of")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "order")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "outcome")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "paid")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "payment_intent")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "payment_method")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "payment_method_details")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "receipt_email")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "receipt_number")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "receipt_url")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "refunded")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "refunds")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "review")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "shipping")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "source_transfer")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "statement_descriptor")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "statement_descriptor_suffix")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "status")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "transfer")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "transfer_data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "transfer_group"))
 
--- | Define the one-of schema chargeApplication\'
+-- | Create a new 'Charge' with all required fields.
+mkCharge ::
+  -- | 'chargeAmount'
+  GHC.Types.Int ->
+  -- | 'chargeAmountRefunded'
+  GHC.Types.Int ->
+  -- | 'chargeBillingDetails'
+  BillingDetails ->
+  -- | 'chargeCaptured'
+  GHC.Types.Bool ->
+  -- | 'chargeCreated'
+  GHC.Types.Int ->
+  -- | 'chargeCurrency'
+  Data.Text.Internal.Text ->
+  -- | 'chargeDisputed'
+  GHC.Types.Bool ->
+  -- | 'chargeId'
+  Data.Text.Internal.Text ->
+  -- | 'chargeLivemode'
+  GHC.Types.Bool ->
+  -- | 'chargeMetadata'
+  Data.Aeson.Types.Internal.Object ->
+  -- | 'chargePaid'
+  GHC.Types.Bool ->
+  -- | 'chargeReceiptUrl'
+  Data.Text.Internal.Text ->
+  -- | 'chargeRefunded'
+  GHC.Types.Bool ->
+  -- | 'chargeRefunds'
+  ChargeRefunds' ->
+  -- | 'chargeStatus'
+  Data.Text.Internal.Text ->
+  Charge
+mkCharge chargeAmount chargeAmountRefunded chargeBillingDetails chargeCaptured chargeCreated chargeCurrency chargeDisputed chargeId chargeLivemode chargeMetadata chargePaid chargeReceiptUrl chargeRefunded chargeRefunds chargeStatus =
+  Charge
+    { chargeAmount = chargeAmount,
+      chargeAmountRefunded = chargeAmountRefunded,
+      chargeApplication = GHC.Maybe.Nothing,
+      chargeApplicationFee = GHC.Maybe.Nothing,
+      chargeApplicationFeeAmount = GHC.Maybe.Nothing,
+      chargeBalanceTransaction = GHC.Maybe.Nothing,
+      chargeBillingDetails = chargeBillingDetails,
+      chargeCaptured = chargeCaptured,
+      chargeCreated = chargeCreated,
+      chargeCurrency = chargeCurrency,
+      chargeCustomer = GHC.Maybe.Nothing,
+      chargeDescription = GHC.Maybe.Nothing,
+      chargeDisputed = chargeDisputed,
+      chargeFailureCode = GHC.Maybe.Nothing,
+      chargeFailureMessage = GHC.Maybe.Nothing,
+      chargeFraudDetails = GHC.Maybe.Nothing,
+      chargeId = chargeId,
+      chargeInvoice = GHC.Maybe.Nothing,
+      chargeLivemode = chargeLivemode,
+      chargeMetadata = chargeMetadata,
+      chargeOnBehalfOf = GHC.Maybe.Nothing,
+      chargeOrder = GHC.Maybe.Nothing,
+      chargeOutcome = GHC.Maybe.Nothing,
+      chargePaid = chargePaid,
+      chargePaymentIntent = GHC.Maybe.Nothing,
+      chargePaymentMethod = GHC.Maybe.Nothing,
+      chargePaymentMethodDetails = GHC.Maybe.Nothing,
+      chargeReceiptEmail = GHC.Maybe.Nothing,
+      chargeReceiptNumber = GHC.Maybe.Nothing,
+      chargeReceiptUrl = chargeReceiptUrl,
+      chargeRefunded = chargeRefunded,
+      chargeRefunds = chargeRefunds,
+      chargeReview = GHC.Maybe.Nothing,
+      chargeShipping = GHC.Maybe.Nothing,
+      chargeSourceTransfer = GHC.Maybe.Nothing,
+      chargeStatementDescriptor = GHC.Maybe.Nothing,
+      chargeStatementDescriptorSuffix = GHC.Maybe.Nothing,
+      chargeStatus = chargeStatus,
+      chargeTransfer = GHC.Maybe.Nothing,
+      chargeTransferData = GHC.Maybe.Nothing,
+      chargeTransferGroup = GHC.Maybe.Nothing
+    }
+
+-- | Defines the oneOf schema located at @components.schemas.charge.properties.application.anyOf@ in the specification.
 --
 -- ID of the Connect application that created the charge.
 data ChargeApplication'Variants
@@ -233,13 +310,11 @@ instance Data.Aeson.Types.ToJSON.ToJSON ChargeApplication'Variants where
   toJSON (ChargeApplication'Text a) = Data.Aeson.Types.ToJSON.toJSON a
 
 instance Data.Aeson.Types.FromJSON.FromJSON ChargeApplication'Variants where
-  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
-    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ ChargeApplication'Application a
-    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ ChargeApplication'Text a
-      Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+  parseJSON val = case (ChargeApplication'Application Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((ChargeApplication'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched") of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+    Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
--- | Define the one-of schema chargeApplication_fee\'
+-- | Defines the oneOf schema located at @components.schemas.charge.properties.application_fee.anyOf@ in the specification.
 --
 -- The application fee (if any) for the charge. [See the Connect documentation](https:\/\/stripe.com\/docs\/connect\/direct-charges\#collecting-fees) for details.
 data ChargeApplicationFee'Variants
@@ -252,13 +327,11 @@ instance Data.Aeson.Types.ToJSON.ToJSON ChargeApplicationFee'Variants where
   toJSON (ChargeApplicationFee'Text a) = Data.Aeson.Types.ToJSON.toJSON a
 
 instance Data.Aeson.Types.FromJSON.FromJSON ChargeApplicationFee'Variants where
-  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
-    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ ChargeApplicationFee'ApplicationFee a
-    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ ChargeApplicationFee'Text a
-      Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+  parseJSON val = case (ChargeApplicationFee'ApplicationFee Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((ChargeApplicationFee'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched") of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+    Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
--- | Define the one-of schema chargeBalance_transaction\'
+-- | Defines the oneOf schema located at @components.schemas.charge.properties.balance_transaction.anyOf@ in the specification.
 --
 -- ID of the balance transaction that describes the impact of this charge on your account balance (not including refunds or disputes).
 data ChargeBalanceTransaction'Variants
@@ -271,13 +344,11 @@ instance Data.Aeson.Types.ToJSON.ToJSON ChargeBalanceTransaction'Variants where
   toJSON (ChargeBalanceTransaction'Text a) = Data.Aeson.Types.ToJSON.toJSON a
 
 instance Data.Aeson.Types.FromJSON.FromJSON ChargeBalanceTransaction'Variants where
-  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
-    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ ChargeBalanceTransaction'BalanceTransaction a
-    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ ChargeBalanceTransaction'Text a
-      Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+  parseJSON val = case (ChargeBalanceTransaction'BalanceTransaction Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((ChargeBalanceTransaction'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched") of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+    Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
--- | Define the one-of schema chargeCustomer\'
+-- | Defines the oneOf schema located at @components.schemas.charge.properties.customer.anyOf@ in the specification.
 --
 -- ID of the customer this charge is for if one exists.
 data ChargeCustomer'Variants
@@ -292,15 +363,11 @@ instance Data.Aeson.Types.ToJSON.ToJSON ChargeCustomer'Variants where
   toJSON (ChargeCustomer'Text a) = Data.Aeson.Types.ToJSON.toJSON a
 
 instance Data.Aeson.Types.FromJSON.FromJSON ChargeCustomer'Variants where
-  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
-    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ ChargeCustomer'Customer a
-    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ ChargeCustomer'DeletedCustomer a
-      Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-        Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ ChargeCustomer'Text a
-        Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+  parseJSON val = case (ChargeCustomer'Customer Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((ChargeCustomer'DeletedCustomer Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((ChargeCustomer'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched")) of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+    Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
--- | Defines the data type for the schema chargeFraud_details\'
+-- | Defines the object schema located at @components.schemas.charge.properties.fraud_details.anyOf@ in the specification.
 --
 -- Information on fraud assessments for the charge.
 data ChargeFraudDetails'
@@ -324,13 +391,21 @@ data ChargeFraudDetails'
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON ChargeFraudDetails' where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "stripe_report" (chargeFraudDetails'StripeReport obj) : (Data.Aeson..=) "user_report" (chargeFraudDetails'UserReport obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "stripe_report" (chargeFraudDetails'StripeReport obj) GHC.Base.<> (Data.Aeson..=) "user_report" (chargeFraudDetails'UserReport obj))
+  toJSON obj = Data.Aeson.Types.Internal.object ("stripe_report" Data.Aeson.Types.ToJSON..= chargeFraudDetails'StripeReport obj : "user_report" Data.Aeson.Types.ToJSON..= chargeFraudDetails'UserReport obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("stripe_report" Data.Aeson.Types.ToJSON..= chargeFraudDetails'StripeReport obj) GHC.Base.<> ("user_report" Data.Aeson.Types.ToJSON..= chargeFraudDetails'UserReport obj))
 
 instance Data.Aeson.Types.FromJSON.FromJSON ChargeFraudDetails' where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "ChargeFraudDetails'" (\obj -> (GHC.Base.pure ChargeFraudDetails' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "stripe_report")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "user_report"))
 
--- | Define the one-of schema chargeInvoice\'
+-- | Create a new 'ChargeFraudDetails'' with all required fields.
+mkChargeFraudDetails' :: ChargeFraudDetails'
+mkChargeFraudDetails' =
+  ChargeFraudDetails'
+    { chargeFraudDetails'StripeReport = GHC.Maybe.Nothing,
+      chargeFraudDetails'UserReport = GHC.Maybe.Nothing
+    }
+
+-- | Defines the oneOf schema located at @components.schemas.charge.properties.invoice.anyOf@ in the specification.
 --
 -- ID of the invoice this charge is for if one exists.
 data ChargeInvoice'Variants
@@ -343,34 +418,11 @@ instance Data.Aeson.Types.ToJSON.ToJSON ChargeInvoice'Variants where
   toJSON (ChargeInvoice'Text a) = Data.Aeson.Types.ToJSON.toJSON a
 
 instance Data.Aeson.Types.FromJSON.FromJSON ChargeInvoice'Variants where
-  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
-    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ ChargeInvoice'Invoice a
-    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ ChargeInvoice'Text a
-      Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+  parseJSON val = case (ChargeInvoice'Invoice Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((ChargeInvoice'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched") of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+    Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
--- | Defines the enum schema chargeObject\'
---
--- String representing the object\'s type. Objects of the same type share the same value.
-data ChargeObject'
-  = ChargeObject'EnumOther Data.Aeson.Types.Internal.Value
-  | ChargeObject'EnumTyped Data.Text.Internal.Text
-  | ChargeObject'EnumStringCharge
-  deriving (GHC.Show.Show, GHC.Classes.Eq)
-
-instance Data.Aeson.Types.ToJSON.ToJSON ChargeObject' where
-  toJSON (ChargeObject'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (ChargeObject'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (ChargeObject'EnumStringCharge) = "charge"
-
-instance Data.Aeson.Types.FromJSON.FromJSON ChargeObject' where
-  parseJSON val =
-    GHC.Base.pure
-      ( if  | val GHC.Classes.== "charge" -> ChargeObject'EnumStringCharge
-            | GHC.Base.otherwise -> ChargeObject'EnumOther val
-      )
-
--- | Define the one-of schema chargeOn_behalf_of\'
+-- | Defines the oneOf schema located at @components.schemas.charge.properties.on_behalf_of.anyOf@ in the specification.
 --
 -- The account (if any) the charge was made on behalf of without triggering an automatic transfer. See the [Connect documentation](https:\/\/stripe.com\/docs\/connect\/charges-transfers) for details.
 data ChargeOnBehalfOf'Variants
@@ -383,13 +435,11 @@ instance Data.Aeson.Types.ToJSON.ToJSON ChargeOnBehalfOf'Variants where
   toJSON (ChargeOnBehalfOf'Text a) = Data.Aeson.Types.ToJSON.toJSON a
 
 instance Data.Aeson.Types.FromJSON.FromJSON ChargeOnBehalfOf'Variants where
-  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
-    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ ChargeOnBehalfOf'Account a
-    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ ChargeOnBehalfOf'Text a
-      Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+  parseJSON val = case (ChargeOnBehalfOf'Account Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((ChargeOnBehalfOf'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched") of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+    Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
--- | Define the one-of schema chargeOrder\'
+-- | Defines the oneOf schema located at @components.schemas.charge.properties.order.anyOf@ in the specification.
 --
 -- ID of the order this charge is for if one exists.
 data ChargeOrder'Variants
@@ -402,13 +452,11 @@ instance Data.Aeson.Types.ToJSON.ToJSON ChargeOrder'Variants where
   toJSON (ChargeOrder'Text a) = Data.Aeson.Types.ToJSON.toJSON a
 
 instance Data.Aeson.Types.FromJSON.FromJSON ChargeOrder'Variants where
-  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
-    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ ChargeOrder'Order a
-    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ ChargeOrder'Text a
-      Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+  parseJSON val = case (ChargeOrder'Order Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((ChargeOrder'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched") of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+    Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
--- | Defines the data type for the schema chargeOutcome\'
+-- | Defines the object schema located at @components.schemas.charge.properties.outcome.anyOf@ in the specification.
 --
 -- Details about whether the payment was accepted, and why. See [understanding declines](https:\\\/\\\/stripe.com\\\/docs\\\/declines) for details.
 data ChargeOutcome'
@@ -454,13 +502,26 @@ data ChargeOutcome'
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON ChargeOutcome' where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "network_status" (chargeOutcome'NetworkStatus obj) : (Data.Aeson..=) "reason" (chargeOutcome'Reason obj) : (Data.Aeson..=) "risk_level" (chargeOutcome'RiskLevel obj) : (Data.Aeson..=) "risk_score" (chargeOutcome'RiskScore obj) : (Data.Aeson..=) "rule" (chargeOutcome'Rule obj) : (Data.Aeson..=) "seller_message" (chargeOutcome'SellerMessage obj) : (Data.Aeson..=) "type" (chargeOutcome'Type obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "network_status" (chargeOutcome'NetworkStatus obj) GHC.Base.<> ((Data.Aeson..=) "reason" (chargeOutcome'Reason obj) GHC.Base.<> ((Data.Aeson..=) "risk_level" (chargeOutcome'RiskLevel obj) GHC.Base.<> ((Data.Aeson..=) "risk_score" (chargeOutcome'RiskScore obj) GHC.Base.<> ((Data.Aeson..=) "rule" (chargeOutcome'Rule obj) GHC.Base.<> ((Data.Aeson..=) "seller_message" (chargeOutcome'SellerMessage obj) GHC.Base.<> (Data.Aeson..=) "type" (chargeOutcome'Type obj)))))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("network_status" Data.Aeson.Types.ToJSON..= chargeOutcome'NetworkStatus obj : "reason" Data.Aeson.Types.ToJSON..= chargeOutcome'Reason obj : "risk_level" Data.Aeson.Types.ToJSON..= chargeOutcome'RiskLevel obj : "risk_score" Data.Aeson.Types.ToJSON..= chargeOutcome'RiskScore obj : "rule" Data.Aeson.Types.ToJSON..= chargeOutcome'Rule obj : "seller_message" Data.Aeson.Types.ToJSON..= chargeOutcome'SellerMessage obj : "type" Data.Aeson.Types.ToJSON..= chargeOutcome'Type obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("network_status" Data.Aeson.Types.ToJSON..= chargeOutcome'NetworkStatus obj) GHC.Base.<> (("reason" Data.Aeson.Types.ToJSON..= chargeOutcome'Reason obj) GHC.Base.<> (("risk_level" Data.Aeson.Types.ToJSON..= chargeOutcome'RiskLevel obj) GHC.Base.<> (("risk_score" Data.Aeson.Types.ToJSON..= chargeOutcome'RiskScore obj) GHC.Base.<> (("rule" Data.Aeson.Types.ToJSON..= chargeOutcome'Rule obj) GHC.Base.<> (("seller_message" Data.Aeson.Types.ToJSON..= chargeOutcome'SellerMessage obj) GHC.Base.<> ("type" Data.Aeson.Types.ToJSON..= chargeOutcome'Type obj)))))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON ChargeOutcome' where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "ChargeOutcome'" (\obj -> ((((((GHC.Base.pure ChargeOutcome' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "network_status")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "reason")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "risk_level")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "risk_score")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "rule")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "seller_message")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "type"))
 
--- | Define the one-of schema chargeOutcome\'Rule\'
+-- | Create a new 'ChargeOutcome'' with all required fields.
+mkChargeOutcome' :: ChargeOutcome'
+mkChargeOutcome' =
+  ChargeOutcome'
+    { chargeOutcome'NetworkStatus = GHC.Maybe.Nothing,
+      chargeOutcome'Reason = GHC.Maybe.Nothing,
+      chargeOutcome'RiskLevel = GHC.Maybe.Nothing,
+      chargeOutcome'RiskScore = GHC.Maybe.Nothing,
+      chargeOutcome'Rule = GHC.Maybe.Nothing,
+      chargeOutcome'SellerMessage = GHC.Maybe.Nothing,
+      chargeOutcome'Type = GHC.Maybe.Nothing
+    }
+
+-- | Defines the oneOf schema located at @components.schemas.charge.properties.outcome.anyOf.properties.rule.anyOf@ in the specification.
 --
 -- The ID of the Radar rule that matched the payment, if applicable.
 data ChargeOutcome'Rule'Variants
@@ -473,13 +534,11 @@ instance Data.Aeson.Types.ToJSON.ToJSON ChargeOutcome'Rule'Variants where
   toJSON (ChargeOutcome'Rule'Text a) = Data.Aeson.Types.ToJSON.toJSON a
 
 instance Data.Aeson.Types.FromJSON.FromJSON ChargeOutcome'Rule'Variants where
-  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
-    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ ChargeOutcome'Rule'Rule a
-    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ ChargeOutcome'Rule'Text a
-      Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+  parseJSON val = case (ChargeOutcome'Rule'Rule Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((ChargeOutcome'Rule'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched") of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+    Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
--- | Defines the data type for the schema chargePayment_method_details\'
+-- | Defines the object schema located at @components.schemas.charge.properties.payment_method_details.anyOf@ in the specification.
 --
 -- Details about the payment method at the time of the transaction.
 data ChargePaymentMethodDetails'
@@ -533,13 +592,37 @@ data ChargePaymentMethodDetails'
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON ChargePaymentMethodDetails' where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "ach_credit_transfer" (chargePaymentMethodDetails'AchCreditTransfer obj) : (Data.Aeson..=) "ach_debit" (chargePaymentMethodDetails'AchDebit obj) : (Data.Aeson..=) "alipay" (chargePaymentMethodDetails'Alipay obj) : (Data.Aeson..=) "bancontact" (chargePaymentMethodDetails'Bancontact obj) : (Data.Aeson..=) "card" (chargePaymentMethodDetails'Card obj) : (Data.Aeson..=) "card_present" (chargePaymentMethodDetails'CardPresent obj) : (Data.Aeson..=) "eps" (chargePaymentMethodDetails'Eps obj) : (Data.Aeson..=) "fpx" (chargePaymentMethodDetails'Fpx obj) : (Data.Aeson..=) "giropay" (chargePaymentMethodDetails'Giropay obj) : (Data.Aeson..=) "ideal" (chargePaymentMethodDetails'Ideal obj) : (Data.Aeson..=) "klarna" (chargePaymentMethodDetails'Klarna obj) : (Data.Aeson..=) "multibanco" (chargePaymentMethodDetails'Multibanco obj) : (Data.Aeson..=) "p24" (chargePaymentMethodDetails'P24 obj) : (Data.Aeson..=) "sepa_debit" (chargePaymentMethodDetails'SepaDebit obj) : (Data.Aeson..=) "sofort" (chargePaymentMethodDetails'Sofort obj) : (Data.Aeson..=) "stripe_account" (chargePaymentMethodDetails'StripeAccount obj) : (Data.Aeson..=) "type" (chargePaymentMethodDetails'Type obj) : (Data.Aeson..=) "wechat" (chargePaymentMethodDetails'Wechat obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "ach_credit_transfer" (chargePaymentMethodDetails'AchCreditTransfer obj) GHC.Base.<> ((Data.Aeson..=) "ach_debit" (chargePaymentMethodDetails'AchDebit obj) GHC.Base.<> ((Data.Aeson..=) "alipay" (chargePaymentMethodDetails'Alipay obj) GHC.Base.<> ((Data.Aeson..=) "bancontact" (chargePaymentMethodDetails'Bancontact obj) GHC.Base.<> ((Data.Aeson..=) "card" (chargePaymentMethodDetails'Card obj) GHC.Base.<> ((Data.Aeson..=) "card_present" (chargePaymentMethodDetails'CardPresent obj) GHC.Base.<> ((Data.Aeson..=) "eps" (chargePaymentMethodDetails'Eps obj) GHC.Base.<> ((Data.Aeson..=) "fpx" (chargePaymentMethodDetails'Fpx obj) GHC.Base.<> ((Data.Aeson..=) "giropay" (chargePaymentMethodDetails'Giropay obj) GHC.Base.<> ((Data.Aeson..=) "ideal" (chargePaymentMethodDetails'Ideal obj) GHC.Base.<> ((Data.Aeson..=) "klarna" (chargePaymentMethodDetails'Klarna obj) GHC.Base.<> ((Data.Aeson..=) "multibanco" (chargePaymentMethodDetails'Multibanco obj) GHC.Base.<> ((Data.Aeson..=) "p24" (chargePaymentMethodDetails'P24 obj) GHC.Base.<> ((Data.Aeson..=) "sepa_debit" (chargePaymentMethodDetails'SepaDebit obj) GHC.Base.<> ((Data.Aeson..=) "sofort" (chargePaymentMethodDetails'Sofort obj) GHC.Base.<> ((Data.Aeson..=) "stripe_account" (chargePaymentMethodDetails'StripeAccount obj) GHC.Base.<> ((Data.Aeson..=) "type" (chargePaymentMethodDetails'Type obj) GHC.Base.<> (Data.Aeson..=) "wechat" (chargePaymentMethodDetails'Wechat obj))))))))))))))))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("ach_credit_transfer" Data.Aeson.Types.ToJSON..= chargePaymentMethodDetails'AchCreditTransfer obj : "ach_debit" Data.Aeson.Types.ToJSON..= chargePaymentMethodDetails'AchDebit obj : "alipay" Data.Aeson.Types.ToJSON..= chargePaymentMethodDetails'Alipay obj : "bancontact" Data.Aeson.Types.ToJSON..= chargePaymentMethodDetails'Bancontact obj : "card" Data.Aeson.Types.ToJSON..= chargePaymentMethodDetails'Card obj : "card_present" Data.Aeson.Types.ToJSON..= chargePaymentMethodDetails'CardPresent obj : "eps" Data.Aeson.Types.ToJSON..= chargePaymentMethodDetails'Eps obj : "fpx" Data.Aeson.Types.ToJSON..= chargePaymentMethodDetails'Fpx obj : "giropay" Data.Aeson.Types.ToJSON..= chargePaymentMethodDetails'Giropay obj : "ideal" Data.Aeson.Types.ToJSON..= chargePaymentMethodDetails'Ideal obj : "klarna" Data.Aeson.Types.ToJSON..= chargePaymentMethodDetails'Klarna obj : "multibanco" Data.Aeson.Types.ToJSON..= chargePaymentMethodDetails'Multibanco obj : "p24" Data.Aeson.Types.ToJSON..= chargePaymentMethodDetails'P24 obj : "sepa_debit" Data.Aeson.Types.ToJSON..= chargePaymentMethodDetails'SepaDebit obj : "sofort" Data.Aeson.Types.ToJSON..= chargePaymentMethodDetails'Sofort obj : "stripe_account" Data.Aeson.Types.ToJSON..= chargePaymentMethodDetails'StripeAccount obj : "type" Data.Aeson.Types.ToJSON..= chargePaymentMethodDetails'Type obj : "wechat" Data.Aeson.Types.ToJSON..= chargePaymentMethodDetails'Wechat obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("ach_credit_transfer" Data.Aeson.Types.ToJSON..= chargePaymentMethodDetails'AchCreditTransfer obj) GHC.Base.<> (("ach_debit" Data.Aeson.Types.ToJSON..= chargePaymentMethodDetails'AchDebit obj) GHC.Base.<> (("alipay" Data.Aeson.Types.ToJSON..= chargePaymentMethodDetails'Alipay obj) GHC.Base.<> (("bancontact" Data.Aeson.Types.ToJSON..= chargePaymentMethodDetails'Bancontact obj) GHC.Base.<> (("card" Data.Aeson.Types.ToJSON..= chargePaymentMethodDetails'Card obj) GHC.Base.<> (("card_present" Data.Aeson.Types.ToJSON..= chargePaymentMethodDetails'CardPresent obj) GHC.Base.<> (("eps" Data.Aeson.Types.ToJSON..= chargePaymentMethodDetails'Eps obj) GHC.Base.<> (("fpx" Data.Aeson.Types.ToJSON..= chargePaymentMethodDetails'Fpx obj) GHC.Base.<> (("giropay" Data.Aeson.Types.ToJSON..= chargePaymentMethodDetails'Giropay obj) GHC.Base.<> (("ideal" Data.Aeson.Types.ToJSON..= chargePaymentMethodDetails'Ideal obj) GHC.Base.<> (("klarna" Data.Aeson.Types.ToJSON..= chargePaymentMethodDetails'Klarna obj) GHC.Base.<> (("multibanco" Data.Aeson.Types.ToJSON..= chargePaymentMethodDetails'Multibanco obj) GHC.Base.<> (("p24" Data.Aeson.Types.ToJSON..= chargePaymentMethodDetails'P24 obj) GHC.Base.<> (("sepa_debit" Data.Aeson.Types.ToJSON..= chargePaymentMethodDetails'SepaDebit obj) GHC.Base.<> (("sofort" Data.Aeson.Types.ToJSON..= chargePaymentMethodDetails'Sofort obj) GHC.Base.<> (("stripe_account" Data.Aeson.Types.ToJSON..= chargePaymentMethodDetails'StripeAccount obj) GHC.Base.<> (("type" Data.Aeson.Types.ToJSON..= chargePaymentMethodDetails'Type obj) GHC.Base.<> ("wechat" Data.Aeson.Types.ToJSON..= chargePaymentMethodDetails'Wechat obj))))))))))))))))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON ChargePaymentMethodDetails' where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "ChargePaymentMethodDetails'" (\obj -> (((((((((((((((((GHC.Base.pure ChargePaymentMethodDetails' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "ach_credit_transfer")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "ach_debit")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "alipay")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "bancontact")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "card")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "card_present")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "eps")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "fpx")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "giropay")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "ideal")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "klarna")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "multibanco")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "p24")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "sepa_debit")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "sofort")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "stripe_account")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "type")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "wechat"))
 
--- | Defines the data type for the schema chargeRefunds\'
+-- | Create a new 'ChargePaymentMethodDetails'' with all required fields.
+mkChargePaymentMethodDetails' :: ChargePaymentMethodDetails'
+mkChargePaymentMethodDetails' =
+  ChargePaymentMethodDetails'
+    { chargePaymentMethodDetails'AchCreditTransfer = GHC.Maybe.Nothing,
+      chargePaymentMethodDetails'AchDebit = GHC.Maybe.Nothing,
+      chargePaymentMethodDetails'Alipay = GHC.Maybe.Nothing,
+      chargePaymentMethodDetails'Bancontact = GHC.Maybe.Nothing,
+      chargePaymentMethodDetails'Card = GHC.Maybe.Nothing,
+      chargePaymentMethodDetails'CardPresent = GHC.Maybe.Nothing,
+      chargePaymentMethodDetails'Eps = GHC.Maybe.Nothing,
+      chargePaymentMethodDetails'Fpx = GHC.Maybe.Nothing,
+      chargePaymentMethodDetails'Giropay = GHC.Maybe.Nothing,
+      chargePaymentMethodDetails'Ideal = GHC.Maybe.Nothing,
+      chargePaymentMethodDetails'Klarna = GHC.Maybe.Nothing,
+      chargePaymentMethodDetails'Multibanco = GHC.Maybe.Nothing,
+      chargePaymentMethodDetails'P24 = GHC.Maybe.Nothing,
+      chargePaymentMethodDetails'SepaDebit = GHC.Maybe.Nothing,
+      chargePaymentMethodDetails'Sofort = GHC.Maybe.Nothing,
+      chargePaymentMethodDetails'StripeAccount = GHC.Maybe.Nothing,
+      chargePaymentMethodDetails'Type = GHC.Maybe.Nothing,
+      chargePaymentMethodDetails'Wechat = GHC.Maybe.Nothing
+    }
+
+-- | Defines the object schema located at @components.schemas.charge.properties.refunds@ in the specification.
 --
 -- A list of refunds that have been applied to the charge.
 data ChargeRefunds'
@@ -548,8 +631,6 @@ data ChargeRefunds'
         chargeRefunds'Data :: ([Refund]),
         -- | has_more: True if this list has another page of items after this one that can be fetched.
         chargeRefunds'HasMore :: GHC.Types.Bool,
-        -- | object: String representing the object\'s type. Objects of the same type share the same value. Always has the value \`list\`.
-        chargeRefunds'Object :: ChargeRefunds'Object',
         -- | url: The URL where this list can be accessed.
         --
         -- Constraints:
@@ -563,34 +644,29 @@ data ChargeRefunds'
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON ChargeRefunds' where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "data" (chargeRefunds'Data obj) : (Data.Aeson..=) "has_more" (chargeRefunds'HasMore obj) : (Data.Aeson..=) "object" (chargeRefunds'Object obj) : (Data.Aeson..=) "url" (chargeRefunds'Url obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "data" (chargeRefunds'Data obj) GHC.Base.<> ((Data.Aeson..=) "has_more" (chargeRefunds'HasMore obj) GHC.Base.<> ((Data.Aeson..=) "object" (chargeRefunds'Object obj) GHC.Base.<> (Data.Aeson..=) "url" (chargeRefunds'Url obj))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("data" Data.Aeson.Types.ToJSON..= chargeRefunds'Data obj : "has_more" Data.Aeson.Types.ToJSON..= chargeRefunds'HasMore obj : "url" Data.Aeson.Types.ToJSON..= chargeRefunds'Url obj : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "list" : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("data" Data.Aeson.Types.ToJSON..= chargeRefunds'Data obj) GHC.Base.<> (("has_more" Data.Aeson.Types.ToJSON..= chargeRefunds'HasMore obj) GHC.Base.<> (("url" Data.Aeson.Types.ToJSON..= chargeRefunds'Url obj) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "list"))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON ChargeRefunds' where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "ChargeRefunds'" (\obj -> (((GHC.Base.pure ChargeRefunds' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "has_more")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "object")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "url"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "ChargeRefunds'" (\obj -> ((GHC.Base.pure ChargeRefunds' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "has_more")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "url"))
 
--- | Defines the enum schema chargeRefunds\'Object\'
---
--- String representing the object\'s type. Objects of the same type share the same value. Always has the value \`list\`.
-data ChargeRefunds'Object'
-  = ChargeRefunds'Object'EnumOther Data.Aeson.Types.Internal.Value
-  | ChargeRefunds'Object'EnumTyped Data.Text.Internal.Text
-  | ChargeRefunds'Object'EnumStringList
-  deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Create a new 'ChargeRefunds'' with all required fields.
+mkChargeRefunds' ::
+  -- | 'chargeRefunds'Data'
+  [Refund] ->
+  -- | 'chargeRefunds'HasMore'
+  GHC.Types.Bool ->
+  -- | 'chargeRefunds'Url'
+  Data.Text.Internal.Text ->
+  ChargeRefunds'
+mkChargeRefunds' chargeRefunds'Data chargeRefunds'HasMore chargeRefunds'Url =
+  ChargeRefunds'
+    { chargeRefunds'Data = chargeRefunds'Data,
+      chargeRefunds'HasMore = chargeRefunds'HasMore,
+      chargeRefunds'Url = chargeRefunds'Url
+    }
 
-instance Data.Aeson.Types.ToJSON.ToJSON ChargeRefunds'Object' where
-  toJSON (ChargeRefunds'Object'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (ChargeRefunds'Object'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (ChargeRefunds'Object'EnumStringList) = "list"
-
-instance Data.Aeson.Types.FromJSON.FromJSON ChargeRefunds'Object' where
-  parseJSON val =
-    GHC.Base.pure
-      ( if  | val GHC.Classes.== "list" -> ChargeRefunds'Object'EnumStringList
-            | GHC.Base.otherwise -> ChargeRefunds'Object'EnumOther val
-      )
-
--- | Define the one-of schema chargeReview\'
+-- | Defines the oneOf schema located at @components.schemas.charge.properties.review.anyOf@ in the specification.
 --
 -- ID of the review associated with this charge if one exists.
 data ChargeReview'Variants
@@ -603,13 +679,11 @@ instance Data.Aeson.Types.ToJSON.ToJSON ChargeReview'Variants where
   toJSON (ChargeReview'Text a) = Data.Aeson.Types.ToJSON.toJSON a
 
 instance Data.Aeson.Types.FromJSON.FromJSON ChargeReview'Variants where
-  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
-    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ ChargeReview'Review a
-    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ ChargeReview'Text a
-      Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+  parseJSON val = case (ChargeReview'Review Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((ChargeReview'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched") of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+    Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
--- | Defines the data type for the schema chargeShipping\'
+-- | Defines the object schema located at @components.schemas.charge.properties.shipping.anyOf@ in the specification.
 --
 -- Shipping information for the charge.
 data ChargeShipping'
@@ -647,13 +721,24 @@ data ChargeShipping'
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON ChargeShipping' where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "address" (chargeShipping'Address obj) : (Data.Aeson..=) "carrier" (chargeShipping'Carrier obj) : (Data.Aeson..=) "name" (chargeShipping'Name obj) : (Data.Aeson..=) "phone" (chargeShipping'Phone obj) : (Data.Aeson..=) "tracking_number" (chargeShipping'TrackingNumber obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "address" (chargeShipping'Address obj) GHC.Base.<> ((Data.Aeson..=) "carrier" (chargeShipping'Carrier obj) GHC.Base.<> ((Data.Aeson..=) "name" (chargeShipping'Name obj) GHC.Base.<> ((Data.Aeson..=) "phone" (chargeShipping'Phone obj) GHC.Base.<> (Data.Aeson..=) "tracking_number" (chargeShipping'TrackingNumber obj)))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("address" Data.Aeson.Types.ToJSON..= chargeShipping'Address obj : "carrier" Data.Aeson.Types.ToJSON..= chargeShipping'Carrier obj : "name" Data.Aeson.Types.ToJSON..= chargeShipping'Name obj : "phone" Data.Aeson.Types.ToJSON..= chargeShipping'Phone obj : "tracking_number" Data.Aeson.Types.ToJSON..= chargeShipping'TrackingNumber obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("address" Data.Aeson.Types.ToJSON..= chargeShipping'Address obj) GHC.Base.<> (("carrier" Data.Aeson.Types.ToJSON..= chargeShipping'Carrier obj) GHC.Base.<> (("name" Data.Aeson.Types.ToJSON..= chargeShipping'Name obj) GHC.Base.<> (("phone" Data.Aeson.Types.ToJSON..= chargeShipping'Phone obj) GHC.Base.<> ("tracking_number" Data.Aeson.Types.ToJSON..= chargeShipping'TrackingNumber obj)))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON ChargeShipping' where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "ChargeShipping'" (\obj -> ((((GHC.Base.pure ChargeShipping' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "address")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "carrier")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "phone")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "tracking_number"))
 
--- | Define the one-of schema chargeSource_transfer\'
+-- | Create a new 'ChargeShipping'' with all required fields.
+mkChargeShipping' :: ChargeShipping'
+mkChargeShipping' =
+  ChargeShipping'
+    { chargeShipping'Address = GHC.Maybe.Nothing,
+      chargeShipping'Carrier = GHC.Maybe.Nothing,
+      chargeShipping'Name = GHC.Maybe.Nothing,
+      chargeShipping'Phone = GHC.Maybe.Nothing,
+      chargeShipping'TrackingNumber = GHC.Maybe.Nothing
+    }
+
+-- | Defines the oneOf schema located at @components.schemas.charge.properties.source_transfer.anyOf@ in the specification.
 --
 -- The transfer ID which created this charge. Only present if the charge came from another Stripe account. [See the Connect documentation](https:\/\/stripe.com\/docs\/connect\/destination-charges) for details.
 data ChargeSourceTransfer'Variants
@@ -666,13 +751,11 @@ instance Data.Aeson.Types.ToJSON.ToJSON ChargeSourceTransfer'Variants where
   toJSON (ChargeSourceTransfer'Text a) = Data.Aeson.Types.ToJSON.toJSON a
 
 instance Data.Aeson.Types.FromJSON.FromJSON ChargeSourceTransfer'Variants where
-  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
-    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ ChargeSourceTransfer'Transfer a
-    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ ChargeSourceTransfer'Text a
-      Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+  parseJSON val = case (ChargeSourceTransfer'Transfer Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((ChargeSourceTransfer'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched") of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+    Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
--- | Define the one-of schema chargeTransfer\'
+-- | Defines the oneOf schema located at @components.schemas.charge.properties.transfer.anyOf@ in the specification.
 --
 -- ID of the transfer to the \`destination\` account (only applicable if the charge was created using the \`destination\` parameter).
 data ChargeTransfer'Variants
@@ -685,13 +768,11 @@ instance Data.Aeson.Types.ToJSON.ToJSON ChargeTransfer'Variants where
   toJSON (ChargeTransfer'Text a) = Data.Aeson.Types.ToJSON.toJSON a
 
 instance Data.Aeson.Types.FromJSON.FromJSON ChargeTransfer'Variants where
-  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
-    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ ChargeTransfer'Transfer a
-    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ ChargeTransfer'Text a
-      Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+  parseJSON val = case (ChargeTransfer'Transfer Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((ChargeTransfer'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched") of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+    Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
--- | Defines the data type for the schema chargeTransfer_data\'
+-- | Defines the object schema located at @components.schemas.charge.properties.transfer_data.anyOf@ in the specification.
 --
 -- An optional dictionary including the account to automatically transfer to as part of a destination charge. [See the Connect documentation](https:\\\/\\\/stripe.com\\\/docs\\\/connect\\\/destination-charges) for details.
 data ChargeTransferData'
@@ -707,13 +788,21 @@ data ChargeTransferData'
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON ChargeTransferData' where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "amount" (chargeTransferData'Amount obj) : (Data.Aeson..=) "destination" (chargeTransferData'Destination obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "amount" (chargeTransferData'Amount obj) GHC.Base.<> (Data.Aeson..=) "destination" (chargeTransferData'Destination obj))
+  toJSON obj = Data.Aeson.Types.Internal.object ("amount" Data.Aeson.Types.ToJSON..= chargeTransferData'Amount obj : "destination" Data.Aeson.Types.ToJSON..= chargeTransferData'Destination obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("amount" Data.Aeson.Types.ToJSON..= chargeTransferData'Amount obj) GHC.Base.<> ("destination" Data.Aeson.Types.ToJSON..= chargeTransferData'Destination obj))
 
 instance Data.Aeson.Types.FromJSON.FromJSON ChargeTransferData' where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "ChargeTransferData'" (\obj -> (GHC.Base.pure ChargeTransferData' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "destination"))
 
--- | Define the one-of schema chargeTransfer_data\'Destination\'
+-- | Create a new 'ChargeTransferData'' with all required fields.
+mkChargeTransferData' :: ChargeTransferData'
+mkChargeTransferData' =
+  ChargeTransferData'
+    { chargeTransferData'Amount = GHC.Maybe.Nothing,
+      chargeTransferData'Destination = GHC.Maybe.Nothing
+    }
+
+-- | Defines the oneOf schema located at @components.schemas.charge.properties.transfer_data.anyOf.properties.destination.anyOf@ in the specification.
 --
 -- ID of an existing, connected Stripe account to transfer funds to if \`transfer_data\` was specified in the charge request.
 data ChargeTransferData'Destination'Variants
@@ -726,8 +815,6 @@ instance Data.Aeson.Types.ToJSON.ToJSON ChargeTransferData'Destination'Variants 
   toJSON (ChargeTransferData'Destination'Text a) = Data.Aeson.Types.ToJSON.toJSON a
 
 instance Data.Aeson.Types.FromJSON.FromJSON ChargeTransferData'Destination'Variants where
-  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
-    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ ChargeTransferData'Destination'Account a
-    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ ChargeTransferData'Destination'Text a
-      Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+  parseJSON val = case (ChargeTransferData'Destination'Account Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((ChargeTransferData'Destination'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched") of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+    Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a

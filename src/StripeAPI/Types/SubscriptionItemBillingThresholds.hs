@@ -8,6 +8,7 @@ module StripeAPI.Types.SubscriptionItemBillingThresholds where
 
 import qualified Control.Monad.Fail
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -30,7 +31,7 @@ import StripeAPI.TypeAlias
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
--- | Defines the data type for the schema subscription_item_billing_thresholds
+-- | Defines the object schema located at @components.schemas.subscription_item_billing_thresholds@ in the specification.
 data SubscriptionItemBillingThresholds
   = SubscriptionItemBillingThresholds
       { -- | usage_gte: Usage threshold that triggers the subscription to create an invoice
@@ -42,8 +43,12 @@ data SubscriptionItemBillingThresholds
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON SubscriptionItemBillingThresholds where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "usage_gte" (subscriptionItemBillingThresholdsUsageGte obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "usage_gte" (subscriptionItemBillingThresholdsUsageGte obj))
+  toJSON obj = Data.Aeson.Types.Internal.object ("usage_gte" Data.Aeson.Types.ToJSON..= subscriptionItemBillingThresholdsUsageGte obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs ("usage_gte" Data.Aeson.Types.ToJSON..= subscriptionItemBillingThresholdsUsageGte obj)
 
 instance Data.Aeson.Types.FromJSON.FromJSON SubscriptionItemBillingThresholds where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "SubscriptionItemBillingThresholds" (\obj -> GHC.Base.pure SubscriptionItemBillingThresholds GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "usage_gte"))
+
+-- | Create a new 'SubscriptionItemBillingThresholds' with all required fields.
+mkSubscriptionItemBillingThresholds :: SubscriptionItemBillingThresholds
+mkSubscriptionItemBillingThresholds = SubscriptionItemBillingThresholds {subscriptionItemBillingThresholdsUsageGte = GHC.Maybe.Nothing}

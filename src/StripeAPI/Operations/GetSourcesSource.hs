@@ -10,6 +10,7 @@ module StripeAPI.Operations.GetSourcesSource where
 import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -83,7 +84,7 @@ getSourcesSource parameters =
         ]
     )
 
--- | Defines the data type for the schema getSourcesSourceParameters
+-- | Defines the object schema located at @paths.\/v1\/sources\/{source}.GET.parameters@ in the specification.
 data GetSourcesSourceParameters
   = GetSourcesSourceParameters
       { -- | pathSource: Represents the parameter named \'source\'
@@ -111,11 +112,23 @@ data GetSourcesSourceParameters
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetSourcesSourceParameters where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "pathSource" (getSourcesSourceParametersPathSource obj) : (Data.Aeson..=) "queryClient_secret" (getSourcesSourceParametersQueryClientSecret obj) : (Data.Aeson..=) "queryExpand" (getSourcesSourceParametersQueryExpand obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "pathSource" (getSourcesSourceParametersPathSource obj) GHC.Base.<> ((Data.Aeson..=) "queryClient_secret" (getSourcesSourceParametersQueryClientSecret obj) GHC.Base.<> (Data.Aeson..=) "queryExpand" (getSourcesSourceParametersQueryExpand obj)))
+  toJSON obj = Data.Aeson.Types.Internal.object ("pathSource" Data.Aeson.Types.ToJSON..= getSourcesSourceParametersPathSource obj : "queryClient_secret" Data.Aeson.Types.ToJSON..= getSourcesSourceParametersQueryClientSecret obj : "queryExpand" Data.Aeson.Types.ToJSON..= getSourcesSourceParametersQueryExpand obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("pathSource" Data.Aeson.Types.ToJSON..= getSourcesSourceParametersPathSource obj) GHC.Base.<> (("queryClient_secret" Data.Aeson.Types.ToJSON..= getSourcesSourceParametersQueryClientSecret obj) GHC.Base.<> ("queryExpand" Data.Aeson.Types.ToJSON..= getSourcesSourceParametersQueryExpand obj)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetSourcesSourceParameters where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "GetSourcesSourceParameters" (\obj -> ((GHC.Base.pure GetSourcesSourceParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathSource")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryClient_secret")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryExpand"))
+
+-- | Create a new 'GetSourcesSourceParameters' with all required fields.
+mkGetSourcesSourceParameters ::
+  -- | 'getSourcesSourceParametersPathSource'
+  Data.Text.Internal.Text ->
+  GetSourcesSourceParameters
+mkGetSourcesSourceParameters getSourcesSourceParametersPathSource =
+  GetSourcesSourceParameters
+    { getSourcesSourceParametersPathSource = getSourcesSourceParametersPathSource,
+      getSourcesSourceParametersQueryClientSecret = GHC.Maybe.Nothing,
+      getSourcesSourceParametersQueryExpand = GHC.Maybe.Nothing
+    }
 
 -- | Represents a response of the operation 'getSourcesSource'.
 --

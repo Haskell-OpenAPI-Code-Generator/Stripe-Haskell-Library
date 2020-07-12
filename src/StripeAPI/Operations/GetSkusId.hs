@@ -10,6 +10,7 @@ module StripeAPI.Operations.GetSkusId where
 import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -77,7 +78,7 @@ getSkusId parameters =
     )
     (StripeAPI.Common.doCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET") (Data.Text.pack ("/v1/skus/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel (getSkusIdParametersPathId parameters))) GHC.Base.++ ""))) [StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getSkusIdParametersQueryExpand parameters) (Data.Text.pack "deepObject") GHC.Types.True])
 
--- | Defines the data type for the schema getSkusIdParameters
+-- | Defines the object schema located at @paths.\/v1\/skus\/{id}.GET.parameters@ in the specification.
 data GetSkusIdParameters
   = GetSkusIdParameters
       { -- | pathId: Represents the parameter named \'id\'
@@ -97,11 +98,22 @@ data GetSkusIdParameters
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetSkusIdParameters where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "pathId" (getSkusIdParametersPathId obj) : (Data.Aeson..=) "queryExpand" (getSkusIdParametersQueryExpand obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "pathId" (getSkusIdParametersPathId obj) GHC.Base.<> (Data.Aeson..=) "queryExpand" (getSkusIdParametersQueryExpand obj))
+  toJSON obj = Data.Aeson.Types.Internal.object ("pathId" Data.Aeson.Types.ToJSON..= getSkusIdParametersPathId obj : "queryExpand" Data.Aeson.Types.ToJSON..= getSkusIdParametersQueryExpand obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("pathId" Data.Aeson.Types.ToJSON..= getSkusIdParametersPathId obj) GHC.Base.<> ("queryExpand" Data.Aeson.Types.ToJSON..= getSkusIdParametersQueryExpand obj))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetSkusIdParameters where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "GetSkusIdParameters" (\obj -> (GHC.Base.pure GetSkusIdParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathId")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryExpand"))
+
+-- | Create a new 'GetSkusIdParameters' with all required fields.
+mkGetSkusIdParameters ::
+  -- | 'getSkusIdParametersPathId'
+  Data.Text.Internal.Text ->
+  GetSkusIdParameters
+mkGetSkusIdParameters getSkusIdParametersPathId =
+  GetSkusIdParameters
+    { getSkusIdParametersPathId = getSkusIdParametersPathId,
+      getSkusIdParametersQueryExpand = GHC.Maybe.Nothing
+    }
 
 -- | Represents a response of the operation 'getSkusId'.
 --
@@ -115,7 +127,7 @@ data GetSkusIdResponse
     GetSkusIdResponseDefault Error
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
--- | Defines the data type for the schema GetSkusIdResponseBody200
+-- | Defines the object schema located at @paths.\/v1\/skus\/{id}.GET.responses.200.content.application\/json.schema.anyOf@ in the specification.
 data GetSkusIdResponseBody200
   = GetSkusIdResponseBody200
       { -- | active: Whether the SKU is available for purchase.
@@ -126,8 +138,6 @@ data GetSkusIdResponseBody200
         getSkusIdResponseBody200Created :: (GHC.Maybe.Maybe GHC.Types.Int),
         -- | currency: Three-letter [ISO currency code](https:\/\/www.iso.org\/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https:\/\/stripe.com\/docs\/currencies).
         getSkusIdResponseBody200Currency :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
-        -- | deleted: Always true for a deleted object
-        getSkusIdResponseBody200Deleted :: (GHC.Maybe.Maybe GetSkusIdResponseBody200Deleted'),
         -- | id: Unique identifier for the object.
         --
         -- Constraints:
@@ -146,8 +156,6 @@ data GetSkusIdResponseBody200
         getSkusIdResponseBody200Livemode :: (GHC.Maybe.Maybe GHC.Types.Bool),
         -- | metadata: Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
         getSkusIdResponseBody200Metadata :: (GHC.Maybe.Maybe Data.Aeson.Types.Internal.Object),
-        -- | object: String representing the object\'s type. Objects of the same type share the same value.
-        getSkusIdResponseBody200Object :: (GHC.Maybe.Maybe GetSkusIdResponseBody200Object'),
         -- | package_dimensions: The dimensions of this SKU for shipping purposes.
         getSkusIdResponseBody200PackageDimensions :: (GHC.Maybe.Maybe GetSkusIdResponseBody200PackageDimensions'),
         -- | price: The cost of the item as a positive integer in the smallest currency unit (that is, 100 cents to charge \$1.00, or 100 to charge ¥100, Japanese Yen being a zero-decimal currency).
@@ -163,55 +171,32 @@ data GetSkusIdResponseBody200
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetSkusIdResponseBody200 where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "active" (getSkusIdResponseBody200Active obj) : (Data.Aeson..=) "attributes" (getSkusIdResponseBody200Attributes obj) : (Data.Aeson..=) "created" (getSkusIdResponseBody200Created obj) : (Data.Aeson..=) "currency" (getSkusIdResponseBody200Currency obj) : (Data.Aeson..=) "deleted" (getSkusIdResponseBody200Deleted obj) : (Data.Aeson..=) "id" (getSkusIdResponseBody200Id obj) : (Data.Aeson..=) "image" (getSkusIdResponseBody200Image obj) : (Data.Aeson..=) "inventory" (getSkusIdResponseBody200Inventory obj) : (Data.Aeson..=) "livemode" (getSkusIdResponseBody200Livemode obj) : (Data.Aeson..=) "metadata" (getSkusIdResponseBody200Metadata obj) : (Data.Aeson..=) "object" (getSkusIdResponseBody200Object obj) : (Data.Aeson..=) "package_dimensions" (getSkusIdResponseBody200PackageDimensions obj) : (Data.Aeson..=) "price" (getSkusIdResponseBody200Price obj) : (Data.Aeson..=) "product" (getSkusIdResponseBody200Product obj) : (Data.Aeson..=) "updated" (getSkusIdResponseBody200Updated obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "active" (getSkusIdResponseBody200Active obj) GHC.Base.<> ((Data.Aeson..=) "attributes" (getSkusIdResponseBody200Attributes obj) GHC.Base.<> ((Data.Aeson..=) "created" (getSkusIdResponseBody200Created obj) GHC.Base.<> ((Data.Aeson..=) "currency" (getSkusIdResponseBody200Currency obj) GHC.Base.<> ((Data.Aeson..=) "deleted" (getSkusIdResponseBody200Deleted obj) GHC.Base.<> ((Data.Aeson..=) "id" (getSkusIdResponseBody200Id obj) GHC.Base.<> ((Data.Aeson..=) "image" (getSkusIdResponseBody200Image obj) GHC.Base.<> ((Data.Aeson..=) "inventory" (getSkusIdResponseBody200Inventory obj) GHC.Base.<> ((Data.Aeson..=) "livemode" (getSkusIdResponseBody200Livemode obj) GHC.Base.<> ((Data.Aeson..=) "metadata" (getSkusIdResponseBody200Metadata obj) GHC.Base.<> ((Data.Aeson..=) "object" (getSkusIdResponseBody200Object obj) GHC.Base.<> ((Data.Aeson..=) "package_dimensions" (getSkusIdResponseBody200PackageDimensions obj) GHC.Base.<> ((Data.Aeson..=) "price" (getSkusIdResponseBody200Price obj) GHC.Base.<> ((Data.Aeson..=) "product" (getSkusIdResponseBody200Product obj) GHC.Base.<> (Data.Aeson..=) "updated" (getSkusIdResponseBody200Updated obj)))))))))))))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("active" Data.Aeson.Types.ToJSON..= getSkusIdResponseBody200Active obj : "attributes" Data.Aeson.Types.ToJSON..= getSkusIdResponseBody200Attributes obj : "created" Data.Aeson.Types.ToJSON..= getSkusIdResponseBody200Created obj : "currency" Data.Aeson.Types.ToJSON..= getSkusIdResponseBody200Currency obj : "id" Data.Aeson.Types.ToJSON..= getSkusIdResponseBody200Id obj : "image" Data.Aeson.Types.ToJSON..= getSkusIdResponseBody200Image obj : "inventory" Data.Aeson.Types.ToJSON..= getSkusIdResponseBody200Inventory obj : "livemode" Data.Aeson.Types.ToJSON..= getSkusIdResponseBody200Livemode obj : "metadata" Data.Aeson.Types.ToJSON..= getSkusIdResponseBody200Metadata obj : "package_dimensions" Data.Aeson.Types.ToJSON..= getSkusIdResponseBody200PackageDimensions obj : "price" Data.Aeson.Types.ToJSON..= getSkusIdResponseBody200Price obj : "product" Data.Aeson.Types.ToJSON..= getSkusIdResponseBody200Product obj : "updated" Data.Aeson.Types.ToJSON..= getSkusIdResponseBody200Updated obj : "deleted" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.Bool GHC.Types.True : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "sku" : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("active" Data.Aeson.Types.ToJSON..= getSkusIdResponseBody200Active obj) GHC.Base.<> (("attributes" Data.Aeson.Types.ToJSON..= getSkusIdResponseBody200Attributes obj) GHC.Base.<> (("created" Data.Aeson.Types.ToJSON..= getSkusIdResponseBody200Created obj) GHC.Base.<> (("currency" Data.Aeson.Types.ToJSON..= getSkusIdResponseBody200Currency obj) GHC.Base.<> (("id" Data.Aeson.Types.ToJSON..= getSkusIdResponseBody200Id obj) GHC.Base.<> (("image" Data.Aeson.Types.ToJSON..= getSkusIdResponseBody200Image obj) GHC.Base.<> (("inventory" Data.Aeson.Types.ToJSON..= getSkusIdResponseBody200Inventory obj) GHC.Base.<> (("livemode" Data.Aeson.Types.ToJSON..= getSkusIdResponseBody200Livemode obj) GHC.Base.<> (("metadata" Data.Aeson.Types.ToJSON..= getSkusIdResponseBody200Metadata obj) GHC.Base.<> (("package_dimensions" Data.Aeson.Types.ToJSON..= getSkusIdResponseBody200PackageDimensions obj) GHC.Base.<> (("price" Data.Aeson.Types.ToJSON..= getSkusIdResponseBody200Price obj) GHC.Base.<> (("product" Data.Aeson.Types.ToJSON..= getSkusIdResponseBody200Product obj) GHC.Base.<> (("updated" Data.Aeson.Types.ToJSON..= getSkusIdResponseBody200Updated obj) GHC.Base.<> (("deleted" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.Bool GHC.Types.True) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "sku")))))))))))))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetSkusIdResponseBody200 where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetSkusIdResponseBody200" (\obj -> ((((((((((((((GHC.Base.pure GetSkusIdResponseBody200 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "active")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "attributes")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "created")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "deleted")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "image")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "inventory")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "livemode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "object")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "package_dimensions")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "price")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "product")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "updated"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetSkusIdResponseBody200" (\obj -> ((((((((((((GHC.Base.pure GetSkusIdResponseBody200 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "active")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "attributes")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "created")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "image")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "inventory")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "livemode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "package_dimensions")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "price")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "product")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "updated"))
 
--- | Defines the enum schema GetSkusIdResponseBody200Deleted\'
---
--- Always true for a deleted object
-data GetSkusIdResponseBody200Deleted'
-  = GetSkusIdResponseBody200Deleted'EnumOther Data.Aeson.Types.Internal.Value
-  | GetSkusIdResponseBody200Deleted'EnumTyped GHC.Types.Bool
-  | GetSkusIdResponseBody200Deleted'EnumBoolTrue
-  deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Create a new 'GetSkusIdResponseBody200' with all required fields.
+mkGetSkusIdResponseBody200 :: GetSkusIdResponseBody200
+mkGetSkusIdResponseBody200 =
+  GetSkusIdResponseBody200
+    { getSkusIdResponseBody200Active = GHC.Maybe.Nothing,
+      getSkusIdResponseBody200Attributes = GHC.Maybe.Nothing,
+      getSkusIdResponseBody200Created = GHC.Maybe.Nothing,
+      getSkusIdResponseBody200Currency = GHC.Maybe.Nothing,
+      getSkusIdResponseBody200Id = GHC.Maybe.Nothing,
+      getSkusIdResponseBody200Image = GHC.Maybe.Nothing,
+      getSkusIdResponseBody200Inventory = GHC.Maybe.Nothing,
+      getSkusIdResponseBody200Livemode = GHC.Maybe.Nothing,
+      getSkusIdResponseBody200Metadata = GHC.Maybe.Nothing,
+      getSkusIdResponseBody200PackageDimensions = GHC.Maybe.Nothing,
+      getSkusIdResponseBody200Price = GHC.Maybe.Nothing,
+      getSkusIdResponseBody200Product = GHC.Maybe.Nothing,
+      getSkusIdResponseBody200Updated = GHC.Maybe.Nothing
+    }
 
-instance Data.Aeson.Types.ToJSON.ToJSON GetSkusIdResponseBody200Deleted' where
-  toJSON (GetSkusIdResponseBody200Deleted'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (GetSkusIdResponseBody200Deleted'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (GetSkusIdResponseBody200Deleted'EnumBoolTrue) = Data.Aeson.Types.Internal.Bool GHC.Types.True
-
-instance Data.Aeson.Types.FromJSON.FromJSON GetSkusIdResponseBody200Deleted' where
-  parseJSON val =
-    GHC.Base.pure
-      ( if  | val GHC.Classes.== Data.Aeson.Types.Internal.Bool GHC.Types.True -> GetSkusIdResponseBody200Deleted'EnumBoolTrue
-            | GHC.Base.otherwise -> GetSkusIdResponseBody200Deleted'EnumOther val
-      )
-
--- | Defines the enum schema GetSkusIdResponseBody200Object\'
---
--- String representing the object\'s type. Objects of the same type share the same value.
-data GetSkusIdResponseBody200Object'
-  = GetSkusIdResponseBody200Object'EnumOther Data.Aeson.Types.Internal.Value
-  | GetSkusIdResponseBody200Object'EnumTyped Data.Text.Internal.Text
-  | GetSkusIdResponseBody200Object'EnumStringSku
-  deriving (GHC.Show.Show, GHC.Classes.Eq)
-
-instance Data.Aeson.Types.ToJSON.ToJSON GetSkusIdResponseBody200Object' where
-  toJSON (GetSkusIdResponseBody200Object'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (GetSkusIdResponseBody200Object'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (GetSkusIdResponseBody200Object'EnumStringSku) = "sku"
-
-instance Data.Aeson.Types.FromJSON.FromJSON GetSkusIdResponseBody200Object' where
-  parseJSON val =
-    GHC.Base.pure
-      ( if  | val GHC.Classes.== "sku" -> GetSkusIdResponseBody200Object'EnumStringSku
-            | GHC.Base.otherwise -> GetSkusIdResponseBody200Object'EnumOther val
-      )
-
--- | Defines the data type for the schema GetSkusIdResponseBody200Package_dimensions\'
+-- | Defines the object schema located at @paths.\/v1\/skus\/{id}.GET.responses.200.content.application\/json.schema.anyOf.properties.package_dimensions.anyOf@ in the specification.
 --
 -- The dimensions of this SKU for shipping purposes.
 data GetSkusIdResponseBody200PackageDimensions'
@@ -231,13 +216,23 @@ data GetSkusIdResponseBody200PackageDimensions'
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetSkusIdResponseBody200PackageDimensions' where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "height" (getSkusIdResponseBody200PackageDimensions'Height obj) : (Data.Aeson..=) "length" (getSkusIdResponseBody200PackageDimensions'Length obj) : (Data.Aeson..=) "weight" (getSkusIdResponseBody200PackageDimensions'Weight obj) : (Data.Aeson..=) "width" (getSkusIdResponseBody200PackageDimensions'Width obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "height" (getSkusIdResponseBody200PackageDimensions'Height obj) GHC.Base.<> ((Data.Aeson..=) "length" (getSkusIdResponseBody200PackageDimensions'Length obj) GHC.Base.<> ((Data.Aeson..=) "weight" (getSkusIdResponseBody200PackageDimensions'Weight obj) GHC.Base.<> (Data.Aeson..=) "width" (getSkusIdResponseBody200PackageDimensions'Width obj))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("height" Data.Aeson.Types.ToJSON..= getSkusIdResponseBody200PackageDimensions'Height obj : "length" Data.Aeson.Types.ToJSON..= getSkusIdResponseBody200PackageDimensions'Length obj : "weight" Data.Aeson.Types.ToJSON..= getSkusIdResponseBody200PackageDimensions'Weight obj : "width" Data.Aeson.Types.ToJSON..= getSkusIdResponseBody200PackageDimensions'Width obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("height" Data.Aeson.Types.ToJSON..= getSkusIdResponseBody200PackageDimensions'Height obj) GHC.Base.<> (("length" Data.Aeson.Types.ToJSON..= getSkusIdResponseBody200PackageDimensions'Length obj) GHC.Base.<> (("weight" Data.Aeson.Types.ToJSON..= getSkusIdResponseBody200PackageDimensions'Weight obj) GHC.Base.<> ("width" Data.Aeson.Types.ToJSON..= getSkusIdResponseBody200PackageDimensions'Width obj))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetSkusIdResponseBody200PackageDimensions' where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "GetSkusIdResponseBody200PackageDimensions'" (\obj -> (((GHC.Base.pure GetSkusIdResponseBody200PackageDimensions' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "height")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "length")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "weight")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "width"))
 
--- | Define the one-of schema GetSkusIdResponseBody200Product\'
+-- | Create a new 'GetSkusIdResponseBody200PackageDimensions'' with all required fields.
+mkGetSkusIdResponseBody200PackageDimensions' :: GetSkusIdResponseBody200PackageDimensions'
+mkGetSkusIdResponseBody200PackageDimensions' =
+  GetSkusIdResponseBody200PackageDimensions'
+    { getSkusIdResponseBody200PackageDimensions'Height = GHC.Maybe.Nothing,
+      getSkusIdResponseBody200PackageDimensions'Length = GHC.Maybe.Nothing,
+      getSkusIdResponseBody200PackageDimensions'Weight = GHC.Maybe.Nothing,
+      getSkusIdResponseBody200PackageDimensions'Width = GHC.Maybe.Nothing
+    }
+
+-- | Defines the oneOf schema located at @paths.\/v1\/skus\/{id}.GET.responses.200.content.application\/json.schema.anyOf.properties.product.anyOf@ in the specification.
 --
 -- The ID of the product this SKU is associated with. The product must be currently active.
 data GetSkusIdResponseBody200Product'Variants
@@ -250,8 +245,6 @@ instance Data.Aeson.Types.ToJSON.ToJSON GetSkusIdResponseBody200Product'Variants
   toJSON (GetSkusIdResponseBody200Product'Text a) = Data.Aeson.Types.ToJSON.toJSON a
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetSkusIdResponseBody200Product'Variants where
-  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
-    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ GetSkusIdResponseBody200Product'Product a
-    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ GetSkusIdResponseBody200Product'Text a
-      Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+  parseJSON val = case (GetSkusIdResponseBody200Product'Product Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((GetSkusIdResponseBody200Product'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched") of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+    Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a

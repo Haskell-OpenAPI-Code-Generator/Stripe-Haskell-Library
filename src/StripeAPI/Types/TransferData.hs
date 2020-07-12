@@ -8,6 +8,7 @@ module StripeAPI.Types.TransferData where
 
 import qualified Control.Monad.Fail
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -31,7 +32,7 @@ import {-# SOURCE #-} StripeAPI.Types.Account
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
--- | Defines the data type for the schema transfer_data
+-- | Defines the object schema located at @components.schemas.transfer_data@ in the specification.
 data TransferData
   = TransferData
       { -- | amount: Amount intended to be collected by this PaymentIntent. A positive integer representing how much to charge in the [smallest currency unit](https:\/\/stripe.com\/docs\/currencies\#zero-decimal) (e.g., 100 cents to charge \$1.00 or 100 to charge ¥100, a zero-decimal currency). The minimum amount is \$0.50 US or [equivalent in charge currency](https:\/\/stripe.com\/docs\/currencies\#minimum-and-maximum-charge-amounts). The amount value supports up to eight digits (e.g., a value of 99999999 for a USD charge of \$999,999.99).
@@ -47,13 +48,24 @@ data TransferData
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON TransferData where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "amount" (transferDataAmount obj) : (Data.Aeson..=) "destination" (transferDataDestination obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "amount" (transferDataAmount obj) GHC.Base.<> (Data.Aeson..=) "destination" (transferDataDestination obj))
+  toJSON obj = Data.Aeson.Types.Internal.object ("amount" Data.Aeson.Types.ToJSON..= transferDataAmount obj : "destination" Data.Aeson.Types.ToJSON..= transferDataDestination obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("amount" Data.Aeson.Types.ToJSON..= transferDataAmount obj) GHC.Base.<> ("destination" Data.Aeson.Types.ToJSON..= transferDataDestination obj))
 
 instance Data.Aeson.Types.FromJSON.FromJSON TransferData where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "TransferData" (\obj -> (GHC.Base.pure TransferData GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "destination"))
 
--- | Define the one-of schema transfer_dataDestination\'
+-- | Create a new 'TransferData' with all required fields.
+mkTransferData ::
+  -- | 'transferDataDestination'
+  TransferDataDestination'Variants ->
+  TransferData
+mkTransferData transferDataDestination =
+  TransferData
+    { transferDataAmount = GHC.Maybe.Nothing,
+      transferDataDestination = transferDataDestination
+    }
+
+-- | Defines the oneOf schema located at @components.schemas.transfer_data.properties.destination.anyOf@ in the specification.
 --
 -- The account (if any) the payment will be attributed to for tax
 -- reporting, and where funds from the payment will be transferred to upon
@@ -68,8 +80,6 @@ instance Data.Aeson.Types.ToJSON.ToJSON TransferDataDestination'Variants where
   toJSON (TransferDataDestination'Text a) = Data.Aeson.Types.ToJSON.toJSON a
 
 instance Data.Aeson.Types.FromJSON.FromJSON TransferDataDestination'Variants where
-  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
-    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ TransferDataDestination'Account a
-    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ TransferDataDestination'Text a
-      Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+  parseJSON val = case (TransferDataDestination'Account Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((TransferDataDestination'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched") of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+    Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a

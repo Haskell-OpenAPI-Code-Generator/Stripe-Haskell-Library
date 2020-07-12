@@ -10,6 +10,7 @@ module StripeAPI.Operations.GetSubscriptionItemsSubscriptionItemUsageRecordSumma
 import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -87,7 +88,7 @@ getSubscriptionItemsSubscriptionItemUsageRecordSummaries parameters =
         ]
     )
 
--- | Defines the data type for the schema getSubscriptionItemsSubscriptionItemUsageRecordSummariesParameters
+-- | Defines the object schema located at @paths.\/v1\/subscription_items\/{subscription_item}\/usage_record_summaries.GET.parameters@ in the specification.
 data GetSubscriptionItemsSubscriptionItemUsageRecordSummariesParameters
   = GetSubscriptionItemsSubscriptionItemUsageRecordSummariesParameters
       { -- | pathSubscription_item: Represents the parameter named \'subscription_item\'
@@ -123,11 +124,25 @@ data GetSubscriptionItemsSubscriptionItemUsageRecordSummariesParameters
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetSubscriptionItemsSubscriptionItemUsageRecordSummariesParameters where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "pathSubscription_item" (getSubscriptionItemsSubscriptionItemUsageRecordSummariesParametersPathSubscriptionItem obj) : (Data.Aeson..=) "queryEnding_before" (getSubscriptionItemsSubscriptionItemUsageRecordSummariesParametersQueryEndingBefore obj) : (Data.Aeson..=) "queryExpand" (getSubscriptionItemsSubscriptionItemUsageRecordSummariesParametersQueryExpand obj) : (Data.Aeson..=) "queryLimit" (getSubscriptionItemsSubscriptionItemUsageRecordSummariesParametersQueryLimit obj) : (Data.Aeson..=) "queryStarting_after" (getSubscriptionItemsSubscriptionItemUsageRecordSummariesParametersQueryStartingAfter obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "pathSubscription_item" (getSubscriptionItemsSubscriptionItemUsageRecordSummariesParametersPathSubscriptionItem obj) GHC.Base.<> ((Data.Aeson..=) "queryEnding_before" (getSubscriptionItemsSubscriptionItemUsageRecordSummariesParametersQueryEndingBefore obj) GHC.Base.<> ((Data.Aeson..=) "queryExpand" (getSubscriptionItemsSubscriptionItemUsageRecordSummariesParametersQueryExpand obj) GHC.Base.<> ((Data.Aeson..=) "queryLimit" (getSubscriptionItemsSubscriptionItemUsageRecordSummariesParametersQueryLimit obj) GHC.Base.<> (Data.Aeson..=) "queryStarting_after" (getSubscriptionItemsSubscriptionItemUsageRecordSummariesParametersQueryStartingAfter obj)))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("pathSubscription_item" Data.Aeson.Types.ToJSON..= getSubscriptionItemsSubscriptionItemUsageRecordSummariesParametersPathSubscriptionItem obj : "queryEnding_before" Data.Aeson.Types.ToJSON..= getSubscriptionItemsSubscriptionItemUsageRecordSummariesParametersQueryEndingBefore obj : "queryExpand" Data.Aeson.Types.ToJSON..= getSubscriptionItemsSubscriptionItemUsageRecordSummariesParametersQueryExpand obj : "queryLimit" Data.Aeson.Types.ToJSON..= getSubscriptionItemsSubscriptionItemUsageRecordSummariesParametersQueryLimit obj : "queryStarting_after" Data.Aeson.Types.ToJSON..= getSubscriptionItemsSubscriptionItemUsageRecordSummariesParametersQueryStartingAfter obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("pathSubscription_item" Data.Aeson.Types.ToJSON..= getSubscriptionItemsSubscriptionItemUsageRecordSummariesParametersPathSubscriptionItem obj) GHC.Base.<> (("queryEnding_before" Data.Aeson.Types.ToJSON..= getSubscriptionItemsSubscriptionItemUsageRecordSummariesParametersQueryEndingBefore obj) GHC.Base.<> (("queryExpand" Data.Aeson.Types.ToJSON..= getSubscriptionItemsSubscriptionItemUsageRecordSummariesParametersQueryExpand obj) GHC.Base.<> (("queryLimit" Data.Aeson.Types.ToJSON..= getSubscriptionItemsSubscriptionItemUsageRecordSummariesParametersQueryLimit obj) GHC.Base.<> ("queryStarting_after" Data.Aeson.Types.ToJSON..= getSubscriptionItemsSubscriptionItemUsageRecordSummariesParametersQueryStartingAfter obj)))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetSubscriptionItemsSubscriptionItemUsageRecordSummariesParameters where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "GetSubscriptionItemsSubscriptionItemUsageRecordSummariesParameters" (\obj -> ((((GHC.Base.pure GetSubscriptionItemsSubscriptionItemUsageRecordSummariesParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathSubscription_item")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryEnding_before")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryExpand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryLimit")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryStarting_after"))
+
+-- | Create a new 'GetSubscriptionItemsSubscriptionItemUsageRecordSummariesParameters' with all required fields.
+mkGetSubscriptionItemsSubscriptionItemUsageRecordSummariesParameters ::
+  -- | 'getSubscriptionItemsSubscriptionItemUsageRecordSummariesParametersPathSubscriptionItem'
+  Data.Text.Internal.Text ->
+  GetSubscriptionItemsSubscriptionItemUsageRecordSummariesParameters
+mkGetSubscriptionItemsSubscriptionItemUsageRecordSummariesParameters getSubscriptionItemsSubscriptionItemUsageRecordSummariesParametersPathSubscriptionItem =
+  GetSubscriptionItemsSubscriptionItemUsageRecordSummariesParameters
+    { getSubscriptionItemsSubscriptionItemUsageRecordSummariesParametersPathSubscriptionItem = getSubscriptionItemsSubscriptionItemUsageRecordSummariesParametersPathSubscriptionItem,
+      getSubscriptionItemsSubscriptionItemUsageRecordSummariesParametersQueryEndingBefore = GHC.Maybe.Nothing,
+      getSubscriptionItemsSubscriptionItemUsageRecordSummariesParametersQueryExpand = GHC.Maybe.Nothing,
+      getSubscriptionItemsSubscriptionItemUsageRecordSummariesParametersQueryLimit = GHC.Maybe.Nothing,
+      getSubscriptionItemsSubscriptionItemUsageRecordSummariesParametersQueryStartingAfter = GHC.Maybe.Nothing
+    }
 
 -- | Represents a response of the operation 'getSubscriptionItemsSubscriptionItemUsageRecordSummaries'.
 --
@@ -141,15 +156,13 @@ data GetSubscriptionItemsSubscriptionItemUsageRecordSummariesResponse
     GetSubscriptionItemsSubscriptionItemUsageRecordSummariesResponseDefault Error
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
--- | Defines the data type for the schema GetSubscriptionItemsSubscriptionItemUsageRecordSummariesResponseBody200
+-- | Defines the object schema located at @paths.\/v1\/subscription_items\/{subscription_item}\/usage_record_summaries.GET.responses.200.content.application\/json.schema@ in the specification.
 data GetSubscriptionItemsSubscriptionItemUsageRecordSummariesResponseBody200
   = GetSubscriptionItemsSubscriptionItemUsageRecordSummariesResponseBody200
       { -- | data
         getSubscriptionItemsSubscriptionItemUsageRecordSummariesResponseBody200Data :: ([UsageRecordSummary]),
         -- | has_more: True if this list has another page of items after this one that can be fetched.
         getSubscriptionItemsSubscriptionItemUsageRecordSummariesResponseBody200HasMore :: GHC.Types.Bool,
-        -- | object: String representing the object\'s type. Objects of the same type share the same value. Always has the value \`list\`.
-        getSubscriptionItemsSubscriptionItemUsageRecordSummariesResponseBody200Object :: GetSubscriptionItemsSubscriptionItemUsageRecordSummariesResponseBody200Object',
         -- | url: The URL where this list can be accessed.
         --
         -- Constraints:
@@ -163,29 +176,24 @@ data GetSubscriptionItemsSubscriptionItemUsageRecordSummariesResponseBody200
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetSubscriptionItemsSubscriptionItemUsageRecordSummariesResponseBody200 where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "data" (getSubscriptionItemsSubscriptionItemUsageRecordSummariesResponseBody200Data obj) : (Data.Aeson..=) "has_more" (getSubscriptionItemsSubscriptionItemUsageRecordSummariesResponseBody200HasMore obj) : (Data.Aeson..=) "object" (getSubscriptionItemsSubscriptionItemUsageRecordSummariesResponseBody200Object obj) : (Data.Aeson..=) "url" (getSubscriptionItemsSubscriptionItemUsageRecordSummariesResponseBody200Url obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "data" (getSubscriptionItemsSubscriptionItemUsageRecordSummariesResponseBody200Data obj) GHC.Base.<> ((Data.Aeson..=) "has_more" (getSubscriptionItemsSubscriptionItemUsageRecordSummariesResponseBody200HasMore obj) GHC.Base.<> ((Data.Aeson..=) "object" (getSubscriptionItemsSubscriptionItemUsageRecordSummariesResponseBody200Object obj) GHC.Base.<> (Data.Aeson..=) "url" (getSubscriptionItemsSubscriptionItemUsageRecordSummariesResponseBody200Url obj))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("data" Data.Aeson.Types.ToJSON..= getSubscriptionItemsSubscriptionItemUsageRecordSummariesResponseBody200Data obj : "has_more" Data.Aeson.Types.ToJSON..= getSubscriptionItemsSubscriptionItemUsageRecordSummariesResponseBody200HasMore obj : "url" Data.Aeson.Types.ToJSON..= getSubscriptionItemsSubscriptionItemUsageRecordSummariesResponseBody200Url obj : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "list" : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("data" Data.Aeson.Types.ToJSON..= getSubscriptionItemsSubscriptionItemUsageRecordSummariesResponseBody200Data obj) GHC.Base.<> (("has_more" Data.Aeson.Types.ToJSON..= getSubscriptionItemsSubscriptionItemUsageRecordSummariesResponseBody200HasMore obj) GHC.Base.<> (("url" Data.Aeson.Types.ToJSON..= getSubscriptionItemsSubscriptionItemUsageRecordSummariesResponseBody200Url obj) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "list"))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetSubscriptionItemsSubscriptionItemUsageRecordSummariesResponseBody200 where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetSubscriptionItemsSubscriptionItemUsageRecordSummariesResponseBody200" (\obj -> (((GHC.Base.pure GetSubscriptionItemsSubscriptionItemUsageRecordSummariesResponseBody200 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "has_more")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "object")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "url"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetSubscriptionItemsSubscriptionItemUsageRecordSummariesResponseBody200" (\obj -> ((GHC.Base.pure GetSubscriptionItemsSubscriptionItemUsageRecordSummariesResponseBody200 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "has_more")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "url"))
 
--- | Defines the enum schema GetSubscriptionItemsSubscriptionItemUsageRecordSummariesResponseBody200Object\'
---
--- String representing the object\'s type. Objects of the same type share the same value. Always has the value \`list\`.
-data GetSubscriptionItemsSubscriptionItemUsageRecordSummariesResponseBody200Object'
-  = GetSubscriptionItemsSubscriptionItemUsageRecordSummariesResponseBody200Object'EnumOther Data.Aeson.Types.Internal.Value
-  | GetSubscriptionItemsSubscriptionItemUsageRecordSummariesResponseBody200Object'EnumTyped Data.Text.Internal.Text
-  | GetSubscriptionItemsSubscriptionItemUsageRecordSummariesResponseBody200Object'EnumStringList
-  deriving (GHC.Show.Show, GHC.Classes.Eq)
-
-instance Data.Aeson.Types.ToJSON.ToJSON GetSubscriptionItemsSubscriptionItemUsageRecordSummariesResponseBody200Object' where
-  toJSON (GetSubscriptionItemsSubscriptionItemUsageRecordSummariesResponseBody200Object'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (GetSubscriptionItemsSubscriptionItemUsageRecordSummariesResponseBody200Object'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (GetSubscriptionItemsSubscriptionItemUsageRecordSummariesResponseBody200Object'EnumStringList) = "list"
-
-instance Data.Aeson.Types.FromJSON.FromJSON GetSubscriptionItemsSubscriptionItemUsageRecordSummariesResponseBody200Object' where
-  parseJSON val =
-    GHC.Base.pure
-      ( if  | val GHC.Classes.== "list" -> GetSubscriptionItemsSubscriptionItemUsageRecordSummariesResponseBody200Object'EnumStringList
-            | GHC.Base.otherwise -> GetSubscriptionItemsSubscriptionItemUsageRecordSummariesResponseBody200Object'EnumOther val
-      )
+-- | Create a new 'GetSubscriptionItemsSubscriptionItemUsageRecordSummariesResponseBody200' with all required fields.
+mkGetSubscriptionItemsSubscriptionItemUsageRecordSummariesResponseBody200 ::
+  -- | 'getSubscriptionItemsSubscriptionItemUsageRecordSummariesResponseBody200Data'
+  [UsageRecordSummary] ->
+  -- | 'getSubscriptionItemsSubscriptionItemUsageRecordSummariesResponseBody200HasMore'
+  GHC.Types.Bool ->
+  -- | 'getSubscriptionItemsSubscriptionItemUsageRecordSummariesResponseBody200Url'
+  Data.Text.Internal.Text ->
+  GetSubscriptionItemsSubscriptionItemUsageRecordSummariesResponseBody200
+mkGetSubscriptionItemsSubscriptionItemUsageRecordSummariesResponseBody200 getSubscriptionItemsSubscriptionItemUsageRecordSummariesResponseBody200Data getSubscriptionItemsSubscriptionItemUsageRecordSummariesResponseBody200HasMore getSubscriptionItemsSubscriptionItemUsageRecordSummariesResponseBody200Url =
+  GetSubscriptionItemsSubscriptionItemUsageRecordSummariesResponseBody200
+    { getSubscriptionItemsSubscriptionItemUsageRecordSummariesResponseBody200Data = getSubscriptionItemsSubscriptionItemUsageRecordSummariesResponseBody200Data,
+      getSubscriptionItemsSubscriptionItemUsageRecordSummariesResponseBody200HasMore = getSubscriptionItemsSubscriptionItemUsageRecordSummariesResponseBody200HasMore,
+      getSubscriptionItemsSubscriptionItemUsageRecordSummariesResponseBody200Url = getSubscriptionItemsSubscriptionItemUsageRecordSummariesResponseBody200Url
+    }

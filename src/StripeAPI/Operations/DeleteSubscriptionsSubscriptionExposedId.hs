@@ -10,6 +10,7 @@ module StripeAPI.Operations.DeleteSubscriptionsSubscriptionExposedId where
 import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -85,7 +86,7 @@ deleteSubscriptionsSubscriptionExposedId
       )
       (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "DELETE") (Data.Text.pack ("/v1/subscriptions/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel subscriptionExposedId)) GHC.Base.++ ""))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
 
--- | Defines the data type for the schema deleteSubscriptionsSubscriptionExposedIdRequestBody
+-- | Defines the object schema located at @paths.\/v1\/subscriptions\/{subscription_exposed_id}.DELETE.requestBody.content.application\/x-www-form-urlencoded.schema@ in the specification.
 data DeleteSubscriptionsSubscriptionExposedIdRequestBody
   = DeleteSubscriptionsSubscriptionExposedIdRequestBody
       { -- | expand: Specifies which fields in the response should be expanded.
@@ -101,11 +102,20 @@ data DeleteSubscriptionsSubscriptionExposedIdRequestBody
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON DeleteSubscriptionsSubscriptionExposedIdRequestBody where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "expand" (deleteSubscriptionsSubscriptionExposedIdRequestBodyExpand obj) : (Data.Aeson..=) "invoice_now" (deleteSubscriptionsSubscriptionExposedIdRequestBodyInvoiceNow obj) : (Data.Aeson..=) "prorate" (deleteSubscriptionsSubscriptionExposedIdRequestBodyProrate obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "expand" (deleteSubscriptionsSubscriptionExposedIdRequestBodyExpand obj) GHC.Base.<> ((Data.Aeson..=) "invoice_now" (deleteSubscriptionsSubscriptionExposedIdRequestBodyInvoiceNow obj) GHC.Base.<> (Data.Aeson..=) "prorate" (deleteSubscriptionsSubscriptionExposedIdRequestBodyProrate obj)))
+  toJSON obj = Data.Aeson.Types.Internal.object ("expand" Data.Aeson.Types.ToJSON..= deleteSubscriptionsSubscriptionExposedIdRequestBodyExpand obj : "invoice_now" Data.Aeson.Types.ToJSON..= deleteSubscriptionsSubscriptionExposedIdRequestBodyInvoiceNow obj : "prorate" Data.Aeson.Types.ToJSON..= deleteSubscriptionsSubscriptionExposedIdRequestBodyProrate obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("expand" Data.Aeson.Types.ToJSON..= deleteSubscriptionsSubscriptionExposedIdRequestBodyExpand obj) GHC.Base.<> (("invoice_now" Data.Aeson.Types.ToJSON..= deleteSubscriptionsSubscriptionExposedIdRequestBodyInvoiceNow obj) GHC.Base.<> ("prorate" Data.Aeson.Types.ToJSON..= deleteSubscriptionsSubscriptionExposedIdRequestBodyProrate obj)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON DeleteSubscriptionsSubscriptionExposedIdRequestBody where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "DeleteSubscriptionsSubscriptionExposedIdRequestBody" (\obj -> ((GHC.Base.pure DeleteSubscriptionsSubscriptionExposedIdRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "invoice_now")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "prorate"))
+
+-- | Create a new 'DeleteSubscriptionsSubscriptionExposedIdRequestBody' with all required fields.
+mkDeleteSubscriptionsSubscriptionExposedIdRequestBody :: DeleteSubscriptionsSubscriptionExposedIdRequestBody
+mkDeleteSubscriptionsSubscriptionExposedIdRequestBody =
+  DeleteSubscriptionsSubscriptionExposedIdRequestBody
+    { deleteSubscriptionsSubscriptionExposedIdRequestBodyExpand = GHC.Maybe.Nothing,
+      deleteSubscriptionsSubscriptionExposedIdRequestBodyInvoiceNow = GHC.Maybe.Nothing,
+      deleteSubscriptionsSubscriptionExposedIdRequestBodyProrate = GHC.Maybe.Nothing
+    }
 
 -- | Represents a response of the operation 'deleteSubscriptionsSubscriptionExposedId'.
 --

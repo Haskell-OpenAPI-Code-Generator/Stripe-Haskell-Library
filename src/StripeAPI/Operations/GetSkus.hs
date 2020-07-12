@@ -10,6 +10,7 @@ module StripeAPI.Operations.GetSkus where
 import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -90,7 +91,7 @@ getSkus parameters =
         ]
     )
 
--- | Defines the data type for the schema getSkusParameters
+-- | Defines the object schema located at @paths.\/v1\/skus.GET.parameters@ in the specification.
 data GetSkusParameters
   = GetSkusParameters
       { -- | queryActive: Represents the parameter named \'active\'
@@ -148,11 +149,26 @@ data GetSkusParameters
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetSkusParameters where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "queryActive" (getSkusParametersQueryActive obj) : (Data.Aeson..=) "queryAttributes" (getSkusParametersQueryAttributes obj) : (Data.Aeson..=) "queryEnding_before" (getSkusParametersQueryEndingBefore obj) : (Data.Aeson..=) "queryExpand" (getSkusParametersQueryExpand obj) : (Data.Aeson..=) "queryIds" (getSkusParametersQueryIds obj) : (Data.Aeson..=) "queryIn_stock" (getSkusParametersQueryInStock obj) : (Data.Aeson..=) "queryLimit" (getSkusParametersQueryLimit obj) : (Data.Aeson..=) "queryProduct" (getSkusParametersQueryProduct obj) : (Data.Aeson..=) "queryStarting_after" (getSkusParametersQueryStartingAfter obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "queryActive" (getSkusParametersQueryActive obj) GHC.Base.<> ((Data.Aeson..=) "queryAttributes" (getSkusParametersQueryAttributes obj) GHC.Base.<> ((Data.Aeson..=) "queryEnding_before" (getSkusParametersQueryEndingBefore obj) GHC.Base.<> ((Data.Aeson..=) "queryExpand" (getSkusParametersQueryExpand obj) GHC.Base.<> ((Data.Aeson..=) "queryIds" (getSkusParametersQueryIds obj) GHC.Base.<> ((Data.Aeson..=) "queryIn_stock" (getSkusParametersQueryInStock obj) GHC.Base.<> ((Data.Aeson..=) "queryLimit" (getSkusParametersQueryLimit obj) GHC.Base.<> ((Data.Aeson..=) "queryProduct" (getSkusParametersQueryProduct obj) GHC.Base.<> (Data.Aeson..=) "queryStarting_after" (getSkusParametersQueryStartingAfter obj)))))))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("queryActive" Data.Aeson.Types.ToJSON..= getSkusParametersQueryActive obj : "queryAttributes" Data.Aeson.Types.ToJSON..= getSkusParametersQueryAttributes obj : "queryEnding_before" Data.Aeson.Types.ToJSON..= getSkusParametersQueryEndingBefore obj : "queryExpand" Data.Aeson.Types.ToJSON..= getSkusParametersQueryExpand obj : "queryIds" Data.Aeson.Types.ToJSON..= getSkusParametersQueryIds obj : "queryIn_stock" Data.Aeson.Types.ToJSON..= getSkusParametersQueryInStock obj : "queryLimit" Data.Aeson.Types.ToJSON..= getSkusParametersQueryLimit obj : "queryProduct" Data.Aeson.Types.ToJSON..= getSkusParametersQueryProduct obj : "queryStarting_after" Data.Aeson.Types.ToJSON..= getSkusParametersQueryStartingAfter obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("queryActive" Data.Aeson.Types.ToJSON..= getSkusParametersQueryActive obj) GHC.Base.<> (("queryAttributes" Data.Aeson.Types.ToJSON..= getSkusParametersQueryAttributes obj) GHC.Base.<> (("queryEnding_before" Data.Aeson.Types.ToJSON..= getSkusParametersQueryEndingBefore obj) GHC.Base.<> (("queryExpand" Data.Aeson.Types.ToJSON..= getSkusParametersQueryExpand obj) GHC.Base.<> (("queryIds" Data.Aeson.Types.ToJSON..= getSkusParametersQueryIds obj) GHC.Base.<> (("queryIn_stock" Data.Aeson.Types.ToJSON..= getSkusParametersQueryInStock obj) GHC.Base.<> (("queryLimit" Data.Aeson.Types.ToJSON..= getSkusParametersQueryLimit obj) GHC.Base.<> (("queryProduct" Data.Aeson.Types.ToJSON..= getSkusParametersQueryProduct obj) GHC.Base.<> ("queryStarting_after" Data.Aeson.Types.ToJSON..= getSkusParametersQueryStartingAfter obj)))))))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetSkusParameters where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "GetSkusParameters" (\obj -> ((((((((GHC.Base.pure GetSkusParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryActive")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryAttributes")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryEnding_before")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryExpand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryIds")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryIn_stock")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryLimit")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryProduct")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryStarting_after"))
+
+-- | Create a new 'GetSkusParameters' with all required fields.
+mkGetSkusParameters :: GetSkusParameters
+mkGetSkusParameters =
+  GetSkusParameters
+    { getSkusParametersQueryActive = GHC.Maybe.Nothing,
+      getSkusParametersQueryAttributes = GHC.Maybe.Nothing,
+      getSkusParametersQueryEndingBefore = GHC.Maybe.Nothing,
+      getSkusParametersQueryExpand = GHC.Maybe.Nothing,
+      getSkusParametersQueryIds = GHC.Maybe.Nothing,
+      getSkusParametersQueryInStock = GHC.Maybe.Nothing,
+      getSkusParametersQueryLimit = GHC.Maybe.Nothing,
+      getSkusParametersQueryProduct = GHC.Maybe.Nothing,
+      getSkusParametersQueryStartingAfter = GHC.Maybe.Nothing
+    }
 
 -- | Represents a response of the operation 'getSkus'.
 --
@@ -166,15 +182,13 @@ data GetSkusResponse
     GetSkusResponseDefault Error
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
--- | Defines the data type for the schema GetSkusResponseBody200
+-- | Defines the object schema located at @paths.\/v1\/skus.GET.responses.200.content.application\/json.schema@ in the specification.
 data GetSkusResponseBody200
   = GetSkusResponseBody200
       { -- | data
         getSkusResponseBody200Data :: ([Sku]),
         -- | has_more: True if this list has another page of items after this one that can be fetched.
         getSkusResponseBody200HasMore :: GHC.Types.Bool,
-        -- | object: String representing the object\'s type. Objects of the same type share the same value. Always has the value \`list\`.
-        getSkusResponseBody200Object :: GetSkusResponseBody200Object',
         -- | url: The URL where this list can be accessed.
         --
         -- Constraints:
@@ -189,29 +203,24 @@ data GetSkusResponseBody200
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetSkusResponseBody200 where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "data" (getSkusResponseBody200Data obj) : (Data.Aeson..=) "has_more" (getSkusResponseBody200HasMore obj) : (Data.Aeson..=) "object" (getSkusResponseBody200Object obj) : (Data.Aeson..=) "url" (getSkusResponseBody200Url obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "data" (getSkusResponseBody200Data obj) GHC.Base.<> ((Data.Aeson..=) "has_more" (getSkusResponseBody200HasMore obj) GHC.Base.<> ((Data.Aeson..=) "object" (getSkusResponseBody200Object obj) GHC.Base.<> (Data.Aeson..=) "url" (getSkusResponseBody200Url obj))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("data" Data.Aeson.Types.ToJSON..= getSkusResponseBody200Data obj : "has_more" Data.Aeson.Types.ToJSON..= getSkusResponseBody200HasMore obj : "url" Data.Aeson.Types.ToJSON..= getSkusResponseBody200Url obj : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "list" : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("data" Data.Aeson.Types.ToJSON..= getSkusResponseBody200Data obj) GHC.Base.<> (("has_more" Data.Aeson.Types.ToJSON..= getSkusResponseBody200HasMore obj) GHC.Base.<> (("url" Data.Aeson.Types.ToJSON..= getSkusResponseBody200Url obj) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "list"))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetSkusResponseBody200 where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetSkusResponseBody200" (\obj -> (((GHC.Base.pure GetSkusResponseBody200 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "has_more")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "object")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "url"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetSkusResponseBody200" (\obj -> ((GHC.Base.pure GetSkusResponseBody200 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "has_more")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "url"))
 
--- | Defines the enum schema GetSkusResponseBody200Object\'
---
--- String representing the object\'s type. Objects of the same type share the same value. Always has the value \`list\`.
-data GetSkusResponseBody200Object'
-  = GetSkusResponseBody200Object'EnumOther Data.Aeson.Types.Internal.Value
-  | GetSkusResponseBody200Object'EnumTyped Data.Text.Internal.Text
-  | GetSkusResponseBody200Object'EnumStringList
-  deriving (GHC.Show.Show, GHC.Classes.Eq)
-
-instance Data.Aeson.Types.ToJSON.ToJSON GetSkusResponseBody200Object' where
-  toJSON (GetSkusResponseBody200Object'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (GetSkusResponseBody200Object'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (GetSkusResponseBody200Object'EnumStringList) = "list"
-
-instance Data.Aeson.Types.FromJSON.FromJSON GetSkusResponseBody200Object' where
-  parseJSON val =
-    GHC.Base.pure
-      ( if  | val GHC.Classes.== "list" -> GetSkusResponseBody200Object'EnumStringList
-            | GHC.Base.otherwise -> GetSkusResponseBody200Object'EnumOther val
-      )
+-- | Create a new 'GetSkusResponseBody200' with all required fields.
+mkGetSkusResponseBody200 ::
+  -- | 'getSkusResponseBody200Data'
+  [Sku] ->
+  -- | 'getSkusResponseBody200HasMore'
+  GHC.Types.Bool ->
+  -- | 'getSkusResponseBody200Url'
+  Data.Text.Internal.Text ->
+  GetSkusResponseBody200
+mkGetSkusResponseBody200 getSkusResponseBody200Data getSkusResponseBody200HasMore getSkusResponseBody200Url =
+  GetSkusResponseBody200
+    { getSkusResponseBody200Data = getSkusResponseBody200Data,
+      getSkusResponseBody200HasMore = getSkusResponseBody200HasMore,
+      getSkusResponseBody200Url = getSkusResponseBody200Url
+    }

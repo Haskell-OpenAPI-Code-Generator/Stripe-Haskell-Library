@@ -10,6 +10,7 @@ module StripeAPI.Operations.GetCustomersCustomerBankAccounts where
 import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -85,7 +86,7 @@ getCustomersCustomerBankAccounts parameters =
         ]
     )
 
--- | Defines the data type for the schema getCustomersCustomerBankAccountsParameters
+-- | Defines the object schema located at @paths.\/v1\/customers\/{customer}\/bank_accounts.GET.parameters@ in the specification.
 data GetCustomersCustomerBankAccountsParameters
   = GetCustomersCustomerBankAccountsParameters
       { -- | pathCustomer: Represents the parameter named \'customer\'
@@ -117,11 +118,25 @@ data GetCustomersCustomerBankAccountsParameters
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetCustomersCustomerBankAccountsParameters where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "pathCustomer" (getCustomersCustomerBankAccountsParametersPathCustomer obj) : (Data.Aeson..=) "queryEnding_before" (getCustomersCustomerBankAccountsParametersQueryEndingBefore obj) : (Data.Aeson..=) "queryExpand" (getCustomersCustomerBankAccountsParametersQueryExpand obj) : (Data.Aeson..=) "queryLimit" (getCustomersCustomerBankAccountsParametersQueryLimit obj) : (Data.Aeson..=) "queryStarting_after" (getCustomersCustomerBankAccountsParametersQueryStartingAfter obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "pathCustomer" (getCustomersCustomerBankAccountsParametersPathCustomer obj) GHC.Base.<> ((Data.Aeson..=) "queryEnding_before" (getCustomersCustomerBankAccountsParametersQueryEndingBefore obj) GHC.Base.<> ((Data.Aeson..=) "queryExpand" (getCustomersCustomerBankAccountsParametersQueryExpand obj) GHC.Base.<> ((Data.Aeson..=) "queryLimit" (getCustomersCustomerBankAccountsParametersQueryLimit obj) GHC.Base.<> (Data.Aeson..=) "queryStarting_after" (getCustomersCustomerBankAccountsParametersQueryStartingAfter obj)))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("pathCustomer" Data.Aeson.Types.ToJSON..= getCustomersCustomerBankAccountsParametersPathCustomer obj : "queryEnding_before" Data.Aeson.Types.ToJSON..= getCustomersCustomerBankAccountsParametersQueryEndingBefore obj : "queryExpand" Data.Aeson.Types.ToJSON..= getCustomersCustomerBankAccountsParametersQueryExpand obj : "queryLimit" Data.Aeson.Types.ToJSON..= getCustomersCustomerBankAccountsParametersQueryLimit obj : "queryStarting_after" Data.Aeson.Types.ToJSON..= getCustomersCustomerBankAccountsParametersQueryStartingAfter obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("pathCustomer" Data.Aeson.Types.ToJSON..= getCustomersCustomerBankAccountsParametersPathCustomer obj) GHC.Base.<> (("queryEnding_before" Data.Aeson.Types.ToJSON..= getCustomersCustomerBankAccountsParametersQueryEndingBefore obj) GHC.Base.<> (("queryExpand" Data.Aeson.Types.ToJSON..= getCustomersCustomerBankAccountsParametersQueryExpand obj) GHC.Base.<> (("queryLimit" Data.Aeson.Types.ToJSON..= getCustomersCustomerBankAccountsParametersQueryLimit obj) GHC.Base.<> ("queryStarting_after" Data.Aeson.Types.ToJSON..= getCustomersCustomerBankAccountsParametersQueryStartingAfter obj)))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetCustomersCustomerBankAccountsParameters where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "GetCustomersCustomerBankAccountsParameters" (\obj -> ((((GHC.Base.pure GetCustomersCustomerBankAccountsParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathCustomer")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryEnding_before")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryExpand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryLimit")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryStarting_after"))
+
+-- | Create a new 'GetCustomersCustomerBankAccountsParameters' with all required fields.
+mkGetCustomersCustomerBankAccountsParameters ::
+  -- | 'getCustomersCustomerBankAccountsParametersPathCustomer'
+  Data.Text.Internal.Text ->
+  GetCustomersCustomerBankAccountsParameters
+mkGetCustomersCustomerBankAccountsParameters getCustomersCustomerBankAccountsParametersPathCustomer =
+  GetCustomersCustomerBankAccountsParameters
+    { getCustomersCustomerBankAccountsParametersPathCustomer = getCustomersCustomerBankAccountsParametersPathCustomer,
+      getCustomersCustomerBankAccountsParametersQueryEndingBefore = GHC.Maybe.Nothing,
+      getCustomersCustomerBankAccountsParametersQueryExpand = GHC.Maybe.Nothing,
+      getCustomersCustomerBankAccountsParametersQueryLimit = GHC.Maybe.Nothing,
+      getCustomersCustomerBankAccountsParametersQueryStartingAfter = GHC.Maybe.Nothing
+    }
 
 -- | Represents a response of the operation 'getCustomersCustomerBankAccounts'.
 --
@@ -135,15 +150,13 @@ data GetCustomersCustomerBankAccountsResponse
     GetCustomersCustomerBankAccountsResponseDefault Error
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
--- | Defines the data type for the schema GetCustomersCustomerBankAccountsResponseBody200
+-- | Defines the object schema located at @paths.\/v1\/customers\/{customer}\/bank_accounts.GET.responses.200.content.application\/json.schema@ in the specification.
 data GetCustomersCustomerBankAccountsResponseBody200
   = GetCustomersCustomerBankAccountsResponseBody200
       { -- | data: Details about each object.
         getCustomersCustomerBankAccountsResponseBody200Data :: ([BankAccount]),
         -- | has_more: True if this list has another page of items after this one that can be fetched.
         getCustomersCustomerBankAccountsResponseBody200HasMore :: GHC.Types.Bool,
-        -- | object: String representing the object\'s type. Objects of the same type share the same value. Always has the value \`list\`.
-        getCustomersCustomerBankAccountsResponseBody200Object :: GetCustomersCustomerBankAccountsResponseBody200Object',
         -- | url: The URL where this list can be accessed.
         --
         -- Constraints:
@@ -157,29 +170,24 @@ data GetCustomersCustomerBankAccountsResponseBody200
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetCustomersCustomerBankAccountsResponseBody200 where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "data" (getCustomersCustomerBankAccountsResponseBody200Data obj) : (Data.Aeson..=) "has_more" (getCustomersCustomerBankAccountsResponseBody200HasMore obj) : (Data.Aeson..=) "object" (getCustomersCustomerBankAccountsResponseBody200Object obj) : (Data.Aeson..=) "url" (getCustomersCustomerBankAccountsResponseBody200Url obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "data" (getCustomersCustomerBankAccountsResponseBody200Data obj) GHC.Base.<> ((Data.Aeson..=) "has_more" (getCustomersCustomerBankAccountsResponseBody200HasMore obj) GHC.Base.<> ((Data.Aeson..=) "object" (getCustomersCustomerBankAccountsResponseBody200Object obj) GHC.Base.<> (Data.Aeson..=) "url" (getCustomersCustomerBankAccountsResponseBody200Url obj))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("data" Data.Aeson.Types.ToJSON..= getCustomersCustomerBankAccountsResponseBody200Data obj : "has_more" Data.Aeson.Types.ToJSON..= getCustomersCustomerBankAccountsResponseBody200HasMore obj : "url" Data.Aeson.Types.ToJSON..= getCustomersCustomerBankAccountsResponseBody200Url obj : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "list" : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("data" Data.Aeson.Types.ToJSON..= getCustomersCustomerBankAccountsResponseBody200Data obj) GHC.Base.<> (("has_more" Data.Aeson.Types.ToJSON..= getCustomersCustomerBankAccountsResponseBody200HasMore obj) GHC.Base.<> (("url" Data.Aeson.Types.ToJSON..= getCustomersCustomerBankAccountsResponseBody200Url obj) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "list"))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetCustomersCustomerBankAccountsResponseBody200 where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetCustomersCustomerBankAccountsResponseBody200" (\obj -> (((GHC.Base.pure GetCustomersCustomerBankAccountsResponseBody200 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "has_more")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "object")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "url"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetCustomersCustomerBankAccountsResponseBody200" (\obj -> ((GHC.Base.pure GetCustomersCustomerBankAccountsResponseBody200 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "has_more")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "url"))
 
--- | Defines the enum schema GetCustomersCustomerBankAccountsResponseBody200Object\'
---
--- String representing the object\'s type. Objects of the same type share the same value. Always has the value \`list\`.
-data GetCustomersCustomerBankAccountsResponseBody200Object'
-  = GetCustomersCustomerBankAccountsResponseBody200Object'EnumOther Data.Aeson.Types.Internal.Value
-  | GetCustomersCustomerBankAccountsResponseBody200Object'EnumTyped Data.Text.Internal.Text
-  | GetCustomersCustomerBankAccountsResponseBody200Object'EnumStringList
-  deriving (GHC.Show.Show, GHC.Classes.Eq)
-
-instance Data.Aeson.Types.ToJSON.ToJSON GetCustomersCustomerBankAccountsResponseBody200Object' where
-  toJSON (GetCustomersCustomerBankAccountsResponseBody200Object'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (GetCustomersCustomerBankAccountsResponseBody200Object'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (GetCustomersCustomerBankAccountsResponseBody200Object'EnumStringList) = "list"
-
-instance Data.Aeson.Types.FromJSON.FromJSON GetCustomersCustomerBankAccountsResponseBody200Object' where
-  parseJSON val =
-    GHC.Base.pure
-      ( if  | val GHC.Classes.== "list" -> GetCustomersCustomerBankAccountsResponseBody200Object'EnumStringList
-            | GHC.Base.otherwise -> GetCustomersCustomerBankAccountsResponseBody200Object'EnumOther val
-      )
+-- | Create a new 'GetCustomersCustomerBankAccountsResponseBody200' with all required fields.
+mkGetCustomersCustomerBankAccountsResponseBody200 ::
+  -- | 'getCustomersCustomerBankAccountsResponseBody200Data'
+  [BankAccount] ->
+  -- | 'getCustomersCustomerBankAccountsResponseBody200HasMore'
+  GHC.Types.Bool ->
+  -- | 'getCustomersCustomerBankAccountsResponseBody200Url'
+  Data.Text.Internal.Text ->
+  GetCustomersCustomerBankAccountsResponseBody200
+mkGetCustomersCustomerBankAccountsResponseBody200 getCustomersCustomerBankAccountsResponseBody200Data getCustomersCustomerBankAccountsResponseBody200HasMore getCustomersCustomerBankAccountsResponseBody200Url =
+  GetCustomersCustomerBankAccountsResponseBody200
+    { getCustomersCustomerBankAccountsResponseBody200Data = getCustomersCustomerBankAccountsResponseBody200Data,
+      getCustomersCustomerBankAccountsResponseBody200HasMore = getCustomersCustomerBankAccountsResponseBody200HasMore,
+      getCustomersCustomerBankAccountsResponseBody200Url = getCustomersCustomerBankAccountsResponseBody200Url
+    }

@@ -8,6 +8,7 @@ module StripeAPI.Types.PaymentMethodDetailsEps where
 
 import qualified Control.Monad.Fail
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -30,7 +31,7 @@ import StripeAPI.TypeAlias
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
--- | Defines the data type for the schema payment_method_details_eps
+-- | Defines the object schema located at @components.schemas.payment_method_details_eps@ in the specification.
 data PaymentMethodDetailsEps
   = PaymentMethodDetailsEps
       { -- | verified_name: Owner\'s verified full name. Values are verified or provided by EPS directly
@@ -47,8 +48,12 @@ data PaymentMethodDetailsEps
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PaymentMethodDetailsEps where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "verified_name" (paymentMethodDetailsEpsVerifiedName obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "verified_name" (paymentMethodDetailsEpsVerifiedName obj))
+  toJSON obj = Data.Aeson.Types.Internal.object ("verified_name" Data.Aeson.Types.ToJSON..= paymentMethodDetailsEpsVerifiedName obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs ("verified_name" Data.Aeson.Types.ToJSON..= paymentMethodDetailsEpsVerifiedName obj)
 
 instance Data.Aeson.Types.FromJSON.FromJSON PaymentMethodDetailsEps where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PaymentMethodDetailsEps" (\obj -> GHC.Base.pure PaymentMethodDetailsEps GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "verified_name"))
+
+-- | Create a new 'PaymentMethodDetailsEps' with all required fields.
+mkPaymentMethodDetailsEps :: PaymentMethodDetailsEps
+mkPaymentMethodDetailsEps = PaymentMethodDetailsEps {paymentMethodDetailsEpsVerifiedName = GHC.Maybe.Nothing}

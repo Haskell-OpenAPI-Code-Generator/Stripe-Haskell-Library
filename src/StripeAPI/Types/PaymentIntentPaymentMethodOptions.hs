@@ -8,6 +8,7 @@ module StripeAPI.Types.PaymentIntentPaymentMethodOptions where
 
 import qualified Control.Monad.Fail
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -31,7 +32,7 @@ import {-# SOURCE #-} StripeAPI.Types.PaymentIntentPaymentMethodOptionsCard
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
--- | Defines the data type for the schema payment_intent_payment_method_options
+-- | Defines the object schema located at @components.schemas.payment_intent_payment_method_options@ in the specification.
 data PaymentIntentPaymentMethodOptions
   = PaymentIntentPaymentMethodOptions
       { -- | card:
@@ -43,8 +44,12 @@ data PaymentIntentPaymentMethodOptions
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PaymentIntentPaymentMethodOptions where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "card" (paymentIntentPaymentMethodOptionsCard obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "card" (paymentIntentPaymentMethodOptionsCard obj))
+  toJSON obj = Data.Aeson.Types.Internal.object ("card" Data.Aeson.Types.ToJSON..= paymentIntentPaymentMethodOptionsCard obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs ("card" Data.Aeson.Types.ToJSON..= paymentIntentPaymentMethodOptionsCard obj)
 
 instance Data.Aeson.Types.FromJSON.FromJSON PaymentIntentPaymentMethodOptions where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PaymentIntentPaymentMethodOptions" (\obj -> GHC.Base.pure PaymentIntentPaymentMethodOptions GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "card"))
+
+-- | Create a new 'PaymentIntentPaymentMethodOptions' with all required fields.
+mkPaymentIntentPaymentMethodOptions :: PaymentIntentPaymentMethodOptions
+mkPaymentIntentPaymentMethodOptions = PaymentIntentPaymentMethodOptions {paymentIntentPaymentMethodOptionsCard = GHC.Maybe.Nothing}

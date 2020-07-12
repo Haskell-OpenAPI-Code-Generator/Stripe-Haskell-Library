@@ -1,11 +1,11 @@
 module StripeAPI.Types.IssuingAuthorizationVerificationData where
 import Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Types.Internal
-data IssuingAuthorizationVerificationData 
-instance Show IssuingAuthorizationVerificationData 
-instance Eq IssuingAuthorizationVerificationData 
-instance FromJSON IssuingAuthorizationVerificationData 
-instance ToJSON IssuingAuthorizationVerificationData 
+data IssuingAuthorizationVerificationData
+instance Show IssuingAuthorizationVerificationData
+instance Eq IssuingAuthorizationVerificationData
+instance FromJSON IssuingAuthorizationVerificationData
+instance ToJSON IssuingAuthorizationVerificationData
 data IssuingAuthorizationVerificationDataAddressLine1Check'
 instance Show IssuingAuthorizationVerificationDataAddressLine1Check'
 instance Eq IssuingAuthorizationVerificationDataAddressLine1Check'

@@ -8,6 +8,7 @@ module StripeAPI.Types.PaymentMethod where
 
 import qualified Control.Monad.Fail
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -36,7 +37,7 @@ import {-# SOURCE #-} StripeAPI.Types.PaymentMethodSepaDebit
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
--- | Defines the data type for the schema payment_method
+-- | Defines the object schema located at @components.schemas.payment_method@ in the specification.
 --
 -- PaymentMethod objects represent your customer\'s payment instruments.
 -- They can be used with [PaymentIntents](https:\/\/stripe.com\/docs\/payments\/payment-intents) to collect payments or saved to
@@ -69,8 +70,6 @@ data PaymentMethod
         paymentMethodLivemode :: GHC.Types.Bool,
         -- | metadata: Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
         paymentMethodMetadata :: Data.Aeson.Types.Internal.Object,
-        -- | object: String representing the object\'s type. Objects of the same type share the same value.
-        paymentMethodObject :: PaymentMethodObject',
         -- | sepa_debit:
         paymentMethodSepaDebit :: (GHC.Maybe.Maybe PaymentMethodSepaDebit),
         -- | type: The type of the PaymentMethod. An additional hash is included on the PaymentMethod with a name matching this value. It contains additional information specific to the PaymentMethod type.
@@ -82,13 +81,44 @@ data PaymentMethod
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PaymentMethod where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "billing_details" (paymentMethodBillingDetails obj) : (Data.Aeson..=) "card" (paymentMethodCard obj) : (Data.Aeson..=) "card_present" (paymentMethodCardPresent obj) : (Data.Aeson..=) "created" (paymentMethodCreated obj) : (Data.Aeson..=) "customer" (paymentMethodCustomer obj) : (Data.Aeson..=) "fpx" (paymentMethodFpx obj) : (Data.Aeson..=) "id" (paymentMethodId obj) : (Data.Aeson..=) "ideal" (paymentMethodIdeal obj) : (Data.Aeson..=) "livemode" (paymentMethodLivemode obj) : (Data.Aeson..=) "metadata" (paymentMethodMetadata obj) : (Data.Aeson..=) "object" (paymentMethodObject obj) : (Data.Aeson..=) "sepa_debit" (paymentMethodSepaDebit obj) : (Data.Aeson..=) "type" (paymentMethodType obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "billing_details" (paymentMethodBillingDetails obj) GHC.Base.<> ((Data.Aeson..=) "card" (paymentMethodCard obj) GHC.Base.<> ((Data.Aeson..=) "card_present" (paymentMethodCardPresent obj) GHC.Base.<> ((Data.Aeson..=) "created" (paymentMethodCreated obj) GHC.Base.<> ((Data.Aeson..=) "customer" (paymentMethodCustomer obj) GHC.Base.<> ((Data.Aeson..=) "fpx" (paymentMethodFpx obj) GHC.Base.<> ((Data.Aeson..=) "id" (paymentMethodId obj) GHC.Base.<> ((Data.Aeson..=) "ideal" (paymentMethodIdeal obj) GHC.Base.<> ((Data.Aeson..=) "livemode" (paymentMethodLivemode obj) GHC.Base.<> ((Data.Aeson..=) "metadata" (paymentMethodMetadata obj) GHC.Base.<> ((Data.Aeson..=) "object" (paymentMethodObject obj) GHC.Base.<> ((Data.Aeson..=) "sepa_debit" (paymentMethodSepaDebit obj) GHC.Base.<> (Data.Aeson..=) "type" (paymentMethodType obj)))))))))))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("billing_details" Data.Aeson.Types.ToJSON..= paymentMethodBillingDetails obj : "card" Data.Aeson.Types.ToJSON..= paymentMethodCard obj : "card_present" Data.Aeson.Types.ToJSON..= paymentMethodCardPresent obj : "created" Data.Aeson.Types.ToJSON..= paymentMethodCreated obj : "customer" Data.Aeson.Types.ToJSON..= paymentMethodCustomer obj : "fpx" Data.Aeson.Types.ToJSON..= paymentMethodFpx obj : "id" Data.Aeson.Types.ToJSON..= paymentMethodId obj : "ideal" Data.Aeson.Types.ToJSON..= paymentMethodIdeal obj : "livemode" Data.Aeson.Types.ToJSON..= paymentMethodLivemode obj : "metadata" Data.Aeson.Types.ToJSON..= paymentMethodMetadata obj : "sepa_debit" Data.Aeson.Types.ToJSON..= paymentMethodSepaDebit obj : "type" Data.Aeson.Types.ToJSON..= paymentMethodType obj : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "payment_method" : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("billing_details" Data.Aeson.Types.ToJSON..= paymentMethodBillingDetails obj) GHC.Base.<> (("card" Data.Aeson.Types.ToJSON..= paymentMethodCard obj) GHC.Base.<> (("card_present" Data.Aeson.Types.ToJSON..= paymentMethodCardPresent obj) GHC.Base.<> (("created" Data.Aeson.Types.ToJSON..= paymentMethodCreated obj) GHC.Base.<> (("customer" Data.Aeson.Types.ToJSON..= paymentMethodCustomer obj) GHC.Base.<> (("fpx" Data.Aeson.Types.ToJSON..= paymentMethodFpx obj) GHC.Base.<> (("id" Data.Aeson.Types.ToJSON..= paymentMethodId obj) GHC.Base.<> (("ideal" Data.Aeson.Types.ToJSON..= paymentMethodIdeal obj) GHC.Base.<> (("livemode" Data.Aeson.Types.ToJSON..= paymentMethodLivemode obj) GHC.Base.<> (("metadata" Data.Aeson.Types.ToJSON..= paymentMethodMetadata obj) GHC.Base.<> (("sepa_debit" Data.Aeson.Types.ToJSON..= paymentMethodSepaDebit obj) GHC.Base.<> (("type" Data.Aeson.Types.ToJSON..= paymentMethodType obj) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "payment_method")))))))))))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PaymentMethod where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PaymentMethod" (\obj -> ((((((((((((GHC.Base.pure PaymentMethod GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "billing_details")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "card")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "card_present")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "created")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "customer")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "fpx")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "ideal")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "livemode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "object")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "sepa_debit")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "type"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PaymentMethod" (\obj -> (((((((((((GHC.Base.pure PaymentMethod GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "billing_details")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "card")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "card_present")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "created")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "customer")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "fpx")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "ideal")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "livemode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "sepa_debit")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "type"))
 
--- | Define the one-of schema payment_methodCustomer\'
+-- | Create a new 'PaymentMethod' with all required fields.
+mkPaymentMethod ::
+  -- | 'paymentMethodBillingDetails'
+  BillingDetails ->
+  -- | 'paymentMethodCreated'
+  GHC.Types.Int ->
+  -- | 'paymentMethodId'
+  Data.Text.Internal.Text ->
+  -- | 'paymentMethodLivemode'
+  GHC.Types.Bool ->
+  -- | 'paymentMethodMetadata'
+  Data.Aeson.Types.Internal.Object ->
+  -- | 'paymentMethodType'
+  PaymentMethodType' ->
+  PaymentMethod
+mkPaymentMethod paymentMethodBillingDetails paymentMethodCreated paymentMethodId paymentMethodLivemode paymentMethodMetadata paymentMethodType =
+  PaymentMethod
+    { paymentMethodBillingDetails = paymentMethodBillingDetails,
+      paymentMethodCard = GHC.Maybe.Nothing,
+      paymentMethodCardPresent = GHC.Maybe.Nothing,
+      paymentMethodCreated = paymentMethodCreated,
+      paymentMethodCustomer = GHC.Maybe.Nothing,
+      paymentMethodFpx = GHC.Maybe.Nothing,
+      paymentMethodId = paymentMethodId,
+      paymentMethodIdeal = GHC.Maybe.Nothing,
+      paymentMethodLivemode = paymentMethodLivemode,
+      paymentMethodMetadata = paymentMethodMetadata,
+      paymentMethodSepaDebit = GHC.Maybe.Nothing,
+      paymentMethodType = paymentMethodType
+    }
+
+-- | Defines the oneOf schema located at @components.schemas.payment_method.properties.customer.anyOf@ in the specification.
 --
 -- The ID of the Customer to which this PaymentMethod is saved. This will not be set when the PaymentMethod has not been saved to a Customer.
 data PaymentMethodCustomer'Variants
@@ -101,59 +131,42 @@ instance Data.Aeson.Types.ToJSON.ToJSON PaymentMethodCustomer'Variants where
   toJSON (PaymentMethodCustomer'Text a) = Data.Aeson.Types.ToJSON.toJSON a
 
 instance Data.Aeson.Types.FromJSON.FromJSON PaymentMethodCustomer'Variants where
-  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
-    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ PaymentMethodCustomer'Customer a
-    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ PaymentMethodCustomer'Text a
-      Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+  parseJSON val = case (PaymentMethodCustomer'Customer Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((PaymentMethodCustomer'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched") of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+    Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
--- | Defines the enum schema payment_methodObject\'
---
--- String representing the object\'s type. Objects of the same type share the same value.
-data PaymentMethodObject'
-  = PaymentMethodObject'EnumOther Data.Aeson.Types.Internal.Value
-  | PaymentMethodObject'EnumTyped Data.Text.Internal.Text
-  | PaymentMethodObject'EnumStringPaymentMethod
-  deriving (GHC.Show.Show, GHC.Classes.Eq)
-
-instance Data.Aeson.Types.ToJSON.ToJSON PaymentMethodObject' where
-  toJSON (PaymentMethodObject'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PaymentMethodObject'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PaymentMethodObject'EnumStringPaymentMethod) = "payment_method"
-
-instance Data.Aeson.Types.FromJSON.FromJSON PaymentMethodObject' where
-  parseJSON val =
-    GHC.Base.pure
-      ( if  | val GHC.Classes.== "payment_method" -> PaymentMethodObject'EnumStringPaymentMethod
-            | GHC.Base.otherwise -> PaymentMethodObject'EnumOther val
-      )
-
--- | Defines the enum schema payment_methodType\'
+-- | Defines the enum schema located at @components.schemas.payment_method.properties.type@ in the specification.
 --
 -- The type of the PaymentMethod. An additional hash is included on the PaymentMethod with a name matching this value. It contains additional information specific to the PaymentMethod type.
 data PaymentMethodType'
-  = PaymentMethodType'EnumOther Data.Aeson.Types.Internal.Value
-  | PaymentMethodType'EnumTyped Data.Text.Internal.Text
-  | PaymentMethodType'EnumStringCard
-  | PaymentMethodType'EnumStringFpx
-  | PaymentMethodType'EnumStringIdeal
-  | PaymentMethodType'EnumStringSepaDebit
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    PaymentMethodType'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    PaymentMethodType'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"card"@
+    PaymentMethodType'EnumCard
+  | -- | Represents the JSON value @"fpx"@
+    PaymentMethodType'EnumFpx
+  | -- | Represents the JSON value @"ideal"@
+    PaymentMethodType'EnumIdeal
+  | -- | Represents the JSON value @"sepa_debit"@
+    PaymentMethodType'EnumSepaDebit
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
 instance Data.Aeson.Types.ToJSON.ToJSON PaymentMethodType' where
-  toJSON (PaymentMethodType'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PaymentMethodType'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PaymentMethodType'EnumStringCard) = "card"
-  toJSON (PaymentMethodType'EnumStringFpx) = "fpx"
-  toJSON (PaymentMethodType'EnumStringIdeal) = "ideal"
-  toJSON (PaymentMethodType'EnumStringSepaDebit) = "sepa_debit"
+  toJSON (PaymentMethodType'Other val) = val
+  toJSON (PaymentMethodType'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PaymentMethodType'EnumCard) = "card"
+  toJSON (PaymentMethodType'EnumFpx) = "fpx"
+  toJSON (PaymentMethodType'EnumIdeal) = "ideal"
+  toJSON (PaymentMethodType'EnumSepaDebit) = "sepa_debit"
 
 instance Data.Aeson.Types.FromJSON.FromJSON PaymentMethodType' where
   parseJSON val =
     GHC.Base.pure
-      ( if  | val GHC.Classes.== "card" -> PaymentMethodType'EnumStringCard
-            | val GHC.Classes.== "fpx" -> PaymentMethodType'EnumStringFpx
-            | val GHC.Classes.== "ideal" -> PaymentMethodType'EnumStringIdeal
-            | val GHC.Classes.== "sepa_debit" -> PaymentMethodType'EnumStringSepaDebit
-            | GHC.Base.otherwise -> PaymentMethodType'EnumOther val
+      ( if  | val GHC.Classes.== "card" -> PaymentMethodType'EnumCard
+            | val GHC.Classes.== "fpx" -> PaymentMethodType'EnumFpx
+            | val GHC.Classes.== "ideal" -> PaymentMethodType'EnumIdeal
+            | val GHC.Classes.== "sepa_debit" -> PaymentMethodType'EnumSepaDebit
+            | GHC.Base.otherwise -> PaymentMethodType'Other val
       )

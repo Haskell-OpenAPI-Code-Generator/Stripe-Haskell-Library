@@ -10,6 +10,7 @@ module StripeAPI.Operations.GetCustomersCustomerBankAccountsId where
 import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -77,7 +78,7 @@ getCustomersCustomerBankAccountsId parameters =
     )
     (StripeAPI.Common.doCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET") (Data.Text.pack ("/v1/customers/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel (getCustomersCustomerBankAccountsIdParametersPathCustomer parameters))) GHC.Base.++ ("/bank_accounts/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel (getCustomersCustomerBankAccountsIdParametersPathId parameters))) GHC.Base.++ ""))))) [StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getCustomersCustomerBankAccountsIdParametersQueryExpand parameters) (Data.Text.pack "deepObject") GHC.Types.True])
 
--- | Defines the data type for the schema getCustomersCustomerBankAccountsIdParameters
+-- | Defines the object schema located at @paths.\/v1\/customers\/{customer}\/bank_accounts\/{id}.GET.parameters@ in the specification.
 data GetCustomersCustomerBankAccountsIdParameters
   = GetCustomersCustomerBankAccountsIdParameters
       { -- | pathCustomer: Represents the parameter named \'customer\'
@@ -103,11 +104,25 @@ data GetCustomersCustomerBankAccountsIdParameters
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetCustomersCustomerBankAccountsIdParameters where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "pathCustomer" (getCustomersCustomerBankAccountsIdParametersPathCustomer obj) : (Data.Aeson..=) "pathId" (getCustomersCustomerBankAccountsIdParametersPathId obj) : (Data.Aeson..=) "queryExpand" (getCustomersCustomerBankAccountsIdParametersQueryExpand obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "pathCustomer" (getCustomersCustomerBankAccountsIdParametersPathCustomer obj) GHC.Base.<> ((Data.Aeson..=) "pathId" (getCustomersCustomerBankAccountsIdParametersPathId obj) GHC.Base.<> (Data.Aeson..=) "queryExpand" (getCustomersCustomerBankAccountsIdParametersQueryExpand obj)))
+  toJSON obj = Data.Aeson.Types.Internal.object ("pathCustomer" Data.Aeson.Types.ToJSON..= getCustomersCustomerBankAccountsIdParametersPathCustomer obj : "pathId" Data.Aeson.Types.ToJSON..= getCustomersCustomerBankAccountsIdParametersPathId obj : "queryExpand" Data.Aeson.Types.ToJSON..= getCustomersCustomerBankAccountsIdParametersQueryExpand obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("pathCustomer" Data.Aeson.Types.ToJSON..= getCustomersCustomerBankAccountsIdParametersPathCustomer obj) GHC.Base.<> (("pathId" Data.Aeson.Types.ToJSON..= getCustomersCustomerBankAccountsIdParametersPathId obj) GHC.Base.<> ("queryExpand" Data.Aeson.Types.ToJSON..= getCustomersCustomerBankAccountsIdParametersQueryExpand obj)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetCustomersCustomerBankAccountsIdParameters where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "GetCustomersCustomerBankAccountsIdParameters" (\obj -> ((GHC.Base.pure GetCustomersCustomerBankAccountsIdParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathCustomer")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathId")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryExpand"))
+
+-- | Create a new 'GetCustomersCustomerBankAccountsIdParameters' with all required fields.
+mkGetCustomersCustomerBankAccountsIdParameters ::
+  -- | 'getCustomersCustomerBankAccountsIdParametersPathCustomer'
+  Data.Text.Internal.Text ->
+  -- | 'getCustomersCustomerBankAccountsIdParametersPathId'
+  Data.Text.Internal.Text ->
+  GetCustomersCustomerBankAccountsIdParameters
+mkGetCustomersCustomerBankAccountsIdParameters getCustomersCustomerBankAccountsIdParametersPathCustomer getCustomersCustomerBankAccountsIdParametersPathId =
+  GetCustomersCustomerBankAccountsIdParameters
+    { getCustomersCustomerBankAccountsIdParametersPathCustomer = getCustomersCustomerBankAccountsIdParametersPathCustomer,
+      getCustomersCustomerBankAccountsIdParametersPathId = getCustomersCustomerBankAccountsIdParametersPathId,
+      getCustomersCustomerBankAccountsIdParametersQueryExpand = GHC.Maybe.Nothing
+    }
 
 -- | Represents a response of the operation 'getCustomersCustomerBankAccountsId'.
 --

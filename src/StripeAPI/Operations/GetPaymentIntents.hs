@@ -10,6 +10,7 @@ module StripeAPI.Operations.GetPaymentIntents where
 import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -87,7 +88,7 @@ getPaymentIntents parameters =
         ]
     )
 
--- | Defines the data type for the schema getPaymentIntentsParameters
+-- | Defines the object schema located at @paths.\/v1\/payment_intents.GET.parameters@ in the specification.
 data GetPaymentIntentsParameters
   = GetPaymentIntentsParameters
       { -- | queryCreated: Represents the parameter named \'created\'
@@ -133,13 +134,25 @@ data GetPaymentIntentsParameters
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetPaymentIntentsParameters where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "queryCreated" (getPaymentIntentsParametersQueryCreated obj) : (Data.Aeson..=) "queryCustomer" (getPaymentIntentsParametersQueryCustomer obj) : (Data.Aeson..=) "queryEnding_before" (getPaymentIntentsParametersQueryEndingBefore obj) : (Data.Aeson..=) "queryExpand" (getPaymentIntentsParametersQueryExpand obj) : (Data.Aeson..=) "queryLimit" (getPaymentIntentsParametersQueryLimit obj) : (Data.Aeson..=) "queryStarting_after" (getPaymentIntentsParametersQueryStartingAfter obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "queryCreated" (getPaymentIntentsParametersQueryCreated obj) GHC.Base.<> ((Data.Aeson..=) "queryCustomer" (getPaymentIntentsParametersQueryCustomer obj) GHC.Base.<> ((Data.Aeson..=) "queryEnding_before" (getPaymentIntentsParametersQueryEndingBefore obj) GHC.Base.<> ((Data.Aeson..=) "queryExpand" (getPaymentIntentsParametersQueryExpand obj) GHC.Base.<> ((Data.Aeson..=) "queryLimit" (getPaymentIntentsParametersQueryLimit obj) GHC.Base.<> (Data.Aeson..=) "queryStarting_after" (getPaymentIntentsParametersQueryStartingAfter obj))))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("queryCreated" Data.Aeson.Types.ToJSON..= getPaymentIntentsParametersQueryCreated obj : "queryCustomer" Data.Aeson.Types.ToJSON..= getPaymentIntentsParametersQueryCustomer obj : "queryEnding_before" Data.Aeson.Types.ToJSON..= getPaymentIntentsParametersQueryEndingBefore obj : "queryExpand" Data.Aeson.Types.ToJSON..= getPaymentIntentsParametersQueryExpand obj : "queryLimit" Data.Aeson.Types.ToJSON..= getPaymentIntentsParametersQueryLimit obj : "queryStarting_after" Data.Aeson.Types.ToJSON..= getPaymentIntentsParametersQueryStartingAfter obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("queryCreated" Data.Aeson.Types.ToJSON..= getPaymentIntentsParametersQueryCreated obj) GHC.Base.<> (("queryCustomer" Data.Aeson.Types.ToJSON..= getPaymentIntentsParametersQueryCustomer obj) GHC.Base.<> (("queryEnding_before" Data.Aeson.Types.ToJSON..= getPaymentIntentsParametersQueryEndingBefore obj) GHC.Base.<> (("queryExpand" Data.Aeson.Types.ToJSON..= getPaymentIntentsParametersQueryExpand obj) GHC.Base.<> (("queryLimit" Data.Aeson.Types.ToJSON..= getPaymentIntentsParametersQueryLimit obj) GHC.Base.<> ("queryStarting_after" Data.Aeson.Types.ToJSON..= getPaymentIntentsParametersQueryStartingAfter obj))))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetPaymentIntentsParameters where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "GetPaymentIntentsParameters" (\obj -> (((((GHC.Base.pure GetPaymentIntentsParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryCreated")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryCustomer")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryEnding_before")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryExpand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryLimit")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryStarting_after"))
 
--- | Defines the data type for the schema getPaymentIntentsParametersQueryCreated\'OneOf2
+-- | Create a new 'GetPaymentIntentsParameters' with all required fields.
+mkGetPaymentIntentsParameters :: GetPaymentIntentsParameters
+mkGetPaymentIntentsParameters =
+  GetPaymentIntentsParameters
+    { getPaymentIntentsParametersQueryCreated = GHC.Maybe.Nothing,
+      getPaymentIntentsParametersQueryCustomer = GHC.Maybe.Nothing,
+      getPaymentIntentsParametersQueryEndingBefore = GHC.Maybe.Nothing,
+      getPaymentIntentsParametersQueryExpand = GHC.Maybe.Nothing,
+      getPaymentIntentsParametersQueryLimit = GHC.Maybe.Nothing,
+      getPaymentIntentsParametersQueryStartingAfter = GHC.Maybe.Nothing
+    }
+
+-- | Defines the object schema located at @paths.\/v1\/payment_intents.GET.parameters.properties.queryCreated.anyOf@ in the specification.
 data GetPaymentIntentsParametersQueryCreated'OneOf2
   = GetPaymentIntentsParametersQueryCreated'OneOf2
       { -- | gt
@@ -157,13 +170,23 @@ data GetPaymentIntentsParametersQueryCreated'OneOf2
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetPaymentIntentsParametersQueryCreated'OneOf2 where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "gt" (getPaymentIntentsParametersQueryCreated'OneOf2Gt obj) : (Data.Aeson..=) "gte" (getPaymentIntentsParametersQueryCreated'OneOf2Gte obj) : (Data.Aeson..=) "lt" (getPaymentIntentsParametersQueryCreated'OneOf2Lt obj) : (Data.Aeson..=) "lte" (getPaymentIntentsParametersQueryCreated'OneOf2Lte obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "gt" (getPaymentIntentsParametersQueryCreated'OneOf2Gt obj) GHC.Base.<> ((Data.Aeson..=) "gte" (getPaymentIntentsParametersQueryCreated'OneOf2Gte obj) GHC.Base.<> ((Data.Aeson..=) "lt" (getPaymentIntentsParametersQueryCreated'OneOf2Lt obj) GHC.Base.<> (Data.Aeson..=) "lte" (getPaymentIntentsParametersQueryCreated'OneOf2Lte obj))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("gt" Data.Aeson.Types.ToJSON..= getPaymentIntentsParametersQueryCreated'OneOf2Gt obj : "gte" Data.Aeson.Types.ToJSON..= getPaymentIntentsParametersQueryCreated'OneOf2Gte obj : "lt" Data.Aeson.Types.ToJSON..= getPaymentIntentsParametersQueryCreated'OneOf2Lt obj : "lte" Data.Aeson.Types.ToJSON..= getPaymentIntentsParametersQueryCreated'OneOf2Lte obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("gt" Data.Aeson.Types.ToJSON..= getPaymentIntentsParametersQueryCreated'OneOf2Gt obj) GHC.Base.<> (("gte" Data.Aeson.Types.ToJSON..= getPaymentIntentsParametersQueryCreated'OneOf2Gte obj) GHC.Base.<> (("lt" Data.Aeson.Types.ToJSON..= getPaymentIntentsParametersQueryCreated'OneOf2Lt obj) GHC.Base.<> ("lte" Data.Aeson.Types.ToJSON..= getPaymentIntentsParametersQueryCreated'OneOf2Lte obj))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetPaymentIntentsParametersQueryCreated'OneOf2 where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "GetPaymentIntentsParametersQueryCreated'OneOf2" (\obj -> (((GHC.Base.pure GetPaymentIntentsParametersQueryCreated'OneOf2 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "gt")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "gte")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "lt")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "lte"))
 
--- | Define the one-of schema getPaymentIntentsParametersQueryCreated\'
+-- | Create a new 'GetPaymentIntentsParametersQueryCreated'OneOf2' with all required fields.
+mkGetPaymentIntentsParametersQueryCreated'OneOf2 :: GetPaymentIntentsParametersQueryCreated'OneOf2
+mkGetPaymentIntentsParametersQueryCreated'OneOf2 =
+  GetPaymentIntentsParametersQueryCreated'OneOf2
+    { getPaymentIntentsParametersQueryCreated'OneOf2Gt = GHC.Maybe.Nothing,
+      getPaymentIntentsParametersQueryCreated'OneOf2Gte = GHC.Maybe.Nothing,
+      getPaymentIntentsParametersQueryCreated'OneOf2Lt = GHC.Maybe.Nothing,
+      getPaymentIntentsParametersQueryCreated'OneOf2Lte = GHC.Maybe.Nothing
+    }
+
+-- | Defines the oneOf schema located at @paths.\/v1\/payment_intents.GET.parameters.properties.queryCreated.anyOf@ in the specification.
 --
 -- Represents the parameter named \'created\'
 --
@@ -178,11 +201,9 @@ instance Data.Aeson.Types.ToJSON.ToJSON GetPaymentIntentsParametersQueryCreated'
   toJSON (GetPaymentIntentsParametersQueryCreated'GetPaymentIntentsParametersQueryCreated'OneOf2 a) = Data.Aeson.Types.ToJSON.toJSON a
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetPaymentIntentsParametersQueryCreated'Variants where
-  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
-    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ GetPaymentIntentsParametersQueryCreated'Int a
-    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ GetPaymentIntentsParametersQueryCreated'GetPaymentIntentsParametersQueryCreated'OneOf2 a
-      Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+  parseJSON val = case (GetPaymentIntentsParametersQueryCreated'Int Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((GetPaymentIntentsParametersQueryCreated'GetPaymentIntentsParametersQueryCreated'OneOf2 Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched") of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+    Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
 -- | Represents a response of the operation 'getPaymentIntents'.
 --
@@ -196,15 +217,13 @@ data GetPaymentIntentsResponse
     GetPaymentIntentsResponseDefault Error
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
--- | Defines the data type for the schema GetPaymentIntentsResponseBody200
+-- | Defines the object schema located at @paths.\/v1\/payment_intents.GET.responses.200.content.application\/json.schema@ in the specification.
 data GetPaymentIntentsResponseBody200
   = GetPaymentIntentsResponseBody200
       { -- | data
         getPaymentIntentsResponseBody200Data :: ([PaymentIntent]),
         -- | has_more: True if this list has another page of items after this one that can be fetched.
         getPaymentIntentsResponseBody200HasMore :: GHC.Types.Bool,
-        -- | object: String representing the object\'s type. Objects of the same type share the same value. Always has the value \`list\`.
-        getPaymentIntentsResponseBody200Object :: GetPaymentIntentsResponseBody200Object',
         -- | url: The URL where this list can be accessed.
         --
         -- Constraints:
@@ -219,29 +238,24 @@ data GetPaymentIntentsResponseBody200
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetPaymentIntentsResponseBody200 where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "data" (getPaymentIntentsResponseBody200Data obj) : (Data.Aeson..=) "has_more" (getPaymentIntentsResponseBody200HasMore obj) : (Data.Aeson..=) "object" (getPaymentIntentsResponseBody200Object obj) : (Data.Aeson..=) "url" (getPaymentIntentsResponseBody200Url obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "data" (getPaymentIntentsResponseBody200Data obj) GHC.Base.<> ((Data.Aeson..=) "has_more" (getPaymentIntentsResponseBody200HasMore obj) GHC.Base.<> ((Data.Aeson..=) "object" (getPaymentIntentsResponseBody200Object obj) GHC.Base.<> (Data.Aeson..=) "url" (getPaymentIntentsResponseBody200Url obj))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("data" Data.Aeson.Types.ToJSON..= getPaymentIntentsResponseBody200Data obj : "has_more" Data.Aeson.Types.ToJSON..= getPaymentIntentsResponseBody200HasMore obj : "url" Data.Aeson.Types.ToJSON..= getPaymentIntentsResponseBody200Url obj : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "list" : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("data" Data.Aeson.Types.ToJSON..= getPaymentIntentsResponseBody200Data obj) GHC.Base.<> (("has_more" Data.Aeson.Types.ToJSON..= getPaymentIntentsResponseBody200HasMore obj) GHC.Base.<> (("url" Data.Aeson.Types.ToJSON..= getPaymentIntentsResponseBody200Url obj) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "list"))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetPaymentIntentsResponseBody200 where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetPaymentIntentsResponseBody200" (\obj -> (((GHC.Base.pure GetPaymentIntentsResponseBody200 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "has_more")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "object")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "url"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetPaymentIntentsResponseBody200" (\obj -> ((GHC.Base.pure GetPaymentIntentsResponseBody200 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "has_more")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "url"))
 
--- | Defines the enum schema GetPaymentIntentsResponseBody200Object\'
---
--- String representing the object\'s type. Objects of the same type share the same value. Always has the value \`list\`.
-data GetPaymentIntentsResponseBody200Object'
-  = GetPaymentIntentsResponseBody200Object'EnumOther Data.Aeson.Types.Internal.Value
-  | GetPaymentIntentsResponseBody200Object'EnumTyped Data.Text.Internal.Text
-  | GetPaymentIntentsResponseBody200Object'EnumStringList
-  deriving (GHC.Show.Show, GHC.Classes.Eq)
-
-instance Data.Aeson.Types.ToJSON.ToJSON GetPaymentIntentsResponseBody200Object' where
-  toJSON (GetPaymentIntentsResponseBody200Object'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (GetPaymentIntentsResponseBody200Object'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (GetPaymentIntentsResponseBody200Object'EnumStringList) = "list"
-
-instance Data.Aeson.Types.FromJSON.FromJSON GetPaymentIntentsResponseBody200Object' where
-  parseJSON val =
-    GHC.Base.pure
-      ( if  | val GHC.Classes.== "list" -> GetPaymentIntentsResponseBody200Object'EnumStringList
-            | GHC.Base.otherwise -> GetPaymentIntentsResponseBody200Object'EnumOther val
-      )
+-- | Create a new 'GetPaymentIntentsResponseBody200' with all required fields.
+mkGetPaymentIntentsResponseBody200 ::
+  -- | 'getPaymentIntentsResponseBody200Data'
+  [PaymentIntent] ->
+  -- | 'getPaymentIntentsResponseBody200HasMore'
+  GHC.Types.Bool ->
+  -- | 'getPaymentIntentsResponseBody200Url'
+  Data.Text.Internal.Text ->
+  GetPaymentIntentsResponseBody200
+mkGetPaymentIntentsResponseBody200 getPaymentIntentsResponseBody200Data getPaymentIntentsResponseBody200HasMore getPaymentIntentsResponseBody200Url =
+  GetPaymentIntentsResponseBody200
+    { getPaymentIntentsResponseBody200Data = getPaymentIntentsResponseBody200Data,
+      getPaymentIntentsResponseBody200HasMore = getPaymentIntentsResponseBody200HasMore,
+      getPaymentIntentsResponseBody200Url = getPaymentIntentsResponseBody200Url
+    }

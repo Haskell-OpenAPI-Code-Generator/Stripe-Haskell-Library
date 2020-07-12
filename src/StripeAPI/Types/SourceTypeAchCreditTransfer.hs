@@ -8,6 +8,7 @@ module StripeAPI.Types.SourceTypeAchCreditTransfer where
 
 import qualified Control.Monad.Fail
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -30,7 +31,7 @@ import StripeAPI.TypeAlias
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
--- | Defines the data type for the schema source_type_ach_credit_transfer
+-- | Defines the object schema located at @components.schemas.source_type_ach_credit_transfer@ in the specification.
 data SourceTypeAchCreditTransfer
   = SourceTypeAchCreditTransfer
       { -- | account_number
@@ -56,8 +57,22 @@ data SourceTypeAchCreditTransfer
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON SourceTypeAchCreditTransfer where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "account_number" (sourceTypeAchCreditTransferAccountNumber obj) : (Data.Aeson..=) "bank_name" (sourceTypeAchCreditTransferBankName obj) : (Data.Aeson..=) "fingerprint" (sourceTypeAchCreditTransferFingerprint obj) : (Data.Aeson..=) "refund_account_holder_name" (sourceTypeAchCreditTransferRefundAccountHolderName obj) : (Data.Aeson..=) "refund_account_holder_type" (sourceTypeAchCreditTransferRefundAccountHolderType obj) : (Data.Aeson..=) "refund_routing_number" (sourceTypeAchCreditTransferRefundRoutingNumber obj) : (Data.Aeson..=) "routing_number" (sourceTypeAchCreditTransferRoutingNumber obj) : (Data.Aeson..=) "swift_code" (sourceTypeAchCreditTransferSwiftCode obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "account_number" (sourceTypeAchCreditTransferAccountNumber obj) GHC.Base.<> ((Data.Aeson..=) "bank_name" (sourceTypeAchCreditTransferBankName obj) GHC.Base.<> ((Data.Aeson..=) "fingerprint" (sourceTypeAchCreditTransferFingerprint obj) GHC.Base.<> ((Data.Aeson..=) "refund_account_holder_name" (sourceTypeAchCreditTransferRefundAccountHolderName obj) GHC.Base.<> ((Data.Aeson..=) "refund_account_holder_type" (sourceTypeAchCreditTransferRefundAccountHolderType obj) GHC.Base.<> ((Data.Aeson..=) "refund_routing_number" (sourceTypeAchCreditTransferRefundRoutingNumber obj) GHC.Base.<> ((Data.Aeson..=) "routing_number" (sourceTypeAchCreditTransferRoutingNumber obj) GHC.Base.<> (Data.Aeson..=) "swift_code" (sourceTypeAchCreditTransferSwiftCode obj))))))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("account_number" Data.Aeson.Types.ToJSON..= sourceTypeAchCreditTransferAccountNumber obj : "bank_name" Data.Aeson.Types.ToJSON..= sourceTypeAchCreditTransferBankName obj : "fingerprint" Data.Aeson.Types.ToJSON..= sourceTypeAchCreditTransferFingerprint obj : "refund_account_holder_name" Data.Aeson.Types.ToJSON..= sourceTypeAchCreditTransferRefundAccountHolderName obj : "refund_account_holder_type" Data.Aeson.Types.ToJSON..= sourceTypeAchCreditTransferRefundAccountHolderType obj : "refund_routing_number" Data.Aeson.Types.ToJSON..= sourceTypeAchCreditTransferRefundRoutingNumber obj : "routing_number" Data.Aeson.Types.ToJSON..= sourceTypeAchCreditTransferRoutingNumber obj : "swift_code" Data.Aeson.Types.ToJSON..= sourceTypeAchCreditTransferSwiftCode obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("account_number" Data.Aeson.Types.ToJSON..= sourceTypeAchCreditTransferAccountNumber obj) GHC.Base.<> (("bank_name" Data.Aeson.Types.ToJSON..= sourceTypeAchCreditTransferBankName obj) GHC.Base.<> (("fingerprint" Data.Aeson.Types.ToJSON..= sourceTypeAchCreditTransferFingerprint obj) GHC.Base.<> (("refund_account_holder_name" Data.Aeson.Types.ToJSON..= sourceTypeAchCreditTransferRefundAccountHolderName obj) GHC.Base.<> (("refund_account_holder_type" Data.Aeson.Types.ToJSON..= sourceTypeAchCreditTransferRefundAccountHolderType obj) GHC.Base.<> (("refund_routing_number" Data.Aeson.Types.ToJSON..= sourceTypeAchCreditTransferRefundRoutingNumber obj) GHC.Base.<> (("routing_number" Data.Aeson.Types.ToJSON..= sourceTypeAchCreditTransferRoutingNumber obj) GHC.Base.<> ("swift_code" Data.Aeson.Types.ToJSON..= sourceTypeAchCreditTransferSwiftCode obj))))))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON SourceTypeAchCreditTransfer where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "SourceTypeAchCreditTransfer" (\obj -> (((((((GHC.Base.pure SourceTypeAchCreditTransfer GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "account_number")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "bank_name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "fingerprint")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "refund_account_holder_name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "refund_account_holder_type")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "refund_routing_number")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "routing_number")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "swift_code"))
+
+-- | Create a new 'SourceTypeAchCreditTransfer' with all required fields.
+mkSourceTypeAchCreditTransfer :: SourceTypeAchCreditTransfer
+mkSourceTypeAchCreditTransfer =
+  SourceTypeAchCreditTransfer
+    { sourceTypeAchCreditTransferAccountNumber = GHC.Maybe.Nothing,
+      sourceTypeAchCreditTransferBankName = GHC.Maybe.Nothing,
+      sourceTypeAchCreditTransferFingerprint = GHC.Maybe.Nothing,
+      sourceTypeAchCreditTransferRefundAccountHolderName = GHC.Maybe.Nothing,
+      sourceTypeAchCreditTransferRefundAccountHolderType = GHC.Maybe.Nothing,
+      sourceTypeAchCreditTransferRefundRoutingNumber = GHC.Maybe.Nothing,
+      sourceTypeAchCreditTransferRoutingNumber = GHC.Maybe.Nothing,
+      sourceTypeAchCreditTransferSwiftCode = GHC.Maybe.Nothing
+    }

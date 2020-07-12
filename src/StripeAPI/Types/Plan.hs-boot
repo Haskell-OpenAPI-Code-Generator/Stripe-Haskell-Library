@@ -1,11 +1,11 @@
 module StripeAPI.Types.Plan where
 import Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Types.Internal
-data Plan 
-instance Show Plan 
-instance Eq Plan 
-instance FromJSON Plan 
-instance ToJSON Plan 
+data Plan
+instance Show Plan
+instance Eq Plan
+instance FromJSON Plan
+instance ToJSON Plan
 data PlanAggregateUsage'
 instance Show PlanAggregateUsage'
 instance Eq PlanAggregateUsage'
@@ -21,11 +21,6 @@ instance Show PlanInterval'
 instance Eq PlanInterval'
 instance FromJSON PlanInterval'
 instance ToJSON PlanInterval'
-data PlanObject'
-instance Show PlanObject'
-instance Eq PlanObject'
-instance FromJSON PlanObject'
-instance ToJSON PlanObject'
 data PlanProduct'Variants
 instance Show PlanProduct'Variants
 instance Eq PlanProduct'Variants
@@ -36,11 +31,11 @@ instance Show PlanTiersMode'
 instance Eq PlanTiersMode'
 instance FromJSON PlanTiersMode'
 instance ToJSON PlanTiersMode'
-data PlanTransformUsage' 
-instance Show PlanTransformUsage' 
-instance Eq PlanTransformUsage' 
-instance FromJSON PlanTransformUsage' 
-instance ToJSON PlanTransformUsage' 
+data PlanTransformUsage'
+instance Show PlanTransformUsage'
+instance Eq PlanTransformUsage'
+instance FromJSON PlanTransformUsage'
+instance ToJSON PlanTransformUsage'
 data PlanTransformUsage'Round'
 instance Show PlanTransformUsage'Round'
 instance Eq PlanTransformUsage'Round'

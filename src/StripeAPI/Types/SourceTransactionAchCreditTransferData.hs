@@ -8,6 +8,7 @@ module StripeAPI.Types.SourceTransactionAchCreditTransferData where
 
 import qualified Control.Monad.Fail
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -30,7 +31,7 @@ import StripeAPI.TypeAlias
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
--- | Defines the data type for the schema source_transaction_ach_credit_transfer_data
+-- | Defines the object schema located at @components.schemas.source_transaction_ach_credit_transfer_data@ in the specification.
 data SourceTransactionAchCreditTransferData
   = SourceTransactionAchCreditTransferData
       { -- | customer_data: Customer data associated with the transfer.
@@ -64,8 +65,18 @@ data SourceTransactionAchCreditTransferData
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON SourceTransactionAchCreditTransferData where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "customer_data" (sourceTransactionAchCreditTransferDataCustomerData obj) : (Data.Aeson..=) "fingerprint" (sourceTransactionAchCreditTransferDataFingerprint obj) : (Data.Aeson..=) "last4" (sourceTransactionAchCreditTransferDataLast4 obj) : (Data.Aeson..=) "routing_number" (sourceTransactionAchCreditTransferDataRoutingNumber obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "customer_data" (sourceTransactionAchCreditTransferDataCustomerData obj) GHC.Base.<> ((Data.Aeson..=) "fingerprint" (sourceTransactionAchCreditTransferDataFingerprint obj) GHC.Base.<> ((Data.Aeson..=) "last4" (sourceTransactionAchCreditTransferDataLast4 obj) GHC.Base.<> (Data.Aeson..=) "routing_number" (sourceTransactionAchCreditTransferDataRoutingNumber obj))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("customer_data" Data.Aeson.Types.ToJSON..= sourceTransactionAchCreditTransferDataCustomerData obj : "fingerprint" Data.Aeson.Types.ToJSON..= sourceTransactionAchCreditTransferDataFingerprint obj : "last4" Data.Aeson.Types.ToJSON..= sourceTransactionAchCreditTransferDataLast4 obj : "routing_number" Data.Aeson.Types.ToJSON..= sourceTransactionAchCreditTransferDataRoutingNumber obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("customer_data" Data.Aeson.Types.ToJSON..= sourceTransactionAchCreditTransferDataCustomerData obj) GHC.Base.<> (("fingerprint" Data.Aeson.Types.ToJSON..= sourceTransactionAchCreditTransferDataFingerprint obj) GHC.Base.<> (("last4" Data.Aeson.Types.ToJSON..= sourceTransactionAchCreditTransferDataLast4 obj) GHC.Base.<> ("routing_number" Data.Aeson.Types.ToJSON..= sourceTransactionAchCreditTransferDataRoutingNumber obj))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON SourceTransactionAchCreditTransferData where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "SourceTransactionAchCreditTransferData" (\obj -> (((GHC.Base.pure SourceTransactionAchCreditTransferData GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "customer_data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "fingerprint")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "last4")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "routing_number"))
+
+-- | Create a new 'SourceTransactionAchCreditTransferData' with all required fields.
+mkSourceTransactionAchCreditTransferData :: SourceTransactionAchCreditTransferData
+mkSourceTransactionAchCreditTransferData =
+  SourceTransactionAchCreditTransferData
+    { sourceTransactionAchCreditTransferDataCustomerData = GHC.Maybe.Nothing,
+      sourceTransactionAchCreditTransferDataFingerprint = GHC.Maybe.Nothing,
+      sourceTransactionAchCreditTransferDataLast4 = GHC.Maybe.Nothing,
+      sourceTransactionAchCreditTransferDataRoutingNumber = GHC.Maybe.Nothing
+    }

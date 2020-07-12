@@ -10,6 +10,7 @@ module StripeAPI.Operations.GetCustomersCustomerDiscount where
 import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -75,7 +76,7 @@ getCustomersCustomerDiscount parameters =
     )
     (StripeAPI.Common.doCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET") (Data.Text.pack ("/v1/customers/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel (getCustomersCustomerDiscountParametersPathCustomer parameters))) GHC.Base.++ "/discount"))) [StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getCustomersCustomerDiscountParametersQueryExpand parameters) (Data.Text.pack "deepObject") GHC.Types.True])
 
--- | Defines the data type for the schema getCustomersCustomerDiscountParameters
+-- | Defines the object schema located at @paths.\/v1\/customers\/{customer}\/discount.GET.parameters@ in the specification.
 data GetCustomersCustomerDiscountParameters
   = GetCustomersCustomerDiscountParameters
       { -- | pathCustomer: Represents the parameter named \'customer\'
@@ -95,11 +96,22 @@ data GetCustomersCustomerDiscountParameters
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetCustomersCustomerDiscountParameters where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "pathCustomer" (getCustomersCustomerDiscountParametersPathCustomer obj) : (Data.Aeson..=) "queryExpand" (getCustomersCustomerDiscountParametersQueryExpand obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "pathCustomer" (getCustomersCustomerDiscountParametersPathCustomer obj) GHC.Base.<> (Data.Aeson..=) "queryExpand" (getCustomersCustomerDiscountParametersQueryExpand obj))
+  toJSON obj = Data.Aeson.Types.Internal.object ("pathCustomer" Data.Aeson.Types.ToJSON..= getCustomersCustomerDiscountParametersPathCustomer obj : "queryExpand" Data.Aeson.Types.ToJSON..= getCustomersCustomerDiscountParametersQueryExpand obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("pathCustomer" Data.Aeson.Types.ToJSON..= getCustomersCustomerDiscountParametersPathCustomer obj) GHC.Base.<> ("queryExpand" Data.Aeson.Types.ToJSON..= getCustomersCustomerDiscountParametersQueryExpand obj))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetCustomersCustomerDiscountParameters where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "GetCustomersCustomerDiscountParameters" (\obj -> (GHC.Base.pure GetCustomersCustomerDiscountParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathCustomer")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryExpand"))
+
+-- | Create a new 'GetCustomersCustomerDiscountParameters' with all required fields.
+mkGetCustomersCustomerDiscountParameters ::
+  -- | 'getCustomersCustomerDiscountParametersPathCustomer'
+  Data.Text.Internal.Text ->
+  GetCustomersCustomerDiscountParameters
+mkGetCustomersCustomerDiscountParameters getCustomersCustomerDiscountParametersPathCustomer =
+  GetCustomersCustomerDiscountParameters
+    { getCustomersCustomerDiscountParametersPathCustomer = getCustomersCustomerDiscountParametersPathCustomer,
+      getCustomersCustomerDiscountParametersQueryExpand = GHC.Maybe.Nothing
+    }
 
 -- | Represents a response of the operation 'getCustomersCustomerDiscount'.
 --

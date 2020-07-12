@@ -8,6 +8,7 @@ module StripeAPI.Types.DeletedRadar_ValueList where
 
 import qualified Control.Monad.Fail
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -30,19 +31,15 @@ import StripeAPI.TypeAlias
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
--- | Defines the data type for the schema deleted_radar.value_list
+-- | Defines the object schema located at @components.schemas.deleted_radar.value_list@ in the specification.
 data DeletedRadar'valueList
   = DeletedRadar'valueList
-      { -- | deleted: Always true for a deleted object
-        deletedRadar'valueListDeleted :: DeletedRadar'valueListDeleted',
-        -- | id: Unique identifier for the object.
+      { -- | id: Unique identifier for the object.
         --
         -- Constraints:
         --
         -- * Maximum length of 5000
-        deletedRadar'valueListId :: Data.Text.Internal.Text,
-        -- | object: String representing the object\'s type. Objects of the same type share the same value.
-        deletedRadar'valueListObject :: DeletedRadar'valueListObject'
+        deletedRadar'valueListId :: Data.Text.Internal.Text
       }
   deriving
     ( GHC.Show.Show,
@@ -50,50 +47,15 @@ data DeletedRadar'valueList
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON DeletedRadar'valueList where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "deleted" (deletedRadar'valueListDeleted obj) : (Data.Aeson..=) "id" (deletedRadar'valueListId obj) : (Data.Aeson..=) "object" (deletedRadar'valueListObject obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "deleted" (deletedRadar'valueListDeleted obj) GHC.Base.<> ((Data.Aeson..=) "id" (deletedRadar'valueListId obj) GHC.Base.<> (Data.Aeson..=) "object" (deletedRadar'valueListObject obj)))
+  toJSON obj = Data.Aeson.Types.Internal.object ("id" Data.Aeson.Types.ToJSON..= deletedRadar'valueListId obj : "deleted" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.Bool GHC.Types.True : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "radar.value_list" : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("id" Data.Aeson.Types.ToJSON..= deletedRadar'valueListId obj) GHC.Base.<> (("deleted" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.Bool GHC.Types.True) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "radar.value_list")))
 
 instance Data.Aeson.Types.FromJSON.FromJSON DeletedRadar'valueList where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "DeletedRadar'valueList" (\obj -> ((GHC.Base.pure DeletedRadar'valueList GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "deleted")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "object"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "DeletedRadar'valueList" (\obj -> GHC.Base.pure DeletedRadar'valueList GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id"))
 
--- | Defines the enum schema deleted_radar.value_listDeleted\'
---
--- Always true for a deleted object
-data DeletedRadar'valueListDeleted'
-  = DeletedRadar'valueListDeleted'EnumOther Data.Aeson.Types.Internal.Value
-  | DeletedRadar'valueListDeleted'EnumTyped GHC.Types.Bool
-  | DeletedRadar'valueListDeleted'EnumBoolTrue
-  deriving (GHC.Show.Show, GHC.Classes.Eq)
-
-instance Data.Aeson.Types.ToJSON.ToJSON DeletedRadar'valueListDeleted' where
-  toJSON (DeletedRadar'valueListDeleted'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (DeletedRadar'valueListDeleted'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (DeletedRadar'valueListDeleted'EnumBoolTrue) = Data.Aeson.Types.Internal.Bool GHC.Types.True
-
-instance Data.Aeson.Types.FromJSON.FromJSON DeletedRadar'valueListDeleted' where
-  parseJSON val =
-    GHC.Base.pure
-      ( if  | val GHC.Classes.== Data.Aeson.Types.Internal.Bool GHC.Types.True -> DeletedRadar'valueListDeleted'EnumBoolTrue
-            | GHC.Base.otherwise -> DeletedRadar'valueListDeleted'EnumOther val
-      )
-
--- | Defines the enum schema deleted_radar.value_listObject\'
---
--- String representing the object\'s type. Objects of the same type share the same value.
-data DeletedRadar'valueListObject'
-  = DeletedRadar'valueListObject'EnumOther Data.Aeson.Types.Internal.Value
-  | DeletedRadar'valueListObject'EnumTyped Data.Text.Internal.Text
-  | DeletedRadar'valueListObject'EnumStringRadar'valueList
-  deriving (GHC.Show.Show, GHC.Classes.Eq)
-
-instance Data.Aeson.Types.ToJSON.ToJSON DeletedRadar'valueListObject' where
-  toJSON (DeletedRadar'valueListObject'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (DeletedRadar'valueListObject'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (DeletedRadar'valueListObject'EnumStringRadar'valueList) = "radar.value_list"
-
-instance Data.Aeson.Types.FromJSON.FromJSON DeletedRadar'valueListObject' where
-  parseJSON val =
-    GHC.Base.pure
-      ( if  | val GHC.Classes.== "radar.value_list" -> DeletedRadar'valueListObject'EnumStringRadar'valueList
-            | GHC.Base.otherwise -> DeletedRadar'valueListObject'EnumOther val
-      )
+-- | Create a new 'DeletedRadar'valueList' with all required fields.
+mkDeletedRadar'valueList ::
+  -- | 'deletedRadar'valueListId'
+  Data.Text.Internal.Text ->
+  DeletedRadar'valueList
+mkDeletedRadar'valueList deletedRadar'valueListId = DeletedRadar'valueList {deletedRadar'valueListId = deletedRadar'valueListId}

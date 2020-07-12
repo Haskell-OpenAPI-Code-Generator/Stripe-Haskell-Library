@@ -1,8 +1,8 @@
 module StripeAPI.Types.PaymentIntentPaymentMethodOptions where
 import Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Types.Internal
-data PaymentIntentPaymentMethodOptions 
-instance Show PaymentIntentPaymentMethodOptions 
-instance Eq PaymentIntentPaymentMethodOptions 
-instance FromJSON PaymentIntentPaymentMethodOptions 
-instance ToJSON PaymentIntentPaymentMethodOptions 
+data PaymentIntentPaymentMethodOptions
+instance Show PaymentIntentPaymentMethodOptions
+instance Eq PaymentIntentPaymentMethodOptions
+instance FromJSON PaymentIntentPaymentMethodOptions
+instance ToJSON PaymentIntentPaymentMethodOptions

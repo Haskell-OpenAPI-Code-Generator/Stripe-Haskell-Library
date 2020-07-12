@@ -8,6 +8,7 @@ module StripeAPI.Types.Issuing_Dispute where
 
 import qualified Control.Monad.Fail
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -32,7 +33,7 @@ import {-# SOURCE #-} StripeAPI.Types.Issuing_Transaction
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
--- | Defines the data type for the schema issuing.dispute
+-- | Defines the object schema located at @components.schemas.issuing.dispute@ in the specification.
 --
 -- As a [card issuer](https:\/\/stripe.com\/docs\/issuing), you can [dispute](https:\/\/stripe.com\/docs\/issuing\/disputes) transactions that you do not recognize, suspect to be fraudulent, or have some other issue.
 --
@@ -59,8 +60,6 @@ data Issuing'dispute
         issuing'disputeLivemode :: GHC.Types.Bool,
         -- | metadata: Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
         issuing'disputeMetadata :: Data.Aeson.Types.Internal.Object,
-        -- | object: String representing the object\'s type. Objects of the same type share the same value.
-        issuing'disputeObject :: Issuing'disputeObject',
         -- | reason: Reason for this dispute. One of \`duplicate\`, \`product_not_received\`, \`fraudulent\`, or \`other\`.
         --
         -- Constraints:
@@ -76,13 +75,50 @@ data Issuing'dispute
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON Issuing'dispute where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "amount" (issuing'disputeAmount obj) : (Data.Aeson..=) "created" (issuing'disputeCreated obj) : (Data.Aeson..=) "currency" (issuing'disputeCurrency obj) : (Data.Aeson..=) "disputed_transaction" (issuing'disputeDisputedTransaction obj) : (Data.Aeson..=) "evidence" (issuing'disputeEvidence obj) : (Data.Aeson..=) "id" (issuing'disputeId obj) : (Data.Aeson..=) "livemode" (issuing'disputeLivemode obj) : (Data.Aeson..=) "metadata" (issuing'disputeMetadata obj) : (Data.Aeson..=) "object" (issuing'disputeObject obj) : (Data.Aeson..=) "reason" (issuing'disputeReason obj) : (Data.Aeson..=) "status" (issuing'disputeStatus obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "amount" (issuing'disputeAmount obj) GHC.Base.<> ((Data.Aeson..=) "created" (issuing'disputeCreated obj) GHC.Base.<> ((Data.Aeson..=) "currency" (issuing'disputeCurrency obj) GHC.Base.<> ((Data.Aeson..=) "disputed_transaction" (issuing'disputeDisputedTransaction obj) GHC.Base.<> ((Data.Aeson..=) "evidence" (issuing'disputeEvidence obj) GHC.Base.<> ((Data.Aeson..=) "id" (issuing'disputeId obj) GHC.Base.<> ((Data.Aeson..=) "livemode" (issuing'disputeLivemode obj) GHC.Base.<> ((Data.Aeson..=) "metadata" (issuing'disputeMetadata obj) GHC.Base.<> ((Data.Aeson..=) "object" (issuing'disputeObject obj) GHC.Base.<> ((Data.Aeson..=) "reason" (issuing'disputeReason obj) GHC.Base.<> (Data.Aeson..=) "status" (issuing'disputeStatus obj)))))))))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("amount" Data.Aeson.Types.ToJSON..= issuing'disputeAmount obj : "created" Data.Aeson.Types.ToJSON..= issuing'disputeCreated obj : "currency" Data.Aeson.Types.ToJSON..= issuing'disputeCurrency obj : "disputed_transaction" Data.Aeson.Types.ToJSON..= issuing'disputeDisputedTransaction obj : "evidence" Data.Aeson.Types.ToJSON..= issuing'disputeEvidence obj : "id" Data.Aeson.Types.ToJSON..= issuing'disputeId obj : "livemode" Data.Aeson.Types.ToJSON..= issuing'disputeLivemode obj : "metadata" Data.Aeson.Types.ToJSON..= issuing'disputeMetadata obj : "reason" Data.Aeson.Types.ToJSON..= issuing'disputeReason obj : "status" Data.Aeson.Types.ToJSON..= issuing'disputeStatus obj : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "issuing.dispute" : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("amount" Data.Aeson.Types.ToJSON..= issuing'disputeAmount obj) GHC.Base.<> (("created" Data.Aeson.Types.ToJSON..= issuing'disputeCreated obj) GHC.Base.<> (("currency" Data.Aeson.Types.ToJSON..= issuing'disputeCurrency obj) GHC.Base.<> (("disputed_transaction" Data.Aeson.Types.ToJSON..= issuing'disputeDisputedTransaction obj) GHC.Base.<> (("evidence" Data.Aeson.Types.ToJSON..= issuing'disputeEvidence obj) GHC.Base.<> (("id" Data.Aeson.Types.ToJSON..= issuing'disputeId obj) GHC.Base.<> (("livemode" Data.Aeson.Types.ToJSON..= issuing'disputeLivemode obj) GHC.Base.<> (("metadata" Data.Aeson.Types.ToJSON..= issuing'disputeMetadata obj) GHC.Base.<> (("reason" Data.Aeson.Types.ToJSON..= issuing'disputeReason obj) GHC.Base.<> (("status" Data.Aeson.Types.ToJSON..= issuing'disputeStatus obj) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "issuing.dispute")))))))))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON Issuing'dispute where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "Issuing'dispute" (\obj -> ((((((((((GHC.Base.pure Issuing'dispute GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "created")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "disputed_transaction")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "evidence")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "livemode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "object")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "reason")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "status"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "Issuing'dispute" (\obj -> (((((((((GHC.Base.pure Issuing'dispute GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "created")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "disputed_transaction")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "evidence")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "livemode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "reason")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "status"))
 
--- | Define the one-of schema issuing.disputeDisputed_transaction\'
+-- | Create a new 'Issuing'dispute' with all required fields.
+mkIssuing'dispute ::
+  -- | 'issuing'disputeAmount'
+  GHC.Types.Int ->
+  -- | 'issuing'disputeCreated'
+  GHC.Types.Int ->
+  -- | 'issuing'disputeCurrency'
+  Data.Text.Internal.Text ->
+  -- | 'issuing'disputeDisputedTransaction'
+  Issuing'disputeDisputedTransaction'Variants ->
+  -- | 'issuing'disputeEvidence'
+  IssuingDisputeEvidence ->
+  -- | 'issuing'disputeId'
+  Data.Text.Internal.Text ->
+  -- | 'issuing'disputeLivemode'
+  GHC.Types.Bool ->
+  -- | 'issuing'disputeMetadata'
+  Data.Aeson.Types.Internal.Object ->
+  -- | 'issuing'disputeReason'
+  Data.Text.Internal.Text ->
+  -- | 'issuing'disputeStatus'
+  Issuing'disputeStatus' ->
+  Issuing'dispute
+mkIssuing'dispute issuing'disputeAmount issuing'disputeCreated issuing'disputeCurrency issuing'disputeDisputedTransaction issuing'disputeEvidence issuing'disputeId issuing'disputeLivemode issuing'disputeMetadata issuing'disputeReason issuing'disputeStatus =
+  Issuing'dispute
+    { issuing'disputeAmount = issuing'disputeAmount,
+      issuing'disputeCreated = issuing'disputeCreated,
+      issuing'disputeCurrency = issuing'disputeCurrency,
+      issuing'disputeDisputedTransaction = issuing'disputeDisputedTransaction,
+      issuing'disputeEvidence = issuing'disputeEvidence,
+      issuing'disputeId = issuing'disputeId,
+      issuing'disputeLivemode = issuing'disputeLivemode,
+      issuing'disputeMetadata = issuing'disputeMetadata,
+      issuing'disputeReason = issuing'disputeReason,
+      issuing'disputeStatus = issuing'disputeStatus
+    }
+
+-- | Defines the oneOf schema located at @components.schemas.issuing.dispute.properties.disputed_transaction.anyOf@ in the specification.
 --
 -- The transaction being disputed.
 data Issuing'disputeDisputedTransaction'Variants
@@ -95,59 +131,42 @@ instance Data.Aeson.Types.ToJSON.ToJSON Issuing'disputeDisputedTransaction'Varia
   toJSON (Issuing'disputeDisputedTransaction'Text a) = Data.Aeson.Types.ToJSON.toJSON a
 
 instance Data.Aeson.Types.FromJSON.FromJSON Issuing'disputeDisputedTransaction'Variants where
-  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
-    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ Issuing'disputeDisputedTransaction'Issuing'transaction a
-    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ Issuing'disputeDisputedTransaction'Text a
-      Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+  parseJSON val = case (Issuing'disputeDisputedTransaction'Issuing'transaction Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((Issuing'disputeDisputedTransaction'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched") of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+    Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
--- | Defines the enum schema issuing.disputeObject\'
---
--- String representing the object\'s type. Objects of the same type share the same value.
-data Issuing'disputeObject'
-  = Issuing'disputeObject'EnumOther Data.Aeson.Types.Internal.Value
-  | Issuing'disputeObject'EnumTyped Data.Text.Internal.Text
-  | Issuing'disputeObject'EnumStringIssuing'dispute
-  deriving (GHC.Show.Show, GHC.Classes.Eq)
-
-instance Data.Aeson.Types.ToJSON.ToJSON Issuing'disputeObject' where
-  toJSON (Issuing'disputeObject'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (Issuing'disputeObject'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (Issuing'disputeObject'EnumStringIssuing'dispute) = "issuing.dispute"
-
-instance Data.Aeson.Types.FromJSON.FromJSON Issuing'disputeObject' where
-  parseJSON val =
-    GHC.Base.pure
-      ( if  | val GHC.Classes.== "issuing.dispute" -> Issuing'disputeObject'EnumStringIssuing'dispute
-            | GHC.Base.otherwise -> Issuing'disputeObject'EnumOther val
-      )
-
--- | Defines the enum schema issuing.disputeStatus\'
+-- | Defines the enum schema located at @components.schemas.issuing.dispute.properties.status@ in the specification.
 --
 -- Current status of dispute. One of \`unsubmitted\`, \`under_review\`, \`won\`, or \`lost\`.
 data Issuing'disputeStatus'
-  = Issuing'disputeStatus'EnumOther Data.Aeson.Types.Internal.Value
-  | Issuing'disputeStatus'EnumTyped Data.Text.Internal.Text
-  | Issuing'disputeStatus'EnumStringLost
-  | Issuing'disputeStatus'EnumStringUnderReview
-  | Issuing'disputeStatus'EnumStringUnsubmitted
-  | Issuing'disputeStatus'EnumStringWon
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    Issuing'disputeStatus'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    Issuing'disputeStatus'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"lost"@
+    Issuing'disputeStatus'EnumLost
+  | -- | Represents the JSON value @"under_review"@
+    Issuing'disputeStatus'EnumUnderReview
+  | -- | Represents the JSON value @"unsubmitted"@
+    Issuing'disputeStatus'EnumUnsubmitted
+  | -- | Represents the JSON value @"won"@
+    Issuing'disputeStatus'EnumWon
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
 instance Data.Aeson.Types.ToJSON.ToJSON Issuing'disputeStatus' where
-  toJSON (Issuing'disputeStatus'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (Issuing'disputeStatus'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (Issuing'disputeStatus'EnumStringLost) = "lost"
-  toJSON (Issuing'disputeStatus'EnumStringUnderReview) = "under_review"
-  toJSON (Issuing'disputeStatus'EnumStringUnsubmitted) = "unsubmitted"
-  toJSON (Issuing'disputeStatus'EnumStringWon) = "won"
+  toJSON (Issuing'disputeStatus'Other val) = val
+  toJSON (Issuing'disputeStatus'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (Issuing'disputeStatus'EnumLost) = "lost"
+  toJSON (Issuing'disputeStatus'EnumUnderReview) = "under_review"
+  toJSON (Issuing'disputeStatus'EnumUnsubmitted) = "unsubmitted"
+  toJSON (Issuing'disputeStatus'EnumWon) = "won"
 
 instance Data.Aeson.Types.FromJSON.FromJSON Issuing'disputeStatus' where
   parseJSON val =
     GHC.Base.pure
-      ( if  | val GHC.Classes.== "lost" -> Issuing'disputeStatus'EnumStringLost
-            | val GHC.Classes.== "under_review" -> Issuing'disputeStatus'EnumStringUnderReview
-            | val GHC.Classes.== "unsubmitted" -> Issuing'disputeStatus'EnumStringUnsubmitted
-            | val GHC.Classes.== "won" -> Issuing'disputeStatus'EnumStringWon
-            | GHC.Base.otherwise -> Issuing'disputeStatus'EnumOther val
+      ( if  | val GHC.Classes.== "lost" -> Issuing'disputeStatus'EnumLost
+            | val GHC.Classes.== "under_review" -> Issuing'disputeStatus'EnumUnderReview
+            | val GHC.Classes.== "unsubmitted" -> Issuing'disputeStatus'EnumUnsubmitted
+            | val GHC.Classes.== "won" -> Issuing'disputeStatus'EnumWon
+            | GHC.Base.otherwise -> Issuing'disputeStatus'Other val
       )

@@ -8,6 +8,7 @@ module StripeAPI.Types.IssuingCardholderIdDocument where
 
 import qualified Control.Monad.Fail
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -31,7 +32,7 @@ import {-# SOURCE #-} StripeAPI.Types.File
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
--- | Defines the data type for the schema issuing_cardholder_id_document
+-- | Defines the object schema located at @components.schemas.issuing_cardholder_id_document@ in the specification.
 data IssuingCardholderIdDocument
   = IssuingCardholderIdDocument
       { -- | back: The back of a document returned by a [file upload](https:\/\/stripe.com\/docs\/api\#create_file) with a \`purpose\` value of \`identity_document\`.
@@ -45,13 +46,21 @@ data IssuingCardholderIdDocument
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON IssuingCardholderIdDocument where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "back" (issuingCardholderIdDocumentBack obj) : (Data.Aeson..=) "front" (issuingCardholderIdDocumentFront obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "back" (issuingCardholderIdDocumentBack obj) GHC.Base.<> (Data.Aeson..=) "front" (issuingCardholderIdDocumentFront obj))
+  toJSON obj = Data.Aeson.Types.Internal.object ("back" Data.Aeson.Types.ToJSON..= issuingCardholderIdDocumentBack obj : "front" Data.Aeson.Types.ToJSON..= issuingCardholderIdDocumentFront obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("back" Data.Aeson.Types.ToJSON..= issuingCardholderIdDocumentBack obj) GHC.Base.<> ("front" Data.Aeson.Types.ToJSON..= issuingCardholderIdDocumentFront obj))
 
 instance Data.Aeson.Types.FromJSON.FromJSON IssuingCardholderIdDocument where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "IssuingCardholderIdDocument" (\obj -> (GHC.Base.pure IssuingCardholderIdDocument GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "back")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "front"))
 
--- | Define the one-of schema issuing_cardholder_id_documentBack\'
+-- | Create a new 'IssuingCardholderIdDocument' with all required fields.
+mkIssuingCardholderIdDocument :: IssuingCardholderIdDocument
+mkIssuingCardholderIdDocument =
+  IssuingCardholderIdDocument
+    { issuingCardholderIdDocumentBack = GHC.Maybe.Nothing,
+      issuingCardholderIdDocumentFront = GHC.Maybe.Nothing
+    }
+
+-- | Defines the oneOf schema located at @components.schemas.issuing_cardholder_id_document.properties.back.anyOf@ in the specification.
 --
 -- The back of a document returned by a [file upload](https:\/\/stripe.com\/docs\/api\#create_file) with a \`purpose\` value of \`identity_document\`.
 data IssuingCardholderIdDocumentBack'Variants
@@ -64,13 +73,11 @@ instance Data.Aeson.Types.ToJSON.ToJSON IssuingCardholderIdDocumentBack'Variants
   toJSON (IssuingCardholderIdDocumentBack'Text a) = Data.Aeson.Types.ToJSON.toJSON a
 
 instance Data.Aeson.Types.FromJSON.FromJSON IssuingCardholderIdDocumentBack'Variants where
-  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
-    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ IssuingCardholderIdDocumentBack'File a
-    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ IssuingCardholderIdDocumentBack'Text a
-      Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+  parseJSON val = case (IssuingCardholderIdDocumentBack'File Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((IssuingCardholderIdDocumentBack'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched") of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+    Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
--- | Define the one-of schema issuing_cardholder_id_documentFront\'
+-- | Defines the oneOf schema located at @components.schemas.issuing_cardholder_id_document.properties.front.anyOf@ in the specification.
 --
 -- The front of a document returned by a [file upload](https:\/\/stripe.com\/docs\/api\#create_file) with a \`purpose\` value of \`identity_document\`.
 data IssuingCardholderIdDocumentFront'Variants
@@ -83,8 +90,6 @@ instance Data.Aeson.Types.ToJSON.ToJSON IssuingCardholderIdDocumentFront'Variant
   toJSON (IssuingCardholderIdDocumentFront'Text a) = Data.Aeson.Types.ToJSON.toJSON a
 
 instance Data.Aeson.Types.FromJSON.FromJSON IssuingCardholderIdDocumentFront'Variants where
-  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
-    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ IssuingCardholderIdDocumentFront'File a
-    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ IssuingCardholderIdDocumentFront'Text a
-      Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+  parseJSON val = case (IssuingCardholderIdDocumentFront'File Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((IssuingCardholderIdDocumentFront'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched") of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+    Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a

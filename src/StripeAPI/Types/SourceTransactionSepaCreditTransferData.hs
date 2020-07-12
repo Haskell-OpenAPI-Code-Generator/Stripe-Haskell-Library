@@ -8,6 +8,7 @@ module StripeAPI.Types.SourceTransactionSepaCreditTransferData where
 
 import qualified Control.Monad.Fail
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -30,7 +31,7 @@ import StripeAPI.TypeAlias
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
--- | Defines the data type for the schema source_transaction_sepa_credit_transfer_data
+-- | Defines the object schema located at @components.schemas.source_transaction_sepa_credit_transfer_data@ in the specification.
 data SourceTransactionSepaCreditTransferData
   = SourceTransactionSepaCreditTransferData
       { -- | reference: Reference associated with the transfer.
@@ -58,8 +59,17 @@ data SourceTransactionSepaCreditTransferData
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON SourceTransactionSepaCreditTransferData where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "reference" (sourceTransactionSepaCreditTransferDataReference obj) : (Data.Aeson..=) "sender_iban" (sourceTransactionSepaCreditTransferDataSenderIban obj) : (Data.Aeson..=) "sender_name" (sourceTransactionSepaCreditTransferDataSenderName obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "reference" (sourceTransactionSepaCreditTransferDataReference obj) GHC.Base.<> ((Data.Aeson..=) "sender_iban" (sourceTransactionSepaCreditTransferDataSenderIban obj) GHC.Base.<> (Data.Aeson..=) "sender_name" (sourceTransactionSepaCreditTransferDataSenderName obj)))
+  toJSON obj = Data.Aeson.Types.Internal.object ("reference" Data.Aeson.Types.ToJSON..= sourceTransactionSepaCreditTransferDataReference obj : "sender_iban" Data.Aeson.Types.ToJSON..= sourceTransactionSepaCreditTransferDataSenderIban obj : "sender_name" Data.Aeson.Types.ToJSON..= sourceTransactionSepaCreditTransferDataSenderName obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("reference" Data.Aeson.Types.ToJSON..= sourceTransactionSepaCreditTransferDataReference obj) GHC.Base.<> (("sender_iban" Data.Aeson.Types.ToJSON..= sourceTransactionSepaCreditTransferDataSenderIban obj) GHC.Base.<> ("sender_name" Data.Aeson.Types.ToJSON..= sourceTransactionSepaCreditTransferDataSenderName obj)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON SourceTransactionSepaCreditTransferData where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "SourceTransactionSepaCreditTransferData" (\obj -> ((GHC.Base.pure SourceTransactionSepaCreditTransferData GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "reference")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "sender_iban")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "sender_name"))
+
+-- | Create a new 'SourceTransactionSepaCreditTransferData' with all required fields.
+mkSourceTransactionSepaCreditTransferData :: SourceTransactionSepaCreditTransferData
+mkSourceTransactionSepaCreditTransferData =
+  SourceTransactionSepaCreditTransferData
+    { sourceTransactionSepaCreditTransferDataReference = GHC.Maybe.Nothing,
+      sourceTransactionSepaCreditTransferDataSenderIban = GHC.Maybe.Nothing,
+      sourceTransactionSepaCreditTransferDataSenderName = GHC.Maybe.Nothing
+    }

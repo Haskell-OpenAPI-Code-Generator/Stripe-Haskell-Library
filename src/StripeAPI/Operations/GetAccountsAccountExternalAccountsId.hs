@@ -10,6 +10,7 @@ module StripeAPI.Operations.GetAccountsAccountExternalAccountsId where
 import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -77,7 +78,7 @@ getAccountsAccountExternalAccountsId parameters =
     )
     (StripeAPI.Common.doCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET") (Data.Text.pack ("/v1/accounts/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel (getAccountsAccountExternalAccountsIdParametersPathAccount parameters))) GHC.Base.++ ("/external_accounts/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel (getAccountsAccountExternalAccountsIdParametersPathId parameters))) GHC.Base.++ ""))))) [StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getAccountsAccountExternalAccountsIdParametersQueryExpand parameters) (Data.Text.pack "deepObject") GHC.Types.True])
 
--- | Defines the data type for the schema getAccountsAccountExternalAccountsIdParameters
+-- | Defines the object schema located at @paths.\/v1\/accounts\/{account}\/external_accounts\/{id}.GET.parameters@ in the specification.
 data GetAccountsAccountExternalAccountsIdParameters
   = GetAccountsAccountExternalAccountsIdParameters
       { -- | pathAccount: Represents the parameter named \'account\'
@@ -99,11 +100,25 @@ data GetAccountsAccountExternalAccountsIdParameters
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetAccountsAccountExternalAccountsIdParameters where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "pathAccount" (getAccountsAccountExternalAccountsIdParametersPathAccount obj) : (Data.Aeson..=) "pathId" (getAccountsAccountExternalAccountsIdParametersPathId obj) : (Data.Aeson..=) "queryExpand" (getAccountsAccountExternalAccountsIdParametersQueryExpand obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "pathAccount" (getAccountsAccountExternalAccountsIdParametersPathAccount obj) GHC.Base.<> ((Data.Aeson..=) "pathId" (getAccountsAccountExternalAccountsIdParametersPathId obj) GHC.Base.<> (Data.Aeson..=) "queryExpand" (getAccountsAccountExternalAccountsIdParametersQueryExpand obj)))
+  toJSON obj = Data.Aeson.Types.Internal.object ("pathAccount" Data.Aeson.Types.ToJSON..= getAccountsAccountExternalAccountsIdParametersPathAccount obj : "pathId" Data.Aeson.Types.ToJSON..= getAccountsAccountExternalAccountsIdParametersPathId obj : "queryExpand" Data.Aeson.Types.ToJSON..= getAccountsAccountExternalAccountsIdParametersQueryExpand obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("pathAccount" Data.Aeson.Types.ToJSON..= getAccountsAccountExternalAccountsIdParametersPathAccount obj) GHC.Base.<> (("pathId" Data.Aeson.Types.ToJSON..= getAccountsAccountExternalAccountsIdParametersPathId obj) GHC.Base.<> ("queryExpand" Data.Aeson.Types.ToJSON..= getAccountsAccountExternalAccountsIdParametersQueryExpand obj)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetAccountsAccountExternalAccountsIdParameters where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "GetAccountsAccountExternalAccountsIdParameters" (\obj -> ((GHC.Base.pure GetAccountsAccountExternalAccountsIdParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathAccount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathId")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryExpand"))
+
+-- | Create a new 'GetAccountsAccountExternalAccountsIdParameters' with all required fields.
+mkGetAccountsAccountExternalAccountsIdParameters ::
+  -- | 'getAccountsAccountExternalAccountsIdParametersPathAccount'
+  Data.Text.Internal.Text ->
+  -- | 'getAccountsAccountExternalAccountsIdParametersPathId'
+  Data.Text.Internal.Text ->
+  GetAccountsAccountExternalAccountsIdParameters
+mkGetAccountsAccountExternalAccountsIdParameters getAccountsAccountExternalAccountsIdParametersPathAccount getAccountsAccountExternalAccountsIdParametersPathId =
+  GetAccountsAccountExternalAccountsIdParameters
+    { getAccountsAccountExternalAccountsIdParametersPathAccount = getAccountsAccountExternalAccountsIdParametersPathAccount,
+      getAccountsAccountExternalAccountsIdParametersPathId = getAccountsAccountExternalAccountsIdParametersPathId,
+      getAccountsAccountExternalAccountsIdParametersQueryExpand = GHC.Maybe.Nothing
+    }
 
 -- | Represents a response of the operation 'getAccountsAccountExternalAccountsId'.
 --

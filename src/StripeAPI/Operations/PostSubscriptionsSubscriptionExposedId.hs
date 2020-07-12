@@ -10,6 +10,7 @@ module StripeAPI.Operations.PostSubscriptionsSubscriptionExposedId where
 import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -81,7 +82,7 @@ postSubscriptionsSubscriptionExposedId
       )
       (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack ("/v1/subscriptions/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel subscriptionExposedId)) GHC.Base.++ ""))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
 
--- | Defines the data type for the schema postSubscriptionsSubscriptionExposedIdRequestBody
+-- | Defines the object schema located at @paths.\/v1\/subscriptions\/{subscription_exposed_id}.POST.requestBody.content.application\/x-www-form-urlencoded.schema@ in the specification.
 data PostSubscriptionsSubscriptionExposedIdRequestBody
   = PostSubscriptionsSubscriptionExposedIdRequestBody
       { -- | application_fee_percent: A non-negative decimal between 0 and 100, with at most two decimal places. This represents the percentage of the subscription invoice subtotal that will be transferred to the application owner\'s Stripe account. The request must be made by a platform account on a connected account in order to set an application fee percentage. For more information, see the application fees [documentation](https:\/\/stripe.com\/docs\/connect\/subscriptions\#collecting-fees-on-subscriptions).
@@ -165,195 +166,186 @@ data PostSubscriptionsSubscriptionExposedIdRequestBody
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostSubscriptionsSubscriptionExposedIdRequestBody where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "application_fee_percent" (postSubscriptionsSubscriptionExposedIdRequestBodyApplicationFeePercent obj) : (Data.Aeson..=) "billing_cycle_anchor" (postSubscriptionsSubscriptionExposedIdRequestBodyBillingCycleAnchor obj) : (Data.Aeson..=) "billing_thresholds" (postSubscriptionsSubscriptionExposedIdRequestBodyBillingThresholds obj) : (Data.Aeson..=) "cancel_at" (postSubscriptionsSubscriptionExposedIdRequestBodyCancelAt obj) : (Data.Aeson..=) "cancel_at_period_end" (postSubscriptionsSubscriptionExposedIdRequestBodyCancelAtPeriodEnd obj) : (Data.Aeson..=) "collection_method" (postSubscriptionsSubscriptionExposedIdRequestBodyCollectionMethod obj) : (Data.Aeson..=) "coupon" (postSubscriptionsSubscriptionExposedIdRequestBodyCoupon obj) : (Data.Aeson..=) "days_until_due" (postSubscriptionsSubscriptionExposedIdRequestBodyDaysUntilDue obj) : (Data.Aeson..=) "default_payment_method" (postSubscriptionsSubscriptionExposedIdRequestBodyDefaultPaymentMethod obj) : (Data.Aeson..=) "default_source" (postSubscriptionsSubscriptionExposedIdRequestBodyDefaultSource obj) : (Data.Aeson..=) "default_tax_rates" (postSubscriptionsSubscriptionExposedIdRequestBodyDefaultTaxRates obj) : (Data.Aeson..=) "expand" (postSubscriptionsSubscriptionExposedIdRequestBodyExpand obj) : (Data.Aeson..=) "items" (postSubscriptionsSubscriptionExposedIdRequestBodyItems obj) : (Data.Aeson..=) "metadata" (postSubscriptionsSubscriptionExposedIdRequestBodyMetadata obj) : (Data.Aeson..=) "off_session" (postSubscriptionsSubscriptionExposedIdRequestBodyOffSession obj) : (Data.Aeson..=) "payment_behavior" (postSubscriptionsSubscriptionExposedIdRequestBodyPaymentBehavior obj) : (Data.Aeson..=) "pending_invoice_item_interval" (postSubscriptionsSubscriptionExposedIdRequestBodyPendingInvoiceItemInterval obj) : (Data.Aeson..=) "prorate" (postSubscriptionsSubscriptionExposedIdRequestBodyProrate obj) : (Data.Aeson..=) "proration_behavior" (postSubscriptionsSubscriptionExposedIdRequestBodyProrationBehavior obj) : (Data.Aeson..=) "proration_date" (postSubscriptionsSubscriptionExposedIdRequestBodyProrationDate obj) : (Data.Aeson..=) "tax_percent" (postSubscriptionsSubscriptionExposedIdRequestBodyTaxPercent obj) : (Data.Aeson..=) "trial_end" (postSubscriptionsSubscriptionExposedIdRequestBodyTrialEnd obj) : (Data.Aeson..=) "trial_from_plan" (postSubscriptionsSubscriptionExposedIdRequestBodyTrialFromPlan obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "application_fee_percent" (postSubscriptionsSubscriptionExposedIdRequestBodyApplicationFeePercent obj) GHC.Base.<> ((Data.Aeson..=) "billing_cycle_anchor" (postSubscriptionsSubscriptionExposedIdRequestBodyBillingCycleAnchor obj) GHC.Base.<> ((Data.Aeson..=) "billing_thresholds" (postSubscriptionsSubscriptionExposedIdRequestBodyBillingThresholds obj) GHC.Base.<> ((Data.Aeson..=) "cancel_at" (postSubscriptionsSubscriptionExposedIdRequestBodyCancelAt obj) GHC.Base.<> ((Data.Aeson..=) "cancel_at_period_end" (postSubscriptionsSubscriptionExposedIdRequestBodyCancelAtPeriodEnd obj) GHC.Base.<> ((Data.Aeson..=) "collection_method" (postSubscriptionsSubscriptionExposedIdRequestBodyCollectionMethod obj) GHC.Base.<> ((Data.Aeson..=) "coupon" (postSubscriptionsSubscriptionExposedIdRequestBodyCoupon obj) GHC.Base.<> ((Data.Aeson..=) "days_until_due" (postSubscriptionsSubscriptionExposedIdRequestBodyDaysUntilDue obj) GHC.Base.<> ((Data.Aeson..=) "default_payment_method" (postSubscriptionsSubscriptionExposedIdRequestBodyDefaultPaymentMethod obj) GHC.Base.<> ((Data.Aeson..=) "default_source" (postSubscriptionsSubscriptionExposedIdRequestBodyDefaultSource obj) GHC.Base.<> ((Data.Aeson..=) "default_tax_rates" (postSubscriptionsSubscriptionExposedIdRequestBodyDefaultTaxRates obj) GHC.Base.<> ((Data.Aeson..=) "expand" (postSubscriptionsSubscriptionExposedIdRequestBodyExpand obj) GHC.Base.<> ((Data.Aeson..=) "items" (postSubscriptionsSubscriptionExposedIdRequestBodyItems obj) GHC.Base.<> ((Data.Aeson..=) "metadata" (postSubscriptionsSubscriptionExposedIdRequestBodyMetadata obj) GHC.Base.<> ((Data.Aeson..=) "off_session" (postSubscriptionsSubscriptionExposedIdRequestBodyOffSession obj) GHC.Base.<> ((Data.Aeson..=) "payment_behavior" (postSubscriptionsSubscriptionExposedIdRequestBodyPaymentBehavior obj) GHC.Base.<> ((Data.Aeson..=) "pending_invoice_item_interval" (postSubscriptionsSubscriptionExposedIdRequestBodyPendingInvoiceItemInterval obj) GHC.Base.<> ((Data.Aeson..=) "prorate" (postSubscriptionsSubscriptionExposedIdRequestBodyProrate obj) GHC.Base.<> ((Data.Aeson..=) "proration_behavior" (postSubscriptionsSubscriptionExposedIdRequestBodyProrationBehavior obj) GHC.Base.<> ((Data.Aeson..=) "proration_date" (postSubscriptionsSubscriptionExposedIdRequestBodyProrationDate obj) GHC.Base.<> ((Data.Aeson..=) "tax_percent" (postSubscriptionsSubscriptionExposedIdRequestBodyTaxPercent obj) GHC.Base.<> ((Data.Aeson..=) "trial_end" (postSubscriptionsSubscriptionExposedIdRequestBodyTrialEnd obj) GHC.Base.<> (Data.Aeson..=) "trial_from_plan" (postSubscriptionsSubscriptionExposedIdRequestBodyTrialFromPlan obj)))))))))))))))))))))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("application_fee_percent" Data.Aeson.Types.ToJSON..= postSubscriptionsSubscriptionExposedIdRequestBodyApplicationFeePercent obj : "billing_cycle_anchor" Data.Aeson.Types.ToJSON..= postSubscriptionsSubscriptionExposedIdRequestBodyBillingCycleAnchor obj : "billing_thresholds" Data.Aeson.Types.ToJSON..= postSubscriptionsSubscriptionExposedIdRequestBodyBillingThresholds obj : "cancel_at" Data.Aeson.Types.ToJSON..= postSubscriptionsSubscriptionExposedIdRequestBodyCancelAt obj : "cancel_at_period_end" Data.Aeson.Types.ToJSON..= postSubscriptionsSubscriptionExposedIdRequestBodyCancelAtPeriodEnd obj : "collection_method" Data.Aeson.Types.ToJSON..= postSubscriptionsSubscriptionExposedIdRequestBodyCollectionMethod obj : "coupon" Data.Aeson.Types.ToJSON..= postSubscriptionsSubscriptionExposedIdRequestBodyCoupon obj : "days_until_due" Data.Aeson.Types.ToJSON..= postSubscriptionsSubscriptionExposedIdRequestBodyDaysUntilDue obj : "default_payment_method" Data.Aeson.Types.ToJSON..= postSubscriptionsSubscriptionExposedIdRequestBodyDefaultPaymentMethod obj : "default_source" Data.Aeson.Types.ToJSON..= postSubscriptionsSubscriptionExposedIdRequestBodyDefaultSource obj : "default_tax_rates" Data.Aeson.Types.ToJSON..= postSubscriptionsSubscriptionExposedIdRequestBodyDefaultTaxRates obj : "expand" Data.Aeson.Types.ToJSON..= postSubscriptionsSubscriptionExposedIdRequestBodyExpand obj : "items" Data.Aeson.Types.ToJSON..= postSubscriptionsSubscriptionExposedIdRequestBodyItems obj : "metadata" Data.Aeson.Types.ToJSON..= postSubscriptionsSubscriptionExposedIdRequestBodyMetadata obj : "off_session" Data.Aeson.Types.ToJSON..= postSubscriptionsSubscriptionExposedIdRequestBodyOffSession obj : "payment_behavior" Data.Aeson.Types.ToJSON..= postSubscriptionsSubscriptionExposedIdRequestBodyPaymentBehavior obj : "pending_invoice_item_interval" Data.Aeson.Types.ToJSON..= postSubscriptionsSubscriptionExposedIdRequestBodyPendingInvoiceItemInterval obj : "prorate" Data.Aeson.Types.ToJSON..= postSubscriptionsSubscriptionExposedIdRequestBodyProrate obj : "proration_behavior" Data.Aeson.Types.ToJSON..= postSubscriptionsSubscriptionExposedIdRequestBodyProrationBehavior obj : "proration_date" Data.Aeson.Types.ToJSON..= postSubscriptionsSubscriptionExposedIdRequestBodyProrationDate obj : "tax_percent" Data.Aeson.Types.ToJSON..= postSubscriptionsSubscriptionExposedIdRequestBodyTaxPercent obj : "trial_end" Data.Aeson.Types.ToJSON..= postSubscriptionsSubscriptionExposedIdRequestBodyTrialEnd obj : "trial_from_plan" Data.Aeson.Types.ToJSON..= postSubscriptionsSubscriptionExposedIdRequestBodyTrialFromPlan obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("application_fee_percent" Data.Aeson.Types.ToJSON..= postSubscriptionsSubscriptionExposedIdRequestBodyApplicationFeePercent obj) GHC.Base.<> (("billing_cycle_anchor" Data.Aeson.Types.ToJSON..= postSubscriptionsSubscriptionExposedIdRequestBodyBillingCycleAnchor obj) GHC.Base.<> (("billing_thresholds" Data.Aeson.Types.ToJSON..= postSubscriptionsSubscriptionExposedIdRequestBodyBillingThresholds obj) GHC.Base.<> (("cancel_at" Data.Aeson.Types.ToJSON..= postSubscriptionsSubscriptionExposedIdRequestBodyCancelAt obj) GHC.Base.<> (("cancel_at_period_end" Data.Aeson.Types.ToJSON..= postSubscriptionsSubscriptionExposedIdRequestBodyCancelAtPeriodEnd obj) GHC.Base.<> (("collection_method" Data.Aeson.Types.ToJSON..= postSubscriptionsSubscriptionExposedIdRequestBodyCollectionMethod obj) GHC.Base.<> (("coupon" Data.Aeson.Types.ToJSON..= postSubscriptionsSubscriptionExposedIdRequestBodyCoupon obj) GHC.Base.<> (("days_until_due" Data.Aeson.Types.ToJSON..= postSubscriptionsSubscriptionExposedIdRequestBodyDaysUntilDue obj) GHC.Base.<> (("default_payment_method" Data.Aeson.Types.ToJSON..= postSubscriptionsSubscriptionExposedIdRequestBodyDefaultPaymentMethod obj) GHC.Base.<> (("default_source" Data.Aeson.Types.ToJSON..= postSubscriptionsSubscriptionExposedIdRequestBodyDefaultSource obj) GHC.Base.<> (("default_tax_rates" Data.Aeson.Types.ToJSON..= postSubscriptionsSubscriptionExposedIdRequestBodyDefaultTaxRates obj) GHC.Base.<> (("expand" Data.Aeson.Types.ToJSON..= postSubscriptionsSubscriptionExposedIdRequestBodyExpand obj) GHC.Base.<> (("items" Data.Aeson.Types.ToJSON..= postSubscriptionsSubscriptionExposedIdRequestBodyItems obj) GHC.Base.<> (("metadata" Data.Aeson.Types.ToJSON..= postSubscriptionsSubscriptionExposedIdRequestBodyMetadata obj) GHC.Base.<> (("off_session" Data.Aeson.Types.ToJSON..= postSubscriptionsSubscriptionExposedIdRequestBodyOffSession obj) GHC.Base.<> (("payment_behavior" Data.Aeson.Types.ToJSON..= postSubscriptionsSubscriptionExposedIdRequestBodyPaymentBehavior obj) GHC.Base.<> (("pending_invoice_item_interval" Data.Aeson.Types.ToJSON..= postSubscriptionsSubscriptionExposedIdRequestBodyPendingInvoiceItemInterval obj) GHC.Base.<> (("prorate" Data.Aeson.Types.ToJSON..= postSubscriptionsSubscriptionExposedIdRequestBodyProrate obj) GHC.Base.<> (("proration_behavior" Data.Aeson.Types.ToJSON..= postSubscriptionsSubscriptionExposedIdRequestBodyProrationBehavior obj) GHC.Base.<> (("proration_date" Data.Aeson.Types.ToJSON..= postSubscriptionsSubscriptionExposedIdRequestBodyProrationDate obj) GHC.Base.<> (("tax_percent" Data.Aeson.Types.ToJSON..= postSubscriptionsSubscriptionExposedIdRequestBodyTaxPercent obj) GHC.Base.<> (("trial_end" Data.Aeson.Types.ToJSON..= postSubscriptionsSubscriptionExposedIdRequestBodyTrialEnd obj) GHC.Base.<> ("trial_from_plan" Data.Aeson.Types.ToJSON..= postSubscriptionsSubscriptionExposedIdRequestBodyTrialFromPlan obj)))))))))))))))))))))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostSubscriptionsSubscriptionExposedIdRequestBody where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PostSubscriptionsSubscriptionExposedIdRequestBody" (\obj -> ((((((((((((((((((((((GHC.Base.pure PostSubscriptionsSubscriptionExposedIdRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "application_fee_percent")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "billing_cycle_anchor")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "billing_thresholds")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "cancel_at")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "cancel_at_period_end")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "collection_method")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "coupon")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "days_until_due")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "default_payment_method")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "default_source")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "default_tax_rates")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "items")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "off_session")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "payment_behavior")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "pending_invoice_item_interval")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "prorate")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "proration_behavior")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "proration_date")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "tax_percent")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "trial_end")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "trial_from_plan"))
 
--- | Defines the enum schema postSubscriptionsSubscriptionExposedIdRequestBodyBilling_cycle_anchor\'
+-- | Create a new 'PostSubscriptionsSubscriptionExposedIdRequestBody' with all required fields.
+mkPostSubscriptionsSubscriptionExposedIdRequestBody :: PostSubscriptionsSubscriptionExposedIdRequestBody
+mkPostSubscriptionsSubscriptionExposedIdRequestBody =
+  PostSubscriptionsSubscriptionExposedIdRequestBody
+    { postSubscriptionsSubscriptionExposedIdRequestBodyApplicationFeePercent = GHC.Maybe.Nothing,
+      postSubscriptionsSubscriptionExposedIdRequestBodyBillingCycleAnchor = GHC.Maybe.Nothing,
+      postSubscriptionsSubscriptionExposedIdRequestBodyBillingThresholds = GHC.Maybe.Nothing,
+      postSubscriptionsSubscriptionExposedIdRequestBodyCancelAt = GHC.Maybe.Nothing,
+      postSubscriptionsSubscriptionExposedIdRequestBodyCancelAtPeriodEnd = GHC.Maybe.Nothing,
+      postSubscriptionsSubscriptionExposedIdRequestBodyCollectionMethod = GHC.Maybe.Nothing,
+      postSubscriptionsSubscriptionExposedIdRequestBodyCoupon = GHC.Maybe.Nothing,
+      postSubscriptionsSubscriptionExposedIdRequestBodyDaysUntilDue = GHC.Maybe.Nothing,
+      postSubscriptionsSubscriptionExposedIdRequestBodyDefaultPaymentMethod = GHC.Maybe.Nothing,
+      postSubscriptionsSubscriptionExposedIdRequestBodyDefaultSource = GHC.Maybe.Nothing,
+      postSubscriptionsSubscriptionExposedIdRequestBodyDefaultTaxRates = GHC.Maybe.Nothing,
+      postSubscriptionsSubscriptionExposedIdRequestBodyExpand = GHC.Maybe.Nothing,
+      postSubscriptionsSubscriptionExposedIdRequestBodyItems = GHC.Maybe.Nothing,
+      postSubscriptionsSubscriptionExposedIdRequestBodyMetadata = GHC.Maybe.Nothing,
+      postSubscriptionsSubscriptionExposedIdRequestBodyOffSession = GHC.Maybe.Nothing,
+      postSubscriptionsSubscriptionExposedIdRequestBodyPaymentBehavior = GHC.Maybe.Nothing,
+      postSubscriptionsSubscriptionExposedIdRequestBodyPendingInvoiceItemInterval = GHC.Maybe.Nothing,
+      postSubscriptionsSubscriptionExposedIdRequestBodyProrate = GHC.Maybe.Nothing,
+      postSubscriptionsSubscriptionExposedIdRequestBodyProrationBehavior = GHC.Maybe.Nothing,
+      postSubscriptionsSubscriptionExposedIdRequestBodyProrationDate = GHC.Maybe.Nothing,
+      postSubscriptionsSubscriptionExposedIdRequestBodyTaxPercent = GHC.Maybe.Nothing,
+      postSubscriptionsSubscriptionExposedIdRequestBodyTrialEnd = GHC.Maybe.Nothing,
+      postSubscriptionsSubscriptionExposedIdRequestBodyTrialFromPlan = GHC.Maybe.Nothing
+    }
+
+-- | Defines the enum schema located at @paths.\/v1\/subscriptions\/{subscription_exposed_id}.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.billing_cycle_anchor@ in the specification.
 --
 -- Either \`now\` or \`unchanged\`. Setting the value to \`now\` resets the subscription\'s billing cycle anchor to the current time. For more information, see the billing cycle [documentation](https:\/\/stripe.com\/docs\/billing\/subscriptions\/billing-cycle).
 data PostSubscriptionsSubscriptionExposedIdRequestBodyBillingCycleAnchor'
-  = PostSubscriptionsSubscriptionExposedIdRequestBodyBillingCycleAnchor'EnumOther Data.Aeson.Types.Internal.Value
-  | PostSubscriptionsSubscriptionExposedIdRequestBodyBillingCycleAnchor'EnumTyped Data.Text.Internal.Text
-  | PostSubscriptionsSubscriptionExposedIdRequestBodyBillingCycleAnchor'EnumStringNow
-  | PostSubscriptionsSubscriptionExposedIdRequestBodyBillingCycleAnchor'EnumStringUnchanged
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    PostSubscriptionsSubscriptionExposedIdRequestBodyBillingCycleAnchor'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    PostSubscriptionsSubscriptionExposedIdRequestBodyBillingCycleAnchor'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"now"@
+    PostSubscriptionsSubscriptionExposedIdRequestBodyBillingCycleAnchor'EnumNow
+  | -- | Represents the JSON value @"unchanged"@
+    PostSubscriptionsSubscriptionExposedIdRequestBodyBillingCycleAnchor'EnumUnchanged
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostSubscriptionsSubscriptionExposedIdRequestBodyBillingCycleAnchor' where
-  toJSON (PostSubscriptionsSubscriptionExposedIdRequestBodyBillingCycleAnchor'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostSubscriptionsSubscriptionExposedIdRequestBodyBillingCycleAnchor'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostSubscriptionsSubscriptionExposedIdRequestBodyBillingCycleAnchor'EnumStringNow) = "now"
-  toJSON (PostSubscriptionsSubscriptionExposedIdRequestBodyBillingCycleAnchor'EnumStringUnchanged) = "unchanged"
+  toJSON (PostSubscriptionsSubscriptionExposedIdRequestBodyBillingCycleAnchor'Other val) = val
+  toJSON (PostSubscriptionsSubscriptionExposedIdRequestBodyBillingCycleAnchor'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PostSubscriptionsSubscriptionExposedIdRequestBodyBillingCycleAnchor'EnumNow) = "now"
+  toJSON (PostSubscriptionsSubscriptionExposedIdRequestBodyBillingCycleAnchor'EnumUnchanged) = "unchanged"
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostSubscriptionsSubscriptionExposedIdRequestBodyBillingCycleAnchor' where
   parseJSON val =
     GHC.Base.pure
-      ( if  | val GHC.Classes.== "now" -> PostSubscriptionsSubscriptionExposedIdRequestBodyBillingCycleAnchor'EnumStringNow
-            | val GHC.Classes.== "unchanged" -> PostSubscriptionsSubscriptionExposedIdRequestBodyBillingCycleAnchor'EnumStringUnchanged
-            | GHC.Base.otherwise -> PostSubscriptionsSubscriptionExposedIdRequestBodyBillingCycleAnchor'EnumOther val
+      ( if  | val GHC.Classes.== "now" -> PostSubscriptionsSubscriptionExposedIdRequestBodyBillingCycleAnchor'EnumNow
+            | val GHC.Classes.== "unchanged" -> PostSubscriptionsSubscriptionExposedIdRequestBodyBillingCycleAnchor'EnumUnchanged
+            | GHC.Base.otherwise -> PostSubscriptionsSubscriptionExposedIdRequestBodyBillingCycleAnchor'Other val
       )
 
--- | Defines the enum schema postSubscriptionsSubscriptionExposedIdRequestBodyBilling_thresholds\'OneOf1
+-- | Defines the object schema located at @paths.\/v1\/subscriptions\/{subscription_exposed_id}.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.billing_thresholds.anyOf@ in the specification.
 data PostSubscriptionsSubscriptionExposedIdRequestBodyBillingThresholds'OneOf1
-  = PostSubscriptionsSubscriptionExposedIdRequestBodyBillingThresholds'OneOf1EnumOther Data.Aeson.Types.Internal.Value
-  | PostSubscriptionsSubscriptionExposedIdRequestBodyBillingThresholds'OneOf1EnumTyped Data.Text.Internal.Text
-  | PostSubscriptionsSubscriptionExposedIdRequestBodyBillingThresholds'OneOf1EnumString_
-  deriving (GHC.Show.Show, GHC.Classes.Eq)
-
-instance Data.Aeson.Types.ToJSON.ToJSON PostSubscriptionsSubscriptionExposedIdRequestBodyBillingThresholds'OneOf1 where
-  toJSON (PostSubscriptionsSubscriptionExposedIdRequestBodyBillingThresholds'OneOf1EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostSubscriptionsSubscriptionExposedIdRequestBodyBillingThresholds'OneOf1EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostSubscriptionsSubscriptionExposedIdRequestBodyBillingThresholds'OneOf1EnumString_) = ""
-
-instance Data.Aeson.Types.FromJSON.FromJSON PostSubscriptionsSubscriptionExposedIdRequestBodyBillingThresholds'OneOf1 where
-  parseJSON val =
-    GHC.Base.pure
-      ( if  | val GHC.Classes.== "" -> PostSubscriptionsSubscriptionExposedIdRequestBodyBillingThresholds'OneOf1EnumString_
-            | GHC.Base.otherwise -> PostSubscriptionsSubscriptionExposedIdRequestBodyBillingThresholds'OneOf1EnumOther val
-      )
-
--- | Defines the data type for the schema postSubscriptionsSubscriptionExposedIdRequestBodyBilling_thresholds\'OneOf2
-data PostSubscriptionsSubscriptionExposedIdRequestBodyBillingThresholds'OneOf2
-  = PostSubscriptionsSubscriptionExposedIdRequestBodyBillingThresholds'OneOf2
+  = PostSubscriptionsSubscriptionExposedIdRequestBodyBillingThresholds'OneOf1
       { -- | amount_gte
-        postSubscriptionsSubscriptionExposedIdRequestBodyBillingThresholds'OneOf2AmountGte :: (GHC.Maybe.Maybe GHC.Types.Int),
+        postSubscriptionsSubscriptionExposedIdRequestBodyBillingThresholds'OneOf1AmountGte :: (GHC.Maybe.Maybe GHC.Types.Int),
         -- | reset_billing_cycle_anchor
-        postSubscriptionsSubscriptionExposedIdRequestBodyBillingThresholds'OneOf2ResetBillingCycleAnchor :: (GHC.Maybe.Maybe GHC.Types.Bool)
+        postSubscriptionsSubscriptionExposedIdRequestBodyBillingThresholds'OneOf1ResetBillingCycleAnchor :: (GHC.Maybe.Maybe GHC.Types.Bool)
       }
   deriving
     ( GHC.Show.Show,
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.Types.ToJSON.ToJSON PostSubscriptionsSubscriptionExposedIdRequestBodyBillingThresholds'OneOf2 where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "amount_gte" (postSubscriptionsSubscriptionExposedIdRequestBodyBillingThresholds'OneOf2AmountGte obj) : (Data.Aeson..=) "reset_billing_cycle_anchor" (postSubscriptionsSubscriptionExposedIdRequestBodyBillingThresholds'OneOf2ResetBillingCycleAnchor obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "amount_gte" (postSubscriptionsSubscriptionExposedIdRequestBodyBillingThresholds'OneOf2AmountGte obj) GHC.Base.<> (Data.Aeson..=) "reset_billing_cycle_anchor" (postSubscriptionsSubscriptionExposedIdRequestBodyBillingThresholds'OneOf2ResetBillingCycleAnchor obj))
+instance Data.Aeson.Types.ToJSON.ToJSON PostSubscriptionsSubscriptionExposedIdRequestBodyBillingThresholds'OneOf1 where
+  toJSON obj = Data.Aeson.Types.Internal.object ("amount_gte" Data.Aeson.Types.ToJSON..= postSubscriptionsSubscriptionExposedIdRequestBodyBillingThresholds'OneOf1AmountGte obj : "reset_billing_cycle_anchor" Data.Aeson.Types.ToJSON..= postSubscriptionsSubscriptionExposedIdRequestBodyBillingThresholds'OneOf1ResetBillingCycleAnchor obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("amount_gte" Data.Aeson.Types.ToJSON..= postSubscriptionsSubscriptionExposedIdRequestBodyBillingThresholds'OneOf1AmountGte obj) GHC.Base.<> ("reset_billing_cycle_anchor" Data.Aeson.Types.ToJSON..= postSubscriptionsSubscriptionExposedIdRequestBodyBillingThresholds'OneOf1ResetBillingCycleAnchor obj))
 
-instance Data.Aeson.Types.FromJSON.FromJSON PostSubscriptionsSubscriptionExposedIdRequestBodyBillingThresholds'OneOf2 where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostSubscriptionsSubscriptionExposedIdRequestBodyBillingThresholds'OneOf2" (\obj -> (GHC.Base.pure PostSubscriptionsSubscriptionExposedIdRequestBodyBillingThresholds'OneOf2 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "amount_gte")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "reset_billing_cycle_anchor"))
+instance Data.Aeson.Types.FromJSON.FromJSON PostSubscriptionsSubscriptionExposedIdRequestBodyBillingThresholds'OneOf1 where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostSubscriptionsSubscriptionExposedIdRequestBodyBillingThresholds'OneOf1" (\obj -> (GHC.Base.pure PostSubscriptionsSubscriptionExposedIdRequestBodyBillingThresholds'OneOf1 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "amount_gte")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "reset_billing_cycle_anchor"))
 
--- | Define the one-of schema postSubscriptionsSubscriptionExposedIdRequestBodyBilling_thresholds\'
+-- | Create a new 'PostSubscriptionsSubscriptionExposedIdRequestBodyBillingThresholds'OneOf1' with all required fields.
+mkPostSubscriptionsSubscriptionExposedIdRequestBodyBillingThresholds'OneOf1 :: PostSubscriptionsSubscriptionExposedIdRequestBodyBillingThresholds'OneOf1
+mkPostSubscriptionsSubscriptionExposedIdRequestBodyBillingThresholds'OneOf1 =
+  PostSubscriptionsSubscriptionExposedIdRequestBodyBillingThresholds'OneOf1
+    { postSubscriptionsSubscriptionExposedIdRequestBodyBillingThresholds'OneOf1AmountGte = GHC.Maybe.Nothing,
+      postSubscriptionsSubscriptionExposedIdRequestBodyBillingThresholds'OneOf1ResetBillingCycleAnchor = GHC.Maybe.Nothing
+    }
+
+-- | Defines the oneOf schema located at @paths.\/v1\/subscriptions\/{subscription_exposed_id}.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.billing_thresholds.anyOf@ in the specification.
 --
 -- Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period. Pass an empty string to remove previously-defined thresholds.
 data PostSubscriptionsSubscriptionExposedIdRequestBodyBillingThresholds'Variants
-  = PostSubscriptionsSubscriptionExposedIdRequestBodyBillingThresholds'PostSubscriptionsSubscriptionExposedIdRequestBodyBillingThresholds'OneOf1 PostSubscriptionsSubscriptionExposedIdRequestBodyBillingThresholds'OneOf1
-  | PostSubscriptionsSubscriptionExposedIdRequestBodyBillingThresholds'PostSubscriptionsSubscriptionExposedIdRequestBodyBillingThresholds'OneOf2 PostSubscriptionsSubscriptionExposedIdRequestBodyBillingThresholds'OneOf2
+  = -- | Represents the JSON value @""@
+    PostSubscriptionsSubscriptionExposedIdRequestBodyBillingThresholds'EmptyString
+  | PostSubscriptionsSubscriptionExposedIdRequestBodyBillingThresholds'PostSubscriptionsSubscriptionExposedIdRequestBodyBillingThresholds'OneOf1 PostSubscriptionsSubscriptionExposedIdRequestBodyBillingThresholds'OneOf1
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostSubscriptionsSubscriptionExposedIdRequestBodyBillingThresholds'Variants where
   toJSON (PostSubscriptionsSubscriptionExposedIdRequestBodyBillingThresholds'PostSubscriptionsSubscriptionExposedIdRequestBodyBillingThresholds'OneOf1 a) = Data.Aeson.Types.ToJSON.toJSON a
-  toJSON (PostSubscriptionsSubscriptionExposedIdRequestBodyBillingThresholds'PostSubscriptionsSubscriptionExposedIdRequestBodyBillingThresholds'OneOf2 a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (PostSubscriptionsSubscriptionExposedIdRequestBodyBillingThresholds'EmptyString) = ""
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostSubscriptionsSubscriptionExposedIdRequestBodyBillingThresholds'Variants where
-  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
-    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ PostSubscriptionsSubscriptionExposedIdRequestBodyBillingThresholds'PostSubscriptionsSubscriptionExposedIdRequestBodyBillingThresholds'OneOf1 a
-    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ PostSubscriptionsSubscriptionExposedIdRequestBodyBillingThresholds'PostSubscriptionsSubscriptionExposedIdRequestBodyBillingThresholds'OneOf2 a
-      Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
-
--- | Defines the enum schema postSubscriptionsSubscriptionExposedIdRequestBodyCancel_at\'OneOf1
-data PostSubscriptionsSubscriptionExposedIdRequestBodyCancelAt'OneOf1
-  = PostSubscriptionsSubscriptionExposedIdRequestBodyCancelAt'OneOf1EnumOther Data.Aeson.Types.Internal.Value
-  | PostSubscriptionsSubscriptionExposedIdRequestBodyCancelAt'OneOf1EnumTyped Data.Text.Internal.Text
-  | PostSubscriptionsSubscriptionExposedIdRequestBodyCancelAt'OneOf1EnumString_
-  deriving (GHC.Show.Show, GHC.Classes.Eq)
-
-instance Data.Aeson.Types.ToJSON.ToJSON PostSubscriptionsSubscriptionExposedIdRequestBodyCancelAt'OneOf1 where
-  toJSON (PostSubscriptionsSubscriptionExposedIdRequestBodyCancelAt'OneOf1EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostSubscriptionsSubscriptionExposedIdRequestBodyCancelAt'OneOf1EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostSubscriptionsSubscriptionExposedIdRequestBodyCancelAt'OneOf1EnumString_) = ""
-
-instance Data.Aeson.Types.FromJSON.FromJSON PostSubscriptionsSubscriptionExposedIdRequestBodyCancelAt'OneOf1 where
   parseJSON val =
-    GHC.Base.pure
-      ( if  | val GHC.Classes.== "" -> PostSubscriptionsSubscriptionExposedIdRequestBodyCancelAt'OneOf1EnumString_
-            | GHC.Base.otherwise -> PostSubscriptionsSubscriptionExposedIdRequestBodyCancelAt'OneOf1EnumOther val
-      )
+    if  | val GHC.Classes.== "" -> GHC.Base.pure PostSubscriptionsSubscriptionExposedIdRequestBodyBillingThresholds'EmptyString
+        | GHC.Base.otherwise -> case (PostSubscriptionsSubscriptionExposedIdRequestBodyBillingThresholds'PostSubscriptionsSubscriptionExposedIdRequestBodyBillingThresholds'OneOf1 Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched" of
+          Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+          Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
--- | Define the one-of schema postSubscriptionsSubscriptionExposedIdRequestBodyCancel_at\'
+-- | Defines the oneOf schema located at @paths.\/v1\/subscriptions\/{subscription_exposed_id}.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.cancel_at.anyOf@ in the specification.
 --
 -- A timestamp at which the subscription should cancel. If set to a date before the current period ends, this will cause a proration if prorations have been enabled using \`proration_behavior\`. If set during a future period, this will always cause a proration for that period.
 data PostSubscriptionsSubscriptionExposedIdRequestBodyCancelAt'Variants
-  = PostSubscriptionsSubscriptionExposedIdRequestBodyCancelAt'PostSubscriptionsSubscriptionExposedIdRequestBodyCancelAt'OneOf1 PostSubscriptionsSubscriptionExposedIdRequestBodyCancelAt'OneOf1
+  = -- | Represents the JSON value @""@
+    PostSubscriptionsSubscriptionExposedIdRequestBodyCancelAt'EmptyString
   | PostSubscriptionsSubscriptionExposedIdRequestBodyCancelAt'Int GHC.Types.Int
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostSubscriptionsSubscriptionExposedIdRequestBodyCancelAt'Variants where
-  toJSON (PostSubscriptionsSubscriptionExposedIdRequestBodyCancelAt'PostSubscriptionsSubscriptionExposedIdRequestBodyCancelAt'OneOf1 a) = Data.Aeson.Types.ToJSON.toJSON a
   toJSON (PostSubscriptionsSubscriptionExposedIdRequestBodyCancelAt'Int a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (PostSubscriptionsSubscriptionExposedIdRequestBodyCancelAt'EmptyString) = ""
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostSubscriptionsSubscriptionExposedIdRequestBodyCancelAt'Variants where
-  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
-    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ PostSubscriptionsSubscriptionExposedIdRequestBodyCancelAt'PostSubscriptionsSubscriptionExposedIdRequestBodyCancelAt'OneOf1 a
-    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ PostSubscriptionsSubscriptionExposedIdRequestBodyCancelAt'Int a
-      Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+  parseJSON val =
+    if  | val GHC.Classes.== "" -> GHC.Base.pure PostSubscriptionsSubscriptionExposedIdRequestBodyCancelAt'EmptyString
+        | GHC.Base.otherwise -> case (PostSubscriptionsSubscriptionExposedIdRequestBodyCancelAt'Int Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched" of
+          Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+          Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
--- | Defines the enum schema postSubscriptionsSubscriptionExposedIdRequestBodyCollection_method\'
+-- | Defines the enum schema located at @paths.\/v1\/subscriptions\/{subscription_exposed_id}.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.collection_method@ in the specification.
 --
 -- Either \`charge_automatically\`, or \`send_invoice\`. When charging automatically, Stripe will attempt to pay this subscription at the end of the cycle using the default source attached to the customer. When sending an invoice, Stripe will email your customer an invoice with payment instructions. Defaults to \`charge_automatically\`.
 data PostSubscriptionsSubscriptionExposedIdRequestBodyCollectionMethod'
-  = PostSubscriptionsSubscriptionExposedIdRequestBodyCollectionMethod'EnumOther Data.Aeson.Types.Internal.Value
-  | PostSubscriptionsSubscriptionExposedIdRequestBodyCollectionMethod'EnumTyped Data.Text.Internal.Text
-  | PostSubscriptionsSubscriptionExposedIdRequestBodyCollectionMethod'EnumStringChargeAutomatically
-  | PostSubscriptionsSubscriptionExposedIdRequestBodyCollectionMethod'EnumStringSendInvoice
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    PostSubscriptionsSubscriptionExposedIdRequestBodyCollectionMethod'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    PostSubscriptionsSubscriptionExposedIdRequestBodyCollectionMethod'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"charge_automatically"@
+    PostSubscriptionsSubscriptionExposedIdRequestBodyCollectionMethod'EnumChargeAutomatically
+  | -- | Represents the JSON value @"send_invoice"@
+    PostSubscriptionsSubscriptionExposedIdRequestBodyCollectionMethod'EnumSendInvoice
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostSubscriptionsSubscriptionExposedIdRequestBodyCollectionMethod' where
-  toJSON (PostSubscriptionsSubscriptionExposedIdRequestBodyCollectionMethod'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostSubscriptionsSubscriptionExposedIdRequestBodyCollectionMethod'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostSubscriptionsSubscriptionExposedIdRequestBodyCollectionMethod'EnumStringChargeAutomatically) = "charge_automatically"
-  toJSON (PostSubscriptionsSubscriptionExposedIdRequestBodyCollectionMethod'EnumStringSendInvoice) = "send_invoice"
+  toJSON (PostSubscriptionsSubscriptionExposedIdRequestBodyCollectionMethod'Other val) = val
+  toJSON (PostSubscriptionsSubscriptionExposedIdRequestBodyCollectionMethod'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PostSubscriptionsSubscriptionExposedIdRequestBodyCollectionMethod'EnumChargeAutomatically) = "charge_automatically"
+  toJSON (PostSubscriptionsSubscriptionExposedIdRequestBodyCollectionMethod'EnumSendInvoice) = "send_invoice"
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostSubscriptionsSubscriptionExposedIdRequestBodyCollectionMethod' where
   parseJSON val =
     GHC.Base.pure
-      ( if  | val GHC.Classes.== "charge_automatically" -> PostSubscriptionsSubscriptionExposedIdRequestBodyCollectionMethod'EnumStringChargeAutomatically
-            | val GHC.Classes.== "send_invoice" -> PostSubscriptionsSubscriptionExposedIdRequestBodyCollectionMethod'EnumStringSendInvoice
-            | GHC.Base.otherwise -> PostSubscriptionsSubscriptionExposedIdRequestBodyCollectionMethod'EnumOther val
+      ( if  | val GHC.Classes.== "charge_automatically" -> PostSubscriptionsSubscriptionExposedIdRequestBodyCollectionMethod'EnumChargeAutomatically
+            | val GHC.Classes.== "send_invoice" -> PostSubscriptionsSubscriptionExposedIdRequestBodyCollectionMethod'EnumSendInvoice
+            | GHC.Base.otherwise -> PostSubscriptionsSubscriptionExposedIdRequestBodyCollectionMethod'Other val
       )
 
--- | Defines the enum schema postSubscriptionsSubscriptionExposedIdRequestBodyDefault_tax_rates\'OneOf1
-data PostSubscriptionsSubscriptionExposedIdRequestBodyDefaultTaxRates'OneOf1
-  = PostSubscriptionsSubscriptionExposedIdRequestBodyDefaultTaxRates'OneOf1EnumOther Data.Aeson.Types.Internal.Value
-  | PostSubscriptionsSubscriptionExposedIdRequestBodyDefaultTaxRates'OneOf1EnumTyped Data.Text.Internal.Text
-  | PostSubscriptionsSubscriptionExposedIdRequestBodyDefaultTaxRates'OneOf1EnumString_
-  deriving (GHC.Show.Show, GHC.Classes.Eq)
-
-instance Data.Aeson.Types.ToJSON.ToJSON PostSubscriptionsSubscriptionExposedIdRequestBodyDefaultTaxRates'OneOf1 where
-  toJSON (PostSubscriptionsSubscriptionExposedIdRequestBodyDefaultTaxRates'OneOf1EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostSubscriptionsSubscriptionExposedIdRequestBodyDefaultTaxRates'OneOf1EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostSubscriptionsSubscriptionExposedIdRequestBodyDefaultTaxRates'OneOf1EnumString_) = ""
-
-instance Data.Aeson.Types.FromJSON.FromJSON PostSubscriptionsSubscriptionExposedIdRequestBodyDefaultTaxRates'OneOf1 where
-  parseJSON val =
-    GHC.Base.pure
-      ( if  | val GHC.Classes.== "" -> PostSubscriptionsSubscriptionExposedIdRequestBodyDefaultTaxRates'OneOf1EnumString_
-            | GHC.Base.otherwise -> PostSubscriptionsSubscriptionExposedIdRequestBodyDefaultTaxRates'OneOf1EnumOther val
-      )
-
--- | Define the one-of schema postSubscriptionsSubscriptionExposedIdRequestBodyDefault_tax_rates\'
+-- | Defines the oneOf schema located at @paths.\/v1\/subscriptions\/{subscription_exposed_id}.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.default_tax_rates.anyOf@ in the specification.
 --
 -- The tax rates that will apply to any subscription item that does not have \`tax_rates\` set. Invoices created will have their \`default_tax_rates\` populated from the subscription. Pass an empty string to remove previously-defined tax rates.
 data PostSubscriptionsSubscriptionExposedIdRequestBodyDefaultTaxRates'Variants
-  = PostSubscriptionsSubscriptionExposedIdRequestBodyDefaultTaxRates'PostSubscriptionsSubscriptionExposedIdRequestBodyDefaultTaxRates'OneOf1 PostSubscriptionsSubscriptionExposedIdRequestBodyDefaultTaxRates'OneOf1
+  = -- | Represents the JSON value @""@
+    PostSubscriptionsSubscriptionExposedIdRequestBodyDefaultTaxRates'EmptyString
   | PostSubscriptionsSubscriptionExposedIdRequestBodyDefaultTaxRates'ListTText ([Data.Text.Internal.Text])
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostSubscriptionsSubscriptionExposedIdRequestBodyDefaultTaxRates'Variants where
-  toJSON (PostSubscriptionsSubscriptionExposedIdRequestBodyDefaultTaxRates'PostSubscriptionsSubscriptionExposedIdRequestBodyDefaultTaxRates'OneOf1 a) = Data.Aeson.Types.ToJSON.toJSON a
   toJSON (PostSubscriptionsSubscriptionExposedIdRequestBodyDefaultTaxRates'ListTText a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (PostSubscriptionsSubscriptionExposedIdRequestBodyDefaultTaxRates'EmptyString) = ""
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostSubscriptionsSubscriptionExposedIdRequestBodyDefaultTaxRates'Variants where
-  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
-    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ PostSubscriptionsSubscriptionExposedIdRequestBodyDefaultTaxRates'PostSubscriptionsSubscriptionExposedIdRequestBodyDefaultTaxRates'OneOf1 a
-    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ PostSubscriptionsSubscriptionExposedIdRequestBodyDefaultTaxRates'ListTText a
-      Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+  parseJSON val =
+    if  | val GHC.Classes.== "" -> GHC.Base.pure PostSubscriptionsSubscriptionExposedIdRequestBodyDefaultTaxRates'EmptyString
+        | GHC.Base.otherwise -> case (PostSubscriptionsSubscriptionExposedIdRequestBodyDefaultTaxRates'ListTText Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched" of
+          Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+          Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
--- | Defines the data type for the schema postSubscriptionsSubscriptionExposedIdRequestBodyItems\'
+-- | Defines the object schema located at @paths.\/v1\/subscriptions\/{subscription_exposed_id}.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.items.items@ in the specification.
 data PostSubscriptionsSubscriptionExposedIdRequestBodyItems'
   = PostSubscriptionsSubscriptionExposedIdRequestBodyItems'
       { -- | billing_thresholds
@@ -387,103 +379,88 @@ data PostSubscriptionsSubscriptionExposedIdRequestBodyItems'
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostSubscriptionsSubscriptionExposedIdRequestBodyItems' where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "billing_thresholds" (postSubscriptionsSubscriptionExposedIdRequestBodyItems'BillingThresholds obj) : (Data.Aeson..=) "clear_usage" (postSubscriptionsSubscriptionExposedIdRequestBodyItems'ClearUsage obj) : (Data.Aeson..=) "deleted" (postSubscriptionsSubscriptionExposedIdRequestBodyItems'Deleted obj) : (Data.Aeson..=) "id" (postSubscriptionsSubscriptionExposedIdRequestBodyItems'Id obj) : (Data.Aeson..=) "metadata" (postSubscriptionsSubscriptionExposedIdRequestBodyItems'Metadata obj) : (Data.Aeson..=) "plan" (postSubscriptionsSubscriptionExposedIdRequestBodyItems'Plan obj) : (Data.Aeson..=) "quantity" (postSubscriptionsSubscriptionExposedIdRequestBodyItems'Quantity obj) : (Data.Aeson..=) "tax_rates" (postSubscriptionsSubscriptionExposedIdRequestBodyItems'TaxRates obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "billing_thresholds" (postSubscriptionsSubscriptionExposedIdRequestBodyItems'BillingThresholds obj) GHC.Base.<> ((Data.Aeson..=) "clear_usage" (postSubscriptionsSubscriptionExposedIdRequestBodyItems'ClearUsage obj) GHC.Base.<> ((Data.Aeson..=) "deleted" (postSubscriptionsSubscriptionExposedIdRequestBodyItems'Deleted obj) GHC.Base.<> ((Data.Aeson..=) "id" (postSubscriptionsSubscriptionExposedIdRequestBodyItems'Id obj) GHC.Base.<> ((Data.Aeson..=) "metadata" (postSubscriptionsSubscriptionExposedIdRequestBodyItems'Metadata obj) GHC.Base.<> ((Data.Aeson..=) "plan" (postSubscriptionsSubscriptionExposedIdRequestBodyItems'Plan obj) GHC.Base.<> ((Data.Aeson..=) "quantity" (postSubscriptionsSubscriptionExposedIdRequestBodyItems'Quantity obj) GHC.Base.<> (Data.Aeson..=) "tax_rates" (postSubscriptionsSubscriptionExposedIdRequestBodyItems'TaxRates obj))))))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("billing_thresholds" Data.Aeson.Types.ToJSON..= postSubscriptionsSubscriptionExposedIdRequestBodyItems'BillingThresholds obj : "clear_usage" Data.Aeson.Types.ToJSON..= postSubscriptionsSubscriptionExposedIdRequestBodyItems'ClearUsage obj : "deleted" Data.Aeson.Types.ToJSON..= postSubscriptionsSubscriptionExposedIdRequestBodyItems'Deleted obj : "id" Data.Aeson.Types.ToJSON..= postSubscriptionsSubscriptionExposedIdRequestBodyItems'Id obj : "metadata" Data.Aeson.Types.ToJSON..= postSubscriptionsSubscriptionExposedIdRequestBodyItems'Metadata obj : "plan" Data.Aeson.Types.ToJSON..= postSubscriptionsSubscriptionExposedIdRequestBodyItems'Plan obj : "quantity" Data.Aeson.Types.ToJSON..= postSubscriptionsSubscriptionExposedIdRequestBodyItems'Quantity obj : "tax_rates" Data.Aeson.Types.ToJSON..= postSubscriptionsSubscriptionExposedIdRequestBodyItems'TaxRates obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("billing_thresholds" Data.Aeson.Types.ToJSON..= postSubscriptionsSubscriptionExposedIdRequestBodyItems'BillingThresholds obj) GHC.Base.<> (("clear_usage" Data.Aeson.Types.ToJSON..= postSubscriptionsSubscriptionExposedIdRequestBodyItems'ClearUsage obj) GHC.Base.<> (("deleted" Data.Aeson.Types.ToJSON..= postSubscriptionsSubscriptionExposedIdRequestBodyItems'Deleted obj) GHC.Base.<> (("id" Data.Aeson.Types.ToJSON..= postSubscriptionsSubscriptionExposedIdRequestBodyItems'Id obj) GHC.Base.<> (("metadata" Data.Aeson.Types.ToJSON..= postSubscriptionsSubscriptionExposedIdRequestBodyItems'Metadata obj) GHC.Base.<> (("plan" Data.Aeson.Types.ToJSON..= postSubscriptionsSubscriptionExposedIdRequestBodyItems'Plan obj) GHC.Base.<> (("quantity" Data.Aeson.Types.ToJSON..= postSubscriptionsSubscriptionExposedIdRequestBodyItems'Quantity obj) GHC.Base.<> ("tax_rates" Data.Aeson.Types.ToJSON..= postSubscriptionsSubscriptionExposedIdRequestBodyItems'TaxRates obj))))))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostSubscriptionsSubscriptionExposedIdRequestBodyItems' where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PostSubscriptionsSubscriptionExposedIdRequestBodyItems'" (\obj -> (((((((GHC.Base.pure PostSubscriptionsSubscriptionExposedIdRequestBodyItems' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "billing_thresholds")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "clear_usage")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "deleted")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "plan")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "quantity")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "tax_rates"))
 
--- | Defines the enum schema postSubscriptionsSubscriptionExposedIdRequestBodyItems\'Billing_thresholds\'OneOf1
+-- | Create a new 'PostSubscriptionsSubscriptionExposedIdRequestBodyItems'' with all required fields.
+mkPostSubscriptionsSubscriptionExposedIdRequestBodyItems' :: PostSubscriptionsSubscriptionExposedIdRequestBodyItems'
+mkPostSubscriptionsSubscriptionExposedIdRequestBodyItems' =
+  PostSubscriptionsSubscriptionExposedIdRequestBodyItems'
+    { postSubscriptionsSubscriptionExposedIdRequestBodyItems'BillingThresholds = GHC.Maybe.Nothing,
+      postSubscriptionsSubscriptionExposedIdRequestBodyItems'ClearUsage = GHC.Maybe.Nothing,
+      postSubscriptionsSubscriptionExposedIdRequestBodyItems'Deleted = GHC.Maybe.Nothing,
+      postSubscriptionsSubscriptionExposedIdRequestBodyItems'Id = GHC.Maybe.Nothing,
+      postSubscriptionsSubscriptionExposedIdRequestBodyItems'Metadata = GHC.Maybe.Nothing,
+      postSubscriptionsSubscriptionExposedIdRequestBodyItems'Plan = GHC.Maybe.Nothing,
+      postSubscriptionsSubscriptionExposedIdRequestBodyItems'Quantity = GHC.Maybe.Nothing,
+      postSubscriptionsSubscriptionExposedIdRequestBodyItems'TaxRates = GHC.Maybe.Nothing
+    }
+
+-- | Defines the object schema located at @paths.\/v1\/subscriptions\/{subscription_exposed_id}.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.items.items.properties.billing_thresholds.anyOf@ in the specification.
 data PostSubscriptionsSubscriptionExposedIdRequestBodyItems'BillingThresholds'OneOf1
-  = PostSubscriptionsSubscriptionExposedIdRequestBodyItems'BillingThresholds'OneOf1EnumOther Data.Aeson.Types.Internal.Value
-  | PostSubscriptionsSubscriptionExposedIdRequestBodyItems'BillingThresholds'OneOf1EnumTyped Data.Text.Internal.Text
-  | PostSubscriptionsSubscriptionExposedIdRequestBodyItems'BillingThresholds'OneOf1EnumString_
-  deriving (GHC.Show.Show, GHC.Classes.Eq)
-
-instance Data.Aeson.Types.ToJSON.ToJSON PostSubscriptionsSubscriptionExposedIdRequestBodyItems'BillingThresholds'OneOf1 where
-  toJSON (PostSubscriptionsSubscriptionExposedIdRequestBodyItems'BillingThresholds'OneOf1EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostSubscriptionsSubscriptionExposedIdRequestBodyItems'BillingThresholds'OneOf1EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostSubscriptionsSubscriptionExposedIdRequestBodyItems'BillingThresholds'OneOf1EnumString_) = ""
-
-instance Data.Aeson.Types.FromJSON.FromJSON PostSubscriptionsSubscriptionExposedIdRequestBodyItems'BillingThresholds'OneOf1 where
-  parseJSON val =
-    GHC.Base.pure
-      ( if  | val GHC.Classes.== "" -> PostSubscriptionsSubscriptionExposedIdRequestBodyItems'BillingThresholds'OneOf1EnumString_
-            | GHC.Base.otherwise -> PostSubscriptionsSubscriptionExposedIdRequestBodyItems'BillingThresholds'OneOf1EnumOther val
-      )
-
--- | Defines the data type for the schema postSubscriptionsSubscriptionExposedIdRequestBodyItems\'Billing_thresholds\'OneOf2
-data PostSubscriptionsSubscriptionExposedIdRequestBodyItems'BillingThresholds'OneOf2
-  = PostSubscriptionsSubscriptionExposedIdRequestBodyItems'BillingThresholds'OneOf2
+  = PostSubscriptionsSubscriptionExposedIdRequestBodyItems'BillingThresholds'OneOf1
       { -- | usage_gte
-        postSubscriptionsSubscriptionExposedIdRequestBodyItems'BillingThresholds'OneOf2UsageGte :: GHC.Types.Int
+        postSubscriptionsSubscriptionExposedIdRequestBodyItems'BillingThresholds'OneOf1UsageGte :: GHC.Types.Int
       }
   deriving
     ( GHC.Show.Show,
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.Types.ToJSON.ToJSON PostSubscriptionsSubscriptionExposedIdRequestBodyItems'BillingThresholds'OneOf2 where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "usage_gte" (postSubscriptionsSubscriptionExposedIdRequestBodyItems'BillingThresholds'OneOf2UsageGte obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "usage_gte" (postSubscriptionsSubscriptionExposedIdRequestBodyItems'BillingThresholds'OneOf2UsageGte obj))
+instance Data.Aeson.Types.ToJSON.ToJSON PostSubscriptionsSubscriptionExposedIdRequestBodyItems'BillingThresholds'OneOf1 where
+  toJSON obj = Data.Aeson.Types.Internal.object ("usage_gte" Data.Aeson.Types.ToJSON..= postSubscriptionsSubscriptionExposedIdRequestBodyItems'BillingThresholds'OneOf1UsageGte obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs ("usage_gte" Data.Aeson.Types.ToJSON..= postSubscriptionsSubscriptionExposedIdRequestBodyItems'BillingThresholds'OneOf1UsageGte obj)
 
-instance Data.Aeson.Types.FromJSON.FromJSON PostSubscriptionsSubscriptionExposedIdRequestBodyItems'BillingThresholds'OneOf2 where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostSubscriptionsSubscriptionExposedIdRequestBodyItems'BillingThresholds'OneOf2" (\obj -> GHC.Base.pure PostSubscriptionsSubscriptionExposedIdRequestBodyItems'BillingThresholds'OneOf2 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "usage_gte"))
+instance Data.Aeson.Types.FromJSON.FromJSON PostSubscriptionsSubscriptionExposedIdRequestBodyItems'BillingThresholds'OneOf1 where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostSubscriptionsSubscriptionExposedIdRequestBodyItems'BillingThresholds'OneOf1" (\obj -> GHC.Base.pure PostSubscriptionsSubscriptionExposedIdRequestBodyItems'BillingThresholds'OneOf1 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "usage_gte"))
 
--- | Define the one-of schema postSubscriptionsSubscriptionExposedIdRequestBodyItems\'Billing_thresholds\'
+-- | Create a new 'PostSubscriptionsSubscriptionExposedIdRequestBodyItems'BillingThresholds'OneOf1' with all required fields.
+mkPostSubscriptionsSubscriptionExposedIdRequestBodyItems'BillingThresholds'OneOf1 ::
+  -- | 'postSubscriptionsSubscriptionExposedIdRequestBodyItems'BillingThresholds'OneOf1UsageGte'
+  GHC.Types.Int ->
+  PostSubscriptionsSubscriptionExposedIdRequestBodyItems'BillingThresholds'OneOf1
+mkPostSubscriptionsSubscriptionExposedIdRequestBodyItems'BillingThresholds'OneOf1 postSubscriptionsSubscriptionExposedIdRequestBodyItems'BillingThresholds'OneOf1UsageGte = PostSubscriptionsSubscriptionExposedIdRequestBodyItems'BillingThresholds'OneOf1 {postSubscriptionsSubscriptionExposedIdRequestBodyItems'BillingThresholds'OneOf1UsageGte = postSubscriptionsSubscriptionExposedIdRequestBodyItems'BillingThresholds'OneOf1UsageGte}
+
+-- | Defines the oneOf schema located at @paths.\/v1\/subscriptions\/{subscription_exposed_id}.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.items.items.properties.billing_thresholds.anyOf@ in the specification.
 data PostSubscriptionsSubscriptionExposedIdRequestBodyItems'BillingThresholds'Variants
-  = PostSubscriptionsSubscriptionExposedIdRequestBodyItems'BillingThresholds'PostSubscriptionsSubscriptionExposedIdRequestBodyItems'BillingThresholds'OneOf1 PostSubscriptionsSubscriptionExposedIdRequestBodyItems'BillingThresholds'OneOf1
-  | PostSubscriptionsSubscriptionExposedIdRequestBodyItems'BillingThresholds'PostSubscriptionsSubscriptionExposedIdRequestBodyItems'BillingThresholds'OneOf2 PostSubscriptionsSubscriptionExposedIdRequestBodyItems'BillingThresholds'OneOf2
+  = -- | Represents the JSON value @""@
+    PostSubscriptionsSubscriptionExposedIdRequestBodyItems'BillingThresholds'EmptyString
+  | PostSubscriptionsSubscriptionExposedIdRequestBodyItems'BillingThresholds'PostSubscriptionsSubscriptionExposedIdRequestBodyItems'BillingThresholds'OneOf1 PostSubscriptionsSubscriptionExposedIdRequestBodyItems'BillingThresholds'OneOf1
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostSubscriptionsSubscriptionExposedIdRequestBodyItems'BillingThresholds'Variants where
   toJSON (PostSubscriptionsSubscriptionExposedIdRequestBodyItems'BillingThresholds'PostSubscriptionsSubscriptionExposedIdRequestBodyItems'BillingThresholds'OneOf1 a) = Data.Aeson.Types.ToJSON.toJSON a
-  toJSON (PostSubscriptionsSubscriptionExposedIdRequestBodyItems'BillingThresholds'PostSubscriptionsSubscriptionExposedIdRequestBodyItems'BillingThresholds'OneOf2 a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (PostSubscriptionsSubscriptionExposedIdRequestBodyItems'BillingThresholds'EmptyString) = ""
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostSubscriptionsSubscriptionExposedIdRequestBodyItems'BillingThresholds'Variants where
-  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
-    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ PostSubscriptionsSubscriptionExposedIdRequestBodyItems'BillingThresholds'PostSubscriptionsSubscriptionExposedIdRequestBodyItems'BillingThresholds'OneOf1 a
-    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ PostSubscriptionsSubscriptionExposedIdRequestBodyItems'BillingThresholds'PostSubscriptionsSubscriptionExposedIdRequestBodyItems'BillingThresholds'OneOf2 a
-      Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
-
--- | Defines the enum schema postSubscriptionsSubscriptionExposedIdRequestBodyItems\'Tax_rates\'OneOf1
-data PostSubscriptionsSubscriptionExposedIdRequestBodyItems'TaxRates'OneOf1
-  = PostSubscriptionsSubscriptionExposedIdRequestBodyItems'TaxRates'OneOf1EnumOther Data.Aeson.Types.Internal.Value
-  | PostSubscriptionsSubscriptionExposedIdRequestBodyItems'TaxRates'OneOf1EnumTyped Data.Text.Internal.Text
-  | PostSubscriptionsSubscriptionExposedIdRequestBodyItems'TaxRates'OneOf1EnumString_
-  deriving (GHC.Show.Show, GHC.Classes.Eq)
-
-instance Data.Aeson.Types.ToJSON.ToJSON PostSubscriptionsSubscriptionExposedIdRequestBodyItems'TaxRates'OneOf1 where
-  toJSON (PostSubscriptionsSubscriptionExposedIdRequestBodyItems'TaxRates'OneOf1EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostSubscriptionsSubscriptionExposedIdRequestBodyItems'TaxRates'OneOf1EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostSubscriptionsSubscriptionExposedIdRequestBodyItems'TaxRates'OneOf1EnumString_) = ""
-
-instance Data.Aeson.Types.FromJSON.FromJSON PostSubscriptionsSubscriptionExposedIdRequestBodyItems'TaxRates'OneOf1 where
   parseJSON val =
-    GHC.Base.pure
-      ( if  | val GHC.Classes.== "" -> PostSubscriptionsSubscriptionExposedIdRequestBodyItems'TaxRates'OneOf1EnumString_
-            | GHC.Base.otherwise -> PostSubscriptionsSubscriptionExposedIdRequestBodyItems'TaxRates'OneOf1EnumOther val
-      )
+    if  | val GHC.Classes.== "" -> GHC.Base.pure PostSubscriptionsSubscriptionExposedIdRequestBodyItems'BillingThresholds'EmptyString
+        | GHC.Base.otherwise -> case (PostSubscriptionsSubscriptionExposedIdRequestBodyItems'BillingThresholds'PostSubscriptionsSubscriptionExposedIdRequestBodyItems'BillingThresholds'OneOf1 Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched" of
+          Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+          Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
--- | Define the one-of schema postSubscriptionsSubscriptionExposedIdRequestBodyItems\'Tax_rates\'
+-- | Defines the oneOf schema located at @paths.\/v1\/subscriptions\/{subscription_exposed_id}.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.items.items.properties.tax_rates.anyOf@ in the specification.
 data PostSubscriptionsSubscriptionExposedIdRequestBodyItems'TaxRates'Variants
-  = PostSubscriptionsSubscriptionExposedIdRequestBodyItems'TaxRates'PostSubscriptionsSubscriptionExposedIdRequestBodyItems'TaxRates'OneOf1 PostSubscriptionsSubscriptionExposedIdRequestBodyItems'TaxRates'OneOf1
+  = -- | Represents the JSON value @""@
+    PostSubscriptionsSubscriptionExposedIdRequestBodyItems'TaxRates'EmptyString
   | PostSubscriptionsSubscriptionExposedIdRequestBodyItems'TaxRates'ListTText ([Data.Text.Internal.Text])
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostSubscriptionsSubscriptionExposedIdRequestBodyItems'TaxRates'Variants where
-  toJSON (PostSubscriptionsSubscriptionExposedIdRequestBodyItems'TaxRates'PostSubscriptionsSubscriptionExposedIdRequestBodyItems'TaxRates'OneOf1 a) = Data.Aeson.Types.ToJSON.toJSON a
   toJSON (PostSubscriptionsSubscriptionExposedIdRequestBodyItems'TaxRates'ListTText a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (PostSubscriptionsSubscriptionExposedIdRequestBodyItems'TaxRates'EmptyString) = ""
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostSubscriptionsSubscriptionExposedIdRequestBodyItems'TaxRates'Variants where
-  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
-    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ PostSubscriptionsSubscriptionExposedIdRequestBodyItems'TaxRates'PostSubscriptionsSubscriptionExposedIdRequestBodyItems'TaxRates'OneOf1 a
-    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ PostSubscriptionsSubscriptionExposedIdRequestBodyItems'TaxRates'ListTText a
-      Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+  parseJSON val =
+    if  | val GHC.Classes.== "" -> GHC.Base.pure PostSubscriptionsSubscriptionExposedIdRequestBodyItems'TaxRates'EmptyString
+        | GHC.Base.otherwise -> case (PostSubscriptionsSubscriptionExposedIdRequestBodyItems'TaxRates'ListTText Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched" of
+          Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+          Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
--- | Defines the enum schema postSubscriptionsSubscriptionExposedIdRequestBodyPayment_behavior\'
+-- | Defines the enum schema located at @paths.\/v1\/subscriptions\/{subscription_exposed_id}.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.payment_behavior@ in the specification.
 --
 -- Use \`allow_incomplete\` to transition the subscription to \`status=past_due\` if a payment is required but cannot be paid. This allows you to manage scenarios where additional user actions are needed to pay a subscription\'s invoice. For example, SCA regulation may require 3DS authentication to complete payment. See the [SCA Migration Guide](https:\/\/stripe.com\/docs\/billing\/migration\/strong-customer-authentication) for Billing to learn more. This is the default behavior.
 --
@@ -491,116 +468,120 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostSubscriptionsSubscriptionExposed
 --
 -- Use \`error_if_incomplete\` if you want Stripe to return an HTTP 402 status code if a subscription\'s first invoice cannot be paid. For example, if a payment method requires 3DS authentication due to SCA regulation and further user action is needed, this parameter does not create a subscription and returns an error instead. This was the default behavior for API versions prior to 2019-03-14. See the [changelog](https:\/\/stripe.com\/docs\/upgrades\#2019-03-14) to learn more.
 data PostSubscriptionsSubscriptionExposedIdRequestBodyPaymentBehavior'
-  = PostSubscriptionsSubscriptionExposedIdRequestBodyPaymentBehavior'EnumOther Data.Aeson.Types.Internal.Value
-  | PostSubscriptionsSubscriptionExposedIdRequestBodyPaymentBehavior'EnumTyped Data.Text.Internal.Text
-  | PostSubscriptionsSubscriptionExposedIdRequestBodyPaymentBehavior'EnumStringAllowIncomplete
-  | PostSubscriptionsSubscriptionExposedIdRequestBodyPaymentBehavior'EnumStringErrorIfIncomplete
-  | PostSubscriptionsSubscriptionExposedIdRequestBodyPaymentBehavior'EnumStringPendingIfIncomplete
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    PostSubscriptionsSubscriptionExposedIdRequestBodyPaymentBehavior'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    PostSubscriptionsSubscriptionExposedIdRequestBodyPaymentBehavior'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"allow_incomplete"@
+    PostSubscriptionsSubscriptionExposedIdRequestBodyPaymentBehavior'EnumAllowIncomplete
+  | -- | Represents the JSON value @"error_if_incomplete"@
+    PostSubscriptionsSubscriptionExposedIdRequestBodyPaymentBehavior'EnumErrorIfIncomplete
+  | -- | Represents the JSON value @"pending_if_incomplete"@
+    PostSubscriptionsSubscriptionExposedIdRequestBodyPaymentBehavior'EnumPendingIfIncomplete
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostSubscriptionsSubscriptionExposedIdRequestBodyPaymentBehavior' where
-  toJSON (PostSubscriptionsSubscriptionExposedIdRequestBodyPaymentBehavior'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostSubscriptionsSubscriptionExposedIdRequestBodyPaymentBehavior'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostSubscriptionsSubscriptionExposedIdRequestBodyPaymentBehavior'EnumStringAllowIncomplete) = "allow_incomplete"
-  toJSON (PostSubscriptionsSubscriptionExposedIdRequestBodyPaymentBehavior'EnumStringErrorIfIncomplete) = "error_if_incomplete"
-  toJSON (PostSubscriptionsSubscriptionExposedIdRequestBodyPaymentBehavior'EnumStringPendingIfIncomplete) = "pending_if_incomplete"
+  toJSON (PostSubscriptionsSubscriptionExposedIdRequestBodyPaymentBehavior'Other val) = val
+  toJSON (PostSubscriptionsSubscriptionExposedIdRequestBodyPaymentBehavior'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PostSubscriptionsSubscriptionExposedIdRequestBodyPaymentBehavior'EnumAllowIncomplete) = "allow_incomplete"
+  toJSON (PostSubscriptionsSubscriptionExposedIdRequestBodyPaymentBehavior'EnumErrorIfIncomplete) = "error_if_incomplete"
+  toJSON (PostSubscriptionsSubscriptionExposedIdRequestBodyPaymentBehavior'EnumPendingIfIncomplete) = "pending_if_incomplete"
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostSubscriptionsSubscriptionExposedIdRequestBodyPaymentBehavior' where
   parseJSON val =
     GHC.Base.pure
-      ( if  | val GHC.Classes.== "allow_incomplete" -> PostSubscriptionsSubscriptionExposedIdRequestBodyPaymentBehavior'EnumStringAllowIncomplete
-            | val GHC.Classes.== "error_if_incomplete" -> PostSubscriptionsSubscriptionExposedIdRequestBodyPaymentBehavior'EnumStringErrorIfIncomplete
-            | val GHC.Classes.== "pending_if_incomplete" -> PostSubscriptionsSubscriptionExposedIdRequestBodyPaymentBehavior'EnumStringPendingIfIncomplete
-            | GHC.Base.otherwise -> PostSubscriptionsSubscriptionExposedIdRequestBodyPaymentBehavior'EnumOther val
+      ( if  | val GHC.Classes.== "allow_incomplete" -> PostSubscriptionsSubscriptionExposedIdRequestBodyPaymentBehavior'EnumAllowIncomplete
+            | val GHC.Classes.== "error_if_incomplete" -> PostSubscriptionsSubscriptionExposedIdRequestBodyPaymentBehavior'EnumErrorIfIncomplete
+            | val GHC.Classes.== "pending_if_incomplete" -> PostSubscriptionsSubscriptionExposedIdRequestBodyPaymentBehavior'EnumPendingIfIncomplete
+            | GHC.Base.otherwise -> PostSubscriptionsSubscriptionExposedIdRequestBodyPaymentBehavior'Other val
       )
 
--- | Defines the enum schema postSubscriptionsSubscriptionExposedIdRequestBodyPending_invoice_item_interval\'OneOf1
+-- | Defines the object schema located at @paths.\/v1\/subscriptions\/{subscription_exposed_id}.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.pending_invoice_item_interval.anyOf@ in the specification.
 data PostSubscriptionsSubscriptionExposedIdRequestBodyPendingInvoiceItemInterval'OneOf1
-  = PostSubscriptionsSubscriptionExposedIdRequestBodyPendingInvoiceItemInterval'OneOf1EnumOther Data.Aeson.Types.Internal.Value
-  | PostSubscriptionsSubscriptionExposedIdRequestBodyPendingInvoiceItemInterval'OneOf1EnumTyped Data.Text.Internal.Text
-  | PostSubscriptionsSubscriptionExposedIdRequestBodyPendingInvoiceItemInterval'OneOf1EnumString_
-  deriving (GHC.Show.Show, GHC.Classes.Eq)
-
-instance Data.Aeson.Types.ToJSON.ToJSON PostSubscriptionsSubscriptionExposedIdRequestBodyPendingInvoiceItemInterval'OneOf1 where
-  toJSON (PostSubscriptionsSubscriptionExposedIdRequestBodyPendingInvoiceItemInterval'OneOf1EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostSubscriptionsSubscriptionExposedIdRequestBodyPendingInvoiceItemInterval'OneOf1EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostSubscriptionsSubscriptionExposedIdRequestBodyPendingInvoiceItemInterval'OneOf1EnumString_) = ""
-
-instance Data.Aeson.Types.FromJSON.FromJSON PostSubscriptionsSubscriptionExposedIdRequestBodyPendingInvoiceItemInterval'OneOf1 where
-  parseJSON val =
-    GHC.Base.pure
-      ( if  | val GHC.Classes.== "" -> PostSubscriptionsSubscriptionExposedIdRequestBodyPendingInvoiceItemInterval'OneOf1EnumString_
-            | GHC.Base.otherwise -> PostSubscriptionsSubscriptionExposedIdRequestBodyPendingInvoiceItemInterval'OneOf1EnumOther val
-      )
-
--- | Defines the data type for the schema postSubscriptionsSubscriptionExposedIdRequestBodyPending_invoice_item_interval\'OneOf2
-data PostSubscriptionsSubscriptionExposedIdRequestBodyPendingInvoiceItemInterval'OneOf2
-  = PostSubscriptionsSubscriptionExposedIdRequestBodyPendingInvoiceItemInterval'OneOf2
+  = PostSubscriptionsSubscriptionExposedIdRequestBodyPendingInvoiceItemInterval'OneOf1
       { -- | interval
-        postSubscriptionsSubscriptionExposedIdRequestBodyPendingInvoiceItemInterval'OneOf2Interval :: PostSubscriptionsSubscriptionExposedIdRequestBodyPendingInvoiceItemInterval'OneOf2Interval',
+        postSubscriptionsSubscriptionExposedIdRequestBodyPendingInvoiceItemInterval'OneOf1Interval :: PostSubscriptionsSubscriptionExposedIdRequestBodyPendingInvoiceItemInterval'OneOf1Interval',
         -- | interval_count
-        postSubscriptionsSubscriptionExposedIdRequestBodyPendingInvoiceItemInterval'OneOf2IntervalCount :: (GHC.Maybe.Maybe GHC.Types.Int)
+        postSubscriptionsSubscriptionExposedIdRequestBodyPendingInvoiceItemInterval'OneOf1IntervalCount :: (GHC.Maybe.Maybe GHC.Types.Int)
       }
   deriving
     ( GHC.Show.Show,
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.Types.ToJSON.ToJSON PostSubscriptionsSubscriptionExposedIdRequestBodyPendingInvoiceItemInterval'OneOf2 where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "interval" (postSubscriptionsSubscriptionExposedIdRequestBodyPendingInvoiceItemInterval'OneOf2Interval obj) : (Data.Aeson..=) "interval_count" (postSubscriptionsSubscriptionExposedIdRequestBodyPendingInvoiceItemInterval'OneOf2IntervalCount obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "interval" (postSubscriptionsSubscriptionExposedIdRequestBodyPendingInvoiceItemInterval'OneOf2Interval obj) GHC.Base.<> (Data.Aeson..=) "interval_count" (postSubscriptionsSubscriptionExposedIdRequestBodyPendingInvoiceItemInterval'OneOf2IntervalCount obj))
+instance Data.Aeson.Types.ToJSON.ToJSON PostSubscriptionsSubscriptionExposedIdRequestBodyPendingInvoiceItemInterval'OneOf1 where
+  toJSON obj = Data.Aeson.Types.Internal.object ("interval" Data.Aeson.Types.ToJSON..= postSubscriptionsSubscriptionExposedIdRequestBodyPendingInvoiceItemInterval'OneOf1Interval obj : "interval_count" Data.Aeson.Types.ToJSON..= postSubscriptionsSubscriptionExposedIdRequestBodyPendingInvoiceItemInterval'OneOf1IntervalCount obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("interval" Data.Aeson.Types.ToJSON..= postSubscriptionsSubscriptionExposedIdRequestBodyPendingInvoiceItemInterval'OneOf1Interval obj) GHC.Base.<> ("interval_count" Data.Aeson.Types.ToJSON..= postSubscriptionsSubscriptionExposedIdRequestBodyPendingInvoiceItemInterval'OneOf1IntervalCount obj))
 
-instance Data.Aeson.Types.FromJSON.FromJSON PostSubscriptionsSubscriptionExposedIdRequestBodyPendingInvoiceItemInterval'OneOf2 where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostSubscriptionsSubscriptionExposedIdRequestBodyPendingInvoiceItemInterval'OneOf2" (\obj -> (GHC.Base.pure PostSubscriptionsSubscriptionExposedIdRequestBodyPendingInvoiceItemInterval'OneOf2 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "interval")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "interval_count"))
+instance Data.Aeson.Types.FromJSON.FromJSON PostSubscriptionsSubscriptionExposedIdRequestBodyPendingInvoiceItemInterval'OneOf1 where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostSubscriptionsSubscriptionExposedIdRequestBodyPendingInvoiceItemInterval'OneOf1" (\obj -> (GHC.Base.pure PostSubscriptionsSubscriptionExposedIdRequestBodyPendingInvoiceItemInterval'OneOf1 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "interval")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "interval_count"))
 
--- | Defines the enum schema postSubscriptionsSubscriptionExposedIdRequestBodyPending_invoice_item_interval\'OneOf2Interval\'
-data PostSubscriptionsSubscriptionExposedIdRequestBodyPendingInvoiceItemInterval'OneOf2Interval'
-  = PostSubscriptionsSubscriptionExposedIdRequestBodyPendingInvoiceItemInterval'OneOf2Interval'EnumOther Data.Aeson.Types.Internal.Value
-  | PostSubscriptionsSubscriptionExposedIdRequestBodyPendingInvoiceItemInterval'OneOf2Interval'EnumTyped Data.Text.Internal.Text
-  | PostSubscriptionsSubscriptionExposedIdRequestBodyPendingInvoiceItemInterval'OneOf2Interval'EnumStringDay
-  | PostSubscriptionsSubscriptionExposedIdRequestBodyPendingInvoiceItemInterval'OneOf2Interval'EnumStringMonth
-  | PostSubscriptionsSubscriptionExposedIdRequestBodyPendingInvoiceItemInterval'OneOf2Interval'EnumStringWeek
-  | PostSubscriptionsSubscriptionExposedIdRequestBodyPendingInvoiceItemInterval'OneOf2Interval'EnumStringYear
+-- | Create a new 'PostSubscriptionsSubscriptionExposedIdRequestBodyPendingInvoiceItemInterval'OneOf1' with all required fields.
+mkPostSubscriptionsSubscriptionExposedIdRequestBodyPendingInvoiceItemInterval'OneOf1 ::
+  -- | 'postSubscriptionsSubscriptionExposedIdRequestBodyPendingInvoiceItemInterval'OneOf1Interval'
+  PostSubscriptionsSubscriptionExposedIdRequestBodyPendingInvoiceItemInterval'OneOf1Interval' ->
+  PostSubscriptionsSubscriptionExposedIdRequestBodyPendingInvoiceItemInterval'OneOf1
+mkPostSubscriptionsSubscriptionExposedIdRequestBodyPendingInvoiceItemInterval'OneOf1 postSubscriptionsSubscriptionExposedIdRequestBodyPendingInvoiceItemInterval'OneOf1Interval =
+  PostSubscriptionsSubscriptionExposedIdRequestBodyPendingInvoiceItemInterval'OneOf1
+    { postSubscriptionsSubscriptionExposedIdRequestBodyPendingInvoiceItemInterval'OneOf1Interval = postSubscriptionsSubscriptionExposedIdRequestBodyPendingInvoiceItemInterval'OneOf1Interval,
+      postSubscriptionsSubscriptionExposedIdRequestBodyPendingInvoiceItemInterval'OneOf1IntervalCount = GHC.Maybe.Nothing
+    }
+
+-- | Defines the enum schema located at @paths.\/v1\/subscriptions\/{subscription_exposed_id}.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.pending_invoice_item_interval.anyOf.properties.interval@ in the specification.
+data PostSubscriptionsSubscriptionExposedIdRequestBodyPendingInvoiceItemInterval'OneOf1Interval'
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    PostSubscriptionsSubscriptionExposedIdRequestBodyPendingInvoiceItemInterval'OneOf1Interval'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    PostSubscriptionsSubscriptionExposedIdRequestBodyPendingInvoiceItemInterval'OneOf1Interval'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"day"@
+    PostSubscriptionsSubscriptionExposedIdRequestBodyPendingInvoiceItemInterval'OneOf1Interval'EnumDay
+  | -- | Represents the JSON value @"month"@
+    PostSubscriptionsSubscriptionExposedIdRequestBodyPendingInvoiceItemInterval'OneOf1Interval'EnumMonth
+  | -- | Represents the JSON value @"week"@
+    PostSubscriptionsSubscriptionExposedIdRequestBodyPendingInvoiceItemInterval'OneOf1Interval'EnumWeek
+  | -- | Represents the JSON value @"year"@
+    PostSubscriptionsSubscriptionExposedIdRequestBodyPendingInvoiceItemInterval'OneOf1Interval'EnumYear
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.Types.ToJSON.ToJSON PostSubscriptionsSubscriptionExposedIdRequestBodyPendingInvoiceItemInterval'OneOf2Interval' where
-  toJSON (PostSubscriptionsSubscriptionExposedIdRequestBodyPendingInvoiceItemInterval'OneOf2Interval'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostSubscriptionsSubscriptionExposedIdRequestBodyPendingInvoiceItemInterval'OneOf2Interval'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostSubscriptionsSubscriptionExposedIdRequestBodyPendingInvoiceItemInterval'OneOf2Interval'EnumStringDay) = "day"
-  toJSON (PostSubscriptionsSubscriptionExposedIdRequestBodyPendingInvoiceItemInterval'OneOf2Interval'EnumStringMonth) = "month"
-  toJSON (PostSubscriptionsSubscriptionExposedIdRequestBodyPendingInvoiceItemInterval'OneOf2Interval'EnumStringWeek) = "week"
-  toJSON (PostSubscriptionsSubscriptionExposedIdRequestBodyPendingInvoiceItemInterval'OneOf2Interval'EnumStringYear) = "year"
+instance Data.Aeson.Types.ToJSON.ToJSON PostSubscriptionsSubscriptionExposedIdRequestBodyPendingInvoiceItemInterval'OneOf1Interval' where
+  toJSON (PostSubscriptionsSubscriptionExposedIdRequestBodyPendingInvoiceItemInterval'OneOf1Interval'Other val) = val
+  toJSON (PostSubscriptionsSubscriptionExposedIdRequestBodyPendingInvoiceItemInterval'OneOf1Interval'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PostSubscriptionsSubscriptionExposedIdRequestBodyPendingInvoiceItemInterval'OneOf1Interval'EnumDay) = "day"
+  toJSON (PostSubscriptionsSubscriptionExposedIdRequestBodyPendingInvoiceItemInterval'OneOf1Interval'EnumMonth) = "month"
+  toJSON (PostSubscriptionsSubscriptionExposedIdRequestBodyPendingInvoiceItemInterval'OneOf1Interval'EnumWeek) = "week"
+  toJSON (PostSubscriptionsSubscriptionExposedIdRequestBodyPendingInvoiceItemInterval'OneOf1Interval'EnumYear) = "year"
 
-instance Data.Aeson.Types.FromJSON.FromJSON PostSubscriptionsSubscriptionExposedIdRequestBodyPendingInvoiceItemInterval'OneOf2Interval' where
+instance Data.Aeson.Types.FromJSON.FromJSON PostSubscriptionsSubscriptionExposedIdRequestBodyPendingInvoiceItemInterval'OneOf1Interval' where
   parseJSON val =
     GHC.Base.pure
-      ( if  | val GHC.Classes.== "day" -> PostSubscriptionsSubscriptionExposedIdRequestBodyPendingInvoiceItemInterval'OneOf2Interval'EnumStringDay
-            | val GHC.Classes.== "month" -> PostSubscriptionsSubscriptionExposedIdRequestBodyPendingInvoiceItemInterval'OneOf2Interval'EnumStringMonth
-            | val GHC.Classes.== "week" -> PostSubscriptionsSubscriptionExposedIdRequestBodyPendingInvoiceItemInterval'OneOf2Interval'EnumStringWeek
-            | val GHC.Classes.== "year" -> PostSubscriptionsSubscriptionExposedIdRequestBodyPendingInvoiceItemInterval'OneOf2Interval'EnumStringYear
-            | GHC.Base.otherwise -> PostSubscriptionsSubscriptionExposedIdRequestBodyPendingInvoiceItemInterval'OneOf2Interval'EnumOther val
+      ( if  | val GHC.Classes.== "day" -> PostSubscriptionsSubscriptionExposedIdRequestBodyPendingInvoiceItemInterval'OneOf1Interval'EnumDay
+            | val GHC.Classes.== "month" -> PostSubscriptionsSubscriptionExposedIdRequestBodyPendingInvoiceItemInterval'OneOf1Interval'EnumMonth
+            | val GHC.Classes.== "week" -> PostSubscriptionsSubscriptionExposedIdRequestBodyPendingInvoiceItemInterval'OneOf1Interval'EnumWeek
+            | val GHC.Classes.== "year" -> PostSubscriptionsSubscriptionExposedIdRequestBodyPendingInvoiceItemInterval'OneOf1Interval'EnumYear
+            | GHC.Base.otherwise -> PostSubscriptionsSubscriptionExposedIdRequestBodyPendingInvoiceItemInterval'OneOf1Interval'Other val
       )
 
--- | Define the one-of schema postSubscriptionsSubscriptionExposedIdRequestBodyPending_invoice_item_interval\'
+-- | Defines the oneOf schema located at @paths.\/v1\/subscriptions\/{subscription_exposed_id}.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.pending_invoice_item_interval.anyOf@ in the specification.
 --
 -- Specifies an interval for how often to bill for any pending invoice items. It is analogous to calling [Create an invoice](https:\/\/stripe.com\/docs\/api\#create_invoice) for the given subscription at the specified interval.
 data PostSubscriptionsSubscriptionExposedIdRequestBodyPendingInvoiceItemInterval'Variants
-  = PostSubscriptionsSubscriptionExposedIdRequestBodyPendingInvoiceItemInterval'PostSubscriptionsSubscriptionExposedIdRequestBodyPendingInvoiceItemInterval'OneOf1 PostSubscriptionsSubscriptionExposedIdRequestBodyPendingInvoiceItemInterval'OneOf1
-  | PostSubscriptionsSubscriptionExposedIdRequestBodyPendingInvoiceItemInterval'PostSubscriptionsSubscriptionExposedIdRequestBodyPendingInvoiceItemInterval'OneOf2 PostSubscriptionsSubscriptionExposedIdRequestBodyPendingInvoiceItemInterval'OneOf2
+  = -- | Represents the JSON value @""@
+    PostSubscriptionsSubscriptionExposedIdRequestBodyPendingInvoiceItemInterval'EmptyString
+  | PostSubscriptionsSubscriptionExposedIdRequestBodyPendingInvoiceItemInterval'PostSubscriptionsSubscriptionExposedIdRequestBodyPendingInvoiceItemInterval'OneOf1 PostSubscriptionsSubscriptionExposedIdRequestBodyPendingInvoiceItemInterval'OneOf1
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostSubscriptionsSubscriptionExposedIdRequestBodyPendingInvoiceItemInterval'Variants where
   toJSON (PostSubscriptionsSubscriptionExposedIdRequestBodyPendingInvoiceItemInterval'PostSubscriptionsSubscriptionExposedIdRequestBodyPendingInvoiceItemInterval'OneOf1 a) = Data.Aeson.Types.ToJSON.toJSON a
-  toJSON (PostSubscriptionsSubscriptionExposedIdRequestBodyPendingInvoiceItemInterval'PostSubscriptionsSubscriptionExposedIdRequestBodyPendingInvoiceItemInterval'OneOf2 a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (PostSubscriptionsSubscriptionExposedIdRequestBodyPendingInvoiceItemInterval'EmptyString) = ""
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostSubscriptionsSubscriptionExposedIdRequestBodyPendingInvoiceItemInterval'Variants where
-  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
-    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ PostSubscriptionsSubscriptionExposedIdRequestBodyPendingInvoiceItemInterval'PostSubscriptionsSubscriptionExposedIdRequestBodyPendingInvoiceItemInterval'OneOf1 a
-    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ PostSubscriptionsSubscriptionExposedIdRequestBodyPendingInvoiceItemInterval'PostSubscriptionsSubscriptionExposedIdRequestBodyPendingInvoiceItemInterval'OneOf2 a
-      Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+  parseJSON val =
+    if  | val GHC.Classes.== "" -> GHC.Base.pure PostSubscriptionsSubscriptionExposedIdRequestBodyPendingInvoiceItemInterval'EmptyString
+        | GHC.Base.otherwise -> case (PostSubscriptionsSubscriptionExposedIdRequestBodyPendingInvoiceItemInterval'PostSubscriptionsSubscriptionExposedIdRequestBodyPendingInvoiceItemInterval'OneOf1 Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched" of
+          Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+          Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
--- | Defines the enum schema postSubscriptionsSubscriptionExposedIdRequestBodyProration_behavior\'
+-- | Defines the enum schema located at @paths.\/v1\/subscriptions\/{subscription_exposed_id}.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.proration_behavior@ in the specification.
 --
 -- Determines how to handle [prorations](https:\/\/stripe.com\/docs\/subscriptions\/billing-cycle\#prorations) when the billing cycle changes (e.g., when switching plans, resetting \`billing_cycle_anchor=now\`, or starting a trial), or if an item\'s \`quantity\` changes. Valid values are \`create_prorations\`, \`none\`, or \`always_invoice\`.
 --
@@ -608,104 +589,73 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostSubscriptionsSubscriptionExposed
 --
 -- Prorations can be disabled by passing \`none\`.
 data PostSubscriptionsSubscriptionExposedIdRequestBodyProrationBehavior'
-  = PostSubscriptionsSubscriptionExposedIdRequestBodyProrationBehavior'EnumOther Data.Aeson.Types.Internal.Value
-  | PostSubscriptionsSubscriptionExposedIdRequestBodyProrationBehavior'EnumTyped Data.Text.Internal.Text
-  | PostSubscriptionsSubscriptionExposedIdRequestBodyProrationBehavior'EnumStringAlwaysInvoice
-  | PostSubscriptionsSubscriptionExposedIdRequestBodyProrationBehavior'EnumStringCreateProrations
-  | PostSubscriptionsSubscriptionExposedIdRequestBodyProrationBehavior'EnumStringNone
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    PostSubscriptionsSubscriptionExposedIdRequestBodyProrationBehavior'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    PostSubscriptionsSubscriptionExposedIdRequestBodyProrationBehavior'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"always_invoice"@
+    PostSubscriptionsSubscriptionExposedIdRequestBodyProrationBehavior'EnumAlwaysInvoice
+  | -- | Represents the JSON value @"create_prorations"@
+    PostSubscriptionsSubscriptionExposedIdRequestBodyProrationBehavior'EnumCreateProrations
+  | -- | Represents the JSON value @"none"@
+    PostSubscriptionsSubscriptionExposedIdRequestBodyProrationBehavior'EnumNone
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostSubscriptionsSubscriptionExposedIdRequestBodyProrationBehavior' where
-  toJSON (PostSubscriptionsSubscriptionExposedIdRequestBodyProrationBehavior'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostSubscriptionsSubscriptionExposedIdRequestBodyProrationBehavior'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostSubscriptionsSubscriptionExposedIdRequestBodyProrationBehavior'EnumStringAlwaysInvoice) = "always_invoice"
-  toJSON (PostSubscriptionsSubscriptionExposedIdRequestBodyProrationBehavior'EnumStringCreateProrations) = "create_prorations"
-  toJSON (PostSubscriptionsSubscriptionExposedIdRequestBodyProrationBehavior'EnumStringNone) = "none"
+  toJSON (PostSubscriptionsSubscriptionExposedIdRequestBodyProrationBehavior'Other val) = val
+  toJSON (PostSubscriptionsSubscriptionExposedIdRequestBodyProrationBehavior'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PostSubscriptionsSubscriptionExposedIdRequestBodyProrationBehavior'EnumAlwaysInvoice) = "always_invoice"
+  toJSON (PostSubscriptionsSubscriptionExposedIdRequestBodyProrationBehavior'EnumCreateProrations) = "create_prorations"
+  toJSON (PostSubscriptionsSubscriptionExposedIdRequestBodyProrationBehavior'EnumNone) = "none"
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostSubscriptionsSubscriptionExposedIdRequestBodyProrationBehavior' where
   parseJSON val =
     GHC.Base.pure
-      ( if  | val GHC.Classes.== "always_invoice" -> PostSubscriptionsSubscriptionExposedIdRequestBodyProrationBehavior'EnumStringAlwaysInvoice
-            | val GHC.Classes.== "create_prorations" -> PostSubscriptionsSubscriptionExposedIdRequestBodyProrationBehavior'EnumStringCreateProrations
-            | val GHC.Classes.== "none" -> PostSubscriptionsSubscriptionExposedIdRequestBodyProrationBehavior'EnumStringNone
-            | GHC.Base.otherwise -> PostSubscriptionsSubscriptionExposedIdRequestBodyProrationBehavior'EnumOther val
+      ( if  | val GHC.Classes.== "always_invoice" -> PostSubscriptionsSubscriptionExposedIdRequestBodyProrationBehavior'EnumAlwaysInvoice
+            | val GHC.Classes.== "create_prorations" -> PostSubscriptionsSubscriptionExposedIdRequestBodyProrationBehavior'EnumCreateProrations
+            | val GHC.Classes.== "none" -> PostSubscriptionsSubscriptionExposedIdRequestBodyProrationBehavior'EnumNone
+            | GHC.Base.otherwise -> PostSubscriptionsSubscriptionExposedIdRequestBodyProrationBehavior'Other val
       )
 
--- | Defines the enum schema postSubscriptionsSubscriptionExposedIdRequestBodyTax_percent\'OneOf1
-data PostSubscriptionsSubscriptionExposedIdRequestBodyTaxPercent'OneOf1
-  = PostSubscriptionsSubscriptionExposedIdRequestBodyTaxPercent'OneOf1EnumOther Data.Aeson.Types.Internal.Value
-  | PostSubscriptionsSubscriptionExposedIdRequestBodyTaxPercent'OneOf1EnumTyped Data.Text.Internal.Text
-  | PostSubscriptionsSubscriptionExposedIdRequestBodyTaxPercent'OneOf1EnumString_
-  deriving (GHC.Show.Show, GHC.Classes.Eq)
-
-instance Data.Aeson.Types.ToJSON.ToJSON PostSubscriptionsSubscriptionExposedIdRequestBodyTaxPercent'OneOf1 where
-  toJSON (PostSubscriptionsSubscriptionExposedIdRequestBodyTaxPercent'OneOf1EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostSubscriptionsSubscriptionExposedIdRequestBodyTaxPercent'OneOf1EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostSubscriptionsSubscriptionExposedIdRequestBodyTaxPercent'OneOf1EnumString_) = ""
-
-instance Data.Aeson.Types.FromJSON.FromJSON PostSubscriptionsSubscriptionExposedIdRequestBodyTaxPercent'OneOf1 where
-  parseJSON val =
-    GHC.Base.pure
-      ( if  | val GHC.Classes.== "" -> PostSubscriptionsSubscriptionExposedIdRequestBodyTaxPercent'OneOf1EnumString_
-            | GHC.Base.otherwise -> PostSubscriptionsSubscriptionExposedIdRequestBodyTaxPercent'OneOf1EnumOther val
-      )
-
--- | Define the one-of schema postSubscriptionsSubscriptionExposedIdRequestBodyTax_percent\'
+-- | Defines the oneOf schema located at @paths.\/v1\/subscriptions\/{subscription_exposed_id}.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.tax_percent.anyOf@ in the specification.
 --
 -- A non-negative decimal (with at most four decimal places) between 0 and 100. This represents the percentage of the subscription invoice subtotal that will be calculated and added as tax to the final amount in each billing period. For example, a plan which charges \$10\/month with a \`tax_percent\` of \`20.0\` will charge \$12 per invoice. To unset a previously-set value, pass an empty string. This field has been deprecated and will be removed in a future API version, for further information view the [migration docs](https:\/\/stripe.com\/docs\/billing\/migration\/taxes) for \`tax_rates\`.
 data PostSubscriptionsSubscriptionExposedIdRequestBodyTaxPercent'Variants
-  = PostSubscriptionsSubscriptionExposedIdRequestBodyTaxPercent'PostSubscriptionsSubscriptionExposedIdRequestBodyTaxPercent'OneOf1 PostSubscriptionsSubscriptionExposedIdRequestBodyTaxPercent'OneOf1
+  = -- | Represents the JSON value @""@
+    PostSubscriptionsSubscriptionExposedIdRequestBodyTaxPercent'EmptyString
   | PostSubscriptionsSubscriptionExposedIdRequestBodyTaxPercent'Double GHC.Types.Double
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostSubscriptionsSubscriptionExposedIdRequestBodyTaxPercent'Variants where
-  toJSON (PostSubscriptionsSubscriptionExposedIdRequestBodyTaxPercent'PostSubscriptionsSubscriptionExposedIdRequestBodyTaxPercent'OneOf1 a) = Data.Aeson.Types.ToJSON.toJSON a
   toJSON (PostSubscriptionsSubscriptionExposedIdRequestBodyTaxPercent'Double a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (PostSubscriptionsSubscriptionExposedIdRequestBodyTaxPercent'EmptyString) = ""
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostSubscriptionsSubscriptionExposedIdRequestBodyTaxPercent'Variants where
-  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
-    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ PostSubscriptionsSubscriptionExposedIdRequestBodyTaxPercent'PostSubscriptionsSubscriptionExposedIdRequestBodyTaxPercent'OneOf1 a
-    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ PostSubscriptionsSubscriptionExposedIdRequestBodyTaxPercent'Double a
-      Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
-
--- | Defines the enum schema postSubscriptionsSubscriptionExposedIdRequestBodyTrial_end\'OneOf1
-data PostSubscriptionsSubscriptionExposedIdRequestBodyTrialEnd'OneOf1
-  = PostSubscriptionsSubscriptionExposedIdRequestBodyTrialEnd'OneOf1EnumOther Data.Aeson.Types.Internal.Value
-  | PostSubscriptionsSubscriptionExposedIdRequestBodyTrialEnd'OneOf1EnumTyped Data.Text.Internal.Text
-  | PostSubscriptionsSubscriptionExposedIdRequestBodyTrialEnd'OneOf1EnumStringNow
-  deriving (GHC.Show.Show, GHC.Classes.Eq)
-
-instance Data.Aeson.Types.ToJSON.ToJSON PostSubscriptionsSubscriptionExposedIdRequestBodyTrialEnd'OneOf1 where
-  toJSON (PostSubscriptionsSubscriptionExposedIdRequestBodyTrialEnd'OneOf1EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostSubscriptionsSubscriptionExposedIdRequestBodyTrialEnd'OneOf1EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostSubscriptionsSubscriptionExposedIdRequestBodyTrialEnd'OneOf1EnumStringNow) = "now"
-
-instance Data.Aeson.Types.FromJSON.FromJSON PostSubscriptionsSubscriptionExposedIdRequestBodyTrialEnd'OneOf1 where
   parseJSON val =
-    GHC.Base.pure
-      ( if  | val GHC.Classes.== "now" -> PostSubscriptionsSubscriptionExposedIdRequestBodyTrialEnd'OneOf1EnumStringNow
-            | GHC.Base.otherwise -> PostSubscriptionsSubscriptionExposedIdRequestBodyTrialEnd'OneOf1EnumOther val
-      )
+    if  | val GHC.Classes.== "" -> GHC.Base.pure PostSubscriptionsSubscriptionExposedIdRequestBodyTaxPercent'EmptyString
+        | GHC.Base.otherwise -> case (PostSubscriptionsSubscriptionExposedIdRequestBodyTaxPercent'Double Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched" of
+          Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+          Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
--- | Define the one-of schema postSubscriptionsSubscriptionExposedIdRequestBodyTrial_end\'
+-- | Defines the oneOf schema located at @paths.\/v1\/subscriptions\/{subscription_exposed_id}.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.trial_end.anyOf@ in the specification.
 --
 -- Unix timestamp representing the end of the trial period the customer will get before being charged for the first time. This will always overwrite any trials that might apply via a subscribed plan. If set, trial_end will override the default trial period of the plan the customer is being subscribed to. The special value \`now\` can be provided to end the customer\'s trial immediately. Can be at most two years from \`billing_cycle_anchor\`.
 data PostSubscriptionsSubscriptionExposedIdRequestBodyTrialEnd'Variants
-  = PostSubscriptionsSubscriptionExposedIdRequestBodyTrialEnd'PostSubscriptionsSubscriptionExposedIdRequestBodyTrialEnd'OneOf1 PostSubscriptionsSubscriptionExposedIdRequestBodyTrialEnd'OneOf1
+  = -- | Represents the JSON value @"now"@
+    PostSubscriptionsSubscriptionExposedIdRequestBodyTrialEnd'Now
   | PostSubscriptionsSubscriptionExposedIdRequestBodyTrialEnd'Int GHC.Types.Int
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostSubscriptionsSubscriptionExposedIdRequestBodyTrialEnd'Variants where
-  toJSON (PostSubscriptionsSubscriptionExposedIdRequestBodyTrialEnd'PostSubscriptionsSubscriptionExposedIdRequestBodyTrialEnd'OneOf1 a) = Data.Aeson.Types.ToJSON.toJSON a
   toJSON (PostSubscriptionsSubscriptionExposedIdRequestBodyTrialEnd'Int a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (PostSubscriptionsSubscriptionExposedIdRequestBodyTrialEnd'Now) = "now"
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostSubscriptionsSubscriptionExposedIdRequestBodyTrialEnd'Variants where
-  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
-    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ PostSubscriptionsSubscriptionExposedIdRequestBodyTrialEnd'PostSubscriptionsSubscriptionExposedIdRequestBodyTrialEnd'OneOf1 a
-    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ PostSubscriptionsSubscriptionExposedIdRequestBodyTrialEnd'Int a
-      Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+  parseJSON val =
+    if  | val GHC.Classes.== "now" -> GHC.Base.pure PostSubscriptionsSubscriptionExposedIdRequestBodyTrialEnd'Now
+        | GHC.Base.otherwise -> case (PostSubscriptionsSubscriptionExposedIdRequestBodyTrialEnd'Int Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched" of
+          Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+          Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
 -- | Represents a response of the operation 'postSubscriptionsSubscriptionExposedId'.
 --

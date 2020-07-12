@@ -10,6 +10,7 @@ module StripeAPI.Operations.PostCustomersCustomerBankAccountsIdVerify where
 import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -81,7 +82,7 @@ postCustomersCustomerBankAccountsIdVerify
       )
       (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack ("/v1/customers/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel (postCustomersCustomerBankAccountsIdVerifyParametersPathCustomer parameters))) GHC.Base.++ ("/bank_accounts/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel (postCustomersCustomerBankAccountsIdVerifyParametersPathId parameters))) GHC.Base.++ "/verify"))))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
 
--- | Defines the data type for the schema postCustomersCustomerBankAccountsIdVerifyParameters
+-- | Defines the object schema located at @paths.\/v1\/customers\/{customer}\/bank_accounts\/{id}\/verify.POST.parameters@ in the specification.
 data PostCustomersCustomerBankAccountsIdVerifyParameters
   = PostCustomersCustomerBankAccountsIdVerifyParameters
       { -- | pathCustomer: Represents the parameter named \'customer\'
@@ -103,13 +104,26 @@ data PostCustomersCustomerBankAccountsIdVerifyParameters
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostCustomersCustomerBankAccountsIdVerifyParameters where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "pathCustomer" (postCustomersCustomerBankAccountsIdVerifyParametersPathCustomer obj) : (Data.Aeson..=) "pathId" (postCustomersCustomerBankAccountsIdVerifyParametersPathId obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "pathCustomer" (postCustomersCustomerBankAccountsIdVerifyParametersPathCustomer obj) GHC.Base.<> (Data.Aeson..=) "pathId" (postCustomersCustomerBankAccountsIdVerifyParametersPathId obj))
+  toJSON obj = Data.Aeson.Types.Internal.object ("pathCustomer" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdVerifyParametersPathCustomer obj : "pathId" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdVerifyParametersPathId obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("pathCustomer" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdVerifyParametersPathCustomer obj) GHC.Base.<> ("pathId" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdVerifyParametersPathId obj))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostCustomersCustomerBankAccountsIdVerifyParameters where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PostCustomersCustomerBankAccountsIdVerifyParameters" (\obj -> (GHC.Base.pure PostCustomersCustomerBankAccountsIdVerifyParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathCustomer")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathId"))
 
--- | Defines the data type for the schema postCustomersCustomerBankAccountsIdVerifyRequestBody
+-- | Create a new 'PostCustomersCustomerBankAccountsIdVerifyParameters' with all required fields.
+mkPostCustomersCustomerBankAccountsIdVerifyParameters ::
+  -- | 'postCustomersCustomerBankAccountsIdVerifyParametersPathCustomer'
+  Data.Text.Internal.Text ->
+  -- | 'postCustomersCustomerBankAccountsIdVerifyParametersPathId'
+  Data.Text.Internal.Text ->
+  PostCustomersCustomerBankAccountsIdVerifyParameters
+mkPostCustomersCustomerBankAccountsIdVerifyParameters postCustomersCustomerBankAccountsIdVerifyParametersPathCustomer postCustomersCustomerBankAccountsIdVerifyParametersPathId =
+  PostCustomersCustomerBankAccountsIdVerifyParameters
+    { postCustomersCustomerBankAccountsIdVerifyParametersPathCustomer = postCustomersCustomerBankAccountsIdVerifyParametersPathCustomer,
+      postCustomersCustomerBankAccountsIdVerifyParametersPathId = postCustomersCustomerBankAccountsIdVerifyParametersPathId
+    }
+
+-- | Defines the object schema located at @paths.\/v1\/customers\/{customer}\/bank_accounts\/{id}\/verify.POST.requestBody.content.application\/x-www-form-urlencoded.schema@ in the specification.
 data PostCustomersCustomerBankAccountsIdVerifyRequestBody
   = PostCustomersCustomerBankAccountsIdVerifyRequestBody
       { -- | amounts: Two positive integers, in *cents*, equal to the values of the microdeposits sent to the bank account.
@@ -123,11 +137,19 @@ data PostCustomersCustomerBankAccountsIdVerifyRequestBody
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostCustomersCustomerBankAccountsIdVerifyRequestBody where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "amounts" (postCustomersCustomerBankAccountsIdVerifyRequestBodyAmounts obj) : (Data.Aeson..=) "expand" (postCustomersCustomerBankAccountsIdVerifyRequestBodyExpand obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "amounts" (postCustomersCustomerBankAccountsIdVerifyRequestBodyAmounts obj) GHC.Base.<> (Data.Aeson..=) "expand" (postCustomersCustomerBankAccountsIdVerifyRequestBodyExpand obj))
+  toJSON obj = Data.Aeson.Types.Internal.object ("amounts" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdVerifyRequestBodyAmounts obj : "expand" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdVerifyRequestBodyExpand obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("amounts" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdVerifyRequestBodyAmounts obj) GHC.Base.<> ("expand" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdVerifyRequestBodyExpand obj))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostCustomersCustomerBankAccountsIdVerifyRequestBody where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PostCustomersCustomerBankAccountsIdVerifyRequestBody" (\obj -> (GHC.Base.pure PostCustomersCustomerBankAccountsIdVerifyRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "amounts")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "expand"))
+
+-- | Create a new 'PostCustomersCustomerBankAccountsIdVerifyRequestBody' with all required fields.
+mkPostCustomersCustomerBankAccountsIdVerifyRequestBody :: PostCustomersCustomerBankAccountsIdVerifyRequestBody
+mkPostCustomersCustomerBankAccountsIdVerifyRequestBody =
+  PostCustomersCustomerBankAccountsIdVerifyRequestBody
+    { postCustomersCustomerBankAccountsIdVerifyRequestBodyAmounts = GHC.Maybe.Nothing,
+      postCustomersCustomerBankAccountsIdVerifyRequestBodyExpand = GHC.Maybe.Nothing
+    }
 
 -- | Represents a response of the operation 'postCustomersCustomerBankAccountsIdVerify'.
 --

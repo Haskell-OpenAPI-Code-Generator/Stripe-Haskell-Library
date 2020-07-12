@@ -10,6 +10,7 @@ module StripeAPI.Operations.GetInvoicesInvoiceLines where
 import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -85,7 +86,7 @@ getInvoicesInvoiceLines parameters =
         ]
     )
 
--- | Defines the data type for the schema getInvoicesInvoiceLinesParameters
+-- | Defines the object schema located at @paths.\/v1\/invoices\/{invoice}\/lines.GET.parameters@ in the specification.
 data GetInvoicesInvoiceLinesParameters
   = GetInvoicesInvoiceLinesParameters
       { -- | pathInvoice: Represents the parameter named \'invoice\'
@@ -125,11 +126,25 @@ data GetInvoicesInvoiceLinesParameters
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetInvoicesInvoiceLinesParameters where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "pathInvoice" (getInvoicesInvoiceLinesParametersPathInvoice obj) : (Data.Aeson..=) "queryEnding_before" (getInvoicesInvoiceLinesParametersQueryEndingBefore obj) : (Data.Aeson..=) "queryExpand" (getInvoicesInvoiceLinesParametersQueryExpand obj) : (Data.Aeson..=) "queryLimit" (getInvoicesInvoiceLinesParametersQueryLimit obj) : (Data.Aeson..=) "queryStarting_after" (getInvoicesInvoiceLinesParametersQueryStartingAfter obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "pathInvoice" (getInvoicesInvoiceLinesParametersPathInvoice obj) GHC.Base.<> ((Data.Aeson..=) "queryEnding_before" (getInvoicesInvoiceLinesParametersQueryEndingBefore obj) GHC.Base.<> ((Data.Aeson..=) "queryExpand" (getInvoicesInvoiceLinesParametersQueryExpand obj) GHC.Base.<> ((Data.Aeson..=) "queryLimit" (getInvoicesInvoiceLinesParametersQueryLimit obj) GHC.Base.<> (Data.Aeson..=) "queryStarting_after" (getInvoicesInvoiceLinesParametersQueryStartingAfter obj)))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("pathInvoice" Data.Aeson.Types.ToJSON..= getInvoicesInvoiceLinesParametersPathInvoice obj : "queryEnding_before" Data.Aeson.Types.ToJSON..= getInvoicesInvoiceLinesParametersQueryEndingBefore obj : "queryExpand" Data.Aeson.Types.ToJSON..= getInvoicesInvoiceLinesParametersQueryExpand obj : "queryLimit" Data.Aeson.Types.ToJSON..= getInvoicesInvoiceLinesParametersQueryLimit obj : "queryStarting_after" Data.Aeson.Types.ToJSON..= getInvoicesInvoiceLinesParametersQueryStartingAfter obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("pathInvoice" Data.Aeson.Types.ToJSON..= getInvoicesInvoiceLinesParametersPathInvoice obj) GHC.Base.<> (("queryEnding_before" Data.Aeson.Types.ToJSON..= getInvoicesInvoiceLinesParametersQueryEndingBefore obj) GHC.Base.<> (("queryExpand" Data.Aeson.Types.ToJSON..= getInvoicesInvoiceLinesParametersQueryExpand obj) GHC.Base.<> (("queryLimit" Data.Aeson.Types.ToJSON..= getInvoicesInvoiceLinesParametersQueryLimit obj) GHC.Base.<> ("queryStarting_after" Data.Aeson.Types.ToJSON..= getInvoicesInvoiceLinesParametersQueryStartingAfter obj)))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetInvoicesInvoiceLinesParameters where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "GetInvoicesInvoiceLinesParameters" (\obj -> ((((GHC.Base.pure GetInvoicesInvoiceLinesParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathInvoice")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryEnding_before")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryExpand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryLimit")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryStarting_after"))
+
+-- | Create a new 'GetInvoicesInvoiceLinesParameters' with all required fields.
+mkGetInvoicesInvoiceLinesParameters ::
+  -- | 'getInvoicesInvoiceLinesParametersPathInvoice'
+  Data.Text.Internal.Text ->
+  GetInvoicesInvoiceLinesParameters
+mkGetInvoicesInvoiceLinesParameters getInvoicesInvoiceLinesParametersPathInvoice =
+  GetInvoicesInvoiceLinesParameters
+    { getInvoicesInvoiceLinesParametersPathInvoice = getInvoicesInvoiceLinesParametersPathInvoice,
+      getInvoicesInvoiceLinesParametersQueryEndingBefore = GHC.Maybe.Nothing,
+      getInvoicesInvoiceLinesParametersQueryExpand = GHC.Maybe.Nothing,
+      getInvoicesInvoiceLinesParametersQueryLimit = GHC.Maybe.Nothing,
+      getInvoicesInvoiceLinesParametersQueryStartingAfter = GHC.Maybe.Nothing
+    }
 
 -- | Represents a response of the operation 'getInvoicesInvoiceLines'.
 --
@@ -143,15 +158,13 @@ data GetInvoicesInvoiceLinesResponse
     GetInvoicesInvoiceLinesResponseDefault Error
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
--- | Defines the data type for the schema GetInvoicesInvoiceLinesResponseBody200
+-- | Defines the object schema located at @paths.\/v1\/invoices\/{invoice}\/lines.GET.responses.200.content.application\/json.schema@ in the specification.
 data GetInvoicesInvoiceLinesResponseBody200
   = GetInvoicesInvoiceLinesResponseBody200
       { -- | data: Details about each object.
         getInvoicesInvoiceLinesResponseBody200Data :: ([LineItem]),
         -- | has_more: True if this list has another page of items after this one that can be fetched.
         getInvoicesInvoiceLinesResponseBody200HasMore :: GHC.Types.Bool,
-        -- | object: String representing the object\'s type. Objects of the same type share the same value. Always has the value \`list\`.
-        getInvoicesInvoiceLinesResponseBody200Object :: GetInvoicesInvoiceLinesResponseBody200Object',
         -- | url: The URL where this list can be accessed.
         --
         -- Constraints:
@@ -165,29 +178,24 @@ data GetInvoicesInvoiceLinesResponseBody200
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetInvoicesInvoiceLinesResponseBody200 where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "data" (getInvoicesInvoiceLinesResponseBody200Data obj) : (Data.Aeson..=) "has_more" (getInvoicesInvoiceLinesResponseBody200HasMore obj) : (Data.Aeson..=) "object" (getInvoicesInvoiceLinesResponseBody200Object obj) : (Data.Aeson..=) "url" (getInvoicesInvoiceLinesResponseBody200Url obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "data" (getInvoicesInvoiceLinesResponseBody200Data obj) GHC.Base.<> ((Data.Aeson..=) "has_more" (getInvoicesInvoiceLinesResponseBody200HasMore obj) GHC.Base.<> ((Data.Aeson..=) "object" (getInvoicesInvoiceLinesResponseBody200Object obj) GHC.Base.<> (Data.Aeson..=) "url" (getInvoicesInvoiceLinesResponseBody200Url obj))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("data" Data.Aeson.Types.ToJSON..= getInvoicesInvoiceLinesResponseBody200Data obj : "has_more" Data.Aeson.Types.ToJSON..= getInvoicesInvoiceLinesResponseBody200HasMore obj : "url" Data.Aeson.Types.ToJSON..= getInvoicesInvoiceLinesResponseBody200Url obj : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "list" : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("data" Data.Aeson.Types.ToJSON..= getInvoicesInvoiceLinesResponseBody200Data obj) GHC.Base.<> (("has_more" Data.Aeson.Types.ToJSON..= getInvoicesInvoiceLinesResponseBody200HasMore obj) GHC.Base.<> (("url" Data.Aeson.Types.ToJSON..= getInvoicesInvoiceLinesResponseBody200Url obj) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "list"))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetInvoicesInvoiceLinesResponseBody200 where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetInvoicesInvoiceLinesResponseBody200" (\obj -> (((GHC.Base.pure GetInvoicesInvoiceLinesResponseBody200 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "has_more")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "object")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "url"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetInvoicesInvoiceLinesResponseBody200" (\obj -> ((GHC.Base.pure GetInvoicesInvoiceLinesResponseBody200 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "has_more")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "url"))
 
--- | Defines the enum schema GetInvoicesInvoiceLinesResponseBody200Object\'
---
--- String representing the object\'s type. Objects of the same type share the same value. Always has the value \`list\`.
-data GetInvoicesInvoiceLinesResponseBody200Object'
-  = GetInvoicesInvoiceLinesResponseBody200Object'EnumOther Data.Aeson.Types.Internal.Value
-  | GetInvoicesInvoiceLinesResponseBody200Object'EnumTyped Data.Text.Internal.Text
-  | GetInvoicesInvoiceLinesResponseBody200Object'EnumStringList
-  deriving (GHC.Show.Show, GHC.Classes.Eq)
-
-instance Data.Aeson.Types.ToJSON.ToJSON GetInvoicesInvoiceLinesResponseBody200Object' where
-  toJSON (GetInvoicesInvoiceLinesResponseBody200Object'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (GetInvoicesInvoiceLinesResponseBody200Object'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (GetInvoicesInvoiceLinesResponseBody200Object'EnumStringList) = "list"
-
-instance Data.Aeson.Types.FromJSON.FromJSON GetInvoicesInvoiceLinesResponseBody200Object' where
-  parseJSON val =
-    GHC.Base.pure
-      ( if  | val GHC.Classes.== "list" -> GetInvoicesInvoiceLinesResponseBody200Object'EnumStringList
-            | GHC.Base.otherwise -> GetInvoicesInvoiceLinesResponseBody200Object'EnumOther val
-      )
+-- | Create a new 'GetInvoicesInvoiceLinesResponseBody200' with all required fields.
+mkGetInvoicesInvoiceLinesResponseBody200 ::
+  -- | 'getInvoicesInvoiceLinesResponseBody200Data'
+  [LineItem] ->
+  -- | 'getInvoicesInvoiceLinesResponseBody200HasMore'
+  GHC.Types.Bool ->
+  -- | 'getInvoicesInvoiceLinesResponseBody200Url'
+  Data.Text.Internal.Text ->
+  GetInvoicesInvoiceLinesResponseBody200
+mkGetInvoicesInvoiceLinesResponseBody200 getInvoicesInvoiceLinesResponseBody200Data getInvoicesInvoiceLinesResponseBody200HasMore getInvoicesInvoiceLinesResponseBody200Url =
+  GetInvoicesInvoiceLinesResponseBody200
+    { getInvoicesInvoiceLinesResponseBody200Data = getInvoicesInvoiceLinesResponseBody200Data,
+      getInvoicesInvoiceLinesResponseBody200HasMore = getInvoicesInvoiceLinesResponseBody200HasMore,
+      getInvoicesInvoiceLinesResponseBody200Url = getInvoicesInvoiceLinesResponseBody200Url
+    }

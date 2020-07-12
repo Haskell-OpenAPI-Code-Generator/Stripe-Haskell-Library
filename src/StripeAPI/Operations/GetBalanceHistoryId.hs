@@ -10,6 +10,7 @@ module StripeAPI.Operations.GetBalanceHistoryId where
 import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -79,7 +80,7 @@ getBalanceHistoryId parameters =
     )
     (StripeAPI.Common.doCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET") (Data.Text.pack ("/v1/balance/history/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel (getBalanceHistoryIdParametersPathId parameters))) GHC.Base.++ ""))) [StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getBalanceHistoryIdParametersQueryExpand parameters) (Data.Text.pack "deepObject") GHC.Types.True])
 
--- | Defines the data type for the schema getBalanceHistoryIdParameters
+-- | Defines the object schema located at @paths.\/v1\/balance\/history\/{id}.GET.parameters@ in the specification.
 data GetBalanceHistoryIdParameters
   = GetBalanceHistoryIdParameters
       { -- | pathId: Represents the parameter named \'id\'
@@ -99,11 +100,22 @@ data GetBalanceHistoryIdParameters
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetBalanceHistoryIdParameters where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "pathId" (getBalanceHistoryIdParametersPathId obj) : (Data.Aeson..=) "queryExpand" (getBalanceHistoryIdParametersQueryExpand obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "pathId" (getBalanceHistoryIdParametersPathId obj) GHC.Base.<> (Data.Aeson..=) "queryExpand" (getBalanceHistoryIdParametersQueryExpand obj))
+  toJSON obj = Data.Aeson.Types.Internal.object ("pathId" Data.Aeson.Types.ToJSON..= getBalanceHistoryIdParametersPathId obj : "queryExpand" Data.Aeson.Types.ToJSON..= getBalanceHistoryIdParametersQueryExpand obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("pathId" Data.Aeson.Types.ToJSON..= getBalanceHistoryIdParametersPathId obj) GHC.Base.<> ("queryExpand" Data.Aeson.Types.ToJSON..= getBalanceHistoryIdParametersQueryExpand obj))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetBalanceHistoryIdParameters where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "GetBalanceHistoryIdParameters" (\obj -> (GHC.Base.pure GetBalanceHistoryIdParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathId")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryExpand"))
+
+-- | Create a new 'GetBalanceHistoryIdParameters' with all required fields.
+mkGetBalanceHistoryIdParameters ::
+  -- | 'getBalanceHistoryIdParametersPathId'
+  Data.Text.Internal.Text ->
+  GetBalanceHistoryIdParameters
+mkGetBalanceHistoryIdParameters getBalanceHistoryIdParametersPathId =
+  GetBalanceHistoryIdParameters
+    { getBalanceHistoryIdParametersPathId = getBalanceHistoryIdParametersPathId,
+      getBalanceHistoryIdParametersQueryExpand = GHC.Maybe.Nothing
+    }
 
 -- | Represents a response of the operation 'getBalanceHistoryId'.
 --

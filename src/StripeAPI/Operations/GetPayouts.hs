@@ -10,6 +10,7 @@ module StripeAPI.Operations.GetPayouts where
 import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -89,7 +90,7 @@ getPayouts parameters =
         ]
     )
 
--- | Defines the data type for the schema getPayoutsParameters
+-- | Defines the object schema located at @paths.\/v1\/payouts.GET.parameters@ in the specification.
 data GetPayoutsParameters
   = GetPayoutsParameters
       { -- | queryArrival_date: Represents the parameter named \'arrival_date\'
@@ -139,13 +140,27 @@ data GetPayoutsParameters
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetPayoutsParameters where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "queryArrival_date" (getPayoutsParametersQueryArrivalDate obj) : (Data.Aeson..=) "queryCreated" (getPayoutsParametersQueryCreated obj) : (Data.Aeson..=) "queryDestination" (getPayoutsParametersQueryDestination obj) : (Data.Aeson..=) "queryEnding_before" (getPayoutsParametersQueryEndingBefore obj) : (Data.Aeson..=) "queryExpand" (getPayoutsParametersQueryExpand obj) : (Data.Aeson..=) "queryLimit" (getPayoutsParametersQueryLimit obj) : (Data.Aeson..=) "queryStarting_after" (getPayoutsParametersQueryStartingAfter obj) : (Data.Aeson..=) "queryStatus" (getPayoutsParametersQueryStatus obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "queryArrival_date" (getPayoutsParametersQueryArrivalDate obj) GHC.Base.<> ((Data.Aeson..=) "queryCreated" (getPayoutsParametersQueryCreated obj) GHC.Base.<> ((Data.Aeson..=) "queryDestination" (getPayoutsParametersQueryDestination obj) GHC.Base.<> ((Data.Aeson..=) "queryEnding_before" (getPayoutsParametersQueryEndingBefore obj) GHC.Base.<> ((Data.Aeson..=) "queryExpand" (getPayoutsParametersQueryExpand obj) GHC.Base.<> ((Data.Aeson..=) "queryLimit" (getPayoutsParametersQueryLimit obj) GHC.Base.<> ((Data.Aeson..=) "queryStarting_after" (getPayoutsParametersQueryStartingAfter obj) GHC.Base.<> (Data.Aeson..=) "queryStatus" (getPayoutsParametersQueryStatus obj))))))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("queryArrival_date" Data.Aeson.Types.ToJSON..= getPayoutsParametersQueryArrivalDate obj : "queryCreated" Data.Aeson.Types.ToJSON..= getPayoutsParametersQueryCreated obj : "queryDestination" Data.Aeson.Types.ToJSON..= getPayoutsParametersQueryDestination obj : "queryEnding_before" Data.Aeson.Types.ToJSON..= getPayoutsParametersQueryEndingBefore obj : "queryExpand" Data.Aeson.Types.ToJSON..= getPayoutsParametersQueryExpand obj : "queryLimit" Data.Aeson.Types.ToJSON..= getPayoutsParametersQueryLimit obj : "queryStarting_after" Data.Aeson.Types.ToJSON..= getPayoutsParametersQueryStartingAfter obj : "queryStatus" Data.Aeson.Types.ToJSON..= getPayoutsParametersQueryStatus obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("queryArrival_date" Data.Aeson.Types.ToJSON..= getPayoutsParametersQueryArrivalDate obj) GHC.Base.<> (("queryCreated" Data.Aeson.Types.ToJSON..= getPayoutsParametersQueryCreated obj) GHC.Base.<> (("queryDestination" Data.Aeson.Types.ToJSON..= getPayoutsParametersQueryDestination obj) GHC.Base.<> (("queryEnding_before" Data.Aeson.Types.ToJSON..= getPayoutsParametersQueryEndingBefore obj) GHC.Base.<> (("queryExpand" Data.Aeson.Types.ToJSON..= getPayoutsParametersQueryExpand obj) GHC.Base.<> (("queryLimit" Data.Aeson.Types.ToJSON..= getPayoutsParametersQueryLimit obj) GHC.Base.<> (("queryStarting_after" Data.Aeson.Types.ToJSON..= getPayoutsParametersQueryStartingAfter obj) GHC.Base.<> ("queryStatus" Data.Aeson.Types.ToJSON..= getPayoutsParametersQueryStatus obj))))))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetPayoutsParameters where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "GetPayoutsParameters" (\obj -> (((((((GHC.Base.pure GetPayoutsParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryArrival_date")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryCreated")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryDestination")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryEnding_before")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryExpand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryLimit")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryStarting_after")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryStatus"))
 
--- | Defines the data type for the schema getPayoutsParametersQueryArrival_date\'OneOf2
+-- | Create a new 'GetPayoutsParameters' with all required fields.
+mkGetPayoutsParameters :: GetPayoutsParameters
+mkGetPayoutsParameters =
+  GetPayoutsParameters
+    { getPayoutsParametersQueryArrivalDate = GHC.Maybe.Nothing,
+      getPayoutsParametersQueryCreated = GHC.Maybe.Nothing,
+      getPayoutsParametersQueryDestination = GHC.Maybe.Nothing,
+      getPayoutsParametersQueryEndingBefore = GHC.Maybe.Nothing,
+      getPayoutsParametersQueryExpand = GHC.Maybe.Nothing,
+      getPayoutsParametersQueryLimit = GHC.Maybe.Nothing,
+      getPayoutsParametersQueryStartingAfter = GHC.Maybe.Nothing,
+      getPayoutsParametersQueryStatus = GHC.Maybe.Nothing
+    }
+
+-- | Defines the object schema located at @paths.\/v1\/payouts.GET.parameters.properties.queryArrival_date.anyOf@ in the specification.
 data GetPayoutsParametersQueryArrivalDate'OneOf2
   = GetPayoutsParametersQueryArrivalDate'OneOf2
       { -- | gt
@@ -163,13 +178,23 @@ data GetPayoutsParametersQueryArrivalDate'OneOf2
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetPayoutsParametersQueryArrivalDate'OneOf2 where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "gt" (getPayoutsParametersQueryArrivalDate'OneOf2Gt obj) : (Data.Aeson..=) "gte" (getPayoutsParametersQueryArrivalDate'OneOf2Gte obj) : (Data.Aeson..=) "lt" (getPayoutsParametersQueryArrivalDate'OneOf2Lt obj) : (Data.Aeson..=) "lte" (getPayoutsParametersQueryArrivalDate'OneOf2Lte obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "gt" (getPayoutsParametersQueryArrivalDate'OneOf2Gt obj) GHC.Base.<> ((Data.Aeson..=) "gte" (getPayoutsParametersQueryArrivalDate'OneOf2Gte obj) GHC.Base.<> ((Data.Aeson..=) "lt" (getPayoutsParametersQueryArrivalDate'OneOf2Lt obj) GHC.Base.<> (Data.Aeson..=) "lte" (getPayoutsParametersQueryArrivalDate'OneOf2Lte obj))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("gt" Data.Aeson.Types.ToJSON..= getPayoutsParametersQueryArrivalDate'OneOf2Gt obj : "gte" Data.Aeson.Types.ToJSON..= getPayoutsParametersQueryArrivalDate'OneOf2Gte obj : "lt" Data.Aeson.Types.ToJSON..= getPayoutsParametersQueryArrivalDate'OneOf2Lt obj : "lte" Data.Aeson.Types.ToJSON..= getPayoutsParametersQueryArrivalDate'OneOf2Lte obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("gt" Data.Aeson.Types.ToJSON..= getPayoutsParametersQueryArrivalDate'OneOf2Gt obj) GHC.Base.<> (("gte" Data.Aeson.Types.ToJSON..= getPayoutsParametersQueryArrivalDate'OneOf2Gte obj) GHC.Base.<> (("lt" Data.Aeson.Types.ToJSON..= getPayoutsParametersQueryArrivalDate'OneOf2Lt obj) GHC.Base.<> ("lte" Data.Aeson.Types.ToJSON..= getPayoutsParametersQueryArrivalDate'OneOf2Lte obj))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetPayoutsParametersQueryArrivalDate'OneOf2 where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "GetPayoutsParametersQueryArrivalDate'OneOf2" (\obj -> (((GHC.Base.pure GetPayoutsParametersQueryArrivalDate'OneOf2 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "gt")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "gte")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "lt")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "lte"))
 
--- | Define the one-of schema getPayoutsParametersQueryArrival_date\'
+-- | Create a new 'GetPayoutsParametersQueryArrivalDate'OneOf2' with all required fields.
+mkGetPayoutsParametersQueryArrivalDate'OneOf2 :: GetPayoutsParametersQueryArrivalDate'OneOf2
+mkGetPayoutsParametersQueryArrivalDate'OneOf2 =
+  GetPayoutsParametersQueryArrivalDate'OneOf2
+    { getPayoutsParametersQueryArrivalDate'OneOf2Gt = GHC.Maybe.Nothing,
+      getPayoutsParametersQueryArrivalDate'OneOf2Gte = GHC.Maybe.Nothing,
+      getPayoutsParametersQueryArrivalDate'OneOf2Lt = GHC.Maybe.Nothing,
+      getPayoutsParametersQueryArrivalDate'OneOf2Lte = GHC.Maybe.Nothing
+    }
+
+-- | Defines the oneOf schema located at @paths.\/v1\/payouts.GET.parameters.properties.queryArrival_date.anyOf@ in the specification.
 --
 -- Represents the parameter named \'arrival_date\'
 data GetPayoutsParametersQueryArrivalDate'Variants
@@ -182,13 +207,11 @@ instance Data.Aeson.Types.ToJSON.ToJSON GetPayoutsParametersQueryArrivalDate'Var
   toJSON (GetPayoutsParametersQueryArrivalDate'GetPayoutsParametersQueryArrivalDate'OneOf2 a) = Data.Aeson.Types.ToJSON.toJSON a
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetPayoutsParametersQueryArrivalDate'Variants where
-  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
-    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ GetPayoutsParametersQueryArrivalDate'Int a
-    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ GetPayoutsParametersQueryArrivalDate'GetPayoutsParametersQueryArrivalDate'OneOf2 a
-      Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+  parseJSON val = case (GetPayoutsParametersQueryArrivalDate'Int Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((GetPayoutsParametersQueryArrivalDate'GetPayoutsParametersQueryArrivalDate'OneOf2 Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched") of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+    Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
--- | Defines the data type for the schema getPayoutsParametersQueryCreated\'OneOf2
+-- | Defines the object schema located at @paths.\/v1\/payouts.GET.parameters.properties.queryCreated.anyOf@ in the specification.
 data GetPayoutsParametersQueryCreated'OneOf2
   = GetPayoutsParametersQueryCreated'OneOf2
       { -- | gt
@@ -206,13 +229,23 @@ data GetPayoutsParametersQueryCreated'OneOf2
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetPayoutsParametersQueryCreated'OneOf2 where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "gt" (getPayoutsParametersQueryCreated'OneOf2Gt obj) : (Data.Aeson..=) "gte" (getPayoutsParametersQueryCreated'OneOf2Gte obj) : (Data.Aeson..=) "lt" (getPayoutsParametersQueryCreated'OneOf2Lt obj) : (Data.Aeson..=) "lte" (getPayoutsParametersQueryCreated'OneOf2Lte obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "gt" (getPayoutsParametersQueryCreated'OneOf2Gt obj) GHC.Base.<> ((Data.Aeson..=) "gte" (getPayoutsParametersQueryCreated'OneOf2Gte obj) GHC.Base.<> ((Data.Aeson..=) "lt" (getPayoutsParametersQueryCreated'OneOf2Lt obj) GHC.Base.<> (Data.Aeson..=) "lte" (getPayoutsParametersQueryCreated'OneOf2Lte obj))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("gt" Data.Aeson.Types.ToJSON..= getPayoutsParametersQueryCreated'OneOf2Gt obj : "gte" Data.Aeson.Types.ToJSON..= getPayoutsParametersQueryCreated'OneOf2Gte obj : "lt" Data.Aeson.Types.ToJSON..= getPayoutsParametersQueryCreated'OneOf2Lt obj : "lte" Data.Aeson.Types.ToJSON..= getPayoutsParametersQueryCreated'OneOf2Lte obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("gt" Data.Aeson.Types.ToJSON..= getPayoutsParametersQueryCreated'OneOf2Gt obj) GHC.Base.<> (("gte" Data.Aeson.Types.ToJSON..= getPayoutsParametersQueryCreated'OneOf2Gte obj) GHC.Base.<> (("lt" Data.Aeson.Types.ToJSON..= getPayoutsParametersQueryCreated'OneOf2Lt obj) GHC.Base.<> ("lte" Data.Aeson.Types.ToJSON..= getPayoutsParametersQueryCreated'OneOf2Lte obj))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetPayoutsParametersQueryCreated'OneOf2 where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "GetPayoutsParametersQueryCreated'OneOf2" (\obj -> (((GHC.Base.pure GetPayoutsParametersQueryCreated'OneOf2 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "gt")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "gte")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "lt")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "lte"))
 
--- | Define the one-of schema getPayoutsParametersQueryCreated\'
+-- | Create a new 'GetPayoutsParametersQueryCreated'OneOf2' with all required fields.
+mkGetPayoutsParametersQueryCreated'OneOf2 :: GetPayoutsParametersQueryCreated'OneOf2
+mkGetPayoutsParametersQueryCreated'OneOf2 =
+  GetPayoutsParametersQueryCreated'OneOf2
+    { getPayoutsParametersQueryCreated'OneOf2Gt = GHC.Maybe.Nothing,
+      getPayoutsParametersQueryCreated'OneOf2Gte = GHC.Maybe.Nothing,
+      getPayoutsParametersQueryCreated'OneOf2Lt = GHC.Maybe.Nothing,
+      getPayoutsParametersQueryCreated'OneOf2Lte = GHC.Maybe.Nothing
+    }
+
+-- | Defines the oneOf schema located at @paths.\/v1\/payouts.GET.parameters.properties.queryCreated.anyOf@ in the specification.
 --
 -- Represents the parameter named \'created\'
 data GetPayoutsParametersQueryCreated'Variants
@@ -225,11 +258,9 @@ instance Data.Aeson.Types.ToJSON.ToJSON GetPayoutsParametersQueryCreated'Variant
   toJSON (GetPayoutsParametersQueryCreated'GetPayoutsParametersQueryCreated'OneOf2 a) = Data.Aeson.Types.ToJSON.toJSON a
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetPayoutsParametersQueryCreated'Variants where
-  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
-    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ GetPayoutsParametersQueryCreated'Int a
-    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ GetPayoutsParametersQueryCreated'GetPayoutsParametersQueryCreated'OneOf2 a
-      Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+  parseJSON val = case (GetPayoutsParametersQueryCreated'Int Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((GetPayoutsParametersQueryCreated'GetPayoutsParametersQueryCreated'OneOf2 Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched") of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+    Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
 -- | Represents a response of the operation 'getPayouts'.
 --
@@ -243,15 +274,13 @@ data GetPayoutsResponse
     GetPayoutsResponseDefault Error
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
--- | Defines the data type for the schema GetPayoutsResponseBody200
+-- | Defines the object schema located at @paths.\/v1\/payouts.GET.responses.200.content.application\/json.schema@ in the specification.
 data GetPayoutsResponseBody200
   = GetPayoutsResponseBody200
       { -- | data
         getPayoutsResponseBody200Data :: ([Payout]),
         -- | has_more: True if this list has another page of items after this one that can be fetched.
         getPayoutsResponseBody200HasMore :: GHC.Types.Bool,
-        -- | object: String representing the object\'s type. Objects of the same type share the same value. Always has the value \`list\`.
-        getPayoutsResponseBody200Object :: GetPayoutsResponseBody200Object',
         -- | url: The URL where this list can be accessed.
         --
         -- Constraints:
@@ -266,29 +295,24 @@ data GetPayoutsResponseBody200
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetPayoutsResponseBody200 where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "data" (getPayoutsResponseBody200Data obj) : (Data.Aeson..=) "has_more" (getPayoutsResponseBody200HasMore obj) : (Data.Aeson..=) "object" (getPayoutsResponseBody200Object obj) : (Data.Aeson..=) "url" (getPayoutsResponseBody200Url obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "data" (getPayoutsResponseBody200Data obj) GHC.Base.<> ((Data.Aeson..=) "has_more" (getPayoutsResponseBody200HasMore obj) GHC.Base.<> ((Data.Aeson..=) "object" (getPayoutsResponseBody200Object obj) GHC.Base.<> (Data.Aeson..=) "url" (getPayoutsResponseBody200Url obj))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("data" Data.Aeson.Types.ToJSON..= getPayoutsResponseBody200Data obj : "has_more" Data.Aeson.Types.ToJSON..= getPayoutsResponseBody200HasMore obj : "url" Data.Aeson.Types.ToJSON..= getPayoutsResponseBody200Url obj : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "list" : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("data" Data.Aeson.Types.ToJSON..= getPayoutsResponseBody200Data obj) GHC.Base.<> (("has_more" Data.Aeson.Types.ToJSON..= getPayoutsResponseBody200HasMore obj) GHC.Base.<> (("url" Data.Aeson.Types.ToJSON..= getPayoutsResponseBody200Url obj) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "list"))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetPayoutsResponseBody200 where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetPayoutsResponseBody200" (\obj -> (((GHC.Base.pure GetPayoutsResponseBody200 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "has_more")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "object")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "url"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetPayoutsResponseBody200" (\obj -> ((GHC.Base.pure GetPayoutsResponseBody200 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "has_more")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "url"))
 
--- | Defines the enum schema GetPayoutsResponseBody200Object\'
---
--- String representing the object\'s type. Objects of the same type share the same value. Always has the value \`list\`.
-data GetPayoutsResponseBody200Object'
-  = GetPayoutsResponseBody200Object'EnumOther Data.Aeson.Types.Internal.Value
-  | GetPayoutsResponseBody200Object'EnumTyped Data.Text.Internal.Text
-  | GetPayoutsResponseBody200Object'EnumStringList
-  deriving (GHC.Show.Show, GHC.Classes.Eq)
-
-instance Data.Aeson.Types.ToJSON.ToJSON GetPayoutsResponseBody200Object' where
-  toJSON (GetPayoutsResponseBody200Object'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (GetPayoutsResponseBody200Object'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (GetPayoutsResponseBody200Object'EnumStringList) = "list"
-
-instance Data.Aeson.Types.FromJSON.FromJSON GetPayoutsResponseBody200Object' where
-  parseJSON val =
-    GHC.Base.pure
-      ( if  | val GHC.Classes.== "list" -> GetPayoutsResponseBody200Object'EnumStringList
-            | GHC.Base.otherwise -> GetPayoutsResponseBody200Object'EnumOther val
-      )
+-- | Create a new 'GetPayoutsResponseBody200' with all required fields.
+mkGetPayoutsResponseBody200 ::
+  -- | 'getPayoutsResponseBody200Data'
+  [Payout] ->
+  -- | 'getPayoutsResponseBody200HasMore'
+  GHC.Types.Bool ->
+  -- | 'getPayoutsResponseBody200Url'
+  Data.Text.Internal.Text ->
+  GetPayoutsResponseBody200
+mkGetPayoutsResponseBody200 getPayoutsResponseBody200Data getPayoutsResponseBody200HasMore getPayoutsResponseBody200Url =
+  GetPayoutsResponseBody200
+    { getPayoutsResponseBody200Data = getPayoutsResponseBody200Data,
+      getPayoutsResponseBody200HasMore = getPayoutsResponseBody200HasMore,
+      getPayoutsResponseBody200Url = getPayoutsResponseBody200Url
+    }

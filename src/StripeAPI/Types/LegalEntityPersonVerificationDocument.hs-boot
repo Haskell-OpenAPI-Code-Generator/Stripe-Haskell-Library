@@ -1,11 +1,11 @@
 module StripeAPI.Types.LegalEntityPersonVerificationDocument where
 import Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Types.Internal
-data LegalEntityPersonVerificationDocument 
-instance Show LegalEntityPersonVerificationDocument 
-instance Eq LegalEntityPersonVerificationDocument 
-instance FromJSON LegalEntityPersonVerificationDocument 
-instance ToJSON LegalEntityPersonVerificationDocument 
+data LegalEntityPersonVerificationDocument
+instance Show LegalEntityPersonVerificationDocument
+instance Eq LegalEntityPersonVerificationDocument
+instance FromJSON LegalEntityPersonVerificationDocument
+instance ToJSON LegalEntityPersonVerificationDocument
 data LegalEntityPersonVerificationDocumentBack'Variants
 instance Show LegalEntityPersonVerificationDocumentBack'Variants
 instance Eq LegalEntityPersonVerificationDocumentBack'Variants

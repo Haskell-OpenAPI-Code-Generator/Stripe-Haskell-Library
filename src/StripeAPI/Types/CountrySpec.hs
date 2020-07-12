@@ -8,6 +8,7 @@ module StripeAPI.Types.CountrySpec where
 
 import qualified Control.Monad.Fail
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -31,7 +32,7 @@ import {-# SOURCE #-} StripeAPI.Types.CountrySpecVerificationFields
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
--- | Defines the data type for the schema country_spec
+-- | Defines the object schema located at @components.schemas.country_spec@ in the specification.
 --
 -- Stripe needs to collect certain pieces of information about each account
 -- created. These requirements can differ depending on the account\'s country. The
@@ -53,8 +54,6 @@ data CountrySpec
         --
         -- * Maximum length of 5000
         countrySpecId :: Data.Text.Internal.Text,
-        -- | object: String representing the object\'s type. Objects of the same type share the same value.
-        countrySpecObject :: CountrySpecObject',
         -- | supported_bank_account_currencies: Currencies that can be accepted in the specific country (for transfers).
         countrySpecSupportedBankAccountCurrencies :: Data.Aeson.Types.Internal.Object,
         -- | supported_payment_currencies: Currencies that can be accepted in the specified country (for payments).
@@ -72,29 +71,36 @@ data CountrySpec
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON CountrySpec where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "default_currency" (countrySpecDefaultCurrency obj) : (Data.Aeson..=) "id" (countrySpecId obj) : (Data.Aeson..=) "object" (countrySpecObject obj) : (Data.Aeson..=) "supported_bank_account_currencies" (countrySpecSupportedBankAccountCurrencies obj) : (Data.Aeson..=) "supported_payment_currencies" (countrySpecSupportedPaymentCurrencies obj) : (Data.Aeson..=) "supported_payment_methods" (countrySpecSupportedPaymentMethods obj) : (Data.Aeson..=) "supported_transfer_countries" (countrySpecSupportedTransferCountries obj) : (Data.Aeson..=) "verification_fields" (countrySpecVerificationFields obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "default_currency" (countrySpecDefaultCurrency obj) GHC.Base.<> ((Data.Aeson..=) "id" (countrySpecId obj) GHC.Base.<> ((Data.Aeson..=) "object" (countrySpecObject obj) GHC.Base.<> ((Data.Aeson..=) "supported_bank_account_currencies" (countrySpecSupportedBankAccountCurrencies obj) GHC.Base.<> ((Data.Aeson..=) "supported_payment_currencies" (countrySpecSupportedPaymentCurrencies obj) GHC.Base.<> ((Data.Aeson..=) "supported_payment_methods" (countrySpecSupportedPaymentMethods obj) GHC.Base.<> ((Data.Aeson..=) "supported_transfer_countries" (countrySpecSupportedTransferCountries obj) GHC.Base.<> (Data.Aeson..=) "verification_fields" (countrySpecVerificationFields obj))))))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("default_currency" Data.Aeson.Types.ToJSON..= countrySpecDefaultCurrency obj : "id" Data.Aeson.Types.ToJSON..= countrySpecId obj : "supported_bank_account_currencies" Data.Aeson.Types.ToJSON..= countrySpecSupportedBankAccountCurrencies obj : "supported_payment_currencies" Data.Aeson.Types.ToJSON..= countrySpecSupportedPaymentCurrencies obj : "supported_payment_methods" Data.Aeson.Types.ToJSON..= countrySpecSupportedPaymentMethods obj : "supported_transfer_countries" Data.Aeson.Types.ToJSON..= countrySpecSupportedTransferCountries obj : "verification_fields" Data.Aeson.Types.ToJSON..= countrySpecVerificationFields obj : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "country_spec" : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("default_currency" Data.Aeson.Types.ToJSON..= countrySpecDefaultCurrency obj) GHC.Base.<> (("id" Data.Aeson.Types.ToJSON..= countrySpecId obj) GHC.Base.<> (("supported_bank_account_currencies" Data.Aeson.Types.ToJSON..= countrySpecSupportedBankAccountCurrencies obj) GHC.Base.<> (("supported_payment_currencies" Data.Aeson.Types.ToJSON..= countrySpecSupportedPaymentCurrencies obj) GHC.Base.<> (("supported_payment_methods" Data.Aeson.Types.ToJSON..= countrySpecSupportedPaymentMethods obj) GHC.Base.<> (("supported_transfer_countries" Data.Aeson.Types.ToJSON..= countrySpecSupportedTransferCountries obj) GHC.Base.<> (("verification_fields" Data.Aeson.Types.ToJSON..= countrySpecVerificationFields obj) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "country_spec"))))))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON CountrySpec where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "CountrySpec" (\obj -> (((((((GHC.Base.pure CountrySpec GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "default_currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "object")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "supported_bank_account_currencies")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "supported_payment_currencies")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "supported_payment_methods")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "supported_transfer_countries")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "verification_fields"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "CountrySpec" (\obj -> ((((((GHC.Base.pure CountrySpec GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "default_currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "supported_bank_account_currencies")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "supported_payment_currencies")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "supported_payment_methods")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "supported_transfer_countries")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "verification_fields"))
 
--- | Defines the enum schema country_specObject\'
---
--- String representing the object\'s type. Objects of the same type share the same value.
-data CountrySpecObject'
-  = CountrySpecObject'EnumOther Data.Aeson.Types.Internal.Value
-  | CountrySpecObject'EnumTyped Data.Text.Internal.Text
-  | CountrySpecObject'EnumStringCountrySpec
-  deriving (GHC.Show.Show, GHC.Classes.Eq)
-
-instance Data.Aeson.Types.ToJSON.ToJSON CountrySpecObject' where
-  toJSON (CountrySpecObject'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (CountrySpecObject'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (CountrySpecObject'EnumStringCountrySpec) = "country_spec"
-
-instance Data.Aeson.Types.FromJSON.FromJSON CountrySpecObject' where
-  parseJSON val =
-    GHC.Base.pure
-      ( if  | val GHC.Classes.== "country_spec" -> CountrySpecObject'EnumStringCountrySpec
-            | GHC.Base.otherwise -> CountrySpecObject'EnumOther val
-      )
+-- | Create a new 'CountrySpec' with all required fields.
+mkCountrySpec ::
+  -- | 'countrySpecDefaultCurrency'
+  Data.Text.Internal.Text ->
+  -- | 'countrySpecId'
+  Data.Text.Internal.Text ->
+  -- | 'countrySpecSupportedBankAccountCurrencies'
+  Data.Aeson.Types.Internal.Object ->
+  -- | 'countrySpecSupportedPaymentCurrencies'
+  [Data.Text.Internal.Text] ->
+  -- | 'countrySpecSupportedPaymentMethods'
+  [Data.Text.Internal.Text] ->
+  -- | 'countrySpecSupportedTransferCountries'
+  [Data.Text.Internal.Text] ->
+  -- | 'countrySpecVerificationFields'
+  CountrySpecVerificationFields ->
+  CountrySpec
+mkCountrySpec countrySpecDefaultCurrency countrySpecId countrySpecSupportedBankAccountCurrencies countrySpecSupportedPaymentCurrencies countrySpecSupportedPaymentMethods countrySpecSupportedTransferCountries countrySpecVerificationFields =
+  CountrySpec
+    { countrySpecDefaultCurrency = countrySpecDefaultCurrency,
+      countrySpecId = countrySpecId,
+      countrySpecSupportedBankAccountCurrencies = countrySpecSupportedBankAccountCurrencies,
+      countrySpecSupportedPaymentCurrencies = countrySpecSupportedPaymentCurrencies,
+      countrySpecSupportedPaymentMethods = countrySpecSupportedPaymentMethods,
+      countrySpecSupportedTransferCountries = countrySpecSupportedTransferCountries,
+      countrySpecVerificationFields = countrySpecVerificationFields
+    }

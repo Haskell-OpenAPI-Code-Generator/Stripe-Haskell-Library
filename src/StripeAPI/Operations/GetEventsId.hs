@@ -10,6 +10,7 @@ module StripeAPI.Operations.GetEventsId where
 import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -77,7 +78,7 @@ getEventsId parameters =
     )
     (StripeAPI.Common.doCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET") (Data.Text.pack ("/v1/events/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel (getEventsIdParametersPathId parameters))) GHC.Base.++ ""))) [StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getEventsIdParametersQueryExpand parameters) (Data.Text.pack "deepObject") GHC.Types.True])
 
--- | Defines the data type for the schema getEventsIdParameters
+-- | Defines the object schema located at @paths.\/v1\/events\/{id}.GET.parameters@ in the specification.
 data GetEventsIdParameters
   = GetEventsIdParameters
       { -- | pathId: Represents the parameter named \'id\'
@@ -97,11 +98,22 @@ data GetEventsIdParameters
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetEventsIdParameters where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "pathId" (getEventsIdParametersPathId obj) : (Data.Aeson..=) "queryExpand" (getEventsIdParametersQueryExpand obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "pathId" (getEventsIdParametersPathId obj) GHC.Base.<> (Data.Aeson..=) "queryExpand" (getEventsIdParametersQueryExpand obj))
+  toJSON obj = Data.Aeson.Types.Internal.object ("pathId" Data.Aeson.Types.ToJSON..= getEventsIdParametersPathId obj : "queryExpand" Data.Aeson.Types.ToJSON..= getEventsIdParametersQueryExpand obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("pathId" Data.Aeson.Types.ToJSON..= getEventsIdParametersPathId obj) GHC.Base.<> ("queryExpand" Data.Aeson.Types.ToJSON..= getEventsIdParametersQueryExpand obj))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetEventsIdParameters where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "GetEventsIdParameters" (\obj -> (GHC.Base.pure GetEventsIdParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathId")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryExpand"))
+
+-- | Create a new 'GetEventsIdParameters' with all required fields.
+mkGetEventsIdParameters ::
+  -- | 'getEventsIdParametersPathId'
+  Data.Text.Internal.Text ->
+  GetEventsIdParameters
+mkGetEventsIdParameters getEventsIdParametersPathId =
+  GetEventsIdParameters
+    { getEventsIdParametersPathId = getEventsIdParametersPathId,
+      getEventsIdParametersQueryExpand = GHC.Maybe.Nothing
+    }
 
 -- | Represents a response of the operation 'getEventsId'.
 --

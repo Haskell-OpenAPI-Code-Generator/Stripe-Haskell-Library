@@ -8,6 +8,7 @@ module StripeAPI.Types.PaymentMethodDetailsMultibanco where
 
 import qualified Control.Monad.Fail
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -30,7 +31,7 @@ import StripeAPI.TypeAlias
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
--- | Defines the data type for the schema payment_method_details_multibanco
+-- | Defines the object schema located at @components.schemas.payment_method_details_multibanco@ in the specification.
 data PaymentMethodDetailsMultibanco
   = PaymentMethodDetailsMultibanco
       { -- | entity: Entity number associated with this Multibanco payment.
@@ -52,8 +53,16 @@ data PaymentMethodDetailsMultibanco
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PaymentMethodDetailsMultibanco where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "entity" (paymentMethodDetailsMultibancoEntity obj) : (Data.Aeson..=) "reference" (paymentMethodDetailsMultibancoReference obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "entity" (paymentMethodDetailsMultibancoEntity obj) GHC.Base.<> (Data.Aeson..=) "reference" (paymentMethodDetailsMultibancoReference obj))
+  toJSON obj = Data.Aeson.Types.Internal.object ("entity" Data.Aeson.Types.ToJSON..= paymentMethodDetailsMultibancoEntity obj : "reference" Data.Aeson.Types.ToJSON..= paymentMethodDetailsMultibancoReference obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("entity" Data.Aeson.Types.ToJSON..= paymentMethodDetailsMultibancoEntity obj) GHC.Base.<> ("reference" Data.Aeson.Types.ToJSON..= paymentMethodDetailsMultibancoReference obj))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PaymentMethodDetailsMultibanco where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PaymentMethodDetailsMultibanco" (\obj -> (GHC.Base.pure PaymentMethodDetailsMultibanco GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "entity")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "reference"))
+
+-- | Create a new 'PaymentMethodDetailsMultibanco' with all required fields.
+mkPaymentMethodDetailsMultibanco :: PaymentMethodDetailsMultibanco
+mkPaymentMethodDetailsMultibanco =
+  PaymentMethodDetailsMultibanco
+    { paymentMethodDetailsMultibancoEntity = GHC.Maybe.Nothing,
+      paymentMethodDetailsMultibancoReference = GHC.Maybe.Nothing
+    }

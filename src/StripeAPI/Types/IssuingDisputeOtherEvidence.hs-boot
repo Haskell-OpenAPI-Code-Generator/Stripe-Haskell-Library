@@ -1,11 +1,11 @@
 module StripeAPI.Types.IssuingDisputeOtherEvidence where
 import Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Types.Internal
-data IssuingDisputeOtherEvidence 
-instance Show IssuingDisputeOtherEvidence 
-instance Eq IssuingDisputeOtherEvidence 
-instance FromJSON IssuingDisputeOtherEvidence 
-instance ToJSON IssuingDisputeOtherEvidence 
+data IssuingDisputeOtherEvidence
+instance Show IssuingDisputeOtherEvidence
+instance Eq IssuingDisputeOtherEvidence
+instance FromJSON IssuingDisputeOtherEvidence
+instance ToJSON IssuingDisputeOtherEvidence
 data IssuingDisputeOtherEvidenceUncategorizedFile'Variants
 instance Show IssuingDisputeOtherEvidenceUncategorizedFile'Variants
 instance Eq IssuingDisputeOtherEvidenceUncategorizedFile'Variants

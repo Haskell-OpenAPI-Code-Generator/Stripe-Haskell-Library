@@ -10,6 +10,7 @@ module StripeAPI.Operations.Post3dSecure where
 import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -77,7 +78,7 @@ post3dSecure body =
     )
     (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack "/v1/3d_secure") [] (GHC.Maybe.Just body) StripeAPI.Common.RequestBodyEncodingFormData)
 
--- | Defines the data type for the schema post3dSecureRequestBody
+-- | Defines the object schema located at @paths.\/v1\/3d_secure.POST.requestBody.content.application\/x-www-form-urlencoded.schema@ in the specification.
 data Post3dSecureRequestBody
   = Post3dSecureRequestBody
       { -- | amount: Amount of the charge that you will create when authentication completes.
@@ -107,11 +108,30 @@ data Post3dSecureRequestBody
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON Post3dSecureRequestBody where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "amount" (post3dSecureRequestBodyAmount obj) : (Data.Aeson..=) "card" (post3dSecureRequestBodyCard obj) : (Data.Aeson..=) "currency" (post3dSecureRequestBodyCurrency obj) : (Data.Aeson..=) "customer" (post3dSecureRequestBodyCustomer obj) : (Data.Aeson..=) "expand" (post3dSecureRequestBodyExpand obj) : (Data.Aeson..=) "return_url" (post3dSecureRequestBodyReturnUrl obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "amount" (post3dSecureRequestBodyAmount obj) GHC.Base.<> ((Data.Aeson..=) "card" (post3dSecureRequestBodyCard obj) GHC.Base.<> ((Data.Aeson..=) "currency" (post3dSecureRequestBodyCurrency obj) GHC.Base.<> ((Data.Aeson..=) "customer" (post3dSecureRequestBodyCustomer obj) GHC.Base.<> ((Data.Aeson..=) "expand" (post3dSecureRequestBodyExpand obj) GHC.Base.<> (Data.Aeson..=) "return_url" (post3dSecureRequestBodyReturnUrl obj))))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("amount" Data.Aeson.Types.ToJSON..= post3dSecureRequestBodyAmount obj : "card" Data.Aeson.Types.ToJSON..= post3dSecureRequestBodyCard obj : "currency" Data.Aeson.Types.ToJSON..= post3dSecureRequestBodyCurrency obj : "customer" Data.Aeson.Types.ToJSON..= post3dSecureRequestBodyCustomer obj : "expand" Data.Aeson.Types.ToJSON..= post3dSecureRequestBodyExpand obj : "return_url" Data.Aeson.Types.ToJSON..= post3dSecureRequestBodyReturnUrl obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("amount" Data.Aeson.Types.ToJSON..= post3dSecureRequestBodyAmount obj) GHC.Base.<> (("card" Data.Aeson.Types.ToJSON..= post3dSecureRequestBodyCard obj) GHC.Base.<> (("currency" Data.Aeson.Types.ToJSON..= post3dSecureRequestBodyCurrency obj) GHC.Base.<> (("customer" Data.Aeson.Types.ToJSON..= post3dSecureRequestBodyCustomer obj) GHC.Base.<> (("expand" Data.Aeson.Types.ToJSON..= post3dSecureRequestBodyExpand obj) GHC.Base.<> ("return_url" Data.Aeson.Types.ToJSON..= post3dSecureRequestBodyReturnUrl obj))))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON Post3dSecureRequestBody where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "Post3dSecureRequestBody" (\obj -> (((((GHC.Base.pure Post3dSecureRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "card")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "customer")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "return_url"))
+
+-- | Create a new 'Post3dSecureRequestBody' with all required fields.
+mkPost3dSecureRequestBody ::
+  -- | 'post3dSecureRequestBodyAmount'
+  GHC.Types.Int ->
+  -- | 'post3dSecureRequestBodyCurrency'
+  Data.Text.Internal.Text ->
+  -- | 'post3dSecureRequestBodyReturnUrl'
+  Data.Text.Internal.Text ->
+  Post3dSecureRequestBody
+mkPost3dSecureRequestBody post3dSecureRequestBodyAmount post3dSecureRequestBodyCurrency post3dSecureRequestBodyReturnUrl =
+  Post3dSecureRequestBody
+    { post3dSecureRequestBodyAmount = post3dSecureRequestBodyAmount,
+      post3dSecureRequestBodyCard = GHC.Maybe.Nothing,
+      post3dSecureRequestBodyCurrency = post3dSecureRequestBodyCurrency,
+      post3dSecureRequestBodyCustomer = GHC.Maybe.Nothing,
+      post3dSecureRequestBodyExpand = GHC.Maybe.Nothing,
+      post3dSecureRequestBodyReturnUrl = post3dSecureRequestBodyReturnUrl
+    }
 
 -- | Represents a response of the operation 'post3dSecure'.
 --

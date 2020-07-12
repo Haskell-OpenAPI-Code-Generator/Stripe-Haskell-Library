@@ -8,6 +8,7 @@ module StripeAPI.Types.Topup where
 
 import qualified Control.Monad.Fail
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -32,7 +33,7 @@ import {-# SOURCE #-} StripeAPI.Types.Source
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
--- | Defines the data type for the schema topup
+-- | Defines the object schema located at @components.schemas.topup@ in the specification.
 --
 -- To top up your Stripe balance, you create a top-up object. You can retrieve
 -- individual top-ups, as well as list all top-ups. Top-ups are identified by a
@@ -83,8 +84,6 @@ data Topup
         topupLivemode :: GHC.Types.Bool,
         -- | metadata: Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
         topupMetadata :: Data.Aeson.Types.Internal.Object,
-        -- | object: String representing the object\'s type. Objects of the same type share the same value.
-        topupObject :: TopupObject',
         -- | source: \`Source\` objects allow you to accept a variety of payment methods. They
         -- represent a customer\'s payment instrument, and can be used with the Stripe API
         -- just like a \`Card\` object: once chargeable, they can be charged, or can be
@@ -113,13 +112,51 @@ data Topup
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON Topup where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "amount" (topupAmount obj) : (Data.Aeson..=) "balance_transaction" (topupBalanceTransaction obj) : (Data.Aeson..=) "created" (topupCreated obj) : (Data.Aeson..=) "currency" (topupCurrency obj) : (Data.Aeson..=) "description" (topupDescription obj) : (Data.Aeson..=) "expected_availability_date" (topupExpectedAvailabilityDate obj) : (Data.Aeson..=) "failure_code" (topupFailureCode obj) : (Data.Aeson..=) "failure_message" (topupFailureMessage obj) : (Data.Aeson..=) "id" (topupId obj) : (Data.Aeson..=) "livemode" (topupLivemode obj) : (Data.Aeson..=) "metadata" (topupMetadata obj) : (Data.Aeson..=) "object" (topupObject obj) : (Data.Aeson..=) "source" (topupSource obj) : (Data.Aeson..=) "statement_descriptor" (topupStatementDescriptor obj) : (Data.Aeson..=) "status" (topupStatus obj) : (Data.Aeson..=) "transfer_group" (topupTransferGroup obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "amount" (topupAmount obj) GHC.Base.<> ((Data.Aeson..=) "balance_transaction" (topupBalanceTransaction obj) GHC.Base.<> ((Data.Aeson..=) "created" (topupCreated obj) GHC.Base.<> ((Data.Aeson..=) "currency" (topupCurrency obj) GHC.Base.<> ((Data.Aeson..=) "description" (topupDescription obj) GHC.Base.<> ((Data.Aeson..=) "expected_availability_date" (topupExpectedAvailabilityDate obj) GHC.Base.<> ((Data.Aeson..=) "failure_code" (topupFailureCode obj) GHC.Base.<> ((Data.Aeson..=) "failure_message" (topupFailureMessage obj) GHC.Base.<> ((Data.Aeson..=) "id" (topupId obj) GHC.Base.<> ((Data.Aeson..=) "livemode" (topupLivemode obj) GHC.Base.<> ((Data.Aeson..=) "metadata" (topupMetadata obj) GHC.Base.<> ((Data.Aeson..=) "object" (topupObject obj) GHC.Base.<> ((Data.Aeson..=) "source" (topupSource obj) GHC.Base.<> ((Data.Aeson..=) "statement_descriptor" (topupStatementDescriptor obj) GHC.Base.<> ((Data.Aeson..=) "status" (topupStatus obj) GHC.Base.<> (Data.Aeson..=) "transfer_group" (topupTransferGroup obj))))))))))))))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("amount" Data.Aeson.Types.ToJSON..= topupAmount obj : "balance_transaction" Data.Aeson.Types.ToJSON..= topupBalanceTransaction obj : "created" Data.Aeson.Types.ToJSON..= topupCreated obj : "currency" Data.Aeson.Types.ToJSON..= topupCurrency obj : "description" Data.Aeson.Types.ToJSON..= topupDescription obj : "expected_availability_date" Data.Aeson.Types.ToJSON..= topupExpectedAvailabilityDate obj : "failure_code" Data.Aeson.Types.ToJSON..= topupFailureCode obj : "failure_message" Data.Aeson.Types.ToJSON..= topupFailureMessage obj : "id" Data.Aeson.Types.ToJSON..= topupId obj : "livemode" Data.Aeson.Types.ToJSON..= topupLivemode obj : "metadata" Data.Aeson.Types.ToJSON..= topupMetadata obj : "source" Data.Aeson.Types.ToJSON..= topupSource obj : "statement_descriptor" Data.Aeson.Types.ToJSON..= topupStatementDescriptor obj : "status" Data.Aeson.Types.ToJSON..= topupStatus obj : "transfer_group" Data.Aeson.Types.ToJSON..= topupTransferGroup obj : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "topup" : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("amount" Data.Aeson.Types.ToJSON..= topupAmount obj) GHC.Base.<> (("balance_transaction" Data.Aeson.Types.ToJSON..= topupBalanceTransaction obj) GHC.Base.<> (("created" Data.Aeson.Types.ToJSON..= topupCreated obj) GHC.Base.<> (("currency" Data.Aeson.Types.ToJSON..= topupCurrency obj) GHC.Base.<> (("description" Data.Aeson.Types.ToJSON..= topupDescription obj) GHC.Base.<> (("expected_availability_date" Data.Aeson.Types.ToJSON..= topupExpectedAvailabilityDate obj) GHC.Base.<> (("failure_code" Data.Aeson.Types.ToJSON..= topupFailureCode obj) GHC.Base.<> (("failure_message" Data.Aeson.Types.ToJSON..= topupFailureMessage obj) GHC.Base.<> (("id" Data.Aeson.Types.ToJSON..= topupId obj) GHC.Base.<> (("livemode" Data.Aeson.Types.ToJSON..= topupLivemode obj) GHC.Base.<> (("metadata" Data.Aeson.Types.ToJSON..= topupMetadata obj) GHC.Base.<> (("source" Data.Aeson.Types.ToJSON..= topupSource obj) GHC.Base.<> (("statement_descriptor" Data.Aeson.Types.ToJSON..= topupStatementDescriptor obj) GHC.Base.<> (("status" Data.Aeson.Types.ToJSON..= topupStatus obj) GHC.Base.<> (("transfer_group" Data.Aeson.Types.ToJSON..= topupTransferGroup obj) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "topup"))))))))))))))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON Topup where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "Topup" (\obj -> (((((((((((((((GHC.Base.pure Topup GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "balance_transaction")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "created")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "description")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "expected_availability_date")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "failure_code")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "failure_message")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "livemode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "object")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "source")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "statement_descriptor")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "status")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "transfer_group"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "Topup" (\obj -> ((((((((((((((GHC.Base.pure Topup GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "balance_transaction")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "created")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "description")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "expected_availability_date")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "failure_code")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "failure_message")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "livemode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "source")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "statement_descriptor")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "status")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "transfer_group"))
 
--- | Define the one-of schema topupBalance_transaction\'
+-- | Create a new 'Topup' with all required fields.
+mkTopup ::
+  -- | 'topupAmount'
+  GHC.Types.Int ->
+  -- | 'topupCreated'
+  GHC.Types.Int ->
+  -- | 'topupCurrency'
+  Data.Text.Internal.Text ->
+  -- | 'topupId'
+  Data.Text.Internal.Text ->
+  -- | 'topupLivemode'
+  GHC.Types.Bool ->
+  -- | 'topupMetadata'
+  Data.Aeson.Types.Internal.Object ->
+  -- | 'topupSource'
+  Source ->
+  -- | 'topupStatus'
+  TopupStatus' ->
+  Topup
+mkTopup topupAmount topupCreated topupCurrency topupId topupLivemode topupMetadata topupSource topupStatus =
+  Topup
+    { topupAmount = topupAmount,
+      topupBalanceTransaction = GHC.Maybe.Nothing,
+      topupCreated = topupCreated,
+      topupCurrency = topupCurrency,
+      topupDescription = GHC.Maybe.Nothing,
+      topupExpectedAvailabilityDate = GHC.Maybe.Nothing,
+      topupFailureCode = GHC.Maybe.Nothing,
+      topupFailureMessage = GHC.Maybe.Nothing,
+      topupId = topupId,
+      topupLivemode = topupLivemode,
+      topupMetadata = topupMetadata,
+      topupSource = topupSource,
+      topupStatementDescriptor = GHC.Maybe.Nothing,
+      topupStatus = topupStatus,
+      topupTransferGroup = GHC.Maybe.Nothing
+    }
+
+-- | Defines the oneOf schema located at @components.schemas.topup.properties.balance_transaction.anyOf@ in the specification.
 --
 -- ID of the balance transaction that describes the impact of this top-up on your account balance. May not be specified depending on status of top-up.
 data TopupBalanceTransaction'Variants
@@ -132,62 +169,46 @@ instance Data.Aeson.Types.ToJSON.ToJSON TopupBalanceTransaction'Variants where
   toJSON (TopupBalanceTransaction'Text a) = Data.Aeson.Types.ToJSON.toJSON a
 
 instance Data.Aeson.Types.FromJSON.FromJSON TopupBalanceTransaction'Variants where
-  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
-    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ TopupBalanceTransaction'BalanceTransaction a
-    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ TopupBalanceTransaction'Text a
-      Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+  parseJSON val = case (TopupBalanceTransaction'BalanceTransaction Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((TopupBalanceTransaction'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched") of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+    Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
--- | Defines the enum schema topupObject\'
---
--- String representing the object\'s type. Objects of the same type share the same value.
-data TopupObject'
-  = TopupObject'EnumOther Data.Aeson.Types.Internal.Value
-  | TopupObject'EnumTyped Data.Text.Internal.Text
-  | TopupObject'EnumStringTopup
-  deriving (GHC.Show.Show, GHC.Classes.Eq)
-
-instance Data.Aeson.Types.ToJSON.ToJSON TopupObject' where
-  toJSON (TopupObject'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (TopupObject'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (TopupObject'EnumStringTopup) = "topup"
-
-instance Data.Aeson.Types.FromJSON.FromJSON TopupObject' where
-  parseJSON val =
-    GHC.Base.pure
-      ( if  | val GHC.Classes.== "topup" -> TopupObject'EnumStringTopup
-            | GHC.Base.otherwise -> TopupObject'EnumOther val
-      )
-
--- | Defines the enum schema topupStatus\'
+-- | Defines the enum schema located at @components.schemas.topup.properties.status@ in the specification.
 --
 -- The status of the top-up is either \`canceled\`, \`failed\`, \`pending\`, \`reversed\`, or \`succeeded\`.
 data TopupStatus'
-  = TopupStatus'EnumOther Data.Aeson.Types.Internal.Value
-  | TopupStatus'EnumTyped Data.Text.Internal.Text
-  | TopupStatus'EnumStringCanceled
-  | TopupStatus'EnumStringFailed
-  | TopupStatus'EnumStringPending
-  | TopupStatus'EnumStringReversed
-  | TopupStatus'EnumStringSucceeded
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    TopupStatus'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    TopupStatus'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"canceled"@
+    TopupStatus'EnumCanceled
+  | -- | Represents the JSON value @"failed"@
+    TopupStatus'EnumFailed
+  | -- | Represents the JSON value @"pending"@
+    TopupStatus'EnumPending
+  | -- | Represents the JSON value @"reversed"@
+    TopupStatus'EnumReversed
+  | -- | Represents the JSON value @"succeeded"@
+    TopupStatus'EnumSucceeded
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
 instance Data.Aeson.Types.ToJSON.ToJSON TopupStatus' where
-  toJSON (TopupStatus'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (TopupStatus'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (TopupStatus'EnumStringCanceled) = "canceled"
-  toJSON (TopupStatus'EnumStringFailed) = "failed"
-  toJSON (TopupStatus'EnumStringPending) = "pending"
-  toJSON (TopupStatus'EnumStringReversed) = "reversed"
-  toJSON (TopupStatus'EnumStringSucceeded) = "succeeded"
+  toJSON (TopupStatus'Other val) = val
+  toJSON (TopupStatus'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (TopupStatus'EnumCanceled) = "canceled"
+  toJSON (TopupStatus'EnumFailed) = "failed"
+  toJSON (TopupStatus'EnumPending) = "pending"
+  toJSON (TopupStatus'EnumReversed) = "reversed"
+  toJSON (TopupStatus'EnumSucceeded) = "succeeded"
 
 instance Data.Aeson.Types.FromJSON.FromJSON TopupStatus' where
   parseJSON val =
     GHC.Base.pure
-      ( if  | val GHC.Classes.== "canceled" -> TopupStatus'EnumStringCanceled
-            | val GHC.Classes.== "failed" -> TopupStatus'EnumStringFailed
-            | val GHC.Classes.== "pending" -> TopupStatus'EnumStringPending
-            | val GHC.Classes.== "reversed" -> TopupStatus'EnumStringReversed
-            | val GHC.Classes.== "succeeded" -> TopupStatus'EnumStringSucceeded
-            | GHC.Base.otherwise -> TopupStatus'EnumOther val
+      ( if  | val GHC.Classes.== "canceled" -> TopupStatus'EnumCanceled
+            | val GHC.Classes.== "failed" -> TopupStatus'EnumFailed
+            | val GHC.Classes.== "pending" -> TopupStatus'EnumPending
+            | val GHC.Classes.== "reversed" -> TopupStatus'EnumReversed
+            | val GHC.Classes.== "succeeded" -> TopupStatus'EnumSucceeded
+            | GHC.Base.otherwise -> TopupStatus'Other val
       )

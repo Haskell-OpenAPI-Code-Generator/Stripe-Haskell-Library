@@ -10,6 +10,7 @@ module StripeAPI.Operations.PostCreditNotesId where
 import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -81,7 +82,7 @@ postCreditNotesId
       )
       (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack ("/v1/credit_notes/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel id)) GHC.Base.++ ""))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
 
--- | Defines the data type for the schema postCreditNotesIdRequestBody
+-- | Defines the object schema located at @paths.\/v1\/credit_notes\/{id}.POST.requestBody.content.application\/x-www-form-urlencoded.schema@ in the specification.
 data PostCreditNotesIdRequestBody
   = PostCreditNotesIdRequestBody
       { -- | expand: Specifies which fields in the response should be expanded.
@@ -101,11 +102,20 @@ data PostCreditNotesIdRequestBody
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostCreditNotesIdRequestBody where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "expand" (postCreditNotesIdRequestBodyExpand obj) : (Data.Aeson..=) "memo" (postCreditNotesIdRequestBodyMemo obj) : (Data.Aeson..=) "metadata" (postCreditNotesIdRequestBodyMetadata obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "expand" (postCreditNotesIdRequestBodyExpand obj) GHC.Base.<> ((Data.Aeson..=) "memo" (postCreditNotesIdRequestBodyMemo obj) GHC.Base.<> (Data.Aeson..=) "metadata" (postCreditNotesIdRequestBodyMetadata obj)))
+  toJSON obj = Data.Aeson.Types.Internal.object ("expand" Data.Aeson.Types.ToJSON..= postCreditNotesIdRequestBodyExpand obj : "memo" Data.Aeson.Types.ToJSON..= postCreditNotesIdRequestBodyMemo obj : "metadata" Data.Aeson.Types.ToJSON..= postCreditNotesIdRequestBodyMetadata obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("expand" Data.Aeson.Types.ToJSON..= postCreditNotesIdRequestBodyExpand obj) GHC.Base.<> (("memo" Data.Aeson.Types.ToJSON..= postCreditNotesIdRequestBodyMemo obj) GHC.Base.<> ("metadata" Data.Aeson.Types.ToJSON..= postCreditNotesIdRequestBodyMetadata obj)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostCreditNotesIdRequestBody where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PostCreditNotesIdRequestBody" (\obj -> ((GHC.Base.pure PostCreditNotesIdRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "memo")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "metadata"))
+
+-- | Create a new 'PostCreditNotesIdRequestBody' with all required fields.
+mkPostCreditNotesIdRequestBody :: PostCreditNotesIdRequestBody
+mkPostCreditNotesIdRequestBody =
+  PostCreditNotesIdRequestBody
+    { postCreditNotesIdRequestBodyExpand = GHC.Maybe.Nothing,
+      postCreditNotesIdRequestBodyMemo = GHC.Maybe.Nothing,
+      postCreditNotesIdRequestBodyMetadata = GHC.Maybe.Nothing
+    }
 
 -- | Represents a response of the operation 'postCreditNotesId'.
 --

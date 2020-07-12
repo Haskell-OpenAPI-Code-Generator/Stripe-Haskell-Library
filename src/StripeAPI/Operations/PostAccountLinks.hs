@@ -10,6 +10,7 @@ module StripeAPI.Operations.PostAccountLinks where
 import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -77,7 +78,7 @@ postAccountLinks body =
     )
     (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack "/v1/account_links") [] (GHC.Maybe.Just body) StripeAPI.Common.RequestBodyEncodingFormData)
 
--- | Defines the data type for the schema postAccountLinksRequestBody
+-- | Defines the object schema located at @paths.\/v1\/account_links.POST.requestBody.content.application\/x-www-form-urlencoded.schema@ in the specification.
 data PostAccountLinksRequestBody
   = PostAccountLinksRequestBody
       { -- | account: The identifier of the account to create an account link for.
@@ -103,58 +104,87 @@ data PostAccountLinksRequestBody
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostAccountLinksRequestBody where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "account" (postAccountLinksRequestBodyAccount obj) : (Data.Aeson..=) "collect" (postAccountLinksRequestBodyCollect obj) : (Data.Aeson..=) "expand" (postAccountLinksRequestBodyExpand obj) : (Data.Aeson..=) "failure_url" (postAccountLinksRequestBodyFailureUrl obj) : (Data.Aeson..=) "success_url" (postAccountLinksRequestBodySuccessUrl obj) : (Data.Aeson..=) "type" (postAccountLinksRequestBodyType obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "account" (postAccountLinksRequestBodyAccount obj) GHC.Base.<> ((Data.Aeson..=) "collect" (postAccountLinksRequestBodyCollect obj) GHC.Base.<> ((Data.Aeson..=) "expand" (postAccountLinksRequestBodyExpand obj) GHC.Base.<> ((Data.Aeson..=) "failure_url" (postAccountLinksRequestBodyFailureUrl obj) GHC.Base.<> ((Data.Aeson..=) "success_url" (postAccountLinksRequestBodySuccessUrl obj) GHC.Base.<> (Data.Aeson..=) "type" (postAccountLinksRequestBodyType obj))))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("account" Data.Aeson.Types.ToJSON..= postAccountLinksRequestBodyAccount obj : "collect" Data.Aeson.Types.ToJSON..= postAccountLinksRequestBodyCollect obj : "expand" Data.Aeson.Types.ToJSON..= postAccountLinksRequestBodyExpand obj : "failure_url" Data.Aeson.Types.ToJSON..= postAccountLinksRequestBodyFailureUrl obj : "success_url" Data.Aeson.Types.ToJSON..= postAccountLinksRequestBodySuccessUrl obj : "type" Data.Aeson.Types.ToJSON..= postAccountLinksRequestBodyType obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("account" Data.Aeson.Types.ToJSON..= postAccountLinksRequestBodyAccount obj) GHC.Base.<> (("collect" Data.Aeson.Types.ToJSON..= postAccountLinksRequestBodyCollect obj) GHC.Base.<> (("expand" Data.Aeson.Types.ToJSON..= postAccountLinksRequestBodyExpand obj) GHC.Base.<> (("failure_url" Data.Aeson.Types.ToJSON..= postAccountLinksRequestBodyFailureUrl obj) GHC.Base.<> (("success_url" Data.Aeson.Types.ToJSON..= postAccountLinksRequestBodySuccessUrl obj) GHC.Base.<> ("type" Data.Aeson.Types.ToJSON..= postAccountLinksRequestBodyType obj))))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostAccountLinksRequestBody where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PostAccountLinksRequestBody" (\obj -> (((((GHC.Base.pure PostAccountLinksRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "account")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "collect")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "failure_url")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "success_url")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "type"))
 
--- | Defines the enum schema postAccountLinksRequestBodyCollect\'
+-- | Create a new 'PostAccountLinksRequestBody' with all required fields.
+mkPostAccountLinksRequestBody ::
+  -- | 'postAccountLinksRequestBodyAccount'
+  Data.Text.Internal.Text ->
+  -- | 'postAccountLinksRequestBodyFailureUrl'
+  Data.Text.Internal.Text ->
+  -- | 'postAccountLinksRequestBodySuccessUrl'
+  Data.Text.Internal.Text ->
+  -- | 'postAccountLinksRequestBodyType'
+  PostAccountLinksRequestBodyType' ->
+  PostAccountLinksRequestBody
+mkPostAccountLinksRequestBody postAccountLinksRequestBodyAccount postAccountLinksRequestBodyFailureUrl postAccountLinksRequestBodySuccessUrl postAccountLinksRequestBodyType =
+  PostAccountLinksRequestBody
+    { postAccountLinksRequestBodyAccount = postAccountLinksRequestBodyAccount,
+      postAccountLinksRequestBodyCollect = GHC.Maybe.Nothing,
+      postAccountLinksRequestBodyExpand = GHC.Maybe.Nothing,
+      postAccountLinksRequestBodyFailureUrl = postAccountLinksRequestBodyFailureUrl,
+      postAccountLinksRequestBodySuccessUrl = postAccountLinksRequestBodySuccessUrl,
+      postAccountLinksRequestBodyType = postAccountLinksRequestBodyType
+    }
+
+-- | Defines the enum schema located at @paths.\/v1\/account_links.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.collect@ in the specification.
 --
 -- Which information the platform needs to collect from the user. One of \`currently_due\` or \`eventually_due\`. Default is \`currently_due\`.
 data PostAccountLinksRequestBodyCollect'
-  = PostAccountLinksRequestBodyCollect'EnumOther Data.Aeson.Types.Internal.Value
-  | PostAccountLinksRequestBodyCollect'EnumTyped Data.Text.Internal.Text
-  | PostAccountLinksRequestBodyCollect'EnumStringCurrentlyDue
-  | PostAccountLinksRequestBodyCollect'EnumStringEventuallyDue
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    PostAccountLinksRequestBodyCollect'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    PostAccountLinksRequestBodyCollect'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"currently_due"@
+    PostAccountLinksRequestBodyCollect'EnumCurrentlyDue
+  | -- | Represents the JSON value @"eventually_due"@
+    PostAccountLinksRequestBodyCollect'EnumEventuallyDue
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostAccountLinksRequestBodyCollect' where
-  toJSON (PostAccountLinksRequestBodyCollect'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostAccountLinksRequestBodyCollect'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostAccountLinksRequestBodyCollect'EnumStringCurrentlyDue) = "currently_due"
-  toJSON (PostAccountLinksRequestBodyCollect'EnumStringEventuallyDue) = "eventually_due"
+  toJSON (PostAccountLinksRequestBodyCollect'Other val) = val
+  toJSON (PostAccountLinksRequestBodyCollect'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PostAccountLinksRequestBodyCollect'EnumCurrentlyDue) = "currently_due"
+  toJSON (PostAccountLinksRequestBodyCollect'EnumEventuallyDue) = "eventually_due"
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostAccountLinksRequestBodyCollect' where
   parseJSON val =
     GHC.Base.pure
-      ( if  | val GHC.Classes.== "currently_due" -> PostAccountLinksRequestBodyCollect'EnumStringCurrentlyDue
-            | val GHC.Classes.== "eventually_due" -> PostAccountLinksRequestBodyCollect'EnumStringEventuallyDue
-            | GHC.Base.otherwise -> PostAccountLinksRequestBodyCollect'EnumOther val
+      ( if  | val GHC.Classes.== "currently_due" -> PostAccountLinksRequestBodyCollect'EnumCurrentlyDue
+            | val GHC.Classes.== "eventually_due" -> PostAccountLinksRequestBodyCollect'EnumEventuallyDue
+            | GHC.Base.otherwise -> PostAccountLinksRequestBodyCollect'Other val
       )
 
--- | Defines the enum schema postAccountLinksRequestBodyType\'
+-- | Defines the enum schema located at @paths.\/v1\/account_links.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.type@ in the specification.
 --
 -- The type of account link the user is requesting. Possible values are \`custom_account_verification\` or \`custom_account_update\`.
 data PostAccountLinksRequestBodyType'
-  = PostAccountLinksRequestBodyType'EnumOther Data.Aeson.Types.Internal.Value
-  | PostAccountLinksRequestBodyType'EnumTyped Data.Text.Internal.Text
-  | PostAccountLinksRequestBodyType'EnumStringCustomAccountUpdate
-  | PostAccountLinksRequestBodyType'EnumStringCustomAccountVerification
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    PostAccountLinksRequestBodyType'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    PostAccountLinksRequestBodyType'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"custom_account_update"@
+    PostAccountLinksRequestBodyType'EnumCustomAccountUpdate
+  | -- | Represents the JSON value @"custom_account_verification"@
+    PostAccountLinksRequestBodyType'EnumCustomAccountVerification
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostAccountLinksRequestBodyType' where
-  toJSON (PostAccountLinksRequestBodyType'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostAccountLinksRequestBodyType'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostAccountLinksRequestBodyType'EnumStringCustomAccountUpdate) = "custom_account_update"
-  toJSON (PostAccountLinksRequestBodyType'EnumStringCustomAccountVerification) = "custom_account_verification"
+  toJSON (PostAccountLinksRequestBodyType'Other val) = val
+  toJSON (PostAccountLinksRequestBodyType'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PostAccountLinksRequestBodyType'EnumCustomAccountUpdate) = "custom_account_update"
+  toJSON (PostAccountLinksRequestBodyType'EnumCustomAccountVerification) = "custom_account_verification"
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostAccountLinksRequestBodyType' where
   parseJSON val =
     GHC.Base.pure
-      ( if  | val GHC.Classes.== "custom_account_update" -> PostAccountLinksRequestBodyType'EnumStringCustomAccountUpdate
-            | val GHC.Classes.== "custom_account_verification" -> PostAccountLinksRequestBodyType'EnumStringCustomAccountVerification
-            | GHC.Base.otherwise -> PostAccountLinksRequestBodyType'EnumOther val
+      ( if  | val GHC.Classes.== "custom_account_update" -> PostAccountLinksRequestBodyType'EnumCustomAccountUpdate
+            | val GHC.Classes.== "custom_account_verification" -> PostAccountLinksRequestBodyType'EnumCustomAccountVerification
+            | GHC.Base.otherwise -> PostAccountLinksRequestBodyType'Other val
       )
 
 -- | Represents a response of the operation 'postAccountLinks'.

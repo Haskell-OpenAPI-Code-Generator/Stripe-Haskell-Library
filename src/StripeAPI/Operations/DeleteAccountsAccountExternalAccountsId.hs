@@ -10,6 +10,7 @@ module StripeAPI.Operations.DeleteAccountsAccountExternalAccountsId where
 import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -77,7 +78,7 @@ deleteAccountsAccountExternalAccountsId parameters =
     )
     (StripeAPI.Common.doCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "DELETE") (Data.Text.pack ("/v1/accounts/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel (deleteAccountsAccountExternalAccountsIdParametersPathAccount parameters))) GHC.Base.++ ("/external_accounts/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel (deleteAccountsAccountExternalAccountsIdParametersPathId parameters))) GHC.Base.++ ""))))) [])
 
--- | Defines the data type for the schema deleteAccountsAccountExternalAccountsIdParameters
+-- | Defines the object schema located at @paths.\/v1\/accounts\/{account}\/external_accounts\/{id}.DELETE.parameters@ in the specification.
 data DeleteAccountsAccountExternalAccountsIdParameters
   = DeleteAccountsAccountExternalAccountsIdParameters
       { -- | pathAccount: Represents the parameter named \'account\'
@@ -95,11 +96,24 @@ data DeleteAccountsAccountExternalAccountsIdParameters
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON DeleteAccountsAccountExternalAccountsIdParameters where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "pathAccount" (deleteAccountsAccountExternalAccountsIdParametersPathAccount obj) : (Data.Aeson..=) "pathId" (deleteAccountsAccountExternalAccountsIdParametersPathId obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "pathAccount" (deleteAccountsAccountExternalAccountsIdParametersPathAccount obj) GHC.Base.<> (Data.Aeson..=) "pathId" (deleteAccountsAccountExternalAccountsIdParametersPathId obj))
+  toJSON obj = Data.Aeson.Types.Internal.object ("pathAccount" Data.Aeson.Types.ToJSON..= deleteAccountsAccountExternalAccountsIdParametersPathAccount obj : "pathId" Data.Aeson.Types.ToJSON..= deleteAccountsAccountExternalAccountsIdParametersPathId obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("pathAccount" Data.Aeson.Types.ToJSON..= deleteAccountsAccountExternalAccountsIdParametersPathAccount obj) GHC.Base.<> ("pathId" Data.Aeson.Types.ToJSON..= deleteAccountsAccountExternalAccountsIdParametersPathId obj))
 
 instance Data.Aeson.Types.FromJSON.FromJSON DeleteAccountsAccountExternalAccountsIdParameters where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "DeleteAccountsAccountExternalAccountsIdParameters" (\obj -> (GHC.Base.pure DeleteAccountsAccountExternalAccountsIdParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathAccount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathId"))
+
+-- | Create a new 'DeleteAccountsAccountExternalAccountsIdParameters' with all required fields.
+mkDeleteAccountsAccountExternalAccountsIdParameters ::
+  -- | 'deleteAccountsAccountExternalAccountsIdParametersPathAccount'
+  Data.Text.Internal.Text ->
+  -- | 'deleteAccountsAccountExternalAccountsIdParametersPathId'
+  Data.Text.Internal.Text ->
+  DeleteAccountsAccountExternalAccountsIdParameters
+mkDeleteAccountsAccountExternalAccountsIdParameters deleteAccountsAccountExternalAccountsIdParametersPathAccount deleteAccountsAccountExternalAccountsIdParametersPathId =
+  DeleteAccountsAccountExternalAccountsIdParameters
+    { deleteAccountsAccountExternalAccountsIdParametersPathAccount = deleteAccountsAccountExternalAccountsIdParametersPathAccount,
+      deleteAccountsAccountExternalAccountsIdParametersPathId = deleteAccountsAccountExternalAccountsIdParametersPathId
+    }
 
 -- | Represents a response of the operation 'deleteAccountsAccountExternalAccountsId'.
 --

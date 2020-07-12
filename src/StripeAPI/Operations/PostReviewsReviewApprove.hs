@@ -10,6 +10,7 @@ module StripeAPI.Operations.PostReviewsReviewApprove where
 import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -81,7 +82,7 @@ postReviewsReviewApprove
       )
       (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack ("/v1/reviews/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel review)) GHC.Base.++ "/approve"))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
 
--- | Defines the data type for the schema postReviewsReviewApproveRequestBody
+-- | Defines the object schema located at @paths.\/v1\/reviews\/{review}\/approve.POST.requestBody.content.application\/x-www-form-urlencoded.schema@ in the specification.
 data PostReviewsReviewApproveRequestBody
   = PostReviewsReviewApproveRequestBody
       { -- | expand: Specifies which fields in the response should be expanded.
@@ -93,11 +94,15 @@ data PostReviewsReviewApproveRequestBody
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostReviewsReviewApproveRequestBody where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "expand" (postReviewsReviewApproveRequestBodyExpand obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "expand" (postReviewsReviewApproveRequestBodyExpand obj))
+  toJSON obj = Data.Aeson.Types.Internal.object ("expand" Data.Aeson.Types.ToJSON..= postReviewsReviewApproveRequestBodyExpand obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs ("expand" Data.Aeson.Types.ToJSON..= postReviewsReviewApproveRequestBodyExpand obj)
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostReviewsReviewApproveRequestBody where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PostReviewsReviewApproveRequestBody" (\obj -> GHC.Base.pure PostReviewsReviewApproveRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "expand"))
+
+-- | Create a new 'PostReviewsReviewApproveRequestBody' with all required fields.
+mkPostReviewsReviewApproveRequestBody :: PostReviewsReviewApproveRequestBody
+mkPostReviewsReviewApproveRequestBody = PostReviewsReviewApproveRequestBody {postReviewsReviewApproveRequestBodyExpand = GHC.Maybe.Nothing}
 
 -- | Represents a response of the operation 'postReviewsReviewApprove'.
 --

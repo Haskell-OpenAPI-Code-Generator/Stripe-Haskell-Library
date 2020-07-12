@@ -10,6 +10,7 @@ module StripeAPI.Operations.GetChargesChargeRefunds where
 import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -85,7 +86,7 @@ getChargesChargeRefunds parameters =
         ]
     )
 
--- | Defines the data type for the schema getChargesChargeRefundsParameters
+-- | Defines the object schema located at @paths.\/v1\/charges\/{charge}\/refunds.GET.parameters@ in the specification.
 data GetChargesChargeRefundsParameters
   = GetChargesChargeRefundsParameters
       { -- | pathCharge: Represents the parameter named \'charge\'
@@ -113,11 +114,25 @@ data GetChargesChargeRefundsParameters
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetChargesChargeRefundsParameters where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "pathCharge" (getChargesChargeRefundsParametersPathCharge obj) : (Data.Aeson..=) "queryEnding_before" (getChargesChargeRefundsParametersQueryEndingBefore obj) : (Data.Aeson..=) "queryExpand" (getChargesChargeRefundsParametersQueryExpand obj) : (Data.Aeson..=) "queryLimit" (getChargesChargeRefundsParametersQueryLimit obj) : (Data.Aeson..=) "queryStarting_after" (getChargesChargeRefundsParametersQueryStartingAfter obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "pathCharge" (getChargesChargeRefundsParametersPathCharge obj) GHC.Base.<> ((Data.Aeson..=) "queryEnding_before" (getChargesChargeRefundsParametersQueryEndingBefore obj) GHC.Base.<> ((Data.Aeson..=) "queryExpand" (getChargesChargeRefundsParametersQueryExpand obj) GHC.Base.<> ((Data.Aeson..=) "queryLimit" (getChargesChargeRefundsParametersQueryLimit obj) GHC.Base.<> (Data.Aeson..=) "queryStarting_after" (getChargesChargeRefundsParametersQueryStartingAfter obj)))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("pathCharge" Data.Aeson.Types.ToJSON..= getChargesChargeRefundsParametersPathCharge obj : "queryEnding_before" Data.Aeson.Types.ToJSON..= getChargesChargeRefundsParametersQueryEndingBefore obj : "queryExpand" Data.Aeson.Types.ToJSON..= getChargesChargeRefundsParametersQueryExpand obj : "queryLimit" Data.Aeson.Types.ToJSON..= getChargesChargeRefundsParametersQueryLimit obj : "queryStarting_after" Data.Aeson.Types.ToJSON..= getChargesChargeRefundsParametersQueryStartingAfter obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("pathCharge" Data.Aeson.Types.ToJSON..= getChargesChargeRefundsParametersPathCharge obj) GHC.Base.<> (("queryEnding_before" Data.Aeson.Types.ToJSON..= getChargesChargeRefundsParametersQueryEndingBefore obj) GHC.Base.<> (("queryExpand" Data.Aeson.Types.ToJSON..= getChargesChargeRefundsParametersQueryExpand obj) GHC.Base.<> (("queryLimit" Data.Aeson.Types.ToJSON..= getChargesChargeRefundsParametersQueryLimit obj) GHC.Base.<> ("queryStarting_after" Data.Aeson.Types.ToJSON..= getChargesChargeRefundsParametersQueryStartingAfter obj)))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetChargesChargeRefundsParameters where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "GetChargesChargeRefundsParameters" (\obj -> ((((GHC.Base.pure GetChargesChargeRefundsParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathCharge")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryEnding_before")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryExpand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryLimit")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryStarting_after"))
+
+-- | Create a new 'GetChargesChargeRefundsParameters' with all required fields.
+mkGetChargesChargeRefundsParameters ::
+  -- | 'getChargesChargeRefundsParametersPathCharge'
+  Data.Text.Internal.Text ->
+  GetChargesChargeRefundsParameters
+mkGetChargesChargeRefundsParameters getChargesChargeRefundsParametersPathCharge =
+  GetChargesChargeRefundsParameters
+    { getChargesChargeRefundsParametersPathCharge = getChargesChargeRefundsParametersPathCharge,
+      getChargesChargeRefundsParametersQueryEndingBefore = GHC.Maybe.Nothing,
+      getChargesChargeRefundsParametersQueryExpand = GHC.Maybe.Nothing,
+      getChargesChargeRefundsParametersQueryLimit = GHC.Maybe.Nothing,
+      getChargesChargeRefundsParametersQueryStartingAfter = GHC.Maybe.Nothing
+    }
 
 -- | Represents a response of the operation 'getChargesChargeRefunds'.
 --
@@ -131,15 +146,13 @@ data GetChargesChargeRefundsResponse
     GetChargesChargeRefundsResponseDefault Error
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
--- | Defines the data type for the schema GetChargesChargeRefundsResponseBody200
+-- | Defines the object schema located at @paths.\/v1\/charges\/{charge}\/refunds.GET.responses.200.content.application\/json.schema@ in the specification.
 data GetChargesChargeRefundsResponseBody200
   = GetChargesChargeRefundsResponseBody200
       { -- | data: Details about each object.
         getChargesChargeRefundsResponseBody200Data :: ([Refund]),
         -- | has_more: True if this list has another page of items after this one that can be fetched.
         getChargesChargeRefundsResponseBody200HasMore :: GHC.Types.Bool,
-        -- | object: String representing the object\'s type. Objects of the same type share the same value. Always has the value \`list\`.
-        getChargesChargeRefundsResponseBody200Object :: GetChargesChargeRefundsResponseBody200Object',
         -- | url: The URL where this list can be accessed.
         --
         -- Constraints:
@@ -153,29 +166,24 @@ data GetChargesChargeRefundsResponseBody200
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetChargesChargeRefundsResponseBody200 where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "data" (getChargesChargeRefundsResponseBody200Data obj) : (Data.Aeson..=) "has_more" (getChargesChargeRefundsResponseBody200HasMore obj) : (Data.Aeson..=) "object" (getChargesChargeRefundsResponseBody200Object obj) : (Data.Aeson..=) "url" (getChargesChargeRefundsResponseBody200Url obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "data" (getChargesChargeRefundsResponseBody200Data obj) GHC.Base.<> ((Data.Aeson..=) "has_more" (getChargesChargeRefundsResponseBody200HasMore obj) GHC.Base.<> ((Data.Aeson..=) "object" (getChargesChargeRefundsResponseBody200Object obj) GHC.Base.<> (Data.Aeson..=) "url" (getChargesChargeRefundsResponseBody200Url obj))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("data" Data.Aeson.Types.ToJSON..= getChargesChargeRefundsResponseBody200Data obj : "has_more" Data.Aeson.Types.ToJSON..= getChargesChargeRefundsResponseBody200HasMore obj : "url" Data.Aeson.Types.ToJSON..= getChargesChargeRefundsResponseBody200Url obj : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "list" : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("data" Data.Aeson.Types.ToJSON..= getChargesChargeRefundsResponseBody200Data obj) GHC.Base.<> (("has_more" Data.Aeson.Types.ToJSON..= getChargesChargeRefundsResponseBody200HasMore obj) GHC.Base.<> (("url" Data.Aeson.Types.ToJSON..= getChargesChargeRefundsResponseBody200Url obj) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "list"))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetChargesChargeRefundsResponseBody200 where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetChargesChargeRefundsResponseBody200" (\obj -> (((GHC.Base.pure GetChargesChargeRefundsResponseBody200 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "has_more")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "object")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "url"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetChargesChargeRefundsResponseBody200" (\obj -> ((GHC.Base.pure GetChargesChargeRefundsResponseBody200 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "has_more")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "url"))
 
--- | Defines the enum schema GetChargesChargeRefundsResponseBody200Object\'
---
--- String representing the object\'s type. Objects of the same type share the same value. Always has the value \`list\`.
-data GetChargesChargeRefundsResponseBody200Object'
-  = GetChargesChargeRefundsResponseBody200Object'EnumOther Data.Aeson.Types.Internal.Value
-  | GetChargesChargeRefundsResponseBody200Object'EnumTyped Data.Text.Internal.Text
-  | GetChargesChargeRefundsResponseBody200Object'EnumStringList
-  deriving (GHC.Show.Show, GHC.Classes.Eq)
-
-instance Data.Aeson.Types.ToJSON.ToJSON GetChargesChargeRefundsResponseBody200Object' where
-  toJSON (GetChargesChargeRefundsResponseBody200Object'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (GetChargesChargeRefundsResponseBody200Object'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (GetChargesChargeRefundsResponseBody200Object'EnumStringList) = "list"
-
-instance Data.Aeson.Types.FromJSON.FromJSON GetChargesChargeRefundsResponseBody200Object' where
-  parseJSON val =
-    GHC.Base.pure
-      ( if  | val GHC.Classes.== "list" -> GetChargesChargeRefundsResponseBody200Object'EnumStringList
-            | GHC.Base.otherwise -> GetChargesChargeRefundsResponseBody200Object'EnumOther val
-      )
+-- | Create a new 'GetChargesChargeRefundsResponseBody200' with all required fields.
+mkGetChargesChargeRefundsResponseBody200 ::
+  -- | 'getChargesChargeRefundsResponseBody200Data'
+  [Refund] ->
+  -- | 'getChargesChargeRefundsResponseBody200HasMore'
+  GHC.Types.Bool ->
+  -- | 'getChargesChargeRefundsResponseBody200Url'
+  Data.Text.Internal.Text ->
+  GetChargesChargeRefundsResponseBody200
+mkGetChargesChargeRefundsResponseBody200 getChargesChargeRefundsResponseBody200Data getChargesChargeRefundsResponseBody200HasMore getChargesChargeRefundsResponseBody200Url =
+  GetChargesChargeRefundsResponseBody200
+    { getChargesChargeRefundsResponseBody200Data = getChargesChargeRefundsResponseBody200Data,
+      getChargesChargeRefundsResponseBody200HasMore = getChargesChargeRefundsResponseBody200HasMore,
+      getChargesChargeRefundsResponseBody200Url = getChargesChargeRefundsResponseBody200Url
+    }

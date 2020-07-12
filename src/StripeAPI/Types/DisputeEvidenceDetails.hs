@@ -8,6 +8,7 @@ module StripeAPI.Types.DisputeEvidenceDetails where
 
 import qualified Control.Monad.Fail
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -30,7 +31,7 @@ import StripeAPI.TypeAlias
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
--- | Defines the data type for the schema dispute_evidence_details
+-- | Defines the object schema located at @components.schemas.dispute_evidence_details@ in the specification.
 data DisputeEvidenceDetails
   = DisputeEvidenceDetails
       { -- | due_by: Date by which evidence must be submitted in order to successfully challenge dispute. Will be null if the customer\'s bank or credit card company doesn\'t allow a response for this particular dispute.
@@ -48,8 +49,25 @@ data DisputeEvidenceDetails
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON DisputeEvidenceDetails where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "due_by" (disputeEvidenceDetailsDueBy obj) : (Data.Aeson..=) "has_evidence" (disputeEvidenceDetailsHasEvidence obj) : (Data.Aeson..=) "past_due" (disputeEvidenceDetailsPastDue obj) : (Data.Aeson..=) "submission_count" (disputeEvidenceDetailsSubmissionCount obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "due_by" (disputeEvidenceDetailsDueBy obj) GHC.Base.<> ((Data.Aeson..=) "has_evidence" (disputeEvidenceDetailsHasEvidence obj) GHC.Base.<> ((Data.Aeson..=) "past_due" (disputeEvidenceDetailsPastDue obj) GHC.Base.<> (Data.Aeson..=) "submission_count" (disputeEvidenceDetailsSubmissionCount obj))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("due_by" Data.Aeson.Types.ToJSON..= disputeEvidenceDetailsDueBy obj : "has_evidence" Data.Aeson.Types.ToJSON..= disputeEvidenceDetailsHasEvidence obj : "past_due" Data.Aeson.Types.ToJSON..= disputeEvidenceDetailsPastDue obj : "submission_count" Data.Aeson.Types.ToJSON..= disputeEvidenceDetailsSubmissionCount obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("due_by" Data.Aeson.Types.ToJSON..= disputeEvidenceDetailsDueBy obj) GHC.Base.<> (("has_evidence" Data.Aeson.Types.ToJSON..= disputeEvidenceDetailsHasEvidence obj) GHC.Base.<> (("past_due" Data.Aeson.Types.ToJSON..= disputeEvidenceDetailsPastDue obj) GHC.Base.<> ("submission_count" Data.Aeson.Types.ToJSON..= disputeEvidenceDetailsSubmissionCount obj))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON DisputeEvidenceDetails where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "DisputeEvidenceDetails" (\obj -> (((GHC.Base.pure DisputeEvidenceDetails GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "due_by")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "has_evidence")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "past_due")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "submission_count"))
+
+-- | Create a new 'DisputeEvidenceDetails' with all required fields.
+mkDisputeEvidenceDetails ::
+  -- | 'disputeEvidenceDetailsHasEvidence'
+  GHC.Types.Bool ->
+  -- | 'disputeEvidenceDetailsPastDue'
+  GHC.Types.Bool ->
+  -- | 'disputeEvidenceDetailsSubmissionCount'
+  GHC.Types.Int ->
+  DisputeEvidenceDetails
+mkDisputeEvidenceDetails disputeEvidenceDetailsHasEvidence disputeEvidenceDetailsPastDue disputeEvidenceDetailsSubmissionCount =
+  DisputeEvidenceDetails
+    { disputeEvidenceDetailsDueBy = GHC.Maybe.Nothing,
+      disputeEvidenceDetailsHasEvidence = disputeEvidenceDetailsHasEvidence,
+      disputeEvidenceDetailsPastDue = disputeEvidenceDetailsPastDue,
+      disputeEvidenceDetailsSubmissionCount = disputeEvidenceDetailsSubmissionCount
+    }

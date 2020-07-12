@@ -10,6 +10,7 @@ module StripeAPI.Operations.PostInvoicesInvoiceSend where
 import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -83,7 +84,7 @@ postInvoicesInvoiceSend
       )
       (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack ("/v1/invoices/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel invoice)) GHC.Base.++ "/send"))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
 
--- | Defines the data type for the schema postInvoicesInvoiceSendRequestBody
+-- | Defines the object schema located at @paths.\/v1\/invoices\/{invoice}\/send.POST.requestBody.content.application\/x-www-form-urlencoded.schema@ in the specification.
 data PostInvoicesInvoiceSendRequestBody
   = PostInvoicesInvoiceSendRequestBody
       { -- | expand: Specifies which fields in the response should be expanded.
@@ -95,11 +96,15 @@ data PostInvoicesInvoiceSendRequestBody
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostInvoicesInvoiceSendRequestBody where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "expand" (postInvoicesInvoiceSendRequestBodyExpand obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "expand" (postInvoicesInvoiceSendRequestBodyExpand obj))
+  toJSON obj = Data.Aeson.Types.Internal.object ("expand" Data.Aeson.Types.ToJSON..= postInvoicesInvoiceSendRequestBodyExpand obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs ("expand" Data.Aeson.Types.ToJSON..= postInvoicesInvoiceSendRequestBodyExpand obj)
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostInvoicesInvoiceSendRequestBody where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PostInvoicesInvoiceSendRequestBody" (\obj -> GHC.Base.pure PostInvoicesInvoiceSendRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "expand"))
+
+-- | Create a new 'PostInvoicesInvoiceSendRequestBody' with all required fields.
+mkPostInvoicesInvoiceSendRequestBody :: PostInvoicesInvoiceSendRequestBody
+mkPostInvoicesInvoiceSendRequestBody = PostInvoicesInvoiceSendRequestBody {postInvoicesInvoiceSendRequestBodyExpand = GHC.Maybe.Nothing}
 
 -- | Represents a response of the operation 'postInvoicesInvoiceSend'.
 --

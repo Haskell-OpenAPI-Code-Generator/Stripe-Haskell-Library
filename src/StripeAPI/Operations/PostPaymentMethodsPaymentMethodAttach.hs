@@ -10,6 +10,7 @@ module StripeAPI.Operations.PostPaymentMethodsPaymentMethodAttach where
 import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -85,7 +86,7 @@ postPaymentMethodsPaymentMethodAttach
       )
       (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack ("/v1/payment_methods/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel paymentMethod)) GHC.Base.++ "/attach"))) [] (GHC.Maybe.Just body) StripeAPI.Common.RequestBodyEncodingFormData)
 
--- | Defines the data type for the schema postPaymentMethodsPaymentMethodAttachRequestBody
+-- | Defines the object schema located at @paths.\/v1\/payment_methods\/{payment_method}\/attach.POST.requestBody.content.application\/x-www-form-urlencoded.schema@ in the specification.
 data PostPaymentMethodsPaymentMethodAttachRequestBody
   = PostPaymentMethodsPaymentMethodAttachRequestBody
       { -- | customer: The ID of the customer to which to attach the PaymentMethod.
@@ -103,11 +104,22 @@ data PostPaymentMethodsPaymentMethodAttachRequestBody
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostPaymentMethodsPaymentMethodAttachRequestBody where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "customer" (postPaymentMethodsPaymentMethodAttachRequestBodyCustomer obj) : (Data.Aeson..=) "expand" (postPaymentMethodsPaymentMethodAttachRequestBodyExpand obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "customer" (postPaymentMethodsPaymentMethodAttachRequestBodyCustomer obj) GHC.Base.<> (Data.Aeson..=) "expand" (postPaymentMethodsPaymentMethodAttachRequestBodyExpand obj))
+  toJSON obj = Data.Aeson.Types.Internal.object ("customer" Data.Aeson.Types.ToJSON..= postPaymentMethodsPaymentMethodAttachRequestBodyCustomer obj : "expand" Data.Aeson.Types.ToJSON..= postPaymentMethodsPaymentMethodAttachRequestBodyExpand obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("customer" Data.Aeson.Types.ToJSON..= postPaymentMethodsPaymentMethodAttachRequestBodyCustomer obj) GHC.Base.<> ("expand" Data.Aeson.Types.ToJSON..= postPaymentMethodsPaymentMethodAttachRequestBodyExpand obj))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostPaymentMethodsPaymentMethodAttachRequestBody where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PostPaymentMethodsPaymentMethodAttachRequestBody" (\obj -> (GHC.Base.pure PostPaymentMethodsPaymentMethodAttachRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "customer")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "expand"))
+
+-- | Create a new 'PostPaymentMethodsPaymentMethodAttachRequestBody' with all required fields.
+mkPostPaymentMethodsPaymentMethodAttachRequestBody ::
+  -- | 'postPaymentMethodsPaymentMethodAttachRequestBodyCustomer'
+  Data.Text.Internal.Text ->
+  PostPaymentMethodsPaymentMethodAttachRequestBody
+mkPostPaymentMethodsPaymentMethodAttachRequestBody postPaymentMethodsPaymentMethodAttachRequestBodyCustomer =
+  PostPaymentMethodsPaymentMethodAttachRequestBody
+    { postPaymentMethodsPaymentMethodAttachRequestBodyCustomer = postPaymentMethodsPaymentMethodAttachRequestBodyCustomer,
+      postPaymentMethodsPaymentMethodAttachRequestBodyExpand = GHC.Maybe.Nothing
+    }
 
 -- | Represents a response of the operation 'postPaymentMethodsPaymentMethodAttach'.
 --

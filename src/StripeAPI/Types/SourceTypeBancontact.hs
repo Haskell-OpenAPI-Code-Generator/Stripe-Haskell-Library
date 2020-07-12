@@ -8,6 +8,7 @@ module StripeAPI.Types.SourceTypeBancontact where
 
 import qualified Control.Monad.Fail
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -30,7 +31,7 @@ import StripeAPI.TypeAlias
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
--- | Defines the data type for the schema source_type_bancontact
+-- | Defines the object schema located at @components.schemas.source_type_bancontact@ in the specification.
 data SourceTypeBancontact
   = SourceTypeBancontact
       { -- | bank_code
@@ -52,8 +53,20 @@ data SourceTypeBancontact
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON SourceTypeBancontact where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "bank_code" (sourceTypeBancontactBankCode obj) : (Data.Aeson..=) "bank_name" (sourceTypeBancontactBankName obj) : (Data.Aeson..=) "bic" (sourceTypeBancontactBic obj) : (Data.Aeson..=) "iban_last4" (sourceTypeBancontactIbanLast4 obj) : (Data.Aeson..=) "preferred_language" (sourceTypeBancontactPreferredLanguage obj) : (Data.Aeson..=) "statement_descriptor" (sourceTypeBancontactStatementDescriptor obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "bank_code" (sourceTypeBancontactBankCode obj) GHC.Base.<> ((Data.Aeson..=) "bank_name" (sourceTypeBancontactBankName obj) GHC.Base.<> ((Data.Aeson..=) "bic" (sourceTypeBancontactBic obj) GHC.Base.<> ((Data.Aeson..=) "iban_last4" (sourceTypeBancontactIbanLast4 obj) GHC.Base.<> ((Data.Aeson..=) "preferred_language" (sourceTypeBancontactPreferredLanguage obj) GHC.Base.<> (Data.Aeson..=) "statement_descriptor" (sourceTypeBancontactStatementDescriptor obj))))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("bank_code" Data.Aeson.Types.ToJSON..= sourceTypeBancontactBankCode obj : "bank_name" Data.Aeson.Types.ToJSON..= sourceTypeBancontactBankName obj : "bic" Data.Aeson.Types.ToJSON..= sourceTypeBancontactBic obj : "iban_last4" Data.Aeson.Types.ToJSON..= sourceTypeBancontactIbanLast4 obj : "preferred_language" Data.Aeson.Types.ToJSON..= sourceTypeBancontactPreferredLanguage obj : "statement_descriptor" Data.Aeson.Types.ToJSON..= sourceTypeBancontactStatementDescriptor obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("bank_code" Data.Aeson.Types.ToJSON..= sourceTypeBancontactBankCode obj) GHC.Base.<> (("bank_name" Data.Aeson.Types.ToJSON..= sourceTypeBancontactBankName obj) GHC.Base.<> (("bic" Data.Aeson.Types.ToJSON..= sourceTypeBancontactBic obj) GHC.Base.<> (("iban_last4" Data.Aeson.Types.ToJSON..= sourceTypeBancontactIbanLast4 obj) GHC.Base.<> (("preferred_language" Data.Aeson.Types.ToJSON..= sourceTypeBancontactPreferredLanguage obj) GHC.Base.<> ("statement_descriptor" Data.Aeson.Types.ToJSON..= sourceTypeBancontactStatementDescriptor obj))))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON SourceTypeBancontact where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "SourceTypeBancontact" (\obj -> (((((GHC.Base.pure SourceTypeBancontact GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "bank_code")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "bank_name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "bic")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "iban_last4")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "preferred_language")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "statement_descriptor"))
+
+-- | Create a new 'SourceTypeBancontact' with all required fields.
+mkSourceTypeBancontact :: SourceTypeBancontact
+mkSourceTypeBancontact =
+  SourceTypeBancontact
+    { sourceTypeBancontactBankCode = GHC.Maybe.Nothing,
+      sourceTypeBancontactBankName = GHC.Maybe.Nothing,
+      sourceTypeBancontactBic = GHC.Maybe.Nothing,
+      sourceTypeBancontactIbanLast4 = GHC.Maybe.Nothing,
+      sourceTypeBancontactPreferredLanguage = GHC.Maybe.Nothing,
+      sourceTypeBancontactStatementDescriptor = GHC.Maybe.Nothing
+    }

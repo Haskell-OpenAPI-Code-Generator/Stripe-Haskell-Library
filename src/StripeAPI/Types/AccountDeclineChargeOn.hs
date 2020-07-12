@@ -8,6 +8,7 @@ module StripeAPI.Types.AccountDeclineChargeOn where
 
 import qualified Control.Monad.Fail
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -30,7 +31,7 @@ import StripeAPI.TypeAlias
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
--- | Defines the data type for the schema account_decline_charge_on
+-- | Defines the object schema located at @components.schemas.account_decline_charge_on@ in the specification.
 data AccountDeclineChargeOn
   = AccountDeclineChargeOn
       { -- | avs_failure: Whether Stripe automatically declines charges with an incorrect ZIP or postal code. This setting only applies when a ZIP or postal code is provided and they fail bank verification.
@@ -44,8 +45,21 @@ data AccountDeclineChargeOn
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON AccountDeclineChargeOn where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "avs_failure" (accountDeclineChargeOnAvsFailure obj) : (Data.Aeson..=) "cvc_failure" (accountDeclineChargeOnCvcFailure obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "avs_failure" (accountDeclineChargeOnAvsFailure obj) GHC.Base.<> (Data.Aeson..=) "cvc_failure" (accountDeclineChargeOnCvcFailure obj))
+  toJSON obj = Data.Aeson.Types.Internal.object ("avs_failure" Data.Aeson.Types.ToJSON..= accountDeclineChargeOnAvsFailure obj : "cvc_failure" Data.Aeson.Types.ToJSON..= accountDeclineChargeOnCvcFailure obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("avs_failure" Data.Aeson.Types.ToJSON..= accountDeclineChargeOnAvsFailure obj) GHC.Base.<> ("cvc_failure" Data.Aeson.Types.ToJSON..= accountDeclineChargeOnCvcFailure obj))
 
 instance Data.Aeson.Types.FromJSON.FromJSON AccountDeclineChargeOn where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "AccountDeclineChargeOn" (\obj -> (GHC.Base.pure AccountDeclineChargeOn GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "avs_failure")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "cvc_failure"))
+
+-- | Create a new 'AccountDeclineChargeOn' with all required fields.
+mkAccountDeclineChargeOn ::
+  -- | 'accountDeclineChargeOnAvsFailure'
+  GHC.Types.Bool ->
+  -- | 'accountDeclineChargeOnCvcFailure'
+  GHC.Types.Bool ->
+  AccountDeclineChargeOn
+mkAccountDeclineChargeOn accountDeclineChargeOnAvsFailure accountDeclineChargeOnCvcFailure =
+  AccountDeclineChargeOn
+    { accountDeclineChargeOnAvsFailure = accountDeclineChargeOnAvsFailure,
+      accountDeclineChargeOnCvcFailure = accountDeclineChargeOnCvcFailure
+    }

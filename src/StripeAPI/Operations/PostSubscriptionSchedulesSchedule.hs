@@ -10,6 +10,7 @@ module StripeAPI.Operations.PostSubscriptionSchedulesSchedule where
 import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -81,7 +82,7 @@ postSubscriptionSchedulesSchedule
       )
       (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack ("/v1/subscription_schedules/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel schedule)) GHC.Base.++ ""))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
 
--- | Defines the data type for the schema postSubscriptionSchedulesScheduleRequestBody
+-- | Defines the object schema located at @paths.\/v1\/subscription_schedules\/{schedule}.POST.requestBody.content.application\/x-www-form-urlencoded.schema@ in the specification.
 data PostSubscriptionSchedulesScheduleRequestBody
   = PostSubscriptionSchedulesScheduleRequestBody
       { -- | default_settings: Object representing the subscription schedule\'s default settings.
@@ -105,13 +106,26 @@ data PostSubscriptionSchedulesScheduleRequestBody
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostSubscriptionSchedulesScheduleRequestBody where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "default_settings" (postSubscriptionSchedulesScheduleRequestBodyDefaultSettings obj) : (Data.Aeson..=) "end_behavior" (postSubscriptionSchedulesScheduleRequestBodyEndBehavior obj) : (Data.Aeson..=) "expand" (postSubscriptionSchedulesScheduleRequestBodyExpand obj) : (Data.Aeson..=) "metadata" (postSubscriptionSchedulesScheduleRequestBodyMetadata obj) : (Data.Aeson..=) "phases" (postSubscriptionSchedulesScheduleRequestBodyPhases obj) : (Data.Aeson..=) "prorate" (postSubscriptionSchedulesScheduleRequestBodyProrate obj) : (Data.Aeson..=) "proration_behavior" (postSubscriptionSchedulesScheduleRequestBodyProrationBehavior obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "default_settings" (postSubscriptionSchedulesScheduleRequestBodyDefaultSettings obj) GHC.Base.<> ((Data.Aeson..=) "end_behavior" (postSubscriptionSchedulesScheduleRequestBodyEndBehavior obj) GHC.Base.<> ((Data.Aeson..=) "expand" (postSubscriptionSchedulesScheduleRequestBodyExpand obj) GHC.Base.<> ((Data.Aeson..=) "metadata" (postSubscriptionSchedulesScheduleRequestBodyMetadata obj) GHC.Base.<> ((Data.Aeson..=) "phases" (postSubscriptionSchedulesScheduleRequestBodyPhases obj) GHC.Base.<> ((Data.Aeson..=) "prorate" (postSubscriptionSchedulesScheduleRequestBodyProrate obj) GHC.Base.<> (Data.Aeson..=) "proration_behavior" (postSubscriptionSchedulesScheduleRequestBodyProrationBehavior obj)))))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("default_settings" Data.Aeson.Types.ToJSON..= postSubscriptionSchedulesScheduleRequestBodyDefaultSettings obj : "end_behavior" Data.Aeson.Types.ToJSON..= postSubscriptionSchedulesScheduleRequestBodyEndBehavior obj : "expand" Data.Aeson.Types.ToJSON..= postSubscriptionSchedulesScheduleRequestBodyExpand obj : "metadata" Data.Aeson.Types.ToJSON..= postSubscriptionSchedulesScheduleRequestBodyMetadata obj : "phases" Data.Aeson.Types.ToJSON..= postSubscriptionSchedulesScheduleRequestBodyPhases obj : "prorate" Data.Aeson.Types.ToJSON..= postSubscriptionSchedulesScheduleRequestBodyProrate obj : "proration_behavior" Data.Aeson.Types.ToJSON..= postSubscriptionSchedulesScheduleRequestBodyProrationBehavior obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("default_settings" Data.Aeson.Types.ToJSON..= postSubscriptionSchedulesScheduleRequestBodyDefaultSettings obj) GHC.Base.<> (("end_behavior" Data.Aeson.Types.ToJSON..= postSubscriptionSchedulesScheduleRequestBodyEndBehavior obj) GHC.Base.<> (("expand" Data.Aeson.Types.ToJSON..= postSubscriptionSchedulesScheduleRequestBodyExpand obj) GHC.Base.<> (("metadata" Data.Aeson.Types.ToJSON..= postSubscriptionSchedulesScheduleRequestBodyMetadata obj) GHC.Base.<> (("phases" Data.Aeson.Types.ToJSON..= postSubscriptionSchedulesScheduleRequestBodyPhases obj) GHC.Base.<> (("prorate" Data.Aeson.Types.ToJSON..= postSubscriptionSchedulesScheduleRequestBodyProrate obj) GHC.Base.<> ("proration_behavior" Data.Aeson.Types.ToJSON..= postSubscriptionSchedulesScheduleRequestBodyProrationBehavior obj)))))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostSubscriptionSchedulesScheduleRequestBody where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PostSubscriptionSchedulesScheduleRequestBody" (\obj -> ((((((GHC.Base.pure PostSubscriptionSchedulesScheduleRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "default_settings")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "end_behavior")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "phases")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "prorate")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "proration_behavior"))
 
--- | Defines the data type for the schema postSubscriptionSchedulesScheduleRequestBodyDefault_settings\'
+-- | Create a new 'PostSubscriptionSchedulesScheduleRequestBody' with all required fields.
+mkPostSubscriptionSchedulesScheduleRequestBody :: PostSubscriptionSchedulesScheduleRequestBody
+mkPostSubscriptionSchedulesScheduleRequestBody =
+  PostSubscriptionSchedulesScheduleRequestBody
+    { postSubscriptionSchedulesScheduleRequestBodyDefaultSettings = GHC.Maybe.Nothing,
+      postSubscriptionSchedulesScheduleRequestBodyEndBehavior = GHC.Maybe.Nothing,
+      postSubscriptionSchedulesScheduleRequestBodyExpand = GHC.Maybe.Nothing,
+      postSubscriptionSchedulesScheduleRequestBodyMetadata = GHC.Maybe.Nothing,
+      postSubscriptionSchedulesScheduleRequestBodyPhases = GHC.Maybe.Nothing,
+      postSubscriptionSchedulesScheduleRequestBodyProrate = GHC.Maybe.Nothing,
+      postSubscriptionSchedulesScheduleRequestBodyProrationBehavior = GHC.Maybe.Nothing
+    }
+
+-- | Defines the object schema located at @paths.\/v1\/subscription_schedules\/{schedule}.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.default_settings@ in the specification.
 --
 -- Object representing the subscription schedule\'s default settings.
 data PostSubscriptionSchedulesScheduleRequestBodyDefaultSettings'
@@ -135,91 +149,95 @@ data PostSubscriptionSchedulesScheduleRequestBodyDefaultSettings'
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostSubscriptionSchedulesScheduleRequestBodyDefaultSettings' where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "billing_thresholds" (postSubscriptionSchedulesScheduleRequestBodyDefaultSettings'BillingThresholds obj) : (Data.Aeson..=) "collection_method" (postSubscriptionSchedulesScheduleRequestBodyDefaultSettings'CollectionMethod obj) : (Data.Aeson..=) "default_payment_method" (postSubscriptionSchedulesScheduleRequestBodyDefaultSettings'DefaultPaymentMethod obj) : (Data.Aeson..=) "invoice_settings" (postSubscriptionSchedulesScheduleRequestBodyDefaultSettings'InvoiceSettings obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "billing_thresholds" (postSubscriptionSchedulesScheduleRequestBodyDefaultSettings'BillingThresholds obj) GHC.Base.<> ((Data.Aeson..=) "collection_method" (postSubscriptionSchedulesScheduleRequestBodyDefaultSettings'CollectionMethod obj) GHC.Base.<> ((Data.Aeson..=) "default_payment_method" (postSubscriptionSchedulesScheduleRequestBodyDefaultSettings'DefaultPaymentMethod obj) GHC.Base.<> (Data.Aeson..=) "invoice_settings" (postSubscriptionSchedulesScheduleRequestBodyDefaultSettings'InvoiceSettings obj))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("billing_thresholds" Data.Aeson.Types.ToJSON..= postSubscriptionSchedulesScheduleRequestBodyDefaultSettings'BillingThresholds obj : "collection_method" Data.Aeson.Types.ToJSON..= postSubscriptionSchedulesScheduleRequestBodyDefaultSettings'CollectionMethod obj : "default_payment_method" Data.Aeson.Types.ToJSON..= postSubscriptionSchedulesScheduleRequestBodyDefaultSettings'DefaultPaymentMethod obj : "invoice_settings" Data.Aeson.Types.ToJSON..= postSubscriptionSchedulesScheduleRequestBodyDefaultSettings'InvoiceSettings obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("billing_thresholds" Data.Aeson.Types.ToJSON..= postSubscriptionSchedulesScheduleRequestBodyDefaultSettings'BillingThresholds obj) GHC.Base.<> (("collection_method" Data.Aeson.Types.ToJSON..= postSubscriptionSchedulesScheduleRequestBodyDefaultSettings'CollectionMethod obj) GHC.Base.<> (("default_payment_method" Data.Aeson.Types.ToJSON..= postSubscriptionSchedulesScheduleRequestBodyDefaultSettings'DefaultPaymentMethod obj) GHC.Base.<> ("invoice_settings" Data.Aeson.Types.ToJSON..= postSubscriptionSchedulesScheduleRequestBodyDefaultSettings'InvoiceSettings obj))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostSubscriptionSchedulesScheduleRequestBodyDefaultSettings' where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PostSubscriptionSchedulesScheduleRequestBodyDefaultSettings'" (\obj -> (((GHC.Base.pure PostSubscriptionSchedulesScheduleRequestBodyDefaultSettings' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "billing_thresholds")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "collection_method")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "default_payment_method")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "invoice_settings"))
 
--- | Defines the enum schema postSubscriptionSchedulesScheduleRequestBodyDefault_settings\'Billing_thresholds\'OneOf1
+-- | Create a new 'PostSubscriptionSchedulesScheduleRequestBodyDefaultSettings'' with all required fields.
+mkPostSubscriptionSchedulesScheduleRequestBodyDefaultSettings' :: PostSubscriptionSchedulesScheduleRequestBodyDefaultSettings'
+mkPostSubscriptionSchedulesScheduleRequestBodyDefaultSettings' =
+  PostSubscriptionSchedulesScheduleRequestBodyDefaultSettings'
+    { postSubscriptionSchedulesScheduleRequestBodyDefaultSettings'BillingThresholds = GHC.Maybe.Nothing,
+      postSubscriptionSchedulesScheduleRequestBodyDefaultSettings'CollectionMethod = GHC.Maybe.Nothing,
+      postSubscriptionSchedulesScheduleRequestBodyDefaultSettings'DefaultPaymentMethod = GHC.Maybe.Nothing,
+      postSubscriptionSchedulesScheduleRequestBodyDefaultSettings'InvoiceSettings = GHC.Maybe.Nothing
+    }
+
+-- | Defines the object schema located at @paths.\/v1\/subscription_schedules\/{schedule}.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.default_settings.properties.billing_thresholds.anyOf@ in the specification.
 data PostSubscriptionSchedulesScheduleRequestBodyDefaultSettings'BillingThresholds'OneOf1
-  = PostSubscriptionSchedulesScheduleRequestBodyDefaultSettings'BillingThresholds'OneOf1EnumOther Data.Aeson.Types.Internal.Value
-  | PostSubscriptionSchedulesScheduleRequestBodyDefaultSettings'BillingThresholds'OneOf1EnumTyped Data.Text.Internal.Text
-  | PostSubscriptionSchedulesScheduleRequestBodyDefaultSettings'BillingThresholds'OneOf1EnumString_
-  deriving (GHC.Show.Show, GHC.Classes.Eq)
-
-instance Data.Aeson.Types.ToJSON.ToJSON PostSubscriptionSchedulesScheduleRequestBodyDefaultSettings'BillingThresholds'OneOf1 where
-  toJSON (PostSubscriptionSchedulesScheduleRequestBodyDefaultSettings'BillingThresholds'OneOf1EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostSubscriptionSchedulesScheduleRequestBodyDefaultSettings'BillingThresholds'OneOf1EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostSubscriptionSchedulesScheduleRequestBodyDefaultSettings'BillingThresholds'OneOf1EnumString_) = ""
-
-instance Data.Aeson.Types.FromJSON.FromJSON PostSubscriptionSchedulesScheduleRequestBodyDefaultSettings'BillingThresholds'OneOf1 where
-  parseJSON val =
-    GHC.Base.pure
-      ( if  | val GHC.Classes.== "" -> PostSubscriptionSchedulesScheduleRequestBodyDefaultSettings'BillingThresholds'OneOf1EnumString_
-            | GHC.Base.otherwise -> PostSubscriptionSchedulesScheduleRequestBodyDefaultSettings'BillingThresholds'OneOf1EnumOther val
-      )
-
--- | Defines the data type for the schema postSubscriptionSchedulesScheduleRequestBodyDefault_settings\'Billing_thresholds\'OneOf2
-data PostSubscriptionSchedulesScheduleRequestBodyDefaultSettings'BillingThresholds'OneOf2
-  = PostSubscriptionSchedulesScheduleRequestBodyDefaultSettings'BillingThresholds'OneOf2
+  = PostSubscriptionSchedulesScheduleRequestBodyDefaultSettings'BillingThresholds'OneOf1
       { -- | amount_gte
-        postSubscriptionSchedulesScheduleRequestBodyDefaultSettings'BillingThresholds'OneOf2AmountGte :: (GHC.Maybe.Maybe GHC.Types.Int),
+        postSubscriptionSchedulesScheduleRequestBodyDefaultSettings'BillingThresholds'OneOf1AmountGte :: (GHC.Maybe.Maybe GHC.Types.Int),
         -- | reset_billing_cycle_anchor
-        postSubscriptionSchedulesScheduleRequestBodyDefaultSettings'BillingThresholds'OneOf2ResetBillingCycleAnchor :: (GHC.Maybe.Maybe GHC.Types.Bool)
+        postSubscriptionSchedulesScheduleRequestBodyDefaultSettings'BillingThresholds'OneOf1ResetBillingCycleAnchor :: (GHC.Maybe.Maybe GHC.Types.Bool)
       }
   deriving
     ( GHC.Show.Show,
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.Types.ToJSON.ToJSON PostSubscriptionSchedulesScheduleRequestBodyDefaultSettings'BillingThresholds'OneOf2 where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "amount_gte" (postSubscriptionSchedulesScheduleRequestBodyDefaultSettings'BillingThresholds'OneOf2AmountGte obj) : (Data.Aeson..=) "reset_billing_cycle_anchor" (postSubscriptionSchedulesScheduleRequestBodyDefaultSettings'BillingThresholds'OneOf2ResetBillingCycleAnchor obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "amount_gte" (postSubscriptionSchedulesScheduleRequestBodyDefaultSettings'BillingThresholds'OneOf2AmountGte obj) GHC.Base.<> (Data.Aeson..=) "reset_billing_cycle_anchor" (postSubscriptionSchedulesScheduleRequestBodyDefaultSettings'BillingThresholds'OneOf2ResetBillingCycleAnchor obj))
+instance Data.Aeson.Types.ToJSON.ToJSON PostSubscriptionSchedulesScheduleRequestBodyDefaultSettings'BillingThresholds'OneOf1 where
+  toJSON obj = Data.Aeson.Types.Internal.object ("amount_gte" Data.Aeson.Types.ToJSON..= postSubscriptionSchedulesScheduleRequestBodyDefaultSettings'BillingThresholds'OneOf1AmountGte obj : "reset_billing_cycle_anchor" Data.Aeson.Types.ToJSON..= postSubscriptionSchedulesScheduleRequestBodyDefaultSettings'BillingThresholds'OneOf1ResetBillingCycleAnchor obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("amount_gte" Data.Aeson.Types.ToJSON..= postSubscriptionSchedulesScheduleRequestBodyDefaultSettings'BillingThresholds'OneOf1AmountGte obj) GHC.Base.<> ("reset_billing_cycle_anchor" Data.Aeson.Types.ToJSON..= postSubscriptionSchedulesScheduleRequestBodyDefaultSettings'BillingThresholds'OneOf1ResetBillingCycleAnchor obj))
 
-instance Data.Aeson.Types.FromJSON.FromJSON PostSubscriptionSchedulesScheduleRequestBodyDefaultSettings'BillingThresholds'OneOf2 where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostSubscriptionSchedulesScheduleRequestBodyDefaultSettings'BillingThresholds'OneOf2" (\obj -> (GHC.Base.pure PostSubscriptionSchedulesScheduleRequestBodyDefaultSettings'BillingThresholds'OneOf2 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "amount_gte")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "reset_billing_cycle_anchor"))
+instance Data.Aeson.Types.FromJSON.FromJSON PostSubscriptionSchedulesScheduleRequestBodyDefaultSettings'BillingThresholds'OneOf1 where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostSubscriptionSchedulesScheduleRequestBodyDefaultSettings'BillingThresholds'OneOf1" (\obj -> (GHC.Base.pure PostSubscriptionSchedulesScheduleRequestBodyDefaultSettings'BillingThresholds'OneOf1 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "amount_gte")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "reset_billing_cycle_anchor"))
 
--- | Define the one-of schema postSubscriptionSchedulesScheduleRequestBodyDefault_settings\'Billing_thresholds\'
+-- | Create a new 'PostSubscriptionSchedulesScheduleRequestBodyDefaultSettings'BillingThresholds'OneOf1' with all required fields.
+mkPostSubscriptionSchedulesScheduleRequestBodyDefaultSettings'BillingThresholds'OneOf1 :: PostSubscriptionSchedulesScheduleRequestBodyDefaultSettings'BillingThresholds'OneOf1
+mkPostSubscriptionSchedulesScheduleRequestBodyDefaultSettings'BillingThresholds'OneOf1 =
+  PostSubscriptionSchedulesScheduleRequestBodyDefaultSettings'BillingThresholds'OneOf1
+    { postSubscriptionSchedulesScheduleRequestBodyDefaultSettings'BillingThresholds'OneOf1AmountGte = GHC.Maybe.Nothing,
+      postSubscriptionSchedulesScheduleRequestBodyDefaultSettings'BillingThresholds'OneOf1ResetBillingCycleAnchor = GHC.Maybe.Nothing
+    }
+
+-- | Defines the oneOf schema located at @paths.\/v1\/subscription_schedules\/{schedule}.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.default_settings.properties.billing_thresholds.anyOf@ in the specification.
 data PostSubscriptionSchedulesScheduleRequestBodyDefaultSettings'BillingThresholds'Variants
-  = PostSubscriptionSchedulesScheduleRequestBodyDefaultSettings'BillingThresholds'PostSubscriptionSchedulesScheduleRequestBodyDefaultSettings'BillingThresholds'OneOf1 PostSubscriptionSchedulesScheduleRequestBodyDefaultSettings'BillingThresholds'OneOf1
-  | PostSubscriptionSchedulesScheduleRequestBodyDefaultSettings'BillingThresholds'PostSubscriptionSchedulesScheduleRequestBodyDefaultSettings'BillingThresholds'OneOf2 PostSubscriptionSchedulesScheduleRequestBodyDefaultSettings'BillingThresholds'OneOf2
+  = -- | Represents the JSON value @""@
+    PostSubscriptionSchedulesScheduleRequestBodyDefaultSettings'BillingThresholds'EmptyString
+  | PostSubscriptionSchedulesScheduleRequestBodyDefaultSettings'BillingThresholds'PostSubscriptionSchedulesScheduleRequestBodyDefaultSettings'BillingThresholds'OneOf1 PostSubscriptionSchedulesScheduleRequestBodyDefaultSettings'BillingThresholds'OneOf1
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostSubscriptionSchedulesScheduleRequestBodyDefaultSettings'BillingThresholds'Variants where
   toJSON (PostSubscriptionSchedulesScheduleRequestBodyDefaultSettings'BillingThresholds'PostSubscriptionSchedulesScheduleRequestBodyDefaultSettings'BillingThresholds'OneOf1 a) = Data.Aeson.Types.ToJSON.toJSON a
-  toJSON (PostSubscriptionSchedulesScheduleRequestBodyDefaultSettings'BillingThresholds'PostSubscriptionSchedulesScheduleRequestBodyDefaultSettings'BillingThresholds'OneOf2 a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (PostSubscriptionSchedulesScheduleRequestBodyDefaultSettings'BillingThresholds'EmptyString) = ""
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostSubscriptionSchedulesScheduleRequestBodyDefaultSettings'BillingThresholds'Variants where
-  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
-    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ PostSubscriptionSchedulesScheduleRequestBodyDefaultSettings'BillingThresholds'PostSubscriptionSchedulesScheduleRequestBodyDefaultSettings'BillingThresholds'OneOf1 a
-    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ PostSubscriptionSchedulesScheduleRequestBodyDefaultSettings'BillingThresholds'PostSubscriptionSchedulesScheduleRequestBodyDefaultSettings'BillingThresholds'OneOf2 a
-      Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+  parseJSON val =
+    if  | val GHC.Classes.== "" -> GHC.Base.pure PostSubscriptionSchedulesScheduleRequestBodyDefaultSettings'BillingThresholds'EmptyString
+        | GHC.Base.otherwise -> case (PostSubscriptionSchedulesScheduleRequestBodyDefaultSettings'BillingThresholds'PostSubscriptionSchedulesScheduleRequestBodyDefaultSettings'BillingThresholds'OneOf1 Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched" of
+          Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+          Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
--- | Defines the enum schema postSubscriptionSchedulesScheduleRequestBodyDefault_settings\'Collection_method\'
+-- | Defines the enum schema located at @paths.\/v1\/subscription_schedules\/{schedule}.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.default_settings.properties.collection_method@ in the specification.
 data PostSubscriptionSchedulesScheduleRequestBodyDefaultSettings'CollectionMethod'
-  = PostSubscriptionSchedulesScheduleRequestBodyDefaultSettings'CollectionMethod'EnumOther Data.Aeson.Types.Internal.Value
-  | PostSubscriptionSchedulesScheduleRequestBodyDefaultSettings'CollectionMethod'EnumTyped Data.Text.Internal.Text
-  | PostSubscriptionSchedulesScheduleRequestBodyDefaultSettings'CollectionMethod'EnumStringChargeAutomatically
-  | PostSubscriptionSchedulesScheduleRequestBodyDefaultSettings'CollectionMethod'EnumStringSendInvoice
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    PostSubscriptionSchedulesScheduleRequestBodyDefaultSettings'CollectionMethod'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    PostSubscriptionSchedulesScheduleRequestBodyDefaultSettings'CollectionMethod'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"charge_automatically"@
+    PostSubscriptionSchedulesScheduleRequestBodyDefaultSettings'CollectionMethod'EnumChargeAutomatically
+  | -- | Represents the JSON value @"send_invoice"@
+    PostSubscriptionSchedulesScheduleRequestBodyDefaultSettings'CollectionMethod'EnumSendInvoice
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostSubscriptionSchedulesScheduleRequestBodyDefaultSettings'CollectionMethod' where
-  toJSON (PostSubscriptionSchedulesScheduleRequestBodyDefaultSettings'CollectionMethod'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostSubscriptionSchedulesScheduleRequestBodyDefaultSettings'CollectionMethod'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostSubscriptionSchedulesScheduleRequestBodyDefaultSettings'CollectionMethod'EnumStringChargeAutomatically) = "charge_automatically"
-  toJSON (PostSubscriptionSchedulesScheduleRequestBodyDefaultSettings'CollectionMethod'EnumStringSendInvoice) = "send_invoice"
+  toJSON (PostSubscriptionSchedulesScheduleRequestBodyDefaultSettings'CollectionMethod'Other val) = val
+  toJSON (PostSubscriptionSchedulesScheduleRequestBodyDefaultSettings'CollectionMethod'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PostSubscriptionSchedulesScheduleRequestBodyDefaultSettings'CollectionMethod'EnumChargeAutomatically) = "charge_automatically"
+  toJSON (PostSubscriptionSchedulesScheduleRequestBodyDefaultSettings'CollectionMethod'EnumSendInvoice) = "send_invoice"
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostSubscriptionSchedulesScheduleRequestBodyDefaultSettings'CollectionMethod' where
   parseJSON val =
     GHC.Base.pure
-      ( if  | val GHC.Classes.== "charge_automatically" -> PostSubscriptionSchedulesScheduleRequestBodyDefaultSettings'CollectionMethod'EnumStringChargeAutomatically
-            | val GHC.Classes.== "send_invoice" -> PostSubscriptionSchedulesScheduleRequestBodyDefaultSettings'CollectionMethod'EnumStringSendInvoice
-            | GHC.Base.otherwise -> PostSubscriptionSchedulesScheduleRequestBodyDefaultSettings'CollectionMethod'EnumOther val
+      ( if  | val GHC.Classes.== "charge_automatically" -> PostSubscriptionSchedulesScheduleRequestBodyDefaultSettings'CollectionMethod'EnumChargeAutomatically
+            | val GHC.Classes.== "send_invoice" -> PostSubscriptionSchedulesScheduleRequestBodyDefaultSettings'CollectionMethod'EnumSendInvoice
+            | GHC.Base.otherwise -> PostSubscriptionSchedulesScheduleRequestBodyDefaultSettings'CollectionMethod'Other val
       )
 
--- | Defines the data type for the schema postSubscriptionSchedulesScheduleRequestBodyDefault_settings\'Invoice_settings\'
+-- | Defines the object schema located at @paths.\/v1\/subscription_schedules\/{schedule}.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.default_settings.properties.invoice_settings@ in the specification.
 data PostSubscriptionSchedulesScheduleRequestBodyDefaultSettings'InvoiceSettings'
   = PostSubscriptionSchedulesScheduleRequestBodyDefaultSettings'InvoiceSettings'
       { -- | days_until_due
@@ -231,43 +249,53 @@ data PostSubscriptionSchedulesScheduleRequestBodyDefaultSettings'InvoiceSettings
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostSubscriptionSchedulesScheduleRequestBodyDefaultSettings'InvoiceSettings' where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "days_until_due" (postSubscriptionSchedulesScheduleRequestBodyDefaultSettings'InvoiceSettings'DaysUntilDue obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "days_until_due" (postSubscriptionSchedulesScheduleRequestBodyDefaultSettings'InvoiceSettings'DaysUntilDue obj))
+  toJSON obj = Data.Aeson.Types.Internal.object ("days_until_due" Data.Aeson.Types.ToJSON..= postSubscriptionSchedulesScheduleRequestBodyDefaultSettings'InvoiceSettings'DaysUntilDue obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs ("days_until_due" Data.Aeson.Types.ToJSON..= postSubscriptionSchedulesScheduleRequestBodyDefaultSettings'InvoiceSettings'DaysUntilDue obj)
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostSubscriptionSchedulesScheduleRequestBodyDefaultSettings'InvoiceSettings' where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PostSubscriptionSchedulesScheduleRequestBodyDefaultSettings'InvoiceSettings'" (\obj -> GHC.Base.pure PostSubscriptionSchedulesScheduleRequestBodyDefaultSettings'InvoiceSettings' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "days_until_due"))
 
--- | Defines the enum schema postSubscriptionSchedulesScheduleRequestBodyEnd_behavior\'
+-- | Create a new 'PostSubscriptionSchedulesScheduleRequestBodyDefaultSettings'InvoiceSettings'' with all required fields.
+mkPostSubscriptionSchedulesScheduleRequestBodyDefaultSettings'InvoiceSettings' :: PostSubscriptionSchedulesScheduleRequestBodyDefaultSettings'InvoiceSettings'
+mkPostSubscriptionSchedulesScheduleRequestBodyDefaultSettings'InvoiceSettings' = PostSubscriptionSchedulesScheduleRequestBodyDefaultSettings'InvoiceSettings' {postSubscriptionSchedulesScheduleRequestBodyDefaultSettings'InvoiceSettings'DaysUntilDue = GHC.Maybe.Nothing}
+
+-- | Defines the enum schema located at @paths.\/v1\/subscription_schedules\/{schedule}.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.end_behavior@ in the specification.
 --
 -- Configures how the subscription schedule behaves when it ends. Possible values are \`release\` or \`cancel\` with the default being \`release\`. \`release\` will end the subscription schedule and keep the underlying subscription running.\`cancel\` will end the subscription schedule and cancel the underlying subscription.
 data PostSubscriptionSchedulesScheduleRequestBodyEndBehavior'
-  = PostSubscriptionSchedulesScheduleRequestBodyEndBehavior'EnumOther Data.Aeson.Types.Internal.Value
-  | PostSubscriptionSchedulesScheduleRequestBodyEndBehavior'EnumTyped Data.Text.Internal.Text
-  | PostSubscriptionSchedulesScheduleRequestBodyEndBehavior'EnumStringCancel
-  | PostSubscriptionSchedulesScheduleRequestBodyEndBehavior'EnumStringNone
-  | PostSubscriptionSchedulesScheduleRequestBodyEndBehavior'EnumStringRelease
-  | PostSubscriptionSchedulesScheduleRequestBodyEndBehavior'EnumStringRenew
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    PostSubscriptionSchedulesScheduleRequestBodyEndBehavior'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    PostSubscriptionSchedulesScheduleRequestBodyEndBehavior'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"cancel"@
+    PostSubscriptionSchedulesScheduleRequestBodyEndBehavior'EnumCancel
+  | -- | Represents the JSON value @"none"@
+    PostSubscriptionSchedulesScheduleRequestBodyEndBehavior'EnumNone
+  | -- | Represents the JSON value @"release"@
+    PostSubscriptionSchedulesScheduleRequestBodyEndBehavior'EnumRelease
+  | -- | Represents the JSON value @"renew"@
+    PostSubscriptionSchedulesScheduleRequestBodyEndBehavior'EnumRenew
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostSubscriptionSchedulesScheduleRequestBodyEndBehavior' where
-  toJSON (PostSubscriptionSchedulesScheduleRequestBodyEndBehavior'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostSubscriptionSchedulesScheduleRequestBodyEndBehavior'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostSubscriptionSchedulesScheduleRequestBodyEndBehavior'EnumStringCancel) = "cancel"
-  toJSON (PostSubscriptionSchedulesScheduleRequestBodyEndBehavior'EnumStringNone) = "none"
-  toJSON (PostSubscriptionSchedulesScheduleRequestBodyEndBehavior'EnumStringRelease) = "release"
-  toJSON (PostSubscriptionSchedulesScheduleRequestBodyEndBehavior'EnumStringRenew) = "renew"
+  toJSON (PostSubscriptionSchedulesScheduleRequestBodyEndBehavior'Other val) = val
+  toJSON (PostSubscriptionSchedulesScheduleRequestBodyEndBehavior'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PostSubscriptionSchedulesScheduleRequestBodyEndBehavior'EnumCancel) = "cancel"
+  toJSON (PostSubscriptionSchedulesScheduleRequestBodyEndBehavior'EnumNone) = "none"
+  toJSON (PostSubscriptionSchedulesScheduleRequestBodyEndBehavior'EnumRelease) = "release"
+  toJSON (PostSubscriptionSchedulesScheduleRequestBodyEndBehavior'EnumRenew) = "renew"
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostSubscriptionSchedulesScheduleRequestBodyEndBehavior' where
   parseJSON val =
     GHC.Base.pure
-      ( if  | val GHC.Classes.== "cancel" -> PostSubscriptionSchedulesScheduleRequestBodyEndBehavior'EnumStringCancel
-            | val GHC.Classes.== "none" -> PostSubscriptionSchedulesScheduleRequestBodyEndBehavior'EnumStringNone
-            | val GHC.Classes.== "release" -> PostSubscriptionSchedulesScheduleRequestBodyEndBehavior'EnumStringRelease
-            | val GHC.Classes.== "renew" -> PostSubscriptionSchedulesScheduleRequestBodyEndBehavior'EnumStringRenew
-            | GHC.Base.otherwise -> PostSubscriptionSchedulesScheduleRequestBodyEndBehavior'EnumOther val
+      ( if  | val GHC.Classes.== "cancel" -> PostSubscriptionSchedulesScheduleRequestBodyEndBehavior'EnumCancel
+            | val GHC.Classes.== "none" -> PostSubscriptionSchedulesScheduleRequestBodyEndBehavior'EnumNone
+            | val GHC.Classes.== "release" -> PostSubscriptionSchedulesScheduleRequestBodyEndBehavior'EnumRelease
+            | val GHC.Classes.== "renew" -> PostSubscriptionSchedulesScheduleRequestBodyEndBehavior'EnumRenew
+            | GHC.Base.otherwise -> PostSubscriptionSchedulesScheduleRequestBodyEndBehavior'Other val
       )
 
--- | Defines the data type for the schema postSubscriptionSchedulesScheduleRequestBodyPhases\'
+-- | Defines the object schema located at @paths.\/v1\/subscription_schedules\/{schedule}.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.phases.items@ in the specification.
 data PostSubscriptionSchedulesScheduleRequestBodyPhases'
   = PostSubscriptionSchedulesScheduleRequestBodyPhases'
       { -- | application_fee_percent
@@ -315,163 +343,145 @@ data PostSubscriptionSchedulesScheduleRequestBodyPhases'
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostSubscriptionSchedulesScheduleRequestBodyPhases' where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "application_fee_percent" (postSubscriptionSchedulesScheduleRequestBodyPhases'ApplicationFeePercent obj) : (Data.Aeson..=) "billing_thresholds" (postSubscriptionSchedulesScheduleRequestBodyPhases'BillingThresholds obj) : (Data.Aeson..=) "collection_method" (postSubscriptionSchedulesScheduleRequestBodyPhases'CollectionMethod obj) : (Data.Aeson..=) "coupon" (postSubscriptionSchedulesScheduleRequestBodyPhases'Coupon obj) : (Data.Aeson..=) "default_payment_method" (postSubscriptionSchedulesScheduleRequestBodyPhases'DefaultPaymentMethod obj) : (Data.Aeson..=) "default_tax_rates" (postSubscriptionSchedulesScheduleRequestBodyPhases'DefaultTaxRates obj) : (Data.Aeson..=) "end_date" (postSubscriptionSchedulesScheduleRequestBodyPhases'EndDate obj) : (Data.Aeson..=) "invoice_settings" (postSubscriptionSchedulesScheduleRequestBodyPhases'InvoiceSettings obj) : (Data.Aeson..=) "iterations" (postSubscriptionSchedulesScheduleRequestBodyPhases'Iterations obj) : (Data.Aeson..=) "plans" (postSubscriptionSchedulesScheduleRequestBodyPhases'Plans obj) : (Data.Aeson..=) "proration_behavior" (postSubscriptionSchedulesScheduleRequestBodyPhases'ProrationBehavior obj) : (Data.Aeson..=) "start_date" (postSubscriptionSchedulesScheduleRequestBodyPhases'StartDate obj) : (Data.Aeson..=) "tax_percent" (postSubscriptionSchedulesScheduleRequestBodyPhases'TaxPercent obj) : (Data.Aeson..=) "trial" (postSubscriptionSchedulesScheduleRequestBodyPhases'Trial obj) : (Data.Aeson..=) "trial_end" (postSubscriptionSchedulesScheduleRequestBodyPhases'TrialEnd obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "application_fee_percent" (postSubscriptionSchedulesScheduleRequestBodyPhases'ApplicationFeePercent obj) GHC.Base.<> ((Data.Aeson..=) "billing_thresholds" (postSubscriptionSchedulesScheduleRequestBodyPhases'BillingThresholds obj) GHC.Base.<> ((Data.Aeson..=) "collection_method" (postSubscriptionSchedulesScheduleRequestBodyPhases'CollectionMethod obj) GHC.Base.<> ((Data.Aeson..=) "coupon" (postSubscriptionSchedulesScheduleRequestBodyPhases'Coupon obj) GHC.Base.<> ((Data.Aeson..=) "default_payment_method" (postSubscriptionSchedulesScheduleRequestBodyPhases'DefaultPaymentMethod obj) GHC.Base.<> ((Data.Aeson..=) "default_tax_rates" (postSubscriptionSchedulesScheduleRequestBodyPhases'DefaultTaxRates obj) GHC.Base.<> ((Data.Aeson..=) "end_date" (postSubscriptionSchedulesScheduleRequestBodyPhases'EndDate obj) GHC.Base.<> ((Data.Aeson..=) "invoice_settings" (postSubscriptionSchedulesScheduleRequestBodyPhases'InvoiceSettings obj) GHC.Base.<> ((Data.Aeson..=) "iterations" (postSubscriptionSchedulesScheduleRequestBodyPhases'Iterations obj) GHC.Base.<> ((Data.Aeson..=) "plans" (postSubscriptionSchedulesScheduleRequestBodyPhases'Plans obj) GHC.Base.<> ((Data.Aeson..=) "proration_behavior" (postSubscriptionSchedulesScheduleRequestBodyPhases'ProrationBehavior obj) GHC.Base.<> ((Data.Aeson..=) "start_date" (postSubscriptionSchedulesScheduleRequestBodyPhases'StartDate obj) GHC.Base.<> ((Data.Aeson..=) "tax_percent" (postSubscriptionSchedulesScheduleRequestBodyPhases'TaxPercent obj) GHC.Base.<> ((Data.Aeson..=) "trial" (postSubscriptionSchedulesScheduleRequestBodyPhases'Trial obj) GHC.Base.<> (Data.Aeson..=) "trial_end" (postSubscriptionSchedulesScheduleRequestBodyPhases'TrialEnd obj)))))))))))))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("application_fee_percent" Data.Aeson.Types.ToJSON..= postSubscriptionSchedulesScheduleRequestBodyPhases'ApplicationFeePercent obj : "billing_thresholds" Data.Aeson.Types.ToJSON..= postSubscriptionSchedulesScheduleRequestBodyPhases'BillingThresholds obj : "collection_method" Data.Aeson.Types.ToJSON..= postSubscriptionSchedulesScheduleRequestBodyPhases'CollectionMethod obj : "coupon" Data.Aeson.Types.ToJSON..= postSubscriptionSchedulesScheduleRequestBodyPhases'Coupon obj : "default_payment_method" Data.Aeson.Types.ToJSON..= postSubscriptionSchedulesScheduleRequestBodyPhases'DefaultPaymentMethod obj : "default_tax_rates" Data.Aeson.Types.ToJSON..= postSubscriptionSchedulesScheduleRequestBodyPhases'DefaultTaxRates obj : "end_date" Data.Aeson.Types.ToJSON..= postSubscriptionSchedulesScheduleRequestBodyPhases'EndDate obj : "invoice_settings" Data.Aeson.Types.ToJSON..= postSubscriptionSchedulesScheduleRequestBodyPhases'InvoiceSettings obj : "iterations" Data.Aeson.Types.ToJSON..= postSubscriptionSchedulesScheduleRequestBodyPhases'Iterations obj : "plans" Data.Aeson.Types.ToJSON..= postSubscriptionSchedulesScheduleRequestBodyPhases'Plans obj : "proration_behavior" Data.Aeson.Types.ToJSON..= postSubscriptionSchedulesScheduleRequestBodyPhases'ProrationBehavior obj : "start_date" Data.Aeson.Types.ToJSON..= postSubscriptionSchedulesScheduleRequestBodyPhases'StartDate obj : "tax_percent" Data.Aeson.Types.ToJSON..= postSubscriptionSchedulesScheduleRequestBodyPhases'TaxPercent obj : "trial" Data.Aeson.Types.ToJSON..= postSubscriptionSchedulesScheduleRequestBodyPhases'Trial obj : "trial_end" Data.Aeson.Types.ToJSON..= postSubscriptionSchedulesScheduleRequestBodyPhases'TrialEnd obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("application_fee_percent" Data.Aeson.Types.ToJSON..= postSubscriptionSchedulesScheduleRequestBodyPhases'ApplicationFeePercent obj) GHC.Base.<> (("billing_thresholds" Data.Aeson.Types.ToJSON..= postSubscriptionSchedulesScheduleRequestBodyPhases'BillingThresholds obj) GHC.Base.<> (("collection_method" Data.Aeson.Types.ToJSON..= postSubscriptionSchedulesScheduleRequestBodyPhases'CollectionMethod obj) GHC.Base.<> (("coupon" Data.Aeson.Types.ToJSON..= postSubscriptionSchedulesScheduleRequestBodyPhases'Coupon obj) GHC.Base.<> (("default_payment_method" Data.Aeson.Types.ToJSON..= postSubscriptionSchedulesScheduleRequestBodyPhases'DefaultPaymentMethod obj) GHC.Base.<> (("default_tax_rates" Data.Aeson.Types.ToJSON..= postSubscriptionSchedulesScheduleRequestBodyPhases'DefaultTaxRates obj) GHC.Base.<> (("end_date" Data.Aeson.Types.ToJSON..= postSubscriptionSchedulesScheduleRequestBodyPhases'EndDate obj) GHC.Base.<> (("invoice_settings" Data.Aeson.Types.ToJSON..= postSubscriptionSchedulesScheduleRequestBodyPhases'InvoiceSettings obj) GHC.Base.<> (("iterations" Data.Aeson.Types.ToJSON..= postSubscriptionSchedulesScheduleRequestBodyPhases'Iterations obj) GHC.Base.<> (("plans" Data.Aeson.Types.ToJSON..= postSubscriptionSchedulesScheduleRequestBodyPhases'Plans obj) GHC.Base.<> (("proration_behavior" Data.Aeson.Types.ToJSON..= postSubscriptionSchedulesScheduleRequestBodyPhases'ProrationBehavior obj) GHC.Base.<> (("start_date" Data.Aeson.Types.ToJSON..= postSubscriptionSchedulesScheduleRequestBodyPhases'StartDate obj) GHC.Base.<> (("tax_percent" Data.Aeson.Types.ToJSON..= postSubscriptionSchedulesScheduleRequestBodyPhases'TaxPercent obj) GHC.Base.<> (("trial" Data.Aeson.Types.ToJSON..= postSubscriptionSchedulesScheduleRequestBodyPhases'Trial obj) GHC.Base.<> ("trial_end" Data.Aeson.Types.ToJSON..= postSubscriptionSchedulesScheduleRequestBodyPhases'TrialEnd obj)))))))))))))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostSubscriptionSchedulesScheduleRequestBodyPhases' where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PostSubscriptionSchedulesScheduleRequestBodyPhases'" (\obj -> ((((((((((((((GHC.Base.pure PostSubscriptionSchedulesScheduleRequestBodyPhases' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "application_fee_percent")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "billing_thresholds")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "collection_method")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "coupon")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "default_payment_method")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "default_tax_rates")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "end_date")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "invoice_settings")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "iterations")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "plans")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "proration_behavior")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "start_date")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "tax_percent")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "trial")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "trial_end"))
 
--- | Defines the enum schema postSubscriptionSchedulesScheduleRequestBodyPhases\'Billing_thresholds\'OneOf1
+-- | Create a new 'PostSubscriptionSchedulesScheduleRequestBodyPhases'' with all required fields.
+mkPostSubscriptionSchedulesScheduleRequestBodyPhases' ::
+  -- | 'postSubscriptionSchedulesScheduleRequestBodyPhases'Plans'
+  [PostSubscriptionSchedulesScheduleRequestBodyPhases'Plans'] ->
+  PostSubscriptionSchedulesScheduleRequestBodyPhases'
+mkPostSubscriptionSchedulesScheduleRequestBodyPhases' postSubscriptionSchedulesScheduleRequestBodyPhases'Plans =
+  PostSubscriptionSchedulesScheduleRequestBodyPhases'
+    { postSubscriptionSchedulesScheduleRequestBodyPhases'ApplicationFeePercent = GHC.Maybe.Nothing,
+      postSubscriptionSchedulesScheduleRequestBodyPhases'BillingThresholds = GHC.Maybe.Nothing,
+      postSubscriptionSchedulesScheduleRequestBodyPhases'CollectionMethod = GHC.Maybe.Nothing,
+      postSubscriptionSchedulesScheduleRequestBodyPhases'Coupon = GHC.Maybe.Nothing,
+      postSubscriptionSchedulesScheduleRequestBodyPhases'DefaultPaymentMethod = GHC.Maybe.Nothing,
+      postSubscriptionSchedulesScheduleRequestBodyPhases'DefaultTaxRates = GHC.Maybe.Nothing,
+      postSubscriptionSchedulesScheduleRequestBodyPhases'EndDate = GHC.Maybe.Nothing,
+      postSubscriptionSchedulesScheduleRequestBodyPhases'InvoiceSettings = GHC.Maybe.Nothing,
+      postSubscriptionSchedulesScheduleRequestBodyPhases'Iterations = GHC.Maybe.Nothing,
+      postSubscriptionSchedulesScheduleRequestBodyPhases'Plans = postSubscriptionSchedulesScheduleRequestBodyPhases'Plans,
+      postSubscriptionSchedulesScheduleRequestBodyPhases'ProrationBehavior = GHC.Maybe.Nothing,
+      postSubscriptionSchedulesScheduleRequestBodyPhases'StartDate = GHC.Maybe.Nothing,
+      postSubscriptionSchedulesScheduleRequestBodyPhases'TaxPercent = GHC.Maybe.Nothing,
+      postSubscriptionSchedulesScheduleRequestBodyPhases'Trial = GHC.Maybe.Nothing,
+      postSubscriptionSchedulesScheduleRequestBodyPhases'TrialEnd = GHC.Maybe.Nothing
+    }
+
+-- | Defines the object schema located at @paths.\/v1\/subscription_schedules\/{schedule}.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.phases.items.properties.billing_thresholds.anyOf@ in the specification.
 data PostSubscriptionSchedulesScheduleRequestBodyPhases'BillingThresholds'OneOf1
-  = PostSubscriptionSchedulesScheduleRequestBodyPhases'BillingThresholds'OneOf1EnumOther Data.Aeson.Types.Internal.Value
-  | PostSubscriptionSchedulesScheduleRequestBodyPhases'BillingThresholds'OneOf1EnumTyped Data.Text.Internal.Text
-  | PostSubscriptionSchedulesScheduleRequestBodyPhases'BillingThresholds'OneOf1EnumString_
-  deriving (GHC.Show.Show, GHC.Classes.Eq)
-
-instance Data.Aeson.Types.ToJSON.ToJSON PostSubscriptionSchedulesScheduleRequestBodyPhases'BillingThresholds'OneOf1 where
-  toJSON (PostSubscriptionSchedulesScheduleRequestBodyPhases'BillingThresholds'OneOf1EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostSubscriptionSchedulesScheduleRequestBodyPhases'BillingThresholds'OneOf1EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostSubscriptionSchedulesScheduleRequestBodyPhases'BillingThresholds'OneOf1EnumString_) = ""
-
-instance Data.Aeson.Types.FromJSON.FromJSON PostSubscriptionSchedulesScheduleRequestBodyPhases'BillingThresholds'OneOf1 where
-  parseJSON val =
-    GHC.Base.pure
-      ( if  | val GHC.Classes.== "" -> PostSubscriptionSchedulesScheduleRequestBodyPhases'BillingThresholds'OneOf1EnumString_
-            | GHC.Base.otherwise -> PostSubscriptionSchedulesScheduleRequestBodyPhases'BillingThresholds'OneOf1EnumOther val
-      )
-
--- | Defines the data type for the schema postSubscriptionSchedulesScheduleRequestBodyPhases\'Billing_thresholds\'OneOf2
-data PostSubscriptionSchedulesScheduleRequestBodyPhases'BillingThresholds'OneOf2
-  = PostSubscriptionSchedulesScheduleRequestBodyPhases'BillingThresholds'OneOf2
+  = PostSubscriptionSchedulesScheduleRequestBodyPhases'BillingThresholds'OneOf1
       { -- | amount_gte
-        postSubscriptionSchedulesScheduleRequestBodyPhases'BillingThresholds'OneOf2AmountGte :: (GHC.Maybe.Maybe GHC.Types.Int),
+        postSubscriptionSchedulesScheduleRequestBodyPhases'BillingThresholds'OneOf1AmountGte :: (GHC.Maybe.Maybe GHC.Types.Int),
         -- | reset_billing_cycle_anchor
-        postSubscriptionSchedulesScheduleRequestBodyPhases'BillingThresholds'OneOf2ResetBillingCycleAnchor :: (GHC.Maybe.Maybe GHC.Types.Bool)
+        postSubscriptionSchedulesScheduleRequestBodyPhases'BillingThresholds'OneOf1ResetBillingCycleAnchor :: (GHC.Maybe.Maybe GHC.Types.Bool)
       }
   deriving
     ( GHC.Show.Show,
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.Types.ToJSON.ToJSON PostSubscriptionSchedulesScheduleRequestBodyPhases'BillingThresholds'OneOf2 where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "amount_gte" (postSubscriptionSchedulesScheduleRequestBodyPhases'BillingThresholds'OneOf2AmountGte obj) : (Data.Aeson..=) "reset_billing_cycle_anchor" (postSubscriptionSchedulesScheduleRequestBodyPhases'BillingThresholds'OneOf2ResetBillingCycleAnchor obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "amount_gte" (postSubscriptionSchedulesScheduleRequestBodyPhases'BillingThresholds'OneOf2AmountGte obj) GHC.Base.<> (Data.Aeson..=) "reset_billing_cycle_anchor" (postSubscriptionSchedulesScheduleRequestBodyPhases'BillingThresholds'OneOf2ResetBillingCycleAnchor obj))
+instance Data.Aeson.Types.ToJSON.ToJSON PostSubscriptionSchedulesScheduleRequestBodyPhases'BillingThresholds'OneOf1 where
+  toJSON obj = Data.Aeson.Types.Internal.object ("amount_gte" Data.Aeson.Types.ToJSON..= postSubscriptionSchedulesScheduleRequestBodyPhases'BillingThresholds'OneOf1AmountGte obj : "reset_billing_cycle_anchor" Data.Aeson.Types.ToJSON..= postSubscriptionSchedulesScheduleRequestBodyPhases'BillingThresholds'OneOf1ResetBillingCycleAnchor obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("amount_gte" Data.Aeson.Types.ToJSON..= postSubscriptionSchedulesScheduleRequestBodyPhases'BillingThresholds'OneOf1AmountGte obj) GHC.Base.<> ("reset_billing_cycle_anchor" Data.Aeson.Types.ToJSON..= postSubscriptionSchedulesScheduleRequestBodyPhases'BillingThresholds'OneOf1ResetBillingCycleAnchor obj))
 
-instance Data.Aeson.Types.FromJSON.FromJSON PostSubscriptionSchedulesScheduleRequestBodyPhases'BillingThresholds'OneOf2 where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostSubscriptionSchedulesScheduleRequestBodyPhases'BillingThresholds'OneOf2" (\obj -> (GHC.Base.pure PostSubscriptionSchedulesScheduleRequestBodyPhases'BillingThresholds'OneOf2 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "amount_gte")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "reset_billing_cycle_anchor"))
+instance Data.Aeson.Types.FromJSON.FromJSON PostSubscriptionSchedulesScheduleRequestBodyPhases'BillingThresholds'OneOf1 where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostSubscriptionSchedulesScheduleRequestBodyPhases'BillingThresholds'OneOf1" (\obj -> (GHC.Base.pure PostSubscriptionSchedulesScheduleRequestBodyPhases'BillingThresholds'OneOf1 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "amount_gte")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "reset_billing_cycle_anchor"))
 
--- | Define the one-of schema postSubscriptionSchedulesScheduleRequestBodyPhases\'Billing_thresholds\'
+-- | Create a new 'PostSubscriptionSchedulesScheduleRequestBodyPhases'BillingThresholds'OneOf1' with all required fields.
+mkPostSubscriptionSchedulesScheduleRequestBodyPhases'BillingThresholds'OneOf1 :: PostSubscriptionSchedulesScheduleRequestBodyPhases'BillingThresholds'OneOf1
+mkPostSubscriptionSchedulesScheduleRequestBodyPhases'BillingThresholds'OneOf1 =
+  PostSubscriptionSchedulesScheduleRequestBodyPhases'BillingThresholds'OneOf1
+    { postSubscriptionSchedulesScheduleRequestBodyPhases'BillingThresholds'OneOf1AmountGte = GHC.Maybe.Nothing,
+      postSubscriptionSchedulesScheduleRequestBodyPhases'BillingThresholds'OneOf1ResetBillingCycleAnchor = GHC.Maybe.Nothing
+    }
+
+-- | Defines the oneOf schema located at @paths.\/v1\/subscription_schedules\/{schedule}.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.phases.items.properties.billing_thresholds.anyOf@ in the specification.
 data PostSubscriptionSchedulesScheduleRequestBodyPhases'BillingThresholds'Variants
-  = PostSubscriptionSchedulesScheduleRequestBodyPhases'BillingThresholds'PostSubscriptionSchedulesScheduleRequestBodyPhases'BillingThresholds'OneOf1 PostSubscriptionSchedulesScheduleRequestBodyPhases'BillingThresholds'OneOf1
-  | PostSubscriptionSchedulesScheduleRequestBodyPhases'BillingThresholds'PostSubscriptionSchedulesScheduleRequestBodyPhases'BillingThresholds'OneOf2 PostSubscriptionSchedulesScheduleRequestBodyPhases'BillingThresholds'OneOf2
+  = -- | Represents the JSON value @""@
+    PostSubscriptionSchedulesScheduleRequestBodyPhases'BillingThresholds'EmptyString
+  | PostSubscriptionSchedulesScheduleRequestBodyPhases'BillingThresholds'PostSubscriptionSchedulesScheduleRequestBodyPhases'BillingThresholds'OneOf1 PostSubscriptionSchedulesScheduleRequestBodyPhases'BillingThresholds'OneOf1
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostSubscriptionSchedulesScheduleRequestBodyPhases'BillingThresholds'Variants where
   toJSON (PostSubscriptionSchedulesScheduleRequestBodyPhases'BillingThresholds'PostSubscriptionSchedulesScheduleRequestBodyPhases'BillingThresholds'OneOf1 a) = Data.Aeson.Types.ToJSON.toJSON a
-  toJSON (PostSubscriptionSchedulesScheduleRequestBodyPhases'BillingThresholds'PostSubscriptionSchedulesScheduleRequestBodyPhases'BillingThresholds'OneOf2 a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (PostSubscriptionSchedulesScheduleRequestBodyPhases'BillingThresholds'EmptyString) = ""
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostSubscriptionSchedulesScheduleRequestBodyPhases'BillingThresholds'Variants where
-  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
-    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ PostSubscriptionSchedulesScheduleRequestBodyPhases'BillingThresholds'PostSubscriptionSchedulesScheduleRequestBodyPhases'BillingThresholds'OneOf1 a
-    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ PostSubscriptionSchedulesScheduleRequestBodyPhases'BillingThresholds'PostSubscriptionSchedulesScheduleRequestBodyPhases'BillingThresholds'OneOf2 a
-      Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+  parseJSON val =
+    if  | val GHC.Classes.== "" -> GHC.Base.pure PostSubscriptionSchedulesScheduleRequestBodyPhases'BillingThresholds'EmptyString
+        | GHC.Base.otherwise -> case (PostSubscriptionSchedulesScheduleRequestBodyPhases'BillingThresholds'PostSubscriptionSchedulesScheduleRequestBodyPhases'BillingThresholds'OneOf1 Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched" of
+          Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+          Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
--- | Defines the enum schema postSubscriptionSchedulesScheduleRequestBodyPhases\'Collection_method\'
+-- | Defines the enum schema located at @paths.\/v1\/subscription_schedules\/{schedule}.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.phases.items.properties.collection_method@ in the specification.
 data PostSubscriptionSchedulesScheduleRequestBodyPhases'CollectionMethod'
-  = PostSubscriptionSchedulesScheduleRequestBodyPhases'CollectionMethod'EnumOther Data.Aeson.Types.Internal.Value
-  | PostSubscriptionSchedulesScheduleRequestBodyPhases'CollectionMethod'EnumTyped Data.Text.Internal.Text
-  | PostSubscriptionSchedulesScheduleRequestBodyPhases'CollectionMethod'EnumStringChargeAutomatically
-  | PostSubscriptionSchedulesScheduleRequestBodyPhases'CollectionMethod'EnumStringSendInvoice
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    PostSubscriptionSchedulesScheduleRequestBodyPhases'CollectionMethod'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    PostSubscriptionSchedulesScheduleRequestBodyPhases'CollectionMethod'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"charge_automatically"@
+    PostSubscriptionSchedulesScheduleRequestBodyPhases'CollectionMethod'EnumChargeAutomatically
+  | -- | Represents the JSON value @"send_invoice"@
+    PostSubscriptionSchedulesScheduleRequestBodyPhases'CollectionMethod'EnumSendInvoice
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostSubscriptionSchedulesScheduleRequestBodyPhases'CollectionMethod' where
-  toJSON (PostSubscriptionSchedulesScheduleRequestBodyPhases'CollectionMethod'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostSubscriptionSchedulesScheduleRequestBodyPhases'CollectionMethod'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostSubscriptionSchedulesScheduleRequestBodyPhases'CollectionMethod'EnumStringChargeAutomatically) = "charge_automatically"
-  toJSON (PostSubscriptionSchedulesScheduleRequestBodyPhases'CollectionMethod'EnumStringSendInvoice) = "send_invoice"
+  toJSON (PostSubscriptionSchedulesScheduleRequestBodyPhases'CollectionMethod'Other val) = val
+  toJSON (PostSubscriptionSchedulesScheduleRequestBodyPhases'CollectionMethod'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PostSubscriptionSchedulesScheduleRequestBodyPhases'CollectionMethod'EnumChargeAutomatically) = "charge_automatically"
+  toJSON (PostSubscriptionSchedulesScheduleRequestBodyPhases'CollectionMethod'EnumSendInvoice) = "send_invoice"
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostSubscriptionSchedulesScheduleRequestBodyPhases'CollectionMethod' where
   parseJSON val =
     GHC.Base.pure
-      ( if  | val GHC.Classes.== "charge_automatically" -> PostSubscriptionSchedulesScheduleRequestBodyPhases'CollectionMethod'EnumStringChargeAutomatically
-            | val GHC.Classes.== "send_invoice" -> PostSubscriptionSchedulesScheduleRequestBodyPhases'CollectionMethod'EnumStringSendInvoice
-            | GHC.Base.otherwise -> PostSubscriptionSchedulesScheduleRequestBodyPhases'CollectionMethod'EnumOther val
+      ( if  | val GHC.Classes.== "charge_automatically" -> PostSubscriptionSchedulesScheduleRequestBodyPhases'CollectionMethod'EnumChargeAutomatically
+            | val GHC.Classes.== "send_invoice" -> PostSubscriptionSchedulesScheduleRequestBodyPhases'CollectionMethod'EnumSendInvoice
+            | GHC.Base.otherwise -> PostSubscriptionSchedulesScheduleRequestBodyPhases'CollectionMethod'Other val
       )
 
--- | Defines the enum schema postSubscriptionSchedulesScheduleRequestBodyPhases\'Default_tax_rates\'OneOf1
-data PostSubscriptionSchedulesScheduleRequestBodyPhases'DefaultTaxRates'OneOf1
-  = PostSubscriptionSchedulesScheduleRequestBodyPhases'DefaultTaxRates'OneOf1EnumOther Data.Aeson.Types.Internal.Value
-  | PostSubscriptionSchedulesScheduleRequestBodyPhases'DefaultTaxRates'OneOf1EnumTyped Data.Text.Internal.Text
-  | PostSubscriptionSchedulesScheduleRequestBodyPhases'DefaultTaxRates'OneOf1EnumString_
-  deriving (GHC.Show.Show, GHC.Classes.Eq)
-
-instance Data.Aeson.Types.ToJSON.ToJSON PostSubscriptionSchedulesScheduleRequestBodyPhases'DefaultTaxRates'OneOf1 where
-  toJSON (PostSubscriptionSchedulesScheduleRequestBodyPhases'DefaultTaxRates'OneOf1EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostSubscriptionSchedulesScheduleRequestBodyPhases'DefaultTaxRates'OneOf1EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostSubscriptionSchedulesScheduleRequestBodyPhases'DefaultTaxRates'OneOf1EnumString_) = ""
-
-instance Data.Aeson.Types.FromJSON.FromJSON PostSubscriptionSchedulesScheduleRequestBodyPhases'DefaultTaxRates'OneOf1 where
-  parseJSON val =
-    GHC.Base.pure
-      ( if  | val GHC.Classes.== "" -> PostSubscriptionSchedulesScheduleRequestBodyPhases'DefaultTaxRates'OneOf1EnumString_
-            | GHC.Base.otherwise -> PostSubscriptionSchedulesScheduleRequestBodyPhases'DefaultTaxRates'OneOf1EnumOther val
-      )
-
--- | Define the one-of schema postSubscriptionSchedulesScheduleRequestBodyPhases\'Default_tax_rates\'
+-- | Defines the oneOf schema located at @paths.\/v1\/subscription_schedules\/{schedule}.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.phases.items.properties.default_tax_rates.anyOf@ in the specification.
 data PostSubscriptionSchedulesScheduleRequestBodyPhases'DefaultTaxRates'Variants
-  = PostSubscriptionSchedulesScheduleRequestBodyPhases'DefaultTaxRates'PostSubscriptionSchedulesScheduleRequestBodyPhases'DefaultTaxRates'OneOf1 PostSubscriptionSchedulesScheduleRequestBodyPhases'DefaultTaxRates'OneOf1
+  = -- | Represents the JSON value @""@
+    PostSubscriptionSchedulesScheduleRequestBodyPhases'DefaultTaxRates'EmptyString
   | PostSubscriptionSchedulesScheduleRequestBodyPhases'DefaultTaxRates'ListTText ([Data.Text.Internal.Text])
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostSubscriptionSchedulesScheduleRequestBodyPhases'DefaultTaxRates'Variants where
-  toJSON (PostSubscriptionSchedulesScheduleRequestBodyPhases'DefaultTaxRates'PostSubscriptionSchedulesScheduleRequestBodyPhases'DefaultTaxRates'OneOf1 a) = Data.Aeson.Types.ToJSON.toJSON a
   toJSON (PostSubscriptionSchedulesScheduleRequestBodyPhases'DefaultTaxRates'ListTText a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (PostSubscriptionSchedulesScheduleRequestBodyPhases'DefaultTaxRates'EmptyString) = ""
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostSubscriptionSchedulesScheduleRequestBodyPhases'DefaultTaxRates'Variants where
-  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
-    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ PostSubscriptionSchedulesScheduleRequestBodyPhases'DefaultTaxRates'PostSubscriptionSchedulesScheduleRequestBodyPhases'DefaultTaxRates'OneOf1 a
-    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ PostSubscriptionSchedulesScheduleRequestBodyPhases'DefaultTaxRates'ListTText a
-      Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
-
--- | Defines the enum schema postSubscriptionSchedulesScheduleRequestBodyPhases\'End_date\'OneOf1
-data PostSubscriptionSchedulesScheduleRequestBodyPhases'EndDate'OneOf1
-  = PostSubscriptionSchedulesScheduleRequestBodyPhases'EndDate'OneOf1EnumOther Data.Aeson.Types.Internal.Value
-  | PostSubscriptionSchedulesScheduleRequestBodyPhases'EndDate'OneOf1EnumTyped Data.Text.Internal.Text
-  | PostSubscriptionSchedulesScheduleRequestBodyPhases'EndDate'OneOf1EnumStringNow
-  deriving (GHC.Show.Show, GHC.Classes.Eq)
-
-instance Data.Aeson.Types.ToJSON.ToJSON PostSubscriptionSchedulesScheduleRequestBodyPhases'EndDate'OneOf1 where
-  toJSON (PostSubscriptionSchedulesScheduleRequestBodyPhases'EndDate'OneOf1EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostSubscriptionSchedulesScheduleRequestBodyPhases'EndDate'OneOf1EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostSubscriptionSchedulesScheduleRequestBodyPhases'EndDate'OneOf1EnumStringNow) = "now"
-
-instance Data.Aeson.Types.FromJSON.FromJSON PostSubscriptionSchedulesScheduleRequestBodyPhases'EndDate'OneOf1 where
   parseJSON val =
-    GHC.Base.pure
-      ( if  | val GHC.Classes.== "now" -> PostSubscriptionSchedulesScheduleRequestBodyPhases'EndDate'OneOf1EnumStringNow
-            | GHC.Base.otherwise -> PostSubscriptionSchedulesScheduleRequestBodyPhases'EndDate'OneOf1EnumOther val
-      )
+    if  | val GHC.Classes.== "" -> GHC.Base.pure PostSubscriptionSchedulesScheduleRequestBodyPhases'DefaultTaxRates'EmptyString
+        | GHC.Base.otherwise -> case (PostSubscriptionSchedulesScheduleRequestBodyPhases'DefaultTaxRates'ListTText Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched" of
+          Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+          Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
--- | Define the one-of schema postSubscriptionSchedulesScheduleRequestBodyPhases\'End_date\'
+-- | Defines the oneOf schema located at @paths.\/v1\/subscription_schedules\/{schedule}.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.phases.items.properties.end_date.anyOf@ in the specification.
 data PostSubscriptionSchedulesScheduleRequestBodyPhases'EndDate'Variants
-  = PostSubscriptionSchedulesScheduleRequestBodyPhases'EndDate'PostSubscriptionSchedulesScheduleRequestBodyPhases'EndDate'OneOf1 PostSubscriptionSchedulesScheduleRequestBodyPhases'EndDate'OneOf1
+  = -- | Represents the JSON value @"now"@
+    PostSubscriptionSchedulesScheduleRequestBodyPhases'EndDate'Now
   | PostSubscriptionSchedulesScheduleRequestBodyPhases'EndDate'Int GHC.Types.Int
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostSubscriptionSchedulesScheduleRequestBodyPhases'EndDate'Variants where
-  toJSON (PostSubscriptionSchedulesScheduleRequestBodyPhases'EndDate'PostSubscriptionSchedulesScheduleRequestBodyPhases'EndDate'OneOf1 a) = Data.Aeson.Types.ToJSON.toJSON a
   toJSON (PostSubscriptionSchedulesScheduleRequestBodyPhases'EndDate'Int a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (PostSubscriptionSchedulesScheduleRequestBodyPhases'EndDate'Now) = "now"
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostSubscriptionSchedulesScheduleRequestBodyPhases'EndDate'Variants where
-  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
-    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ PostSubscriptionSchedulesScheduleRequestBodyPhases'EndDate'PostSubscriptionSchedulesScheduleRequestBodyPhases'EndDate'OneOf1 a
-    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ PostSubscriptionSchedulesScheduleRequestBodyPhases'EndDate'Int a
-      Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+  parseJSON val =
+    if  | val GHC.Classes.== "now" -> GHC.Base.pure PostSubscriptionSchedulesScheduleRequestBodyPhases'EndDate'Now
+        | GHC.Base.otherwise -> case (PostSubscriptionSchedulesScheduleRequestBodyPhases'EndDate'Int Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched" of
+          Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+          Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
--- | Defines the data type for the schema postSubscriptionSchedulesScheduleRequestBodyPhases\'Invoice_settings\'
+-- | Defines the object schema located at @paths.\/v1\/subscription_schedules\/{schedule}.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.phases.items.properties.invoice_settings@ in the specification.
 data PostSubscriptionSchedulesScheduleRequestBodyPhases'InvoiceSettings'
   = PostSubscriptionSchedulesScheduleRequestBodyPhases'InvoiceSettings'
       { -- | days_until_due
@@ -483,13 +493,17 @@ data PostSubscriptionSchedulesScheduleRequestBodyPhases'InvoiceSettings'
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostSubscriptionSchedulesScheduleRequestBodyPhases'InvoiceSettings' where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "days_until_due" (postSubscriptionSchedulesScheduleRequestBodyPhases'InvoiceSettings'DaysUntilDue obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "days_until_due" (postSubscriptionSchedulesScheduleRequestBodyPhases'InvoiceSettings'DaysUntilDue obj))
+  toJSON obj = Data.Aeson.Types.Internal.object ("days_until_due" Data.Aeson.Types.ToJSON..= postSubscriptionSchedulesScheduleRequestBodyPhases'InvoiceSettings'DaysUntilDue obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs ("days_until_due" Data.Aeson.Types.ToJSON..= postSubscriptionSchedulesScheduleRequestBodyPhases'InvoiceSettings'DaysUntilDue obj)
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostSubscriptionSchedulesScheduleRequestBodyPhases'InvoiceSettings' where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PostSubscriptionSchedulesScheduleRequestBodyPhases'InvoiceSettings'" (\obj -> GHC.Base.pure PostSubscriptionSchedulesScheduleRequestBodyPhases'InvoiceSettings' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "days_until_due"))
 
--- | Defines the data type for the schema postSubscriptionSchedulesScheduleRequestBodyPhases\'Plans\'
+-- | Create a new 'PostSubscriptionSchedulesScheduleRequestBodyPhases'InvoiceSettings'' with all required fields.
+mkPostSubscriptionSchedulesScheduleRequestBodyPhases'InvoiceSettings' :: PostSubscriptionSchedulesScheduleRequestBodyPhases'InvoiceSettings'
+mkPostSubscriptionSchedulesScheduleRequestBodyPhases'InvoiceSettings' = PostSubscriptionSchedulesScheduleRequestBodyPhases'InvoiceSettings' {postSubscriptionSchedulesScheduleRequestBodyPhases'InvoiceSettings'DaysUntilDue = GHC.Maybe.Nothing}
+
+-- | Defines the object schema located at @paths.\/v1\/subscription_schedules\/{schedule}.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.phases.items.properties.plans.items@ in the specification.
 data PostSubscriptionSchedulesScheduleRequestBodyPhases'Plans'
   = PostSubscriptionSchedulesScheduleRequestBodyPhases'Plans'
       { -- | billing_thresholds
@@ -511,224 +525,179 @@ data PostSubscriptionSchedulesScheduleRequestBodyPhases'Plans'
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostSubscriptionSchedulesScheduleRequestBodyPhases'Plans' where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "billing_thresholds" (postSubscriptionSchedulesScheduleRequestBodyPhases'Plans'BillingThresholds obj) : (Data.Aeson..=) "plan" (postSubscriptionSchedulesScheduleRequestBodyPhases'Plans'Plan obj) : (Data.Aeson..=) "quantity" (postSubscriptionSchedulesScheduleRequestBodyPhases'Plans'Quantity obj) : (Data.Aeson..=) "tax_rates" (postSubscriptionSchedulesScheduleRequestBodyPhases'Plans'TaxRates obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "billing_thresholds" (postSubscriptionSchedulesScheduleRequestBodyPhases'Plans'BillingThresholds obj) GHC.Base.<> ((Data.Aeson..=) "plan" (postSubscriptionSchedulesScheduleRequestBodyPhases'Plans'Plan obj) GHC.Base.<> ((Data.Aeson..=) "quantity" (postSubscriptionSchedulesScheduleRequestBodyPhases'Plans'Quantity obj) GHC.Base.<> (Data.Aeson..=) "tax_rates" (postSubscriptionSchedulesScheduleRequestBodyPhases'Plans'TaxRates obj))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("billing_thresholds" Data.Aeson.Types.ToJSON..= postSubscriptionSchedulesScheduleRequestBodyPhases'Plans'BillingThresholds obj : "plan" Data.Aeson.Types.ToJSON..= postSubscriptionSchedulesScheduleRequestBodyPhases'Plans'Plan obj : "quantity" Data.Aeson.Types.ToJSON..= postSubscriptionSchedulesScheduleRequestBodyPhases'Plans'Quantity obj : "tax_rates" Data.Aeson.Types.ToJSON..= postSubscriptionSchedulesScheduleRequestBodyPhases'Plans'TaxRates obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("billing_thresholds" Data.Aeson.Types.ToJSON..= postSubscriptionSchedulesScheduleRequestBodyPhases'Plans'BillingThresholds obj) GHC.Base.<> (("plan" Data.Aeson.Types.ToJSON..= postSubscriptionSchedulesScheduleRequestBodyPhases'Plans'Plan obj) GHC.Base.<> (("quantity" Data.Aeson.Types.ToJSON..= postSubscriptionSchedulesScheduleRequestBodyPhases'Plans'Quantity obj) GHC.Base.<> ("tax_rates" Data.Aeson.Types.ToJSON..= postSubscriptionSchedulesScheduleRequestBodyPhases'Plans'TaxRates obj))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostSubscriptionSchedulesScheduleRequestBodyPhases'Plans' where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PostSubscriptionSchedulesScheduleRequestBodyPhases'Plans'" (\obj -> (((GHC.Base.pure PostSubscriptionSchedulesScheduleRequestBodyPhases'Plans' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "billing_thresholds")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "plan")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "quantity")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "tax_rates"))
 
--- | Defines the enum schema postSubscriptionSchedulesScheduleRequestBodyPhases\'Plans\'Billing_thresholds\'OneOf1
+-- | Create a new 'PostSubscriptionSchedulesScheduleRequestBodyPhases'Plans'' with all required fields.
+mkPostSubscriptionSchedulesScheduleRequestBodyPhases'Plans' :: PostSubscriptionSchedulesScheduleRequestBodyPhases'Plans'
+mkPostSubscriptionSchedulesScheduleRequestBodyPhases'Plans' =
+  PostSubscriptionSchedulesScheduleRequestBodyPhases'Plans'
+    { postSubscriptionSchedulesScheduleRequestBodyPhases'Plans'BillingThresholds = GHC.Maybe.Nothing,
+      postSubscriptionSchedulesScheduleRequestBodyPhases'Plans'Plan = GHC.Maybe.Nothing,
+      postSubscriptionSchedulesScheduleRequestBodyPhases'Plans'Quantity = GHC.Maybe.Nothing,
+      postSubscriptionSchedulesScheduleRequestBodyPhases'Plans'TaxRates = GHC.Maybe.Nothing
+    }
+
+-- | Defines the object schema located at @paths.\/v1\/subscription_schedules\/{schedule}.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.phases.items.properties.plans.items.properties.billing_thresholds.anyOf@ in the specification.
 data PostSubscriptionSchedulesScheduleRequestBodyPhases'Plans'BillingThresholds'OneOf1
-  = PostSubscriptionSchedulesScheduleRequestBodyPhases'Plans'BillingThresholds'OneOf1EnumOther Data.Aeson.Types.Internal.Value
-  | PostSubscriptionSchedulesScheduleRequestBodyPhases'Plans'BillingThresholds'OneOf1EnumTyped Data.Text.Internal.Text
-  | PostSubscriptionSchedulesScheduleRequestBodyPhases'Plans'BillingThresholds'OneOf1EnumString_
-  deriving (GHC.Show.Show, GHC.Classes.Eq)
-
-instance Data.Aeson.Types.ToJSON.ToJSON PostSubscriptionSchedulesScheduleRequestBodyPhases'Plans'BillingThresholds'OneOf1 where
-  toJSON (PostSubscriptionSchedulesScheduleRequestBodyPhases'Plans'BillingThresholds'OneOf1EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostSubscriptionSchedulesScheduleRequestBodyPhases'Plans'BillingThresholds'OneOf1EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostSubscriptionSchedulesScheduleRequestBodyPhases'Plans'BillingThresholds'OneOf1EnumString_) = ""
-
-instance Data.Aeson.Types.FromJSON.FromJSON PostSubscriptionSchedulesScheduleRequestBodyPhases'Plans'BillingThresholds'OneOf1 where
-  parseJSON val =
-    GHC.Base.pure
-      ( if  | val GHC.Classes.== "" -> PostSubscriptionSchedulesScheduleRequestBodyPhases'Plans'BillingThresholds'OneOf1EnumString_
-            | GHC.Base.otherwise -> PostSubscriptionSchedulesScheduleRequestBodyPhases'Plans'BillingThresholds'OneOf1EnumOther val
-      )
-
--- | Defines the data type for the schema postSubscriptionSchedulesScheduleRequestBodyPhases\'Plans\'Billing_thresholds\'OneOf2
-data PostSubscriptionSchedulesScheduleRequestBodyPhases'Plans'BillingThresholds'OneOf2
-  = PostSubscriptionSchedulesScheduleRequestBodyPhases'Plans'BillingThresholds'OneOf2
+  = PostSubscriptionSchedulesScheduleRequestBodyPhases'Plans'BillingThresholds'OneOf1
       { -- | usage_gte
-        postSubscriptionSchedulesScheduleRequestBodyPhases'Plans'BillingThresholds'OneOf2UsageGte :: GHC.Types.Int
+        postSubscriptionSchedulesScheduleRequestBodyPhases'Plans'BillingThresholds'OneOf1UsageGte :: GHC.Types.Int
       }
   deriving
     ( GHC.Show.Show,
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.Types.ToJSON.ToJSON PostSubscriptionSchedulesScheduleRequestBodyPhases'Plans'BillingThresholds'OneOf2 where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "usage_gte" (postSubscriptionSchedulesScheduleRequestBodyPhases'Plans'BillingThresholds'OneOf2UsageGte obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "usage_gte" (postSubscriptionSchedulesScheduleRequestBodyPhases'Plans'BillingThresholds'OneOf2UsageGte obj))
+instance Data.Aeson.Types.ToJSON.ToJSON PostSubscriptionSchedulesScheduleRequestBodyPhases'Plans'BillingThresholds'OneOf1 where
+  toJSON obj = Data.Aeson.Types.Internal.object ("usage_gte" Data.Aeson.Types.ToJSON..= postSubscriptionSchedulesScheduleRequestBodyPhases'Plans'BillingThresholds'OneOf1UsageGte obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs ("usage_gte" Data.Aeson.Types.ToJSON..= postSubscriptionSchedulesScheduleRequestBodyPhases'Plans'BillingThresholds'OneOf1UsageGte obj)
 
-instance Data.Aeson.Types.FromJSON.FromJSON PostSubscriptionSchedulesScheduleRequestBodyPhases'Plans'BillingThresholds'OneOf2 where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostSubscriptionSchedulesScheduleRequestBodyPhases'Plans'BillingThresholds'OneOf2" (\obj -> GHC.Base.pure PostSubscriptionSchedulesScheduleRequestBodyPhases'Plans'BillingThresholds'OneOf2 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "usage_gte"))
+instance Data.Aeson.Types.FromJSON.FromJSON PostSubscriptionSchedulesScheduleRequestBodyPhases'Plans'BillingThresholds'OneOf1 where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostSubscriptionSchedulesScheduleRequestBodyPhases'Plans'BillingThresholds'OneOf1" (\obj -> GHC.Base.pure PostSubscriptionSchedulesScheduleRequestBodyPhases'Plans'BillingThresholds'OneOf1 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "usage_gte"))
 
--- | Define the one-of schema postSubscriptionSchedulesScheduleRequestBodyPhases\'Plans\'Billing_thresholds\'
+-- | Create a new 'PostSubscriptionSchedulesScheduleRequestBodyPhases'Plans'BillingThresholds'OneOf1' with all required fields.
+mkPostSubscriptionSchedulesScheduleRequestBodyPhases'Plans'BillingThresholds'OneOf1 ::
+  -- | 'postSubscriptionSchedulesScheduleRequestBodyPhases'Plans'BillingThresholds'OneOf1UsageGte'
+  GHC.Types.Int ->
+  PostSubscriptionSchedulesScheduleRequestBodyPhases'Plans'BillingThresholds'OneOf1
+mkPostSubscriptionSchedulesScheduleRequestBodyPhases'Plans'BillingThresholds'OneOf1 postSubscriptionSchedulesScheduleRequestBodyPhases'Plans'BillingThresholds'OneOf1UsageGte = PostSubscriptionSchedulesScheduleRequestBodyPhases'Plans'BillingThresholds'OneOf1 {postSubscriptionSchedulesScheduleRequestBodyPhases'Plans'BillingThresholds'OneOf1UsageGte = postSubscriptionSchedulesScheduleRequestBodyPhases'Plans'BillingThresholds'OneOf1UsageGte}
+
+-- | Defines the oneOf schema located at @paths.\/v1\/subscription_schedules\/{schedule}.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.phases.items.properties.plans.items.properties.billing_thresholds.anyOf@ in the specification.
 data PostSubscriptionSchedulesScheduleRequestBodyPhases'Plans'BillingThresholds'Variants
-  = PostSubscriptionSchedulesScheduleRequestBodyPhases'Plans'BillingThresholds'PostSubscriptionSchedulesScheduleRequestBodyPhases'Plans'BillingThresholds'OneOf1 PostSubscriptionSchedulesScheduleRequestBodyPhases'Plans'BillingThresholds'OneOf1
-  | PostSubscriptionSchedulesScheduleRequestBodyPhases'Plans'BillingThresholds'PostSubscriptionSchedulesScheduleRequestBodyPhases'Plans'BillingThresholds'OneOf2 PostSubscriptionSchedulesScheduleRequestBodyPhases'Plans'BillingThresholds'OneOf2
+  = -- | Represents the JSON value @""@
+    PostSubscriptionSchedulesScheduleRequestBodyPhases'Plans'BillingThresholds'EmptyString
+  | PostSubscriptionSchedulesScheduleRequestBodyPhases'Plans'BillingThresholds'PostSubscriptionSchedulesScheduleRequestBodyPhases'Plans'BillingThresholds'OneOf1 PostSubscriptionSchedulesScheduleRequestBodyPhases'Plans'BillingThresholds'OneOf1
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostSubscriptionSchedulesScheduleRequestBodyPhases'Plans'BillingThresholds'Variants where
   toJSON (PostSubscriptionSchedulesScheduleRequestBodyPhases'Plans'BillingThresholds'PostSubscriptionSchedulesScheduleRequestBodyPhases'Plans'BillingThresholds'OneOf1 a) = Data.Aeson.Types.ToJSON.toJSON a
-  toJSON (PostSubscriptionSchedulesScheduleRequestBodyPhases'Plans'BillingThresholds'PostSubscriptionSchedulesScheduleRequestBodyPhases'Plans'BillingThresholds'OneOf2 a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (PostSubscriptionSchedulesScheduleRequestBodyPhases'Plans'BillingThresholds'EmptyString) = ""
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostSubscriptionSchedulesScheduleRequestBodyPhases'Plans'BillingThresholds'Variants where
-  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
-    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ PostSubscriptionSchedulesScheduleRequestBodyPhases'Plans'BillingThresholds'PostSubscriptionSchedulesScheduleRequestBodyPhases'Plans'BillingThresholds'OneOf1 a
-    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ PostSubscriptionSchedulesScheduleRequestBodyPhases'Plans'BillingThresholds'PostSubscriptionSchedulesScheduleRequestBodyPhases'Plans'BillingThresholds'OneOf2 a
-      Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
-
--- | Defines the enum schema postSubscriptionSchedulesScheduleRequestBodyPhases\'Plans\'Tax_rates\'OneOf1
-data PostSubscriptionSchedulesScheduleRequestBodyPhases'Plans'TaxRates'OneOf1
-  = PostSubscriptionSchedulesScheduleRequestBodyPhases'Plans'TaxRates'OneOf1EnumOther Data.Aeson.Types.Internal.Value
-  | PostSubscriptionSchedulesScheduleRequestBodyPhases'Plans'TaxRates'OneOf1EnumTyped Data.Text.Internal.Text
-  | PostSubscriptionSchedulesScheduleRequestBodyPhases'Plans'TaxRates'OneOf1EnumString_
-  deriving (GHC.Show.Show, GHC.Classes.Eq)
-
-instance Data.Aeson.Types.ToJSON.ToJSON PostSubscriptionSchedulesScheduleRequestBodyPhases'Plans'TaxRates'OneOf1 where
-  toJSON (PostSubscriptionSchedulesScheduleRequestBodyPhases'Plans'TaxRates'OneOf1EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostSubscriptionSchedulesScheduleRequestBodyPhases'Plans'TaxRates'OneOf1EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostSubscriptionSchedulesScheduleRequestBodyPhases'Plans'TaxRates'OneOf1EnumString_) = ""
-
-instance Data.Aeson.Types.FromJSON.FromJSON PostSubscriptionSchedulesScheduleRequestBodyPhases'Plans'TaxRates'OneOf1 where
   parseJSON val =
-    GHC.Base.pure
-      ( if  | val GHC.Classes.== "" -> PostSubscriptionSchedulesScheduleRequestBodyPhases'Plans'TaxRates'OneOf1EnumString_
-            | GHC.Base.otherwise -> PostSubscriptionSchedulesScheduleRequestBodyPhases'Plans'TaxRates'OneOf1EnumOther val
-      )
+    if  | val GHC.Classes.== "" -> GHC.Base.pure PostSubscriptionSchedulesScheduleRequestBodyPhases'Plans'BillingThresholds'EmptyString
+        | GHC.Base.otherwise -> case (PostSubscriptionSchedulesScheduleRequestBodyPhases'Plans'BillingThresholds'PostSubscriptionSchedulesScheduleRequestBodyPhases'Plans'BillingThresholds'OneOf1 Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched" of
+          Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+          Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
--- | Define the one-of schema postSubscriptionSchedulesScheduleRequestBodyPhases\'Plans\'Tax_rates\'
+-- | Defines the oneOf schema located at @paths.\/v1\/subscription_schedules\/{schedule}.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.phases.items.properties.plans.items.properties.tax_rates.anyOf@ in the specification.
 data PostSubscriptionSchedulesScheduleRequestBodyPhases'Plans'TaxRates'Variants
-  = PostSubscriptionSchedulesScheduleRequestBodyPhases'Plans'TaxRates'PostSubscriptionSchedulesScheduleRequestBodyPhases'Plans'TaxRates'OneOf1 PostSubscriptionSchedulesScheduleRequestBodyPhases'Plans'TaxRates'OneOf1
+  = -- | Represents the JSON value @""@
+    PostSubscriptionSchedulesScheduleRequestBodyPhases'Plans'TaxRates'EmptyString
   | PostSubscriptionSchedulesScheduleRequestBodyPhases'Plans'TaxRates'ListTText ([Data.Text.Internal.Text])
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostSubscriptionSchedulesScheduleRequestBodyPhases'Plans'TaxRates'Variants where
-  toJSON (PostSubscriptionSchedulesScheduleRequestBodyPhases'Plans'TaxRates'PostSubscriptionSchedulesScheduleRequestBodyPhases'Plans'TaxRates'OneOf1 a) = Data.Aeson.Types.ToJSON.toJSON a
   toJSON (PostSubscriptionSchedulesScheduleRequestBodyPhases'Plans'TaxRates'ListTText a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (PostSubscriptionSchedulesScheduleRequestBodyPhases'Plans'TaxRates'EmptyString) = ""
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostSubscriptionSchedulesScheduleRequestBodyPhases'Plans'TaxRates'Variants where
-  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
-    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ PostSubscriptionSchedulesScheduleRequestBodyPhases'Plans'TaxRates'PostSubscriptionSchedulesScheduleRequestBodyPhases'Plans'TaxRates'OneOf1 a
-    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ PostSubscriptionSchedulesScheduleRequestBodyPhases'Plans'TaxRates'ListTText a
-      Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+  parseJSON val =
+    if  | val GHC.Classes.== "" -> GHC.Base.pure PostSubscriptionSchedulesScheduleRequestBodyPhases'Plans'TaxRates'EmptyString
+        | GHC.Base.otherwise -> case (PostSubscriptionSchedulesScheduleRequestBodyPhases'Plans'TaxRates'ListTText Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched" of
+          Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+          Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
--- | Defines the enum schema postSubscriptionSchedulesScheduleRequestBodyPhases\'Proration_behavior\'
+-- | Defines the enum schema located at @paths.\/v1\/subscription_schedules\/{schedule}.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.phases.items.properties.proration_behavior@ in the specification.
 data PostSubscriptionSchedulesScheduleRequestBodyPhases'ProrationBehavior'
-  = PostSubscriptionSchedulesScheduleRequestBodyPhases'ProrationBehavior'EnumOther Data.Aeson.Types.Internal.Value
-  | PostSubscriptionSchedulesScheduleRequestBodyPhases'ProrationBehavior'EnumTyped Data.Text.Internal.Text
-  | PostSubscriptionSchedulesScheduleRequestBodyPhases'ProrationBehavior'EnumStringAlwaysInvoice
-  | PostSubscriptionSchedulesScheduleRequestBodyPhases'ProrationBehavior'EnumStringCreateProrations
-  | PostSubscriptionSchedulesScheduleRequestBodyPhases'ProrationBehavior'EnumStringNone
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    PostSubscriptionSchedulesScheduleRequestBodyPhases'ProrationBehavior'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    PostSubscriptionSchedulesScheduleRequestBodyPhases'ProrationBehavior'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"always_invoice"@
+    PostSubscriptionSchedulesScheduleRequestBodyPhases'ProrationBehavior'EnumAlwaysInvoice
+  | -- | Represents the JSON value @"create_prorations"@
+    PostSubscriptionSchedulesScheduleRequestBodyPhases'ProrationBehavior'EnumCreateProrations
+  | -- | Represents the JSON value @"none"@
+    PostSubscriptionSchedulesScheduleRequestBodyPhases'ProrationBehavior'EnumNone
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostSubscriptionSchedulesScheduleRequestBodyPhases'ProrationBehavior' where
-  toJSON (PostSubscriptionSchedulesScheduleRequestBodyPhases'ProrationBehavior'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostSubscriptionSchedulesScheduleRequestBodyPhases'ProrationBehavior'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostSubscriptionSchedulesScheduleRequestBodyPhases'ProrationBehavior'EnumStringAlwaysInvoice) = "always_invoice"
-  toJSON (PostSubscriptionSchedulesScheduleRequestBodyPhases'ProrationBehavior'EnumStringCreateProrations) = "create_prorations"
-  toJSON (PostSubscriptionSchedulesScheduleRequestBodyPhases'ProrationBehavior'EnumStringNone) = "none"
+  toJSON (PostSubscriptionSchedulesScheduleRequestBodyPhases'ProrationBehavior'Other val) = val
+  toJSON (PostSubscriptionSchedulesScheduleRequestBodyPhases'ProrationBehavior'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PostSubscriptionSchedulesScheduleRequestBodyPhases'ProrationBehavior'EnumAlwaysInvoice) = "always_invoice"
+  toJSON (PostSubscriptionSchedulesScheduleRequestBodyPhases'ProrationBehavior'EnumCreateProrations) = "create_prorations"
+  toJSON (PostSubscriptionSchedulesScheduleRequestBodyPhases'ProrationBehavior'EnumNone) = "none"
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostSubscriptionSchedulesScheduleRequestBodyPhases'ProrationBehavior' where
   parseJSON val =
     GHC.Base.pure
-      ( if  | val GHC.Classes.== "always_invoice" -> PostSubscriptionSchedulesScheduleRequestBodyPhases'ProrationBehavior'EnumStringAlwaysInvoice
-            | val GHC.Classes.== "create_prorations" -> PostSubscriptionSchedulesScheduleRequestBodyPhases'ProrationBehavior'EnumStringCreateProrations
-            | val GHC.Classes.== "none" -> PostSubscriptionSchedulesScheduleRequestBodyPhases'ProrationBehavior'EnumStringNone
-            | GHC.Base.otherwise -> PostSubscriptionSchedulesScheduleRequestBodyPhases'ProrationBehavior'EnumOther val
+      ( if  | val GHC.Classes.== "always_invoice" -> PostSubscriptionSchedulesScheduleRequestBodyPhases'ProrationBehavior'EnumAlwaysInvoice
+            | val GHC.Classes.== "create_prorations" -> PostSubscriptionSchedulesScheduleRequestBodyPhases'ProrationBehavior'EnumCreateProrations
+            | val GHC.Classes.== "none" -> PostSubscriptionSchedulesScheduleRequestBodyPhases'ProrationBehavior'EnumNone
+            | GHC.Base.otherwise -> PostSubscriptionSchedulesScheduleRequestBodyPhases'ProrationBehavior'Other val
       )
 
--- | Defines the enum schema postSubscriptionSchedulesScheduleRequestBodyPhases\'Start_date\'OneOf1
-data PostSubscriptionSchedulesScheduleRequestBodyPhases'StartDate'OneOf1
-  = PostSubscriptionSchedulesScheduleRequestBodyPhases'StartDate'OneOf1EnumOther Data.Aeson.Types.Internal.Value
-  | PostSubscriptionSchedulesScheduleRequestBodyPhases'StartDate'OneOf1EnumTyped Data.Text.Internal.Text
-  | PostSubscriptionSchedulesScheduleRequestBodyPhases'StartDate'OneOf1EnumStringNow
-  deriving (GHC.Show.Show, GHC.Classes.Eq)
-
-instance Data.Aeson.Types.ToJSON.ToJSON PostSubscriptionSchedulesScheduleRequestBodyPhases'StartDate'OneOf1 where
-  toJSON (PostSubscriptionSchedulesScheduleRequestBodyPhases'StartDate'OneOf1EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostSubscriptionSchedulesScheduleRequestBodyPhases'StartDate'OneOf1EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostSubscriptionSchedulesScheduleRequestBodyPhases'StartDate'OneOf1EnumStringNow) = "now"
-
-instance Data.Aeson.Types.FromJSON.FromJSON PostSubscriptionSchedulesScheduleRequestBodyPhases'StartDate'OneOf1 where
-  parseJSON val =
-    GHC.Base.pure
-      ( if  | val GHC.Classes.== "now" -> PostSubscriptionSchedulesScheduleRequestBodyPhases'StartDate'OneOf1EnumStringNow
-            | GHC.Base.otherwise -> PostSubscriptionSchedulesScheduleRequestBodyPhases'StartDate'OneOf1EnumOther val
-      )
-
--- | Define the one-of schema postSubscriptionSchedulesScheduleRequestBodyPhases\'Start_date\'
+-- | Defines the oneOf schema located at @paths.\/v1\/subscription_schedules\/{schedule}.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.phases.items.properties.start_date.anyOf@ in the specification.
 data PostSubscriptionSchedulesScheduleRequestBodyPhases'StartDate'Variants
-  = PostSubscriptionSchedulesScheduleRequestBodyPhases'StartDate'PostSubscriptionSchedulesScheduleRequestBodyPhases'StartDate'OneOf1 PostSubscriptionSchedulesScheduleRequestBodyPhases'StartDate'OneOf1
+  = -- | Represents the JSON value @"now"@
+    PostSubscriptionSchedulesScheduleRequestBodyPhases'StartDate'Now
   | PostSubscriptionSchedulesScheduleRequestBodyPhases'StartDate'Int GHC.Types.Int
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostSubscriptionSchedulesScheduleRequestBodyPhases'StartDate'Variants where
-  toJSON (PostSubscriptionSchedulesScheduleRequestBodyPhases'StartDate'PostSubscriptionSchedulesScheduleRequestBodyPhases'StartDate'OneOf1 a) = Data.Aeson.Types.ToJSON.toJSON a
   toJSON (PostSubscriptionSchedulesScheduleRequestBodyPhases'StartDate'Int a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (PostSubscriptionSchedulesScheduleRequestBodyPhases'StartDate'Now) = "now"
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostSubscriptionSchedulesScheduleRequestBodyPhases'StartDate'Variants where
-  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
-    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ PostSubscriptionSchedulesScheduleRequestBodyPhases'StartDate'PostSubscriptionSchedulesScheduleRequestBodyPhases'StartDate'OneOf1 a
-    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ PostSubscriptionSchedulesScheduleRequestBodyPhases'StartDate'Int a
-      Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
-
--- | Defines the enum schema postSubscriptionSchedulesScheduleRequestBodyPhases\'Trial_end\'OneOf1
-data PostSubscriptionSchedulesScheduleRequestBodyPhases'TrialEnd'OneOf1
-  = PostSubscriptionSchedulesScheduleRequestBodyPhases'TrialEnd'OneOf1EnumOther Data.Aeson.Types.Internal.Value
-  | PostSubscriptionSchedulesScheduleRequestBodyPhases'TrialEnd'OneOf1EnumTyped Data.Text.Internal.Text
-  | PostSubscriptionSchedulesScheduleRequestBodyPhases'TrialEnd'OneOf1EnumStringNow
-  deriving (GHC.Show.Show, GHC.Classes.Eq)
-
-instance Data.Aeson.Types.ToJSON.ToJSON PostSubscriptionSchedulesScheduleRequestBodyPhases'TrialEnd'OneOf1 where
-  toJSON (PostSubscriptionSchedulesScheduleRequestBodyPhases'TrialEnd'OneOf1EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostSubscriptionSchedulesScheduleRequestBodyPhases'TrialEnd'OneOf1EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostSubscriptionSchedulesScheduleRequestBodyPhases'TrialEnd'OneOf1EnumStringNow) = "now"
-
-instance Data.Aeson.Types.FromJSON.FromJSON PostSubscriptionSchedulesScheduleRequestBodyPhases'TrialEnd'OneOf1 where
   parseJSON val =
-    GHC.Base.pure
-      ( if  | val GHC.Classes.== "now" -> PostSubscriptionSchedulesScheduleRequestBodyPhases'TrialEnd'OneOf1EnumStringNow
-            | GHC.Base.otherwise -> PostSubscriptionSchedulesScheduleRequestBodyPhases'TrialEnd'OneOf1EnumOther val
-      )
+    if  | val GHC.Classes.== "now" -> GHC.Base.pure PostSubscriptionSchedulesScheduleRequestBodyPhases'StartDate'Now
+        | GHC.Base.otherwise -> case (PostSubscriptionSchedulesScheduleRequestBodyPhases'StartDate'Int Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched" of
+          Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+          Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
--- | Define the one-of schema postSubscriptionSchedulesScheduleRequestBodyPhases\'Trial_end\'
+-- | Defines the oneOf schema located at @paths.\/v1\/subscription_schedules\/{schedule}.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.phases.items.properties.trial_end.anyOf@ in the specification.
 data PostSubscriptionSchedulesScheduleRequestBodyPhases'TrialEnd'Variants
-  = PostSubscriptionSchedulesScheduleRequestBodyPhases'TrialEnd'PostSubscriptionSchedulesScheduleRequestBodyPhases'TrialEnd'OneOf1 PostSubscriptionSchedulesScheduleRequestBodyPhases'TrialEnd'OneOf1
+  = -- | Represents the JSON value @"now"@
+    PostSubscriptionSchedulesScheduleRequestBodyPhases'TrialEnd'Now
   | PostSubscriptionSchedulesScheduleRequestBodyPhases'TrialEnd'Int GHC.Types.Int
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostSubscriptionSchedulesScheduleRequestBodyPhases'TrialEnd'Variants where
-  toJSON (PostSubscriptionSchedulesScheduleRequestBodyPhases'TrialEnd'PostSubscriptionSchedulesScheduleRequestBodyPhases'TrialEnd'OneOf1 a) = Data.Aeson.Types.ToJSON.toJSON a
   toJSON (PostSubscriptionSchedulesScheduleRequestBodyPhases'TrialEnd'Int a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (PostSubscriptionSchedulesScheduleRequestBodyPhases'TrialEnd'Now) = "now"
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostSubscriptionSchedulesScheduleRequestBodyPhases'TrialEnd'Variants where
-  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
-    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ PostSubscriptionSchedulesScheduleRequestBodyPhases'TrialEnd'PostSubscriptionSchedulesScheduleRequestBodyPhases'TrialEnd'OneOf1 a
-    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ PostSubscriptionSchedulesScheduleRequestBodyPhases'TrialEnd'Int a
-      Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+  parseJSON val =
+    if  | val GHC.Classes.== "now" -> GHC.Base.pure PostSubscriptionSchedulesScheduleRequestBodyPhases'TrialEnd'Now
+        | GHC.Base.otherwise -> case (PostSubscriptionSchedulesScheduleRequestBodyPhases'TrialEnd'Int Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched" of
+          Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+          Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
--- | Defines the enum schema postSubscriptionSchedulesScheduleRequestBodyProration_behavior\'
+-- | Defines the enum schema located at @paths.\/v1\/subscription_schedules\/{schedule}.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.proration_behavior@ in the specification.
 --
 -- If the update changes the current phase, indicates if the changes should be prorated. Valid values are \`create_prorations\` or \`none\`, and the default value is \`create_prorations\`.
 data PostSubscriptionSchedulesScheduleRequestBodyProrationBehavior'
-  = PostSubscriptionSchedulesScheduleRequestBodyProrationBehavior'EnumOther Data.Aeson.Types.Internal.Value
-  | PostSubscriptionSchedulesScheduleRequestBodyProrationBehavior'EnumTyped Data.Text.Internal.Text
-  | PostSubscriptionSchedulesScheduleRequestBodyProrationBehavior'EnumStringAlwaysInvoice
-  | PostSubscriptionSchedulesScheduleRequestBodyProrationBehavior'EnumStringCreateProrations
-  | PostSubscriptionSchedulesScheduleRequestBodyProrationBehavior'EnumStringNone
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    PostSubscriptionSchedulesScheduleRequestBodyProrationBehavior'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    PostSubscriptionSchedulesScheduleRequestBodyProrationBehavior'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"always_invoice"@
+    PostSubscriptionSchedulesScheduleRequestBodyProrationBehavior'EnumAlwaysInvoice
+  | -- | Represents the JSON value @"create_prorations"@
+    PostSubscriptionSchedulesScheduleRequestBodyProrationBehavior'EnumCreateProrations
+  | -- | Represents the JSON value @"none"@
+    PostSubscriptionSchedulesScheduleRequestBodyProrationBehavior'EnumNone
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostSubscriptionSchedulesScheduleRequestBodyProrationBehavior' where
-  toJSON (PostSubscriptionSchedulesScheduleRequestBodyProrationBehavior'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostSubscriptionSchedulesScheduleRequestBodyProrationBehavior'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostSubscriptionSchedulesScheduleRequestBodyProrationBehavior'EnumStringAlwaysInvoice) = "always_invoice"
-  toJSON (PostSubscriptionSchedulesScheduleRequestBodyProrationBehavior'EnumStringCreateProrations) = "create_prorations"
-  toJSON (PostSubscriptionSchedulesScheduleRequestBodyProrationBehavior'EnumStringNone) = "none"
+  toJSON (PostSubscriptionSchedulesScheduleRequestBodyProrationBehavior'Other val) = val
+  toJSON (PostSubscriptionSchedulesScheduleRequestBodyProrationBehavior'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PostSubscriptionSchedulesScheduleRequestBodyProrationBehavior'EnumAlwaysInvoice) = "always_invoice"
+  toJSON (PostSubscriptionSchedulesScheduleRequestBodyProrationBehavior'EnumCreateProrations) = "create_prorations"
+  toJSON (PostSubscriptionSchedulesScheduleRequestBodyProrationBehavior'EnumNone) = "none"
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostSubscriptionSchedulesScheduleRequestBodyProrationBehavior' where
   parseJSON val =
     GHC.Base.pure
-      ( if  | val GHC.Classes.== "always_invoice" -> PostSubscriptionSchedulesScheduleRequestBodyProrationBehavior'EnumStringAlwaysInvoice
-            | val GHC.Classes.== "create_prorations" -> PostSubscriptionSchedulesScheduleRequestBodyProrationBehavior'EnumStringCreateProrations
-            | val GHC.Classes.== "none" -> PostSubscriptionSchedulesScheduleRequestBodyProrationBehavior'EnumStringNone
-            | GHC.Base.otherwise -> PostSubscriptionSchedulesScheduleRequestBodyProrationBehavior'EnumOther val
+      ( if  | val GHC.Classes.== "always_invoice" -> PostSubscriptionSchedulesScheduleRequestBodyProrationBehavior'EnumAlwaysInvoice
+            | val GHC.Classes.== "create_prorations" -> PostSubscriptionSchedulesScheduleRequestBodyProrationBehavior'EnumCreateProrations
+            | val GHC.Classes.== "none" -> PostSubscriptionSchedulesScheduleRequestBodyProrationBehavior'EnumNone
+            | GHC.Base.otherwise -> PostSubscriptionSchedulesScheduleRequestBodyProrationBehavior'Other val
       )
 
 -- | Represents a response of the operation 'postSubscriptionSchedulesSchedule'.

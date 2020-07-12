@@ -10,6 +10,7 @@ module StripeAPI.Operations.GetAccountPersonsPerson where
 import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -77,7 +78,7 @@ getAccountPersonsPerson parameters =
     )
     (StripeAPI.Common.doCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET") (Data.Text.pack ("/v1/account/persons/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel (getAccountPersonsPersonParametersPathPerson parameters))) GHC.Base.++ ""))) [StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getAccountPersonsPersonParametersQueryExpand parameters) (Data.Text.pack "deepObject") GHC.Types.True])
 
--- | Defines the data type for the schema getAccountPersonsPersonParameters
+-- | Defines the object schema located at @paths.\/v1\/account\/persons\/{person}.GET.parameters@ in the specification.
 data GetAccountPersonsPersonParameters
   = GetAccountPersonsPersonParameters
       { -- | pathPerson: Represents the parameter named \'person\'
@@ -97,11 +98,22 @@ data GetAccountPersonsPersonParameters
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetAccountPersonsPersonParameters where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "pathPerson" (getAccountPersonsPersonParametersPathPerson obj) : (Data.Aeson..=) "queryExpand" (getAccountPersonsPersonParametersQueryExpand obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "pathPerson" (getAccountPersonsPersonParametersPathPerson obj) GHC.Base.<> (Data.Aeson..=) "queryExpand" (getAccountPersonsPersonParametersQueryExpand obj))
+  toJSON obj = Data.Aeson.Types.Internal.object ("pathPerson" Data.Aeson.Types.ToJSON..= getAccountPersonsPersonParametersPathPerson obj : "queryExpand" Data.Aeson.Types.ToJSON..= getAccountPersonsPersonParametersQueryExpand obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("pathPerson" Data.Aeson.Types.ToJSON..= getAccountPersonsPersonParametersPathPerson obj) GHC.Base.<> ("queryExpand" Data.Aeson.Types.ToJSON..= getAccountPersonsPersonParametersQueryExpand obj))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetAccountPersonsPersonParameters where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "GetAccountPersonsPersonParameters" (\obj -> (GHC.Base.pure GetAccountPersonsPersonParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathPerson")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryExpand"))
+
+-- | Create a new 'GetAccountPersonsPersonParameters' with all required fields.
+mkGetAccountPersonsPersonParameters ::
+  -- | 'getAccountPersonsPersonParametersPathPerson'
+  Data.Text.Internal.Text ->
+  GetAccountPersonsPersonParameters
+mkGetAccountPersonsPersonParameters getAccountPersonsPersonParametersPathPerson =
+  GetAccountPersonsPersonParameters
+    { getAccountPersonsPersonParametersPathPerson = getAccountPersonsPersonParametersPathPerson,
+      getAccountPersonsPersonParametersQueryExpand = GHC.Maybe.Nothing
+    }
 
 -- | Represents a response of the operation 'getAccountPersonsPerson'.
 --

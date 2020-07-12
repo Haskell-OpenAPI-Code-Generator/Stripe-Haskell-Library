@@ -10,6 +10,7 @@ module StripeAPI.Operations.GetAccountBankAccountsId where
 import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -77,7 +78,7 @@ getAccountBankAccountsId parameters =
     )
     (StripeAPI.Common.doCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET") (Data.Text.pack ("/v1/account/bank_accounts/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel (getAccountBankAccountsIdParametersPathId parameters))) GHC.Base.++ ""))) [StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getAccountBankAccountsIdParametersQueryExpand parameters) (Data.Text.pack "deepObject") GHC.Types.True])
 
--- | Defines the data type for the schema getAccountBankAccountsIdParameters
+-- | Defines the object schema located at @paths.\/v1\/account\/bank_accounts\/{id}.GET.parameters@ in the specification.
 data GetAccountBankAccountsIdParameters
   = GetAccountBankAccountsIdParameters
       { -- | pathId: Represents the parameter named \'id\'
@@ -93,11 +94,22 @@ data GetAccountBankAccountsIdParameters
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetAccountBankAccountsIdParameters where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "pathId" (getAccountBankAccountsIdParametersPathId obj) : (Data.Aeson..=) "queryExpand" (getAccountBankAccountsIdParametersQueryExpand obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "pathId" (getAccountBankAccountsIdParametersPathId obj) GHC.Base.<> (Data.Aeson..=) "queryExpand" (getAccountBankAccountsIdParametersQueryExpand obj))
+  toJSON obj = Data.Aeson.Types.Internal.object ("pathId" Data.Aeson.Types.ToJSON..= getAccountBankAccountsIdParametersPathId obj : "queryExpand" Data.Aeson.Types.ToJSON..= getAccountBankAccountsIdParametersQueryExpand obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("pathId" Data.Aeson.Types.ToJSON..= getAccountBankAccountsIdParametersPathId obj) GHC.Base.<> ("queryExpand" Data.Aeson.Types.ToJSON..= getAccountBankAccountsIdParametersQueryExpand obj))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetAccountBankAccountsIdParameters where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "GetAccountBankAccountsIdParameters" (\obj -> (GHC.Base.pure GetAccountBankAccountsIdParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathId")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryExpand"))
+
+-- | Create a new 'GetAccountBankAccountsIdParameters' with all required fields.
+mkGetAccountBankAccountsIdParameters ::
+  -- | 'getAccountBankAccountsIdParametersPathId'
+  Data.Text.Internal.Text ->
+  GetAccountBankAccountsIdParameters
+mkGetAccountBankAccountsIdParameters getAccountBankAccountsIdParametersPathId =
+  GetAccountBankAccountsIdParameters
+    { getAccountBankAccountsIdParametersPathId = getAccountBankAccountsIdParametersPathId,
+      getAccountBankAccountsIdParametersQueryExpand = GHC.Maybe.Nothing
+    }
 
 -- | Represents a response of the operation 'getAccountBankAccountsId'.
 --

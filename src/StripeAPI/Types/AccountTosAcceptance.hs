@@ -8,6 +8,7 @@ module StripeAPI.Types.AccountTosAcceptance where
 
 import qualified Control.Monad.Fail
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -30,7 +31,7 @@ import StripeAPI.TypeAlias
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
--- | Defines the data type for the schema account_tos_acceptance
+-- | Defines the object schema located at @components.schemas.account_tos_acceptance@ in the specification.
 data AccountTosAcceptance
   = AccountTosAcceptance
       { -- | date: The Unix timestamp marking when the Stripe Services Agreement was accepted by the account representative
@@ -54,8 +55,17 @@ data AccountTosAcceptance
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON AccountTosAcceptance where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "date" (accountTosAcceptanceDate obj) : (Data.Aeson..=) "ip" (accountTosAcceptanceIp obj) : (Data.Aeson..=) "user_agent" (accountTosAcceptanceUserAgent obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "date" (accountTosAcceptanceDate obj) GHC.Base.<> ((Data.Aeson..=) "ip" (accountTosAcceptanceIp obj) GHC.Base.<> (Data.Aeson..=) "user_agent" (accountTosAcceptanceUserAgent obj)))
+  toJSON obj = Data.Aeson.Types.Internal.object ("date" Data.Aeson.Types.ToJSON..= accountTosAcceptanceDate obj : "ip" Data.Aeson.Types.ToJSON..= accountTosAcceptanceIp obj : "user_agent" Data.Aeson.Types.ToJSON..= accountTosAcceptanceUserAgent obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("date" Data.Aeson.Types.ToJSON..= accountTosAcceptanceDate obj) GHC.Base.<> (("ip" Data.Aeson.Types.ToJSON..= accountTosAcceptanceIp obj) GHC.Base.<> ("user_agent" Data.Aeson.Types.ToJSON..= accountTosAcceptanceUserAgent obj)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON AccountTosAcceptance where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "AccountTosAcceptance" (\obj -> ((GHC.Base.pure AccountTosAcceptance GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "date")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "ip")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "user_agent"))
+
+-- | Create a new 'AccountTosAcceptance' with all required fields.
+mkAccountTosAcceptance :: AccountTosAcceptance
+mkAccountTosAcceptance =
+  AccountTosAcceptance
+    { accountTosAcceptanceDate = GHC.Maybe.Nothing,
+      accountTosAcceptanceIp = GHC.Maybe.Nothing,
+      accountTosAcceptanceUserAgent = GHC.Maybe.Nothing
+    }

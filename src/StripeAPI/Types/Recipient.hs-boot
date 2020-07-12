@@ -1,16 +1,16 @@
 module StripeAPI.Types.Recipient where
 import Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Types.Internal
-data Recipient 
-instance Show Recipient 
-instance Eq Recipient 
-instance FromJSON Recipient 
-instance ToJSON Recipient 
-data RecipientActiveAccount' 
-instance Show RecipientActiveAccount' 
-instance Eq RecipientActiveAccount' 
-instance FromJSON RecipientActiveAccount' 
-instance ToJSON RecipientActiveAccount' 
+data Recipient
+instance Show Recipient
+instance Eq Recipient
+instance FromJSON Recipient
+instance ToJSON Recipient
+data RecipientActiveAccount'
+instance Show RecipientActiveAccount'
+instance Eq RecipientActiveAccount'
+instance FromJSON RecipientActiveAccount'
+instance ToJSON RecipientActiveAccount'
 data RecipientActiveAccount'Account'Variants
 instance Show RecipientActiveAccount'Account'Variants
 instance Eq RecipientActiveAccount'Account'Variants
@@ -21,21 +21,11 @@ instance Show RecipientActiveAccount'Customer'Variants
 instance Eq RecipientActiveAccount'Customer'Variants
 instance FromJSON RecipientActiveAccount'Customer'Variants
 instance ToJSON RecipientActiveAccount'Customer'Variants
-data RecipientActiveAccount'Object'
-instance Show RecipientActiveAccount'Object'
-instance Eq RecipientActiveAccount'Object'
-instance FromJSON RecipientActiveAccount'Object'
-instance ToJSON RecipientActiveAccount'Object'
-data RecipientCards' 
-instance Show RecipientCards' 
-instance Eq RecipientCards' 
-instance FromJSON RecipientCards' 
-instance ToJSON RecipientCards' 
-data RecipientCards'Object'
-instance Show RecipientCards'Object'
-instance Eq RecipientCards'Object'
-instance FromJSON RecipientCards'Object'
-instance ToJSON RecipientCards'Object'
+data RecipientCards'
+instance Show RecipientCards'
+instance Eq RecipientCards'
+instance FromJSON RecipientCards'
+instance ToJSON RecipientCards'
 data RecipientDefaultCard'Variants
 instance Show RecipientDefaultCard'Variants
 instance Eq RecipientDefaultCard'Variants
@@ -46,11 +36,6 @@ instance Show RecipientMigratedTo'Variants
 instance Eq RecipientMigratedTo'Variants
 instance FromJSON RecipientMigratedTo'Variants
 instance ToJSON RecipientMigratedTo'Variants
-data RecipientObject'
-instance Show RecipientObject'
-instance Eq RecipientObject'
-instance FromJSON RecipientObject'
-instance ToJSON RecipientObject'
 data RecipientRolledBackFrom'Variants
 instance Show RecipientRolledBackFrom'Variants
 instance Eq RecipientRolledBackFrom'Variants

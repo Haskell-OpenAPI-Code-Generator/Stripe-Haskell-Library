@@ -8,6 +8,7 @@ module StripeAPI.Types.Issuing_Transaction where
 
 import qualified Control.Monad.Fail
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -36,7 +37,7 @@ import {-# SOURCE #-} StripeAPI.Types.Issuing_Dispute
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
--- | Defines the data type for the schema issuing.transaction
+-- | Defines the object schema located at @components.schemas.issuing.transaction@ in the specification.
 --
 -- Any use of an [issued card](https:\/\/stripe.com\/docs\/issuing) that results in funds entering or leaving
 -- your Stripe account, such as a completed purchase or refund, is represented by an Issuing
@@ -77,8 +78,6 @@ data Issuing'transaction
         issuing'transactionMerchantData :: IssuingAuthorizationMerchantData,
         -- | metadata: Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
         issuing'transactionMetadata :: Data.Aeson.Types.Internal.Object,
-        -- | object: String representing the object\'s type. Objects of the same type share the same value.
-        issuing'transactionObject :: Issuing'transactionObject',
         -- | type: The nature of the transaction.
         issuing'transactionType :: Issuing'transactionType'
       }
@@ -88,13 +87,57 @@ data Issuing'transaction
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON Issuing'transaction where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "amount" (issuing'transactionAmount obj) : (Data.Aeson..=) "authorization" (issuing'transactionAuthorization obj) : (Data.Aeson..=) "balance_transaction" (issuing'transactionBalanceTransaction obj) : (Data.Aeson..=) "card" (issuing'transactionCard obj) : (Data.Aeson..=) "cardholder" (issuing'transactionCardholder obj) : (Data.Aeson..=) "created" (issuing'transactionCreated obj) : (Data.Aeson..=) "currency" (issuing'transactionCurrency obj) : (Data.Aeson..=) "dispute" (issuing'transactionDispute obj) : (Data.Aeson..=) "id" (issuing'transactionId obj) : (Data.Aeson..=) "livemode" (issuing'transactionLivemode obj) : (Data.Aeson..=) "merchant_amount" (issuing'transactionMerchantAmount obj) : (Data.Aeson..=) "merchant_currency" (issuing'transactionMerchantCurrency obj) : (Data.Aeson..=) "merchant_data" (issuing'transactionMerchantData obj) : (Data.Aeson..=) "metadata" (issuing'transactionMetadata obj) : (Data.Aeson..=) "object" (issuing'transactionObject obj) : (Data.Aeson..=) "type" (issuing'transactionType obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "amount" (issuing'transactionAmount obj) GHC.Base.<> ((Data.Aeson..=) "authorization" (issuing'transactionAuthorization obj) GHC.Base.<> ((Data.Aeson..=) "balance_transaction" (issuing'transactionBalanceTransaction obj) GHC.Base.<> ((Data.Aeson..=) "card" (issuing'transactionCard obj) GHC.Base.<> ((Data.Aeson..=) "cardholder" (issuing'transactionCardholder obj) GHC.Base.<> ((Data.Aeson..=) "created" (issuing'transactionCreated obj) GHC.Base.<> ((Data.Aeson..=) "currency" (issuing'transactionCurrency obj) GHC.Base.<> ((Data.Aeson..=) "dispute" (issuing'transactionDispute obj) GHC.Base.<> ((Data.Aeson..=) "id" (issuing'transactionId obj) GHC.Base.<> ((Data.Aeson..=) "livemode" (issuing'transactionLivemode obj) GHC.Base.<> ((Data.Aeson..=) "merchant_amount" (issuing'transactionMerchantAmount obj) GHC.Base.<> ((Data.Aeson..=) "merchant_currency" (issuing'transactionMerchantCurrency obj) GHC.Base.<> ((Data.Aeson..=) "merchant_data" (issuing'transactionMerchantData obj) GHC.Base.<> ((Data.Aeson..=) "metadata" (issuing'transactionMetadata obj) GHC.Base.<> ((Data.Aeson..=) "object" (issuing'transactionObject obj) GHC.Base.<> (Data.Aeson..=) "type" (issuing'transactionType obj))))))))))))))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("amount" Data.Aeson.Types.ToJSON..= issuing'transactionAmount obj : "authorization" Data.Aeson.Types.ToJSON..= issuing'transactionAuthorization obj : "balance_transaction" Data.Aeson.Types.ToJSON..= issuing'transactionBalanceTransaction obj : "card" Data.Aeson.Types.ToJSON..= issuing'transactionCard obj : "cardholder" Data.Aeson.Types.ToJSON..= issuing'transactionCardholder obj : "created" Data.Aeson.Types.ToJSON..= issuing'transactionCreated obj : "currency" Data.Aeson.Types.ToJSON..= issuing'transactionCurrency obj : "dispute" Data.Aeson.Types.ToJSON..= issuing'transactionDispute obj : "id" Data.Aeson.Types.ToJSON..= issuing'transactionId obj : "livemode" Data.Aeson.Types.ToJSON..= issuing'transactionLivemode obj : "merchant_amount" Data.Aeson.Types.ToJSON..= issuing'transactionMerchantAmount obj : "merchant_currency" Data.Aeson.Types.ToJSON..= issuing'transactionMerchantCurrency obj : "merchant_data" Data.Aeson.Types.ToJSON..= issuing'transactionMerchantData obj : "metadata" Data.Aeson.Types.ToJSON..= issuing'transactionMetadata obj : "type" Data.Aeson.Types.ToJSON..= issuing'transactionType obj : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "issuing.transaction" : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("amount" Data.Aeson.Types.ToJSON..= issuing'transactionAmount obj) GHC.Base.<> (("authorization" Data.Aeson.Types.ToJSON..= issuing'transactionAuthorization obj) GHC.Base.<> (("balance_transaction" Data.Aeson.Types.ToJSON..= issuing'transactionBalanceTransaction obj) GHC.Base.<> (("card" Data.Aeson.Types.ToJSON..= issuing'transactionCard obj) GHC.Base.<> (("cardholder" Data.Aeson.Types.ToJSON..= issuing'transactionCardholder obj) GHC.Base.<> (("created" Data.Aeson.Types.ToJSON..= issuing'transactionCreated obj) GHC.Base.<> (("currency" Data.Aeson.Types.ToJSON..= issuing'transactionCurrency obj) GHC.Base.<> (("dispute" Data.Aeson.Types.ToJSON..= issuing'transactionDispute obj) GHC.Base.<> (("id" Data.Aeson.Types.ToJSON..= issuing'transactionId obj) GHC.Base.<> (("livemode" Data.Aeson.Types.ToJSON..= issuing'transactionLivemode obj) GHC.Base.<> (("merchant_amount" Data.Aeson.Types.ToJSON..= issuing'transactionMerchantAmount obj) GHC.Base.<> (("merchant_currency" Data.Aeson.Types.ToJSON..= issuing'transactionMerchantCurrency obj) GHC.Base.<> (("merchant_data" Data.Aeson.Types.ToJSON..= issuing'transactionMerchantData obj) GHC.Base.<> (("metadata" Data.Aeson.Types.ToJSON..= issuing'transactionMetadata obj) GHC.Base.<> (("type" Data.Aeson.Types.ToJSON..= issuing'transactionType obj) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "issuing.transaction"))))))))))))))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON Issuing'transaction where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "Issuing'transaction" (\obj -> (((((((((((((((GHC.Base.pure Issuing'transaction GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "authorization")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "balance_transaction")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "card")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "cardholder")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "created")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "dispute")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "livemode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "merchant_amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "merchant_currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "merchant_data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "object")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "type"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "Issuing'transaction" (\obj -> ((((((((((((((GHC.Base.pure Issuing'transaction GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "authorization")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "balance_transaction")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "card")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "cardholder")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "created")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "dispute")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "livemode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "merchant_amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "merchant_currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "merchant_data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "type"))
 
--- | Define the one-of schema issuing.transactionAuthorization\'
+-- | Create a new 'Issuing'transaction' with all required fields.
+mkIssuing'transaction ::
+  -- | 'issuing'transactionAmount'
+  GHC.Types.Int ->
+  -- | 'issuing'transactionCard'
+  Issuing'transactionCard'Variants ->
+  -- | 'issuing'transactionCreated'
+  GHC.Types.Int ->
+  -- | 'issuing'transactionCurrency'
+  Data.Text.Internal.Text ->
+  -- | 'issuing'transactionId'
+  Data.Text.Internal.Text ->
+  -- | 'issuing'transactionLivemode'
+  GHC.Types.Bool ->
+  -- | 'issuing'transactionMerchantAmount'
+  GHC.Types.Int ->
+  -- | 'issuing'transactionMerchantCurrency'
+  Data.Text.Internal.Text ->
+  -- | 'issuing'transactionMerchantData'
+  IssuingAuthorizationMerchantData ->
+  -- | 'issuing'transactionMetadata'
+  Data.Aeson.Types.Internal.Object ->
+  -- | 'issuing'transactionType'
+  Issuing'transactionType' ->
+  Issuing'transaction
+mkIssuing'transaction issuing'transactionAmount issuing'transactionCard issuing'transactionCreated issuing'transactionCurrency issuing'transactionId issuing'transactionLivemode issuing'transactionMerchantAmount issuing'transactionMerchantCurrency issuing'transactionMerchantData issuing'transactionMetadata issuing'transactionType =
+  Issuing'transaction
+    { issuing'transactionAmount = issuing'transactionAmount,
+      issuing'transactionAuthorization = GHC.Maybe.Nothing,
+      issuing'transactionBalanceTransaction = GHC.Maybe.Nothing,
+      issuing'transactionCard = issuing'transactionCard,
+      issuing'transactionCardholder = GHC.Maybe.Nothing,
+      issuing'transactionCreated = issuing'transactionCreated,
+      issuing'transactionCurrency = issuing'transactionCurrency,
+      issuing'transactionDispute = GHC.Maybe.Nothing,
+      issuing'transactionId = issuing'transactionId,
+      issuing'transactionLivemode = issuing'transactionLivemode,
+      issuing'transactionMerchantAmount = issuing'transactionMerchantAmount,
+      issuing'transactionMerchantCurrency = issuing'transactionMerchantCurrency,
+      issuing'transactionMerchantData = issuing'transactionMerchantData,
+      issuing'transactionMetadata = issuing'transactionMetadata,
+      issuing'transactionType = issuing'transactionType
+    }
+
+-- | Defines the oneOf schema located at @components.schemas.issuing.transaction.properties.authorization.anyOf@ in the specification.
 --
 -- The \`Authorization\` object that led to this transaction.
 data Issuing'transactionAuthorization'Variants
@@ -107,13 +150,11 @@ instance Data.Aeson.Types.ToJSON.ToJSON Issuing'transactionAuthorization'Variant
   toJSON (Issuing'transactionAuthorization'Text a) = Data.Aeson.Types.ToJSON.toJSON a
 
 instance Data.Aeson.Types.FromJSON.FromJSON Issuing'transactionAuthorization'Variants where
-  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
-    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ Issuing'transactionAuthorization'Issuing'authorization a
-    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ Issuing'transactionAuthorization'Text a
-      Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+  parseJSON val = case (Issuing'transactionAuthorization'Issuing'authorization Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((Issuing'transactionAuthorization'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched") of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+    Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
--- | Define the one-of schema issuing.transactionBalance_transaction\'
+-- | Defines the oneOf schema located at @components.schemas.issuing.transaction.properties.balance_transaction.anyOf@ in the specification.
 --
 -- ID of the [balance transaction](https:\/\/stripe.com\/docs\/api\/balance_transactions) associated with this transaction.
 data Issuing'transactionBalanceTransaction'Variants
@@ -126,13 +167,11 @@ instance Data.Aeson.Types.ToJSON.ToJSON Issuing'transactionBalanceTransaction'Va
   toJSON (Issuing'transactionBalanceTransaction'Text a) = Data.Aeson.Types.ToJSON.toJSON a
 
 instance Data.Aeson.Types.FromJSON.FromJSON Issuing'transactionBalanceTransaction'Variants where
-  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
-    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ Issuing'transactionBalanceTransaction'BalanceTransaction a
-    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ Issuing'transactionBalanceTransaction'Text a
-      Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+  parseJSON val = case (Issuing'transactionBalanceTransaction'BalanceTransaction Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((Issuing'transactionBalanceTransaction'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched") of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+    Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
--- | Define the one-of schema issuing.transactionCard\'
+-- | Defines the oneOf schema located at @components.schemas.issuing.transaction.properties.card.anyOf@ in the specification.
 --
 -- The card used to make this transaction.
 data Issuing'transactionCard'Variants
@@ -145,13 +184,11 @@ instance Data.Aeson.Types.ToJSON.ToJSON Issuing'transactionCard'Variants where
   toJSON (Issuing'transactionCard'Text a) = Data.Aeson.Types.ToJSON.toJSON a
 
 instance Data.Aeson.Types.FromJSON.FromJSON Issuing'transactionCard'Variants where
-  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
-    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ Issuing'transactionCard'Issuing'card a
-    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ Issuing'transactionCard'Text a
-      Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+  parseJSON val = case (Issuing'transactionCard'Issuing'card Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((Issuing'transactionCard'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched") of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+    Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
--- | Define the one-of schema issuing.transactionCardholder\'
+-- | Defines the oneOf schema located at @components.schemas.issuing.transaction.properties.cardholder.anyOf@ in the specification.
 --
 -- The cardholder to whom this transaction belongs.
 data Issuing'transactionCardholder'Variants
@@ -164,13 +201,11 @@ instance Data.Aeson.Types.ToJSON.ToJSON Issuing'transactionCardholder'Variants w
   toJSON (Issuing'transactionCardholder'Text a) = Data.Aeson.Types.ToJSON.toJSON a
 
 instance Data.Aeson.Types.FromJSON.FromJSON Issuing'transactionCardholder'Variants where
-  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
-    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ Issuing'transactionCardholder'Issuing'cardholder a
-    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ Issuing'transactionCardholder'Text a
-      Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+  parseJSON val = case (Issuing'transactionCardholder'Issuing'cardholder Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((Issuing'transactionCardholder'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched") of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+    Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
--- | Define the one-of schema issuing.transactionDispute\'
+-- | Defines the oneOf schema located at @components.schemas.issuing.transaction.properties.dispute.anyOf@ in the specification.
 --
 -- If you\'ve disputed the transaction, the ID of the [dispute object](https:\/\/stripe.com\/docs\/api\/issuing\/disputes\/object).
 data Issuing'transactionDispute'Variants
@@ -183,65 +218,50 @@ instance Data.Aeson.Types.ToJSON.ToJSON Issuing'transactionDispute'Variants wher
   toJSON (Issuing'transactionDispute'Text a) = Data.Aeson.Types.ToJSON.toJSON a
 
 instance Data.Aeson.Types.FromJSON.FromJSON Issuing'transactionDispute'Variants where
-  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
-    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ Issuing'transactionDispute'Issuing'dispute a
-    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ Issuing'transactionDispute'Text a
-      Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+  parseJSON val = case (Issuing'transactionDispute'Issuing'dispute Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((Issuing'transactionDispute'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched") of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+    Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
--- | Defines the enum schema issuing.transactionObject\'
---
--- String representing the object\'s type. Objects of the same type share the same value.
-data Issuing'transactionObject'
-  = Issuing'transactionObject'EnumOther Data.Aeson.Types.Internal.Value
-  | Issuing'transactionObject'EnumTyped Data.Text.Internal.Text
-  | Issuing'transactionObject'EnumStringIssuing'transaction
-  deriving (GHC.Show.Show, GHC.Classes.Eq)
-
-instance Data.Aeson.Types.ToJSON.ToJSON Issuing'transactionObject' where
-  toJSON (Issuing'transactionObject'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (Issuing'transactionObject'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (Issuing'transactionObject'EnumStringIssuing'transaction) = "issuing.transaction"
-
-instance Data.Aeson.Types.FromJSON.FromJSON Issuing'transactionObject' where
-  parseJSON val =
-    GHC.Base.pure
-      ( if  | val GHC.Classes.== "issuing.transaction" -> Issuing'transactionObject'EnumStringIssuing'transaction
-            | GHC.Base.otherwise -> Issuing'transactionObject'EnumOther val
-      )
-
--- | Defines the enum schema issuing.transactionType\'
+-- | Defines the enum schema located at @components.schemas.issuing.transaction.properties.type@ in the specification.
 --
 -- The nature of the transaction.
 data Issuing'transactionType'
-  = Issuing'transactionType'EnumOther Data.Aeson.Types.Internal.Value
-  | Issuing'transactionType'EnumTyped Data.Text.Internal.Text
-  | Issuing'transactionType'EnumStringCapture
-  | Issuing'transactionType'EnumStringCashWithdrawal
-  | Issuing'transactionType'EnumStringDispute
-  | Issuing'transactionType'EnumStringDisputeLoss
-  | Issuing'transactionType'EnumStringRefund
-  | Issuing'transactionType'EnumStringRefundReversal
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    Issuing'transactionType'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    Issuing'transactionType'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"capture"@
+    Issuing'transactionType'EnumCapture
+  | -- | Represents the JSON value @"cash_withdrawal"@
+    Issuing'transactionType'EnumCashWithdrawal
+  | -- | Represents the JSON value @"dispute"@
+    Issuing'transactionType'EnumDispute
+  | -- | Represents the JSON value @"dispute_loss"@
+    Issuing'transactionType'EnumDisputeLoss
+  | -- | Represents the JSON value @"refund"@
+    Issuing'transactionType'EnumRefund
+  | -- | Represents the JSON value @"refund_reversal"@
+    Issuing'transactionType'EnumRefundReversal
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
 instance Data.Aeson.Types.ToJSON.ToJSON Issuing'transactionType' where
-  toJSON (Issuing'transactionType'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (Issuing'transactionType'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (Issuing'transactionType'EnumStringCapture) = "capture"
-  toJSON (Issuing'transactionType'EnumStringCashWithdrawal) = "cash_withdrawal"
-  toJSON (Issuing'transactionType'EnumStringDispute) = "dispute"
-  toJSON (Issuing'transactionType'EnumStringDisputeLoss) = "dispute_loss"
-  toJSON (Issuing'transactionType'EnumStringRefund) = "refund"
-  toJSON (Issuing'transactionType'EnumStringRefundReversal) = "refund_reversal"
+  toJSON (Issuing'transactionType'Other val) = val
+  toJSON (Issuing'transactionType'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (Issuing'transactionType'EnumCapture) = "capture"
+  toJSON (Issuing'transactionType'EnumCashWithdrawal) = "cash_withdrawal"
+  toJSON (Issuing'transactionType'EnumDispute) = "dispute"
+  toJSON (Issuing'transactionType'EnumDisputeLoss) = "dispute_loss"
+  toJSON (Issuing'transactionType'EnumRefund) = "refund"
+  toJSON (Issuing'transactionType'EnumRefundReversal) = "refund_reversal"
 
 instance Data.Aeson.Types.FromJSON.FromJSON Issuing'transactionType' where
   parseJSON val =
     GHC.Base.pure
-      ( if  | val GHC.Classes.== "capture" -> Issuing'transactionType'EnumStringCapture
-            | val GHC.Classes.== "cash_withdrawal" -> Issuing'transactionType'EnumStringCashWithdrawal
-            | val GHC.Classes.== "dispute" -> Issuing'transactionType'EnumStringDispute
-            | val GHC.Classes.== "dispute_loss" -> Issuing'transactionType'EnumStringDisputeLoss
-            | val GHC.Classes.== "refund" -> Issuing'transactionType'EnumStringRefund
-            | val GHC.Classes.== "refund_reversal" -> Issuing'transactionType'EnumStringRefundReversal
-            | GHC.Base.otherwise -> Issuing'transactionType'EnumOther val
+      ( if  | val GHC.Classes.== "capture" -> Issuing'transactionType'EnumCapture
+            | val GHC.Classes.== "cash_withdrawal" -> Issuing'transactionType'EnumCashWithdrawal
+            | val GHC.Classes.== "dispute" -> Issuing'transactionType'EnumDispute
+            | val GHC.Classes.== "dispute_loss" -> Issuing'transactionType'EnumDisputeLoss
+            | val GHC.Classes.== "refund" -> Issuing'transactionType'EnumRefund
+            | val GHC.Classes.== "refund_reversal" -> Issuing'transactionType'EnumRefundReversal
+            | GHC.Base.otherwise -> Issuing'transactionType'Other val
       )

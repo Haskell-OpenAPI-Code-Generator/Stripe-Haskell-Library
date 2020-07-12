@@ -10,6 +10,7 @@ module StripeAPI.Operations.PostPayoutsPayout where
 import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -81,7 +82,7 @@ postPayoutsPayout
       )
       (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack ("/v1/payouts/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel payout)) GHC.Base.++ ""))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
 
--- | Defines the data type for the schema postPayoutsPayoutRequestBody
+-- | Defines the object schema located at @paths.\/v1\/payouts\/{payout}.POST.requestBody.content.application\/x-www-form-urlencoded.schema@ in the specification.
 data PostPayoutsPayoutRequestBody
   = PostPayoutsPayoutRequestBody
       { -- | expand: Specifies which fields in the response should be expanded.
@@ -95,11 +96,19 @@ data PostPayoutsPayoutRequestBody
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostPayoutsPayoutRequestBody where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "expand" (postPayoutsPayoutRequestBodyExpand obj) : (Data.Aeson..=) "metadata" (postPayoutsPayoutRequestBodyMetadata obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "expand" (postPayoutsPayoutRequestBodyExpand obj) GHC.Base.<> (Data.Aeson..=) "metadata" (postPayoutsPayoutRequestBodyMetadata obj))
+  toJSON obj = Data.Aeson.Types.Internal.object ("expand" Data.Aeson.Types.ToJSON..= postPayoutsPayoutRequestBodyExpand obj : "metadata" Data.Aeson.Types.ToJSON..= postPayoutsPayoutRequestBodyMetadata obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("expand" Data.Aeson.Types.ToJSON..= postPayoutsPayoutRequestBodyExpand obj) GHC.Base.<> ("metadata" Data.Aeson.Types.ToJSON..= postPayoutsPayoutRequestBodyMetadata obj))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostPayoutsPayoutRequestBody where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PostPayoutsPayoutRequestBody" (\obj -> (GHC.Base.pure PostPayoutsPayoutRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "metadata"))
+
+-- | Create a new 'PostPayoutsPayoutRequestBody' with all required fields.
+mkPostPayoutsPayoutRequestBody :: PostPayoutsPayoutRequestBody
+mkPostPayoutsPayoutRequestBody =
+  PostPayoutsPayoutRequestBody
+    { postPayoutsPayoutRequestBodyExpand = GHC.Maybe.Nothing,
+      postPayoutsPayoutRequestBodyMetadata = GHC.Maybe.Nothing
+    }
 
 -- | Represents a response of the operation 'postPayoutsPayout'.
 --

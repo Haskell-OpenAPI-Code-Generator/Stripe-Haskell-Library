@@ -1,11 +1,11 @@
 module StripeAPI.Types.PaymentIntent where
 import Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Types.Internal
-data PaymentIntent 
-instance Show PaymentIntent 
-instance Eq PaymentIntent 
-instance FromJSON PaymentIntent 
-instance ToJSON PaymentIntent 
+data PaymentIntent
+instance Show PaymentIntent
+instance Eq PaymentIntent
+instance FromJSON PaymentIntent
+instance ToJSON PaymentIntent
 data PaymentIntentApplication'Variants
 instance Show PaymentIntentApplication'Variants
 instance Eq PaymentIntentApplication'Variants
@@ -21,16 +21,11 @@ instance Show PaymentIntentCaptureMethod'
 instance Eq PaymentIntentCaptureMethod'
 instance FromJSON PaymentIntentCaptureMethod'
 instance ToJSON PaymentIntentCaptureMethod'
-data PaymentIntentCharges' 
-instance Show PaymentIntentCharges' 
-instance Eq PaymentIntentCharges' 
-instance FromJSON PaymentIntentCharges' 
-instance ToJSON PaymentIntentCharges' 
-data PaymentIntentCharges'Object'
-instance Show PaymentIntentCharges'Object'
-instance Eq PaymentIntentCharges'Object'
-instance FromJSON PaymentIntentCharges'Object'
-instance ToJSON PaymentIntentCharges'Object'
+data PaymentIntentCharges'
+instance Show PaymentIntentCharges'
+instance Eq PaymentIntentCharges'
+instance FromJSON PaymentIntentCharges'
+instance ToJSON PaymentIntentCharges'
 data PaymentIntentConfirmationMethod'
 instance Show PaymentIntentConfirmationMethod'
 instance Eq PaymentIntentConfirmationMethod'
@@ -46,16 +41,16 @@ instance Show PaymentIntentInvoice'Variants
 instance Eq PaymentIntentInvoice'Variants
 instance FromJSON PaymentIntentInvoice'Variants
 instance ToJSON PaymentIntentInvoice'Variants
-data PaymentIntentLastPaymentError' 
-instance Show PaymentIntentLastPaymentError' 
-instance Eq PaymentIntentLastPaymentError' 
-instance FromJSON PaymentIntentLastPaymentError' 
-instance ToJSON PaymentIntentLastPaymentError' 
-data PaymentIntentLastPaymentError'Source' 
-instance Show PaymentIntentLastPaymentError'Source' 
-instance Eq PaymentIntentLastPaymentError'Source' 
-instance FromJSON PaymentIntentLastPaymentError'Source' 
-instance ToJSON PaymentIntentLastPaymentError'Source' 
+data PaymentIntentLastPaymentError'
+instance Show PaymentIntentLastPaymentError'
+instance Eq PaymentIntentLastPaymentError'
+instance FromJSON PaymentIntentLastPaymentError'
+instance ToJSON PaymentIntentLastPaymentError'
+data PaymentIntentLastPaymentError'Source'
+instance Show PaymentIntentLastPaymentError'Source'
+instance Eq PaymentIntentLastPaymentError'Source'
+instance FromJSON PaymentIntentLastPaymentError'Source'
+instance ToJSON PaymentIntentLastPaymentError'Source'
 data PaymentIntentLastPaymentError'Source'Account'Variants
 instance Show PaymentIntentLastPaymentError'Source'Account'Variants
 instance Eq PaymentIntentLastPaymentError'Source'Account'Variants
@@ -71,26 +66,21 @@ instance Show PaymentIntentLastPaymentError'Source'Customer'Variants
 instance Eq PaymentIntentLastPaymentError'Source'Customer'Variants
 instance FromJSON PaymentIntentLastPaymentError'Source'Customer'Variants
 instance ToJSON PaymentIntentLastPaymentError'Source'Customer'Variants
-data PaymentIntentLastPaymentError'Source'Object'
-instance Show PaymentIntentLastPaymentError'Source'Object'
-instance Eq PaymentIntentLastPaymentError'Source'Object'
-instance FromJSON PaymentIntentLastPaymentError'Source'Object'
-instance ToJSON PaymentIntentLastPaymentError'Source'Object'
-data PaymentIntentLastPaymentError'Source'Owner' 
-instance Show PaymentIntentLastPaymentError'Source'Owner' 
-instance Eq PaymentIntentLastPaymentError'Source'Owner' 
-instance FromJSON PaymentIntentLastPaymentError'Source'Owner' 
-instance ToJSON PaymentIntentLastPaymentError'Source'Owner' 
-data PaymentIntentLastPaymentError'Source'Owner'Address' 
-instance Show PaymentIntentLastPaymentError'Source'Owner'Address' 
-instance Eq PaymentIntentLastPaymentError'Source'Owner'Address' 
-instance FromJSON PaymentIntentLastPaymentError'Source'Owner'Address' 
-instance ToJSON PaymentIntentLastPaymentError'Source'Owner'Address' 
-data PaymentIntentLastPaymentError'Source'Owner'VerifiedAddress' 
-instance Show PaymentIntentLastPaymentError'Source'Owner'VerifiedAddress' 
-instance Eq PaymentIntentLastPaymentError'Source'Owner'VerifiedAddress' 
-instance FromJSON PaymentIntentLastPaymentError'Source'Owner'VerifiedAddress' 
-instance ToJSON PaymentIntentLastPaymentError'Source'Owner'VerifiedAddress' 
+data PaymentIntentLastPaymentError'Source'Owner'
+instance Show PaymentIntentLastPaymentError'Source'Owner'
+instance Eq PaymentIntentLastPaymentError'Source'Owner'
+instance FromJSON PaymentIntentLastPaymentError'Source'Owner'
+instance ToJSON PaymentIntentLastPaymentError'Source'Owner'
+data PaymentIntentLastPaymentError'Source'Owner'Address'
+instance Show PaymentIntentLastPaymentError'Source'Owner'Address'
+instance Eq PaymentIntentLastPaymentError'Source'Owner'Address'
+instance FromJSON PaymentIntentLastPaymentError'Source'Owner'Address'
+instance ToJSON PaymentIntentLastPaymentError'Source'Owner'Address'
+data PaymentIntentLastPaymentError'Source'Owner'VerifiedAddress'
+instance Show PaymentIntentLastPaymentError'Source'Owner'VerifiedAddress'
+instance Eq PaymentIntentLastPaymentError'Source'Owner'VerifiedAddress'
+instance FromJSON PaymentIntentLastPaymentError'Source'Owner'VerifiedAddress'
+instance ToJSON PaymentIntentLastPaymentError'Source'Owner'VerifiedAddress'
 data PaymentIntentLastPaymentError'Source'Recipient'Variants
 instance Show PaymentIntentLastPaymentError'Source'Recipient'Variants
 instance Eq PaymentIntentLastPaymentError'Source'Recipient'Variants
@@ -106,16 +96,11 @@ instance Show PaymentIntentLastPaymentError'Type'
 instance Eq PaymentIntentLastPaymentError'Type'
 instance FromJSON PaymentIntentLastPaymentError'Type'
 instance ToJSON PaymentIntentLastPaymentError'Type'
-data PaymentIntentNextAction' 
-instance Show PaymentIntentNextAction' 
-instance Eq PaymentIntentNextAction' 
-instance FromJSON PaymentIntentNextAction' 
-instance ToJSON PaymentIntentNextAction' 
-data PaymentIntentObject'
-instance Show PaymentIntentObject'
-instance Eq PaymentIntentObject'
-instance FromJSON PaymentIntentObject'
-instance ToJSON PaymentIntentObject'
+data PaymentIntentNextAction'
+instance Show PaymentIntentNextAction'
+instance Eq PaymentIntentNextAction'
+instance FromJSON PaymentIntentNextAction'
+instance ToJSON PaymentIntentNextAction'
 data PaymentIntentOnBehalfOf'Variants
 instance Show PaymentIntentOnBehalfOf'Variants
 instance Eq PaymentIntentOnBehalfOf'Variants
@@ -126,11 +111,11 @@ instance Show PaymentIntentPaymentMethod'Variants
 instance Eq PaymentIntentPaymentMethod'Variants
 instance FromJSON PaymentIntentPaymentMethod'Variants
 instance ToJSON PaymentIntentPaymentMethod'Variants
-data PaymentIntentPaymentMethodOptions' 
-instance Show PaymentIntentPaymentMethodOptions' 
-instance Eq PaymentIntentPaymentMethodOptions' 
-instance FromJSON PaymentIntentPaymentMethodOptions' 
-instance ToJSON PaymentIntentPaymentMethodOptions' 
+data PaymentIntentPaymentMethodOptions'
+instance Show PaymentIntentPaymentMethodOptions'
+instance Eq PaymentIntentPaymentMethodOptions'
+instance FromJSON PaymentIntentPaymentMethodOptions'
+instance ToJSON PaymentIntentPaymentMethodOptions'
 data PaymentIntentReview'Variants
 instance Show PaymentIntentReview'Variants
 instance Eq PaymentIntentReview'Variants
@@ -141,21 +126,21 @@ instance Show PaymentIntentSetupFutureUsage'
 instance Eq PaymentIntentSetupFutureUsage'
 instance FromJSON PaymentIntentSetupFutureUsage'
 instance ToJSON PaymentIntentSetupFutureUsage'
-data PaymentIntentShipping' 
-instance Show PaymentIntentShipping' 
-instance Eq PaymentIntentShipping' 
-instance FromJSON PaymentIntentShipping' 
-instance ToJSON PaymentIntentShipping' 
+data PaymentIntentShipping'
+instance Show PaymentIntentShipping'
+instance Eq PaymentIntentShipping'
+instance FromJSON PaymentIntentShipping'
+instance ToJSON PaymentIntentShipping'
 data PaymentIntentStatus'
 instance Show PaymentIntentStatus'
 instance Eq PaymentIntentStatus'
 instance FromJSON PaymentIntentStatus'
 instance ToJSON PaymentIntentStatus'
-data PaymentIntentTransferData' 
-instance Show PaymentIntentTransferData' 
-instance Eq PaymentIntentTransferData' 
-instance FromJSON PaymentIntentTransferData' 
-instance ToJSON PaymentIntentTransferData' 
+data PaymentIntentTransferData'
+instance Show PaymentIntentTransferData'
+instance Eq PaymentIntentTransferData'
+instance FromJSON PaymentIntentTransferData'
+instance ToJSON PaymentIntentTransferData'
 data PaymentIntentTransferData'Destination'Variants
 instance Show PaymentIntentTransferData'Destination'Variants
 instance Eq PaymentIntentTransferData'Destination'Variants

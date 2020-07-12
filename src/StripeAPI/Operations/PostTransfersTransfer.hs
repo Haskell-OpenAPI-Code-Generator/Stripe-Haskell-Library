@@ -10,6 +10,7 @@ module StripeAPI.Operations.PostTransfersTransfer where
 import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -83,7 +84,7 @@ postTransfersTransfer
       )
       (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack ("/v1/transfers/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel transfer)) GHC.Base.++ ""))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
 
--- | Defines the data type for the schema postTransfersTransferRequestBody
+-- | Defines the object schema located at @paths.\/v1\/transfers\/{transfer}.POST.requestBody.content.application\/x-www-form-urlencoded.schema@ in the specification.
 data PostTransfersTransferRequestBody
   = PostTransfersTransferRequestBody
       { -- | description: An arbitrary string attached to the object. Often useful for displaying to users.
@@ -103,11 +104,20 @@ data PostTransfersTransferRequestBody
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostTransfersTransferRequestBody where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "description" (postTransfersTransferRequestBodyDescription obj) : (Data.Aeson..=) "expand" (postTransfersTransferRequestBodyExpand obj) : (Data.Aeson..=) "metadata" (postTransfersTransferRequestBodyMetadata obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "description" (postTransfersTransferRequestBodyDescription obj) GHC.Base.<> ((Data.Aeson..=) "expand" (postTransfersTransferRequestBodyExpand obj) GHC.Base.<> (Data.Aeson..=) "metadata" (postTransfersTransferRequestBodyMetadata obj)))
+  toJSON obj = Data.Aeson.Types.Internal.object ("description" Data.Aeson.Types.ToJSON..= postTransfersTransferRequestBodyDescription obj : "expand" Data.Aeson.Types.ToJSON..= postTransfersTransferRequestBodyExpand obj : "metadata" Data.Aeson.Types.ToJSON..= postTransfersTransferRequestBodyMetadata obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("description" Data.Aeson.Types.ToJSON..= postTransfersTransferRequestBodyDescription obj) GHC.Base.<> (("expand" Data.Aeson.Types.ToJSON..= postTransfersTransferRequestBodyExpand obj) GHC.Base.<> ("metadata" Data.Aeson.Types.ToJSON..= postTransfersTransferRequestBodyMetadata obj)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostTransfersTransferRequestBody where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PostTransfersTransferRequestBody" (\obj -> ((GHC.Base.pure PostTransfersTransferRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "description")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "metadata"))
+
+-- | Create a new 'PostTransfersTransferRequestBody' with all required fields.
+mkPostTransfersTransferRequestBody :: PostTransfersTransferRequestBody
+mkPostTransfersTransferRequestBody =
+  PostTransfersTransferRequestBody
+    { postTransfersTransferRequestBodyDescription = GHC.Maybe.Nothing,
+      postTransfersTransferRequestBodyExpand = GHC.Maybe.Nothing,
+      postTransfersTransferRequestBodyMetadata = GHC.Maybe.Nothing
+    }
 
 -- | Represents a response of the operation 'postTransfersTransfer'.
 --

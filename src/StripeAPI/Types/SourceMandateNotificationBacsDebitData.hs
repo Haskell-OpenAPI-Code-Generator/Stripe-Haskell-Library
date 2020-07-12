@@ -8,6 +8,7 @@ module StripeAPI.Types.SourceMandateNotificationBacsDebitData where
 
 import qualified Control.Monad.Fail
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -30,7 +31,7 @@ import StripeAPI.TypeAlias
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
--- | Defines the data type for the schema source_mandate_notification_bacs_debit_data
+-- | Defines the object schema located at @components.schemas.source_mandate_notification_bacs_debit_data@ in the specification.
 data SourceMandateNotificationBacsDebitData
   = SourceMandateNotificationBacsDebitData
       { -- | last4: Last 4 digits of the account number associated with the debit.
@@ -46,8 +47,12 @@ data SourceMandateNotificationBacsDebitData
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON SourceMandateNotificationBacsDebitData where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "last4" (sourceMandateNotificationBacsDebitDataLast4 obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "last4" (sourceMandateNotificationBacsDebitDataLast4 obj))
+  toJSON obj = Data.Aeson.Types.Internal.object ("last4" Data.Aeson.Types.ToJSON..= sourceMandateNotificationBacsDebitDataLast4 obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs ("last4" Data.Aeson.Types.ToJSON..= sourceMandateNotificationBacsDebitDataLast4 obj)
 
 instance Data.Aeson.Types.FromJSON.FromJSON SourceMandateNotificationBacsDebitData where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "SourceMandateNotificationBacsDebitData" (\obj -> GHC.Base.pure SourceMandateNotificationBacsDebitData GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "last4"))
+
+-- | Create a new 'SourceMandateNotificationBacsDebitData' with all required fields.
+mkSourceMandateNotificationBacsDebitData :: SourceMandateNotificationBacsDebitData
+mkSourceMandateNotificationBacsDebitData = SourceMandateNotificationBacsDebitData {sourceMandateNotificationBacsDebitDataLast4 = GHC.Maybe.Nothing}

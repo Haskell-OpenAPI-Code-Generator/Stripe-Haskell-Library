@@ -10,6 +10,7 @@ module StripeAPI.Operations.GetIssuingSettlementsSettlement where
 import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -77,7 +78,7 @@ getIssuingSettlementsSettlement parameters =
     )
     (StripeAPI.Common.doCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET") (Data.Text.pack ("/v1/issuing/settlements/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel (getIssuingSettlementsSettlementParametersPathSettlement parameters))) GHC.Base.++ ""))) [StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getIssuingSettlementsSettlementParametersQueryExpand parameters) (Data.Text.pack "deepObject") GHC.Types.True])
 
--- | Defines the data type for the schema getIssuingSettlementsSettlementParameters
+-- | Defines the object schema located at @paths.\/v1\/issuing\/settlements\/{settlement}.GET.parameters@ in the specification.
 data GetIssuingSettlementsSettlementParameters
   = GetIssuingSettlementsSettlementParameters
       { -- | pathSettlement: Represents the parameter named \'settlement\'
@@ -97,11 +98,22 @@ data GetIssuingSettlementsSettlementParameters
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetIssuingSettlementsSettlementParameters where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "pathSettlement" (getIssuingSettlementsSettlementParametersPathSettlement obj) : (Data.Aeson..=) "queryExpand" (getIssuingSettlementsSettlementParametersQueryExpand obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "pathSettlement" (getIssuingSettlementsSettlementParametersPathSettlement obj) GHC.Base.<> (Data.Aeson..=) "queryExpand" (getIssuingSettlementsSettlementParametersQueryExpand obj))
+  toJSON obj = Data.Aeson.Types.Internal.object ("pathSettlement" Data.Aeson.Types.ToJSON..= getIssuingSettlementsSettlementParametersPathSettlement obj : "queryExpand" Data.Aeson.Types.ToJSON..= getIssuingSettlementsSettlementParametersQueryExpand obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("pathSettlement" Data.Aeson.Types.ToJSON..= getIssuingSettlementsSettlementParametersPathSettlement obj) GHC.Base.<> ("queryExpand" Data.Aeson.Types.ToJSON..= getIssuingSettlementsSettlementParametersQueryExpand obj))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetIssuingSettlementsSettlementParameters where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "GetIssuingSettlementsSettlementParameters" (\obj -> (GHC.Base.pure GetIssuingSettlementsSettlementParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathSettlement")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryExpand"))
+
+-- | Create a new 'GetIssuingSettlementsSettlementParameters' with all required fields.
+mkGetIssuingSettlementsSettlementParameters ::
+  -- | 'getIssuingSettlementsSettlementParametersPathSettlement'
+  Data.Text.Internal.Text ->
+  GetIssuingSettlementsSettlementParameters
+mkGetIssuingSettlementsSettlementParameters getIssuingSettlementsSettlementParametersPathSettlement =
+  GetIssuingSettlementsSettlementParameters
+    { getIssuingSettlementsSettlementParametersPathSettlement = getIssuingSettlementsSettlementParametersPathSettlement,
+      getIssuingSettlementsSettlementParametersQueryExpand = GHC.Maybe.Nothing
+    }
 
 -- | Represents a response of the operation 'getIssuingSettlementsSettlement'.
 --

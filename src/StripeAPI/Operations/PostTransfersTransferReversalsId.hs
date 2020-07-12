@@ -10,6 +10,7 @@ module StripeAPI.Operations.PostTransfersTransferReversalsId where
 import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -83,7 +84,7 @@ postTransfersTransferReversalsId
       )
       (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack (("/v1/transfers/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel (postTransfersTransferReversalsIdParametersPathTransfer parameters))) GHC.Base.++ "/reversals/")) GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel (postTransfersTransferReversalsIdParametersPathId parameters))) GHC.Base.++ ""))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
 
--- | Defines the data type for the schema postTransfersTransferReversalsIdParameters
+-- | Defines the object schema located at @paths.\/v1\/transfers\/{transfer}\/reversals\/{id}.POST.parameters@ in the specification.
 data PostTransfersTransferReversalsIdParameters
   = PostTransfersTransferReversalsIdParameters
       { -- | pathId: Represents the parameter named \'id\'
@@ -105,13 +106,26 @@ data PostTransfersTransferReversalsIdParameters
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostTransfersTransferReversalsIdParameters where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "pathId" (postTransfersTransferReversalsIdParametersPathId obj) : (Data.Aeson..=) "pathTransfer" (postTransfersTransferReversalsIdParametersPathTransfer obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "pathId" (postTransfersTransferReversalsIdParametersPathId obj) GHC.Base.<> (Data.Aeson..=) "pathTransfer" (postTransfersTransferReversalsIdParametersPathTransfer obj))
+  toJSON obj = Data.Aeson.Types.Internal.object ("pathId" Data.Aeson.Types.ToJSON..= postTransfersTransferReversalsIdParametersPathId obj : "pathTransfer" Data.Aeson.Types.ToJSON..= postTransfersTransferReversalsIdParametersPathTransfer obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("pathId" Data.Aeson.Types.ToJSON..= postTransfersTransferReversalsIdParametersPathId obj) GHC.Base.<> ("pathTransfer" Data.Aeson.Types.ToJSON..= postTransfersTransferReversalsIdParametersPathTransfer obj))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostTransfersTransferReversalsIdParameters where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PostTransfersTransferReversalsIdParameters" (\obj -> (GHC.Base.pure PostTransfersTransferReversalsIdParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathId")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathTransfer"))
 
--- | Defines the data type for the schema postTransfersTransferReversalsIdRequestBody
+-- | Create a new 'PostTransfersTransferReversalsIdParameters' with all required fields.
+mkPostTransfersTransferReversalsIdParameters ::
+  -- | 'postTransfersTransferReversalsIdParametersPathId'
+  Data.Text.Internal.Text ->
+  -- | 'postTransfersTransferReversalsIdParametersPathTransfer'
+  Data.Text.Internal.Text ->
+  PostTransfersTransferReversalsIdParameters
+mkPostTransfersTransferReversalsIdParameters postTransfersTransferReversalsIdParametersPathId postTransfersTransferReversalsIdParametersPathTransfer =
+  PostTransfersTransferReversalsIdParameters
+    { postTransfersTransferReversalsIdParametersPathId = postTransfersTransferReversalsIdParametersPathId,
+      postTransfersTransferReversalsIdParametersPathTransfer = postTransfersTransferReversalsIdParametersPathTransfer
+    }
+
+-- | Defines the object schema located at @paths.\/v1\/transfers\/{transfer}\/reversals\/{id}.POST.requestBody.content.application\/x-www-form-urlencoded.schema@ in the specification.
 data PostTransfersTransferReversalsIdRequestBody
   = PostTransfersTransferReversalsIdRequestBody
       { -- | expand: Specifies which fields in the response should be expanded.
@@ -125,11 +139,19 @@ data PostTransfersTransferReversalsIdRequestBody
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostTransfersTransferReversalsIdRequestBody where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "expand" (postTransfersTransferReversalsIdRequestBodyExpand obj) : (Data.Aeson..=) "metadata" (postTransfersTransferReversalsIdRequestBodyMetadata obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "expand" (postTransfersTransferReversalsIdRequestBodyExpand obj) GHC.Base.<> (Data.Aeson..=) "metadata" (postTransfersTransferReversalsIdRequestBodyMetadata obj))
+  toJSON obj = Data.Aeson.Types.Internal.object ("expand" Data.Aeson.Types.ToJSON..= postTransfersTransferReversalsIdRequestBodyExpand obj : "metadata" Data.Aeson.Types.ToJSON..= postTransfersTransferReversalsIdRequestBodyMetadata obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("expand" Data.Aeson.Types.ToJSON..= postTransfersTransferReversalsIdRequestBodyExpand obj) GHC.Base.<> ("metadata" Data.Aeson.Types.ToJSON..= postTransfersTransferReversalsIdRequestBodyMetadata obj))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostTransfersTransferReversalsIdRequestBody where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PostTransfersTransferReversalsIdRequestBody" (\obj -> (GHC.Base.pure PostTransfersTransferReversalsIdRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "metadata"))
+
+-- | Create a new 'PostTransfersTransferReversalsIdRequestBody' with all required fields.
+mkPostTransfersTransferReversalsIdRequestBody :: PostTransfersTransferReversalsIdRequestBody
+mkPostTransfersTransferReversalsIdRequestBody =
+  PostTransfersTransferReversalsIdRequestBody
+    { postTransfersTransferReversalsIdRequestBodyExpand = GHC.Maybe.Nothing,
+      postTransfersTransferReversalsIdRequestBodyMetadata = GHC.Maybe.Nothing
+    }
 
 -- | Represents a response of the operation 'postTransfersTransferReversalsId'.
 --

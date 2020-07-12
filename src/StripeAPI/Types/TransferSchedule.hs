@@ -8,6 +8,7 @@ module StripeAPI.Types.TransferSchedule where
 
 import qualified Control.Monad.Fail
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -30,7 +31,7 @@ import StripeAPI.TypeAlias
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
--- | Defines the data type for the schema transfer_schedule
+-- | Defines the object schema located at @components.schemas.transfer_schedule@ in the specification.
 data TransferSchedule
   = TransferSchedule
       { -- | delay_days: The number of days charges for the account will be held before being paid out.
@@ -56,8 +57,23 @@ data TransferSchedule
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON TransferSchedule where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "delay_days" (transferScheduleDelayDays obj) : (Data.Aeson..=) "interval" (transferScheduleInterval obj) : (Data.Aeson..=) "monthly_anchor" (transferScheduleMonthlyAnchor obj) : (Data.Aeson..=) "weekly_anchor" (transferScheduleWeeklyAnchor obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "delay_days" (transferScheduleDelayDays obj) GHC.Base.<> ((Data.Aeson..=) "interval" (transferScheduleInterval obj) GHC.Base.<> ((Data.Aeson..=) "monthly_anchor" (transferScheduleMonthlyAnchor obj) GHC.Base.<> (Data.Aeson..=) "weekly_anchor" (transferScheduleWeeklyAnchor obj))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("delay_days" Data.Aeson.Types.ToJSON..= transferScheduleDelayDays obj : "interval" Data.Aeson.Types.ToJSON..= transferScheduleInterval obj : "monthly_anchor" Data.Aeson.Types.ToJSON..= transferScheduleMonthlyAnchor obj : "weekly_anchor" Data.Aeson.Types.ToJSON..= transferScheduleWeeklyAnchor obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("delay_days" Data.Aeson.Types.ToJSON..= transferScheduleDelayDays obj) GHC.Base.<> (("interval" Data.Aeson.Types.ToJSON..= transferScheduleInterval obj) GHC.Base.<> (("monthly_anchor" Data.Aeson.Types.ToJSON..= transferScheduleMonthlyAnchor obj) GHC.Base.<> ("weekly_anchor" Data.Aeson.Types.ToJSON..= transferScheduleWeeklyAnchor obj))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON TransferSchedule where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "TransferSchedule" (\obj -> (((GHC.Base.pure TransferSchedule GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "delay_days")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "interval")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "monthly_anchor")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "weekly_anchor"))
+
+-- | Create a new 'TransferSchedule' with all required fields.
+mkTransferSchedule ::
+  -- | 'transferScheduleDelayDays'
+  GHC.Types.Int ->
+  -- | 'transferScheduleInterval'
+  Data.Text.Internal.Text ->
+  TransferSchedule
+mkTransferSchedule transferScheduleDelayDays transferScheduleInterval =
+  TransferSchedule
+    { transferScheduleDelayDays = transferScheduleDelayDays,
+      transferScheduleInterval = transferScheduleInterval,
+      transferScheduleMonthlyAnchor = GHC.Maybe.Nothing,
+      transferScheduleWeeklyAnchor = GHC.Maybe.Nothing
+    }

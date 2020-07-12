@@ -8,6 +8,7 @@ module StripeAPI.Types.AccountSettings where
 
 import qualified Control.Monad.Fail
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -35,7 +36,7 @@ import {-# SOURCE #-} StripeAPI.Types.AccountPayoutSettings
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
--- | Defines the data type for the schema account_settings
+-- | Defines the object schema located at @components.schemas.account_settings@ in the specification.
 data AccountSettings
   = AccountSettings
       { -- | branding:
@@ -55,8 +56,28 @@ data AccountSettings
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON AccountSettings where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "branding" (accountSettingsBranding obj) : (Data.Aeson..=) "card_payments" (accountSettingsCardPayments obj) : (Data.Aeson..=) "dashboard" (accountSettingsDashboard obj) : (Data.Aeson..=) "payments" (accountSettingsPayments obj) : (Data.Aeson..=) "payouts" (accountSettingsPayouts obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "branding" (accountSettingsBranding obj) GHC.Base.<> ((Data.Aeson..=) "card_payments" (accountSettingsCardPayments obj) GHC.Base.<> ((Data.Aeson..=) "dashboard" (accountSettingsDashboard obj) GHC.Base.<> ((Data.Aeson..=) "payments" (accountSettingsPayments obj) GHC.Base.<> (Data.Aeson..=) "payouts" (accountSettingsPayouts obj)))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("branding" Data.Aeson.Types.ToJSON..= accountSettingsBranding obj : "card_payments" Data.Aeson.Types.ToJSON..= accountSettingsCardPayments obj : "dashboard" Data.Aeson.Types.ToJSON..= accountSettingsDashboard obj : "payments" Data.Aeson.Types.ToJSON..= accountSettingsPayments obj : "payouts" Data.Aeson.Types.ToJSON..= accountSettingsPayouts obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("branding" Data.Aeson.Types.ToJSON..= accountSettingsBranding obj) GHC.Base.<> (("card_payments" Data.Aeson.Types.ToJSON..= accountSettingsCardPayments obj) GHC.Base.<> (("dashboard" Data.Aeson.Types.ToJSON..= accountSettingsDashboard obj) GHC.Base.<> (("payments" Data.Aeson.Types.ToJSON..= accountSettingsPayments obj) GHC.Base.<> ("payouts" Data.Aeson.Types.ToJSON..= accountSettingsPayouts obj)))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON AccountSettings where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "AccountSettings" (\obj -> ((((GHC.Base.pure AccountSettings GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "branding")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "card_payments")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "dashboard")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "payments")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "payouts"))
+
+-- | Create a new 'AccountSettings' with all required fields.
+mkAccountSettings ::
+  -- | 'accountSettingsBranding'
+  AccountBrandingSettings ->
+  -- | 'accountSettingsCardPayments'
+  AccountCardPaymentsSettings ->
+  -- | 'accountSettingsDashboard'
+  AccountDashboardSettings ->
+  -- | 'accountSettingsPayments'
+  AccountPaymentsSettings ->
+  AccountSettings
+mkAccountSettings accountSettingsBranding accountSettingsCardPayments accountSettingsDashboard accountSettingsPayments =
+  AccountSettings
+    { accountSettingsBranding = accountSettingsBranding,
+      accountSettingsCardPayments = accountSettingsCardPayments,
+      accountSettingsDashboard = accountSettingsDashboard,
+      accountSettingsPayments = accountSettingsPayments,
+      accountSettingsPayouts = GHC.Maybe.Nothing
+    }

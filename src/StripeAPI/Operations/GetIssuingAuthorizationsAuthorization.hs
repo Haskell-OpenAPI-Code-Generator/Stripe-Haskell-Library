@@ -10,6 +10,7 @@ module StripeAPI.Operations.GetIssuingAuthorizationsAuthorization where
 import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -77,7 +78,7 @@ getIssuingAuthorizationsAuthorization parameters =
     )
     (StripeAPI.Common.doCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET") (Data.Text.pack ("/v1/issuing/authorizations/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel (getIssuingAuthorizationsAuthorizationParametersPathAuthorization parameters))) GHC.Base.++ ""))) [StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getIssuingAuthorizationsAuthorizationParametersQueryExpand parameters) (Data.Text.pack "deepObject") GHC.Types.True])
 
--- | Defines the data type for the schema getIssuingAuthorizationsAuthorizationParameters
+-- | Defines the object schema located at @paths.\/v1\/issuing\/authorizations\/{authorization}.GET.parameters@ in the specification.
 data GetIssuingAuthorizationsAuthorizationParameters
   = GetIssuingAuthorizationsAuthorizationParameters
       { -- | pathAuthorization: Represents the parameter named \'authorization\'
@@ -97,11 +98,22 @@ data GetIssuingAuthorizationsAuthorizationParameters
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetIssuingAuthorizationsAuthorizationParameters where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "pathAuthorization" (getIssuingAuthorizationsAuthorizationParametersPathAuthorization obj) : (Data.Aeson..=) "queryExpand" (getIssuingAuthorizationsAuthorizationParametersQueryExpand obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "pathAuthorization" (getIssuingAuthorizationsAuthorizationParametersPathAuthorization obj) GHC.Base.<> (Data.Aeson..=) "queryExpand" (getIssuingAuthorizationsAuthorizationParametersQueryExpand obj))
+  toJSON obj = Data.Aeson.Types.Internal.object ("pathAuthorization" Data.Aeson.Types.ToJSON..= getIssuingAuthorizationsAuthorizationParametersPathAuthorization obj : "queryExpand" Data.Aeson.Types.ToJSON..= getIssuingAuthorizationsAuthorizationParametersQueryExpand obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("pathAuthorization" Data.Aeson.Types.ToJSON..= getIssuingAuthorizationsAuthorizationParametersPathAuthorization obj) GHC.Base.<> ("queryExpand" Data.Aeson.Types.ToJSON..= getIssuingAuthorizationsAuthorizationParametersQueryExpand obj))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetIssuingAuthorizationsAuthorizationParameters where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "GetIssuingAuthorizationsAuthorizationParameters" (\obj -> (GHC.Base.pure GetIssuingAuthorizationsAuthorizationParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathAuthorization")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryExpand"))
+
+-- | Create a new 'GetIssuingAuthorizationsAuthorizationParameters' with all required fields.
+mkGetIssuingAuthorizationsAuthorizationParameters ::
+  -- | 'getIssuingAuthorizationsAuthorizationParametersPathAuthorization'
+  Data.Text.Internal.Text ->
+  GetIssuingAuthorizationsAuthorizationParameters
+mkGetIssuingAuthorizationsAuthorizationParameters getIssuingAuthorizationsAuthorizationParametersPathAuthorization =
+  GetIssuingAuthorizationsAuthorizationParameters
+    { getIssuingAuthorizationsAuthorizationParametersPathAuthorization = getIssuingAuthorizationsAuthorizationParametersPathAuthorization,
+      getIssuingAuthorizationsAuthorizationParametersQueryExpand = GHC.Maybe.Nothing
+    }
 
 -- | Represents a response of the operation 'getIssuingAuthorizationsAuthorization'.
 --

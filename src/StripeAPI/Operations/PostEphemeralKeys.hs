@@ -10,6 +10,7 @@ module StripeAPI.Operations.PostEphemeralKeys where
 import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -77,7 +78,7 @@ postEphemeralKeys body =
     )
     (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack "/v1/ephemeral_keys") [] body StripeAPI.Common.RequestBodyEncodingFormData)
 
--- | Defines the data type for the schema postEphemeralKeysRequestBody
+-- | Defines the object schema located at @paths.\/v1\/ephemeral_keys.POST.requestBody.content.application\/x-www-form-urlencoded.schema@ in the specification.
 data PostEphemeralKeysRequestBody
   = PostEphemeralKeysRequestBody
       { -- | customer: The ID of the Customer you\'d like to modify using the resulting ephemeral key.
@@ -101,11 +102,20 @@ data PostEphemeralKeysRequestBody
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostEphemeralKeysRequestBody where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "customer" (postEphemeralKeysRequestBodyCustomer obj) : (Data.Aeson..=) "expand" (postEphemeralKeysRequestBodyExpand obj) : (Data.Aeson..=) "issuing_card" (postEphemeralKeysRequestBodyIssuingCard obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "customer" (postEphemeralKeysRequestBodyCustomer obj) GHC.Base.<> ((Data.Aeson..=) "expand" (postEphemeralKeysRequestBodyExpand obj) GHC.Base.<> (Data.Aeson..=) "issuing_card" (postEphemeralKeysRequestBodyIssuingCard obj)))
+  toJSON obj = Data.Aeson.Types.Internal.object ("customer" Data.Aeson.Types.ToJSON..= postEphemeralKeysRequestBodyCustomer obj : "expand" Data.Aeson.Types.ToJSON..= postEphemeralKeysRequestBodyExpand obj : "issuing_card" Data.Aeson.Types.ToJSON..= postEphemeralKeysRequestBodyIssuingCard obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("customer" Data.Aeson.Types.ToJSON..= postEphemeralKeysRequestBodyCustomer obj) GHC.Base.<> (("expand" Data.Aeson.Types.ToJSON..= postEphemeralKeysRequestBodyExpand obj) GHC.Base.<> ("issuing_card" Data.Aeson.Types.ToJSON..= postEphemeralKeysRequestBodyIssuingCard obj)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostEphemeralKeysRequestBody where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PostEphemeralKeysRequestBody" (\obj -> ((GHC.Base.pure PostEphemeralKeysRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "customer")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "issuing_card"))
+
+-- | Create a new 'PostEphemeralKeysRequestBody' with all required fields.
+mkPostEphemeralKeysRequestBody :: PostEphemeralKeysRequestBody
+mkPostEphemeralKeysRequestBody =
+  PostEphemeralKeysRequestBody
+    { postEphemeralKeysRequestBodyCustomer = GHC.Maybe.Nothing,
+      postEphemeralKeysRequestBodyExpand = GHC.Maybe.Nothing,
+      postEphemeralKeysRequestBodyIssuingCard = GHC.Maybe.Nothing
+    }
 
 -- | Represents a response of the operation 'postEphemeralKeys'.
 --

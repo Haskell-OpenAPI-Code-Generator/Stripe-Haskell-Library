@@ -8,6 +8,7 @@ module StripeAPI.Types.PaymentMethodDetailsCardPresent where
 
 import qualified Control.Monad.Fail
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -31,7 +32,7 @@ import {-# SOURCE #-} StripeAPI.Types.PaymentMethodDetailsCardPresentReceipt
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
--- | Defines the data type for the schema payment_method_details_card_present
+-- | Defines the object schema located at @components.schemas.payment_method_details_card_present@ in the specification.
 data PaymentMethodDetailsCardPresent
   = PaymentMethodDetailsCardPresent
       { -- | brand: Card brand. Can be \`amex\`, \`diners\`, \`discover\`, \`jcb\`, \`mastercard\`, \`unionpay\`, \`visa\`, or \`unknown\`.
@@ -101,13 +102,31 @@ data PaymentMethodDetailsCardPresent
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PaymentMethodDetailsCardPresent where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "brand" (paymentMethodDetailsCardPresentBrand obj) : (Data.Aeson..=) "country" (paymentMethodDetailsCardPresentCountry obj) : (Data.Aeson..=) "emv_auth_data" (paymentMethodDetailsCardPresentEmvAuthData obj) : (Data.Aeson..=) "exp_month" (paymentMethodDetailsCardPresentExpMonth obj) : (Data.Aeson..=) "exp_year" (paymentMethodDetailsCardPresentExpYear obj) : (Data.Aeson..=) "fingerprint" (paymentMethodDetailsCardPresentFingerprint obj) : (Data.Aeson..=) "funding" (paymentMethodDetailsCardPresentFunding obj) : (Data.Aeson..=) "generated_card" (paymentMethodDetailsCardPresentGeneratedCard obj) : (Data.Aeson..=) "last4" (paymentMethodDetailsCardPresentLast4 obj) : (Data.Aeson..=) "network" (paymentMethodDetailsCardPresentNetwork obj) : (Data.Aeson..=) "read_method" (paymentMethodDetailsCardPresentReadMethod obj) : (Data.Aeson..=) "receipt" (paymentMethodDetailsCardPresentReceipt obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "brand" (paymentMethodDetailsCardPresentBrand obj) GHC.Base.<> ((Data.Aeson..=) "country" (paymentMethodDetailsCardPresentCountry obj) GHC.Base.<> ((Data.Aeson..=) "emv_auth_data" (paymentMethodDetailsCardPresentEmvAuthData obj) GHC.Base.<> ((Data.Aeson..=) "exp_month" (paymentMethodDetailsCardPresentExpMonth obj) GHC.Base.<> ((Data.Aeson..=) "exp_year" (paymentMethodDetailsCardPresentExpYear obj) GHC.Base.<> ((Data.Aeson..=) "fingerprint" (paymentMethodDetailsCardPresentFingerprint obj) GHC.Base.<> ((Data.Aeson..=) "funding" (paymentMethodDetailsCardPresentFunding obj) GHC.Base.<> ((Data.Aeson..=) "generated_card" (paymentMethodDetailsCardPresentGeneratedCard obj) GHC.Base.<> ((Data.Aeson..=) "last4" (paymentMethodDetailsCardPresentLast4 obj) GHC.Base.<> ((Data.Aeson..=) "network" (paymentMethodDetailsCardPresentNetwork obj) GHC.Base.<> ((Data.Aeson..=) "read_method" (paymentMethodDetailsCardPresentReadMethod obj) GHC.Base.<> (Data.Aeson..=) "receipt" (paymentMethodDetailsCardPresentReceipt obj))))))))))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("brand" Data.Aeson.Types.ToJSON..= paymentMethodDetailsCardPresentBrand obj : "country" Data.Aeson.Types.ToJSON..= paymentMethodDetailsCardPresentCountry obj : "emv_auth_data" Data.Aeson.Types.ToJSON..= paymentMethodDetailsCardPresentEmvAuthData obj : "exp_month" Data.Aeson.Types.ToJSON..= paymentMethodDetailsCardPresentExpMonth obj : "exp_year" Data.Aeson.Types.ToJSON..= paymentMethodDetailsCardPresentExpYear obj : "fingerprint" Data.Aeson.Types.ToJSON..= paymentMethodDetailsCardPresentFingerprint obj : "funding" Data.Aeson.Types.ToJSON..= paymentMethodDetailsCardPresentFunding obj : "generated_card" Data.Aeson.Types.ToJSON..= paymentMethodDetailsCardPresentGeneratedCard obj : "last4" Data.Aeson.Types.ToJSON..= paymentMethodDetailsCardPresentLast4 obj : "network" Data.Aeson.Types.ToJSON..= paymentMethodDetailsCardPresentNetwork obj : "read_method" Data.Aeson.Types.ToJSON..= paymentMethodDetailsCardPresentReadMethod obj : "receipt" Data.Aeson.Types.ToJSON..= paymentMethodDetailsCardPresentReceipt obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("brand" Data.Aeson.Types.ToJSON..= paymentMethodDetailsCardPresentBrand obj) GHC.Base.<> (("country" Data.Aeson.Types.ToJSON..= paymentMethodDetailsCardPresentCountry obj) GHC.Base.<> (("emv_auth_data" Data.Aeson.Types.ToJSON..= paymentMethodDetailsCardPresentEmvAuthData obj) GHC.Base.<> (("exp_month" Data.Aeson.Types.ToJSON..= paymentMethodDetailsCardPresentExpMonth obj) GHC.Base.<> (("exp_year" Data.Aeson.Types.ToJSON..= paymentMethodDetailsCardPresentExpYear obj) GHC.Base.<> (("fingerprint" Data.Aeson.Types.ToJSON..= paymentMethodDetailsCardPresentFingerprint obj) GHC.Base.<> (("funding" Data.Aeson.Types.ToJSON..= paymentMethodDetailsCardPresentFunding obj) GHC.Base.<> (("generated_card" Data.Aeson.Types.ToJSON..= paymentMethodDetailsCardPresentGeneratedCard obj) GHC.Base.<> (("last4" Data.Aeson.Types.ToJSON..= paymentMethodDetailsCardPresentLast4 obj) GHC.Base.<> (("network" Data.Aeson.Types.ToJSON..= paymentMethodDetailsCardPresentNetwork obj) GHC.Base.<> (("read_method" Data.Aeson.Types.ToJSON..= paymentMethodDetailsCardPresentReadMethod obj) GHC.Base.<> ("receipt" Data.Aeson.Types.ToJSON..= paymentMethodDetailsCardPresentReceipt obj))))))))))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PaymentMethodDetailsCardPresent where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PaymentMethodDetailsCardPresent" (\obj -> (((((((((((GHC.Base.pure PaymentMethodDetailsCardPresent GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "brand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "country")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "emv_auth_data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "exp_month")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "exp_year")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "fingerprint")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "funding")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "generated_card")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "last4")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "network")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "read_method")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "receipt"))
 
--- | Defines the data type for the schema payment_method_details_card_presentReceipt\'
+-- | Create a new 'PaymentMethodDetailsCardPresent' with all required fields.
+mkPaymentMethodDetailsCardPresent :: PaymentMethodDetailsCardPresent
+mkPaymentMethodDetailsCardPresent =
+  PaymentMethodDetailsCardPresent
+    { paymentMethodDetailsCardPresentBrand = GHC.Maybe.Nothing,
+      paymentMethodDetailsCardPresentCountry = GHC.Maybe.Nothing,
+      paymentMethodDetailsCardPresentEmvAuthData = GHC.Maybe.Nothing,
+      paymentMethodDetailsCardPresentExpMonth = GHC.Maybe.Nothing,
+      paymentMethodDetailsCardPresentExpYear = GHC.Maybe.Nothing,
+      paymentMethodDetailsCardPresentFingerprint = GHC.Maybe.Nothing,
+      paymentMethodDetailsCardPresentFunding = GHC.Maybe.Nothing,
+      paymentMethodDetailsCardPresentGeneratedCard = GHC.Maybe.Nothing,
+      paymentMethodDetailsCardPresentLast4 = GHC.Maybe.Nothing,
+      paymentMethodDetailsCardPresentNetwork = GHC.Maybe.Nothing,
+      paymentMethodDetailsCardPresentReadMethod = GHC.Maybe.Nothing,
+      paymentMethodDetailsCardPresentReceipt = GHC.Maybe.Nothing
+    }
+
+-- | Defines the object schema located at @components.schemas.payment_method_details_card_present.properties.receipt.anyOf@ in the specification.
 --
 -- A collection of fields required to be displayed on receipts. Only required for EMV transactions.
 data PaymentMethodDetailsCardPresentReceipt'
@@ -167,8 +186,22 @@ data PaymentMethodDetailsCardPresentReceipt'
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PaymentMethodDetailsCardPresentReceipt' where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "application_cryptogram" (paymentMethodDetailsCardPresentReceipt'ApplicationCryptogram obj) : (Data.Aeson..=) "application_preferred_name" (paymentMethodDetailsCardPresentReceipt'ApplicationPreferredName obj) : (Data.Aeson..=) "authorization_code" (paymentMethodDetailsCardPresentReceipt'AuthorizationCode obj) : (Data.Aeson..=) "authorization_response_code" (paymentMethodDetailsCardPresentReceipt'AuthorizationResponseCode obj) : (Data.Aeson..=) "cardholder_verification_method" (paymentMethodDetailsCardPresentReceipt'CardholderVerificationMethod obj) : (Data.Aeson..=) "dedicated_file_name" (paymentMethodDetailsCardPresentReceipt'DedicatedFileName obj) : (Data.Aeson..=) "terminal_verification_results" (paymentMethodDetailsCardPresentReceipt'TerminalVerificationResults obj) : (Data.Aeson..=) "transaction_status_information" (paymentMethodDetailsCardPresentReceipt'TransactionStatusInformation obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "application_cryptogram" (paymentMethodDetailsCardPresentReceipt'ApplicationCryptogram obj) GHC.Base.<> ((Data.Aeson..=) "application_preferred_name" (paymentMethodDetailsCardPresentReceipt'ApplicationPreferredName obj) GHC.Base.<> ((Data.Aeson..=) "authorization_code" (paymentMethodDetailsCardPresentReceipt'AuthorizationCode obj) GHC.Base.<> ((Data.Aeson..=) "authorization_response_code" (paymentMethodDetailsCardPresentReceipt'AuthorizationResponseCode obj) GHC.Base.<> ((Data.Aeson..=) "cardholder_verification_method" (paymentMethodDetailsCardPresentReceipt'CardholderVerificationMethod obj) GHC.Base.<> ((Data.Aeson..=) "dedicated_file_name" (paymentMethodDetailsCardPresentReceipt'DedicatedFileName obj) GHC.Base.<> ((Data.Aeson..=) "terminal_verification_results" (paymentMethodDetailsCardPresentReceipt'TerminalVerificationResults obj) GHC.Base.<> (Data.Aeson..=) "transaction_status_information" (paymentMethodDetailsCardPresentReceipt'TransactionStatusInformation obj))))))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("application_cryptogram" Data.Aeson.Types.ToJSON..= paymentMethodDetailsCardPresentReceipt'ApplicationCryptogram obj : "application_preferred_name" Data.Aeson.Types.ToJSON..= paymentMethodDetailsCardPresentReceipt'ApplicationPreferredName obj : "authorization_code" Data.Aeson.Types.ToJSON..= paymentMethodDetailsCardPresentReceipt'AuthorizationCode obj : "authorization_response_code" Data.Aeson.Types.ToJSON..= paymentMethodDetailsCardPresentReceipt'AuthorizationResponseCode obj : "cardholder_verification_method" Data.Aeson.Types.ToJSON..= paymentMethodDetailsCardPresentReceipt'CardholderVerificationMethod obj : "dedicated_file_name" Data.Aeson.Types.ToJSON..= paymentMethodDetailsCardPresentReceipt'DedicatedFileName obj : "terminal_verification_results" Data.Aeson.Types.ToJSON..= paymentMethodDetailsCardPresentReceipt'TerminalVerificationResults obj : "transaction_status_information" Data.Aeson.Types.ToJSON..= paymentMethodDetailsCardPresentReceipt'TransactionStatusInformation obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("application_cryptogram" Data.Aeson.Types.ToJSON..= paymentMethodDetailsCardPresentReceipt'ApplicationCryptogram obj) GHC.Base.<> (("application_preferred_name" Data.Aeson.Types.ToJSON..= paymentMethodDetailsCardPresentReceipt'ApplicationPreferredName obj) GHC.Base.<> (("authorization_code" Data.Aeson.Types.ToJSON..= paymentMethodDetailsCardPresentReceipt'AuthorizationCode obj) GHC.Base.<> (("authorization_response_code" Data.Aeson.Types.ToJSON..= paymentMethodDetailsCardPresentReceipt'AuthorizationResponseCode obj) GHC.Base.<> (("cardholder_verification_method" Data.Aeson.Types.ToJSON..= paymentMethodDetailsCardPresentReceipt'CardholderVerificationMethod obj) GHC.Base.<> (("dedicated_file_name" Data.Aeson.Types.ToJSON..= paymentMethodDetailsCardPresentReceipt'DedicatedFileName obj) GHC.Base.<> (("terminal_verification_results" Data.Aeson.Types.ToJSON..= paymentMethodDetailsCardPresentReceipt'TerminalVerificationResults obj) GHC.Base.<> ("transaction_status_information" Data.Aeson.Types.ToJSON..= paymentMethodDetailsCardPresentReceipt'TransactionStatusInformation obj))))))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PaymentMethodDetailsCardPresentReceipt' where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PaymentMethodDetailsCardPresentReceipt'" (\obj -> (((((((GHC.Base.pure PaymentMethodDetailsCardPresentReceipt' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "application_cryptogram")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "application_preferred_name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "authorization_code")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "authorization_response_code")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "cardholder_verification_method")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "dedicated_file_name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "terminal_verification_results")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "transaction_status_information"))
+
+-- | Create a new 'PaymentMethodDetailsCardPresentReceipt'' with all required fields.
+mkPaymentMethodDetailsCardPresentReceipt' :: PaymentMethodDetailsCardPresentReceipt'
+mkPaymentMethodDetailsCardPresentReceipt' =
+  PaymentMethodDetailsCardPresentReceipt'
+    { paymentMethodDetailsCardPresentReceipt'ApplicationCryptogram = GHC.Maybe.Nothing,
+      paymentMethodDetailsCardPresentReceipt'ApplicationPreferredName = GHC.Maybe.Nothing,
+      paymentMethodDetailsCardPresentReceipt'AuthorizationCode = GHC.Maybe.Nothing,
+      paymentMethodDetailsCardPresentReceipt'AuthorizationResponseCode = GHC.Maybe.Nothing,
+      paymentMethodDetailsCardPresentReceipt'CardholderVerificationMethod = GHC.Maybe.Nothing,
+      paymentMethodDetailsCardPresentReceipt'DedicatedFileName = GHC.Maybe.Nothing,
+      paymentMethodDetailsCardPresentReceipt'TerminalVerificationResults = GHC.Maybe.Nothing,
+      paymentMethodDetailsCardPresentReceipt'TransactionStatusInformation = GHC.Maybe.Nothing
+    }

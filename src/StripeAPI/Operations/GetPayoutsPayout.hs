@@ -10,6 +10,7 @@ module StripeAPI.Operations.GetPayoutsPayout where
 import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -77,7 +78,7 @@ getPayoutsPayout parameters =
     )
     (StripeAPI.Common.doCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET") (Data.Text.pack ("/v1/payouts/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel (getPayoutsPayoutParametersPathPayout parameters))) GHC.Base.++ ""))) [StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getPayoutsPayoutParametersQueryExpand parameters) (Data.Text.pack "deepObject") GHC.Types.True])
 
--- | Defines the data type for the schema getPayoutsPayoutParameters
+-- | Defines the object schema located at @paths.\/v1\/payouts\/{payout}.GET.parameters@ in the specification.
 data GetPayoutsPayoutParameters
   = GetPayoutsPayoutParameters
       { -- | pathPayout: Represents the parameter named \'payout\'
@@ -97,11 +98,22 @@ data GetPayoutsPayoutParameters
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetPayoutsPayoutParameters where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "pathPayout" (getPayoutsPayoutParametersPathPayout obj) : (Data.Aeson..=) "queryExpand" (getPayoutsPayoutParametersQueryExpand obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "pathPayout" (getPayoutsPayoutParametersPathPayout obj) GHC.Base.<> (Data.Aeson..=) "queryExpand" (getPayoutsPayoutParametersQueryExpand obj))
+  toJSON obj = Data.Aeson.Types.Internal.object ("pathPayout" Data.Aeson.Types.ToJSON..= getPayoutsPayoutParametersPathPayout obj : "queryExpand" Data.Aeson.Types.ToJSON..= getPayoutsPayoutParametersQueryExpand obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("pathPayout" Data.Aeson.Types.ToJSON..= getPayoutsPayoutParametersPathPayout obj) GHC.Base.<> ("queryExpand" Data.Aeson.Types.ToJSON..= getPayoutsPayoutParametersQueryExpand obj))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetPayoutsPayoutParameters where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "GetPayoutsPayoutParameters" (\obj -> (GHC.Base.pure GetPayoutsPayoutParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathPayout")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryExpand"))
+
+-- | Create a new 'GetPayoutsPayoutParameters' with all required fields.
+mkGetPayoutsPayoutParameters ::
+  -- | 'getPayoutsPayoutParametersPathPayout'
+  Data.Text.Internal.Text ->
+  GetPayoutsPayoutParameters
+mkGetPayoutsPayoutParameters getPayoutsPayoutParametersPathPayout =
+  GetPayoutsPayoutParameters
+    { getPayoutsPayoutParametersPathPayout = getPayoutsPayoutParametersPathPayout,
+      getPayoutsPayoutParametersQueryExpand = GHC.Maybe.Nothing
+    }
 
 -- | Represents a response of the operation 'getPayoutsPayout'.
 --

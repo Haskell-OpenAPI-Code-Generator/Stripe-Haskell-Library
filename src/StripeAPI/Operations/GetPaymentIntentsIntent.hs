@@ -10,6 +10,7 @@ module StripeAPI.Operations.GetPaymentIntentsIntent where
 import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -87,7 +88,7 @@ getPaymentIntentsIntent parameters =
         ]
     )
 
--- | Defines the data type for the schema getPaymentIntentsIntentParameters
+-- | Defines the object schema located at @paths.\/v1\/payment_intents\/{intent}.GET.parameters@ in the specification.
 data GetPaymentIntentsIntentParameters
   = GetPaymentIntentsIntentParameters
       { -- | pathIntent: Represents the parameter named \'intent\'
@@ -111,11 +112,23 @@ data GetPaymentIntentsIntentParameters
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetPaymentIntentsIntentParameters where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "pathIntent" (getPaymentIntentsIntentParametersPathIntent obj) : (Data.Aeson..=) "queryClient_secret" (getPaymentIntentsIntentParametersQueryClientSecret obj) : (Data.Aeson..=) "queryExpand" (getPaymentIntentsIntentParametersQueryExpand obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "pathIntent" (getPaymentIntentsIntentParametersPathIntent obj) GHC.Base.<> ((Data.Aeson..=) "queryClient_secret" (getPaymentIntentsIntentParametersQueryClientSecret obj) GHC.Base.<> (Data.Aeson..=) "queryExpand" (getPaymentIntentsIntentParametersQueryExpand obj)))
+  toJSON obj = Data.Aeson.Types.Internal.object ("pathIntent" Data.Aeson.Types.ToJSON..= getPaymentIntentsIntentParametersPathIntent obj : "queryClient_secret" Data.Aeson.Types.ToJSON..= getPaymentIntentsIntentParametersQueryClientSecret obj : "queryExpand" Data.Aeson.Types.ToJSON..= getPaymentIntentsIntentParametersQueryExpand obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("pathIntent" Data.Aeson.Types.ToJSON..= getPaymentIntentsIntentParametersPathIntent obj) GHC.Base.<> (("queryClient_secret" Data.Aeson.Types.ToJSON..= getPaymentIntentsIntentParametersQueryClientSecret obj) GHC.Base.<> ("queryExpand" Data.Aeson.Types.ToJSON..= getPaymentIntentsIntentParametersQueryExpand obj)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetPaymentIntentsIntentParameters where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "GetPaymentIntentsIntentParameters" (\obj -> ((GHC.Base.pure GetPaymentIntentsIntentParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathIntent")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryClient_secret")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryExpand"))
+
+-- | Create a new 'GetPaymentIntentsIntentParameters' with all required fields.
+mkGetPaymentIntentsIntentParameters ::
+  -- | 'getPaymentIntentsIntentParametersPathIntent'
+  Data.Text.Internal.Text ->
+  GetPaymentIntentsIntentParameters
+mkGetPaymentIntentsIntentParameters getPaymentIntentsIntentParametersPathIntent =
+  GetPaymentIntentsIntentParameters
+    { getPaymentIntentsIntentParametersPathIntent = getPaymentIntentsIntentParametersPathIntent,
+      getPaymentIntentsIntentParametersQueryClientSecret = GHC.Maybe.Nothing,
+      getPaymentIntentsIntentParametersQueryExpand = GHC.Maybe.Nothing
+    }
 
 -- | Represents a response of the operation 'getPaymentIntentsIntent'.
 --

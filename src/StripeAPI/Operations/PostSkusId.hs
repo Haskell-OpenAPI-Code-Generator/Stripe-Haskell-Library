@@ -10,6 +10,7 @@ module StripeAPI.Operations.PostSkusId where
 import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -83,7 +84,7 @@ postSkusId
       )
       (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack ("/v1/skus/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel id)) GHC.Base.++ ""))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
 
--- | Defines the data type for the schema postSkusIdRequestBody
+-- | Defines the object schema located at @paths.\/v1\/skus\/{id}.POST.requestBody.content.application\/x-www-form-urlencoded.schema@ in the specification.
 data PostSkusIdRequestBody
   = PostSkusIdRequestBody
       { -- | active: Whether this SKU is available for purchase.
@@ -121,13 +122,29 @@ data PostSkusIdRequestBody
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostSkusIdRequestBody where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "active" (postSkusIdRequestBodyActive obj) : (Data.Aeson..=) "attributes" (postSkusIdRequestBodyAttributes obj) : (Data.Aeson..=) "currency" (postSkusIdRequestBodyCurrency obj) : (Data.Aeson..=) "expand" (postSkusIdRequestBodyExpand obj) : (Data.Aeson..=) "image" (postSkusIdRequestBodyImage obj) : (Data.Aeson..=) "inventory" (postSkusIdRequestBodyInventory obj) : (Data.Aeson..=) "metadata" (postSkusIdRequestBodyMetadata obj) : (Data.Aeson..=) "package_dimensions" (postSkusIdRequestBodyPackageDimensions obj) : (Data.Aeson..=) "price" (postSkusIdRequestBodyPrice obj) : (Data.Aeson..=) "product" (postSkusIdRequestBodyProduct obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "active" (postSkusIdRequestBodyActive obj) GHC.Base.<> ((Data.Aeson..=) "attributes" (postSkusIdRequestBodyAttributes obj) GHC.Base.<> ((Data.Aeson..=) "currency" (postSkusIdRequestBodyCurrency obj) GHC.Base.<> ((Data.Aeson..=) "expand" (postSkusIdRequestBodyExpand obj) GHC.Base.<> ((Data.Aeson..=) "image" (postSkusIdRequestBodyImage obj) GHC.Base.<> ((Data.Aeson..=) "inventory" (postSkusIdRequestBodyInventory obj) GHC.Base.<> ((Data.Aeson..=) "metadata" (postSkusIdRequestBodyMetadata obj) GHC.Base.<> ((Data.Aeson..=) "package_dimensions" (postSkusIdRequestBodyPackageDimensions obj) GHC.Base.<> ((Data.Aeson..=) "price" (postSkusIdRequestBodyPrice obj) GHC.Base.<> (Data.Aeson..=) "product" (postSkusIdRequestBodyProduct obj))))))))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("active" Data.Aeson.Types.ToJSON..= postSkusIdRequestBodyActive obj : "attributes" Data.Aeson.Types.ToJSON..= postSkusIdRequestBodyAttributes obj : "currency" Data.Aeson.Types.ToJSON..= postSkusIdRequestBodyCurrency obj : "expand" Data.Aeson.Types.ToJSON..= postSkusIdRequestBodyExpand obj : "image" Data.Aeson.Types.ToJSON..= postSkusIdRequestBodyImage obj : "inventory" Data.Aeson.Types.ToJSON..= postSkusIdRequestBodyInventory obj : "metadata" Data.Aeson.Types.ToJSON..= postSkusIdRequestBodyMetadata obj : "package_dimensions" Data.Aeson.Types.ToJSON..= postSkusIdRequestBodyPackageDimensions obj : "price" Data.Aeson.Types.ToJSON..= postSkusIdRequestBodyPrice obj : "product" Data.Aeson.Types.ToJSON..= postSkusIdRequestBodyProduct obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("active" Data.Aeson.Types.ToJSON..= postSkusIdRequestBodyActive obj) GHC.Base.<> (("attributes" Data.Aeson.Types.ToJSON..= postSkusIdRequestBodyAttributes obj) GHC.Base.<> (("currency" Data.Aeson.Types.ToJSON..= postSkusIdRequestBodyCurrency obj) GHC.Base.<> (("expand" Data.Aeson.Types.ToJSON..= postSkusIdRequestBodyExpand obj) GHC.Base.<> (("image" Data.Aeson.Types.ToJSON..= postSkusIdRequestBodyImage obj) GHC.Base.<> (("inventory" Data.Aeson.Types.ToJSON..= postSkusIdRequestBodyInventory obj) GHC.Base.<> (("metadata" Data.Aeson.Types.ToJSON..= postSkusIdRequestBodyMetadata obj) GHC.Base.<> (("package_dimensions" Data.Aeson.Types.ToJSON..= postSkusIdRequestBodyPackageDimensions obj) GHC.Base.<> (("price" Data.Aeson.Types.ToJSON..= postSkusIdRequestBodyPrice obj) GHC.Base.<> ("product" Data.Aeson.Types.ToJSON..= postSkusIdRequestBodyProduct obj))))))))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostSkusIdRequestBody where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PostSkusIdRequestBody" (\obj -> (((((((((GHC.Base.pure PostSkusIdRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "active")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "attributes")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "image")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "inventory")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "package_dimensions")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "price")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "product"))
 
--- | Defines the data type for the schema postSkusIdRequestBodyInventory\'
+-- | Create a new 'PostSkusIdRequestBody' with all required fields.
+mkPostSkusIdRequestBody :: PostSkusIdRequestBody
+mkPostSkusIdRequestBody =
+  PostSkusIdRequestBody
+    { postSkusIdRequestBodyActive = GHC.Maybe.Nothing,
+      postSkusIdRequestBodyAttributes = GHC.Maybe.Nothing,
+      postSkusIdRequestBodyCurrency = GHC.Maybe.Nothing,
+      postSkusIdRequestBodyExpand = GHC.Maybe.Nothing,
+      postSkusIdRequestBodyImage = GHC.Maybe.Nothing,
+      postSkusIdRequestBodyInventory = GHC.Maybe.Nothing,
+      postSkusIdRequestBodyMetadata = GHC.Maybe.Nothing,
+      postSkusIdRequestBodyPackageDimensions = GHC.Maybe.Nothing,
+      postSkusIdRequestBodyPrice = GHC.Maybe.Nothing,
+      postSkusIdRequestBodyProduct = GHC.Maybe.Nothing
+    }
+
+-- | Defines the object schema located at @paths.\/v1\/skus\/{id}.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.inventory@ in the specification.
 --
 -- Description of the SKU\'s inventory.
 data PostSkusIdRequestBodyInventory'
@@ -153,126 +170,147 @@ data PostSkusIdRequestBodyInventory'
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostSkusIdRequestBodyInventory' where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "quantity" (postSkusIdRequestBodyInventory'Quantity obj) : (Data.Aeson..=) "type" (postSkusIdRequestBodyInventory'Type obj) : (Data.Aeson..=) "value" (postSkusIdRequestBodyInventory'Value obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "quantity" (postSkusIdRequestBodyInventory'Quantity obj) GHC.Base.<> ((Data.Aeson..=) "type" (postSkusIdRequestBodyInventory'Type obj) GHC.Base.<> (Data.Aeson..=) "value" (postSkusIdRequestBodyInventory'Value obj)))
+  toJSON obj = Data.Aeson.Types.Internal.object ("quantity" Data.Aeson.Types.ToJSON..= postSkusIdRequestBodyInventory'Quantity obj : "type" Data.Aeson.Types.ToJSON..= postSkusIdRequestBodyInventory'Type obj : "value" Data.Aeson.Types.ToJSON..= postSkusIdRequestBodyInventory'Value obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("quantity" Data.Aeson.Types.ToJSON..= postSkusIdRequestBodyInventory'Quantity obj) GHC.Base.<> (("type" Data.Aeson.Types.ToJSON..= postSkusIdRequestBodyInventory'Type obj) GHC.Base.<> ("value" Data.Aeson.Types.ToJSON..= postSkusIdRequestBodyInventory'Value obj)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostSkusIdRequestBodyInventory' where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PostSkusIdRequestBodyInventory'" (\obj -> ((GHC.Base.pure PostSkusIdRequestBodyInventory' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "quantity")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "type")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "value"))
 
--- | Defines the enum schema postSkusIdRequestBodyInventory\'Type\'
+-- | Create a new 'PostSkusIdRequestBodyInventory'' with all required fields.
+mkPostSkusIdRequestBodyInventory' :: PostSkusIdRequestBodyInventory'
+mkPostSkusIdRequestBodyInventory' =
+  PostSkusIdRequestBodyInventory'
+    { postSkusIdRequestBodyInventory'Quantity = GHC.Maybe.Nothing,
+      postSkusIdRequestBodyInventory'Type = GHC.Maybe.Nothing,
+      postSkusIdRequestBodyInventory'Value = GHC.Maybe.Nothing
+    }
+
+-- | Defines the enum schema located at @paths.\/v1\/skus\/{id}.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.inventory.properties.type@ in the specification.
 data PostSkusIdRequestBodyInventory'Type'
-  = PostSkusIdRequestBodyInventory'Type'EnumOther Data.Aeson.Types.Internal.Value
-  | PostSkusIdRequestBodyInventory'Type'EnumTyped Data.Text.Internal.Text
-  | PostSkusIdRequestBodyInventory'Type'EnumStringBucket
-  | PostSkusIdRequestBodyInventory'Type'EnumStringFinite
-  | PostSkusIdRequestBodyInventory'Type'EnumStringInfinite
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    PostSkusIdRequestBodyInventory'Type'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    PostSkusIdRequestBodyInventory'Type'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"bucket"@
+    PostSkusIdRequestBodyInventory'Type'EnumBucket
+  | -- | Represents the JSON value @"finite"@
+    PostSkusIdRequestBodyInventory'Type'EnumFinite
+  | -- | Represents the JSON value @"infinite"@
+    PostSkusIdRequestBodyInventory'Type'EnumInfinite
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostSkusIdRequestBodyInventory'Type' where
-  toJSON (PostSkusIdRequestBodyInventory'Type'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostSkusIdRequestBodyInventory'Type'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostSkusIdRequestBodyInventory'Type'EnumStringBucket) = "bucket"
-  toJSON (PostSkusIdRequestBodyInventory'Type'EnumStringFinite) = "finite"
-  toJSON (PostSkusIdRequestBodyInventory'Type'EnumStringInfinite) = "infinite"
+  toJSON (PostSkusIdRequestBodyInventory'Type'Other val) = val
+  toJSON (PostSkusIdRequestBodyInventory'Type'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PostSkusIdRequestBodyInventory'Type'EnumBucket) = "bucket"
+  toJSON (PostSkusIdRequestBodyInventory'Type'EnumFinite) = "finite"
+  toJSON (PostSkusIdRequestBodyInventory'Type'EnumInfinite) = "infinite"
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostSkusIdRequestBodyInventory'Type' where
   parseJSON val =
     GHC.Base.pure
-      ( if  | val GHC.Classes.== "bucket" -> PostSkusIdRequestBodyInventory'Type'EnumStringBucket
-            | val GHC.Classes.== "finite" -> PostSkusIdRequestBodyInventory'Type'EnumStringFinite
-            | val GHC.Classes.== "infinite" -> PostSkusIdRequestBodyInventory'Type'EnumStringInfinite
-            | GHC.Base.otherwise -> PostSkusIdRequestBodyInventory'Type'EnumOther val
+      ( if  | val GHC.Classes.== "bucket" -> PostSkusIdRequestBodyInventory'Type'EnumBucket
+            | val GHC.Classes.== "finite" -> PostSkusIdRequestBodyInventory'Type'EnumFinite
+            | val GHC.Classes.== "infinite" -> PostSkusIdRequestBodyInventory'Type'EnumInfinite
+            | GHC.Base.otherwise -> PostSkusIdRequestBodyInventory'Type'Other val
       )
 
--- | Defines the enum schema postSkusIdRequestBodyInventory\'Value\'
+-- | Defines the enum schema located at @paths.\/v1\/skus\/{id}.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.inventory.properties.value@ in the specification.
 data PostSkusIdRequestBodyInventory'Value'
-  = PostSkusIdRequestBodyInventory'Value'EnumOther Data.Aeson.Types.Internal.Value
-  | PostSkusIdRequestBodyInventory'Value'EnumTyped Data.Text.Internal.Text
-  | PostSkusIdRequestBodyInventory'Value'EnumString_
-  | PostSkusIdRequestBodyInventory'Value'EnumStringInStock
-  | PostSkusIdRequestBodyInventory'Value'EnumStringLimited
-  | PostSkusIdRequestBodyInventory'Value'EnumStringOutOfStock
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    PostSkusIdRequestBodyInventory'Value'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    PostSkusIdRequestBodyInventory'Value'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @""@
+    PostSkusIdRequestBodyInventory'Value'EnumEmptyString
+  | -- | Represents the JSON value @"in_stock"@
+    PostSkusIdRequestBodyInventory'Value'EnumInStock
+  | -- | Represents the JSON value @"limited"@
+    PostSkusIdRequestBodyInventory'Value'EnumLimited
+  | -- | Represents the JSON value @"out_of_stock"@
+    PostSkusIdRequestBodyInventory'Value'EnumOutOfStock
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostSkusIdRequestBodyInventory'Value' where
-  toJSON (PostSkusIdRequestBodyInventory'Value'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostSkusIdRequestBodyInventory'Value'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostSkusIdRequestBodyInventory'Value'EnumString_) = ""
-  toJSON (PostSkusIdRequestBodyInventory'Value'EnumStringInStock) = "in_stock"
-  toJSON (PostSkusIdRequestBodyInventory'Value'EnumStringLimited) = "limited"
-  toJSON (PostSkusIdRequestBodyInventory'Value'EnumStringOutOfStock) = "out_of_stock"
+  toJSON (PostSkusIdRequestBodyInventory'Value'Other val) = val
+  toJSON (PostSkusIdRequestBodyInventory'Value'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PostSkusIdRequestBodyInventory'Value'EnumEmptyString) = ""
+  toJSON (PostSkusIdRequestBodyInventory'Value'EnumInStock) = "in_stock"
+  toJSON (PostSkusIdRequestBodyInventory'Value'EnumLimited) = "limited"
+  toJSON (PostSkusIdRequestBodyInventory'Value'EnumOutOfStock) = "out_of_stock"
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostSkusIdRequestBodyInventory'Value' where
   parseJSON val =
     GHC.Base.pure
-      ( if  | val GHC.Classes.== "" -> PostSkusIdRequestBodyInventory'Value'EnumString_
-            | val GHC.Classes.== "in_stock" -> PostSkusIdRequestBodyInventory'Value'EnumStringInStock
-            | val GHC.Classes.== "limited" -> PostSkusIdRequestBodyInventory'Value'EnumStringLimited
-            | val GHC.Classes.== "out_of_stock" -> PostSkusIdRequestBodyInventory'Value'EnumStringOutOfStock
-            | GHC.Base.otherwise -> PostSkusIdRequestBodyInventory'Value'EnumOther val
+      ( if  | val GHC.Classes.== "" -> PostSkusIdRequestBodyInventory'Value'EnumEmptyString
+            | val GHC.Classes.== "in_stock" -> PostSkusIdRequestBodyInventory'Value'EnumInStock
+            | val GHC.Classes.== "limited" -> PostSkusIdRequestBodyInventory'Value'EnumLimited
+            | val GHC.Classes.== "out_of_stock" -> PostSkusIdRequestBodyInventory'Value'EnumOutOfStock
+            | GHC.Base.otherwise -> PostSkusIdRequestBodyInventory'Value'Other val
       )
 
--- | Defines the enum schema postSkusIdRequestBodyPackage_dimensions\'OneOf1
+-- | Defines the object schema located at @paths.\/v1\/skus\/{id}.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.package_dimensions.anyOf@ in the specification.
 data PostSkusIdRequestBodyPackageDimensions'OneOf1
-  = PostSkusIdRequestBodyPackageDimensions'OneOf1EnumOther Data.Aeson.Types.Internal.Value
-  | PostSkusIdRequestBodyPackageDimensions'OneOf1EnumTyped Data.Text.Internal.Text
-  | PostSkusIdRequestBodyPackageDimensions'OneOf1EnumString_
-  deriving (GHC.Show.Show, GHC.Classes.Eq)
-
-instance Data.Aeson.Types.ToJSON.ToJSON PostSkusIdRequestBodyPackageDimensions'OneOf1 where
-  toJSON (PostSkusIdRequestBodyPackageDimensions'OneOf1EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostSkusIdRequestBodyPackageDimensions'OneOf1EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostSkusIdRequestBodyPackageDimensions'OneOf1EnumString_) = ""
-
-instance Data.Aeson.Types.FromJSON.FromJSON PostSkusIdRequestBodyPackageDimensions'OneOf1 where
-  parseJSON val =
-    GHC.Base.pure
-      ( if  | val GHC.Classes.== "" -> PostSkusIdRequestBodyPackageDimensions'OneOf1EnumString_
-            | GHC.Base.otherwise -> PostSkusIdRequestBodyPackageDimensions'OneOf1EnumOther val
-      )
-
--- | Defines the data type for the schema postSkusIdRequestBodyPackage_dimensions\'OneOf2
-data PostSkusIdRequestBodyPackageDimensions'OneOf2
-  = PostSkusIdRequestBodyPackageDimensions'OneOf2
+  = PostSkusIdRequestBodyPackageDimensions'OneOf1
       { -- | height
-        postSkusIdRequestBodyPackageDimensions'OneOf2Height :: GHC.Types.Double,
+        postSkusIdRequestBodyPackageDimensions'OneOf1Height :: GHC.Types.Double,
         -- | length
-        postSkusIdRequestBodyPackageDimensions'OneOf2Length :: GHC.Types.Double,
+        postSkusIdRequestBodyPackageDimensions'OneOf1Length :: GHC.Types.Double,
         -- | weight
-        postSkusIdRequestBodyPackageDimensions'OneOf2Weight :: GHC.Types.Double,
+        postSkusIdRequestBodyPackageDimensions'OneOf1Weight :: GHC.Types.Double,
         -- | width
-        postSkusIdRequestBodyPackageDimensions'OneOf2Width :: GHC.Types.Double
+        postSkusIdRequestBodyPackageDimensions'OneOf1Width :: GHC.Types.Double
       }
   deriving
     ( GHC.Show.Show,
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.Types.ToJSON.ToJSON PostSkusIdRequestBodyPackageDimensions'OneOf2 where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "height" (postSkusIdRequestBodyPackageDimensions'OneOf2Height obj) : (Data.Aeson..=) "length" (postSkusIdRequestBodyPackageDimensions'OneOf2Length obj) : (Data.Aeson..=) "weight" (postSkusIdRequestBodyPackageDimensions'OneOf2Weight obj) : (Data.Aeson..=) "width" (postSkusIdRequestBodyPackageDimensions'OneOf2Width obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "height" (postSkusIdRequestBodyPackageDimensions'OneOf2Height obj) GHC.Base.<> ((Data.Aeson..=) "length" (postSkusIdRequestBodyPackageDimensions'OneOf2Length obj) GHC.Base.<> ((Data.Aeson..=) "weight" (postSkusIdRequestBodyPackageDimensions'OneOf2Weight obj) GHC.Base.<> (Data.Aeson..=) "width" (postSkusIdRequestBodyPackageDimensions'OneOf2Width obj))))
+instance Data.Aeson.Types.ToJSON.ToJSON PostSkusIdRequestBodyPackageDimensions'OneOf1 where
+  toJSON obj = Data.Aeson.Types.Internal.object ("height" Data.Aeson.Types.ToJSON..= postSkusIdRequestBodyPackageDimensions'OneOf1Height obj : "length" Data.Aeson.Types.ToJSON..= postSkusIdRequestBodyPackageDimensions'OneOf1Length obj : "weight" Data.Aeson.Types.ToJSON..= postSkusIdRequestBodyPackageDimensions'OneOf1Weight obj : "width" Data.Aeson.Types.ToJSON..= postSkusIdRequestBodyPackageDimensions'OneOf1Width obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("height" Data.Aeson.Types.ToJSON..= postSkusIdRequestBodyPackageDimensions'OneOf1Height obj) GHC.Base.<> (("length" Data.Aeson.Types.ToJSON..= postSkusIdRequestBodyPackageDimensions'OneOf1Length obj) GHC.Base.<> (("weight" Data.Aeson.Types.ToJSON..= postSkusIdRequestBodyPackageDimensions'OneOf1Weight obj) GHC.Base.<> ("width" Data.Aeson.Types.ToJSON..= postSkusIdRequestBodyPackageDimensions'OneOf1Width obj))))
 
-instance Data.Aeson.Types.FromJSON.FromJSON PostSkusIdRequestBodyPackageDimensions'OneOf2 where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostSkusIdRequestBodyPackageDimensions'OneOf2" (\obj -> (((GHC.Base.pure PostSkusIdRequestBodyPackageDimensions'OneOf2 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "height")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "length")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "weight")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "width"))
+instance Data.Aeson.Types.FromJSON.FromJSON PostSkusIdRequestBodyPackageDimensions'OneOf1 where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostSkusIdRequestBodyPackageDimensions'OneOf1" (\obj -> (((GHC.Base.pure PostSkusIdRequestBodyPackageDimensions'OneOf1 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "height")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "length")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "weight")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "width"))
 
--- | Define the one-of schema postSkusIdRequestBodyPackage_dimensions\'
+-- | Create a new 'PostSkusIdRequestBodyPackageDimensions'OneOf1' with all required fields.
+mkPostSkusIdRequestBodyPackageDimensions'OneOf1 ::
+  -- | 'postSkusIdRequestBodyPackageDimensions'OneOf1Height'
+  GHC.Types.Double ->
+  -- | 'postSkusIdRequestBodyPackageDimensions'OneOf1Length'
+  GHC.Types.Double ->
+  -- | 'postSkusIdRequestBodyPackageDimensions'OneOf1Weight'
+  GHC.Types.Double ->
+  -- | 'postSkusIdRequestBodyPackageDimensions'OneOf1Width'
+  GHC.Types.Double ->
+  PostSkusIdRequestBodyPackageDimensions'OneOf1
+mkPostSkusIdRequestBodyPackageDimensions'OneOf1 postSkusIdRequestBodyPackageDimensions'OneOf1Height postSkusIdRequestBodyPackageDimensions'OneOf1Length postSkusIdRequestBodyPackageDimensions'OneOf1Weight postSkusIdRequestBodyPackageDimensions'OneOf1Width =
+  PostSkusIdRequestBodyPackageDimensions'OneOf1
+    { postSkusIdRequestBodyPackageDimensions'OneOf1Height = postSkusIdRequestBodyPackageDimensions'OneOf1Height,
+      postSkusIdRequestBodyPackageDimensions'OneOf1Length = postSkusIdRequestBodyPackageDimensions'OneOf1Length,
+      postSkusIdRequestBodyPackageDimensions'OneOf1Weight = postSkusIdRequestBodyPackageDimensions'OneOf1Weight,
+      postSkusIdRequestBodyPackageDimensions'OneOf1Width = postSkusIdRequestBodyPackageDimensions'OneOf1Width
+    }
+
+-- | Defines the oneOf schema located at @paths.\/v1\/skus\/{id}.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.package_dimensions.anyOf@ in the specification.
 --
 -- The dimensions of this SKU for shipping purposes.
 data PostSkusIdRequestBodyPackageDimensions'Variants
-  = PostSkusIdRequestBodyPackageDimensions'PostSkusIdRequestBodyPackageDimensions'OneOf1 PostSkusIdRequestBodyPackageDimensions'OneOf1
-  | PostSkusIdRequestBodyPackageDimensions'PostSkusIdRequestBodyPackageDimensions'OneOf2 PostSkusIdRequestBodyPackageDimensions'OneOf2
+  = -- | Represents the JSON value @""@
+    PostSkusIdRequestBodyPackageDimensions'EmptyString
+  | PostSkusIdRequestBodyPackageDimensions'PostSkusIdRequestBodyPackageDimensions'OneOf1 PostSkusIdRequestBodyPackageDimensions'OneOf1
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostSkusIdRequestBodyPackageDimensions'Variants where
   toJSON (PostSkusIdRequestBodyPackageDimensions'PostSkusIdRequestBodyPackageDimensions'OneOf1 a) = Data.Aeson.Types.ToJSON.toJSON a
-  toJSON (PostSkusIdRequestBodyPackageDimensions'PostSkusIdRequestBodyPackageDimensions'OneOf2 a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (PostSkusIdRequestBodyPackageDimensions'EmptyString) = ""
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostSkusIdRequestBodyPackageDimensions'Variants where
-  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
-    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ PostSkusIdRequestBodyPackageDimensions'PostSkusIdRequestBodyPackageDimensions'OneOf1 a
-    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ PostSkusIdRequestBodyPackageDimensions'PostSkusIdRequestBodyPackageDimensions'OneOf2 a
-      Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+  parseJSON val =
+    if  | val GHC.Classes.== "" -> GHC.Base.pure PostSkusIdRequestBodyPackageDimensions'EmptyString
+        | GHC.Base.otherwise -> case (PostSkusIdRequestBodyPackageDimensions'PostSkusIdRequestBodyPackageDimensions'OneOf1 Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched" of
+          Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+          Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
 -- | Represents a response of the operation 'postSkusId'.
 --

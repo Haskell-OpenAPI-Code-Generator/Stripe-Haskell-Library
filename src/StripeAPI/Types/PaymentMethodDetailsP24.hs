@@ -8,6 +8,7 @@ module StripeAPI.Types.PaymentMethodDetailsP24 where
 
 import qualified Control.Monad.Fail
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -30,7 +31,7 @@ import StripeAPI.TypeAlias
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
--- | Defines the data type for the schema payment_method_details_p24
+-- | Defines the object schema located at @components.schemas.payment_method_details_p24@ in the specification.
 data PaymentMethodDetailsP24
   = PaymentMethodDetailsP24
       { -- | reference: Unique reference for this Przelewy24 payment.
@@ -53,8 +54,16 @@ data PaymentMethodDetailsP24
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PaymentMethodDetailsP24 where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "reference" (paymentMethodDetailsP24Reference obj) : (Data.Aeson..=) "verified_name" (paymentMethodDetailsP24VerifiedName obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "reference" (paymentMethodDetailsP24Reference obj) GHC.Base.<> (Data.Aeson..=) "verified_name" (paymentMethodDetailsP24VerifiedName obj))
+  toJSON obj = Data.Aeson.Types.Internal.object ("reference" Data.Aeson.Types.ToJSON..= paymentMethodDetailsP24Reference obj : "verified_name" Data.Aeson.Types.ToJSON..= paymentMethodDetailsP24VerifiedName obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("reference" Data.Aeson.Types.ToJSON..= paymentMethodDetailsP24Reference obj) GHC.Base.<> ("verified_name" Data.Aeson.Types.ToJSON..= paymentMethodDetailsP24VerifiedName obj))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PaymentMethodDetailsP24 where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PaymentMethodDetailsP24" (\obj -> (GHC.Base.pure PaymentMethodDetailsP24 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "reference")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "verified_name"))
+
+-- | Create a new 'PaymentMethodDetailsP24' with all required fields.
+mkPaymentMethodDetailsP24 :: PaymentMethodDetailsP24
+mkPaymentMethodDetailsP24 =
+  PaymentMethodDetailsP24
+    { paymentMethodDetailsP24Reference = GHC.Maybe.Nothing,
+      paymentMethodDetailsP24VerifiedName = GHC.Maybe.Nothing
+    }

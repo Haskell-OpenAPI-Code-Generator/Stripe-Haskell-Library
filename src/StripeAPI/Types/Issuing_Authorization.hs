@@ -8,6 +8,7 @@ module StripeAPI.Types.Issuing_Authorization where
 
 import qualified Control.Monad.Fail
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -37,7 +38,7 @@ import {-# SOURCE #-} StripeAPI.Types.Issuing_Transaction
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
--- | Defines the data type for the schema issuing.authorization
+-- | Defines the object schema located at @components.schemas.issuing.authorization@ in the specification.
 --
 -- When an [issued card](https:\/\/stripe.com\/docs\/issuing) is used to make a purchase, an Issuing \`Authorization\`
 -- object is created. [Authorizations](https:\/\/stripe.com\/docs\/issuing\/authorizations) must be approved for the
@@ -80,8 +81,6 @@ data Issuing'authorization
         issuing'authorizationMerchantData :: IssuingAuthorizationMerchantData,
         -- | metadata: Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
         issuing'authorizationMetadata :: Data.Aeson.Types.Internal.Object,
-        -- | object: String representing the object\'s type. Objects of the same type share the same value.
-        issuing'authorizationObject :: Issuing'authorizationObject',
         -- | pending_authorized_amount: The amount the user is requesting to be authorized. This field will only be non-zero during an \`issuing.authorization.request\` webhook.
         issuing'authorizationPendingAuthorizedAmount :: GHC.Types.Int,
         -- | pending_held_amount: The additional amount Stripe will hold if the authorization is approved. This field will only be non-zero during an \`issuing.authorization.request\` webhook.
@@ -107,46 +106,122 @@ data Issuing'authorization
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON Issuing'authorization where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "approved" (issuing'authorizationApproved obj) : (Data.Aeson..=) "authorization_method" (issuing'authorizationAuthorizationMethod obj) : (Data.Aeson..=) "authorized_amount" (issuing'authorizationAuthorizedAmount obj) : (Data.Aeson..=) "authorized_currency" (issuing'authorizationAuthorizedCurrency obj) : (Data.Aeson..=) "balance_transactions" (issuing'authorizationBalanceTransactions obj) : (Data.Aeson..=) "card" (issuing'authorizationCard obj) : (Data.Aeson..=) "cardholder" (issuing'authorizationCardholder obj) : (Data.Aeson..=) "created" (issuing'authorizationCreated obj) : (Data.Aeson..=) "held_amount" (issuing'authorizationHeldAmount obj) : (Data.Aeson..=) "held_currency" (issuing'authorizationHeldCurrency obj) : (Data.Aeson..=) "id" (issuing'authorizationId obj) : (Data.Aeson..=) "is_held_amount_controllable" (issuing'authorizationIsHeldAmountControllable obj) : (Data.Aeson..=) "livemode" (issuing'authorizationLivemode obj) : (Data.Aeson..=) "merchant_data" (issuing'authorizationMerchantData obj) : (Data.Aeson..=) "metadata" (issuing'authorizationMetadata obj) : (Data.Aeson..=) "object" (issuing'authorizationObject obj) : (Data.Aeson..=) "pending_authorized_amount" (issuing'authorizationPendingAuthorizedAmount obj) : (Data.Aeson..=) "pending_held_amount" (issuing'authorizationPendingHeldAmount obj) : (Data.Aeson..=) "request_history" (issuing'authorizationRequestHistory obj) : (Data.Aeson..=) "status" (issuing'authorizationStatus obj) : (Data.Aeson..=) "transactions" (issuing'authorizationTransactions obj) : (Data.Aeson..=) "verification_data" (issuing'authorizationVerificationData obj) : (Data.Aeson..=) "wallet_provider" (issuing'authorizationWalletProvider obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "approved" (issuing'authorizationApproved obj) GHC.Base.<> ((Data.Aeson..=) "authorization_method" (issuing'authorizationAuthorizationMethod obj) GHC.Base.<> ((Data.Aeson..=) "authorized_amount" (issuing'authorizationAuthorizedAmount obj) GHC.Base.<> ((Data.Aeson..=) "authorized_currency" (issuing'authorizationAuthorizedCurrency obj) GHC.Base.<> ((Data.Aeson..=) "balance_transactions" (issuing'authorizationBalanceTransactions obj) GHC.Base.<> ((Data.Aeson..=) "card" (issuing'authorizationCard obj) GHC.Base.<> ((Data.Aeson..=) "cardholder" (issuing'authorizationCardholder obj) GHC.Base.<> ((Data.Aeson..=) "created" (issuing'authorizationCreated obj) GHC.Base.<> ((Data.Aeson..=) "held_amount" (issuing'authorizationHeldAmount obj) GHC.Base.<> ((Data.Aeson..=) "held_currency" (issuing'authorizationHeldCurrency obj) GHC.Base.<> ((Data.Aeson..=) "id" (issuing'authorizationId obj) GHC.Base.<> ((Data.Aeson..=) "is_held_amount_controllable" (issuing'authorizationIsHeldAmountControllable obj) GHC.Base.<> ((Data.Aeson..=) "livemode" (issuing'authorizationLivemode obj) GHC.Base.<> ((Data.Aeson..=) "merchant_data" (issuing'authorizationMerchantData obj) GHC.Base.<> ((Data.Aeson..=) "metadata" (issuing'authorizationMetadata obj) GHC.Base.<> ((Data.Aeson..=) "object" (issuing'authorizationObject obj) GHC.Base.<> ((Data.Aeson..=) "pending_authorized_amount" (issuing'authorizationPendingAuthorizedAmount obj) GHC.Base.<> ((Data.Aeson..=) "pending_held_amount" (issuing'authorizationPendingHeldAmount obj) GHC.Base.<> ((Data.Aeson..=) "request_history" (issuing'authorizationRequestHistory obj) GHC.Base.<> ((Data.Aeson..=) "status" (issuing'authorizationStatus obj) GHC.Base.<> ((Data.Aeson..=) "transactions" (issuing'authorizationTransactions obj) GHC.Base.<> ((Data.Aeson..=) "verification_data" (issuing'authorizationVerificationData obj) GHC.Base.<> (Data.Aeson..=) "wallet_provider" (issuing'authorizationWalletProvider obj)))))))))))))))))))))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("approved" Data.Aeson.Types.ToJSON..= issuing'authorizationApproved obj : "authorization_method" Data.Aeson.Types.ToJSON..= issuing'authorizationAuthorizationMethod obj : "authorized_amount" Data.Aeson.Types.ToJSON..= issuing'authorizationAuthorizedAmount obj : "authorized_currency" Data.Aeson.Types.ToJSON..= issuing'authorizationAuthorizedCurrency obj : "balance_transactions" Data.Aeson.Types.ToJSON..= issuing'authorizationBalanceTransactions obj : "card" Data.Aeson.Types.ToJSON..= issuing'authorizationCard obj : "cardholder" Data.Aeson.Types.ToJSON..= issuing'authorizationCardholder obj : "created" Data.Aeson.Types.ToJSON..= issuing'authorizationCreated obj : "held_amount" Data.Aeson.Types.ToJSON..= issuing'authorizationHeldAmount obj : "held_currency" Data.Aeson.Types.ToJSON..= issuing'authorizationHeldCurrency obj : "id" Data.Aeson.Types.ToJSON..= issuing'authorizationId obj : "is_held_amount_controllable" Data.Aeson.Types.ToJSON..= issuing'authorizationIsHeldAmountControllable obj : "livemode" Data.Aeson.Types.ToJSON..= issuing'authorizationLivemode obj : "merchant_data" Data.Aeson.Types.ToJSON..= issuing'authorizationMerchantData obj : "metadata" Data.Aeson.Types.ToJSON..= issuing'authorizationMetadata obj : "pending_authorized_amount" Data.Aeson.Types.ToJSON..= issuing'authorizationPendingAuthorizedAmount obj : "pending_held_amount" Data.Aeson.Types.ToJSON..= issuing'authorizationPendingHeldAmount obj : "request_history" Data.Aeson.Types.ToJSON..= issuing'authorizationRequestHistory obj : "status" Data.Aeson.Types.ToJSON..= issuing'authorizationStatus obj : "transactions" Data.Aeson.Types.ToJSON..= issuing'authorizationTransactions obj : "verification_data" Data.Aeson.Types.ToJSON..= issuing'authorizationVerificationData obj : "wallet_provider" Data.Aeson.Types.ToJSON..= issuing'authorizationWalletProvider obj : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "issuing.authorization" : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("approved" Data.Aeson.Types.ToJSON..= issuing'authorizationApproved obj) GHC.Base.<> (("authorization_method" Data.Aeson.Types.ToJSON..= issuing'authorizationAuthorizationMethod obj) GHC.Base.<> (("authorized_amount" Data.Aeson.Types.ToJSON..= issuing'authorizationAuthorizedAmount obj) GHC.Base.<> (("authorized_currency" Data.Aeson.Types.ToJSON..= issuing'authorizationAuthorizedCurrency obj) GHC.Base.<> (("balance_transactions" Data.Aeson.Types.ToJSON..= issuing'authorizationBalanceTransactions obj) GHC.Base.<> (("card" Data.Aeson.Types.ToJSON..= issuing'authorizationCard obj) GHC.Base.<> (("cardholder" Data.Aeson.Types.ToJSON..= issuing'authorizationCardholder obj) GHC.Base.<> (("created" Data.Aeson.Types.ToJSON..= issuing'authorizationCreated obj) GHC.Base.<> (("held_amount" Data.Aeson.Types.ToJSON..= issuing'authorizationHeldAmount obj) GHC.Base.<> (("held_currency" Data.Aeson.Types.ToJSON..= issuing'authorizationHeldCurrency obj) GHC.Base.<> (("id" Data.Aeson.Types.ToJSON..= issuing'authorizationId obj) GHC.Base.<> (("is_held_amount_controllable" Data.Aeson.Types.ToJSON..= issuing'authorizationIsHeldAmountControllable obj) GHC.Base.<> (("livemode" Data.Aeson.Types.ToJSON..= issuing'authorizationLivemode obj) GHC.Base.<> (("merchant_data" Data.Aeson.Types.ToJSON..= issuing'authorizationMerchantData obj) GHC.Base.<> (("metadata" Data.Aeson.Types.ToJSON..= issuing'authorizationMetadata obj) GHC.Base.<> (("pending_authorized_amount" Data.Aeson.Types.ToJSON..= issuing'authorizationPendingAuthorizedAmount obj) GHC.Base.<> (("pending_held_amount" Data.Aeson.Types.ToJSON..= issuing'authorizationPendingHeldAmount obj) GHC.Base.<> (("request_history" Data.Aeson.Types.ToJSON..= issuing'authorizationRequestHistory obj) GHC.Base.<> (("status" Data.Aeson.Types.ToJSON..= issuing'authorizationStatus obj) GHC.Base.<> (("transactions" Data.Aeson.Types.ToJSON..= issuing'authorizationTransactions obj) GHC.Base.<> (("verification_data" Data.Aeson.Types.ToJSON..= issuing'authorizationVerificationData obj) GHC.Base.<> (("wallet_provider" Data.Aeson.Types.ToJSON..= issuing'authorizationWalletProvider obj) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "issuing.authorization")))))))))))))))))))))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON Issuing'authorization where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "Issuing'authorization" (\obj -> ((((((((((((((((((((((GHC.Base.pure Issuing'authorization GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "approved")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "authorization_method")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "authorized_amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "authorized_currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "balance_transactions")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "card")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "cardholder")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "created")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "held_amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "held_currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "is_held_amount_controllable")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "livemode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "merchant_data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "object")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pending_authorized_amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pending_held_amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "request_history")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "status")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "transactions")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "verification_data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "wallet_provider"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "Issuing'authorization" (\obj -> (((((((((((((((((((((GHC.Base.pure Issuing'authorization GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "approved")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "authorization_method")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "authorized_amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "authorized_currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "balance_transactions")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "card")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "cardholder")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "created")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "held_amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "held_currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "is_held_amount_controllable")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "livemode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "merchant_data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pending_authorized_amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pending_held_amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "request_history")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "status")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "transactions")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "verification_data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "wallet_provider"))
 
--- | Defines the enum schema issuing.authorizationAuthorization_method\'
+-- | Create a new 'Issuing'authorization' with all required fields.
+mkIssuing'authorization ::
+  -- | 'issuing'authorizationApproved'
+  GHC.Types.Bool ->
+  -- | 'issuing'authorizationAuthorizationMethod'
+  Issuing'authorizationAuthorizationMethod' ->
+  -- | 'issuing'authorizationAuthorizedAmount'
+  GHC.Types.Int ->
+  -- | 'issuing'authorizationAuthorizedCurrency'
+  Data.Text.Internal.Text ->
+  -- | 'issuing'authorizationBalanceTransactions'
+  [BalanceTransaction] ->
+  -- | 'issuing'authorizationCard'
+  Issuing'card ->
+  -- | 'issuing'authorizationCreated'
+  GHC.Types.Int ->
+  -- | 'issuing'authorizationHeldAmount'
+  GHC.Types.Int ->
+  -- | 'issuing'authorizationHeldCurrency'
+  Data.Text.Internal.Text ->
+  -- | 'issuing'authorizationId'
+  Data.Text.Internal.Text ->
+  -- | 'issuing'authorizationIsHeldAmountControllable'
+  GHC.Types.Bool ->
+  -- | 'issuing'authorizationLivemode'
+  GHC.Types.Bool ->
+  -- | 'issuing'authorizationMerchantData'
+  IssuingAuthorizationMerchantData ->
+  -- | 'issuing'authorizationMetadata'
+  Data.Aeson.Types.Internal.Object ->
+  -- | 'issuing'authorizationPendingAuthorizedAmount'
+  GHC.Types.Int ->
+  -- | 'issuing'authorizationPendingHeldAmount'
+  GHC.Types.Int ->
+  -- | 'issuing'authorizationRequestHistory'
+  [IssuingAuthorizationRequest] ->
+  -- | 'issuing'authorizationStatus'
+  Issuing'authorizationStatus' ->
+  -- | 'issuing'authorizationTransactions'
+  [Issuing'transaction] ->
+  -- | 'issuing'authorizationVerificationData'
+  IssuingAuthorizationVerificationData ->
+  Issuing'authorization
+mkIssuing'authorization issuing'authorizationApproved issuing'authorizationAuthorizationMethod issuing'authorizationAuthorizedAmount issuing'authorizationAuthorizedCurrency issuing'authorizationBalanceTransactions issuing'authorizationCard issuing'authorizationCreated issuing'authorizationHeldAmount issuing'authorizationHeldCurrency issuing'authorizationId issuing'authorizationIsHeldAmountControllable issuing'authorizationLivemode issuing'authorizationMerchantData issuing'authorizationMetadata issuing'authorizationPendingAuthorizedAmount issuing'authorizationPendingHeldAmount issuing'authorizationRequestHistory issuing'authorizationStatus issuing'authorizationTransactions issuing'authorizationVerificationData =
+  Issuing'authorization
+    { issuing'authorizationApproved = issuing'authorizationApproved,
+      issuing'authorizationAuthorizationMethod = issuing'authorizationAuthorizationMethod,
+      issuing'authorizationAuthorizedAmount = issuing'authorizationAuthorizedAmount,
+      issuing'authorizationAuthorizedCurrency = issuing'authorizationAuthorizedCurrency,
+      issuing'authorizationBalanceTransactions = issuing'authorizationBalanceTransactions,
+      issuing'authorizationCard = issuing'authorizationCard,
+      issuing'authorizationCardholder = GHC.Maybe.Nothing,
+      issuing'authorizationCreated = issuing'authorizationCreated,
+      issuing'authorizationHeldAmount = issuing'authorizationHeldAmount,
+      issuing'authorizationHeldCurrency = issuing'authorizationHeldCurrency,
+      issuing'authorizationId = issuing'authorizationId,
+      issuing'authorizationIsHeldAmountControllable = issuing'authorizationIsHeldAmountControllable,
+      issuing'authorizationLivemode = issuing'authorizationLivemode,
+      issuing'authorizationMerchantData = issuing'authorizationMerchantData,
+      issuing'authorizationMetadata = issuing'authorizationMetadata,
+      issuing'authorizationPendingAuthorizedAmount = issuing'authorizationPendingAuthorizedAmount,
+      issuing'authorizationPendingHeldAmount = issuing'authorizationPendingHeldAmount,
+      issuing'authorizationRequestHistory = issuing'authorizationRequestHistory,
+      issuing'authorizationStatus = issuing'authorizationStatus,
+      issuing'authorizationTransactions = issuing'authorizationTransactions,
+      issuing'authorizationVerificationData = issuing'authorizationVerificationData,
+      issuing'authorizationWalletProvider = GHC.Maybe.Nothing
+    }
+
+-- | Defines the enum schema located at @components.schemas.issuing.authorization.properties.authorization_method@ in the specification.
 --
 -- How the card details were provided.
 data Issuing'authorizationAuthorizationMethod'
-  = Issuing'authorizationAuthorizationMethod'EnumOther Data.Aeson.Types.Internal.Value
-  | Issuing'authorizationAuthorizationMethod'EnumTyped Data.Text.Internal.Text
-  | Issuing'authorizationAuthorizationMethod'EnumStringChip
-  | Issuing'authorizationAuthorizationMethod'EnumStringContactless
-  | Issuing'authorizationAuthorizationMethod'EnumStringKeyedIn
-  | Issuing'authorizationAuthorizationMethod'EnumStringOnline
-  | Issuing'authorizationAuthorizationMethod'EnumStringSwipe
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    Issuing'authorizationAuthorizationMethod'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    Issuing'authorizationAuthorizationMethod'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"chip"@
+    Issuing'authorizationAuthorizationMethod'EnumChip
+  | -- | Represents the JSON value @"contactless"@
+    Issuing'authorizationAuthorizationMethod'EnumContactless
+  | -- | Represents the JSON value @"keyed_in"@
+    Issuing'authorizationAuthorizationMethod'EnumKeyedIn
+  | -- | Represents the JSON value @"online"@
+    Issuing'authorizationAuthorizationMethod'EnumOnline
+  | -- | Represents the JSON value @"swipe"@
+    Issuing'authorizationAuthorizationMethod'EnumSwipe
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
 instance Data.Aeson.Types.ToJSON.ToJSON Issuing'authorizationAuthorizationMethod' where
-  toJSON (Issuing'authorizationAuthorizationMethod'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (Issuing'authorizationAuthorizationMethod'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (Issuing'authorizationAuthorizationMethod'EnumStringChip) = "chip"
-  toJSON (Issuing'authorizationAuthorizationMethod'EnumStringContactless) = "contactless"
-  toJSON (Issuing'authorizationAuthorizationMethod'EnumStringKeyedIn) = "keyed_in"
-  toJSON (Issuing'authorizationAuthorizationMethod'EnumStringOnline) = "online"
-  toJSON (Issuing'authorizationAuthorizationMethod'EnumStringSwipe) = "swipe"
+  toJSON (Issuing'authorizationAuthorizationMethod'Other val) = val
+  toJSON (Issuing'authorizationAuthorizationMethod'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (Issuing'authorizationAuthorizationMethod'EnumChip) = "chip"
+  toJSON (Issuing'authorizationAuthorizationMethod'EnumContactless) = "contactless"
+  toJSON (Issuing'authorizationAuthorizationMethod'EnumKeyedIn) = "keyed_in"
+  toJSON (Issuing'authorizationAuthorizationMethod'EnumOnline) = "online"
+  toJSON (Issuing'authorizationAuthorizationMethod'EnumSwipe) = "swipe"
 
 instance Data.Aeson.Types.FromJSON.FromJSON Issuing'authorizationAuthorizationMethod' where
   parseJSON val =
     GHC.Base.pure
-      ( if  | val GHC.Classes.== "chip" -> Issuing'authorizationAuthorizationMethod'EnumStringChip
-            | val GHC.Classes.== "contactless" -> Issuing'authorizationAuthorizationMethod'EnumStringContactless
-            | val GHC.Classes.== "keyed_in" -> Issuing'authorizationAuthorizationMethod'EnumStringKeyedIn
-            | val GHC.Classes.== "online" -> Issuing'authorizationAuthorizationMethod'EnumStringOnline
-            | val GHC.Classes.== "swipe" -> Issuing'authorizationAuthorizationMethod'EnumStringSwipe
-            | GHC.Base.otherwise -> Issuing'authorizationAuthorizationMethod'EnumOther val
+      ( if  | val GHC.Classes.== "chip" -> Issuing'authorizationAuthorizationMethod'EnumChip
+            | val GHC.Classes.== "contactless" -> Issuing'authorizationAuthorizationMethod'EnumContactless
+            | val GHC.Classes.== "keyed_in" -> Issuing'authorizationAuthorizationMethod'EnumKeyedIn
+            | val GHC.Classes.== "online" -> Issuing'authorizationAuthorizationMethod'EnumOnline
+            | val GHC.Classes.== "swipe" -> Issuing'authorizationAuthorizationMethod'EnumSwipe
+            | GHC.Base.otherwise -> Issuing'authorizationAuthorizationMethod'Other val
       )
 
--- | Define the one-of schema issuing.authorizationCardholder\'
+-- | Defines the oneOf schema located at @components.schemas.issuing.authorization.properties.cardholder.anyOf@ in the specification.
 --
 -- The cardholder to whom this authorization belongs.
 data Issuing'authorizationCardholder'Variants
@@ -159,56 +234,38 @@ instance Data.Aeson.Types.ToJSON.ToJSON Issuing'authorizationCardholder'Variants
   toJSON (Issuing'authorizationCardholder'Text a) = Data.Aeson.Types.ToJSON.toJSON a
 
 instance Data.Aeson.Types.FromJSON.FromJSON Issuing'authorizationCardholder'Variants where
-  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
-    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ Issuing'authorizationCardholder'Issuing'cardholder a
-    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ Issuing'authorizationCardholder'Text a
-      Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+  parseJSON val = case (Issuing'authorizationCardholder'Issuing'cardholder Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((Issuing'authorizationCardholder'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched") of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+    Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
--- | Defines the enum schema issuing.authorizationObject\'
---
--- String representing the object\'s type. Objects of the same type share the same value.
-data Issuing'authorizationObject'
-  = Issuing'authorizationObject'EnumOther Data.Aeson.Types.Internal.Value
-  | Issuing'authorizationObject'EnumTyped Data.Text.Internal.Text
-  | Issuing'authorizationObject'EnumStringIssuing'authorization
-  deriving (GHC.Show.Show, GHC.Classes.Eq)
-
-instance Data.Aeson.Types.ToJSON.ToJSON Issuing'authorizationObject' where
-  toJSON (Issuing'authorizationObject'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (Issuing'authorizationObject'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (Issuing'authorizationObject'EnumStringIssuing'authorization) = "issuing.authorization"
-
-instance Data.Aeson.Types.FromJSON.FromJSON Issuing'authorizationObject' where
-  parseJSON val =
-    GHC.Base.pure
-      ( if  | val GHC.Classes.== "issuing.authorization" -> Issuing'authorizationObject'EnumStringIssuing'authorization
-            | GHC.Base.otherwise -> Issuing'authorizationObject'EnumOther val
-      )
-
--- | Defines the enum schema issuing.authorizationStatus\'
+-- | Defines the enum schema located at @components.schemas.issuing.authorization.properties.status@ in the specification.
 --
 -- The current status of the authorization in its lifecycle.
 data Issuing'authorizationStatus'
-  = Issuing'authorizationStatus'EnumOther Data.Aeson.Types.Internal.Value
-  | Issuing'authorizationStatus'EnumTyped Data.Text.Internal.Text
-  | Issuing'authorizationStatus'EnumStringClosed
-  | Issuing'authorizationStatus'EnumStringPending
-  | Issuing'authorizationStatus'EnumStringReversed
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    Issuing'authorizationStatus'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    Issuing'authorizationStatus'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"closed"@
+    Issuing'authorizationStatus'EnumClosed
+  | -- | Represents the JSON value @"pending"@
+    Issuing'authorizationStatus'EnumPending
+  | -- | Represents the JSON value @"reversed"@
+    Issuing'authorizationStatus'EnumReversed
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
 instance Data.Aeson.Types.ToJSON.ToJSON Issuing'authorizationStatus' where
-  toJSON (Issuing'authorizationStatus'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (Issuing'authorizationStatus'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (Issuing'authorizationStatus'EnumStringClosed) = "closed"
-  toJSON (Issuing'authorizationStatus'EnumStringPending) = "pending"
-  toJSON (Issuing'authorizationStatus'EnumStringReversed) = "reversed"
+  toJSON (Issuing'authorizationStatus'Other val) = val
+  toJSON (Issuing'authorizationStatus'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (Issuing'authorizationStatus'EnumClosed) = "closed"
+  toJSON (Issuing'authorizationStatus'EnumPending) = "pending"
+  toJSON (Issuing'authorizationStatus'EnumReversed) = "reversed"
 
 instance Data.Aeson.Types.FromJSON.FromJSON Issuing'authorizationStatus' where
   parseJSON val =
     GHC.Base.pure
-      ( if  | val GHC.Classes.== "closed" -> Issuing'authorizationStatus'EnumStringClosed
-            | val GHC.Classes.== "pending" -> Issuing'authorizationStatus'EnumStringPending
-            | val GHC.Classes.== "reversed" -> Issuing'authorizationStatus'EnumStringReversed
-            | GHC.Base.otherwise -> Issuing'authorizationStatus'EnumOther val
+      ( if  | val GHC.Classes.== "closed" -> Issuing'authorizationStatus'EnumClosed
+            | val GHC.Classes.== "pending" -> Issuing'authorizationStatus'EnumPending
+            | val GHC.Classes.== "reversed" -> Issuing'authorizationStatus'EnumReversed
+            | GHC.Base.otherwise -> Issuing'authorizationStatus'Other val
       )

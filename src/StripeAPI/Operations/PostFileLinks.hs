@@ -10,6 +10,7 @@ module StripeAPI.Operations.PostFileLinks where
 import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -77,7 +78,7 @@ postFileLinks body =
     )
     (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack "/v1/file_links") [] (GHC.Maybe.Just body) StripeAPI.Common.RequestBodyEncodingFormData)
 
--- | Defines the data type for the schema postFileLinksRequestBody
+-- | Defines the object schema located at @paths.\/v1\/file_links.POST.requestBody.content.application\/x-www-form-urlencoded.schema@ in the specification.
 data PostFileLinksRequestBody
   = PostFileLinksRequestBody
       { -- | expand: Specifies which fields in the response should be expanded.
@@ -99,11 +100,24 @@ data PostFileLinksRequestBody
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostFileLinksRequestBody where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "expand" (postFileLinksRequestBodyExpand obj) : (Data.Aeson..=) "expires_at" (postFileLinksRequestBodyExpiresAt obj) : (Data.Aeson..=) "file" (postFileLinksRequestBodyFile obj) : (Data.Aeson..=) "metadata" (postFileLinksRequestBodyMetadata obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "expand" (postFileLinksRequestBodyExpand obj) GHC.Base.<> ((Data.Aeson..=) "expires_at" (postFileLinksRequestBodyExpiresAt obj) GHC.Base.<> ((Data.Aeson..=) "file" (postFileLinksRequestBodyFile obj) GHC.Base.<> (Data.Aeson..=) "metadata" (postFileLinksRequestBodyMetadata obj))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("expand" Data.Aeson.Types.ToJSON..= postFileLinksRequestBodyExpand obj : "expires_at" Data.Aeson.Types.ToJSON..= postFileLinksRequestBodyExpiresAt obj : "file" Data.Aeson.Types.ToJSON..= postFileLinksRequestBodyFile obj : "metadata" Data.Aeson.Types.ToJSON..= postFileLinksRequestBodyMetadata obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("expand" Data.Aeson.Types.ToJSON..= postFileLinksRequestBodyExpand obj) GHC.Base.<> (("expires_at" Data.Aeson.Types.ToJSON..= postFileLinksRequestBodyExpiresAt obj) GHC.Base.<> (("file" Data.Aeson.Types.ToJSON..= postFileLinksRequestBodyFile obj) GHC.Base.<> ("metadata" Data.Aeson.Types.ToJSON..= postFileLinksRequestBodyMetadata obj))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostFileLinksRequestBody where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PostFileLinksRequestBody" (\obj -> (((GHC.Base.pure PostFileLinksRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "expires_at")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "file")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "metadata"))
+
+-- | Create a new 'PostFileLinksRequestBody' with all required fields.
+mkPostFileLinksRequestBody ::
+  -- | 'postFileLinksRequestBodyFile'
+  Data.Text.Internal.Text ->
+  PostFileLinksRequestBody
+mkPostFileLinksRequestBody postFileLinksRequestBodyFile =
+  PostFileLinksRequestBody
+    { postFileLinksRequestBodyExpand = GHC.Maybe.Nothing,
+      postFileLinksRequestBodyExpiresAt = GHC.Maybe.Nothing,
+      postFileLinksRequestBodyFile = postFileLinksRequestBodyFile,
+      postFileLinksRequestBodyMetadata = GHC.Maybe.Nothing
+    }
 
 -- | Represents a response of the operation 'postFileLinks'.
 --

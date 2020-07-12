@@ -10,6 +10,7 @@ module StripeAPI.Operations.GetRefundsRefund where
 import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -77,7 +78,7 @@ getRefundsRefund parameters =
     )
     (StripeAPI.Common.doCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET") (Data.Text.pack ("/v1/refunds/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel (getRefundsRefundParametersPathRefund parameters))) GHC.Base.++ ""))) [StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getRefundsRefundParametersQueryExpand parameters) (Data.Text.pack "deepObject") GHC.Types.True])
 
--- | Defines the data type for the schema getRefundsRefundParameters
+-- | Defines the object schema located at @paths.\/v1\/refunds\/{refund}.GET.parameters@ in the specification.
 data GetRefundsRefundParameters
   = GetRefundsRefundParameters
       { -- | pathRefund: Represents the parameter named \'refund\'
@@ -93,11 +94,22 @@ data GetRefundsRefundParameters
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetRefundsRefundParameters where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "pathRefund" (getRefundsRefundParametersPathRefund obj) : (Data.Aeson..=) "queryExpand" (getRefundsRefundParametersQueryExpand obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "pathRefund" (getRefundsRefundParametersPathRefund obj) GHC.Base.<> (Data.Aeson..=) "queryExpand" (getRefundsRefundParametersQueryExpand obj))
+  toJSON obj = Data.Aeson.Types.Internal.object ("pathRefund" Data.Aeson.Types.ToJSON..= getRefundsRefundParametersPathRefund obj : "queryExpand" Data.Aeson.Types.ToJSON..= getRefundsRefundParametersQueryExpand obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("pathRefund" Data.Aeson.Types.ToJSON..= getRefundsRefundParametersPathRefund obj) GHC.Base.<> ("queryExpand" Data.Aeson.Types.ToJSON..= getRefundsRefundParametersQueryExpand obj))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetRefundsRefundParameters where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "GetRefundsRefundParameters" (\obj -> (GHC.Base.pure GetRefundsRefundParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathRefund")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryExpand"))
+
+-- | Create a new 'GetRefundsRefundParameters' with all required fields.
+mkGetRefundsRefundParameters ::
+  -- | 'getRefundsRefundParametersPathRefund'
+  Data.Text.Internal.Text ->
+  GetRefundsRefundParameters
+mkGetRefundsRefundParameters getRefundsRefundParametersPathRefund =
+  GetRefundsRefundParameters
+    { getRefundsRefundParametersPathRefund = getRefundsRefundParametersPathRefund,
+      getRefundsRefundParametersQueryExpand = GHC.Maybe.Nothing
+    }
 
 -- | Represents a response of the operation 'getRefundsRefund'.
 --

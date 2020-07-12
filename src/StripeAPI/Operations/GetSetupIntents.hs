@@ -10,6 +10,7 @@ module StripeAPI.Operations.GetSetupIntents where
 import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -88,7 +89,7 @@ getSetupIntents parameters =
         ]
     )
 
--- | Defines the data type for the schema getSetupIntentsParameters
+-- | Defines the object schema located at @paths.\/v1\/setup_intents.GET.parameters@ in the specification.
 data GetSetupIntentsParameters
   = GetSetupIntentsParameters
       { -- | queryCreated: Represents the parameter named \'created\'
@@ -142,13 +143,26 @@ data GetSetupIntentsParameters
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetSetupIntentsParameters where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "queryCreated" (getSetupIntentsParametersQueryCreated obj) : (Data.Aeson..=) "queryCustomer" (getSetupIntentsParametersQueryCustomer obj) : (Data.Aeson..=) "queryEnding_before" (getSetupIntentsParametersQueryEndingBefore obj) : (Data.Aeson..=) "queryExpand" (getSetupIntentsParametersQueryExpand obj) : (Data.Aeson..=) "queryLimit" (getSetupIntentsParametersQueryLimit obj) : (Data.Aeson..=) "queryPayment_method" (getSetupIntentsParametersQueryPaymentMethod obj) : (Data.Aeson..=) "queryStarting_after" (getSetupIntentsParametersQueryStartingAfter obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "queryCreated" (getSetupIntentsParametersQueryCreated obj) GHC.Base.<> ((Data.Aeson..=) "queryCustomer" (getSetupIntentsParametersQueryCustomer obj) GHC.Base.<> ((Data.Aeson..=) "queryEnding_before" (getSetupIntentsParametersQueryEndingBefore obj) GHC.Base.<> ((Data.Aeson..=) "queryExpand" (getSetupIntentsParametersQueryExpand obj) GHC.Base.<> ((Data.Aeson..=) "queryLimit" (getSetupIntentsParametersQueryLimit obj) GHC.Base.<> ((Data.Aeson..=) "queryPayment_method" (getSetupIntentsParametersQueryPaymentMethod obj) GHC.Base.<> (Data.Aeson..=) "queryStarting_after" (getSetupIntentsParametersQueryStartingAfter obj)))))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("queryCreated" Data.Aeson.Types.ToJSON..= getSetupIntentsParametersQueryCreated obj : "queryCustomer" Data.Aeson.Types.ToJSON..= getSetupIntentsParametersQueryCustomer obj : "queryEnding_before" Data.Aeson.Types.ToJSON..= getSetupIntentsParametersQueryEndingBefore obj : "queryExpand" Data.Aeson.Types.ToJSON..= getSetupIntentsParametersQueryExpand obj : "queryLimit" Data.Aeson.Types.ToJSON..= getSetupIntentsParametersQueryLimit obj : "queryPayment_method" Data.Aeson.Types.ToJSON..= getSetupIntentsParametersQueryPaymentMethod obj : "queryStarting_after" Data.Aeson.Types.ToJSON..= getSetupIntentsParametersQueryStartingAfter obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("queryCreated" Data.Aeson.Types.ToJSON..= getSetupIntentsParametersQueryCreated obj) GHC.Base.<> (("queryCustomer" Data.Aeson.Types.ToJSON..= getSetupIntentsParametersQueryCustomer obj) GHC.Base.<> (("queryEnding_before" Data.Aeson.Types.ToJSON..= getSetupIntentsParametersQueryEndingBefore obj) GHC.Base.<> (("queryExpand" Data.Aeson.Types.ToJSON..= getSetupIntentsParametersQueryExpand obj) GHC.Base.<> (("queryLimit" Data.Aeson.Types.ToJSON..= getSetupIntentsParametersQueryLimit obj) GHC.Base.<> (("queryPayment_method" Data.Aeson.Types.ToJSON..= getSetupIntentsParametersQueryPaymentMethod obj) GHC.Base.<> ("queryStarting_after" Data.Aeson.Types.ToJSON..= getSetupIntentsParametersQueryStartingAfter obj)))))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetSetupIntentsParameters where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "GetSetupIntentsParameters" (\obj -> ((((((GHC.Base.pure GetSetupIntentsParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryCreated")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryCustomer")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryEnding_before")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryExpand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryLimit")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryPayment_method")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryStarting_after"))
 
--- | Defines the data type for the schema getSetupIntentsParametersQueryCreated\'OneOf2
+-- | Create a new 'GetSetupIntentsParameters' with all required fields.
+mkGetSetupIntentsParameters :: GetSetupIntentsParameters
+mkGetSetupIntentsParameters =
+  GetSetupIntentsParameters
+    { getSetupIntentsParametersQueryCreated = GHC.Maybe.Nothing,
+      getSetupIntentsParametersQueryCustomer = GHC.Maybe.Nothing,
+      getSetupIntentsParametersQueryEndingBefore = GHC.Maybe.Nothing,
+      getSetupIntentsParametersQueryExpand = GHC.Maybe.Nothing,
+      getSetupIntentsParametersQueryLimit = GHC.Maybe.Nothing,
+      getSetupIntentsParametersQueryPaymentMethod = GHC.Maybe.Nothing,
+      getSetupIntentsParametersQueryStartingAfter = GHC.Maybe.Nothing
+    }
+
+-- | Defines the object schema located at @paths.\/v1\/setup_intents.GET.parameters.properties.queryCreated.anyOf@ in the specification.
 data GetSetupIntentsParametersQueryCreated'OneOf2
   = GetSetupIntentsParametersQueryCreated'OneOf2
       { -- | gt
@@ -166,13 +180,23 @@ data GetSetupIntentsParametersQueryCreated'OneOf2
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetSetupIntentsParametersQueryCreated'OneOf2 where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "gt" (getSetupIntentsParametersQueryCreated'OneOf2Gt obj) : (Data.Aeson..=) "gte" (getSetupIntentsParametersQueryCreated'OneOf2Gte obj) : (Data.Aeson..=) "lt" (getSetupIntentsParametersQueryCreated'OneOf2Lt obj) : (Data.Aeson..=) "lte" (getSetupIntentsParametersQueryCreated'OneOf2Lte obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "gt" (getSetupIntentsParametersQueryCreated'OneOf2Gt obj) GHC.Base.<> ((Data.Aeson..=) "gte" (getSetupIntentsParametersQueryCreated'OneOf2Gte obj) GHC.Base.<> ((Data.Aeson..=) "lt" (getSetupIntentsParametersQueryCreated'OneOf2Lt obj) GHC.Base.<> (Data.Aeson..=) "lte" (getSetupIntentsParametersQueryCreated'OneOf2Lte obj))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("gt" Data.Aeson.Types.ToJSON..= getSetupIntentsParametersQueryCreated'OneOf2Gt obj : "gte" Data.Aeson.Types.ToJSON..= getSetupIntentsParametersQueryCreated'OneOf2Gte obj : "lt" Data.Aeson.Types.ToJSON..= getSetupIntentsParametersQueryCreated'OneOf2Lt obj : "lte" Data.Aeson.Types.ToJSON..= getSetupIntentsParametersQueryCreated'OneOf2Lte obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("gt" Data.Aeson.Types.ToJSON..= getSetupIntentsParametersQueryCreated'OneOf2Gt obj) GHC.Base.<> (("gte" Data.Aeson.Types.ToJSON..= getSetupIntentsParametersQueryCreated'OneOf2Gte obj) GHC.Base.<> (("lt" Data.Aeson.Types.ToJSON..= getSetupIntentsParametersQueryCreated'OneOf2Lt obj) GHC.Base.<> ("lte" Data.Aeson.Types.ToJSON..= getSetupIntentsParametersQueryCreated'OneOf2Lte obj))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetSetupIntentsParametersQueryCreated'OneOf2 where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "GetSetupIntentsParametersQueryCreated'OneOf2" (\obj -> (((GHC.Base.pure GetSetupIntentsParametersQueryCreated'OneOf2 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "gt")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "gte")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "lt")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "lte"))
 
--- | Define the one-of schema getSetupIntentsParametersQueryCreated\'
+-- | Create a new 'GetSetupIntentsParametersQueryCreated'OneOf2' with all required fields.
+mkGetSetupIntentsParametersQueryCreated'OneOf2 :: GetSetupIntentsParametersQueryCreated'OneOf2
+mkGetSetupIntentsParametersQueryCreated'OneOf2 =
+  GetSetupIntentsParametersQueryCreated'OneOf2
+    { getSetupIntentsParametersQueryCreated'OneOf2Gt = GHC.Maybe.Nothing,
+      getSetupIntentsParametersQueryCreated'OneOf2Gte = GHC.Maybe.Nothing,
+      getSetupIntentsParametersQueryCreated'OneOf2Lt = GHC.Maybe.Nothing,
+      getSetupIntentsParametersQueryCreated'OneOf2Lte = GHC.Maybe.Nothing
+    }
+
+-- | Defines the oneOf schema located at @paths.\/v1\/setup_intents.GET.parameters.properties.queryCreated.anyOf@ in the specification.
 --
 -- Represents the parameter named \'created\'
 --
@@ -187,11 +211,9 @@ instance Data.Aeson.Types.ToJSON.ToJSON GetSetupIntentsParametersQueryCreated'Va
   toJSON (GetSetupIntentsParametersQueryCreated'GetSetupIntentsParametersQueryCreated'OneOf2 a) = Data.Aeson.Types.ToJSON.toJSON a
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetSetupIntentsParametersQueryCreated'Variants where
-  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
-    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ GetSetupIntentsParametersQueryCreated'Int a
-    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ GetSetupIntentsParametersQueryCreated'GetSetupIntentsParametersQueryCreated'OneOf2 a
-      Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+  parseJSON val = case (GetSetupIntentsParametersQueryCreated'Int Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((GetSetupIntentsParametersQueryCreated'GetSetupIntentsParametersQueryCreated'OneOf2 Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched") of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+    Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
 -- | Represents a response of the operation 'getSetupIntents'.
 --
@@ -205,15 +227,13 @@ data GetSetupIntentsResponse
     GetSetupIntentsResponseDefault Error
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
--- | Defines the data type for the schema GetSetupIntentsResponseBody200
+-- | Defines the object schema located at @paths.\/v1\/setup_intents.GET.responses.200.content.application\/json.schema@ in the specification.
 data GetSetupIntentsResponseBody200
   = GetSetupIntentsResponseBody200
       { -- | data
         getSetupIntentsResponseBody200Data :: ([SetupIntent]),
         -- | has_more: True if this list has another page of items after this one that can be fetched.
         getSetupIntentsResponseBody200HasMore :: GHC.Types.Bool,
-        -- | object: String representing the object\'s type. Objects of the same type share the same value. Always has the value \`list\`.
-        getSetupIntentsResponseBody200Object :: GetSetupIntentsResponseBody200Object',
         -- | url: The URL where this list can be accessed.
         --
         -- Constraints:
@@ -228,29 +248,24 @@ data GetSetupIntentsResponseBody200
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetSetupIntentsResponseBody200 where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "data" (getSetupIntentsResponseBody200Data obj) : (Data.Aeson..=) "has_more" (getSetupIntentsResponseBody200HasMore obj) : (Data.Aeson..=) "object" (getSetupIntentsResponseBody200Object obj) : (Data.Aeson..=) "url" (getSetupIntentsResponseBody200Url obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "data" (getSetupIntentsResponseBody200Data obj) GHC.Base.<> ((Data.Aeson..=) "has_more" (getSetupIntentsResponseBody200HasMore obj) GHC.Base.<> ((Data.Aeson..=) "object" (getSetupIntentsResponseBody200Object obj) GHC.Base.<> (Data.Aeson..=) "url" (getSetupIntentsResponseBody200Url obj))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("data" Data.Aeson.Types.ToJSON..= getSetupIntentsResponseBody200Data obj : "has_more" Data.Aeson.Types.ToJSON..= getSetupIntentsResponseBody200HasMore obj : "url" Data.Aeson.Types.ToJSON..= getSetupIntentsResponseBody200Url obj : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "list" : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("data" Data.Aeson.Types.ToJSON..= getSetupIntentsResponseBody200Data obj) GHC.Base.<> (("has_more" Data.Aeson.Types.ToJSON..= getSetupIntentsResponseBody200HasMore obj) GHC.Base.<> (("url" Data.Aeson.Types.ToJSON..= getSetupIntentsResponseBody200Url obj) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "list"))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetSetupIntentsResponseBody200 where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetSetupIntentsResponseBody200" (\obj -> (((GHC.Base.pure GetSetupIntentsResponseBody200 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "has_more")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "object")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "url"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetSetupIntentsResponseBody200" (\obj -> ((GHC.Base.pure GetSetupIntentsResponseBody200 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "has_more")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "url"))
 
--- | Defines the enum schema GetSetupIntentsResponseBody200Object\'
---
--- String representing the object\'s type. Objects of the same type share the same value. Always has the value \`list\`.
-data GetSetupIntentsResponseBody200Object'
-  = GetSetupIntentsResponseBody200Object'EnumOther Data.Aeson.Types.Internal.Value
-  | GetSetupIntentsResponseBody200Object'EnumTyped Data.Text.Internal.Text
-  | GetSetupIntentsResponseBody200Object'EnumStringList
-  deriving (GHC.Show.Show, GHC.Classes.Eq)
-
-instance Data.Aeson.Types.ToJSON.ToJSON GetSetupIntentsResponseBody200Object' where
-  toJSON (GetSetupIntentsResponseBody200Object'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (GetSetupIntentsResponseBody200Object'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (GetSetupIntentsResponseBody200Object'EnumStringList) = "list"
-
-instance Data.Aeson.Types.FromJSON.FromJSON GetSetupIntentsResponseBody200Object' where
-  parseJSON val =
-    GHC.Base.pure
-      ( if  | val GHC.Classes.== "list" -> GetSetupIntentsResponseBody200Object'EnumStringList
-            | GHC.Base.otherwise -> GetSetupIntentsResponseBody200Object'EnumOther val
-      )
+-- | Create a new 'GetSetupIntentsResponseBody200' with all required fields.
+mkGetSetupIntentsResponseBody200 ::
+  -- | 'getSetupIntentsResponseBody200Data'
+  [SetupIntent] ->
+  -- | 'getSetupIntentsResponseBody200HasMore'
+  GHC.Types.Bool ->
+  -- | 'getSetupIntentsResponseBody200Url'
+  Data.Text.Internal.Text ->
+  GetSetupIntentsResponseBody200
+mkGetSetupIntentsResponseBody200 getSetupIntentsResponseBody200Data getSetupIntentsResponseBody200HasMore getSetupIntentsResponseBody200Url =
+  GetSetupIntentsResponseBody200
+    { getSetupIntentsResponseBody200Data = getSetupIntentsResponseBody200Data,
+      getSetupIntentsResponseBody200HasMore = getSetupIntentsResponseBody200HasMore,
+      getSetupIntentsResponseBody200Url = getSetupIntentsResponseBody200Url
+    }

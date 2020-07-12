@@ -8,6 +8,7 @@ module StripeAPI.Types.Issuing_CardDetails where
 
 import qualified Control.Monad.Fail
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -31,7 +32,7 @@ import {-# SOURCE #-} StripeAPI.Types.Issuing_Card
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
--- | Defines the data type for the schema issuing.card_details
+-- | Defines the object schema located at @components.schemas.issuing.card_details@ in the specification.
 data Issuing'cardDetails
   = Issuing'cardDetails
       { -- | card: You can [create physical or virtual cards](https:\/\/stripe.com\/docs\/issuing\/cards) that are issued to cardholders.
@@ -51,9 +52,7 @@ data Issuing'cardDetails
         -- Constraints:
         --
         -- * Maximum length of 5000
-        issuing'cardDetailsNumber :: Data.Text.Internal.Text,
-        -- | object: String representing the object\'s type. Objects of the same type share the same value.
-        issuing'cardDetailsObject :: Issuing'cardDetailsObject'
+        issuing'cardDetailsNumber :: Data.Text.Internal.Text
       }
   deriving
     ( GHC.Show.Show,
@@ -61,29 +60,30 @@ data Issuing'cardDetails
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON Issuing'cardDetails where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "card" (issuing'cardDetailsCard obj) : (Data.Aeson..=) "cvc" (issuing'cardDetailsCvc obj) : (Data.Aeson..=) "exp_month" (issuing'cardDetailsExpMonth obj) : (Data.Aeson..=) "exp_year" (issuing'cardDetailsExpYear obj) : (Data.Aeson..=) "number" (issuing'cardDetailsNumber obj) : (Data.Aeson..=) "object" (issuing'cardDetailsObject obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "card" (issuing'cardDetailsCard obj) GHC.Base.<> ((Data.Aeson..=) "cvc" (issuing'cardDetailsCvc obj) GHC.Base.<> ((Data.Aeson..=) "exp_month" (issuing'cardDetailsExpMonth obj) GHC.Base.<> ((Data.Aeson..=) "exp_year" (issuing'cardDetailsExpYear obj) GHC.Base.<> ((Data.Aeson..=) "number" (issuing'cardDetailsNumber obj) GHC.Base.<> (Data.Aeson..=) "object" (issuing'cardDetailsObject obj))))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("card" Data.Aeson.Types.ToJSON..= issuing'cardDetailsCard obj : "cvc" Data.Aeson.Types.ToJSON..= issuing'cardDetailsCvc obj : "exp_month" Data.Aeson.Types.ToJSON..= issuing'cardDetailsExpMonth obj : "exp_year" Data.Aeson.Types.ToJSON..= issuing'cardDetailsExpYear obj : "number" Data.Aeson.Types.ToJSON..= issuing'cardDetailsNumber obj : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "issuing.card_details" : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("card" Data.Aeson.Types.ToJSON..= issuing'cardDetailsCard obj) GHC.Base.<> (("cvc" Data.Aeson.Types.ToJSON..= issuing'cardDetailsCvc obj) GHC.Base.<> (("exp_month" Data.Aeson.Types.ToJSON..= issuing'cardDetailsExpMonth obj) GHC.Base.<> (("exp_year" Data.Aeson.Types.ToJSON..= issuing'cardDetailsExpYear obj) GHC.Base.<> (("number" Data.Aeson.Types.ToJSON..= issuing'cardDetailsNumber obj) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "issuing.card_details"))))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON Issuing'cardDetails where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "Issuing'cardDetails" (\obj -> (((((GHC.Base.pure Issuing'cardDetails GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "card")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "cvc")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "exp_month")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "exp_year")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "number")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "object"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "Issuing'cardDetails" (\obj -> ((((GHC.Base.pure Issuing'cardDetails GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "card")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "cvc")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "exp_month")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "exp_year")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "number"))
 
--- | Defines the enum schema issuing.card_detailsObject\'
---
--- String representing the object\'s type. Objects of the same type share the same value.
-data Issuing'cardDetailsObject'
-  = Issuing'cardDetailsObject'EnumOther Data.Aeson.Types.Internal.Value
-  | Issuing'cardDetailsObject'EnumTyped Data.Text.Internal.Text
-  | Issuing'cardDetailsObject'EnumStringIssuing'cardDetails
-  deriving (GHC.Show.Show, GHC.Classes.Eq)
-
-instance Data.Aeson.Types.ToJSON.ToJSON Issuing'cardDetailsObject' where
-  toJSON (Issuing'cardDetailsObject'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (Issuing'cardDetailsObject'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (Issuing'cardDetailsObject'EnumStringIssuing'cardDetails) = "issuing.card_details"
-
-instance Data.Aeson.Types.FromJSON.FromJSON Issuing'cardDetailsObject' where
-  parseJSON val =
-    GHC.Base.pure
-      ( if  | val GHC.Classes.== "issuing.card_details" -> Issuing'cardDetailsObject'EnumStringIssuing'cardDetails
-            | GHC.Base.otherwise -> Issuing'cardDetailsObject'EnumOther val
-      )
+-- | Create a new 'Issuing'cardDetails' with all required fields.
+mkIssuing'cardDetails ::
+  -- | 'issuing'cardDetailsCard'
+  Issuing'card ->
+  -- | 'issuing'cardDetailsCvc'
+  Data.Text.Internal.Text ->
+  -- | 'issuing'cardDetailsExpMonth'
+  GHC.Types.Int ->
+  -- | 'issuing'cardDetailsExpYear'
+  GHC.Types.Int ->
+  -- | 'issuing'cardDetailsNumber'
+  Data.Text.Internal.Text ->
+  Issuing'cardDetails
+mkIssuing'cardDetails issuing'cardDetailsCard issuing'cardDetailsCvc issuing'cardDetailsExpMonth issuing'cardDetailsExpYear issuing'cardDetailsNumber =
+  Issuing'cardDetails
+    { issuing'cardDetailsCard = issuing'cardDetailsCard,
+      issuing'cardDetailsCvc = issuing'cardDetailsCvc,
+      issuing'cardDetailsExpMonth = issuing'cardDetailsExpMonth,
+      issuing'cardDetailsExpYear = issuing'cardDetailsExpYear,
+      issuing'cardDetailsNumber = issuing'cardDetailsNumber
+    }

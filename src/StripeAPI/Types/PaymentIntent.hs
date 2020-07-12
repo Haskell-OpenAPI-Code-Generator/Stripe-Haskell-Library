@@ -8,6 +8,7 @@ module StripeAPI.Types.PaymentIntent where
 
 import qualified Control.Monad.Fail
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -72,7 +73,7 @@ import {-# SOURCE #-} StripeAPI.Types.TransferData
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
--- | Defines the data type for the schema payment_intent
+-- | Defines the object schema located at @components.schemas.payment_intent@ in the specification.
 --
 -- A PaymentIntent guides you through the process of collecting a payment from your customer.
 -- We recommend that you create exactly one PaymentIntent for each order or
@@ -147,8 +148,6 @@ data PaymentIntent
         paymentIntentMetadata :: (GHC.Maybe.Maybe Data.Aeson.Types.Internal.Object),
         -- | next_action: If present, this property tells you what actions you need to take in order for your customer to fulfill a payment using the provided source.
         paymentIntentNextAction :: (GHC.Maybe.Maybe PaymentIntentNextAction'),
-        -- | object: String representing the object\'s type. Objects of the same type share the same value.
-        paymentIntentObject :: PaymentIntentObject',
         -- | on_behalf_of: The account (if any) for which the funds of the PaymentIntent are intended. See the PaymentIntents [use case for connected accounts](https:\/\/stripe.com\/docs\/payments\/connected-accounts) for details.
         paymentIntentOnBehalfOf :: (GHC.Maybe.Maybe PaymentIntentOnBehalfOf'Variants),
         -- | payment_method: ID of the payment method used in this PaymentIntent.
@@ -204,13 +203,72 @@ data PaymentIntent
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PaymentIntent where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "amount" (paymentIntentAmount obj) : (Data.Aeson..=) "amount_capturable" (paymentIntentAmountCapturable obj) : (Data.Aeson..=) "amount_received" (paymentIntentAmountReceived obj) : (Data.Aeson..=) "application" (paymentIntentApplication obj) : (Data.Aeson..=) "application_fee_amount" (paymentIntentApplicationFeeAmount obj) : (Data.Aeson..=) "canceled_at" (paymentIntentCanceledAt obj) : (Data.Aeson..=) "cancellation_reason" (paymentIntentCancellationReason obj) : (Data.Aeson..=) "capture_method" (paymentIntentCaptureMethod obj) : (Data.Aeson..=) "charges" (paymentIntentCharges obj) : (Data.Aeson..=) "client_secret" (paymentIntentClientSecret obj) : (Data.Aeson..=) "confirmation_method" (paymentIntentConfirmationMethod obj) : (Data.Aeson..=) "created" (paymentIntentCreated obj) : (Data.Aeson..=) "currency" (paymentIntentCurrency obj) : (Data.Aeson..=) "customer" (paymentIntentCustomer obj) : (Data.Aeson..=) "description" (paymentIntentDescription obj) : (Data.Aeson..=) "id" (paymentIntentId obj) : (Data.Aeson..=) "invoice" (paymentIntentInvoice obj) : (Data.Aeson..=) "last_payment_error" (paymentIntentLastPaymentError obj) : (Data.Aeson..=) "livemode" (paymentIntentLivemode obj) : (Data.Aeson..=) "metadata" (paymentIntentMetadata obj) : (Data.Aeson..=) "next_action" (paymentIntentNextAction obj) : (Data.Aeson..=) "object" (paymentIntentObject obj) : (Data.Aeson..=) "on_behalf_of" (paymentIntentOnBehalfOf obj) : (Data.Aeson..=) "payment_method" (paymentIntentPaymentMethod obj) : (Data.Aeson..=) "payment_method_options" (paymentIntentPaymentMethodOptions obj) : (Data.Aeson..=) "payment_method_types" (paymentIntentPaymentMethodTypes obj) : (Data.Aeson..=) "receipt_email" (paymentIntentReceiptEmail obj) : (Data.Aeson..=) "review" (paymentIntentReview obj) : (Data.Aeson..=) "setup_future_usage" (paymentIntentSetupFutureUsage obj) : (Data.Aeson..=) "shipping" (paymentIntentShipping obj) : (Data.Aeson..=) "statement_descriptor" (paymentIntentStatementDescriptor obj) : (Data.Aeson..=) "statement_descriptor_suffix" (paymentIntentStatementDescriptorSuffix obj) : (Data.Aeson..=) "status" (paymentIntentStatus obj) : (Data.Aeson..=) "transfer_data" (paymentIntentTransferData obj) : (Data.Aeson..=) "transfer_group" (paymentIntentTransferGroup obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "amount" (paymentIntentAmount obj) GHC.Base.<> ((Data.Aeson..=) "amount_capturable" (paymentIntentAmountCapturable obj) GHC.Base.<> ((Data.Aeson..=) "amount_received" (paymentIntentAmountReceived obj) GHC.Base.<> ((Data.Aeson..=) "application" (paymentIntentApplication obj) GHC.Base.<> ((Data.Aeson..=) "application_fee_amount" (paymentIntentApplicationFeeAmount obj) GHC.Base.<> ((Data.Aeson..=) "canceled_at" (paymentIntentCanceledAt obj) GHC.Base.<> ((Data.Aeson..=) "cancellation_reason" (paymentIntentCancellationReason obj) GHC.Base.<> ((Data.Aeson..=) "capture_method" (paymentIntentCaptureMethod obj) GHC.Base.<> ((Data.Aeson..=) "charges" (paymentIntentCharges obj) GHC.Base.<> ((Data.Aeson..=) "client_secret" (paymentIntentClientSecret obj) GHC.Base.<> ((Data.Aeson..=) "confirmation_method" (paymentIntentConfirmationMethod obj) GHC.Base.<> ((Data.Aeson..=) "created" (paymentIntentCreated obj) GHC.Base.<> ((Data.Aeson..=) "currency" (paymentIntentCurrency obj) GHC.Base.<> ((Data.Aeson..=) "customer" (paymentIntentCustomer obj) GHC.Base.<> ((Data.Aeson..=) "description" (paymentIntentDescription obj) GHC.Base.<> ((Data.Aeson..=) "id" (paymentIntentId obj) GHC.Base.<> ((Data.Aeson..=) "invoice" (paymentIntentInvoice obj) GHC.Base.<> ((Data.Aeson..=) "last_payment_error" (paymentIntentLastPaymentError obj) GHC.Base.<> ((Data.Aeson..=) "livemode" (paymentIntentLivemode obj) GHC.Base.<> ((Data.Aeson..=) "metadata" (paymentIntentMetadata obj) GHC.Base.<> ((Data.Aeson..=) "next_action" (paymentIntentNextAction obj) GHC.Base.<> ((Data.Aeson..=) "object" (paymentIntentObject obj) GHC.Base.<> ((Data.Aeson..=) "on_behalf_of" (paymentIntentOnBehalfOf obj) GHC.Base.<> ((Data.Aeson..=) "payment_method" (paymentIntentPaymentMethod obj) GHC.Base.<> ((Data.Aeson..=) "payment_method_options" (paymentIntentPaymentMethodOptions obj) GHC.Base.<> ((Data.Aeson..=) "payment_method_types" (paymentIntentPaymentMethodTypes obj) GHC.Base.<> ((Data.Aeson..=) "receipt_email" (paymentIntentReceiptEmail obj) GHC.Base.<> ((Data.Aeson..=) "review" (paymentIntentReview obj) GHC.Base.<> ((Data.Aeson..=) "setup_future_usage" (paymentIntentSetupFutureUsage obj) GHC.Base.<> ((Data.Aeson..=) "shipping" (paymentIntentShipping obj) GHC.Base.<> ((Data.Aeson..=) "statement_descriptor" (paymentIntentStatementDescriptor obj) GHC.Base.<> ((Data.Aeson..=) "statement_descriptor_suffix" (paymentIntentStatementDescriptorSuffix obj) GHC.Base.<> ((Data.Aeson..=) "status" (paymentIntentStatus obj) GHC.Base.<> ((Data.Aeson..=) "transfer_data" (paymentIntentTransferData obj) GHC.Base.<> (Data.Aeson..=) "transfer_group" (paymentIntentTransferGroup obj)))))))))))))))))))))))))))))))))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("amount" Data.Aeson.Types.ToJSON..= paymentIntentAmount obj : "amount_capturable" Data.Aeson.Types.ToJSON..= paymentIntentAmountCapturable obj : "amount_received" Data.Aeson.Types.ToJSON..= paymentIntentAmountReceived obj : "application" Data.Aeson.Types.ToJSON..= paymentIntentApplication obj : "application_fee_amount" Data.Aeson.Types.ToJSON..= paymentIntentApplicationFeeAmount obj : "canceled_at" Data.Aeson.Types.ToJSON..= paymentIntentCanceledAt obj : "cancellation_reason" Data.Aeson.Types.ToJSON..= paymentIntentCancellationReason obj : "capture_method" Data.Aeson.Types.ToJSON..= paymentIntentCaptureMethod obj : "charges" Data.Aeson.Types.ToJSON..= paymentIntentCharges obj : "client_secret" Data.Aeson.Types.ToJSON..= paymentIntentClientSecret obj : "confirmation_method" Data.Aeson.Types.ToJSON..= paymentIntentConfirmationMethod obj : "created" Data.Aeson.Types.ToJSON..= paymentIntentCreated obj : "currency" Data.Aeson.Types.ToJSON..= paymentIntentCurrency obj : "customer" Data.Aeson.Types.ToJSON..= paymentIntentCustomer obj : "description" Data.Aeson.Types.ToJSON..= paymentIntentDescription obj : "id" Data.Aeson.Types.ToJSON..= paymentIntentId obj : "invoice" Data.Aeson.Types.ToJSON..= paymentIntentInvoice obj : "last_payment_error" Data.Aeson.Types.ToJSON..= paymentIntentLastPaymentError obj : "livemode" Data.Aeson.Types.ToJSON..= paymentIntentLivemode obj : "metadata" Data.Aeson.Types.ToJSON..= paymentIntentMetadata obj : "next_action" Data.Aeson.Types.ToJSON..= paymentIntentNextAction obj : "on_behalf_of" Data.Aeson.Types.ToJSON..= paymentIntentOnBehalfOf obj : "payment_method" Data.Aeson.Types.ToJSON..= paymentIntentPaymentMethod obj : "payment_method_options" Data.Aeson.Types.ToJSON..= paymentIntentPaymentMethodOptions obj : "payment_method_types" Data.Aeson.Types.ToJSON..= paymentIntentPaymentMethodTypes obj : "receipt_email" Data.Aeson.Types.ToJSON..= paymentIntentReceiptEmail obj : "review" Data.Aeson.Types.ToJSON..= paymentIntentReview obj : "setup_future_usage" Data.Aeson.Types.ToJSON..= paymentIntentSetupFutureUsage obj : "shipping" Data.Aeson.Types.ToJSON..= paymentIntentShipping obj : "statement_descriptor" Data.Aeson.Types.ToJSON..= paymentIntentStatementDescriptor obj : "statement_descriptor_suffix" Data.Aeson.Types.ToJSON..= paymentIntentStatementDescriptorSuffix obj : "status" Data.Aeson.Types.ToJSON..= paymentIntentStatus obj : "transfer_data" Data.Aeson.Types.ToJSON..= paymentIntentTransferData obj : "transfer_group" Data.Aeson.Types.ToJSON..= paymentIntentTransferGroup obj : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "payment_intent" : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("amount" Data.Aeson.Types.ToJSON..= paymentIntentAmount obj) GHC.Base.<> (("amount_capturable" Data.Aeson.Types.ToJSON..= paymentIntentAmountCapturable obj) GHC.Base.<> (("amount_received" Data.Aeson.Types.ToJSON..= paymentIntentAmountReceived obj) GHC.Base.<> (("application" Data.Aeson.Types.ToJSON..= paymentIntentApplication obj) GHC.Base.<> (("application_fee_amount" Data.Aeson.Types.ToJSON..= paymentIntentApplicationFeeAmount obj) GHC.Base.<> (("canceled_at" Data.Aeson.Types.ToJSON..= paymentIntentCanceledAt obj) GHC.Base.<> (("cancellation_reason" Data.Aeson.Types.ToJSON..= paymentIntentCancellationReason obj) GHC.Base.<> (("capture_method" Data.Aeson.Types.ToJSON..= paymentIntentCaptureMethod obj) GHC.Base.<> (("charges" Data.Aeson.Types.ToJSON..= paymentIntentCharges obj) GHC.Base.<> (("client_secret" Data.Aeson.Types.ToJSON..= paymentIntentClientSecret obj) GHC.Base.<> (("confirmation_method" Data.Aeson.Types.ToJSON..= paymentIntentConfirmationMethod obj) GHC.Base.<> (("created" Data.Aeson.Types.ToJSON..= paymentIntentCreated obj) GHC.Base.<> (("currency" Data.Aeson.Types.ToJSON..= paymentIntentCurrency obj) GHC.Base.<> (("customer" Data.Aeson.Types.ToJSON..= paymentIntentCustomer obj) GHC.Base.<> (("description" Data.Aeson.Types.ToJSON..= paymentIntentDescription obj) GHC.Base.<> (("id" Data.Aeson.Types.ToJSON..= paymentIntentId obj) GHC.Base.<> (("invoice" Data.Aeson.Types.ToJSON..= paymentIntentInvoice obj) GHC.Base.<> (("last_payment_error" Data.Aeson.Types.ToJSON..= paymentIntentLastPaymentError obj) GHC.Base.<> (("livemode" Data.Aeson.Types.ToJSON..= paymentIntentLivemode obj) GHC.Base.<> (("metadata" Data.Aeson.Types.ToJSON..= paymentIntentMetadata obj) GHC.Base.<> (("next_action" Data.Aeson.Types.ToJSON..= paymentIntentNextAction obj) GHC.Base.<> (("on_behalf_of" Data.Aeson.Types.ToJSON..= paymentIntentOnBehalfOf obj) GHC.Base.<> (("payment_method" Data.Aeson.Types.ToJSON..= paymentIntentPaymentMethod obj) GHC.Base.<> (("payment_method_options" Data.Aeson.Types.ToJSON..= paymentIntentPaymentMethodOptions obj) GHC.Base.<> (("payment_method_types" Data.Aeson.Types.ToJSON..= paymentIntentPaymentMethodTypes obj) GHC.Base.<> (("receipt_email" Data.Aeson.Types.ToJSON..= paymentIntentReceiptEmail obj) GHC.Base.<> (("review" Data.Aeson.Types.ToJSON..= paymentIntentReview obj) GHC.Base.<> (("setup_future_usage" Data.Aeson.Types.ToJSON..= paymentIntentSetupFutureUsage obj) GHC.Base.<> (("shipping" Data.Aeson.Types.ToJSON..= paymentIntentShipping obj) GHC.Base.<> (("statement_descriptor" Data.Aeson.Types.ToJSON..= paymentIntentStatementDescriptor obj) GHC.Base.<> (("statement_descriptor_suffix" Data.Aeson.Types.ToJSON..= paymentIntentStatementDescriptorSuffix obj) GHC.Base.<> (("status" Data.Aeson.Types.ToJSON..= paymentIntentStatus obj) GHC.Base.<> (("transfer_data" Data.Aeson.Types.ToJSON..= paymentIntentTransferData obj) GHC.Base.<> (("transfer_group" Data.Aeson.Types.ToJSON..= paymentIntentTransferGroup obj) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "payment_intent")))))))))))))))))))))))))))))))))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PaymentIntent where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PaymentIntent" (\obj -> ((((((((((((((((((((((((((((((((((GHC.Base.pure PaymentIntent GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "amount_capturable")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "amount_received")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "application")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "application_fee_amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "canceled_at")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "cancellation_reason")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "capture_method")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "charges")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "client_secret")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "confirmation_method")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "created")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "customer")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "description")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "invoice")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "last_payment_error")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "livemode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "next_action")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "object")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "on_behalf_of")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "payment_method")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "payment_method_options")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "payment_method_types")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "receipt_email")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "review")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "setup_future_usage")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "shipping")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "statement_descriptor")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "statement_descriptor_suffix")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "status")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "transfer_data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "transfer_group"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PaymentIntent" (\obj -> (((((((((((((((((((((((((((((((((GHC.Base.pure PaymentIntent GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "amount_capturable")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "amount_received")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "application")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "application_fee_amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "canceled_at")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "cancellation_reason")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "capture_method")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "charges")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "client_secret")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "confirmation_method")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "created")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "customer")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "description")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "invoice")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "last_payment_error")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "livemode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "next_action")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "on_behalf_of")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "payment_method")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "payment_method_options")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "payment_method_types")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "receipt_email")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "review")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "setup_future_usage")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "shipping")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "statement_descriptor")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "statement_descriptor_suffix")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "status")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "transfer_data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "transfer_group"))
 
--- | Define the one-of schema payment_intentApplication\'
+-- | Create a new 'PaymentIntent' with all required fields.
+mkPaymentIntent ::
+  -- | 'paymentIntentAmount'
+  GHC.Types.Int ->
+  -- | 'paymentIntentCaptureMethod'
+  PaymentIntentCaptureMethod' ->
+  -- | 'paymentIntentConfirmationMethod'
+  PaymentIntentConfirmationMethod' ->
+  -- | 'paymentIntentCreated'
+  GHC.Types.Int ->
+  -- | 'paymentIntentCurrency'
+  Data.Text.Internal.Text ->
+  -- | 'paymentIntentId'
+  Data.Text.Internal.Text ->
+  -- | 'paymentIntentLivemode'
+  GHC.Types.Bool ->
+  -- | 'paymentIntentPaymentMethodTypes'
+  [Data.Text.Internal.Text] ->
+  -- | 'paymentIntentStatus'
+  PaymentIntentStatus' ->
+  PaymentIntent
+mkPaymentIntent paymentIntentAmount paymentIntentCaptureMethod paymentIntentConfirmationMethod paymentIntentCreated paymentIntentCurrency paymentIntentId paymentIntentLivemode paymentIntentPaymentMethodTypes paymentIntentStatus =
+  PaymentIntent
+    { paymentIntentAmount = paymentIntentAmount,
+      paymentIntentAmountCapturable = GHC.Maybe.Nothing,
+      paymentIntentAmountReceived = GHC.Maybe.Nothing,
+      paymentIntentApplication = GHC.Maybe.Nothing,
+      paymentIntentApplicationFeeAmount = GHC.Maybe.Nothing,
+      paymentIntentCanceledAt = GHC.Maybe.Nothing,
+      paymentIntentCancellationReason = GHC.Maybe.Nothing,
+      paymentIntentCaptureMethod = paymentIntentCaptureMethod,
+      paymentIntentCharges = GHC.Maybe.Nothing,
+      paymentIntentClientSecret = GHC.Maybe.Nothing,
+      paymentIntentConfirmationMethod = paymentIntentConfirmationMethod,
+      paymentIntentCreated = paymentIntentCreated,
+      paymentIntentCurrency = paymentIntentCurrency,
+      paymentIntentCustomer = GHC.Maybe.Nothing,
+      paymentIntentDescription = GHC.Maybe.Nothing,
+      paymentIntentId = paymentIntentId,
+      paymentIntentInvoice = GHC.Maybe.Nothing,
+      paymentIntentLastPaymentError = GHC.Maybe.Nothing,
+      paymentIntentLivemode = paymentIntentLivemode,
+      paymentIntentMetadata = GHC.Maybe.Nothing,
+      paymentIntentNextAction = GHC.Maybe.Nothing,
+      paymentIntentOnBehalfOf = GHC.Maybe.Nothing,
+      paymentIntentPaymentMethod = GHC.Maybe.Nothing,
+      paymentIntentPaymentMethodOptions = GHC.Maybe.Nothing,
+      paymentIntentPaymentMethodTypes = paymentIntentPaymentMethodTypes,
+      paymentIntentReceiptEmail = GHC.Maybe.Nothing,
+      paymentIntentReview = GHC.Maybe.Nothing,
+      paymentIntentSetupFutureUsage = GHC.Maybe.Nothing,
+      paymentIntentShipping = GHC.Maybe.Nothing,
+      paymentIntentStatementDescriptor = GHC.Maybe.Nothing,
+      paymentIntentStatementDescriptorSuffix = GHC.Maybe.Nothing,
+      paymentIntentStatus = paymentIntentStatus,
+      paymentIntentTransferData = GHC.Maybe.Nothing,
+      paymentIntentTransferGroup = GHC.Maybe.Nothing
+    }
+
+-- | Defines the oneOf schema located at @components.schemas.payment_intent.properties.application.anyOf@ in the specification.
 --
 -- ID of the Connect application that created the PaymentIntent.
 data PaymentIntentApplication'Variants
@@ -223,76 +281,87 @@ instance Data.Aeson.Types.ToJSON.ToJSON PaymentIntentApplication'Variants where
   toJSON (PaymentIntentApplication'Text a) = Data.Aeson.Types.ToJSON.toJSON a
 
 instance Data.Aeson.Types.FromJSON.FromJSON PaymentIntentApplication'Variants where
-  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
-    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ PaymentIntentApplication'Application a
-    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ PaymentIntentApplication'Text a
-      Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+  parseJSON val = case (PaymentIntentApplication'Application Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((PaymentIntentApplication'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched") of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+    Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
--- | Defines the enum schema payment_intentCancellation_reason\'
+-- | Defines the enum schema located at @components.schemas.payment_intent.properties.cancellation_reason@ in the specification.
 --
 -- Reason for cancellation of this PaymentIntent, either user-provided (\`duplicate\`, \`fraudulent\`, \`requested_by_customer\`, or \`abandoned\`) or generated by Stripe internally (\`failed_invoice\`, \`void_invoice\`, or \`automatic\`).
 data PaymentIntentCancellationReason'
-  = PaymentIntentCancellationReason'EnumOther Data.Aeson.Types.Internal.Value
-  | PaymentIntentCancellationReason'EnumTyped Data.Text.Internal.Text
-  | PaymentIntentCancellationReason'EnumStringAbandoned
-  | PaymentIntentCancellationReason'EnumStringAutomatic
-  | PaymentIntentCancellationReason'EnumStringDuplicate
-  | PaymentIntentCancellationReason'EnumStringFailedInvoice
-  | PaymentIntentCancellationReason'EnumStringFraudulent
-  | PaymentIntentCancellationReason'EnumStringRequestedByCustomer
-  | PaymentIntentCancellationReason'EnumStringVoidInvoice
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    PaymentIntentCancellationReason'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    PaymentIntentCancellationReason'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"abandoned"@
+    PaymentIntentCancellationReason'EnumAbandoned
+  | -- | Represents the JSON value @"automatic"@
+    PaymentIntentCancellationReason'EnumAutomatic
+  | -- | Represents the JSON value @"duplicate"@
+    PaymentIntentCancellationReason'EnumDuplicate
+  | -- | Represents the JSON value @"failed_invoice"@
+    PaymentIntentCancellationReason'EnumFailedInvoice
+  | -- | Represents the JSON value @"fraudulent"@
+    PaymentIntentCancellationReason'EnumFraudulent
+  | -- | Represents the JSON value @"requested_by_customer"@
+    PaymentIntentCancellationReason'EnumRequestedByCustomer
+  | -- | Represents the JSON value @"void_invoice"@
+    PaymentIntentCancellationReason'EnumVoidInvoice
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
 instance Data.Aeson.Types.ToJSON.ToJSON PaymentIntentCancellationReason' where
-  toJSON (PaymentIntentCancellationReason'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PaymentIntentCancellationReason'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PaymentIntentCancellationReason'EnumStringAbandoned) = "abandoned"
-  toJSON (PaymentIntentCancellationReason'EnumStringAutomatic) = "automatic"
-  toJSON (PaymentIntentCancellationReason'EnumStringDuplicate) = "duplicate"
-  toJSON (PaymentIntentCancellationReason'EnumStringFailedInvoice) = "failed_invoice"
-  toJSON (PaymentIntentCancellationReason'EnumStringFraudulent) = "fraudulent"
-  toJSON (PaymentIntentCancellationReason'EnumStringRequestedByCustomer) = "requested_by_customer"
-  toJSON (PaymentIntentCancellationReason'EnumStringVoidInvoice) = "void_invoice"
+  toJSON (PaymentIntentCancellationReason'Other val) = val
+  toJSON (PaymentIntentCancellationReason'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PaymentIntentCancellationReason'EnumAbandoned) = "abandoned"
+  toJSON (PaymentIntentCancellationReason'EnumAutomatic) = "automatic"
+  toJSON (PaymentIntentCancellationReason'EnumDuplicate) = "duplicate"
+  toJSON (PaymentIntentCancellationReason'EnumFailedInvoice) = "failed_invoice"
+  toJSON (PaymentIntentCancellationReason'EnumFraudulent) = "fraudulent"
+  toJSON (PaymentIntentCancellationReason'EnumRequestedByCustomer) = "requested_by_customer"
+  toJSON (PaymentIntentCancellationReason'EnumVoidInvoice) = "void_invoice"
 
 instance Data.Aeson.Types.FromJSON.FromJSON PaymentIntentCancellationReason' where
   parseJSON val =
     GHC.Base.pure
-      ( if  | val GHC.Classes.== "abandoned" -> PaymentIntentCancellationReason'EnumStringAbandoned
-            | val GHC.Classes.== "automatic" -> PaymentIntentCancellationReason'EnumStringAutomatic
-            | val GHC.Classes.== "duplicate" -> PaymentIntentCancellationReason'EnumStringDuplicate
-            | val GHC.Classes.== "failed_invoice" -> PaymentIntentCancellationReason'EnumStringFailedInvoice
-            | val GHC.Classes.== "fraudulent" -> PaymentIntentCancellationReason'EnumStringFraudulent
-            | val GHC.Classes.== "requested_by_customer" -> PaymentIntentCancellationReason'EnumStringRequestedByCustomer
-            | val GHC.Classes.== "void_invoice" -> PaymentIntentCancellationReason'EnumStringVoidInvoice
-            | GHC.Base.otherwise -> PaymentIntentCancellationReason'EnumOther val
+      ( if  | val GHC.Classes.== "abandoned" -> PaymentIntentCancellationReason'EnumAbandoned
+            | val GHC.Classes.== "automatic" -> PaymentIntentCancellationReason'EnumAutomatic
+            | val GHC.Classes.== "duplicate" -> PaymentIntentCancellationReason'EnumDuplicate
+            | val GHC.Classes.== "failed_invoice" -> PaymentIntentCancellationReason'EnumFailedInvoice
+            | val GHC.Classes.== "fraudulent" -> PaymentIntentCancellationReason'EnumFraudulent
+            | val GHC.Classes.== "requested_by_customer" -> PaymentIntentCancellationReason'EnumRequestedByCustomer
+            | val GHC.Classes.== "void_invoice" -> PaymentIntentCancellationReason'EnumVoidInvoice
+            | GHC.Base.otherwise -> PaymentIntentCancellationReason'Other val
       )
 
--- | Defines the enum schema payment_intentCapture_method\'
+-- | Defines the enum schema located at @components.schemas.payment_intent.properties.capture_method@ in the specification.
 --
 -- Controls when the funds will be captured from the customer\'s account.
 data PaymentIntentCaptureMethod'
-  = PaymentIntentCaptureMethod'EnumOther Data.Aeson.Types.Internal.Value
-  | PaymentIntentCaptureMethod'EnumTyped Data.Text.Internal.Text
-  | PaymentIntentCaptureMethod'EnumStringAutomatic
-  | PaymentIntentCaptureMethod'EnumStringManual
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    PaymentIntentCaptureMethod'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    PaymentIntentCaptureMethod'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"automatic"@
+    PaymentIntentCaptureMethod'EnumAutomatic
+  | -- | Represents the JSON value @"manual"@
+    PaymentIntentCaptureMethod'EnumManual
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
 instance Data.Aeson.Types.ToJSON.ToJSON PaymentIntentCaptureMethod' where
-  toJSON (PaymentIntentCaptureMethod'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PaymentIntentCaptureMethod'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PaymentIntentCaptureMethod'EnumStringAutomatic) = "automatic"
-  toJSON (PaymentIntentCaptureMethod'EnumStringManual) = "manual"
+  toJSON (PaymentIntentCaptureMethod'Other val) = val
+  toJSON (PaymentIntentCaptureMethod'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PaymentIntentCaptureMethod'EnumAutomatic) = "automatic"
+  toJSON (PaymentIntentCaptureMethod'EnumManual) = "manual"
 
 instance Data.Aeson.Types.FromJSON.FromJSON PaymentIntentCaptureMethod' where
   parseJSON val =
     GHC.Base.pure
-      ( if  | val GHC.Classes.== "automatic" -> PaymentIntentCaptureMethod'EnumStringAutomatic
-            | val GHC.Classes.== "manual" -> PaymentIntentCaptureMethod'EnumStringManual
-            | GHC.Base.otherwise -> PaymentIntentCaptureMethod'EnumOther val
+      ( if  | val GHC.Classes.== "automatic" -> PaymentIntentCaptureMethod'EnumAutomatic
+            | val GHC.Classes.== "manual" -> PaymentIntentCaptureMethod'EnumManual
+            | GHC.Base.otherwise -> PaymentIntentCaptureMethod'Other val
       )
 
--- | Defines the data type for the schema payment_intentCharges\'
+-- | Defines the object schema located at @components.schemas.payment_intent.properties.charges@ in the specification.
 --
 -- Charges that were created by this PaymentIntent, if any.
 data PaymentIntentCharges'
@@ -301,8 +370,6 @@ data PaymentIntentCharges'
         paymentIntentCharges'Data :: ([Charge]),
         -- | has_more: True if this list has another page of items after this one that can be fetched.
         paymentIntentCharges'HasMore :: GHC.Types.Bool,
-        -- | object: String representing the object\'s type. Objects of the same type share the same value. Always has the value \`list\`.
-        paymentIntentCharges'Object :: PaymentIntentCharges'Object',
         -- | url: The URL where this list can be accessed.
         --
         -- Constraints:
@@ -316,56 +383,55 @@ data PaymentIntentCharges'
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PaymentIntentCharges' where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "data" (paymentIntentCharges'Data obj) : (Data.Aeson..=) "has_more" (paymentIntentCharges'HasMore obj) : (Data.Aeson..=) "object" (paymentIntentCharges'Object obj) : (Data.Aeson..=) "url" (paymentIntentCharges'Url obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "data" (paymentIntentCharges'Data obj) GHC.Base.<> ((Data.Aeson..=) "has_more" (paymentIntentCharges'HasMore obj) GHC.Base.<> ((Data.Aeson..=) "object" (paymentIntentCharges'Object obj) GHC.Base.<> (Data.Aeson..=) "url" (paymentIntentCharges'Url obj))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("data" Data.Aeson.Types.ToJSON..= paymentIntentCharges'Data obj : "has_more" Data.Aeson.Types.ToJSON..= paymentIntentCharges'HasMore obj : "url" Data.Aeson.Types.ToJSON..= paymentIntentCharges'Url obj : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "list" : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("data" Data.Aeson.Types.ToJSON..= paymentIntentCharges'Data obj) GHC.Base.<> (("has_more" Data.Aeson.Types.ToJSON..= paymentIntentCharges'HasMore obj) GHC.Base.<> (("url" Data.Aeson.Types.ToJSON..= paymentIntentCharges'Url obj) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "list"))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PaymentIntentCharges' where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PaymentIntentCharges'" (\obj -> (((GHC.Base.pure PaymentIntentCharges' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "has_more")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "object")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "url"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PaymentIntentCharges'" (\obj -> ((GHC.Base.pure PaymentIntentCharges' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "has_more")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "url"))
 
--- | Defines the enum schema payment_intentCharges\'Object\'
---
--- String representing the object\'s type. Objects of the same type share the same value. Always has the value \`list\`.
-data PaymentIntentCharges'Object'
-  = PaymentIntentCharges'Object'EnumOther Data.Aeson.Types.Internal.Value
-  | PaymentIntentCharges'Object'EnumTyped Data.Text.Internal.Text
-  | PaymentIntentCharges'Object'EnumStringList
-  deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Create a new 'PaymentIntentCharges'' with all required fields.
+mkPaymentIntentCharges' ::
+  -- | 'paymentIntentCharges'Data'
+  [Charge] ->
+  -- | 'paymentIntentCharges'HasMore'
+  GHC.Types.Bool ->
+  -- | 'paymentIntentCharges'Url'
+  Data.Text.Internal.Text ->
+  PaymentIntentCharges'
+mkPaymentIntentCharges' paymentIntentCharges'Data paymentIntentCharges'HasMore paymentIntentCharges'Url =
+  PaymentIntentCharges'
+    { paymentIntentCharges'Data = paymentIntentCharges'Data,
+      paymentIntentCharges'HasMore = paymentIntentCharges'HasMore,
+      paymentIntentCharges'Url = paymentIntentCharges'Url
+    }
 
-instance Data.Aeson.Types.ToJSON.ToJSON PaymentIntentCharges'Object' where
-  toJSON (PaymentIntentCharges'Object'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PaymentIntentCharges'Object'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PaymentIntentCharges'Object'EnumStringList) = "list"
-
-instance Data.Aeson.Types.FromJSON.FromJSON PaymentIntentCharges'Object' where
-  parseJSON val =
-    GHC.Base.pure
-      ( if  | val GHC.Classes.== "list" -> PaymentIntentCharges'Object'EnumStringList
-            | GHC.Base.otherwise -> PaymentIntentCharges'Object'EnumOther val
-      )
-
--- | Defines the enum schema payment_intentConfirmation_method\'
+-- | Defines the enum schema located at @components.schemas.payment_intent.properties.confirmation_method@ in the specification.
 data PaymentIntentConfirmationMethod'
-  = PaymentIntentConfirmationMethod'EnumOther Data.Aeson.Types.Internal.Value
-  | PaymentIntentConfirmationMethod'EnumTyped Data.Text.Internal.Text
-  | PaymentIntentConfirmationMethod'EnumStringAutomatic
-  | PaymentIntentConfirmationMethod'EnumStringManual
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    PaymentIntentConfirmationMethod'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    PaymentIntentConfirmationMethod'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"automatic"@
+    PaymentIntentConfirmationMethod'EnumAutomatic
+  | -- | Represents the JSON value @"manual"@
+    PaymentIntentConfirmationMethod'EnumManual
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
 instance Data.Aeson.Types.ToJSON.ToJSON PaymentIntentConfirmationMethod' where
-  toJSON (PaymentIntentConfirmationMethod'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PaymentIntentConfirmationMethod'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PaymentIntentConfirmationMethod'EnumStringAutomatic) = "automatic"
-  toJSON (PaymentIntentConfirmationMethod'EnumStringManual) = "manual"
+  toJSON (PaymentIntentConfirmationMethod'Other val) = val
+  toJSON (PaymentIntentConfirmationMethod'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PaymentIntentConfirmationMethod'EnumAutomatic) = "automatic"
+  toJSON (PaymentIntentConfirmationMethod'EnumManual) = "manual"
 
 instance Data.Aeson.Types.FromJSON.FromJSON PaymentIntentConfirmationMethod' where
   parseJSON val =
     GHC.Base.pure
-      ( if  | val GHC.Classes.== "automatic" -> PaymentIntentConfirmationMethod'EnumStringAutomatic
-            | val GHC.Classes.== "manual" -> PaymentIntentConfirmationMethod'EnumStringManual
-            | GHC.Base.otherwise -> PaymentIntentConfirmationMethod'EnumOther val
+      ( if  | val GHC.Classes.== "automatic" -> PaymentIntentConfirmationMethod'EnumAutomatic
+            | val GHC.Classes.== "manual" -> PaymentIntentConfirmationMethod'EnumManual
+            | GHC.Base.otherwise -> PaymentIntentConfirmationMethod'Other val
       )
 
--- | Define the one-of schema payment_intentCustomer\'
+-- | Defines the oneOf schema located at @components.schemas.payment_intent.properties.customer.anyOf@ in the specification.
 --
 -- ID of the Customer this PaymentIntent belongs to, if one exists.
 --
@@ -382,15 +448,11 @@ instance Data.Aeson.Types.ToJSON.ToJSON PaymentIntentCustomer'Variants where
   toJSON (PaymentIntentCustomer'Text a) = Data.Aeson.Types.ToJSON.toJSON a
 
 instance Data.Aeson.Types.FromJSON.FromJSON PaymentIntentCustomer'Variants where
-  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
-    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ PaymentIntentCustomer'Customer a
-    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ PaymentIntentCustomer'DeletedCustomer a
-      Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-        Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ PaymentIntentCustomer'Text a
-        Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+  parseJSON val = case (PaymentIntentCustomer'Customer Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((PaymentIntentCustomer'DeletedCustomer Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((PaymentIntentCustomer'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched")) of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+    Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
--- | Define the one-of schema payment_intentInvoice\'
+-- | Defines the oneOf schema located at @components.schemas.payment_intent.properties.invoice.anyOf@ in the specification.
 --
 -- ID of the invoice that created this PaymentIntent, if it exists.
 data PaymentIntentInvoice'Variants
@@ -403,13 +465,11 @@ instance Data.Aeson.Types.ToJSON.ToJSON PaymentIntentInvoice'Variants where
   toJSON (PaymentIntentInvoice'Text a) = Data.Aeson.Types.ToJSON.toJSON a
 
 instance Data.Aeson.Types.FromJSON.FromJSON PaymentIntentInvoice'Variants where
-  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
-    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ PaymentIntentInvoice'Invoice a
-    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ PaymentIntentInvoice'Text a
-      Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+  parseJSON val = case (PaymentIntentInvoice'Invoice Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((PaymentIntentInvoice'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched") of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+    Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
--- | Defines the data type for the schema payment_intentLast_payment_error\'
+-- | Defines the object schema located at @components.schemas.payment_intent.properties.last_payment_error.anyOf@ in the specification.
 --
 -- The payment error encountered in the previous PaymentIntent confirmation. It will be cleared if the PaymentIntent is later updated for any reason.
 data PaymentIntentLastPaymentError'
@@ -496,13 +556,30 @@ data PaymentIntentLastPaymentError'
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PaymentIntentLastPaymentError' where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "charge" (paymentIntentLastPaymentError'Charge obj) : (Data.Aeson..=) "code" (paymentIntentLastPaymentError'Code obj) : (Data.Aeson..=) "decline_code" (paymentIntentLastPaymentError'DeclineCode obj) : (Data.Aeson..=) "doc_url" (paymentIntentLastPaymentError'DocUrl obj) : (Data.Aeson..=) "message" (paymentIntentLastPaymentError'Message obj) : (Data.Aeson..=) "param" (paymentIntentLastPaymentError'Param obj) : (Data.Aeson..=) "payment_intent" (paymentIntentLastPaymentError'PaymentIntent obj) : (Data.Aeson..=) "payment_method" (paymentIntentLastPaymentError'PaymentMethod obj) : (Data.Aeson..=) "setup_intent" (paymentIntentLastPaymentError'SetupIntent obj) : (Data.Aeson..=) "source" (paymentIntentLastPaymentError'Source obj) : (Data.Aeson..=) "type" (paymentIntentLastPaymentError'Type obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "charge" (paymentIntentLastPaymentError'Charge obj) GHC.Base.<> ((Data.Aeson..=) "code" (paymentIntentLastPaymentError'Code obj) GHC.Base.<> ((Data.Aeson..=) "decline_code" (paymentIntentLastPaymentError'DeclineCode obj) GHC.Base.<> ((Data.Aeson..=) "doc_url" (paymentIntentLastPaymentError'DocUrl obj) GHC.Base.<> ((Data.Aeson..=) "message" (paymentIntentLastPaymentError'Message obj) GHC.Base.<> ((Data.Aeson..=) "param" (paymentIntentLastPaymentError'Param obj) GHC.Base.<> ((Data.Aeson..=) "payment_intent" (paymentIntentLastPaymentError'PaymentIntent obj) GHC.Base.<> ((Data.Aeson..=) "payment_method" (paymentIntentLastPaymentError'PaymentMethod obj) GHC.Base.<> ((Data.Aeson..=) "setup_intent" (paymentIntentLastPaymentError'SetupIntent obj) GHC.Base.<> ((Data.Aeson..=) "source" (paymentIntentLastPaymentError'Source obj) GHC.Base.<> (Data.Aeson..=) "type" (paymentIntentLastPaymentError'Type obj)))))))))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("charge" Data.Aeson.Types.ToJSON..= paymentIntentLastPaymentError'Charge obj : "code" Data.Aeson.Types.ToJSON..= paymentIntentLastPaymentError'Code obj : "decline_code" Data.Aeson.Types.ToJSON..= paymentIntentLastPaymentError'DeclineCode obj : "doc_url" Data.Aeson.Types.ToJSON..= paymentIntentLastPaymentError'DocUrl obj : "message" Data.Aeson.Types.ToJSON..= paymentIntentLastPaymentError'Message obj : "param" Data.Aeson.Types.ToJSON..= paymentIntentLastPaymentError'Param obj : "payment_intent" Data.Aeson.Types.ToJSON..= paymentIntentLastPaymentError'PaymentIntent obj : "payment_method" Data.Aeson.Types.ToJSON..= paymentIntentLastPaymentError'PaymentMethod obj : "setup_intent" Data.Aeson.Types.ToJSON..= paymentIntentLastPaymentError'SetupIntent obj : "source" Data.Aeson.Types.ToJSON..= paymentIntentLastPaymentError'Source obj : "type" Data.Aeson.Types.ToJSON..= paymentIntentLastPaymentError'Type obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("charge" Data.Aeson.Types.ToJSON..= paymentIntentLastPaymentError'Charge obj) GHC.Base.<> (("code" Data.Aeson.Types.ToJSON..= paymentIntentLastPaymentError'Code obj) GHC.Base.<> (("decline_code" Data.Aeson.Types.ToJSON..= paymentIntentLastPaymentError'DeclineCode obj) GHC.Base.<> (("doc_url" Data.Aeson.Types.ToJSON..= paymentIntentLastPaymentError'DocUrl obj) GHC.Base.<> (("message" Data.Aeson.Types.ToJSON..= paymentIntentLastPaymentError'Message obj) GHC.Base.<> (("param" Data.Aeson.Types.ToJSON..= paymentIntentLastPaymentError'Param obj) GHC.Base.<> (("payment_intent" Data.Aeson.Types.ToJSON..= paymentIntentLastPaymentError'PaymentIntent obj) GHC.Base.<> (("payment_method" Data.Aeson.Types.ToJSON..= paymentIntentLastPaymentError'PaymentMethod obj) GHC.Base.<> (("setup_intent" Data.Aeson.Types.ToJSON..= paymentIntentLastPaymentError'SetupIntent obj) GHC.Base.<> (("source" Data.Aeson.Types.ToJSON..= paymentIntentLastPaymentError'Source obj) GHC.Base.<> ("type" Data.Aeson.Types.ToJSON..= paymentIntentLastPaymentError'Type obj)))))))))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PaymentIntentLastPaymentError' where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PaymentIntentLastPaymentError'" (\obj -> ((((((((((GHC.Base.pure PaymentIntentLastPaymentError' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "charge")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "code")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "decline_code")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "doc_url")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "message")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "param")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "payment_intent")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "payment_method")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "setup_intent")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "source")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "type"))
 
--- | Defines the data type for the schema payment_intentLast_payment_error\'Source\'
+-- | Create a new 'PaymentIntentLastPaymentError'' with all required fields.
+mkPaymentIntentLastPaymentError' :: PaymentIntentLastPaymentError'
+mkPaymentIntentLastPaymentError' =
+  PaymentIntentLastPaymentError'
+    { paymentIntentLastPaymentError'Charge = GHC.Maybe.Nothing,
+      paymentIntentLastPaymentError'Code = GHC.Maybe.Nothing,
+      paymentIntentLastPaymentError'DeclineCode = GHC.Maybe.Nothing,
+      paymentIntentLastPaymentError'DocUrl = GHC.Maybe.Nothing,
+      paymentIntentLastPaymentError'Message = GHC.Maybe.Nothing,
+      paymentIntentLastPaymentError'Param = GHC.Maybe.Nothing,
+      paymentIntentLastPaymentError'PaymentIntent = GHC.Maybe.Nothing,
+      paymentIntentLastPaymentError'PaymentMethod = GHC.Maybe.Nothing,
+      paymentIntentLastPaymentError'SetupIntent = GHC.Maybe.Nothing,
+      paymentIntentLastPaymentError'Source = GHC.Maybe.Nothing,
+      paymentIntentLastPaymentError'Type = GHC.Maybe.Nothing
+    }
+
+-- | Defines the object schema located at @components.schemas.payment_intent.properties.last_payment_error.anyOf.properties.source.anyOf@ in the specification.
 --
 -- The source object for errors returned on a request involving a source.
 data PaymentIntentLastPaymentError'Source'
@@ -685,8 +762,6 @@ data PaymentIntentLastPaymentError'Source'
         --
         -- * Maximum length of 5000
         paymentIntentLastPaymentError'Source'Name :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
-        -- | object: String representing the object\'s type. Objects of the same type share the same value.
-        paymentIntentLastPaymentError'Source'Object :: (GHC.Maybe.Maybe PaymentIntentLastPaymentError'Source'Object'),
         -- | owner: Information about the owner of the payment instrument that may be used or required by particular source types.
         paymentIntentLastPaymentError'Source'Owner :: (GHC.Maybe.Maybe PaymentIntentLastPaymentError'Source'Owner'),
         -- | p24
@@ -748,13 +823,80 @@ data PaymentIntentLastPaymentError'Source'
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PaymentIntentLastPaymentError'Source' where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "account" (paymentIntentLastPaymentError'Source'Account obj) : (Data.Aeson..=) "account_holder_name" (paymentIntentLastPaymentError'Source'AccountHolderName obj) : (Data.Aeson..=) "account_holder_type" (paymentIntentLastPaymentError'Source'AccountHolderType obj) : (Data.Aeson..=) "ach_credit_transfer" (paymentIntentLastPaymentError'Source'AchCreditTransfer obj) : (Data.Aeson..=) "ach_debit" (paymentIntentLastPaymentError'Source'AchDebit obj) : (Data.Aeson..=) "address_city" (paymentIntentLastPaymentError'Source'AddressCity obj) : (Data.Aeson..=) "address_country" (paymentIntentLastPaymentError'Source'AddressCountry obj) : (Data.Aeson..=) "address_line1" (paymentIntentLastPaymentError'Source'AddressLine1 obj) : (Data.Aeson..=) "address_line1_check" (paymentIntentLastPaymentError'Source'AddressLine1Check obj) : (Data.Aeson..=) "address_line2" (paymentIntentLastPaymentError'Source'AddressLine2 obj) : (Data.Aeson..=) "address_state" (paymentIntentLastPaymentError'Source'AddressState obj) : (Data.Aeson..=) "address_zip" (paymentIntentLastPaymentError'Source'AddressZip obj) : (Data.Aeson..=) "address_zip_check" (paymentIntentLastPaymentError'Source'AddressZipCheck obj) : (Data.Aeson..=) "alipay" (paymentIntentLastPaymentError'Source'Alipay obj) : (Data.Aeson..=) "amount" (paymentIntentLastPaymentError'Source'Amount obj) : (Data.Aeson..=) "available_payout_methods" (paymentIntentLastPaymentError'Source'AvailablePayoutMethods obj) : (Data.Aeson..=) "bancontact" (paymentIntentLastPaymentError'Source'Bancontact obj) : (Data.Aeson..=) "bank_name" (paymentIntentLastPaymentError'Source'BankName obj) : (Data.Aeson..=) "brand" (paymentIntentLastPaymentError'Source'Brand obj) : (Data.Aeson..=) "card" (paymentIntentLastPaymentError'Source'Card obj) : (Data.Aeson..=) "card_present" (paymentIntentLastPaymentError'Source'CardPresent obj) : (Data.Aeson..=) "client_secret" (paymentIntentLastPaymentError'Source'ClientSecret obj) : (Data.Aeson..=) "code_verification" (paymentIntentLastPaymentError'Source'CodeVerification obj) : (Data.Aeson..=) "country" (paymentIntentLastPaymentError'Source'Country obj) : (Data.Aeson..=) "created" (paymentIntentLastPaymentError'Source'Created obj) : (Data.Aeson..=) "currency" (paymentIntentLastPaymentError'Source'Currency obj) : (Data.Aeson..=) "customer" (paymentIntentLastPaymentError'Source'Customer obj) : (Data.Aeson..=) "cvc_check" (paymentIntentLastPaymentError'Source'CvcCheck obj) : (Data.Aeson..=) "default_for_currency" (paymentIntentLastPaymentError'Source'DefaultForCurrency obj) : (Data.Aeson..=) "dynamic_last4" (paymentIntentLastPaymentError'Source'DynamicLast4 obj) : (Data.Aeson..=) "eps" (paymentIntentLastPaymentError'Source'Eps obj) : (Data.Aeson..=) "exp_month" (paymentIntentLastPaymentError'Source'ExpMonth obj) : (Data.Aeson..=) "exp_year" (paymentIntentLastPaymentError'Source'ExpYear obj) : (Data.Aeson..=) "fingerprint" (paymentIntentLastPaymentError'Source'Fingerprint obj) : (Data.Aeson..=) "flow" (paymentIntentLastPaymentError'Source'Flow obj) : (Data.Aeson..=) "funding" (paymentIntentLastPaymentError'Source'Funding obj) : (Data.Aeson..=) "giropay" (paymentIntentLastPaymentError'Source'Giropay obj) : (Data.Aeson..=) "id" (paymentIntentLastPaymentError'Source'Id obj) : (Data.Aeson..=) "ideal" (paymentIntentLastPaymentError'Source'Ideal obj) : (Data.Aeson..=) "klarna" (paymentIntentLastPaymentError'Source'Klarna obj) : (Data.Aeson..=) "last4" (paymentIntentLastPaymentError'Source'Last4 obj) : (Data.Aeson..=) "livemode" (paymentIntentLastPaymentError'Source'Livemode obj) : (Data.Aeson..=) "metadata" (paymentIntentLastPaymentError'Source'Metadata obj) : (Data.Aeson..=) "multibanco" (paymentIntentLastPaymentError'Source'Multibanco obj) : (Data.Aeson..=) "name" (paymentIntentLastPaymentError'Source'Name obj) : (Data.Aeson..=) "object" (paymentIntentLastPaymentError'Source'Object obj) : (Data.Aeson..=) "owner" (paymentIntentLastPaymentError'Source'Owner obj) : (Data.Aeson..=) "p24" (paymentIntentLastPaymentError'Source'P24 obj) : (Data.Aeson..=) "receiver" (paymentIntentLastPaymentError'Source'Receiver obj) : (Data.Aeson..=) "recipient" (paymentIntentLastPaymentError'Source'Recipient obj) : (Data.Aeson..=) "redirect" (paymentIntentLastPaymentError'Source'Redirect obj) : (Data.Aeson..=) "routing_number" (paymentIntentLastPaymentError'Source'RoutingNumber obj) : (Data.Aeson..=) "sepa_debit" (paymentIntentLastPaymentError'Source'SepaDebit obj) : (Data.Aeson..=) "sofort" (paymentIntentLastPaymentError'Source'Sofort obj) : (Data.Aeson..=) "source_order" (paymentIntentLastPaymentError'Source'SourceOrder obj) : (Data.Aeson..=) "statement_descriptor" (paymentIntentLastPaymentError'Source'StatementDescriptor obj) : (Data.Aeson..=) "status" (paymentIntentLastPaymentError'Source'Status obj) : (Data.Aeson..=) "three_d_secure" (paymentIntentLastPaymentError'Source'ThreeDSecure obj) : (Data.Aeson..=) "tokenization_method" (paymentIntentLastPaymentError'Source'TokenizationMethod obj) : (Data.Aeson..=) "type" (paymentIntentLastPaymentError'Source'Type obj) : (Data.Aeson..=) "usage" (paymentIntentLastPaymentError'Source'Usage obj) : (Data.Aeson..=) "wechat" (paymentIntentLastPaymentError'Source'Wechat obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "account" (paymentIntentLastPaymentError'Source'Account obj) GHC.Base.<> ((Data.Aeson..=) "account_holder_name" (paymentIntentLastPaymentError'Source'AccountHolderName obj) GHC.Base.<> ((Data.Aeson..=) "account_holder_type" (paymentIntentLastPaymentError'Source'AccountHolderType obj) GHC.Base.<> ((Data.Aeson..=) "ach_credit_transfer" (paymentIntentLastPaymentError'Source'AchCreditTransfer obj) GHC.Base.<> ((Data.Aeson..=) "ach_debit" (paymentIntentLastPaymentError'Source'AchDebit obj) GHC.Base.<> ((Data.Aeson..=) "address_city" (paymentIntentLastPaymentError'Source'AddressCity obj) GHC.Base.<> ((Data.Aeson..=) "address_country" (paymentIntentLastPaymentError'Source'AddressCountry obj) GHC.Base.<> ((Data.Aeson..=) "address_line1" (paymentIntentLastPaymentError'Source'AddressLine1 obj) GHC.Base.<> ((Data.Aeson..=) "address_line1_check" (paymentIntentLastPaymentError'Source'AddressLine1Check obj) GHC.Base.<> ((Data.Aeson..=) "address_line2" (paymentIntentLastPaymentError'Source'AddressLine2 obj) GHC.Base.<> ((Data.Aeson..=) "address_state" (paymentIntentLastPaymentError'Source'AddressState obj) GHC.Base.<> ((Data.Aeson..=) "address_zip" (paymentIntentLastPaymentError'Source'AddressZip obj) GHC.Base.<> ((Data.Aeson..=) "address_zip_check" (paymentIntentLastPaymentError'Source'AddressZipCheck obj) GHC.Base.<> ((Data.Aeson..=) "alipay" (paymentIntentLastPaymentError'Source'Alipay obj) GHC.Base.<> ((Data.Aeson..=) "amount" (paymentIntentLastPaymentError'Source'Amount obj) GHC.Base.<> ((Data.Aeson..=) "available_payout_methods" (paymentIntentLastPaymentError'Source'AvailablePayoutMethods obj) GHC.Base.<> ((Data.Aeson..=) "bancontact" (paymentIntentLastPaymentError'Source'Bancontact obj) GHC.Base.<> ((Data.Aeson..=) "bank_name" (paymentIntentLastPaymentError'Source'BankName obj) GHC.Base.<> ((Data.Aeson..=) "brand" (paymentIntentLastPaymentError'Source'Brand obj) GHC.Base.<> ((Data.Aeson..=) "card" (paymentIntentLastPaymentError'Source'Card obj) GHC.Base.<> ((Data.Aeson..=) "card_present" (paymentIntentLastPaymentError'Source'CardPresent obj) GHC.Base.<> ((Data.Aeson..=) "client_secret" (paymentIntentLastPaymentError'Source'ClientSecret obj) GHC.Base.<> ((Data.Aeson..=) "code_verification" (paymentIntentLastPaymentError'Source'CodeVerification obj) GHC.Base.<> ((Data.Aeson..=) "country" (paymentIntentLastPaymentError'Source'Country obj) GHC.Base.<> ((Data.Aeson..=) "created" (paymentIntentLastPaymentError'Source'Created obj) GHC.Base.<> ((Data.Aeson..=) "currency" (paymentIntentLastPaymentError'Source'Currency obj) GHC.Base.<> ((Data.Aeson..=) "customer" (paymentIntentLastPaymentError'Source'Customer obj) GHC.Base.<> ((Data.Aeson..=) "cvc_check" (paymentIntentLastPaymentError'Source'CvcCheck obj) GHC.Base.<> ((Data.Aeson..=) "default_for_currency" (paymentIntentLastPaymentError'Source'DefaultForCurrency obj) GHC.Base.<> ((Data.Aeson..=) "dynamic_last4" (paymentIntentLastPaymentError'Source'DynamicLast4 obj) GHC.Base.<> ((Data.Aeson..=) "eps" (paymentIntentLastPaymentError'Source'Eps obj) GHC.Base.<> ((Data.Aeson..=) "exp_month" (paymentIntentLastPaymentError'Source'ExpMonth obj) GHC.Base.<> ((Data.Aeson..=) "exp_year" (paymentIntentLastPaymentError'Source'ExpYear obj) GHC.Base.<> ((Data.Aeson..=) "fingerprint" (paymentIntentLastPaymentError'Source'Fingerprint obj) GHC.Base.<> ((Data.Aeson..=) "flow" (paymentIntentLastPaymentError'Source'Flow obj) GHC.Base.<> ((Data.Aeson..=) "funding" (paymentIntentLastPaymentError'Source'Funding obj) GHC.Base.<> ((Data.Aeson..=) "giropay" (paymentIntentLastPaymentError'Source'Giropay obj) GHC.Base.<> ((Data.Aeson..=) "id" (paymentIntentLastPaymentError'Source'Id obj) GHC.Base.<> ((Data.Aeson..=) "ideal" (paymentIntentLastPaymentError'Source'Ideal obj) GHC.Base.<> ((Data.Aeson..=) "klarna" (paymentIntentLastPaymentError'Source'Klarna obj) GHC.Base.<> ((Data.Aeson..=) "last4" (paymentIntentLastPaymentError'Source'Last4 obj) GHC.Base.<> ((Data.Aeson..=) "livemode" (paymentIntentLastPaymentError'Source'Livemode obj) GHC.Base.<> ((Data.Aeson..=) "metadata" (paymentIntentLastPaymentError'Source'Metadata obj) GHC.Base.<> ((Data.Aeson..=) "multibanco" (paymentIntentLastPaymentError'Source'Multibanco obj) GHC.Base.<> ((Data.Aeson..=) "name" (paymentIntentLastPaymentError'Source'Name obj) GHC.Base.<> ((Data.Aeson..=) "object" (paymentIntentLastPaymentError'Source'Object obj) GHC.Base.<> ((Data.Aeson..=) "owner" (paymentIntentLastPaymentError'Source'Owner obj) GHC.Base.<> ((Data.Aeson..=) "p24" (paymentIntentLastPaymentError'Source'P24 obj) GHC.Base.<> ((Data.Aeson..=) "receiver" (paymentIntentLastPaymentError'Source'Receiver obj) GHC.Base.<> ((Data.Aeson..=) "recipient" (paymentIntentLastPaymentError'Source'Recipient obj) GHC.Base.<> ((Data.Aeson..=) "redirect" (paymentIntentLastPaymentError'Source'Redirect obj) GHC.Base.<> ((Data.Aeson..=) "routing_number" (paymentIntentLastPaymentError'Source'RoutingNumber obj) GHC.Base.<> ((Data.Aeson..=) "sepa_debit" (paymentIntentLastPaymentError'Source'SepaDebit obj) GHC.Base.<> ((Data.Aeson..=) "sofort" (paymentIntentLastPaymentError'Source'Sofort obj) GHC.Base.<> ((Data.Aeson..=) "source_order" (paymentIntentLastPaymentError'Source'SourceOrder obj) GHC.Base.<> ((Data.Aeson..=) "statement_descriptor" (paymentIntentLastPaymentError'Source'StatementDescriptor obj) GHC.Base.<> ((Data.Aeson..=) "status" (paymentIntentLastPaymentError'Source'Status obj) GHC.Base.<> ((Data.Aeson..=) "three_d_secure" (paymentIntentLastPaymentError'Source'ThreeDSecure obj) GHC.Base.<> ((Data.Aeson..=) "tokenization_method" (paymentIntentLastPaymentError'Source'TokenizationMethod obj) GHC.Base.<> ((Data.Aeson..=) "type" (paymentIntentLastPaymentError'Source'Type obj) GHC.Base.<> ((Data.Aeson..=) "usage" (paymentIntentLastPaymentError'Source'Usage obj) GHC.Base.<> (Data.Aeson..=) "wechat" (paymentIntentLastPaymentError'Source'Wechat obj))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("account" Data.Aeson.Types.ToJSON..= paymentIntentLastPaymentError'Source'Account obj : "account_holder_name" Data.Aeson.Types.ToJSON..= paymentIntentLastPaymentError'Source'AccountHolderName obj : "account_holder_type" Data.Aeson.Types.ToJSON..= paymentIntentLastPaymentError'Source'AccountHolderType obj : "ach_credit_transfer" Data.Aeson.Types.ToJSON..= paymentIntentLastPaymentError'Source'AchCreditTransfer obj : "ach_debit" Data.Aeson.Types.ToJSON..= paymentIntentLastPaymentError'Source'AchDebit obj : "address_city" Data.Aeson.Types.ToJSON..= paymentIntentLastPaymentError'Source'AddressCity obj : "address_country" Data.Aeson.Types.ToJSON..= paymentIntentLastPaymentError'Source'AddressCountry obj : "address_line1" Data.Aeson.Types.ToJSON..= paymentIntentLastPaymentError'Source'AddressLine1 obj : "address_line1_check" Data.Aeson.Types.ToJSON..= paymentIntentLastPaymentError'Source'AddressLine1Check obj : "address_line2" Data.Aeson.Types.ToJSON..= paymentIntentLastPaymentError'Source'AddressLine2 obj : "address_state" Data.Aeson.Types.ToJSON..= paymentIntentLastPaymentError'Source'AddressState obj : "address_zip" Data.Aeson.Types.ToJSON..= paymentIntentLastPaymentError'Source'AddressZip obj : "address_zip_check" Data.Aeson.Types.ToJSON..= paymentIntentLastPaymentError'Source'AddressZipCheck obj : "alipay" Data.Aeson.Types.ToJSON..= paymentIntentLastPaymentError'Source'Alipay obj : "amount" Data.Aeson.Types.ToJSON..= paymentIntentLastPaymentError'Source'Amount obj : "available_payout_methods" Data.Aeson.Types.ToJSON..= paymentIntentLastPaymentError'Source'AvailablePayoutMethods obj : "bancontact" Data.Aeson.Types.ToJSON..= paymentIntentLastPaymentError'Source'Bancontact obj : "bank_name" Data.Aeson.Types.ToJSON..= paymentIntentLastPaymentError'Source'BankName obj : "brand" Data.Aeson.Types.ToJSON..= paymentIntentLastPaymentError'Source'Brand obj : "card" Data.Aeson.Types.ToJSON..= paymentIntentLastPaymentError'Source'Card obj : "card_present" Data.Aeson.Types.ToJSON..= paymentIntentLastPaymentError'Source'CardPresent obj : "client_secret" Data.Aeson.Types.ToJSON..= paymentIntentLastPaymentError'Source'ClientSecret obj : "code_verification" Data.Aeson.Types.ToJSON..= paymentIntentLastPaymentError'Source'CodeVerification obj : "country" Data.Aeson.Types.ToJSON..= paymentIntentLastPaymentError'Source'Country obj : "created" Data.Aeson.Types.ToJSON..= paymentIntentLastPaymentError'Source'Created obj : "currency" Data.Aeson.Types.ToJSON..= paymentIntentLastPaymentError'Source'Currency obj : "customer" Data.Aeson.Types.ToJSON..= paymentIntentLastPaymentError'Source'Customer obj : "cvc_check" Data.Aeson.Types.ToJSON..= paymentIntentLastPaymentError'Source'CvcCheck obj : "default_for_currency" Data.Aeson.Types.ToJSON..= paymentIntentLastPaymentError'Source'DefaultForCurrency obj : "dynamic_last4" Data.Aeson.Types.ToJSON..= paymentIntentLastPaymentError'Source'DynamicLast4 obj : "eps" Data.Aeson.Types.ToJSON..= paymentIntentLastPaymentError'Source'Eps obj : "exp_month" Data.Aeson.Types.ToJSON..= paymentIntentLastPaymentError'Source'ExpMonth obj : "exp_year" Data.Aeson.Types.ToJSON..= paymentIntentLastPaymentError'Source'ExpYear obj : "fingerprint" Data.Aeson.Types.ToJSON..= paymentIntentLastPaymentError'Source'Fingerprint obj : "flow" Data.Aeson.Types.ToJSON..= paymentIntentLastPaymentError'Source'Flow obj : "funding" Data.Aeson.Types.ToJSON..= paymentIntentLastPaymentError'Source'Funding obj : "giropay" Data.Aeson.Types.ToJSON..= paymentIntentLastPaymentError'Source'Giropay obj : "id" Data.Aeson.Types.ToJSON..= paymentIntentLastPaymentError'Source'Id obj : "ideal" Data.Aeson.Types.ToJSON..= paymentIntentLastPaymentError'Source'Ideal obj : "klarna" Data.Aeson.Types.ToJSON..= paymentIntentLastPaymentError'Source'Klarna obj : "last4" Data.Aeson.Types.ToJSON..= paymentIntentLastPaymentError'Source'Last4 obj : "livemode" Data.Aeson.Types.ToJSON..= paymentIntentLastPaymentError'Source'Livemode obj : "metadata" Data.Aeson.Types.ToJSON..= paymentIntentLastPaymentError'Source'Metadata obj : "multibanco" Data.Aeson.Types.ToJSON..= paymentIntentLastPaymentError'Source'Multibanco obj : "name" Data.Aeson.Types.ToJSON..= paymentIntentLastPaymentError'Source'Name obj : "owner" Data.Aeson.Types.ToJSON..= paymentIntentLastPaymentError'Source'Owner obj : "p24" Data.Aeson.Types.ToJSON..= paymentIntentLastPaymentError'Source'P24 obj : "receiver" Data.Aeson.Types.ToJSON..= paymentIntentLastPaymentError'Source'Receiver obj : "recipient" Data.Aeson.Types.ToJSON..= paymentIntentLastPaymentError'Source'Recipient obj : "redirect" Data.Aeson.Types.ToJSON..= paymentIntentLastPaymentError'Source'Redirect obj : "routing_number" Data.Aeson.Types.ToJSON..= paymentIntentLastPaymentError'Source'RoutingNumber obj : "sepa_debit" Data.Aeson.Types.ToJSON..= paymentIntentLastPaymentError'Source'SepaDebit obj : "sofort" Data.Aeson.Types.ToJSON..= paymentIntentLastPaymentError'Source'Sofort obj : "source_order" Data.Aeson.Types.ToJSON..= paymentIntentLastPaymentError'Source'SourceOrder obj : "statement_descriptor" Data.Aeson.Types.ToJSON..= paymentIntentLastPaymentError'Source'StatementDescriptor obj : "status" Data.Aeson.Types.ToJSON..= paymentIntentLastPaymentError'Source'Status obj : "three_d_secure" Data.Aeson.Types.ToJSON..= paymentIntentLastPaymentError'Source'ThreeDSecure obj : "tokenization_method" Data.Aeson.Types.ToJSON..= paymentIntentLastPaymentError'Source'TokenizationMethod obj : "type" Data.Aeson.Types.ToJSON..= paymentIntentLastPaymentError'Source'Type obj : "usage" Data.Aeson.Types.ToJSON..= paymentIntentLastPaymentError'Source'Usage obj : "wechat" Data.Aeson.Types.ToJSON..= paymentIntentLastPaymentError'Source'Wechat obj : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "bank_account" : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("account" Data.Aeson.Types.ToJSON..= paymentIntentLastPaymentError'Source'Account obj) GHC.Base.<> (("account_holder_name" Data.Aeson.Types.ToJSON..= paymentIntentLastPaymentError'Source'AccountHolderName obj) GHC.Base.<> (("account_holder_type" Data.Aeson.Types.ToJSON..= paymentIntentLastPaymentError'Source'AccountHolderType obj) GHC.Base.<> (("ach_credit_transfer" Data.Aeson.Types.ToJSON..= paymentIntentLastPaymentError'Source'AchCreditTransfer obj) GHC.Base.<> (("ach_debit" Data.Aeson.Types.ToJSON..= paymentIntentLastPaymentError'Source'AchDebit obj) GHC.Base.<> (("address_city" Data.Aeson.Types.ToJSON..= paymentIntentLastPaymentError'Source'AddressCity obj) GHC.Base.<> (("address_country" Data.Aeson.Types.ToJSON..= paymentIntentLastPaymentError'Source'AddressCountry obj) GHC.Base.<> (("address_line1" Data.Aeson.Types.ToJSON..= paymentIntentLastPaymentError'Source'AddressLine1 obj) GHC.Base.<> (("address_line1_check" Data.Aeson.Types.ToJSON..= paymentIntentLastPaymentError'Source'AddressLine1Check obj) GHC.Base.<> (("address_line2" Data.Aeson.Types.ToJSON..= paymentIntentLastPaymentError'Source'AddressLine2 obj) GHC.Base.<> (("address_state" Data.Aeson.Types.ToJSON..= paymentIntentLastPaymentError'Source'AddressState obj) GHC.Base.<> (("address_zip" Data.Aeson.Types.ToJSON..= paymentIntentLastPaymentError'Source'AddressZip obj) GHC.Base.<> (("address_zip_check" Data.Aeson.Types.ToJSON..= paymentIntentLastPaymentError'Source'AddressZipCheck obj) GHC.Base.<> (("alipay" Data.Aeson.Types.ToJSON..= paymentIntentLastPaymentError'Source'Alipay obj) GHC.Base.<> (("amount" Data.Aeson.Types.ToJSON..= paymentIntentLastPaymentError'Source'Amount obj) GHC.Base.<> (("available_payout_methods" Data.Aeson.Types.ToJSON..= paymentIntentLastPaymentError'Source'AvailablePayoutMethods obj) GHC.Base.<> (("bancontact" Data.Aeson.Types.ToJSON..= paymentIntentLastPaymentError'Source'Bancontact obj) GHC.Base.<> (("bank_name" Data.Aeson.Types.ToJSON..= paymentIntentLastPaymentError'Source'BankName obj) GHC.Base.<> (("brand" Data.Aeson.Types.ToJSON..= paymentIntentLastPaymentError'Source'Brand obj) GHC.Base.<> (("card" Data.Aeson.Types.ToJSON..= paymentIntentLastPaymentError'Source'Card obj) GHC.Base.<> (("card_present" Data.Aeson.Types.ToJSON..= paymentIntentLastPaymentError'Source'CardPresent obj) GHC.Base.<> (("client_secret" Data.Aeson.Types.ToJSON..= paymentIntentLastPaymentError'Source'ClientSecret obj) GHC.Base.<> (("code_verification" Data.Aeson.Types.ToJSON..= paymentIntentLastPaymentError'Source'CodeVerification obj) GHC.Base.<> (("country" Data.Aeson.Types.ToJSON..= paymentIntentLastPaymentError'Source'Country obj) GHC.Base.<> (("created" Data.Aeson.Types.ToJSON..= paymentIntentLastPaymentError'Source'Created obj) GHC.Base.<> (("currency" Data.Aeson.Types.ToJSON..= paymentIntentLastPaymentError'Source'Currency obj) GHC.Base.<> (("customer" Data.Aeson.Types.ToJSON..= paymentIntentLastPaymentError'Source'Customer obj) GHC.Base.<> (("cvc_check" Data.Aeson.Types.ToJSON..= paymentIntentLastPaymentError'Source'CvcCheck obj) GHC.Base.<> (("default_for_currency" Data.Aeson.Types.ToJSON..= paymentIntentLastPaymentError'Source'DefaultForCurrency obj) GHC.Base.<> (("dynamic_last4" Data.Aeson.Types.ToJSON..= paymentIntentLastPaymentError'Source'DynamicLast4 obj) GHC.Base.<> (("eps" Data.Aeson.Types.ToJSON..= paymentIntentLastPaymentError'Source'Eps obj) GHC.Base.<> (("exp_month" Data.Aeson.Types.ToJSON..= paymentIntentLastPaymentError'Source'ExpMonth obj) GHC.Base.<> (("exp_year" Data.Aeson.Types.ToJSON..= paymentIntentLastPaymentError'Source'ExpYear obj) GHC.Base.<> (("fingerprint" Data.Aeson.Types.ToJSON..= paymentIntentLastPaymentError'Source'Fingerprint obj) GHC.Base.<> (("flow" Data.Aeson.Types.ToJSON..= paymentIntentLastPaymentError'Source'Flow obj) GHC.Base.<> (("funding" Data.Aeson.Types.ToJSON..= paymentIntentLastPaymentError'Source'Funding obj) GHC.Base.<> (("giropay" Data.Aeson.Types.ToJSON..= paymentIntentLastPaymentError'Source'Giropay obj) GHC.Base.<> (("id" Data.Aeson.Types.ToJSON..= paymentIntentLastPaymentError'Source'Id obj) GHC.Base.<> (("ideal" Data.Aeson.Types.ToJSON..= paymentIntentLastPaymentError'Source'Ideal obj) GHC.Base.<> (("klarna" Data.Aeson.Types.ToJSON..= paymentIntentLastPaymentError'Source'Klarna obj) GHC.Base.<> (("last4" Data.Aeson.Types.ToJSON..= paymentIntentLastPaymentError'Source'Last4 obj) GHC.Base.<> (("livemode" Data.Aeson.Types.ToJSON..= paymentIntentLastPaymentError'Source'Livemode obj) GHC.Base.<> (("metadata" Data.Aeson.Types.ToJSON..= paymentIntentLastPaymentError'Source'Metadata obj) GHC.Base.<> (("multibanco" Data.Aeson.Types.ToJSON..= paymentIntentLastPaymentError'Source'Multibanco obj) GHC.Base.<> (("name" Data.Aeson.Types.ToJSON..= paymentIntentLastPaymentError'Source'Name obj) GHC.Base.<> (("owner" Data.Aeson.Types.ToJSON..= paymentIntentLastPaymentError'Source'Owner obj) GHC.Base.<> (("p24" Data.Aeson.Types.ToJSON..= paymentIntentLastPaymentError'Source'P24 obj) GHC.Base.<> (("receiver" Data.Aeson.Types.ToJSON..= paymentIntentLastPaymentError'Source'Receiver obj) GHC.Base.<> (("recipient" Data.Aeson.Types.ToJSON..= paymentIntentLastPaymentError'Source'Recipient obj) GHC.Base.<> (("redirect" Data.Aeson.Types.ToJSON..= paymentIntentLastPaymentError'Source'Redirect obj) GHC.Base.<> (("routing_number" Data.Aeson.Types.ToJSON..= paymentIntentLastPaymentError'Source'RoutingNumber obj) GHC.Base.<> (("sepa_debit" Data.Aeson.Types.ToJSON..= paymentIntentLastPaymentError'Source'SepaDebit obj) GHC.Base.<> (("sofort" Data.Aeson.Types.ToJSON..= paymentIntentLastPaymentError'Source'Sofort obj) GHC.Base.<> (("source_order" Data.Aeson.Types.ToJSON..= paymentIntentLastPaymentError'Source'SourceOrder obj) GHC.Base.<> (("statement_descriptor" Data.Aeson.Types.ToJSON..= paymentIntentLastPaymentError'Source'StatementDescriptor obj) GHC.Base.<> (("status" Data.Aeson.Types.ToJSON..= paymentIntentLastPaymentError'Source'Status obj) GHC.Base.<> (("three_d_secure" Data.Aeson.Types.ToJSON..= paymentIntentLastPaymentError'Source'ThreeDSecure obj) GHC.Base.<> (("tokenization_method" Data.Aeson.Types.ToJSON..= paymentIntentLastPaymentError'Source'TokenizationMethod obj) GHC.Base.<> (("type" Data.Aeson.Types.ToJSON..= paymentIntentLastPaymentError'Source'Type obj) GHC.Base.<> (("usage" Data.Aeson.Types.ToJSON..= paymentIntentLastPaymentError'Source'Usage obj) GHC.Base.<> (("wechat" Data.Aeson.Types.ToJSON..= paymentIntentLastPaymentError'Source'Wechat obj) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "bank_account"))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PaymentIntentLastPaymentError'Source' where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PaymentIntentLastPaymentError'Source'" (\obj -> (((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((GHC.Base.pure PaymentIntentLastPaymentError'Source' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "account")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "account_holder_name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "account_holder_type")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "ach_credit_transfer")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "ach_debit")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "address_city")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "address_country")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "address_line1")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "address_line1_check")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "address_line2")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "address_state")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "address_zip")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "address_zip_check")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "alipay")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "available_payout_methods")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "bancontact")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "bank_name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "brand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "card")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "card_present")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "client_secret")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "code_verification")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "country")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "created")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "customer")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "cvc_check")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "default_for_currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "dynamic_last4")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "eps")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "exp_month")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "exp_year")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "fingerprint")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "flow")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "funding")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "giropay")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "ideal")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "klarna")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "last4")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "livemode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "multibanco")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "object")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "owner")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "p24")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "receiver")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "recipient")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "redirect")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "routing_number")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "sepa_debit")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "sofort")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "source_order")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "statement_descriptor")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "status")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "three_d_secure")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "tokenization_method")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "type")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "usage")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "wechat"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PaymentIntentLastPaymentError'Source'" (\obj -> ((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((GHC.Base.pure PaymentIntentLastPaymentError'Source' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "account")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "account_holder_name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "account_holder_type")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "ach_credit_transfer")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "ach_debit")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "address_city")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "address_country")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "address_line1")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "address_line1_check")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "address_line2")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "address_state")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "address_zip")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "address_zip_check")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "alipay")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "available_payout_methods")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "bancontact")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "bank_name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "brand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "card")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "card_present")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "client_secret")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "code_verification")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "country")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "created")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "customer")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "cvc_check")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "default_for_currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "dynamic_last4")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "eps")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "exp_month")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "exp_year")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "fingerprint")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "flow")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "funding")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "giropay")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "ideal")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "klarna")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "last4")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "livemode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "multibanco")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "owner")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "p24")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "receiver")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "recipient")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "redirect")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "routing_number")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "sepa_debit")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "sofort")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "source_order")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "statement_descriptor")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "status")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "three_d_secure")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "tokenization_method")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "type")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "usage")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "wechat"))
 
--- | Define the one-of schema payment_intentLast_payment_error\'Source\'Account\'
+-- | Create a new 'PaymentIntentLastPaymentError'Source'' with all required fields.
+mkPaymentIntentLastPaymentError'Source' :: PaymentIntentLastPaymentError'Source'
+mkPaymentIntentLastPaymentError'Source' =
+  PaymentIntentLastPaymentError'Source'
+    { paymentIntentLastPaymentError'Source'Account = GHC.Maybe.Nothing,
+      paymentIntentLastPaymentError'Source'AccountHolderName = GHC.Maybe.Nothing,
+      paymentIntentLastPaymentError'Source'AccountHolderType = GHC.Maybe.Nothing,
+      paymentIntentLastPaymentError'Source'AchCreditTransfer = GHC.Maybe.Nothing,
+      paymentIntentLastPaymentError'Source'AchDebit = GHC.Maybe.Nothing,
+      paymentIntentLastPaymentError'Source'AddressCity = GHC.Maybe.Nothing,
+      paymentIntentLastPaymentError'Source'AddressCountry = GHC.Maybe.Nothing,
+      paymentIntentLastPaymentError'Source'AddressLine1 = GHC.Maybe.Nothing,
+      paymentIntentLastPaymentError'Source'AddressLine1Check = GHC.Maybe.Nothing,
+      paymentIntentLastPaymentError'Source'AddressLine2 = GHC.Maybe.Nothing,
+      paymentIntentLastPaymentError'Source'AddressState = GHC.Maybe.Nothing,
+      paymentIntentLastPaymentError'Source'AddressZip = GHC.Maybe.Nothing,
+      paymentIntentLastPaymentError'Source'AddressZipCheck = GHC.Maybe.Nothing,
+      paymentIntentLastPaymentError'Source'Alipay = GHC.Maybe.Nothing,
+      paymentIntentLastPaymentError'Source'Amount = GHC.Maybe.Nothing,
+      paymentIntentLastPaymentError'Source'AvailablePayoutMethods = GHC.Maybe.Nothing,
+      paymentIntentLastPaymentError'Source'Bancontact = GHC.Maybe.Nothing,
+      paymentIntentLastPaymentError'Source'BankName = GHC.Maybe.Nothing,
+      paymentIntentLastPaymentError'Source'Brand = GHC.Maybe.Nothing,
+      paymentIntentLastPaymentError'Source'Card = GHC.Maybe.Nothing,
+      paymentIntentLastPaymentError'Source'CardPresent = GHC.Maybe.Nothing,
+      paymentIntentLastPaymentError'Source'ClientSecret = GHC.Maybe.Nothing,
+      paymentIntentLastPaymentError'Source'CodeVerification = GHC.Maybe.Nothing,
+      paymentIntentLastPaymentError'Source'Country = GHC.Maybe.Nothing,
+      paymentIntentLastPaymentError'Source'Created = GHC.Maybe.Nothing,
+      paymentIntentLastPaymentError'Source'Currency = GHC.Maybe.Nothing,
+      paymentIntentLastPaymentError'Source'Customer = GHC.Maybe.Nothing,
+      paymentIntentLastPaymentError'Source'CvcCheck = GHC.Maybe.Nothing,
+      paymentIntentLastPaymentError'Source'DefaultForCurrency = GHC.Maybe.Nothing,
+      paymentIntentLastPaymentError'Source'DynamicLast4 = GHC.Maybe.Nothing,
+      paymentIntentLastPaymentError'Source'Eps = GHC.Maybe.Nothing,
+      paymentIntentLastPaymentError'Source'ExpMonth = GHC.Maybe.Nothing,
+      paymentIntentLastPaymentError'Source'ExpYear = GHC.Maybe.Nothing,
+      paymentIntentLastPaymentError'Source'Fingerprint = GHC.Maybe.Nothing,
+      paymentIntentLastPaymentError'Source'Flow = GHC.Maybe.Nothing,
+      paymentIntentLastPaymentError'Source'Funding = GHC.Maybe.Nothing,
+      paymentIntentLastPaymentError'Source'Giropay = GHC.Maybe.Nothing,
+      paymentIntentLastPaymentError'Source'Id = GHC.Maybe.Nothing,
+      paymentIntentLastPaymentError'Source'Ideal = GHC.Maybe.Nothing,
+      paymentIntentLastPaymentError'Source'Klarna = GHC.Maybe.Nothing,
+      paymentIntentLastPaymentError'Source'Last4 = GHC.Maybe.Nothing,
+      paymentIntentLastPaymentError'Source'Livemode = GHC.Maybe.Nothing,
+      paymentIntentLastPaymentError'Source'Metadata = GHC.Maybe.Nothing,
+      paymentIntentLastPaymentError'Source'Multibanco = GHC.Maybe.Nothing,
+      paymentIntentLastPaymentError'Source'Name = GHC.Maybe.Nothing,
+      paymentIntentLastPaymentError'Source'Owner = GHC.Maybe.Nothing,
+      paymentIntentLastPaymentError'Source'P24 = GHC.Maybe.Nothing,
+      paymentIntentLastPaymentError'Source'Receiver = GHC.Maybe.Nothing,
+      paymentIntentLastPaymentError'Source'Recipient = GHC.Maybe.Nothing,
+      paymentIntentLastPaymentError'Source'Redirect = GHC.Maybe.Nothing,
+      paymentIntentLastPaymentError'Source'RoutingNumber = GHC.Maybe.Nothing,
+      paymentIntentLastPaymentError'Source'SepaDebit = GHC.Maybe.Nothing,
+      paymentIntentLastPaymentError'Source'Sofort = GHC.Maybe.Nothing,
+      paymentIntentLastPaymentError'Source'SourceOrder = GHC.Maybe.Nothing,
+      paymentIntentLastPaymentError'Source'StatementDescriptor = GHC.Maybe.Nothing,
+      paymentIntentLastPaymentError'Source'Status = GHC.Maybe.Nothing,
+      paymentIntentLastPaymentError'Source'ThreeDSecure = GHC.Maybe.Nothing,
+      paymentIntentLastPaymentError'Source'TokenizationMethod = GHC.Maybe.Nothing,
+      paymentIntentLastPaymentError'Source'Type = GHC.Maybe.Nothing,
+      paymentIntentLastPaymentError'Source'Usage = GHC.Maybe.Nothing,
+      paymentIntentLastPaymentError'Source'Wechat = GHC.Maybe.Nothing
+    }
+
+-- | Defines the oneOf schema located at @components.schemas.payment_intent.properties.last_payment_error.anyOf.properties.source.anyOf.properties.account.anyOf@ in the specification.
 --
 -- The ID of the account that the bank account is associated with.
 data PaymentIntentLastPaymentError'Source'Account'Variants
@@ -767,35 +909,37 @@ instance Data.Aeson.Types.ToJSON.ToJSON PaymentIntentLastPaymentError'Source'Acc
   toJSON (PaymentIntentLastPaymentError'Source'Account'Text a) = Data.Aeson.Types.ToJSON.toJSON a
 
 instance Data.Aeson.Types.FromJSON.FromJSON PaymentIntentLastPaymentError'Source'Account'Variants where
-  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
-    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ PaymentIntentLastPaymentError'Source'Account'Account a
-    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ PaymentIntentLastPaymentError'Source'Account'Text a
-      Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+  parseJSON val = case (PaymentIntentLastPaymentError'Source'Account'Account Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((PaymentIntentLastPaymentError'Source'Account'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched") of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+    Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
--- | Defines the enum schema payment_intentLast_payment_error\'Source\'Available_payout_methods\'
+-- | Defines the enum schema located at @components.schemas.payment_intent.properties.last_payment_error.anyOf.properties.source.anyOf.properties.available_payout_methods.items@ in the specification.
 data PaymentIntentLastPaymentError'Source'AvailablePayoutMethods'
-  = PaymentIntentLastPaymentError'Source'AvailablePayoutMethods'EnumOther Data.Aeson.Types.Internal.Value
-  | PaymentIntentLastPaymentError'Source'AvailablePayoutMethods'EnumTyped Data.Text.Internal.Text
-  | PaymentIntentLastPaymentError'Source'AvailablePayoutMethods'EnumStringInstant
-  | PaymentIntentLastPaymentError'Source'AvailablePayoutMethods'EnumStringStandard
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    PaymentIntentLastPaymentError'Source'AvailablePayoutMethods'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    PaymentIntentLastPaymentError'Source'AvailablePayoutMethods'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"instant"@
+    PaymentIntentLastPaymentError'Source'AvailablePayoutMethods'EnumInstant
+  | -- | Represents the JSON value @"standard"@
+    PaymentIntentLastPaymentError'Source'AvailablePayoutMethods'EnumStandard
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
 instance Data.Aeson.Types.ToJSON.ToJSON PaymentIntentLastPaymentError'Source'AvailablePayoutMethods' where
-  toJSON (PaymentIntentLastPaymentError'Source'AvailablePayoutMethods'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PaymentIntentLastPaymentError'Source'AvailablePayoutMethods'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PaymentIntentLastPaymentError'Source'AvailablePayoutMethods'EnumStringInstant) = "instant"
-  toJSON (PaymentIntentLastPaymentError'Source'AvailablePayoutMethods'EnumStringStandard) = "standard"
+  toJSON (PaymentIntentLastPaymentError'Source'AvailablePayoutMethods'Other val) = val
+  toJSON (PaymentIntentLastPaymentError'Source'AvailablePayoutMethods'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PaymentIntentLastPaymentError'Source'AvailablePayoutMethods'EnumInstant) = "instant"
+  toJSON (PaymentIntentLastPaymentError'Source'AvailablePayoutMethods'EnumStandard) = "standard"
 
 instance Data.Aeson.Types.FromJSON.FromJSON PaymentIntentLastPaymentError'Source'AvailablePayoutMethods' where
   parseJSON val =
     GHC.Base.pure
-      ( if  | val GHC.Classes.== "instant" -> PaymentIntentLastPaymentError'Source'AvailablePayoutMethods'EnumStringInstant
-            | val GHC.Classes.== "standard" -> PaymentIntentLastPaymentError'Source'AvailablePayoutMethods'EnumStringStandard
-            | GHC.Base.otherwise -> PaymentIntentLastPaymentError'Source'AvailablePayoutMethods'EnumOther val
+      ( if  | val GHC.Classes.== "instant" -> PaymentIntentLastPaymentError'Source'AvailablePayoutMethods'EnumInstant
+            | val GHC.Classes.== "standard" -> PaymentIntentLastPaymentError'Source'AvailablePayoutMethods'EnumStandard
+            | GHC.Base.otherwise -> PaymentIntentLastPaymentError'Source'AvailablePayoutMethods'Other val
       )
 
--- | Define the one-of schema payment_intentLast_payment_error\'Source\'Customer\'
+-- | Defines the oneOf schema located at @components.schemas.payment_intent.properties.last_payment_error.anyOf.properties.source.anyOf.properties.customer.anyOf@ in the specification.
 --
 -- The ID of the customer that the bank account is associated with.
 data PaymentIntentLastPaymentError'Source'Customer'Variants
@@ -810,36 +954,11 @@ instance Data.Aeson.Types.ToJSON.ToJSON PaymentIntentLastPaymentError'Source'Cus
   toJSON (PaymentIntentLastPaymentError'Source'Customer'Text a) = Data.Aeson.Types.ToJSON.toJSON a
 
 instance Data.Aeson.Types.FromJSON.FromJSON PaymentIntentLastPaymentError'Source'Customer'Variants where
-  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
-    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ PaymentIntentLastPaymentError'Source'Customer'Customer a
-    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ PaymentIntentLastPaymentError'Source'Customer'DeletedCustomer a
-      Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-        Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ PaymentIntentLastPaymentError'Source'Customer'Text a
-        Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+  parseJSON val = case (PaymentIntentLastPaymentError'Source'Customer'Customer Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((PaymentIntentLastPaymentError'Source'Customer'DeletedCustomer Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((PaymentIntentLastPaymentError'Source'Customer'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched")) of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+    Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
--- | Defines the enum schema payment_intentLast_payment_error\'Source\'Object\'
---
--- String representing the object\'s type. Objects of the same type share the same value.
-data PaymentIntentLastPaymentError'Source'Object'
-  = PaymentIntentLastPaymentError'Source'Object'EnumOther Data.Aeson.Types.Internal.Value
-  | PaymentIntentLastPaymentError'Source'Object'EnumTyped Data.Text.Internal.Text
-  | PaymentIntentLastPaymentError'Source'Object'EnumStringBankAccount
-  deriving (GHC.Show.Show, GHC.Classes.Eq)
-
-instance Data.Aeson.Types.ToJSON.ToJSON PaymentIntentLastPaymentError'Source'Object' where
-  toJSON (PaymentIntentLastPaymentError'Source'Object'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PaymentIntentLastPaymentError'Source'Object'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PaymentIntentLastPaymentError'Source'Object'EnumStringBankAccount) = "bank_account"
-
-instance Data.Aeson.Types.FromJSON.FromJSON PaymentIntentLastPaymentError'Source'Object' where
-  parseJSON val =
-    GHC.Base.pure
-      ( if  | val GHC.Classes.== "bank_account" -> PaymentIntentLastPaymentError'Source'Object'EnumStringBankAccount
-            | GHC.Base.otherwise -> PaymentIntentLastPaymentError'Source'Object'EnumOther val
-      )
-
--- | Defines the data type for the schema payment_intentLast_payment_error\'Source\'Owner\'
+-- | Defines the object schema located at @components.schemas.payment_intent.properties.last_payment_error.anyOf.properties.source.anyOf.properties.owner.anyOf@ in the specification.
 --
 -- Information about the owner of the payment instrument that may be used or required by particular source types.
 data PaymentIntentLastPaymentError'Source'Owner'
@@ -891,13 +1010,27 @@ data PaymentIntentLastPaymentError'Source'Owner'
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PaymentIntentLastPaymentError'Source'Owner' where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "address" (paymentIntentLastPaymentError'Source'Owner'Address obj) : (Data.Aeson..=) "email" (paymentIntentLastPaymentError'Source'Owner'Email obj) : (Data.Aeson..=) "name" (paymentIntentLastPaymentError'Source'Owner'Name obj) : (Data.Aeson..=) "phone" (paymentIntentLastPaymentError'Source'Owner'Phone obj) : (Data.Aeson..=) "verified_address" (paymentIntentLastPaymentError'Source'Owner'VerifiedAddress obj) : (Data.Aeson..=) "verified_email" (paymentIntentLastPaymentError'Source'Owner'VerifiedEmail obj) : (Data.Aeson..=) "verified_name" (paymentIntentLastPaymentError'Source'Owner'VerifiedName obj) : (Data.Aeson..=) "verified_phone" (paymentIntentLastPaymentError'Source'Owner'VerifiedPhone obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "address" (paymentIntentLastPaymentError'Source'Owner'Address obj) GHC.Base.<> ((Data.Aeson..=) "email" (paymentIntentLastPaymentError'Source'Owner'Email obj) GHC.Base.<> ((Data.Aeson..=) "name" (paymentIntentLastPaymentError'Source'Owner'Name obj) GHC.Base.<> ((Data.Aeson..=) "phone" (paymentIntentLastPaymentError'Source'Owner'Phone obj) GHC.Base.<> ((Data.Aeson..=) "verified_address" (paymentIntentLastPaymentError'Source'Owner'VerifiedAddress obj) GHC.Base.<> ((Data.Aeson..=) "verified_email" (paymentIntentLastPaymentError'Source'Owner'VerifiedEmail obj) GHC.Base.<> ((Data.Aeson..=) "verified_name" (paymentIntentLastPaymentError'Source'Owner'VerifiedName obj) GHC.Base.<> (Data.Aeson..=) "verified_phone" (paymentIntentLastPaymentError'Source'Owner'VerifiedPhone obj))))))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("address" Data.Aeson.Types.ToJSON..= paymentIntentLastPaymentError'Source'Owner'Address obj : "email" Data.Aeson.Types.ToJSON..= paymentIntentLastPaymentError'Source'Owner'Email obj : "name" Data.Aeson.Types.ToJSON..= paymentIntentLastPaymentError'Source'Owner'Name obj : "phone" Data.Aeson.Types.ToJSON..= paymentIntentLastPaymentError'Source'Owner'Phone obj : "verified_address" Data.Aeson.Types.ToJSON..= paymentIntentLastPaymentError'Source'Owner'VerifiedAddress obj : "verified_email" Data.Aeson.Types.ToJSON..= paymentIntentLastPaymentError'Source'Owner'VerifiedEmail obj : "verified_name" Data.Aeson.Types.ToJSON..= paymentIntentLastPaymentError'Source'Owner'VerifiedName obj : "verified_phone" Data.Aeson.Types.ToJSON..= paymentIntentLastPaymentError'Source'Owner'VerifiedPhone obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("address" Data.Aeson.Types.ToJSON..= paymentIntentLastPaymentError'Source'Owner'Address obj) GHC.Base.<> (("email" Data.Aeson.Types.ToJSON..= paymentIntentLastPaymentError'Source'Owner'Email obj) GHC.Base.<> (("name" Data.Aeson.Types.ToJSON..= paymentIntentLastPaymentError'Source'Owner'Name obj) GHC.Base.<> (("phone" Data.Aeson.Types.ToJSON..= paymentIntentLastPaymentError'Source'Owner'Phone obj) GHC.Base.<> (("verified_address" Data.Aeson.Types.ToJSON..= paymentIntentLastPaymentError'Source'Owner'VerifiedAddress obj) GHC.Base.<> (("verified_email" Data.Aeson.Types.ToJSON..= paymentIntentLastPaymentError'Source'Owner'VerifiedEmail obj) GHC.Base.<> (("verified_name" Data.Aeson.Types.ToJSON..= paymentIntentLastPaymentError'Source'Owner'VerifiedName obj) GHC.Base.<> ("verified_phone" Data.Aeson.Types.ToJSON..= paymentIntentLastPaymentError'Source'Owner'VerifiedPhone obj))))))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PaymentIntentLastPaymentError'Source'Owner' where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PaymentIntentLastPaymentError'Source'Owner'" (\obj -> (((((((GHC.Base.pure PaymentIntentLastPaymentError'Source'Owner' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "address")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "email")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "phone")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "verified_address")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "verified_email")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "verified_name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "verified_phone"))
 
--- | Defines the data type for the schema payment_intentLast_payment_error\'Source\'Owner\'Address\'
+-- | Create a new 'PaymentIntentLastPaymentError'Source'Owner'' with all required fields.
+mkPaymentIntentLastPaymentError'Source'Owner' :: PaymentIntentLastPaymentError'Source'Owner'
+mkPaymentIntentLastPaymentError'Source'Owner' =
+  PaymentIntentLastPaymentError'Source'Owner'
+    { paymentIntentLastPaymentError'Source'Owner'Address = GHC.Maybe.Nothing,
+      paymentIntentLastPaymentError'Source'Owner'Email = GHC.Maybe.Nothing,
+      paymentIntentLastPaymentError'Source'Owner'Name = GHC.Maybe.Nothing,
+      paymentIntentLastPaymentError'Source'Owner'Phone = GHC.Maybe.Nothing,
+      paymentIntentLastPaymentError'Source'Owner'VerifiedAddress = GHC.Maybe.Nothing,
+      paymentIntentLastPaymentError'Source'Owner'VerifiedEmail = GHC.Maybe.Nothing,
+      paymentIntentLastPaymentError'Source'Owner'VerifiedName = GHC.Maybe.Nothing,
+      paymentIntentLastPaymentError'Source'Owner'VerifiedPhone = GHC.Maybe.Nothing
+    }
+
+-- | Defines the object schema located at @components.schemas.payment_intent.properties.last_payment_error.anyOf.properties.source.anyOf.properties.owner.anyOf.properties.address.anyOf@ in the specification.
 --
 -- Owner\\\'s address.
 data PaymentIntentLastPaymentError'Source'Owner'Address'
@@ -945,13 +1078,25 @@ data PaymentIntentLastPaymentError'Source'Owner'Address'
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PaymentIntentLastPaymentError'Source'Owner'Address' where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "city" (paymentIntentLastPaymentError'Source'Owner'Address'City obj) : (Data.Aeson..=) "country" (paymentIntentLastPaymentError'Source'Owner'Address'Country obj) : (Data.Aeson..=) "line1" (paymentIntentLastPaymentError'Source'Owner'Address'Line1 obj) : (Data.Aeson..=) "line2" (paymentIntentLastPaymentError'Source'Owner'Address'Line2 obj) : (Data.Aeson..=) "postal_code" (paymentIntentLastPaymentError'Source'Owner'Address'PostalCode obj) : (Data.Aeson..=) "state" (paymentIntentLastPaymentError'Source'Owner'Address'State obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "city" (paymentIntentLastPaymentError'Source'Owner'Address'City obj) GHC.Base.<> ((Data.Aeson..=) "country" (paymentIntentLastPaymentError'Source'Owner'Address'Country obj) GHC.Base.<> ((Data.Aeson..=) "line1" (paymentIntentLastPaymentError'Source'Owner'Address'Line1 obj) GHC.Base.<> ((Data.Aeson..=) "line2" (paymentIntentLastPaymentError'Source'Owner'Address'Line2 obj) GHC.Base.<> ((Data.Aeson..=) "postal_code" (paymentIntentLastPaymentError'Source'Owner'Address'PostalCode obj) GHC.Base.<> (Data.Aeson..=) "state" (paymentIntentLastPaymentError'Source'Owner'Address'State obj))))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("city" Data.Aeson.Types.ToJSON..= paymentIntentLastPaymentError'Source'Owner'Address'City obj : "country" Data.Aeson.Types.ToJSON..= paymentIntentLastPaymentError'Source'Owner'Address'Country obj : "line1" Data.Aeson.Types.ToJSON..= paymentIntentLastPaymentError'Source'Owner'Address'Line1 obj : "line2" Data.Aeson.Types.ToJSON..= paymentIntentLastPaymentError'Source'Owner'Address'Line2 obj : "postal_code" Data.Aeson.Types.ToJSON..= paymentIntentLastPaymentError'Source'Owner'Address'PostalCode obj : "state" Data.Aeson.Types.ToJSON..= paymentIntentLastPaymentError'Source'Owner'Address'State obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("city" Data.Aeson.Types.ToJSON..= paymentIntentLastPaymentError'Source'Owner'Address'City obj) GHC.Base.<> (("country" Data.Aeson.Types.ToJSON..= paymentIntentLastPaymentError'Source'Owner'Address'Country obj) GHC.Base.<> (("line1" Data.Aeson.Types.ToJSON..= paymentIntentLastPaymentError'Source'Owner'Address'Line1 obj) GHC.Base.<> (("line2" Data.Aeson.Types.ToJSON..= paymentIntentLastPaymentError'Source'Owner'Address'Line2 obj) GHC.Base.<> (("postal_code" Data.Aeson.Types.ToJSON..= paymentIntentLastPaymentError'Source'Owner'Address'PostalCode obj) GHC.Base.<> ("state" Data.Aeson.Types.ToJSON..= paymentIntentLastPaymentError'Source'Owner'Address'State obj))))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PaymentIntentLastPaymentError'Source'Owner'Address' where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PaymentIntentLastPaymentError'Source'Owner'Address'" (\obj -> (((((GHC.Base.pure PaymentIntentLastPaymentError'Source'Owner'Address' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "city")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "country")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "line1")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "line2")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "postal_code")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "state"))
 
--- | Defines the data type for the schema payment_intentLast_payment_error\'Source\'Owner\'Verified_address\'
+-- | Create a new 'PaymentIntentLastPaymentError'Source'Owner'Address'' with all required fields.
+mkPaymentIntentLastPaymentError'Source'Owner'Address' :: PaymentIntentLastPaymentError'Source'Owner'Address'
+mkPaymentIntentLastPaymentError'Source'Owner'Address' =
+  PaymentIntentLastPaymentError'Source'Owner'Address'
+    { paymentIntentLastPaymentError'Source'Owner'Address'City = GHC.Maybe.Nothing,
+      paymentIntentLastPaymentError'Source'Owner'Address'Country = GHC.Maybe.Nothing,
+      paymentIntentLastPaymentError'Source'Owner'Address'Line1 = GHC.Maybe.Nothing,
+      paymentIntentLastPaymentError'Source'Owner'Address'Line2 = GHC.Maybe.Nothing,
+      paymentIntentLastPaymentError'Source'Owner'Address'PostalCode = GHC.Maybe.Nothing,
+      paymentIntentLastPaymentError'Source'Owner'Address'State = GHC.Maybe.Nothing
+    }
+
+-- | Defines the object schema located at @components.schemas.payment_intent.properties.last_payment_error.anyOf.properties.source.anyOf.properties.owner.anyOf.properties.verified_address.anyOf@ in the specification.
 --
 -- Verified owner\\\'s address. Verified values are verified or provided by the payment method directly (and if supported) at the time of authorization or settlement. They cannot be set or mutated.
 data PaymentIntentLastPaymentError'Source'Owner'VerifiedAddress'
@@ -999,13 +1144,25 @@ data PaymentIntentLastPaymentError'Source'Owner'VerifiedAddress'
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PaymentIntentLastPaymentError'Source'Owner'VerifiedAddress' where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "city" (paymentIntentLastPaymentError'Source'Owner'VerifiedAddress'City obj) : (Data.Aeson..=) "country" (paymentIntentLastPaymentError'Source'Owner'VerifiedAddress'Country obj) : (Data.Aeson..=) "line1" (paymentIntentLastPaymentError'Source'Owner'VerifiedAddress'Line1 obj) : (Data.Aeson..=) "line2" (paymentIntentLastPaymentError'Source'Owner'VerifiedAddress'Line2 obj) : (Data.Aeson..=) "postal_code" (paymentIntentLastPaymentError'Source'Owner'VerifiedAddress'PostalCode obj) : (Data.Aeson..=) "state" (paymentIntentLastPaymentError'Source'Owner'VerifiedAddress'State obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "city" (paymentIntentLastPaymentError'Source'Owner'VerifiedAddress'City obj) GHC.Base.<> ((Data.Aeson..=) "country" (paymentIntentLastPaymentError'Source'Owner'VerifiedAddress'Country obj) GHC.Base.<> ((Data.Aeson..=) "line1" (paymentIntentLastPaymentError'Source'Owner'VerifiedAddress'Line1 obj) GHC.Base.<> ((Data.Aeson..=) "line2" (paymentIntentLastPaymentError'Source'Owner'VerifiedAddress'Line2 obj) GHC.Base.<> ((Data.Aeson..=) "postal_code" (paymentIntentLastPaymentError'Source'Owner'VerifiedAddress'PostalCode obj) GHC.Base.<> (Data.Aeson..=) "state" (paymentIntentLastPaymentError'Source'Owner'VerifiedAddress'State obj))))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("city" Data.Aeson.Types.ToJSON..= paymentIntentLastPaymentError'Source'Owner'VerifiedAddress'City obj : "country" Data.Aeson.Types.ToJSON..= paymentIntentLastPaymentError'Source'Owner'VerifiedAddress'Country obj : "line1" Data.Aeson.Types.ToJSON..= paymentIntentLastPaymentError'Source'Owner'VerifiedAddress'Line1 obj : "line2" Data.Aeson.Types.ToJSON..= paymentIntentLastPaymentError'Source'Owner'VerifiedAddress'Line2 obj : "postal_code" Data.Aeson.Types.ToJSON..= paymentIntentLastPaymentError'Source'Owner'VerifiedAddress'PostalCode obj : "state" Data.Aeson.Types.ToJSON..= paymentIntentLastPaymentError'Source'Owner'VerifiedAddress'State obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("city" Data.Aeson.Types.ToJSON..= paymentIntentLastPaymentError'Source'Owner'VerifiedAddress'City obj) GHC.Base.<> (("country" Data.Aeson.Types.ToJSON..= paymentIntentLastPaymentError'Source'Owner'VerifiedAddress'Country obj) GHC.Base.<> (("line1" Data.Aeson.Types.ToJSON..= paymentIntentLastPaymentError'Source'Owner'VerifiedAddress'Line1 obj) GHC.Base.<> (("line2" Data.Aeson.Types.ToJSON..= paymentIntentLastPaymentError'Source'Owner'VerifiedAddress'Line2 obj) GHC.Base.<> (("postal_code" Data.Aeson.Types.ToJSON..= paymentIntentLastPaymentError'Source'Owner'VerifiedAddress'PostalCode obj) GHC.Base.<> ("state" Data.Aeson.Types.ToJSON..= paymentIntentLastPaymentError'Source'Owner'VerifiedAddress'State obj))))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PaymentIntentLastPaymentError'Source'Owner'VerifiedAddress' where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PaymentIntentLastPaymentError'Source'Owner'VerifiedAddress'" (\obj -> (((((GHC.Base.pure PaymentIntentLastPaymentError'Source'Owner'VerifiedAddress' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "city")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "country")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "line1")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "line2")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "postal_code")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "state"))
 
--- | Define the one-of schema payment_intentLast_payment_error\'Source\'Recipient\'
+-- | Create a new 'PaymentIntentLastPaymentError'Source'Owner'VerifiedAddress'' with all required fields.
+mkPaymentIntentLastPaymentError'Source'Owner'VerifiedAddress' :: PaymentIntentLastPaymentError'Source'Owner'VerifiedAddress'
+mkPaymentIntentLastPaymentError'Source'Owner'VerifiedAddress' =
+  PaymentIntentLastPaymentError'Source'Owner'VerifiedAddress'
+    { paymentIntentLastPaymentError'Source'Owner'VerifiedAddress'City = GHC.Maybe.Nothing,
+      paymentIntentLastPaymentError'Source'Owner'VerifiedAddress'Country = GHC.Maybe.Nothing,
+      paymentIntentLastPaymentError'Source'Owner'VerifiedAddress'Line1 = GHC.Maybe.Nothing,
+      paymentIntentLastPaymentError'Source'Owner'VerifiedAddress'Line2 = GHC.Maybe.Nothing,
+      paymentIntentLastPaymentError'Source'Owner'VerifiedAddress'PostalCode = GHC.Maybe.Nothing,
+      paymentIntentLastPaymentError'Source'Owner'VerifiedAddress'State = GHC.Maybe.Nothing
+    }
+
+-- | Defines the oneOf schema located at @components.schemas.payment_intent.properties.last_payment_error.anyOf.properties.source.anyOf.properties.recipient.anyOf@ in the specification.
 --
 -- The recipient that this card belongs to. This attribute will not be in the card object if the card belongs to a customer or account instead.
 data PaymentIntentLastPaymentError'Source'Recipient'Variants
@@ -1018,118 +1175,143 @@ instance Data.Aeson.Types.ToJSON.ToJSON PaymentIntentLastPaymentError'Source'Rec
   toJSON (PaymentIntentLastPaymentError'Source'Recipient'Text a) = Data.Aeson.Types.ToJSON.toJSON a
 
 instance Data.Aeson.Types.FromJSON.FromJSON PaymentIntentLastPaymentError'Source'Recipient'Variants where
-  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
-    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ PaymentIntentLastPaymentError'Source'Recipient'Recipient a
-    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ PaymentIntentLastPaymentError'Source'Recipient'Text a
-      Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+  parseJSON val = case (PaymentIntentLastPaymentError'Source'Recipient'Recipient Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((PaymentIntentLastPaymentError'Source'Recipient'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched") of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+    Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
--- | Defines the enum schema payment_intentLast_payment_error\'Source\'Type\'
+-- | Defines the enum schema located at @components.schemas.payment_intent.properties.last_payment_error.anyOf.properties.source.anyOf.properties.type@ in the specification.
 --
 -- The \`type\` of the source. The \`type\` is a payment method, one of \`ach_credit_transfer\`, \`ach_debit\`, \`alipay\`, \`bancontact\`, \`card\`, \`card_present\`, \`eps\`, \`giropay\`, \`ideal\`, \`multibanco\`, \`klarna\`, \`p24\`, \`sepa_debit\`, \`sofort\`, \`three_d_secure\`, or \`wechat\`. An additional hash is included on the source with a name matching this value. It contains additional information specific to the [payment method](https:\/\/stripe.com\/docs\/sources) used.
 data PaymentIntentLastPaymentError'Source'Type'
-  = PaymentIntentLastPaymentError'Source'Type'EnumOther Data.Aeson.Types.Internal.Value
-  | PaymentIntentLastPaymentError'Source'Type'EnumTyped Data.Text.Internal.Text
-  | PaymentIntentLastPaymentError'Source'Type'EnumStringAchCreditTransfer
-  | PaymentIntentLastPaymentError'Source'Type'EnumStringAchDebit
-  | PaymentIntentLastPaymentError'Source'Type'EnumStringAlipay
-  | PaymentIntentLastPaymentError'Source'Type'EnumStringBancontact
-  | PaymentIntentLastPaymentError'Source'Type'EnumStringCard
-  | PaymentIntentLastPaymentError'Source'Type'EnumStringCardPresent
-  | PaymentIntentLastPaymentError'Source'Type'EnumStringEps
-  | PaymentIntentLastPaymentError'Source'Type'EnumStringGiropay
-  | PaymentIntentLastPaymentError'Source'Type'EnumStringIdeal
-  | PaymentIntentLastPaymentError'Source'Type'EnumStringKlarna
-  | PaymentIntentLastPaymentError'Source'Type'EnumStringMultibanco
-  | PaymentIntentLastPaymentError'Source'Type'EnumStringP24
-  | PaymentIntentLastPaymentError'Source'Type'EnumStringSepaDebit
-  | PaymentIntentLastPaymentError'Source'Type'EnumStringSofort
-  | PaymentIntentLastPaymentError'Source'Type'EnumStringThreeDSecure
-  | PaymentIntentLastPaymentError'Source'Type'EnumStringWechat
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    PaymentIntentLastPaymentError'Source'Type'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    PaymentIntentLastPaymentError'Source'Type'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"ach_credit_transfer"@
+    PaymentIntentLastPaymentError'Source'Type'EnumAchCreditTransfer
+  | -- | Represents the JSON value @"ach_debit"@
+    PaymentIntentLastPaymentError'Source'Type'EnumAchDebit
+  | -- | Represents the JSON value @"alipay"@
+    PaymentIntentLastPaymentError'Source'Type'EnumAlipay
+  | -- | Represents the JSON value @"bancontact"@
+    PaymentIntentLastPaymentError'Source'Type'EnumBancontact
+  | -- | Represents the JSON value @"card"@
+    PaymentIntentLastPaymentError'Source'Type'EnumCard
+  | -- | Represents the JSON value @"card_present"@
+    PaymentIntentLastPaymentError'Source'Type'EnumCardPresent
+  | -- | Represents the JSON value @"eps"@
+    PaymentIntentLastPaymentError'Source'Type'EnumEps
+  | -- | Represents the JSON value @"giropay"@
+    PaymentIntentLastPaymentError'Source'Type'EnumGiropay
+  | -- | Represents the JSON value @"ideal"@
+    PaymentIntentLastPaymentError'Source'Type'EnumIdeal
+  | -- | Represents the JSON value @"klarna"@
+    PaymentIntentLastPaymentError'Source'Type'EnumKlarna
+  | -- | Represents the JSON value @"multibanco"@
+    PaymentIntentLastPaymentError'Source'Type'EnumMultibanco
+  | -- | Represents the JSON value @"p24"@
+    PaymentIntentLastPaymentError'Source'Type'EnumP24
+  | -- | Represents the JSON value @"sepa_debit"@
+    PaymentIntentLastPaymentError'Source'Type'EnumSepaDebit
+  | -- | Represents the JSON value @"sofort"@
+    PaymentIntentLastPaymentError'Source'Type'EnumSofort
+  | -- | Represents the JSON value @"three_d_secure"@
+    PaymentIntentLastPaymentError'Source'Type'EnumThreeDSecure
+  | -- | Represents the JSON value @"wechat"@
+    PaymentIntentLastPaymentError'Source'Type'EnumWechat
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
 instance Data.Aeson.Types.ToJSON.ToJSON PaymentIntentLastPaymentError'Source'Type' where
-  toJSON (PaymentIntentLastPaymentError'Source'Type'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PaymentIntentLastPaymentError'Source'Type'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PaymentIntentLastPaymentError'Source'Type'EnumStringAchCreditTransfer) = "ach_credit_transfer"
-  toJSON (PaymentIntentLastPaymentError'Source'Type'EnumStringAchDebit) = "ach_debit"
-  toJSON (PaymentIntentLastPaymentError'Source'Type'EnumStringAlipay) = "alipay"
-  toJSON (PaymentIntentLastPaymentError'Source'Type'EnumStringBancontact) = "bancontact"
-  toJSON (PaymentIntentLastPaymentError'Source'Type'EnumStringCard) = "card"
-  toJSON (PaymentIntentLastPaymentError'Source'Type'EnumStringCardPresent) = "card_present"
-  toJSON (PaymentIntentLastPaymentError'Source'Type'EnumStringEps) = "eps"
-  toJSON (PaymentIntentLastPaymentError'Source'Type'EnumStringGiropay) = "giropay"
-  toJSON (PaymentIntentLastPaymentError'Source'Type'EnumStringIdeal) = "ideal"
-  toJSON (PaymentIntentLastPaymentError'Source'Type'EnumStringKlarna) = "klarna"
-  toJSON (PaymentIntentLastPaymentError'Source'Type'EnumStringMultibanco) = "multibanco"
-  toJSON (PaymentIntentLastPaymentError'Source'Type'EnumStringP24) = "p24"
-  toJSON (PaymentIntentLastPaymentError'Source'Type'EnumStringSepaDebit) = "sepa_debit"
-  toJSON (PaymentIntentLastPaymentError'Source'Type'EnumStringSofort) = "sofort"
-  toJSON (PaymentIntentLastPaymentError'Source'Type'EnumStringThreeDSecure) = "three_d_secure"
-  toJSON (PaymentIntentLastPaymentError'Source'Type'EnumStringWechat) = "wechat"
+  toJSON (PaymentIntentLastPaymentError'Source'Type'Other val) = val
+  toJSON (PaymentIntentLastPaymentError'Source'Type'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PaymentIntentLastPaymentError'Source'Type'EnumAchCreditTransfer) = "ach_credit_transfer"
+  toJSON (PaymentIntentLastPaymentError'Source'Type'EnumAchDebit) = "ach_debit"
+  toJSON (PaymentIntentLastPaymentError'Source'Type'EnumAlipay) = "alipay"
+  toJSON (PaymentIntentLastPaymentError'Source'Type'EnumBancontact) = "bancontact"
+  toJSON (PaymentIntentLastPaymentError'Source'Type'EnumCard) = "card"
+  toJSON (PaymentIntentLastPaymentError'Source'Type'EnumCardPresent) = "card_present"
+  toJSON (PaymentIntentLastPaymentError'Source'Type'EnumEps) = "eps"
+  toJSON (PaymentIntentLastPaymentError'Source'Type'EnumGiropay) = "giropay"
+  toJSON (PaymentIntentLastPaymentError'Source'Type'EnumIdeal) = "ideal"
+  toJSON (PaymentIntentLastPaymentError'Source'Type'EnumKlarna) = "klarna"
+  toJSON (PaymentIntentLastPaymentError'Source'Type'EnumMultibanco) = "multibanco"
+  toJSON (PaymentIntentLastPaymentError'Source'Type'EnumP24) = "p24"
+  toJSON (PaymentIntentLastPaymentError'Source'Type'EnumSepaDebit) = "sepa_debit"
+  toJSON (PaymentIntentLastPaymentError'Source'Type'EnumSofort) = "sofort"
+  toJSON (PaymentIntentLastPaymentError'Source'Type'EnumThreeDSecure) = "three_d_secure"
+  toJSON (PaymentIntentLastPaymentError'Source'Type'EnumWechat) = "wechat"
 
 instance Data.Aeson.Types.FromJSON.FromJSON PaymentIntentLastPaymentError'Source'Type' where
   parseJSON val =
     GHC.Base.pure
-      ( if  | val GHC.Classes.== "ach_credit_transfer" -> PaymentIntentLastPaymentError'Source'Type'EnumStringAchCreditTransfer
-            | val GHC.Classes.== "ach_debit" -> PaymentIntentLastPaymentError'Source'Type'EnumStringAchDebit
-            | val GHC.Classes.== "alipay" -> PaymentIntentLastPaymentError'Source'Type'EnumStringAlipay
-            | val GHC.Classes.== "bancontact" -> PaymentIntentLastPaymentError'Source'Type'EnumStringBancontact
-            | val GHC.Classes.== "card" -> PaymentIntentLastPaymentError'Source'Type'EnumStringCard
-            | val GHC.Classes.== "card_present" -> PaymentIntentLastPaymentError'Source'Type'EnumStringCardPresent
-            | val GHC.Classes.== "eps" -> PaymentIntentLastPaymentError'Source'Type'EnumStringEps
-            | val GHC.Classes.== "giropay" -> PaymentIntentLastPaymentError'Source'Type'EnumStringGiropay
-            | val GHC.Classes.== "ideal" -> PaymentIntentLastPaymentError'Source'Type'EnumStringIdeal
-            | val GHC.Classes.== "klarna" -> PaymentIntentLastPaymentError'Source'Type'EnumStringKlarna
-            | val GHC.Classes.== "multibanco" -> PaymentIntentLastPaymentError'Source'Type'EnumStringMultibanco
-            | val GHC.Classes.== "p24" -> PaymentIntentLastPaymentError'Source'Type'EnumStringP24
-            | val GHC.Classes.== "sepa_debit" -> PaymentIntentLastPaymentError'Source'Type'EnumStringSepaDebit
-            | val GHC.Classes.== "sofort" -> PaymentIntentLastPaymentError'Source'Type'EnumStringSofort
-            | val GHC.Classes.== "three_d_secure" -> PaymentIntentLastPaymentError'Source'Type'EnumStringThreeDSecure
-            | val GHC.Classes.== "wechat" -> PaymentIntentLastPaymentError'Source'Type'EnumStringWechat
-            | GHC.Base.otherwise -> PaymentIntentLastPaymentError'Source'Type'EnumOther val
+      ( if  | val GHC.Classes.== "ach_credit_transfer" -> PaymentIntentLastPaymentError'Source'Type'EnumAchCreditTransfer
+            | val GHC.Classes.== "ach_debit" -> PaymentIntentLastPaymentError'Source'Type'EnumAchDebit
+            | val GHC.Classes.== "alipay" -> PaymentIntentLastPaymentError'Source'Type'EnumAlipay
+            | val GHC.Classes.== "bancontact" -> PaymentIntentLastPaymentError'Source'Type'EnumBancontact
+            | val GHC.Classes.== "card" -> PaymentIntentLastPaymentError'Source'Type'EnumCard
+            | val GHC.Classes.== "card_present" -> PaymentIntentLastPaymentError'Source'Type'EnumCardPresent
+            | val GHC.Classes.== "eps" -> PaymentIntentLastPaymentError'Source'Type'EnumEps
+            | val GHC.Classes.== "giropay" -> PaymentIntentLastPaymentError'Source'Type'EnumGiropay
+            | val GHC.Classes.== "ideal" -> PaymentIntentLastPaymentError'Source'Type'EnumIdeal
+            | val GHC.Classes.== "klarna" -> PaymentIntentLastPaymentError'Source'Type'EnumKlarna
+            | val GHC.Classes.== "multibanco" -> PaymentIntentLastPaymentError'Source'Type'EnumMultibanco
+            | val GHC.Classes.== "p24" -> PaymentIntentLastPaymentError'Source'Type'EnumP24
+            | val GHC.Classes.== "sepa_debit" -> PaymentIntentLastPaymentError'Source'Type'EnumSepaDebit
+            | val GHC.Classes.== "sofort" -> PaymentIntentLastPaymentError'Source'Type'EnumSofort
+            | val GHC.Classes.== "three_d_secure" -> PaymentIntentLastPaymentError'Source'Type'EnumThreeDSecure
+            | val GHC.Classes.== "wechat" -> PaymentIntentLastPaymentError'Source'Type'EnumWechat
+            | GHC.Base.otherwise -> PaymentIntentLastPaymentError'Source'Type'Other val
       )
 
--- | Defines the enum schema payment_intentLast_payment_error\'Type\'
+-- | Defines the enum schema located at @components.schemas.payment_intent.properties.last_payment_error.anyOf.properties.type@ in the specification.
 --
 -- The type of error returned. One of \`api_connection_error\`, \`api_error\`, \`authentication_error\`, \`card_error\`, \`idempotency_error\`, \`invalid_request_error\`, or \`rate_limit_error\`
 data PaymentIntentLastPaymentError'Type'
-  = PaymentIntentLastPaymentError'Type'EnumOther Data.Aeson.Types.Internal.Value
-  | PaymentIntentLastPaymentError'Type'EnumTyped Data.Text.Internal.Text
-  | PaymentIntentLastPaymentError'Type'EnumStringApiConnectionError
-  | PaymentIntentLastPaymentError'Type'EnumStringApiError
-  | PaymentIntentLastPaymentError'Type'EnumStringAuthenticationError
-  | PaymentIntentLastPaymentError'Type'EnumStringCardError
-  | PaymentIntentLastPaymentError'Type'EnumStringIdempotencyError
-  | PaymentIntentLastPaymentError'Type'EnumStringInvalidRequestError
-  | PaymentIntentLastPaymentError'Type'EnumStringRateLimitError
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    PaymentIntentLastPaymentError'Type'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    PaymentIntentLastPaymentError'Type'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"api_connection_error"@
+    PaymentIntentLastPaymentError'Type'EnumApiConnectionError
+  | -- | Represents the JSON value @"api_error"@
+    PaymentIntentLastPaymentError'Type'EnumApiError
+  | -- | Represents the JSON value @"authentication_error"@
+    PaymentIntentLastPaymentError'Type'EnumAuthenticationError
+  | -- | Represents the JSON value @"card_error"@
+    PaymentIntentLastPaymentError'Type'EnumCardError
+  | -- | Represents the JSON value @"idempotency_error"@
+    PaymentIntentLastPaymentError'Type'EnumIdempotencyError
+  | -- | Represents the JSON value @"invalid_request_error"@
+    PaymentIntentLastPaymentError'Type'EnumInvalidRequestError
+  | -- | Represents the JSON value @"rate_limit_error"@
+    PaymentIntentLastPaymentError'Type'EnumRateLimitError
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
 instance Data.Aeson.Types.ToJSON.ToJSON PaymentIntentLastPaymentError'Type' where
-  toJSON (PaymentIntentLastPaymentError'Type'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PaymentIntentLastPaymentError'Type'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PaymentIntentLastPaymentError'Type'EnumStringApiConnectionError) = "api_connection_error"
-  toJSON (PaymentIntentLastPaymentError'Type'EnumStringApiError) = "api_error"
-  toJSON (PaymentIntentLastPaymentError'Type'EnumStringAuthenticationError) = "authentication_error"
-  toJSON (PaymentIntentLastPaymentError'Type'EnumStringCardError) = "card_error"
-  toJSON (PaymentIntentLastPaymentError'Type'EnumStringIdempotencyError) = "idempotency_error"
-  toJSON (PaymentIntentLastPaymentError'Type'EnumStringInvalidRequestError) = "invalid_request_error"
-  toJSON (PaymentIntentLastPaymentError'Type'EnumStringRateLimitError) = "rate_limit_error"
+  toJSON (PaymentIntentLastPaymentError'Type'Other val) = val
+  toJSON (PaymentIntentLastPaymentError'Type'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PaymentIntentLastPaymentError'Type'EnumApiConnectionError) = "api_connection_error"
+  toJSON (PaymentIntentLastPaymentError'Type'EnumApiError) = "api_error"
+  toJSON (PaymentIntentLastPaymentError'Type'EnumAuthenticationError) = "authentication_error"
+  toJSON (PaymentIntentLastPaymentError'Type'EnumCardError) = "card_error"
+  toJSON (PaymentIntentLastPaymentError'Type'EnumIdempotencyError) = "idempotency_error"
+  toJSON (PaymentIntentLastPaymentError'Type'EnumInvalidRequestError) = "invalid_request_error"
+  toJSON (PaymentIntentLastPaymentError'Type'EnumRateLimitError) = "rate_limit_error"
 
 instance Data.Aeson.Types.FromJSON.FromJSON PaymentIntentLastPaymentError'Type' where
   parseJSON val =
     GHC.Base.pure
-      ( if  | val GHC.Classes.== "api_connection_error" -> PaymentIntentLastPaymentError'Type'EnumStringApiConnectionError
-            | val GHC.Classes.== "api_error" -> PaymentIntentLastPaymentError'Type'EnumStringApiError
-            | val GHC.Classes.== "authentication_error" -> PaymentIntentLastPaymentError'Type'EnumStringAuthenticationError
-            | val GHC.Classes.== "card_error" -> PaymentIntentLastPaymentError'Type'EnumStringCardError
-            | val GHC.Classes.== "idempotency_error" -> PaymentIntentLastPaymentError'Type'EnumStringIdempotencyError
-            | val GHC.Classes.== "invalid_request_error" -> PaymentIntentLastPaymentError'Type'EnumStringInvalidRequestError
-            | val GHC.Classes.== "rate_limit_error" -> PaymentIntentLastPaymentError'Type'EnumStringRateLimitError
-            | GHC.Base.otherwise -> PaymentIntentLastPaymentError'Type'EnumOther val
+      ( if  | val GHC.Classes.== "api_connection_error" -> PaymentIntentLastPaymentError'Type'EnumApiConnectionError
+            | val GHC.Classes.== "api_error" -> PaymentIntentLastPaymentError'Type'EnumApiError
+            | val GHC.Classes.== "authentication_error" -> PaymentIntentLastPaymentError'Type'EnumAuthenticationError
+            | val GHC.Classes.== "card_error" -> PaymentIntentLastPaymentError'Type'EnumCardError
+            | val GHC.Classes.== "idempotency_error" -> PaymentIntentLastPaymentError'Type'EnumIdempotencyError
+            | val GHC.Classes.== "invalid_request_error" -> PaymentIntentLastPaymentError'Type'EnumInvalidRequestError
+            | val GHC.Classes.== "rate_limit_error" -> PaymentIntentLastPaymentError'Type'EnumRateLimitError
+            | GHC.Base.otherwise -> PaymentIntentLastPaymentError'Type'Other val
       )
 
--- | Defines the data type for the schema payment_intentNext_action\'
+-- | Defines the object schema located at @components.schemas.payment_intent.properties.next_action.anyOf@ in the specification.
 --
 -- If present, this property tells you what actions you need to take in order for your customer to fulfill a payment using the provided source.
 data PaymentIntentNextAction'
@@ -1151,34 +1333,22 @@ data PaymentIntentNextAction'
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PaymentIntentNextAction' where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "redirect_to_url" (paymentIntentNextAction'RedirectToUrl obj) : (Data.Aeson..=) "type" (paymentIntentNextAction'Type obj) : (Data.Aeson..=) "use_stripe_sdk" (paymentIntentNextAction'UseStripeSdk obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "redirect_to_url" (paymentIntentNextAction'RedirectToUrl obj) GHC.Base.<> ((Data.Aeson..=) "type" (paymentIntentNextAction'Type obj) GHC.Base.<> (Data.Aeson..=) "use_stripe_sdk" (paymentIntentNextAction'UseStripeSdk obj)))
+  toJSON obj = Data.Aeson.Types.Internal.object ("redirect_to_url" Data.Aeson.Types.ToJSON..= paymentIntentNextAction'RedirectToUrl obj : "type" Data.Aeson.Types.ToJSON..= paymentIntentNextAction'Type obj : "use_stripe_sdk" Data.Aeson.Types.ToJSON..= paymentIntentNextAction'UseStripeSdk obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("redirect_to_url" Data.Aeson.Types.ToJSON..= paymentIntentNextAction'RedirectToUrl obj) GHC.Base.<> (("type" Data.Aeson.Types.ToJSON..= paymentIntentNextAction'Type obj) GHC.Base.<> ("use_stripe_sdk" Data.Aeson.Types.ToJSON..= paymentIntentNextAction'UseStripeSdk obj)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PaymentIntentNextAction' where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PaymentIntentNextAction'" (\obj -> ((GHC.Base.pure PaymentIntentNextAction' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "redirect_to_url")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "type")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "use_stripe_sdk"))
 
--- | Defines the enum schema payment_intentObject\'
---
--- String representing the object\'s type. Objects of the same type share the same value.
-data PaymentIntentObject'
-  = PaymentIntentObject'EnumOther Data.Aeson.Types.Internal.Value
-  | PaymentIntentObject'EnumTyped Data.Text.Internal.Text
-  | PaymentIntentObject'EnumStringPaymentIntent
-  deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Create a new 'PaymentIntentNextAction'' with all required fields.
+mkPaymentIntentNextAction' :: PaymentIntentNextAction'
+mkPaymentIntentNextAction' =
+  PaymentIntentNextAction'
+    { paymentIntentNextAction'RedirectToUrl = GHC.Maybe.Nothing,
+      paymentIntentNextAction'Type = GHC.Maybe.Nothing,
+      paymentIntentNextAction'UseStripeSdk = GHC.Maybe.Nothing
+    }
 
-instance Data.Aeson.Types.ToJSON.ToJSON PaymentIntentObject' where
-  toJSON (PaymentIntentObject'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PaymentIntentObject'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PaymentIntentObject'EnumStringPaymentIntent) = "payment_intent"
-
-instance Data.Aeson.Types.FromJSON.FromJSON PaymentIntentObject' where
-  parseJSON val =
-    GHC.Base.pure
-      ( if  | val GHC.Classes.== "payment_intent" -> PaymentIntentObject'EnumStringPaymentIntent
-            | GHC.Base.otherwise -> PaymentIntentObject'EnumOther val
-      )
-
--- | Define the one-of schema payment_intentOn_behalf_of\'
+-- | Defines the oneOf schema located at @components.schemas.payment_intent.properties.on_behalf_of.anyOf@ in the specification.
 --
 -- The account (if any) for which the funds of the PaymentIntent are intended. See the PaymentIntents [use case for connected accounts](https:\/\/stripe.com\/docs\/payments\/connected-accounts) for details.
 data PaymentIntentOnBehalfOf'Variants
@@ -1191,13 +1361,11 @@ instance Data.Aeson.Types.ToJSON.ToJSON PaymentIntentOnBehalfOf'Variants where
   toJSON (PaymentIntentOnBehalfOf'Text a) = Data.Aeson.Types.ToJSON.toJSON a
 
 instance Data.Aeson.Types.FromJSON.FromJSON PaymentIntentOnBehalfOf'Variants where
-  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
-    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ PaymentIntentOnBehalfOf'Account a
-    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ PaymentIntentOnBehalfOf'Text a
-      Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+  parseJSON val = case (PaymentIntentOnBehalfOf'Account Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((PaymentIntentOnBehalfOf'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched") of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+    Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
--- | Define the one-of schema payment_intentPayment_method\'
+-- | Defines the oneOf schema located at @components.schemas.payment_intent.properties.payment_method.anyOf@ in the specification.
 --
 -- ID of the payment method used in this PaymentIntent.
 data PaymentIntentPaymentMethod'Variants
@@ -1210,13 +1378,11 @@ instance Data.Aeson.Types.ToJSON.ToJSON PaymentIntentPaymentMethod'Variants wher
   toJSON (PaymentIntentPaymentMethod'Text a) = Data.Aeson.Types.ToJSON.toJSON a
 
 instance Data.Aeson.Types.FromJSON.FromJSON PaymentIntentPaymentMethod'Variants where
-  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
-    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ PaymentIntentPaymentMethod'PaymentMethod a
-    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ PaymentIntentPaymentMethod'Text a
-      Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+  parseJSON val = case (PaymentIntentPaymentMethod'PaymentMethod Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((PaymentIntentPaymentMethod'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched") of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+    Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
--- | Defines the data type for the schema payment_intentPayment_method_options\'
+-- | Defines the object schema located at @components.schemas.payment_intent.properties.payment_method_options.anyOf@ in the specification.
 --
 -- Payment-method-specific configuration for this PaymentIntent.
 data PaymentIntentPaymentMethodOptions'
@@ -1230,13 +1396,17 @@ data PaymentIntentPaymentMethodOptions'
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PaymentIntentPaymentMethodOptions' where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "card" (paymentIntentPaymentMethodOptions'Card obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "card" (paymentIntentPaymentMethodOptions'Card obj))
+  toJSON obj = Data.Aeson.Types.Internal.object ("card" Data.Aeson.Types.ToJSON..= paymentIntentPaymentMethodOptions'Card obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs ("card" Data.Aeson.Types.ToJSON..= paymentIntentPaymentMethodOptions'Card obj)
 
 instance Data.Aeson.Types.FromJSON.FromJSON PaymentIntentPaymentMethodOptions' where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PaymentIntentPaymentMethodOptions'" (\obj -> GHC.Base.pure PaymentIntentPaymentMethodOptions' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "card"))
 
--- | Define the one-of schema payment_intentReview\'
+-- | Create a new 'PaymentIntentPaymentMethodOptions'' with all required fields.
+mkPaymentIntentPaymentMethodOptions' :: PaymentIntentPaymentMethodOptions'
+mkPaymentIntentPaymentMethodOptions' = PaymentIntentPaymentMethodOptions' {paymentIntentPaymentMethodOptions'Card = GHC.Maybe.Nothing}
+
+-- | Defines the oneOf schema located at @components.schemas.payment_intent.properties.review.anyOf@ in the specification.
 --
 -- ID of the review associated with this PaymentIntent, if any.
 data PaymentIntentReview'Variants
@@ -1249,13 +1419,11 @@ instance Data.Aeson.Types.ToJSON.ToJSON PaymentIntentReview'Variants where
   toJSON (PaymentIntentReview'Text a) = Data.Aeson.Types.ToJSON.toJSON a
 
 instance Data.Aeson.Types.FromJSON.FromJSON PaymentIntentReview'Variants where
-  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
-    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ PaymentIntentReview'Review a
-    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ PaymentIntentReview'Text a
-      Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+  parseJSON val = case (PaymentIntentReview'Review Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((PaymentIntentReview'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched") of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+    Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
--- | Defines the enum schema payment_intentSetup_future_usage\'
+-- | Defines the enum schema located at @components.schemas.payment_intent.properties.setup_future_usage@ in the specification.
 --
 -- Indicates that you intend to make future payments with this PaymentIntent\'s payment method.
 --
@@ -1265,27 +1433,31 @@ instance Data.Aeson.Types.FromJSON.FromJSON PaymentIntentReview'Variants where
 --
 -- Stripe uses \`setup_future_usage\` to dynamically optimize your payment flow and comply with regional legislation and network rules. For example, if your customer is impacted by [SCA](https:\/\/stripe.com\/docs\/strong-customer-authentication), using \`off_session\` will ensure that they are authenticated while processing this PaymentIntent. You will then be able to collect [off-session payments](https:\/\/stripe.com\/docs\/payments\/cards\/charging-saved-cards\#off-session-payments-with-saved-cards) for this customer.
 data PaymentIntentSetupFutureUsage'
-  = PaymentIntentSetupFutureUsage'EnumOther Data.Aeson.Types.Internal.Value
-  | PaymentIntentSetupFutureUsage'EnumTyped Data.Text.Internal.Text
-  | PaymentIntentSetupFutureUsage'EnumStringOffSession
-  | PaymentIntentSetupFutureUsage'EnumStringOnSession
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    PaymentIntentSetupFutureUsage'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    PaymentIntentSetupFutureUsage'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"off_session"@
+    PaymentIntentSetupFutureUsage'EnumOffSession
+  | -- | Represents the JSON value @"on_session"@
+    PaymentIntentSetupFutureUsage'EnumOnSession
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
 instance Data.Aeson.Types.ToJSON.ToJSON PaymentIntentSetupFutureUsage' where
-  toJSON (PaymentIntentSetupFutureUsage'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PaymentIntentSetupFutureUsage'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PaymentIntentSetupFutureUsage'EnumStringOffSession) = "off_session"
-  toJSON (PaymentIntentSetupFutureUsage'EnumStringOnSession) = "on_session"
+  toJSON (PaymentIntentSetupFutureUsage'Other val) = val
+  toJSON (PaymentIntentSetupFutureUsage'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PaymentIntentSetupFutureUsage'EnumOffSession) = "off_session"
+  toJSON (PaymentIntentSetupFutureUsage'EnumOnSession) = "on_session"
 
 instance Data.Aeson.Types.FromJSON.FromJSON PaymentIntentSetupFutureUsage' where
   parseJSON val =
     GHC.Base.pure
-      ( if  | val GHC.Classes.== "off_session" -> PaymentIntentSetupFutureUsage'EnumStringOffSession
-            | val GHC.Classes.== "on_session" -> PaymentIntentSetupFutureUsage'EnumStringOnSession
-            | GHC.Base.otherwise -> PaymentIntentSetupFutureUsage'EnumOther val
+      ( if  | val GHC.Classes.== "off_session" -> PaymentIntentSetupFutureUsage'EnumOffSession
+            | val GHC.Classes.== "on_session" -> PaymentIntentSetupFutureUsage'EnumOnSession
+            | GHC.Base.otherwise -> PaymentIntentSetupFutureUsage'Other val
       )
 
--- | Defines the data type for the schema payment_intentShipping\'
+-- | Defines the object schema located at @components.schemas.payment_intent.properties.shipping.anyOf@ in the specification.
 --
 -- Shipping information for this PaymentIntent.
 data PaymentIntentShipping'
@@ -1323,52 +1495,72 @@ data PaymentIntentShipping'
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PaymentIntentShipping' where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "address" (paymentIntentShipping'Address obj) : (Data.Aeson..=) "carrier" (paymentIntentShipping'Carrier obj) : (Data.Aeson..=) "name" (paymentIntentShipping'Name obj) : (Data.Aeson..=) "phone" (paymentIntentShipping'Phone obj) : (Data.Aeson..=) "tracking_number" (paymentIntentShipping'TrackingNumber obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "address" (paymentIntentShipping'Address obj) GHC.Base.<> ((Data.Aeson..=) "carrier" (paymentIntentShipping'Carrier obj) GHC.Base.<> ((Data.Aeson..=) "name" (paymentIntentShipping'Name obj) GHC.Base.<> ((Data.Aeson..=) "phone" (paymentIntentShipping'Phone obj) GHC.Base.<> (Data.Aeson..=) "tracking_number" (paymentIntentShipping'TrackingNumber obj)))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("address" Data.Aeson.Types.ToJSON..= paymentIntentShipping'Address obj : "carrier" Data.Aeson.Types.ToJSON..= paymentIntentShipping'Carrier obj : "name" Data.Aeson.Types.ToJSON..= paymentIntentShipping'Name obj : "phone" Data.Aeson.Types.ToJSON..= paymentIntentShipping'Phone obj : "tracking_number" Data.Aeson.Types.ToJSON..= paymentIntentShipping'TrackingNumber obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("address" Data.Aeson.Types.ToJSON..= paymentIntentShipping'Address obj) GHC.Base.<> (("carrier" Data.Aeson.Types.ToJSON..= paymentIntentShipping'Carrier obj) GHC.Base.<> (("name" Data.Aeson.Types.ToJSON..= paymentIntentShipping'Name obj) GHC.Base.<> (("phone" Data.Aeson.Types.ToJSON..= paymentIntentShipping'Phone obj) GHC.Base.<> ("tracking_number" Data.Aeson.Types.ToJSON..= paymentIntentShipping'TrackingNumber obj)))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PaymentIntentShipping' where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PaymentIntentShipping'" (\obj -> ((((GHC.Base.pure PaymentIntentShipping' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "address")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "carrier")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "phone")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "tracking_number"))
 
--- | Defines the enum schema payment_intentStatus\'
+-- | Create a new 'PaymentIntentShipping'' with all required fields.
+mkPaymentIntentShipping' :: PaymentIntentShipping'
+mkPaymentIntentShipping' =
+  PaymentIntentShipping'
+    { paymentIntentShipping'Address = GHC.Maybe.Nothing,
+      paymentIntentShipping'Carrier = GHC.Maybe.Nothing,
+      paymentIntentShipping'Name = GHC.Maybe.Nothing,
+      paymentIntentShipping'Phone = GHC.Maybe.Nothing,
+      paymentIntentShipping'TrackingNumber = GHC.Maybe.Nothing
+    }
+
+-- | Defines the enum schema located at @components.schemas.payment_intent.properties.status@ in the specification.
 --
 -- Status of this PaymentIntent, one of \`requires_payment_method\`, \`requires_confirmation\`, \`requires_action\`, \`processing\`, \`requires_capture\`, \`canceled\`, or \`succeeded\`. Read more about each PaymentIntent [status](https:\/\/stripe.com\/docs\/payments\/intents\#intent-statuses).
 data PaymentIntentStatus'
-  = PaymentIntentStatus'EnumOther Data.Aeson.Types.Internal.Value
-  | PaymentIntentStatus'EnumTyped Data.Text.Internal.Text
-  | PaymentIntentStatus'EnumStringCanceled
-  | PaymentIntentStatus'EnumStringProcessing
-  | PaymentIntentStatus'EnumStringRequiresAction
-  | PaymentIntentStatus'EnumStringRequiresCapture
-  | PaymentIntentStatus'EnumStringRequiresConfirmation
-  | PaymentIntentStatus'EnumStringRequiresPaymentMethod
-  | PaymentIntentStatus'EnumStringSucceeded
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    PaymentIntentStatus'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    PaymentIntentStatus'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"canceled"@
+    PaymentIntentStatus'EnumCanceled
+  | -- | Represents the JSON value @"processing"@
+    PaymentIntentStatus'EnumProcessing
+  | -- | Represents the JSON value @"requires_action"@
+    PaymentIntentStatus'EnumRequiresAction
+  | -- | Represents the JSON value @"requires_capture"@
+    PaymentIntentStatus'EnumRequiresCapture
+  | -- | Represents the JSON value @"requires_confirmation"@
+    PaymentIntentStatus'EnumRequiresConfirmation
+  | -- | Represents the JSON value @"requires_payment_method"@
+    PaymentIntentStatus'EnumRequiresPaymentMethod
+  | -- | Represents the JSON value @"succeeded"@
+    PaymentIntentStatus'EnumSucceeded
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
 instance Data.Aeson.Types.ToJSON.ToJSON PaymentIntentStatus' where
-  toJSON (PaymentIntentStatus'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PaymentIntentStatus'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PaymentIntentStatus'EnumStringCanceled) = "canceled"
-  toJSON (PaymentIntentStatus'EnumStringProcessing) = "processing"
-  toJSON (PaymentIntentStatus'EnumStringRequiresAction) = "requires_action"
-  toJSON (PaymentIntentStatus'EnumStringRequiresCapture) = "requires_capture"
-  toJSON (PaymentIntentStatus'EnumStringRequiresConfirmation) = "requires_confirmation"
-  toJSON (PaymentIntentStatus'EnumStringRequiresPaymentMethod) = "requires_payment_method"
-  toJSON (PaymentIntentStatus'EnumStringSucceeded) = "succeeded"
+  toJSON (PaymentIntentStatus'Other val) = val
+  toJSON (PaymentIntentStatus'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PaymentIntentStatus'EnumCanceled) = "canceled"
+  toJSON (PaymentIntentStatus'EnumProcessing) = "processing"
+  toJSON (PaymentIntentStatus'EnumRequiresAction) = "requires_action"
+  toJSON (PaymentIntentStatus'EnumRequiresCapture) = "requires_capture"
+  toJSON (PaymentIntentStatus'EnumRequiresConfirmation) = "requires_confirmation"
+  toJSON (PaymentIntentStatus'EnumRequiresPaymentMethod) = "requires_payment_method"
+  toJSON (PaymentIntentStatus'EnumSucceeded) = "succeeded"
 
 instance Data.Aeson.Types.FromJSON.FromJSON PaymentIntentStatus' where
   parseJSON val =
     GHC.Base.pure
-      ( if  | val GHC.Classes.== "canceled" -> PaymentIntentStatus'EnumStringCanceled
-            | val GHC.Classes.== "processing" -> PaymentIntentStatus'EnumStringProcessing
-            | val GHC.Classes.== "requires_action" -> PaymentIntentStatus'EnumStringRequiresAction
-            | val GHC.Classes.== "requires_capture" -> PaymentIntentStatus'EnumStringRequiresCapture
-            | val GHC.Classes.== "requires_confirmation" -> PaymentIntentStatus'EnumStringRequiresConfirmation
-            | val GHC.Classes.== "requires_payment_method" -> PaymentIntentStatus'EnumStringRequiresPaymentMethod
-            | val GHC.Classes.== "succeeded" -> PaymentIntentStatus'EnumStringSucceeded
-            | GHC.Base.otherwise -> PaymentIntentStatus'EnumOther val
+      ( if  | val GHC.Classes.== "canceled" -> PaymentIntentStatus'EnumCanceled
+            | val GHC.Classes.== "processing" -> PaymentIntentStatus'EnumProcessing
+            | val GHC.Classes.== "requires_action" -> PaymentIntentStatus'EnumRequiresAction
+            | val GHC.Classes.== "requires_capture" -> PaymentIntentStatus'EnumRequiresCapture
+            | val GHC.Classes.== "requires_confirmation" -> PaymentIntentStatus'EnumRequiresConfirmation
+            | val GHC.Classes.== "requires_payment_method" -> PaymentIntentStatus'EnumRequiresPaymentMethod
+            | val GHC.Classes.== "succeeded" -> PaymentIntentStatus'EnumSucceeded
+            | GHC.Base.otherwise -> PaymentIntentStatus'Other val
       )
 
--- | Defines the data type for the schema payment_intentTransfer_data\'
+-- | Defines the object schema located at @components.schemas.payment_intent.properties.transfer_data.anyOf@ in the specification.
 --
 -- The data with which to automatically create a Transfer when the payment is finalized. See the PaymentIntents [use case for connected accounts](https:\\\/\\\/stripe.com\\\/docs\\\/payments\\\/connected-accounts) for details.
 data PaymentIntentTransferData'
@@ -1386,13 +1578,21 @@ data PaymentIntentTransferData'
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PaymentIntentTransferData' where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "amount" (paymentIntentTransferData'Amount obj) : (Data.Aeson..=) "destination" (paymentIntentTransferData'Destination obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "amount" (paymentIntentTransferData'Amount obj) GHC.Base.<> (Data.Aeson..=) "destination" (paymentIntentTransferData'Destination obj))
+  toJSON obj = Data.Aeson.Types.Internal.object ("amount" Data.Aeson.Types.ToJSON..= paymentIntentTransferData'Amount obj : "destination" Data.Aeson.Types.ToJSON..= paymentIntentTransferData'Destination obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("amount" Data.Aeson.Types.ToJSON..= paymentIntentTransferData'Amount obj) GHC.Base.<> ("destination" Data.Aeson.Types.ToJSON..= paymentIntentTransferData'Destination obj))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PaymentIntentTransferData' where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PaymentIntentTransferData'" (\obj -> (GHC.Base.pure PaymentIntentTransferData' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "destination"))
 
--- | Define the one-of schema payment_intentTransfer_data\'Destination\'
+-- | Create a new 'PaymentIntentTransferData'' with all required fields.
+mkPaymentIntentTransferData' :: PaymentIntentTransferData'
+mkPaymentIntentTransferData' =
+  PaymentIntentTransferData'
+    { paymentIntentTransferData'Amount = GHC.Maybe.Nothing,
+      paymentIntentTransferData'Destination = GHC.Maybe.Nothing
+    }
+
+-- | Defines the oneOf schema located at @components.schemas.payment_intent.properties.transfer_data.anyOf.properties.destination.anyOf@ in the specification.
 --
 -- The account (if any) the payment will be attributed to for tax
 -- reporting, and where funds from the payment will be transferred to upon
@@ -1407,8 +1607,6 @@ instance Data.Aeson.Types.ToJSON.ToJSON PaymentIntentTransferData'Destination'Va
   toJSON (PaymentIntentTransferData'Destination'Text a) = Data.Aeson.Types.ToJSON.toJSON a
 
 instance Data.Aeson.Types.FromJSON.FromJSON PaymentIntentTransferData'Destination'Variants where
-  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
-    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ PaymentIntentTransferData'Destination'Account a
-    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ PaymentIntentTransferData'Destination'Text a
-      Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+  parseJSON val = case (PaymentIntentTransferData'Destination'Account Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((PaymentIntentTransferData'Destination'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched") of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+    Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a

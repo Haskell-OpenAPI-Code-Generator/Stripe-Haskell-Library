@@ -8,6 +8,7 @@ module StripeAPI.Types.MandateSingleUse where
 
 import qualified Control.Monad.Fail
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -30,7 +31,7 @@ import StripeAPI.TypeAlias
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
--- | Defines the data type for the schema mandate_single_use
+-- | Defines the object schema located at @components.schemas.mandate_single_use@ in the specification.
 data MandateSingleUse
   = MandateSingleUse
       { -- | amount: On a single use mandate, the amount of the payment.
@@ -44,8 +45,21 @@ data MandateSingleUse
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON MandateSingleUse where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "amount" (mandateSingleUseAmount obj) : (Data.Aeson..=) "currency" (mandateSingleUseCurrency obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "amount" (mandateSingleUseAmount obj) GHC.Base.<> (Data.Aeson..=) "currency" (mandateSingleUseCurrency obj))
+  toJSON obj = Data.Aeson.Types.Internal.object ("amount" Data.Aeson.Types.ToJSON..= mandateSingleUseAmount obj : "currency" Data.Aeson.Types.ToJSON..= mandateSingleUseCurrency obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("amount" Data.Aeson.Types.ToJSON..= mandateSingleUseAmount obj) GHC.Base.<> ("currency" Data.Aeson.Types.ToJSON..= mandateSingleUseCurrency obj))
 
 instance Data.Aeson.Types.FromJSON.FromJSON MandateSingleUse where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "MandateSingleUse" (\obj -> (GHC.Base.pure MandateSingleUse GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "currency"))
+
+-- | Create a new 'MandateSingleUse' with all required fields.
+mkMandateSingleUse ::
+  -- | 'mandateSingleUseAmount'
+  GHC.Types.Int ->
+  -- | 'mandateSingleUseCurrency'
+  Data.Text.Internal.Text ->
+  MandateSingleUse
+mkMandateSingleUse mandateSingleUseAmount mandateSingleUseCurrency =
+  MandateSingleUse
+    { mandateSingleUseAmount = mandateSingleUseAmount,
+      mandateSingleUseCurrency = mandateSingleUseCurrency
+    }

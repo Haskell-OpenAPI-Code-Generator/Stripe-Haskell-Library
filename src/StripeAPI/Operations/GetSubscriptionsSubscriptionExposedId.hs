@@ -10,6 +10,7 @@ module StripeAPI.Operations.GetSubscriptionsSubscriptionExposedId where
 import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -77,7 +78,7 @@ getSubscriptionsSubscriptionExposedId parameters =
     )
     (StripeAPI.Common.doCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET") (Data.Text.pack ("/v1/subscriptions/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel (getSubscriptionsSubscriptionExposedIdParametersPathSubscriptionExposedId parameters))) GHC.Base.++ ""))) [StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getSubscriptionsSubscriptionExposedIdParametersQueryExpand parameters) (Data.Text.pack "deepObject") GHC.Types.True])
 
--- | Defines the data type for the schema getSubscriptionsSubscriptionExposedIdParameters
+-- | Defines the object schema located at @paths.\/v1\/subscriptions\/{subscription_exposed_id}.GET.parameters@ in the specification.
 data GetSubscriptionsSubscriptionExposedIdParameters
   = GetSubscriptionsSubscriptionExposedIdParameters
       { -- | pathSubscription_exposed_id: Represents the parameter named \'subscription_exposed_id\'
@@ -97,11 +98,22 @@ data GetSubscriptionsSubscriptionExposedIdParameters
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetSubscriptionsSubscriptionExposedIdParameters where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "pathSubscription_exposed_id" (getSubscriptionsSubscriptionExposedIdParametersPathSubscriptionExposedId obj) : (Data.Aeson..=) "queryExpand" (getSubscriptionsSubscriptionExposedIdParametersQueryExpand obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "pathSubscription_exposed_id" (getSubscriptionsSubscriptionExposedIdParametersPathSubscriptionExposedId obj) GHC.Base.<> (Data.Aeson..=) "queryExpand" (getSubscriptionsSubscriptionExposedIdParametersQueryExpand obj))
+  toJSON obj = Data.Aeson.Types.Internal.object ("pathSubscription_exposed_id" Data.Aeson.Types.ToJSON..= getSubscriptionsSubscriptionExposedIdParametersPathSubscriptionExposedId obj : "queryExpand" Data.Aeson.Types.ToJSON..= getSubscriptionsSubscriptionExposedIdParametersQueryExpand obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("pathSubscription_exposed_id" Data.Aeson.Types.ToJSON..= getSubscriptionsSubscriptionExposedIdParametersPathSubscriptionExposedId obj) GHC.Base.<> ("queryExpand" Data.Aeson.Types.ToJSON..= getSubscriptionsSubscriptionExposedIdParametersQueryExpand obj))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetSubscriptionsSubscriptionExposedIdParameters where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "GetSubscriptionsSubscriptionExposedIdParameters" (\obj -> (GHC.Base.pure GetSubscriptionsSubscriptionExposedIdParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathSubscription_exposed_id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryExpand"))
+
+-- | Create a new 'GetSubscriptionsSubscriptionExposedIdParameters' with all required fields.
+mkGetSubscriptionsSubscriptionExposedIdParameters ::
+  -- | 'getSubscriptionsSubscriptionExposedIdParametersPathSubscriptionExposedId'
+  Data.Text.Internal.Text ->
+  GetSubscriptionsSubscriptionExposedIdParameters
+mkGetSubscriptionsSubscriptionExposedIdParameters getSubscriptionsSubscriptionExposedIdParametersPathSubscriptionExposedId =
+  GetSubscriptionsSubscriptionExposedIdParameters
+    { getSubscriptionsSubscriptionExposedIdParametersPathSubscriptionExposedId = getSubscriptionsSubscriptionExposedIdParametersPathSubscriptionExposedId,
+      getSubscriptionsSubscriptionExposedIdParametersQueryExpand = GHC.Maybe.Nothing
+    }
 
 -- | Represents a response of the operation 'getSubscriptionsSubscriptionExposedId'.
 --

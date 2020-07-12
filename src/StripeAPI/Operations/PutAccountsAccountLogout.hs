@@ -10,6 +10,7 @@ module StripeAPI.Operations.PutAccountsAccountLogout where
 import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -83,7 +84,7 @@ putAccountsAccountLogout
       )
       (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "PUT") (Data.Text.pack ("/v1/accounts/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel account)) GHC.Base.++ "/logout"))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
 
--- | Defines the data type for the schema putAccountsAccountLogoutRequestBody
+-- | Defines the object schema located at @paths.\/v1\/accounts\/{account}\/logout.PUT.requestBody.content.application\/x-www-form-urlencoded.schema@ in the specification.
 data PutAccountsAccountLogoutRequestBody
   = PutAccountsAccountLogoutRequestBody
       { -- | expand: Specifies which fields in the response should be expanded.
@@ -95,11 +96,15 @@ data PutAccountsAccountLogoutRequestBody
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PutAccountsAccountLogoutRequestBody where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "expand" (putAccountsAccountLogoutRequestBodyExpand obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "expand" (putAccountsAccountLogoutRequestBodyExpand obj))
+  toJSON obj = Data.Aeson.Types.Internal.object ("expand" Data.Aeson.Types.ToJSON..= putAccountsAccountLogoutRequestBodyExpand obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs ("expand" Data.Aeson.Types.ToJSON..= putAccountsAccountLogoutRequestBodyExpand obj)
 
 instance Data.Aeson.Types.FromJSON.FromJSON PutAccountsAccountLogoutRequestBody where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PutAccountsAccountLogoutRequestBody" (\obj -> GHC.Base.pure PutAccountsAccountLogoutRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "expand"))
+
+-- | Create a new 'PutAccountsAccountLogoutRequestBody' with all required fields.
+mkPutAccountsAccountLogoutRequestBody :: PutAccountsAccountLogoutRequestBody
+mkPutAccountsAccountLogoutRequestBody = PutAccountsAccountLogoutRequestBody {putAccountsAccountLogoutRequestBodyExpand = GHC.Maybe.Nothing}
 
 -- | Represents a response of the operation 'putAccountsAccountLogout'.
 --

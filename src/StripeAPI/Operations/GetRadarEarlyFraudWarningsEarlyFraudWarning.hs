@@ -10,6 +10,7 @@ module StripeAPI.Operations.GetRadarEarlyFraudWarningsEarlyFraudWarning where
 import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -79,7 +80,7 @@ getRadarEarlyFraudWarningsEarlyFraudWarning parameters =
     )
     (StripeAPI.Common.doCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET") (Data.Text.pack ("/v1/radar/early_fraud_warnings/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel (getRadarEarlyFraudWarningsEarlyFraudWarningParametersPathEarlyFraudWarning parameters))) GHC.Base.++ ""))) [StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getRadarEarlyFraudWarningsEarlyFraudWarningParametersQueryExpand parameters) (Data.Text.pack "deepObject") GHC.Types.True])
 
--- | Defines the data type for the schema getRadarEarlyFraudWarningsEarlyFraudWarningParameters
+-- | Defines the object schema located at @paths.\/v1\/radar\/early_fraud_warnings\/{early_fraud_warning}.GET.parameters@ in the specification.
 data GetRadarEarlyFraudWarningsEarlyFraudWarningParameters
   = GetRadarEarlyFraudWarningsEarlyFraudWarningParameters
       { -- | pathEarly_fraud_warning: Represents the parameter named \'early_fraud_warning\'
@@ -99,11 +100,22 @@ data GetRadarEarlyFraudWarningsEarlyFraudWarningParameters
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetRadarEarlyFraudWarningsEarlyFraudWarningParameters where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "pathEarly_fraud_warning" (getRadarEarlyFraudWarningsEarlyFraudWarningParametersPathEarlyFraudWarning obj) : (Data.Aeson..=) "queryExpand" (getRadarEarlyFraudWarningsEarlyFraudWarningParametersQueryExpand obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "pathEarly_fraud_warning" (getRadarEarlyFraudWarningsEarlyFraudWarningParametersPathEarlyFraudWarning obj) GHC.Base.<> (Data.Aeson..=) "queryExpand" (getRadarEarlyFraudWarningsEarlyFraudWarningParametersQueryExpand obj))
+  toJSON obj = Data.Aeson.Types.Internal.object ("pathEarly_fraud_warning" Data.Aeson.Types.ToJSON..= getRadarEarlyFraudWarningsEarlyFraudWarningParametersPathEarlyFraudWarning obj : "queryExpand" Data.Aeson.Types.ToJSON..= getRadarEarlyFraudWarningsEarlyFraudWarningParametersQueryExpand obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("pathEarly_fraud_warning" Data.Aeson.Types.ToJSON..= getRadarEarlyFraudWarningsEarlyFraudWarningParametersPathEarlyFraudWarning obj) GHC.Base.<> ("queryExpand" Data.Aeson.Types.ToJSON..= getRadarEarlyFraudWarningsEarlyFraudWarningParametersQueryExpand obj))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetRadarEarlyFraudWarningsEarlyFraudWarningParameters where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "GetRadarEarlyFraudWarningsEarlyFraudWarningParameters" (\obj -> (GHC.Base.pure GetRadarEarlyFraudWarningsEarlyFraudWarningParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathEarly_fraud_warning")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryExpand"))
+
+-- | Create a new 'GetRadarEarlyFraudWarningsEarlyFraudWarningParameters' with all required fields.
+mkGetRadarEarlyFraudWarningsEarlyFraudWarningParameters ::
+  -- | 'getRadarEarlyFraudWarningsEarlyFraudWarningParametersPathEarlyFraudWarning'
+  Data.Text.Internal.Text ->
+  GetRadarEarlyFraudWarningsEarlyFraudWarningParameters
+mkGetRadarEarlyFraudWarningsEarlyFraudWarningParameters getRadarEarlyFraudWarningsEarlyFraudWarningParametersPathEarlyFraudWarning =
+  GetRadarEarlyFraudWarningsEarlyFraudWarningParameters
+    { getRadarEarlyFraudWarningsEarlyFraudWarningParametersPathEarlyFraudWarning = getRadarEarlyFraudWarningsEarlyFraudWarningParametersPathEarlyFraudWarning,
+      getRadarEarlyFraudWarningsEarlyFraudWarningParametersQueryExpand = GHC.Maybe.Nothing
+    }
 
 -- | Represents a response of the operation 'getRadarEarlyFraudWarningsEarlyFraudWarning'.
 --

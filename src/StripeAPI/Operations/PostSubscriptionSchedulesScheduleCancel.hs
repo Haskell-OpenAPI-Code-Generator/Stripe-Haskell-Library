@@ -10,6 +10,7 @@ module StripeAPI.Operations.PostSubscriptionSchedulesScheduleCancel where
 import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -81,7 +82,7 @@ postSubscriptionSchedulesScheduleCancel
       )
       (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack ("/v1/subscription_schedules/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel schedule)) GHC.Base.++ "/cancel"))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
 
--- | Defines the data type for the schema postSubscriptionSchedulesScheduleCancelRequestBody
+-- | Defines the object schema located at @paths.\/v1\/subscription_schedules\/{schedule}\/cancel.POST.requestBody.content.application\/x-www-form-urlencoded.schema@ in the specification.
 data PostSubscriptionSchedulesScheduleCancelRequestBody
   = PostSubscriptionSchedulesScheduleCancelRequestBody
       { -- | expand: Specifies which fields in the response should be expanded.
@@ -97,11 +98,20 @@ data PostSubscriptionSchedulesScheduleCancelRequestBody
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostSubscriptionSchedulesScheduleCancelRequestBody where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "expand" (postSubscriptionSchedulesScheduleCancelRequestBodyExpand obj) : (Data.Aeson..=) "invoice_now" (postSubscriptionSchedulesScheduleCancelRequestBodyInvoiceNow obj) : (Data.Aeson..=) "prorate" (postSubscriptionSchedulesScheduleCancelRequestBodyProrate obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "expand" (postSubscriptionSchedulesScheduleCancelRequestBodyExpand obj) GHC.Base.<> ((Data.Aeson..=) "invoice_now" (postSubscriptionSchedulesScheduleCancelRequestBodyInvoiceNow obj) GHC.Base.<> (Data.Aeson..=) "prorate" (postSubscriptionSchedulesScheduleCancelRequestBodyProrate obj)))
+  toJSON obj = Data.Aeson.Types.Internal.object ("expand" Data.Aeson.Types.ToJSON..= postSubscriptionSchedulesScheduleCancelRequestBodyExpand obj : "invoice_now" Data.Aeson.Types.ToJSON..= postSubscriptionSchedulesScheduleCancelRequestBodyInvoiceNow obj : "prorate" Data.Aeson.Types.ToJSON..= postSubscriptionSchedulesScheduleCancelRequestBodyProrate obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("expand" Data.Aeson.Types.ToJSON..= postSubscriptionSchedulesScheduleCancelRequestBodyExpand obj) GHC.Base.<> (("invoice_now" Data.Aeson.Types.ToJSON..= postSubscriptionSchedulesScheduleCancelRequestBodyInvoiceNow obj) GHC.Base.<> ("prorate" Data.Aeson.Types.ToJSON..= postSubscriptionSchedulesScheduleCancelRequestBodyProrate obj)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostSubscriptionSchedulesScheduleCancelRequestBody where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PostSubscriptionSchedulesScheduleCancelRequestBody" (\obj -> ((GHC.Base.pure PostSubscriptionSchedulesScheduleCancelRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "invoice_now")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "prorate"))
+
+-- | Create a new 'PostSubscriptionSchedulesScheduleCancelRequestBody' with all required fields.
+mkPostSubscriptionSchedulesScheduleCancelRequestBody :: PostSubscriptionSchedulesScheduleCancelRequestBody
+mkPostSubscriptionSchedulesScheduleCancelRequestBody =
+  PostSubscriptionSchedulesScheduleCancelRequestBody
+    { postSubscriptionSchedulesScheduleCancelRequestBodyExpand = GHC.Maybe.Nothing,
+      postSubscriptionSchedulesScheduleCancelRequestBodyInvoiceNow = GHC.Maybe.Nothing,
+      postSubscriptionSchedulesScheduleCancelRequestBodyProrate = GHC.Maybe.Nothing
+    }
 
 -- | Represents a response of the operation 'postSubscriptionSchedulesScheduleCancel'.
 --

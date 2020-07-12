@@ -8,6 +8,7 @@ module StripeAPI.Types.ReserveTransaction where
 
 import qualified Control.Monad.Fail
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -30,7 +31,7 @@ import StripeAPI.TypeAlias
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
--- | Defines the data type for the schema reserve_transaction
+-- | Defines the object schema located at @components.schemas.reserve_transaction@ in the specification.
 data ReserveTransaction
   = ReserveTransaction
       { -- | amount
@@ -48,9 +49,7 @@ data ReserveTransaction
         -- Constraints:
         --
         -- * Maximum length of 5000
-        reserveTransactionId :: Data.Text.Internal.Text,
-        -- | object: String representing the object\'s type. Objects of the same type share the same value.
-        reserveTransactionObject :: ReserveTransactionObject'
+        reserveTransactionId :: Data.Text.Internal.Text
       }
   deriving
     ( GHC.Show.Show,
@@ -58,29 +57,25 @@ data ReserveTransaction
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON ReserveTransaction where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "amount" (reserveTransactionAmount obj) : (Data.Aeson..=) "currency" (reserveTransactionCurrency obj) : (Data.Aeson..=) "description" (reserveTransactionDescription obj) : (Data.Aeson..=) "id" (reserveTransactionId obj) : (Data.Aeson..=) "object" (reserveTransactionObject obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "amount" (reserveTransactionAmount obj) GHC.Base.<> ((Data.Aeson..=) "currency" (reserveTransactionCurrency obj) GHC.Base.<> ((Data.Aeson..=) "description" (reserveTransactionDescription obj) GHC.Base.<> ((Data.Aeson..=) "id" (reserveTransactionId obj) GHC.Base.<> (Data.Aeson..=) "object" (reserveTransactionObject obj)))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("amount" Data.Aeson.Types.ToJSON..= reserveTransactionAmount obj : "currency" Data.Aeson.Types.ToJSON..= reserveTransactionCurrency obj : "description" Data.Aeson.Types.ToJSON..= reserveTransactionDescription obj : "id" Data.Aeson.Types.ToJSON..= reserveTransactionId obj : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "reserve_transaction" : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("amount" Data.Aeson.Types.ToJSON..= reserveTransactionAmount obj) GHC.Base.<> (("currency" Data.Aeson.Types.ToJSON..= reserveTransactionCurrency obj) GHC.Base.<> (("description" Data.Aeson.Types.ToJSON..= reserveTransactionDescription obj) GHC.Base.<> (("id" Data.Aeson.Types.ToJSON..= reserveTransactionId obj) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "reserve_transaction")))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON ReserveTransaction where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "ReserveTransaction" (\obj -> ((((GHC.Base.pure ReserveTransaction GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "description")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "object"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "ReserveTransaction" (\obj -> (((GHC.Base.pure ReserveTransaction GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "description")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id"))
 
--- | Defines the enum schema reserve_transactionObject\'
---
--- String representing the object\'s type. Objects of the same type share the same value.
-data ReserveTransactionObject'
-  = ReserveTransactionObject'EnumOther Data.Aeson.Types.Internal.Value
-  | ReserveTransactionObject'EnumTyped Data.Text.Internal.Text
-  | ReserveTransactionObject'EnumStringReserveTransaction
-  deriving (GHC.Show.Show, GHC.Classes.Eq)
-
-instance Data.Aeson.Types.ToJSON.ToJSON ReserveTransactionObject' where
-  toJSON (ReserveTransactionObject'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (ReserveTransactionObject'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (ReserveTransactionObject'EnumStringReserveTransaction) = "reserve_transaction"
-
-instance Data.Aeson.Types.FromJSON.FromJSON ReserveTransactionObject' where
-  parseJSON val =
-    GHC.Base.pure
-      ( if  | val GHC.Classes.== "reserve_transaction" -> ReserveTransactionObject'EnumStringReserveTransaction
-            | GHC.Base.otherwise -> ReserveTransactionObject'EnumOther val
-      )
+-- | Create a new 'ReserveTransaction' with all required fields.
+mkReserveTransaction ::
+  -- | 'reserveTransactionAmount'
+  GHC.Types.Int ->
+  -- | 'reserveTransactionCurrency'
+  Data.Text.Internal.Text ->
+  -- | 'reserveTransactionId'
+  Data.Text.Internal.Text ->
+  ReserveTransaction
+mkReserveTransaction reserveTransactionAmount reserveTransactionCurrency reserveTransactionId =
+  ReserveTransaction
+    { reserveTransactionAmount = reserveTransactionAmount,
+      reserveTransactionCurrency = reserveTransactionCurrency,
+      reserveTransactionDescription = GHC.Maybe.Nothing,
+      reserveTransactionId = reserveTransactionId
+    }

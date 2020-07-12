@@ -1,18 +1,8 @@
 module StripeAPI.Types.DeletedSubscriptionItem where
 import Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Types.Internal
-data DeletedSubscriptionItem 
-instance Show DeletedSubscriptionItem 
-instance Eq DeletedSubscriptionItem 
-instance FromJSON DeletedSubscriptionItem 
-instance ToJSON DeletedSubscriptionItem 
-data DeletedSubscriptionItemDeleted'
-instance Show DeletedSubscriptionItemDeleted'
-instance Eq DeletedSubscriptionItemDeleted'
-instance FromJSON DeletedSubscriptionItemDeleted'
-instance ToJSON DeletedSubscriptionItemDeleted'
-data DeletedSubscriptionItemObject'
-instance Show DeletedSubscriptionItemObject'
-instance Eq DeletedSubscriptionItemObject'
-instance FromJSON DeletedSubscriptionItemObject'
-instance ToJSON DeletedSubscriptionItemObject'
+data DeletedSubscriptionItem
+instance Show DeletedSubscriptionItem
+instance Eq DeletedSubscriptionItem
+instance FromJSON DeletedSubscriptionItem
+instance ToJSON DeletedSubscriptionItem

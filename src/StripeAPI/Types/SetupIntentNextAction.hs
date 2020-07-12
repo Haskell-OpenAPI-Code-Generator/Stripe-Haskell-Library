@@ -8,6 +8,7 @@ module StripeAPI.Types.SetupIntentNextAction where
 
 import qualified Control.Monad.Fail
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -31,7 +32,7 @@ import {-# SOURCE #-} StripeAPI.Types.SetupIntentNextActionRedirectToUrl
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
--- | Defines the data type for the schema setup_intent_next_action
+-- | Defines the object schema located at @components.schemas.setup_intent_next_action@ in the specification.
 data SetupIntentNextAction
   = SetupIntentNextAction
       { -- | redirect_to_url:
@@ -51,8 +52,20 @@ data SetupIntentNextAction
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON SetupIntentNextAction where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "redirect_to_url" (setupIntentNextActionRedirectToUrl obj) : (Data.Aeson..=) "type" (setupIntentNextActionType obj) : (Data.Aeson..=) "use_stripe_sdk" (setupIntentNextActionUseStripeSdk obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "redirect_to_url" (setupIntentNextActionRedirectToUrl obj) GHC.Base.<> ((Data.Aeson..=) "type" (setupIntentNextActionType obj) GHC.Base.<> (Data.Aeson..=) "use_stripe_sdk" (setupIntentNextActionUseStripeSdk obj)))
+  toJSON obj = Data.Aeson.Types.Internal.object ("redirect_to_url" Data.Aeson.Types.ToJSON..= setupIntentNextActionRedirectToUrl obj : "type" Data.Aeson.Types.ToJSON..= setupIntentNextActionType obj : "use_stripe_sdk" Data.Aeson.Types.ToJSON..= setupIntentNextActionUseStripeSdk obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("redirect_to_url" Data.Aeson.Types.ToJSON..= setupIntentNextActionRedirectToUrl obj) GHC.Base.<> (("type" Data.Aeson.Types.ToJSON..= setupIntentNextActionType obj) GHC.Base.<> ("use_stripe_sdk" Data.Aeson.Types.ToJSON..= setupIntentNextActionUseStripeSdk obj)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON SetupIntentNextAction where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "SetupIntentNextAction" (\obj -> ((GHC.Base.pure SetupIntentNextAction GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "redirect_to_url")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "type")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "use_stripe_sdk"))
+
+-- | Create a new 'SetupIntentNextAction' with all required fields.
+mkSetupIntentNextAction ::
+  -- | 'setupIntentNextActionType'
+  Data.Text.Internal.Text ->
+  SetupIntentNextAction
+mkSetupIntentNextAction setupIntentNextActionType =
+  SetupIntentNextAction
+    { setupIntentNextActionRedirectToUrl = GHC.Maybe.Nothing,
+      setupIntentNextActionType = setupIntentNextActionType,
+      setupIntentNextActionUseStripeSdk = GHC.Maybe.Nothing
+    }

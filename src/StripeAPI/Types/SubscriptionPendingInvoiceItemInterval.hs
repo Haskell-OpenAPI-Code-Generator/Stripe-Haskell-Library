@@ -8,6 +8,7 @@ module StripeAPI.Types.SubscriptionPendingInvoiceItemInterval where
 
 import qualified Control.Monad.Fail
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -30,7 +31,7 @@ import StripeAPI.TypeAlias
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
--- | Defines the data type for the schema subscription_pending_invoice_item_interval
+-- | Defines the object schema located at @components.schemas.subscription_pending_invoice_item_interval@ in the specification.
 data SubscriptionPendingInvoiceItemInterval
   = SubscriptionPendingInvoiceItemInterval
       { -- | interval: Specifies invoicing frequency. Either \`day\`, \`week\`, \`month\` or \`year\`.
@@ -44,38 +45,57 @@ data SubscriptionPendingInvoiceItemInterval
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON SubscriptionPendingInvoiceItemInterval where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "interval" (subscriptionPendingInvoiceItemIntervalInterval obj) : (Data.Aeson..=) "interval_count" (subscriptionPendingInvoiceItemIntervalIntervalCount obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "interval" (subscriptionPendingInvoiceItemIntervalInterval obj) GHC.Base.<> (Data.Aeson..=) "interval_count" (subscriptionPendingInvoiceItemIntervalIntervalCount obj))
+  toJSON obj = Data.Aeson.Types.Internal.object ("interval" Data.Aeson.Types.ToJSON..= subscriptionPendingInvoiceItemIntervalInterval obj : "interval_count" Data.Aeson.Types.ToJSON..= subscriptionPendingInvoiceItemIntervalIntervalCount obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("interval" Data.Aeson.Types.ToJSON..= subscriptionPendingInvoiceItemIntervalInterval obj) GHC.Base.<> ("interval_count" Data.Aeson.Types.ToJSON..= subscriptionPendingInvoiceItemIntervalIntervalCount obj))
 
 instance Data.Aeson.Types.FromJSON.FromJSON SubscriptionPendingInvoiceItemInterval where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "SubscriptionPendingInvoiceItemInterval" (\obj -> (GHC.Base.pure SubscriptionPendingInvoiceItemInterval GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "interval")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "interval_count"))
 
--- | Defines the enum schema subscription_pending_invoice_item_intervalInterval\'
+-- | Create a new 'SubscriptionPendingInvoiceItemInterval' with all required fields.
+mkSubscriptionPendingInvoiceItemInterval ::
+  -- | 'subscriptionPendingInvoiceItemIntervalInterval'
+  SubscriptionPendingInvoiceItemIntervalInterval' ->
+  -- | 'subscriptionPendingInvoiceItemIntervalIntervalCount'
+  GHC.Types.Int ->
+  SubscriptionPendingInvoiceItemInterval
+mkSubscriptionPendingInvoiceItemInterval subscriptionPendingInvoiceItemIntervalInterval subscriptionPendingInvoiceItemIntervalIntervalCount =
+  SubscriptionPendingInvoiceItemInterval
+    { subscriptionPendingInvoiceItemIntervalInterval = subscriptionPendingInvoiceItemIntervalInterval,
+      subscriptionPendingInvoiceItemIntervalIntervalCount = subscriptionPendingInvoiceItemIntervalIntervalCount
+    }
+
+-- | Defines the enum schema located at @components.schemas.subscription_pending_invoice_item_interval.properties.interval@ in the specification.
 --
 -- Specifies invoicing frequency. Either \`day\`, \`week\`, \`month\` or \`year\`.
 data SubscriptionPendingInvoiceItemIntervalInterval'
-  = SubscriptionPendingInvoiceItemIntervalInterval'EnumOther Data.Aeson.Types.Internal.Value
-  | SubscriptionPendingInvoiceItemIntervalInterval'EnumTyped Data.Text.Internal.Text
-  | SubscriptionPendingInvoiceItemIntervalInterval'EnumStringDay
-  | SubscriptionPendingInvoiceItemIntervalInterval'EnumStringMonth
-  | SubscriptionPendingInvoiceItemIntervalInterval'EnumStringWeek
-  | SubscriptionPendingInvoiceItemIntervalInterval'EnumStringYear
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    SubscriptionPendingInvoiceItemIntervalInterval'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    SubscriptionPendingInvoiceItemIntervalInterval'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"day"@
+    SubscriptionPendingInvoiceItemIntervalInterval'EnumDay
+  | -- | Represents the JSON value @"month"@
+    SubscriptionPendingInvoiceItemIntervalInterval'EnumMonth
+  | -- | Represents the JSON value @"week"@
+    SubscriptionPendingInvoiceItemIntervalInterval'EnumWeek
+  | -- | Represents the JSON value @"year"@
+    SubscriptionPendingInvoiceItemIntervalInterval'EnumYear
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
 instance Data.Aeson.Types.ToJSON.ToJSON SubscriptionPendingInvoiceItemIntervalInterval' where
-  toJSON (SubscriptionPendingInvoiceItemIntervalInterval'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (SubscriptionPendingInvoiceItemIntervalInterval'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (SubscriptionPendingInvoiceItemIntervalInterval'EnumStringDay) = "day"
-  toJSON (SubscriptionPendingInvoiceItemIntervalInterval'EnumStringMonth) = "month"
-  toJSON (SubscriptionPendingInvoiceItemIntervalInterval'EnumStringWeek) = "week"
-  toJSON (SubscriptionPendingInvoiceItemIntervalInterval'EnumStringYear) = "year"
+  toJSON (SubscriptionPendingInvoiceItemIntervalInterval'Other val) = val
+  toJSON (SubscriptionPendingInvoiceItemIntervalInterval'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (SubscriptionPendingInvoiceItemIntervalInterval'EnumDay) = "day"
+  toJSON (SubscriptionPendingInvoiceItemIntervalInterval'EnumMonth) = "month"
+  toJSON (SubscriptionPendingInvoiceItemIntervalInterval'EnumWeek) = "week"
+  toJSON (SubscriptionPendingInvoiceItemIntervalInterval'EnumYear) = "year"
 
 instance Data.Aeson.Types.FromJSON.FromJSON SubscriptionPendingInvoiceItemIntervalInterval' where
   parseJSON val =
     GHC.Base.pure
-      ( if  | val GHC.Classes.== "day" -> SubscriptionPendingInvoiceItemIntervalInterval'EnumStringDay
-            | val GHC.Classes.== "month" -> SubscriptionPendingInvoiceItemIntervalInterval'EnumStringMonth
-            | val GHC.Classes.== "week" -> SubscriptionPendingInvoiceItemIntervalInterval'EnumStringWeek
-            | val GHC.Classes.== "year" -> SubscriptionPendingInvoiceItemIntervalInterval'EnumStringYear
-            | GHC.Base.otherwise -> SubscriptionPendingInvoiceItemIntervalInterval'EnumOther val
+      ( if  | val GHC.Classes.== "day" -> SubscriptionPendingInvoiceItemIntervalInterval'EnumDay
+            | val GHC.Classes.== "month" -> SubscriptionPendingInvoiceItemIntervalInterval'EnumMonth
+            | val GHC.Classes.== "week" -> SubscriptionPendingInvoiceItemIntervalInterval'EnumWeek
+            | val GHC.Classes.== "year" -> SubscriptionPendingInvoiceItemIntervalInterval'EnumYear
+            | GHC.Base.otherwise -> SubscriptionPendingInvoiceItemIntervalInterval'Other val
       )

@@ -10,6 +10,7 @@ module StripeAPI.Operations.GetSubscriptions where
 import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -92,7 +93,7 @@ getSubscriptions parameters =
         ]
     )
 
--- | Defines the data type for the schema getSubscriptionsParameters
+-- | Defines the object schema located at @paths.\/v1\/subscriptions.GET.parameters@ in the specification.
 data GetSubscriptionsParameters
   = GetSubscriptionsParameters
       { -- | queryCollection_method: Represents the parameter named \'collection_method\'
@@ -164,39 +165,60 @@ data GetSubscriptionsParameters
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetSubscriptionsParameters where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "queryCollection_method" (getSubscriptionsParametersQueryCollectionMethod obj) : (Data.Aeson..=) "queryCreated" (getSubscriptionsParametersQueryCreated obj) : (Data.Aeson..=) "queryCurrent_period_end" (getSubscriptionsParametersQueryCurrentPeriodEnd obj) : (Data.Aeson..=) "queryCurrent_period_start" (getSubscriptionsParametersQueryCurrentPeriodStart obj) : (Data.Aeson..=) "queryCustomer" (getSubscriptionsParametersQueryCustomer obj) : (Data.Aeson..=) "queryEnding_before" (getSubscriptionsParametersQueryEndingBefore obj) : (Data.Aeson..=) "queryExpand" (getSubscriptionsParametersQueryExpand obj) : (Data.Aeson..=) "queryLimit" (getSubscriptionsParametersQueryLimit obj) : (Data.Aeson..=) "queryPlan" (getSubscriptionsParametersQueryPlan obj) : (Data.Aeson..=) "queryStarting_after" (getSubscriptionsParametersQueryStartingAfter obj) : (Data.Aeson..=) "queryStatus" (getSubscriptionsParametersQueryStatus obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "queryCollection_method" (getSubscriptionsParametersQueryCollectionMethod obj) GHC.Base.<> ((Data.Aeson..=) "queryCreated" (getSubscriptionsParametersQueryCreated obj) GHC.Base.<> ((Data.Aeson..=) "queryCurrent_period_end" (getSubscriptionsParametersQueryCurrentPeriodEnd obj) GHC.Base.<> ((Data.Aeson..=) "queryCurrent_period_start" (getSubscriptionsParametersQueryCurrentPeriodStart obj) GHC.Base.<> ((Data.Aeson..=) "queryCustomer" (getSubscriptionsParametersQueryCustomer obj) GHC.Base.<> ((Data.Aeson..=) "queryEnding_before" (getSubscriptionsParametersQueryEndingBefore obj) GHC.Base.<> ((Data.Aeson..=) "queryExpand" (getSubscriptionsParametersQueryExpand obj) GHC.Base.<> ((Data.Aeson..=) "queryLimit" (getSubscriptionsParametersQueryLimit obj) GHC.Base.<> ((Data.Aeson..=) "queryPlan" (getSubscriptionsParametersQueryPlan obj) GHC.Base.<> ((Data.Aeson..=) "queryStarting_after" (getSubscriptionsParametersQueryStartingAfter obj) GHC.Base.<> (Data.Aeson..=) "queryStatus" (getSubscriptionsParametersQueryStatus obj)))))))))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("queryCollection_method" Data.Aeson.Types.ToJSON..= getSubscriptionsParametersQueryCollectionMethod obj : "queryCreated" Data.Aeson.Types.ToJSON..= getSubscriptionsParametersQueryCreated obj : "queryCurrent_period_end" Data.Aeson.Types.ToJSON..= getSubscriptionsParametersQueryCurrentPeriodEnd obj : "queryCurrent_period_start" Data.Aeson.Types.ToJSON..= getSubscriptionsParametersQueryCurrentPeriodStart obj : "queryCustomer" Data.Aeson.Types.ToJSON..= getSubscriptionsParametersQueryCustomer obj : "queryEnding_before" Data.Aeson.Types.ToJSON..= getSubscriptionsParametersQueryEndingBefore obj : "queryExpand" Data.Aeson.Types.ToJSON..= getSubscriptionsParametersQueryExpand obj : "queryLimit" Data.Aeson.Types.ToJSON..= getSubscriptionsParametersQueryLimit obj : "queryPlan" Data.Aeson.Types.ToJSON..= getSubscriptionsParametersQueryPlan obj : "queryStarting_after" Data.Aeson.Types.ToJSON..= getSubscriptionsParametersQueryStartingAfter obj : "queryStatus" Data.Aeson.Types.ToJSON..= getSubscriptionsParametersQueryStatus obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("queryCollection_method" Data.Aeson.Types.ToJSON..= getSubscriptionsParametersQueryCollectionMethod obj) GHC.Base.<> (("queryCreated" Data.Aeson.Types.ToJSON..= getSubscriptionsParametersQueryCreated obj) GHC.Base.<> (("queryCurrent_period_end" Data.Aeson.Types.ToJSON..= getSubscriptionsParametersQueryCurrentPeriodEnd obj) GHC.Base.<> (("queryCurrent_period_start" Data.Aeson.Types.ToJSON..= getSubscriptionsParametersQueryCurrentPeriodStart obj) GHC.Base.<> (("queryCustomer" Data.Aeson.Types.ToJSON..= getSubscriptionsParametersQueryCustomer obj) GHC.Base.<> (("queryEnding_before" Data.Aeson.Types.ToJSON..= getSubscriptionsParametersQueryEndingBefore obj) GHC.Base.<> (("queryExpand" Data.Aeson.Types.ToJSON..= getSubscriptionsParametersQueryExpand obj) GHC.Base.<> (("queryLimit" Data.Aeson.Types.ToJSON..= getSubscriptionsParametersQueryLimit obj) GHC.Base.<> (("queryPlan" Data.Aeson.Types.ToJSON..= getSubscriptionsParametersQueryPlan obj) GHC.Base.<> (("queryStarting_after" Data.Aeson.Types.ToJSON..= getSubscriptionsParametersQueryStartingAfter obj) GHC.Base.<> ("queryStatus" Data.Aeson.Types.ToJSON..= getSubscriptionsParametersQueryStatus obj)))))))))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetSubscriptionsParameters where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "GetSubscriptionsParameters" (\obj -> ((((((((((GHC.Base.pure GetSubscriptionsParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryCollection_method")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryCreated")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryCurrent_period_end")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryCurrent_period_start")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryCustomer")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryEnding_before")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryExpand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryLimit")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryPlan")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryStarting_after")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryStatus"))
 
--- | Defines the enum schema getSubscriptionsParametersQueryCollection_method\'
+-- | Create a new 'GetSubscriptionsParameters' with all required fields.
+mkGetSubscriptionsParameters :: GetSubscriptionsParameters
+mkGetSubscriptionsParameters =
+  GetSubscriptionsParameters
+    { getSubscriptionsParametersQueryCollectionMethod = GHC.Maybe.Nothing,
+      getSubscriptionsParametersQueryCreated = GHC.Maybe.Nothing,
+      getSubscriptionsParametersQueryCurrentPeriodEnd = GHC.Maybe.Nothing,
+      getSubscriptionsParametersQueryCurrentPeriodStart = GHC.Maybe.Nothing,
+      getSubscriptionsParametersQueryCustomer = GHC.Maybe.Nothing,
+      getSubscriptionsParametersQueryEndingBefore = GHC.Maybe.Nothing,
+      getSubscriptionsParametersQueryExpand = GHC.Maybe.Nothing,
+      getSubscriptionsParametersQueryLimit = GHC.Maybe.Nothing,
+      getSubscriptionsParametersQueryPlan = GHC.Maybe.Nothing,
+      getSubscriptionsParametersQueryStartingAfter = GHC.Maybe.Nothing,
+      getSubscriptionsParametersQueryStatus = GHC.Maybe.Nothing
+    }
+
+-- | Defines the enum schema located at @paths.\/v1\/subscriptions.GET.parameters.properties.queryCollection_method@ in the specification.
 --
 -- Represents the parameter named \'collection_method\'
 --
 -- The collection method of the subscriptions to retrieve. Either \`charge_automatically\` or \`send_invoice\`.
 data GetSubscriptionsParametersQueryCollectionMethod'
-  = GetSubscriptionsParametersQueryCollectionMethod'EnumOther Data.Aeson.Types.Internal.Value
-  | GetSubscriptionsParametersQueryCollectionMethod'EnumTyped Data.Text.Internal.Text
-  | GetSubscriptionsParametersQueryCollectionMethod'EnumStringChargeAutomatically
-  | GetSubscriptionsParametersQueryCollectionMethod'EnumStringSendInvoice
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    GetSubscriptionsParametersQueryCollectionMethod'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    GetSubscriptionsParametersQueryCollectionMethod'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"charge_automatically"@
+    GetSubscriptionsParametersQueryCollectionMethod'EnumChargeAutomatically
+  | -- | Represents the JSON value @"send_invoice"@
+    GetSubscriptionsParametersQueryCollectionMethod'EnumSendInvoice
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetSubscriptionsParametersQueryCollectionMethod' where
-  toJSON (GetSubscriptionsParametersQueryCollectionMethod'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (GetSubscriptionsParametersQueryCollectionMethod'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (GetSubscriptionsParametersQueryCollectionMethod'EnumStringChargeAutomatically) = "charge_automatically"
-  toJSON (GetSubscriptionsParametersQueryCollectionMethod'EnumStringSendInvoice) = "send_invoice"
+  toJSON (GetSubscriptionsParametersQueryCollectionMethod'Other val) = val
+  toJSON (GetSubscriptionsParametersQueryCollectionMethod'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (GetSubscriptionsParametersQueryCollectionMethod'EnumChargeAutomatically) = "charge_automatically"
+  toJSON (GetSubscriptionsParametersQueryCollectionMethod'EnumSendInvoice) = "send_invoice"
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetSubscriptionsParametersQueryCollectionMethod' where
   parseJSON val =
     GHC.Base.pure
-      ( if  | val GHC.Classes.== "charge_automatically" -> GetSubscriptionsParametersQueryCollectionMethod'EnumStringChargeAutomatically
-            | val GHC.Classes.== "send_invoice" -> GetSubscriptionsParametersQueryCollectionMethod'EnumStringSendInvoice
-            | GHC.Base.otherwise -> GetSubscriptionsParametersQueryCollectionMethod'EnumOther val
+      ( if  | val GHC.Classes.== "charge_automatically" -> GetSubscriptionsParametersQueryCollectionMethod'EnumChargeAutomatically
+            | val GHC.Classes.== "send_invoice" -> GetSubscriptionsParametersQueryCollectionMethod'EnumSendInvoice
+            | GHC.Base.otherwise -> GetSubscriptionsParametersQueryCollectionMethod'Other val
       )
 
--- | Defines the data type for the schema getSubscriptionsParametersQueryCreated\'OneOf2
+-- | Defines the object schema located at @paths.\/v1\/subscriptions.GET.parameters.properties.queryCreated.anyOf@ in the specification.
 data GetSubscriptionsParametersQueryCreated'OneOf2
   = GetSubscriptionsParametersQueryCreated'OneOf2
       { -- | gt
@@ -214,13 +236,23 @@ data GetSubscriptionsParametersQueryCreated'OneOf2
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetSubscriptionsParametersQueryCreated'OneOf2 where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "gt" (getSubscriptionsParametersQueryCreated'OneOf2Gt obj) : (Data.Aeson..=) "gte" (getSubscriptionsParametersQueryCreated'OneOf2Gte obj) : (Data.Aeson..=) "lt" (getSubscriptionsParametersQueryCreated'OneOf2Lt obj) : (Data.Aeson..=) "lte" (getSubscriptionsParametersQueryCreated'OneOf2Lte obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "gt" (getSubscriptionsParametersQueryCreated'OneOf2Gt obj) GHC.Base.<> ((Data.Aeson..=) "gte" (getSubscriptionsParametersQueryCreated'OneOf2Gte obj) GHC.Base.<> ((Data.Aeson..=) "lt" (getSubscriptionsParametersQueryCreated'OneOf2Lt obj) GHC.Base.<> (Data.Aeson..=) "lte" (getSubscriptionsParametersQueryCreated'OneOf2Lte obj))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("gt" Data.Aeson.Types.ToJSON..= getSubscriptionsParametersQueryCreated'OneOf2Gt obj : "gte" Data.Aeson.Types.ToJSON..= getSubscriptionsParametersQueryCreated'OneOf2Gte obj : "lt" Data.Aeson.Types.ToJSON..= getSubscriptionsParametersQueryCreated'OneOf2Lt obj : "lte" Data.Aeson.Types.ToJSON..= getSubscriptionsParametersQueryCreated'OneOf2Lte obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("gt" Data.Aeson.Types.ToJSON..= getSubscriptionsParametersQueryCreated'OneOf2Gt obj) GHC.Base.<> (("gte" Data.Aeson.Types.ToJSON..= getSubscriptionsParametersQueryCreated'OneOf2Gte obj) GHC.Base.<> (("lt" Data.Aeson.Types.ToJSON..= getSubscriptionsParametersQueryCreated'OneOf2Lt obj) GHC.Base.<> ("lte" Data.Aeson.Types.ToJSON..= getSubscriptionsParametersQueryCreated'OneOf2Lte obj))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetSubscriptionsParametersQueryCreated'OneOf2 where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "GetSubscriptionsParametersQueryCreated'OneOf2" (\obj -> (((GHC.Base.pure GetSubscriptionsParametersQueryCreated'OneOf2 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "gt")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "gte")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "lt")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "lte"))
 
--- | Define the one-of schema getSubscriptionsParametersQueryCreated\'
+-- | Create a new 'GetSubscriptionsParametersQueryCreated'OneOf2' with all required fields.
+mkGetSubscriptionsParametersQueryCreated'OneOf2 :: GetSubscriptionsParametersQueryCreated'OneOf2
+mkGetSubscriptionsParametersQueryCreated'OneOf2 =
+  GetSubscriptionsParametersQueryCreated'OneOf2
+    { getSubscriptionsParametersQueryCreated'OneOf2Gt = GHC.Maybe.Nothing,
+      getSubscriptionsParametersQueryCreated'OneOf2Gte = GHC.Maybe.Nothing,
+      getSubscriptionsParametersQueryCreated'OneOf2Lt = GHC.Maybe.Nothing,
+      getSubscriptionsParametersQueryCreated'OneOf2Lte = GHC.Maybe.Nothing
+    }
+
+-- | Defines the oneOf schema located at @paths.\/v1\/subscriptions.GET.parameters.properties.queryCreated.anyOf@ in the specification.
 --
 -- Represents the parameter named \'created\'
 data GetSubscriptionsParametersQueryCreated'Variants
@@ -233,13 +265,11 @@ instance Data.Aeson.Types.ToJSON.ToJSON GetSubscriptionsParametersQueryCreated'V
   toJSON (GetSubscriptionsParametersQueryCreated'GetSubscriptionsParametersQueryCreated'OneOf2 a) = Data.Aeson.Types.ToJSON.toJSON a
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetSubscriptionsParametersQueryCreated'Variants where
-  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
-    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ GetSubscriptionsParametersQueryCreated'Int a
-    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ GetSubscriptionsParametersQueryCreated'GetSubscriptionsParametersQueryCreated'OneOf2 a
-      Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+  parseJSON val = case (GetSubscriptionsParametersQueryCreated'Int Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((GetSubscriptionsParametersQueryCreated'GetSubscriptionsParametersQueryCreated'OneOf2 Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched") of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+    Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
--- | Defines the data type for the schema getSubscriptionsParametersQueryCurrent_period_end\'OneOf2
+-- | Defines the object schema located at @paths.\/v1\/subscriptions.GET.parameters.properties.queryCurrent_period_end.anyOf@ in the specification.
 data GetSubscriptionsParametersQueryCurrentPeriodEnd'OneOf2
   = GetSubscriptionsParametersQueryCurrentPeriodEnd'OneOf2
       { -- | gt
@@ -257,13 +287,23 @@ data GetSubscriptionsParametersQueryCurrentPeriodEnd'OneOf2
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetSubscriptionsParametersQueryCurrentPeriodEnd'OneOf2 where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "gt" (getSubscriptionsParametersQueryCurrentPeriodEnd'OneOf2Gt obj) : (Data.Aeson..=) "gte" (getSubscriptionsParametersQueryCurrentPeriodEnd'OneOf2Gte obj) : (Data.Aeson..=) "lt" (getSubscriptionsParametersQueryCurrentPeriodEnd'OneOf2Lt obj) : (Data.Aeson..=) "lte" (getSubscriptionsParametersQueryCurrentPeriodEnd'OneOf2Lte obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "gt" (getSubscriptionsParametersQueryCurrentPeriodEnd'OneOf2Gt obj) GHC.Base.<> ((Data.Aeson..=) "gte" (getSubscriptionsParametersQueryCurrentPeriodEnd'OneOf2Gte obj) GHC.Base.<> ((Data.Aeson..=) "lt" (getSubscriptionsParametersQueryCurrentPeriodEnd'OneOf2Lt obj) GHC.Base.<> (Data.Aeson..=) "lte" (getSubscriptionsParametersQueryCurrentPeriodEnd'OneOf2Lte obj))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("gt" Data.Aeson.Types.ToJSON..= getSubscriptionsParametersQueryCurrentPeriodEnd'OneOf2Gt obj : "gte" Data.Aeson.Types.ToJSON..= getSubscriptionsParametersQueryCurrentPeriodEnd'OneOf2Gte obj : "lt" Data.Aeson.Types.ToJSON..= getSubscriptionsParametersQueryCurrentPeriodEnd'OneOf2Lt obj : "lte" Data.Aeson.Types.ToJSON..= getSubscriptionsParametersQueryCurrentPeriodEnd'OneOf2Lte obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("gt" Data.Aeson.Types.ToJSON..= getSubscriptionsParametersQueryCurrentPeriodEnd'OneOf2Gt obj) GHC.Base.<> (("gte" Data.Aeson.Types.ToJSON..= getSubscriptionsParametersQueryCurrentPeriodEnd'OneOf2Gte obj) GHC.Base.<> (("lt" Data.Aeson.Types.ToJSON..= getSubscriptionsParametersQueryCurrentPeriodEnd'OneOf2Lt obj) GHC.Base.<> ("lte" Data.Aeson.Types.ToJSON..= getSubscriptionsParametersQueryCurrentPeriodEnd'OneOf2Lte obj))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetSubscriptionsParametersQueryCurrentPeriodEnd'OneOf2 where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "GetSubscriptionsParametersQueryCurrentPeriodEnd'OneOf2" (\obj -> (((GHC.Base.pure GetSubscriptionsParametersQueryCurrentPeriodEnd'OneOf2 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "gt")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "gte")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "lt")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "lte"))
 
--- | Define the one-of schema getSubscriptionsParametersQueryCurrent_period_end\'
+-- | Create a new 'GetSubscriptionsParametersQueryCurrentPeriodEnd'OneOf2' with all required fields.
+mkGetSubscriptionsParametersQueryCurrentPeriodEnd'OneOf2 :: GetSubscriptionsParametersQueryCurrentPeriodEnd'OneOf2
+mkGetSubscriptionsParametersQueryCurrentPeriodEnd'OneOf2 =
+  GetSubscriptionsParametersQueryCurrentPeriodEnd'OneOf2
+    { getSubscriptionsParametersQueryCurrentPeriodEnd'OneOf2Gt = GHC.Maybe.Nothing,
+      getSubscriptionsParametersQueryCurrentPeriodEnd'OneOf2Gte = GHC.Maybe.Nothing,
+      getSubscriptionsParametersQueryCurrentPeriodEnd'OneOf2Lt = GHC.Maybe.Nothing,
+      getSubscriptionsParametersQueryCurrentPeriodEnd'OneOf2Lte = GHC.Maybe.Nothing
+    }
+
+-- | Defines the oneOf schema located at @paths.\/v1\/subscriptions.GET.parameters.properties.queryCurrent_period_end.anyOf@ in the specification.
 --
 -- Represents the parameter named \'current_period_end\'
 data GetSubscriptionsParametersQueryCurrentPeriodEnd'Variants
@@ -276,13 +316,11 @@ instance Data.Aeson.Types.ToJSON.ToJSON GetSubscriptionsParametersQueryCurrentPe
   toJSON (GetSubscriptionsParametersQueryCurrentPeriodEnd'GetSubscriptionsParametersQueryCurrentPeriodEnd'OneOf2 a) = Data.Aeson.Types.ToJSON.toJSON a
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetSubscriptionsParametersQueryCurrentPeriodEnd'Variants where
-  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
-    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ GetSubscriptionsParametersQueryCurrentPeriodEnd'Int a
-    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ GetSubscriptionsParametersQueryCurrentPeriodEnd'GetSubscriptionsParametersQueryCurrentPeriodEnd'OneOf2 a
-      Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+  parseJSON val = case (GetSubscriptionsParametersQueryCurrentPeriodEnd'Int Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((GetSubscriptionsParametersQueryCurrentPeriodEnd'GetSubscriptionsParametersQueryCurrentPeriodEnd'OneOf2 Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched") of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+    Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
--- | Defines the data type for the schema getSubscriptionsParametersQueryCurrent_period_start\'OneOf2
+-- | Defines the object schema located at @paths.\/v1\/subscriptions.GET.parameters.properties.queryCurrent_period_start.anyOf@ in the specification.
 data GetSubscriptionsParametersQueryCurrentPeriodStart'OneOf2
   = GetSubscriptionsParametersQueryCurrentPeriodStart'OneOf2
       { -- | gt
@@ -300,13 +338,23 @@ data GetSubscriptionsParametersQueryCurrentPeriodStart'OneOf2
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetSubscriptionsParametersQueryCurrentPeriodStart'OneOf2 where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "gt" (getSubscriptionsParametersQueryCurrentPeriodStart'OneOf2Gt obj) : (Data.Aeson..=) "gte" (getSubscriptionsParametersQueryCurrentPeriodStart'OneOf2Gte obj) : (Data.Aeson..=) "lt" (getSubscriptionsParametersQueryCurrentPeriodStart'OneOf2Lt obj) : (Data.Aeson..=) "lte" (getSubscriptionsParametersQueryCurrentPeriodStart'OneOf2Lte obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "gt" (getSubscriptionsParametersQueryCurrentPeriodStart'OneOf2Gt obj) GHC.Base.<> ((Data.Aeson..=) "gte" (getSubscriptionsParametersQueryCurrentPeriodStart'OneOf2Gte obj) GHC.Base.<> ((Data.Aeson..=) "lt" (getSubscriptionsParametersQueryCurrentPeriodStart'OneOf2Lt obj) GHC.Base.<> (Data.Aeson..=) "lte" (getSubscriptionsParametersQueryCurrentPeriodStart'OneOf2Lte obj))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("gt" Data.Aeson.Types.ToJSON..= getSubscriptionsParametersQueryCurrentPeriodStart'OneOf2Gt obj : "gte" Data.Aeson.Types.ToJSON..= getSubscriptionsParametersQueryCurrentPeriodStart'OneOf2Gte obj : "lt" Data.Aeson.Types.ToJSON..= getSubscriptionsParametersQueryCurrentPeriodStart'OneOf2Lt obj : "lte" Data.Aeson.Types.ToJSON..= getSubscriptionsParametersQueryCurrentPeriodStart'OneOf2Lte obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("gt" Data.Aeson.Types.ToJSON..= getSubscriptionsParametersQueryCurrentPeriodStart'OneOf2Gt obj) GHC.Base.<> (("gte" Data.Aeson.Types.ToJSON..= getSubscriptionsParametersQueryCurrentPeriodStart'OneOf2Gte obj) GHC.Base.<> (("lt" Data.Aeson.Types.ToJSON..= getSubscriptionsParametersQueryCurrentPeriodStart'OneOf2Lt obj) GHC.Base.<> ("lte" Data.Aeson.Types.ToJSON..= getSubscriptionsParametersQueryCurrentPeriodStart'OneOf2Lte obj))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetSubscriptionsParametersQueryCurrentPeriodStart'OneOf2 where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "GetSubscriptionsParametersQueryCurrentPeriodStart'OneOf2" (\obj -> (((GHC.Base.pure GetSubscriptionsParametersQueryCurrentPeriodStart'OneOf2 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "gt")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "gte")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "lt")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "lte"))
 
--- | Define the one-of schema getSubscriptionsParametersQueryCurrent_period_start\'
+-- | Create a new 'GetSubscriptionsParametersQueryCurrentPeriodStart'OneOf2' with all required fields.
+mkGetSubscriptionsParametersQueryCurrentPeriodStart'OneOf2 :: GetSubscriptionsParametersQueryCurrentPeriodStart'OneOf2
+mkGetSubscriptionsParametersQueryCurrentPeriodStart'OneOf2 =
+  GetSubscriptionsParametersQueryCurrentPeriodStart'OneOf2
+    { getSubscriptionsParametersQueryCurrentPeriodStart'OneOf2Gt = GHC.Maybe.Nothing,
+      getSubscriptionsParametersQueryCurrentPeriodStart'OneOf2Gte = GHC.Maybe.Nothing,
+      getSubscriptionsParametersQueryCurrentPeriodStart'OneOf2Lt = GHC.Maybe.Nothing,
+      getSubscriptionsParametersQueryCurrentPeriodStart'OneOf2Lte = GHC.Maybe.Nothing
+    }
+
+-- | Defines the oneOf schema located at @paths.\/v1\/subscriptions.GET.parameters.properties.queryCurrent_period_start.anyOf@ in the specification.
 --
 -- Represents the parameter named \'current_period_start\'
 data GetSubscriptionsParametersQueryCurrentPeriodStart'Variants
@@ -319,57 +367,66 @@ instance Data.Aeson.Types.ToJSON.ToJSON GetSubscriptionsParametersQueryCurrentPe
   toJSON (GetSubscriptionsParametersQueryCurrentPeriodStart'GetSubscriptionsParametersQueryCurrentPeriodStart'OneOf2 a) = Data.Aeson.Types.ToJSON.toJSON a
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetSubscriptionsParametersQueryCurrentPeriodStart'Variants where
-  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
-    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ GetSubscriptionsParametersQueryCurrentPeriodStart'Int a
-    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ GetSubscriptionsParametersQueryCurrentPeriodStart'GetSubscriptionsParametersQueryCurrentPeriodStart'OneOf2 a
-      Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+  parseJSON val = case (GetSubscriptionsParametersQueryCurrentPeriodStart'Int Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((GetSubscriptionsParametersQueryCurrentPeriodStart'GetSubscriptionsParametersQueryCurrentPeriodStart'OneOf2 Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched") of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+    Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
--- | Defines the enum schema getSubscriptionsParametersQueryStatus\'
+-- | Defines the enum schema located at @paths.\/v1\/subscriptions.GET.parameters.properties.queryStatus@ in the specification.
 --
 -- Represents the parameter named \'status\'
 --
 -- The status of the subscriptions to retrieve. One of: \`incomplete\`, \`incomplete_expired\`, \`trialing\`, \`active\`, \`past_due\`, \`unpaid\`, \`canceled\`, or \`all\`. Passing in a value of \`canceled\` will return all canceled subscriptions, including those belonging to deleted customers. Passing in a value of \`all\` will return subscriptions of all statuses.
 data GetSubscriptionsParametersQueryStatus'
-  = GetSubscriptionsParametersQueryStatus'EnumOther Data.Aeson.Types.Internal.Value
-  | GetSubscriptionsParametersQueryStatus'EnumTyped Data.Text.Internal.Text
-  | GetSubscriptionsParametersQueryStatus'EnumStringActive
-  | GetSubscriptionsParametersQueryStatus'EnumStringAll
-  | GetSubscriptionsParametersQueryStatus'EnumStringCanceled
-  | GetSubscriptionsParametersQueryStatus'EnumStringEnded
-  | GetSubscriptionsParametersQueryStatus'EnumStringIncomplete
-  | GetSubscriptionsParametersQueryStatus'EnumStringIncompleteExpired
-  | GetSubscriptionsParametersQueryStatus'EnumStringPastDue
-  | GetSubscriptionsParametersQueryStatus'EnumStringTrialing
-  | GetSubscriptionsParametersQueryStatus'EnumStringUnpaid
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    GetSubscriptionsParametersQueryStatus'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    GetSubscriptionsParametersQueryStatus'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"active"@
+    GetSubscriptionsParametersQueryStatus'EnumActive
+  | -- | Represents the JSON value @"all"@
+    GetSubscriptionsParametersQueryStatus'EnumAll
+  | -- | Represents the JSON value @"canceled"@
+    GetSubscriptionsParametersQueryStatus'EnumCanceled
+  | -- | Represents the JSON value @"ended"@
+    GetSubscriptionsParametersQueryStatus'EnumEnded
+  | -- | Represents the JSON value @"incomplete"@
+    GetSubscriptionsParametersQueryStatus'EnumIncomplete
+  | -- | Represents the JSON value @"incomplete_expired"@
+    GetSubscriptionsParametersQueryStatus'EnumIncompleteExpired
+  | -- | Represents the JSON value @"past_due"@
+    GetSubscriptionsParametersQueryStatus'EnumPastDue
+  | -- | Represents the JSON value @"trialing"@
+    GetSubscriptionsParametersQueryStatus'EnumTrialing
+  | -- | Represents the JSON value @"unpaid"@
+    GetSubscriptionsParametersQueryStatus'EnumUnpaid
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetSubscriptionsParametersQueryStatus' where
-  toJSON (GetSubscriptionsParametersQueryStatus'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (GetSubscriptionsParametersQueryStatus'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (GetSubscriptionsParametersQueryStatus'EnumStringActive) = "active"
-  toJSON (GetSubscriptionsParametersQueryStatus'EnumStringAll) = "all"
-  toJSON (GetSubscriptionsParametersQueryStatus'EnumStringCanceled) = "canceled"
-  toJSON (GetSubscriptionsParametersQueryStatus'EnumStringEnded) = "ended"
-  toJSON (GetSubscriptionsParametersQueryStatus'EnumStringIncomplete) = "incomplete"
-  toJSON (GetSubscriptionsParametersQueryStatus'EnumStringIncompleteExpired) = "incomplete_expired"
-  toJSON (GetSubscriptionsParametersQueryStatus'EnumStringPastDue) = "past_due"
-  toJSON (GetSubscriptionsParametersQueryStatus'EnumStringTrialing) = "trialing"
-  toJSON (GetSubscriptionsParametersQueryStatus'EnumStringUnpaid) = "unpaid"
+  toJSON (GetSubscriptionsParametersQueryStatus'Other val) = val
+  toJSON (GetSubscriptionsParametersQueryStatus'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (GetSubscriptionsParametersQueryStatus'EnumActive) = "active"
+  toJSON (GetSubscriptionsParametersQueryStatus'EnumAll) = "all"
+  toJSON (GetSubscriptionsParametersQueryStatus'EnumCanceled) = "canceled"
+  toJSON (GetSubscriptionsParametersQueryStatus'EnumEnded) = "ended"
+  toJSON (GetSubscriptionsParametersQueryStatus'EnumIncomplete) = "incomplete"
+  toJSON (GetSubscriptionsParametersQueryStatus'EnumIncompleteExpired) = "incomplete_expired"
+  toJSON (GetSubscriptionsParametersQueryStatus'EnumPastDue) = "past_due"
+  toJSON (GetSubscriptionsParametersQueryStatus'EnumTrialing) = "trialing"
+  toJSON (GetSubscriptionsParametersQueryStatus'EnumUnpaid) = "unpaid"
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetSubscriptionsParametersQueryStatus' where
   parseJSON val =
     GHC.Base.pure
-      ( if  | val GHC.Classes.== "active" -> GetSubscriptionsParametersQueryStatus'EnumStringActive
-            | val GHC.Classes.== "all" -> GetSubscriptionsParametersQueryStatus'EnumStringAll
-            | val GHC.Classes.== "canceled" -> GetSubscriptionsParametersQueryStatus'EnumStringCanceled
-            | val GHC.Classes.== "ended" -> GetSubscriptionsParametersQueryStatus'EnumStringEnded
-            | val GHC.Classes.== "incomplete" -> GetSubscriptionsParametersQueryStatus'EnumStringIncomplete
-            | val GHC.Classes.== "incomplete_expired" -> GetSubscriptionsParametersQueryStatus'EnumStringIncompleteExpired
-            | val GHC.Classes.== "past_due" -> GetSubscriptionsParametersQueryStatus'EnumStringPastDue
-            | val GHC.Classes.== "trialing" -> GetSubscriptionsParametersQueryStatus'EnumStringTrialing
-            | val GHC.Classes.== "unpaid" -> GetSubscriptionsParametersQueryStatus'EnumStringUnpaid
-            | GHC.Base.otherwise -> GetSubscriptionsParametersQueryStatus'EnumOther val
+      ( if  | val GHC.Classes.== "active" -> GetSubscriptionsParametersQueryStatus'EnumActive
+            | val GHC.Classes.== "all" -> GetSubscriptionsParametersQueryStatus'EnumAll
+            | val GHC.Classes.== "canceled" -> GetSubscriptionsParametersQueryStatus'EnumCanceled
+            | val GHC.Classes.== "ended" -> GetSubscriptionsParametersQueryStatus'EnumEnded
+            | val GHC.Classes.== "incomplete" -> GetSubscriptionsParametersQueryStatus'EnumIncomplete
+            | val GHC.Classes.== "incomplete_expired" -> GetSubscriptionsParametersQueryStatus'EnumIncompleteExpired
+            | val GHC.Classes.== "past_due" -> GetSubscriptionsParametersQueryStatus'EnumPastDue
+            | val GHC.Classes.== "trialing" -> GetSubscriptionsParametersQueryStatus'EnumTrialing
+            | val GHC.Classes.== "unpaid" -> GetSubscriptionsParametersQueryStatus'EnumUnpaid
+            | GHC.Base.otherwise -> GetSubscriptionsParametersQueryStatus'Other val
       )
 
 -- | Represents a response of the operation 'getSubscriptions'.
@@ -384,15 +441,13 @@ data GetSubscriptionsResponse
     GetSubscriptionsResponseDefault Error
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
--- | Defines the data type for the schema GetSubscriptionsResponseBody200
+-- | Defines the object schema located at @paths.\/v1\/subscriptions.GET.responses.200.content.application\/json.schema@ in the specification.
 data GetSubscriptionsResponseBody200
   = GetSubscriptionsResponseBody200
       { -- | data
         getSubscriptionsResponseBody200Data :: ([Subscription]),
         -- | has_more: True if this list has another page of items after this one that can be fetched.
         getSubscriptionsResponseBody200HasMore :: GHC.Types.Bool,
-        -- | object: String representing the object\'s type. Objects of the same type share the same value. Always has the value \`list\`.
-        getSubscriptionsResponseBody200Object :: GetSubscriptionsResponseBody200Object',
         -- | url: The URL where this list can be accessed.
         --
         -- Constraints:
@@ -407,29 +462,24 @@ data GetSubscriptionsResponseBody200
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetSubscriptionsResponseBody200 where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "data" (getSubscriptionsResponseBody200Data obj) : (Data.Aeson..=) "has_more" (getSubscriptionsResponseBody200HasMore obj) : (Data.Aeson..=) "object" (getSubscriptionsResponseBody200Object obj) : (Data.Aeson..=) "url" (getSubscriptionsResponseBody200Url obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "data" (getSubscriptionsResponseBody200Data obj) GHC.Base.<> ((Data.Aeson..=) "has_more" (getSubscriptionsResponseBody200HasMore obj) GHC.Base.<> ((Data.Aeson..=) "object" (getSubscriptionsResponseBody200Object obj) GHC.Base.<> (Data.Aeson..=) "url" (getSubscriptionsResponseBody200Url obj))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("data" Data.Aeson.Types.ToJSON..= getSubscriptionsResponseBody200Data obj : "has_more" Data.Aeson.Types.ToJSON..= getSubscriptionsResponseBody200HasMore obj : "url" Data.Aeson.Types.ToJSON..= getSubscriptionsResponseBody200Url obj : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "list" : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("data" Data.Aeson.Types.ToJSON..= getSubscriptionsResponseBody200Data obj) GHC.Base.<> (("has_more" Data.Aeson.Types.ToJSON..= getSubscriptionsResponseBody200HasMore obj) GHC.Base.<> (("url" Data.Aeson.Types.ToJSON..= getSubscriptionsResponseBody200Url obj) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "list"))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetSubscriptionsResponseBody200 where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetSubscriptionsResponseBody200" (\obj -> (((GHC.Base.pure GetSubscriptionsResponseBody200 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "has_more")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "object")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "url"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetSubscriptionsResponseBody200" (\obj -> ((GHC.Base.pure GetSubscriptionsResponseBody200 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "has_more")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "url"))
 
--- | Defines the enum schema GetSubscriptionsResponseBody200Object\'
---
--- String representing the object\'s type. Objects of the same type share the same value. Always has the value \`list\`.
-data GetSubscriptionsResponseBody200Object'
-  = GetSubscriptionsResponseBody200Object'EnumOther Data.Aeson.Types.Internal.Value
-  | GetSubscriptionsResponseBody200Object'EnumTyped Data.Text.Internal.Text
-  | GetSubscriptionsResponseBody200Object'EnumStringList
-  deriving (GHC.Show.Show, GHC.Classes.Eq)
-
-instance Data.Aeson.Types.ToJSON.ToJSON GetSubscriptionsResponseBody200Object' where
-  toJSON (GetSubscriptionsResponseBody200Object'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (GetSubscriptionsResponseBody200Object'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (GetSubscriptionsResponseBody200Object'EnumStringList) = "list"
-
-instance Data.Aeson.Types.FromJSON.FromJSON GetSubscriptionsResponseBody200Object' where
-  parseJSON val =
-    GHC.Base.pure
-      ( if  | val GHC.Classes.== "list" -> GetSubscriptionsResponseBody200Object'EnumStringList
-            | GHC.Base.otherwise -> GetSubscriptionsResponseBody200Object'EnumOther val
-      )
+-- | Create a new 'GetSubscriptionsResponseBody200' with all required fields.
+mkGetSubscriptionsResponseBody200 ::
+  -- | 'getSubscriptionsResponseBody200Data'
+  [Subscription] ->
+  -- | 'getSubscriptionsResponseBody200HasMore'
+  GHC.Types.Bool ->
+  -- | 'getSubscriptionsResponseBody200Url'
+  Data.Text.Internal.Text ->
+  GetSubscriptionsResponseBody200
+mkGetSubscriptionsResponseBody200 getSubscriptionsResponseBody200Data getSubscriptionsResponseBody200HasMore getSubscriptionsResponseBody200Url =
+  GetSubscriptionsResponseBody200
+    { getSubscriptionsResponseBody200Data = getSubscriptionsResponseBody200Data,
+      getSubscriptionsResponseBody200HasMore = getSubscriptionsResponseBody200HasMore,
+      getSubscriptionsResponseBody200Url = getSubscriptionsResponseBody200Url
+    }

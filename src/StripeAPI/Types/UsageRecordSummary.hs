@@ -8,6 +8,7 @@ module StripeAPI.Types.UsageRecordSummary where
 
 import qualified Control.Monad.Fail
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -31,7 +32,7 @@ import {-# SOURCE #-} StripeAPI.Types.Period
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
--- | Defines the data type for the schema usage_record_summary
+-- | Defines the object schema located at @components.schemas.usage_record_summary@ in the specification.
 data UsageRecordSummary
   = UsageRecordSummary
       { -- | id: Unique identifier for the object.
@@ -48,8 +49,6 @@ data UsageRecordSummary
         usageRecordSummaryInvoice :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
         -- | livemode: Has the value \`true\` if the object exists in live mode or the value \`false\` if the object exists in test mode.
         usageRecordSummaryLivemode :: GHC.Types.Bool,
-        -- | object: String representing the object\'s type. Objects of the same type share the same value.
-        usageRecordSummaryObject :: UsageRecordSummaryObject',
         -- | period:
         usageRecordSummaryPeriod :: Period,
         -- | subscription_item: The ID of the subscription item this summary is describing.
@@ -67,29 +66,31 @@ data UsageRecordSummary
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON UsageRecordSummary where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "id" (usageRecordSummaryId obj) : (Data.Aeson..=) "invoice" (usageRecordSummaryInvoice obj) : (Data.Aeson..=) "livemode" (usageRecordSummaryLivemode obj) : (Data.Aeson..=) "object" (usageRecordSummaryObject obj) : (Data.Aeson..=) "period" (usageRecordSummaryPeriod obj) : (Data.Aeson..=) "subscription_item" (usageRecordSummarySubscriptionItem obj) : (Data.Aeson..=) "total_usage" (usageRecordSummaryTotalUsage obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "id" (usageRecordSummaryId obj) GHC.Base.<> ((Data.Aeson..=) "invoice" (usageRecordSummaryInvoice obj) GHC.Base.<> ((Data.Aeson..=) "livemode" (usageRecordSummaryLivemode obj) GHC.Base.<> ((Data.Aeson..=) "object" (usageRecordSummaryObject obj) GHC.Base.<> ((Data.Aeson..=) "period" (usageRecordSummaryPeriod obj) GHC.Base.<> ((Data.Aeson..=) "subscription_item" (usageRecordSummarySubscriptionItem obj) GHC.Base.<> (Data.Aeson..=) "total_usage" (usageRecordSummaryTotalUsage obj)))))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("id" Data.Aeson.Types.ToJSON..= usageRecordSummaryId obj : "invoice" Data.Aeson.Types.ToJSON..= usageRecordSummaryInvoice obj : "livemode" Data.Aeson.Types.ToJSON..= usageRecordSummaryLivemode obj : "period" Data.Aeson.Types.ToJSON..= usageRecordSummaryPeriod obj : "subscription_item" Data.Aeson.Types.ToJSON..= usageRecordSummarySubscriptionItem obj : "total_usage" Data.Aeson.Types.ToJSON..= usageRecordSummaryTotalUsage obj : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "usage_record_summary" : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("id" Data.Aeson.Types.ToJSON..= usageRecordSummaryId obj) GHC.Base.<> (("invoice" Data.Aeson.Types.ToJSON..= usageRecordSummaryInvoice obj) GHC.Base.<> (("livemode" Data.Aeson.Types.ToJSON..= usageRecordSummaryLivemode obj) GHC.Base.<> (("period" Data.Aeson.Types.ToJSON..= usageRecordSummaryPeriod obj) GHC.Base.<> (("subscription_item" Data.Aeson.Types.ToJSON..= usageRecordSummarySubscriptionItem obj) GHC.Base.<> (("total_usage" Data.Aeson.Types.ToJSON..= usageRecordSummaryTotalUsage obj) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "usage_record_summary")))))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON UsageRecordSummary where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "UsageRecordSummary" (\obj -> ((((((GHC.Base.pure UsageRecordSummary GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "invoice")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "livemode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "object")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "period")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "subscription_item")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "total_usage"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "UsageRecordSummary" (\obj -> (((((GHC.Base.pure UsageRecordSummary GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "invoice")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "livemode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "period")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "subscription_item")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "total_usage"))
 
--- | Defines the enum schema usage_record_summaryObject\'
---
--- String representing the object\'s type. Objects of the same type share the same value.
-data UsageRecordSummaryObject'
-  = UsageRecordSummaryObject'EnumOther Data.Aeson.Types.Internal.Value
-  | UsageRecordSummaryObject'EnumTyped Data.Text.Internal.Text
-  | UsageRecordSummaryObject'EnumStringUsageRecordSummary
-  deriving (GHC.Show.Show, GHC.Classes.Eq)
-
-instance Data.Aeson.Types.ToJSON.ToJSON UsageRecordSummaryObject' where
-  toJSON (UsageRecordSummaryObject'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (UsageRecordSummaryObject'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (UsageRecordSummaryObject'EnumStringUsageRecordSummary) = "usage_record_summary"
-
-instance Data.Aeson.Types.FromJSON.FromJSON UsageRecordSummaryObject' where
-  parseJSON val =
-    GHC.Base.pure
-      ( if  | val GHC.Classes.== "usage_record_summary" -> UsageRecordSummaryObject'EnumStringUsageRecordSummary
-            | GHC.Base.otherwise -> UsageRecordSummaryObject'EnumOther val
-      )
+-- | Create a new 'UsageRecordSummary' with all required fields.
+mkUsageRecordSummary ::
+  -- | 'usageRecordSummaryId'
+  Data.Text.Internal.Text ->
+  -- | 'usageRecordSummaryLivemode'
+  GHC.Types.Bool ->
+  -- | 'usageRecordSummaryPeriod'
+  Period ->
+  -- | 'usageRecordSummarySubscriptionItem'
+  Data.Text.Internal.Text ->
+  -- | 'usageRecordSummaryTotalUsage'
+  GHC.Types.Int ->
+  UsageRecordSummary
+mkUsageRecordSummary usageRecordSummaryId usageRecordSummaryLivemode usageRecordSummaryPeriod usageRecordSummarySubscriptionItem usageRecordSummaryTotalUsage =
+  UsageRecordSummary
+    { usageRecordSummaryId = usageRecordSummaryId,
+      usageRecordSummaryInvoice = GHC.Maybe.Nothing,
+      usageRecordSummaryLivemode = usageRecordSummaryLivemode,
+      usageRecordSummaryPeriod = usageRecordSummaryPeriod,
+      usageRecordSummarySubscriptionItem = usageRecordSummarySubscriptionItem,
+      usageRecordSummaryTotalUsage = usageRecordSummaryTotalUsage
+    }

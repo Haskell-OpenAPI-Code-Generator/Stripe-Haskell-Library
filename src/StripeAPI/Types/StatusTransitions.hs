@@ -8,6 +8,7 @@ module StripeAPI.Types.StatusTransitions where
 
 import qualified Control.Monad.Fail
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -30,7 +31,7 @@ import StripeAPI.TypeAlias
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
--- | Defines the data type for the schema status_transitions
+-- | Defines the object schema located at @components.schemas.status_transitions@ in the specification.
 data StatusTransitions
   = StatusTransitions
       { -- | canceled: The time that the order was canceled.
@@ -48,8 +49,18 @@ data StatusTransitions
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON StatusTransitions where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "canceled" (statusTransitionsCanceled obj) : (Data.Aeson..=) "fulfiled" (statusTransitionsFulfiled obj) : (Data.Aeson..=) "paid" (statusTransitionsPaid obj) : (Data.Aeson..=) "returned" (statusTransitionsReturned obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "canceled" (statusTransitionsCanceled obj) GHC.Base.<> ((Data.Aeson..=) "fulfiled" (statusTransitionsFulfiled obj) GHC.Base.<> ((Data.Aeson..=) "paid" (statusTransitionsPaid obj) GHC.Base.<> (Data.Aeson..=) "returned" (statusTransitionsReturned obj))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("canceled" Data.Aeson.Types.ToJSON..= statusTransitionsCanceled obj : "fulfiled" Data.Aeson.Types.ToJSON..= statusTransitionsFulfiled obj : "paid" Data.Aeson.Types.ToJSON..= statusTransitionsPaid obj : "returned" Data.Aeson.Types.ToJSON..= statusTransitionsReturned obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("canceled" Data.Aeson.Types.ToJSON..= statusTransitionsCanceled obj) GHC.Base.<> (("fulfiled" Data.Aeson.Types.ToJSON..= statusTransitionsFulfiled obj) GHC.Base.<> (("paid" Data.Aeson.Types.ToJSON..= statusTransitionsPaid obj) GHC.Base.<> ("returned" Data.Aeson.Types.ToJSON..= statusTransitionsReturned obj))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON StatusTransitions where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "StatusTransitions" (\obj -> (((GHC.Base.pure StatusTransitions GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "canceled")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "fulfiled")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "paid")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "returned"))
+
+-- | Create a new 'StatusTransitions' with all required fields.
+mkStatusTransitions :: StatusTransitions
+mkStatusTransitions =
+  StatusTransitions
+    { statusTransitionsCanceled = GHC.Maybe.Nothing,
+      statusTransitionsFulfiled = GHC.Maybe.Nothing,
+      statusTransitionsPaid = GHC.Maybe.Nothing,
+      statusTransitionsReturned = GHC.Maybe.Nothing
+    }

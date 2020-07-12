@@ -8,6 +8,7 @@ module StripeAPI.Types.SourceTransaction where
 
 import qualified Control.Monad.Fail
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -35,7 +36,7 @@ import {-# SOURCE #-} StripeAPI.Types.SourceTransactionSepaCreditTransferData
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
--- | Defines the data type for the schema source_transaction
+-- | Defines the object schema located at @components.schemas.source_transaction@ in the specification.
 --
 -- Some payment methods have no required amount that a customer must send.
 -- Customers can be instructed to send any amount, and it can be made up of
@@ -63,8 +64,6 @@ data SourceTransaction
         sourceTransactionId :: Data.Text.Internal.Text,
         -- | livemode: Has the value \`true\` if the object exists in live mode or the value \`false\` if the object exists in test mode.
         sourceTransactionLivemode :: GHC.Types.Bool,
-        -- | object: String representing the object\'s type. Objects of the same type share the same value.
-        sourceTransactionObject :: SourceTransactionObject',
         -- | paper_check:
         sourceTransactionPaperCheck :: (GHC.Maybe.Maybe SourceTransactionPaperCheckData),
         -- | sepa_credit_transfer:
@@ -90,95 +89,128 @@ data SourceTransaction
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON SourceTransaction where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "ach_credit_transfer" (sourceTransactionAchCreditTransfer obj) : (Data.Aeson..=) "amount" (sourceTransactionAmount obj) : (Data.Aeson..=) "chf_credit_transfer" (sourceTransactionChfCreditTransfer obj) : (Data.Aeson..=) "created" (sourceTransactionCreated obj) : (Data.Aeson..=) "currency" (sourceTransactionCurrency obj) : (Data.Aeson..=) "gbp_credit_transfer" (sourceTransactionGbpCreditTransfer obj) : (Data.Aeson..=) "id" (sourceTransactionId obj) : (Data.Aeson..=) "livemode" (sourceTransactionLivemode obj) : (Data.Aeson..=) "object" (sourceTransactionObject obj) : (Data.Aeson..=) "paper_check" (sourceTransactionPaperCheck obj) : (Data.Aeson..=) "sepa_credit_transfer" (sourceTransactionSepaCreditTransfer obj) : (Data.Aeson..=) "source" (sourceTransactionSource obj) : (Data.Aeson..=) "status" (sourceTransactionStatus obj) : (Data.Aeson..=) "type" (sourceTransactionType obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "ach_credit_transfer" (sourceTransactionAchCreditTransfer obj) GHC.Base.<> ((Data.Aeson..=) "amount" (sourceTransactionAmount obj) GHC.Base.<> ((Data.Aeson..=) "chf_credit_transfer" (sourceTransactionChfCreditTransfer obj) GHC.Base.<> ((Data.Aeson..=) "created" (sourceTransactionCreated obj) GHC.Base.<> ((Data.Aeson..=) "currency" (sourceTransactionCurrency obj) GHC.Base.<> ((Data.Aeson..=) "gbp_credit_transfer" (sourceTransactionGbpCreditTransfer obj) GHC.Base.<> ((Data.Aeson..=) "id" (sourceTransactionId obj) GHC.Base.<> ((Data.Aeson..=) "livemode" (sourceTransactionLivemode obj) GHC.Base.<> ((Data.Aeson..=) "object" (sourceTransactionObject obj) GHC.Base.<> ((Data.Aeson..=) "paper_check" (sourceTransactionPaperCheck obj) GHC.Base.<> ((Data.Aeson..=) "sepa_credit_transfer" (sourceTransactionSepaCreditTransfer obj) GHC.Base.<> ((Data.Aeson..=) "source" (sourceTransactionSource obj) GHC.Base.<> ((Data.Aeson..=) "status" (sourceTransactionStatus obj) GHC.Base.<> (Data.Aeson..=) "type" (sourceTransactionType obj))))))))))))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("ach_credit_transfer" Data.Aeson.Types.ToJSON..= sourceTransactionAchCreditTransfer obj : "amount" Data.Aeson.Types.ToJSON..= sourceTransactionAmount obj : "chf_credit_transfer" Data.Aeson.Types.ToJSON..= sourceTransactionChfCreditTransfer obj : "created" Data.Aeson.Types.ToJSON..= sourceTransactionCreated obj : "currency" Data.Aeson.Types.ToJSON..= sourceTransactionCurrency obj : "gbp_credit_transfer" Data.Aeson.Types.ToJSON..= sourceTransactionGbpCreditTransfer obj : "id" Data.Aeson.Types.ToJSON..= sourceTransactionId obj : "livemode" Data.Aeson.Types.ToJSON..= sourceTransactionLivemode obj : "paper_check" Data.Aeson.Types.ToJSON..= sourceTransactionPaperCheck obj : "sepa_credit_transfer" Data.Aeson.Types.ToJSON..= sourceTransactionSepaCreditTransfer obj : "source" Data.Aeson.Types.ToJSON..= sourceTransactionSource obj : "status" Data.Aeson.Types.ToJSON..= sourceTransactionStatus obj : "type" Data.Aeson.Types.ToJSON..= sourceTransactionType obj : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "source_transaction" : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("ach_credit_transfer" Data.Aeson.Types.ToJSON..= sourceTransactionAchCreditTransfer obj) GHC.Base.<> (("amount" Data.Aeson.Types.ToJSON..= sourceTransactionAmount obj) GHC.Base.<> (("chf_credit_transfer" Data.Aeson.Types.ToJSON..= sourceTransactionChfCreditTransfer obj) GHC.Base.<> (("created" Data.Aeson.Types.ToJSON..= sourceTransactionCreated obj) GHC.Base.<> (("currency" Data.Aeson.Types.ToJSON..= sourceTransactionCurrency obj) GHC.Base.<> (("gbp_credit_transfer" Data.Aeson.Types.ToJSON..= sourceTransactionGbpCreditTransfer obj) GHC.Base.<> (("id" Data.Aeson.Types.ToJSON..= sourceTransactionId obj) GHC.Base.<> (("livemode" Data.Aeson.Types.ToJSON..= sourceTransactionLivemode obj) GHC.Base.<> (("paper_check" Data.Aeson.Types.ToJSON..= sourceTransactionPaperCheck obj) GHC.Base.<> (("sepa_credit_transfer" Data.Aeson.Types.ToJSON..= sourceTransactionSepaCreditTransfer obj) GHC.Base.<> (("source" Data.Aeson.Types.ToJSON..= sourceTransactionSource obj) GHC.Base.<> (("status" Data.Aeson.Types.ToJSON..= sourceTransactionStatus obj) GHC.Base.<> (("type" Data.Aeson.Types.ToJSON..= sourceTransactionType obj) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "source_transaction"))))))))))))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON SourceTransaction where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "SourceTransaction" (\obj -> (((((((((((((GHC.Base.pure SourceTransaction GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "ach_credit_transfer")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "chf_credit_transfer")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "created")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "gbp_credit_transfer")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "livemode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "object")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "paper_check")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "sepa_credit_transfer")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "source")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "status")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "type"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "SourceTransaction" (\obj -> ((((((((((((GHC.Base.pure SourceTransaction GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "ach_credit_transfer")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "chf_credit_transfer")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "created")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "gbp_credit_transfer")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "livemode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "paper_check")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "sepa_credit_transfer")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "source")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "status")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "type"))
 
--- | Defines the enum schema source_transactionObject\'
---
--- String representing the object\'s type. Objects of the same type share the same value.
-data SourceTransactionObject'
-  = SourceTransactionObject'EnumOther Data.Aeson.Types.Internal.Value
-  | SourceTransactionObject'EnumTyped Data.Text.Internal.Text
-  | SourceTransactionObject'EnumStringSourceTransaction
-  deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Create a new 'SourceTransaction' with all required fields.
+mkSourceTransaction ::
+  -- | 'sourceTransactionAmount'
+  GHC.Types.Int ->
+  -- | 'sourceTransactionCreated'
+  GHC.Types.Int ->
+  -- | 'sourceTransactionCurrency'
+  Data.Text.Internal.Text ->
+  -- | 'sourceTransactionId'
+  Data.Text.Internal.Text ->
+  -- | 'sourceTransactionLivemode'
+  GHC.Types.Bool ->
+  -- | 'sourceTransactionSource'
+  Data.Text.Internal.Text ->
+  -- | 'sourceTransactionStatus'
+  Data.Text.Internal.Text ->
+  -- | 'sourceTransactionType'
+  SourceTransactionType' ->
+  SourceTransaction
+mkSourceTransaction sourceTransactionAmount sourceTransactionCreated sourceTransactionCurrency sourceTransactionId sourceTransactionLivemode sourceTransactionSource sourceTransactionStatus sourceTransactionType =
+  SourceTransaction
+    { sourceTransactionAchCreditTransfer = GHC.Maybe.Nothing,
+      sourceTransactionAmount = sourceTransactionAmount,
+      sourceTransactionChfCreditTransfer = GHC.Maybe.Nothing,
+      sourceTransactionCreated = sourceTransactionCreated,
+      sourceTransactionCurrency = sourceTransactionCurrency,
+      sourceTransactionGbpCreditTransfer = GHC.Maybe.Nothing,
+      sourceTransactionId = sourceTransactionId,
+      sourceTransactionLivemode = sourceTransactionLivemode,
+      sourceTransactionPaperCheck = GHC.Maybe.Nothing,
+      sourceTransactionSepaCreditTransfer = GHC.Maybe.Nothing,
+      sourceTransactionSource = sourceTransactionSource,
+      sourceTransactionStatus = sourceTransactionStatus,
+      sourceTransactionType = sourceTransactionType
+    }
 
-instance Data.Aeson.Types.ToJSON.ToJSON SourceTransactionObject' where
-  toJSON (SourceTransactionObject'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (SourceTransactionObject'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (SourceTransactionObject'EnumStringSourceTransaction) = "source_transaction"
-
-instance Data.Aeson.Types.FromJSON.FromJSON SourceTransactionObject' where
-  parseJSON val =
-    GHC.Base.pure
-      ( if  | val GHC.Classes.== "source_transaction" -> SourceTransactionObject'EnumStringSourceTransaction
-            | GHC.Base.otherwise -> SourceTransactionObject'EnumOther val
-      )
-
--- | Defines the enum schema source_transactionType\'
+-- | Defines the enum schema located at @components.schemas.source_transaction.properties.type@ in the specification.
 --
 -- The type of source this transaction is attached to.
 data SourceTransactionType'
-  = SourceTransactionType'EnumOther Data.Aeson.Types.Internal.Value
-  | SourceTransactionType'EnumTyped Data.Text.Internal.Text
-  | SourceTransactionType'EnumStringAchCreditTransfer
-  | SourceTransactionType'EnumStringAchDebit
-  | SourceTransactionType'EnumStringAlipay
-  | SourceTransactionType'EnumStringBancontact
-  | SourceTransactionType'EnumStringCard
-  | SourceTransactionType'EnumStringCardPresent
-  | SourceTransactionType'EnumStringEps
-  | SourceTransactionType'EnumStringGiropay
-  | SourceTransactionType'EnumStringIdeal
-  | SourceTransactionType'EnumStringKlarna
-  | SourceTransactionType'EnumStringMultibanco
-  | SourceTransactionType'EnumStringP24
-  | SourceTransactionType'EnumStringSepaDebit
-  | SourceTransactionType'EnumStringSofort
-  | SourceTransactionType'EnumStringThreeDSecure
-  | SourceTransactionType'EnumStringWechat
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    SourceTransactionType'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    SourceTransactionType'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"ach_credit_transfer"@
+    SourceTransactionType'EnumAchCreditTransfer
+  | -- | Represents the JSON value @"ach_debit"@
+    SourceTransactionType'EnumAchDebit
+  | -- | Represents the JSON value @"alipay"@
+    SourceTransactionType'EnumAlipay
+  | -- | Represents the JSON value @"bancontact"@
+    SourceTransactionType'EnumBancontact
+  | -- | Represents the JSON value @"card"@
+    SourceTransactionType'EnumCard
+  | -- | Represents the JSON value @"card_present"@
+    SourceTransactionType'EnumCardPresent
+  | -- | Represents the JSON value @"eps"@
+    SourceTransactionType'EnumEps
+  | -- | Represents the JSON value @"giropay"@
+    SourceTransactionType'EnumGiropay
+  | -- | Represents the JSON value @"ideal"@
+    SourceTransactionType'EnumIdeal
+  | -- | Represents the JSON value @"klarna"@
+    SourceTransactionType'EnumKlarna
+  | -- | Represents the JSON value @"multibanco"@
+    SourceTransactionType'EnumMultibanco
+  | -- | Represents the JSON value @"p24"@
+    SourceTransactionType'EnumP24
+  | -- | Represents the JSON value @"sepa_debit"@
+    SourceTransactionType'EnumSepaDebit
+  | -- | Represents the JSON value @"sofort"@
+    SourceTransactionType'EnumSofort
+  | -- | Represents the JSON value @"three_d_secure"@
+    SourceTransactionType'EnumThreeDSecure
+  | -- | Represents the JSON value @"wechat"@
+    SourceTransactionType'EnumWechat
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
 instance Data.Aeson.Types.ToJSON.ToJSON SourceTransactionType' where
-  toJSON (SourceTransactionType'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (SourceTransactionType'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (SourceTransactionType'EnumStringAchCreditTransfer) = "ach_credit_transfer"
-  toJSON (SourceTransactionType'EnumStringAchDebit) = "ach_debit"
-  toJSON (SourceTransactionType'EnumStringAlipay) = "alipay"
-  toJSON (SourceTransactionType'EnumStringBancontact) = "bancontact"
-  toJSON (SourceTransactionType'EnumStringCard) = "card"
-  toJSON (SourceTransactionType'EnumStringCardPresent) = "card_present"
-  toJSON (SourceTransactionType'EnumStringEps) = "eps"
-  toJSON (SourceTransactionType'EnumStringGiropay) = "giropay"
-  toJSON (SourceTransactionType'EnumStringIdeal) = "ideal"
-  toJSON (SourceTransactionType'EnumStringKlarna) = "klarna"
-  toJSON (SourceTransactionType'EnumStringMultibanco) = "multibanco"
-  toJSON (SourceTransactionType'EnumStringP24) = "p24"
-  toJSON (SourceTransactionType'EnumStringSepaDebit) = "sepa_debit"
-  toJSON (SourceTransactionType'EnumStringSofort) = "sofort"
-  toJSON (SourceTransactionType'EnumStringThreeDSecure) = "three_d_secure"
-  toJSON (SourceTransactionType'EnumStringWechat) = "wechat"
+  toJSON (SourceTransactionType'Other val) = val
+  toJSON (SourceTransactionType'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (SourceTransactionType'EnumAchCreditTransfer) = "ach_credit_transfer"
+  toJSON (SourceTransactionType'EnumAchDebit) = "ach_debit"
+  toJSON (SourceTransactionType'EnumAlipay) = "alipay"
+  toJSON (SourceTransactionType'EnumBancontact) = "bancontact"
+  toJSON (SourceTransactionType'EnumCard) = "card"
+  toJSON (SourceTransactionType'EnumCardPresent) = "card_present"
+  toJSON (SourceTransactionType'EnumEps) = "eps"
+  toJSON (SourceTransactionType'EnumGiropay) = "giropay"
+  toJSON (SourceTransactionType'EnumIdeal) = "ideal"
+  toJSON (SourceTransactionType'EnumKlarna) = "klarna"
+  toJSON (SourceTransactionType'EnumMultibanco) = "multibanco"
+  toJSON (SourceTransactionType'EnumP24) = "p24"
+  toJSON (SourceTransactionType'EnumSepaDebit) = "sepa_debit"
+  toJSON (SourceTransactionType'EnumSofort) = "sofort"
+  toJSON (SourceTransactionType'EnumThreeDSecure) = "three_d_secure"
+  toJSON (SourceTransactionType'EnumWechat) = "wechat"
 
 instance Data.Aeson.Types.FromJSON.FromJSON SourceTransactionType' where
   parseJSON val =
     GHC.Base.pure
-      ( if  | val GHC.Classes.== "ach_credit_transfer" -> SourceTransactionType'EnumStringAchCreditTransfer
-            | val GHC.Classes.== "ach_debit" -> SourceTransactionType'EnumStringAchDebit
-            | val GHC.Classes.== "alipay" -> SourceTransactionType'EnumStringAlipay
-            | val GHC.Classes.== "bancontact" -> SourceTransactionType'EnumStringBancontact
-            | val GHC.Classes.== "card" -> SourceTransactionType'EnumStringCard
-            | val GHC.Classes.== "card_present" -> SourceTransactionType'EnumStringCardPresent
-            | val GHC.Classes.== "eps" -> SourceTransactionType'EnumStringEps
-            | val GHC.Classes.== "giropay" -> SourceTransactionType'EnumStringGiropay
-            | val GHC.Classes.== "ideal" -> SourceTransactionType'EnumStringIdeal
-            | val GHC.Classes.== "klarna" -> SourceTransactionType'EnumStringKlarna
-            | val GHC.Classes.== "multibanco" -> SourceTransactionType'EnumStringMultibanco
-            | val GHC.Classes.== "p24" -> SourceTransactionType'EnumStringP24
-            | val GHC.Classes.== "sepa_debit" -> SourceTransactionType'EnumStringSepaDebit
-            | val GHC.Classes.== "sofort" -> SourceTransactionType'EnumStringSofort
-            | val GHC.Classes.== "three_d_secure" -> SourceTransactionType'EnumStringThreeDSecure
-            | val GHC.Classes.== "wechat" -> SourceTransactionType'EnumStringWechat
-            | GHC.Base.otherwise -> SourceTransactionType'EnumOther val
+      ( if  | val GHC.Classes.== "ach_credit_transfer" -> SourceTransactionType'EnumAchCreditTransfer
+            | val GHC.Classes.== "ach_debit" -> SourceTransactionType'EnumAchDebit
+            | val GHC.Classes.== "alipay" -> SourceTransactionType'EnumAlipay
+            | val GHC.Classes.== "bancontact" -> SourceTransactionType'EnumBancontact
+            | val GHC.Classes.== "card" -> SourceTransactionType'EnumCard
+            | val GHC.Classes.== "card_present" -> SourceTransactionType'EnumCardPresent
+            | val GHC.Classes.== "eps" -> SourceTransactionType'EnumEps
+            | val GHC.Classes.== "giropay" -> SourceTransactionType'EnumGiropay
+            | val GHC.Classes.== "ideal" -> SourceTransactionType'EnumIdeal
+            | val GHC.Classes.== "klarna" -> SourceTransactionType'EnumKlarna
+            | val GHC.Classes.== "multibanco" -> SourceTransactionType'EnumMultibanco
+            | val GHC.Classes.== "p24" -> SourceTransactionType'EnumP24
+            | val GHC.Classes.== "sepa_debit" -> SourceTransactionType'EnumSepaDebit
+            | val GHC.Classes.== "sofort" -> SourceTransactionType'EnumSofort
+            | val GHC.Classes.== "three_d_secure" -> SourceTransactionType'EnumThreeDSecure
+            | val GHC.Classes.== "wechat" -> SourceTransactionType'EnumWechat
+            | GHC.Base.otherwise -> SourceTransactionType'Other val
       )

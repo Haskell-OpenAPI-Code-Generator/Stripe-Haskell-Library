@@ -10,6 +10,7 @@ module StripeAPI.Operations.PostRadarValueLists where
 import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -77,7 +78,7 @@ postRadarValueLists body =
     )
     (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack "/v1/radar/value_lists") [] (GHC.Maybe.Just body) StripeAPI.Common.RequestBodyEncodingFormData)
 
--- | Defines the data type for the schema postRadarValueListsRequestBody
+-- | Defines the object schema located at @paths.\/v1\/radar\/value_lists.POST.requestBody.content.application\/x-www-form-urlencoded.schema@ in the specification.
 data PostRadarValueListsRequestBody
   = PostRadarValueListsRequestBody
       { -- | alias: The name of the value list for use in rules.
@@ -109,49 +110,74 @@ data PostRadarValueListsRequestBody
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostRadarValueListsRequestBody where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "alias" (postRadarValueListsRequestBodyAlias obj) : (Data.Aeson..=) "expand" (postRadarValueListsRequestBodyExpand obj) : (Data.Aeson..=) "item_type" (postRadarValueListsRequestBodyItemType obj) : (Data.Aeson..=) "metadata" (postRadarValueListsRequestBodyMetadata obj) : (Data.Aeson..=) "name" (postRadarValueListsRequestBodyName obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "alias" (postRadarValueListsRequestBodyAlias obj) GHC.Base.<> ((Data.Aeson..=) "expand" (postRadarValueListsRequestBodyExpand obj) GHC.Base.<> ((Data.Aeson..=) "item_type" (postRadarValueListsRequestBodyItemType obj) GHC.Base.<> ((Data.Aeson..=) "metadata" (postRadarValueListsRequestBodyMetadata obj) GHC.Base.<> (Data.Aeson..=) "name" (postRadarValueListsRequestBodyName obj)))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("alias" Data.Aeson.Types.ToJSON..= postRadarValueListsRequestBodyAlias obj : "expand" Data.Aeson.Types.ToJSON..= postRadarValueListsRequestBodyExpand obj : "item_type" Data.Aeson.Types.ToJSON..= postRadarValueListsRequestBodyItemType obj : "metadata" Data.Aeson.Types.ToJSON..= postRadarValueListsRequestBodyMetadata obj : "name" Data.Aeson.Types.ToJSON..= postRadarValueListsRequestBodyName obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("alias" Data.Aeson.Types.ToJSON..= postRadarValueListsRequestBodyAlias obj) GHC.Base.<> (("expand" Data.Aeson.Types.ToJSON..= postRadarValueListsRequestBodyExpand obj) GHC.Base.<> (("item_type" Data.Aeson.Types.ToJSON..= postRadarValueListsRequestBodyItemType obj) GHC.Base.<> (("metadata" Data.Aeson.Types.ToJSON..= postRadarValueListsRequestBodyMetadata obj) GHC.Base.<> ("name" Data.Aeson.Types.ToJSON..= postRadarValueListsRequestBodyName obj)))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostRadarValueListsRequestBody where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PostRadarValueListsRequestBody" (\obj -> ((((GHC.Base.pure PostRadarValueListsRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "alias")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "item_type")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "name"))
 
--- | Defines the enum schema postRadarValueListsRequestBodyItem_type\'
+-- | Create a new 'PostRadarValueListsRequestBody' with all required fields.
+mkPostRadarValueListsRequestBody ::
+  -- | 'postRadarValueListsRequestBodyAlias'
+  Data.Text.Internal.Text ->
+  -- | 'postRadarValueListsRequestBodyName'
+  Data.Text.Internal.Text ->
+  PostRadarValueListsRequestBody
+mkPostRadarValueListsRequestBody postRadarValueListsRequestBodyAlias postRadarValueListsRequestBodyName =
+  PostRadarValueListsRequestBody
+    { postRadarValueListsRequestBodyAlias = postRadarValueListsRequestBodyAlias,
+      postRadarValueListsRequestBodyExpand = GHC.Maybe.Nothing,
+      postRadarValueListsRequestBodyItemType = GHC.Maybe.Nothing,
+      postRadarValueListsRequestBodyMetadata = GHC.Maybe.Nothing,
+      postRadarValueListsRequestBodyName = postRadarValueListsRequestBodyName
+    }
+
+-- | Defines the enum schema located at @paths.\/v1\/radar\/value_lists.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.item_type@ in the specification.
 --
 -- Type of the items in the value list. One of \`card_fingerprint\`, \`card_bin\`, \`email\`, \`ip_address\`, \`country\`, \`string\`, or \`case_sensitive_string\`. Use \`string\` if the item type is unknown or mixed.
 data PostRadarValueListsRequestBodyItemType'
-  = PostRadarValueListsRequestBodyItemType'EnumOther Data.Aeson.Types.Internal.Value
-  | PostRadarValueListsRequestBodyItemType'EnumTyped Data.Text.Internal.Text
-  | PostRadarValueListsRequestBodyItemType'EnumStringCardBin
-  | PostRadarValueListsRequestBodyItemType'EnumStringCardFingerprint
-  | PostRadarValueListsRequestBodyItemType'EnumStringCaseSensitiveString
-  | PostRadarValueListsRequestBodyItemType'EnumStringCountry
-  | PostRadarValueListsRequestBodyItemType'EnumStringEmail
-  | PostRadarValueListsRequestBodyItemType'EnumStringIpAddress
-  | PostRadarValueListsRequestBodyItemType'EnumStringString
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    PostRadarValueListsRequestBodyItemType'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    PostRadarValueListsRequestBodyItemType'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"card_bin"@
+    PostRadarValueListsRequestBodyItemType'EnumCardBin
+  | -- | Represents the JSON value @"card_fingerprint"@
+    PostRadarValueListsRequestBodyItemType'EnumCardFingerprint
+  | -- | Represents the JSON value @"case_sensitive_string"@
+    PostRadarValueListsRequestBodyItemType'EnumCaseSensitiveString
+  | -- | Represents the JSON value @"country"@
+    PostRadarValueListsRequestBodyItemType'EnumCountry
+  | -- | Represents the JSON value @"email"@
+    PostRadarValueListsRequestBodyItemType'EnumEmail
+  | -- | Represents the JSON value @"ip_address"@
+    PostRadarValueListsRequestBodyItemType'EnumIpAddress
+  | -- | Represents the JSON value @"string"@
+    PostRadarValueListsRequestBodyItemType'EnumString
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostRadarValueListsRequestBodyItemType' where
-  toJSON (PostRadarValueListsRequestBodyItemType'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostRadarValueListsRequestBodyItemType'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostRadarValueListsRequestBodyItemType'EnumStringCardBin) = "card_bin"
-  toJSON (PostRadarValueListsRequestBodyItemType'EnumStringCardFingerprint) = "card_fingerprint"
-  toJSON (PostRadarValueListsRequestBodyItemType'EnumStringCaseSensitiveString) = "case_sensitive_string"
-  toJSON (PostRadarValueListsRequestBodyItemType'EnumStringCountry) = "country"
-  toJSON (PostRadarValueListsRequestBodyItemType'EnumStringEmail) = "email"
-  toJSON (PostRadarValueListsRequestBodyItemType'EnumStringIpAddress) = "ip_address"
-  toJSON (PostRadarValueListsRequestBodyItemType'EnumStringString) = "string"
+  toJSON (PostRadarValueListsRequestBodyItemType'Other val) = val
+  toJSON (PostRadarValueListsRequestBodyItemType'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PostRadarValueListsRequestBodyItemType'EnumCardBin) = "card_bin"
+  toJSON (PostRadarValueListsRequestBodyItemType'EnumCardFingerprint) = "card_fingerprint"
+  toJSON (PostRadarValueListsRequestBodyItemType'EnumCaseSensitiveString) = "case_sensitive_string"
+  toJSON (PostRadarValueListsRequestBodyItemType'EnumCountry) = "country"
+  toJSON (PostRadarValueListsRequestBodyItemType'EnumEmail) = "email"
+  toJSON (PostRadarValueListsRequestBodyItemType'EnumIpAddress) = "ip_address"
+  toJSON (PostRadarValueListsRequestBodyItemType'EnumString) = "string"
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostRadarValueListsRequestBodyItemType' where
   parseJSON val =
     GHC.Base.pure
-      ( if  | val GHC.Classes.== "card_bin" -> PostRadarValueListsRequestBodyItemType'EnumStringCardBin
-            | val GHC.Classes.== "card_fingerprint" -> PostRadarValueListsRequestBodyItemType'EnumStringCardFingerprint
-            | val GHC.Classes.== "case_sensitive_string" -> PostRadarValueListsRequestBodyItemType'EnumStringCaseSensitiveString
-            | val GHC.Classes.== "country" -> PostRadarValueListsRequestBodyItemType'EnumStringCountry
-            | val GHC.Classes.== "email" -> PostRadarValueListsRequestBodyItemType'EnumStringEmail
-            | val GHC.Classes.== "ip_address" -> PostRadarValueListsRequestBodyItemType'EnumStringIpAddress
-            | val GHC.Classes.== "string" -> PostRadarValueListsRequestBodyItemType'EnumStringString
-            | GHC.Base.otherwise -> PostRadarValueListsRequestBodyItemType'EnumOther val
+      ( if  | val GHC.Classes.== "card_bin" -> PostRadarValueListsRequestBodyItemType'EnumCardBin
+            | val GHC.Classes.== "card_fingerprint" -> PostRadarValueListsRequestBodyItemType'EnumCardFingerprint
+            | val GHC.Classes.== "case_sensitive_string" -> PostRadarValueListsRequestBodyItemType'EnumCaseSensitiveString
+            | val GHC.Classes.== "country" -> PostRadarValueListsRequestBodyItemType'EnumCountry
+            | val GHC.Classes.== "email" -> PostRadarValueListsRequestBodyItemType'EnumEmail
+            | val GHC.Classes.== "ip_address" -> PostRadarValueListsRequestBodyItemType'EnumIpAddress
+            | val GHC.Classes.== "string" -> PostRadarValueListsRequestBodyItemType'EnumString
+            | GHC.Base.otherwise -> PostRadarValueListsRequestBodyItemType'Other val
       )
 
 -- | Represents a response of the operation 'postRadarValueLists'.

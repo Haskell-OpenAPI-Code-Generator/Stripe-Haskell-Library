@@ -1,16 +1,16 @@
 module StripeAPI.Types.IssuingCardholderVerification where
 import Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Types.Internal
-data IssuingCardholderVerification 
-instance Show IssuingCardholderVerification 
-instance Eq IssuingCardholderVerification 
-instance FromJSON IssuingCardholderVerification 
-instance ToJSON IssuingCardholderVerification 
-data IssuingCardholderVerificationDocument' 
-instance Show IssuingCardholderVerificationDocument' 
-instance Eq IssuingCardholderVerificationDocument' 
-instance FromJSON IssuingCardholderVerificationDocument' 
-instance ToJSON IssuingCardholderVerificationDocument' 
+data IssuingCardholderVerification
+instance Show IssuingCardholderVerification
+instance Eq IssuingCardholderVerification
+instance FromJSON IssuingCardholderVerification
+instance ToJSON IssuingCardholderVerification
+data IssuingCardholderVerificationDocument'
+instance Show IssuingCardholderVerificationDocument'
+instance Eq IssuingCardholderVerificationDocument'
+instance FromJSON IssuingCardholderVerificationDocument'
+instance ToJSON IssuingCardholderVerificationDocument'
 data IssuingCardholderVerificationDocument'Back'Variants
 instance Show IssuingCardholderVerificationDocument'Back'Variants
 instance Eq IssuingCardholderVerificationDocument'Back'Variants

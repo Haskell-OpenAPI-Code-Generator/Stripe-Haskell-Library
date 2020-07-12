@@ -10,6 +10,7 @@ module StripeAPI.Operations.GetWebhookEndpoints where
 import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -85,7 +86,7 @@ getWebhookEndpoints parameters =
         ]
     )
 
--- | Defines the data type for the schema getWebhookEndpointsParameters
+-- | Defines the object schema located at @paths.\/v1\/webhook_endpoints.GET.parameters@ in the specification.
 data GetWebhookEndpointsParameters
   = GetWebhookEndpointsParameters
       { -- | queryEnding_before: Represents the parameter named \'ending_before\'
@@ -119,11 +120,21 @@ data GetWebhookEndpointsParameters
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetWebhookEndpointsParameters where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "queryEnding_before" (getWebhookEndpointsParametersQueryEndingBefore obj) : (Data.Aeson..=) "queryExpand" (getWebhookEndpointsParametersQueryExpand obj) : (Data.Aeson..=) "queryLimit" (getWebhookEndpointsParametersQueryLimit obj) : (Data.Aeson..=) "queryStarting_after" (getWebhookEndpointsParametersQueryStartingAfter obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "queryEnding_before" (getWebhookEndpointsParametersQueryEndingBefore obj) GHC.Base.<> ((Data.Aeson..=) "queryExpand" (getWebhookEndpointsParametersQueryExpand obj) GHC.Base.<> ((Data.Aeson..=) "queryLimit" (getWebhookEndpointsParametersQueryLimit obj) GHC.Base.<> (Data.Aeson..=) "queryStarting_after" (getWebhookEndpointsParametersQueryStartingAfter obj))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("queryEnding_before" Data.Aeson.Types.ToJSON..= getWebhookEndpointsParametersQueryEndingBefore obj : "queryExpand" Data.Aeson.Types.ToJSON..= getWebhookEndpointsParametersQueryExpand obj : "queryLimit" Data.Aeson.Types.ToJSON..= getWebhookEndpointsParametersQueryLimit obj : "queryStarting_after" Data.Aeson.Types.ToJSON..= getWebhookEndpointsParametersQueryStartingAfter obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("queryEnding_before" Data.Aeson.Types.ToJSON..= getWebhookEndpointsParametersQueryEndingBefore obj) GHC.Base.<> (("queryExpand" Data.Aeson.Types.ToJSON..= getWebhookEndpointsParametersQueryExpand obj) GHC.Base.<> (("queryLimit" Data.Aeson.Types.ToJSON..= getWebhookEndpointsParametersQueryLimit obj) GHC.Base.<> ("queryStarting_after" Data.Aeson.Types.ToJSON..= getWebhookEndpointsParametersQueryStartingAfter obj))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetWebhookEndpointsParameters where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "GetWebhookEndpointsParameters" (\obj -> (((GHC.Base.pure GetWebhookEndpointsParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryEnding_before")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryExpand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryLimit")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryStarting_after"))
+
+-- | Create a new 'GetWebhookEndpointsParameters' with all required fields.
+mkGetWebhookEndpointsParameters :: GetWebhookEndpointsParameters
+mkGetWebhookEndpointsParameters =
+  GetWebhookEndpointsParameters
+    { getWebhookEndpointsParametersQueryEndingBefore = GHC.Maybe.Nothing,
+      getWebhookEndpointsParametersQueryExpand = GHC.Maybe.Nothing,
+      getWebhookEndpointsParametersQueryLimit = GHC.Maybe.Nothing,
+      getWebhookEndpointsParametersQueryStartingAfter = GHC.Maybe.Nothing
+    }
 
 -- | Represents a response of the operation 'getWebhookEndpoints'.
 --
@@ -137,15 +148,13 @@ data GetWebhookEndpointsResponse
     GetWebhookEndpointsResponseDefault Error
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
--- | Defines the data type for the schema GetWebhookEndpointsResponseBody200
+-- | Defines the object schema located at @paths.\/v1\/webhook_endpoints.GET.responses.200.content.application\/json.schema@ in the specification.
 data GetWebhookEndpointsResponseBody200
   = GetWebhookEndpointsResponseBody200
       { -- | data
         getWebhookEndpointsResponseBody200Data :: ([WebhookEndpoint]),
         -- | has_more: True if this list has another page of items after this one that can be fetched.
         getWebhookEndpointsResponseBody200HasMore :: GHC.Types.Bool,
-        -- | object: String representing the object\'s type. Objects of the same type share the same value. Always has the value \`list\`.
-        getWebhookEndpointsResponseBody200Object :: GetWebhookEndpointsResponseBody200Object',
         -- | url: The URL where this list can be accessed.
         --
         -- Constraints:
@@ -160,29 +169,24 @@ data GetWebhookEndpointsResponseBody200
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetWebhookEndpointsResponseBody200 where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "data" (getWebhookEndpointsResponseBody200Data obj) : (Data.Aeson..=) "has_more" (getWebhookEndpointsResponseBody200HasMore obj) : (Data.Aeson..=) "object" (getWebhookEndpointsResponseBody200Object obj) : (Data.Aeson..=) "url" (getWebhookEndpointsResponseBody200Url obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "data" (getWebhookEndpointsResponseBody200Data obj) GHC.Base.<> ((Data.Aeson..=) "has_more" (getWebhookEndpointsResponseBody200HasMore obj) GHC.Base.<> ((Data.Aeson..=) "object" (getWebhookEndpointsResponseBody200Object obj) GHC.Base.<> (Data.Aeson..=) "url" (getWebhookEndpointsResponseBody200Url obj))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("data" Data.Aeson.Types.ToJSON..= getWebhookEndpointsResponseBody200Data obj : "has_more" Data.Aeson.Types.ToJSON..= getWebhookEndpointsResponseBody200HasMore obj : "url" Data.Aeson.Types.ToJSON..= getWebhookEndpointsResponseBody200Url obj : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "list" : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("data" Data.Aeson.Types.ToJSON..= getWebhookEndpointsResponseBody200Data obj) GHC.Base.<> (("has_more" Data.Aeson.Types.ToJSON..= getWebhookEndpointsResponseBody200HasMore obj) GHC.Base.<> (("url" Data.Aeson.Types.ToJSON..= getWebhookEndpointsResponseBody200Url obj) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "list"))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetWebhookEndpointsResponseBody200 where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetWebhookEndpointsResponseBody200" (\obj -> (((GHC.Base.pure GetWebhookEndpointsResponseBody200 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "has_more")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "object")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "url"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetWebhookEndpointsResponseBody200" (\obj -> ((GHC.Base.pure GetWebhookEndpointsResponseBody200 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "has_more")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "url"))
 
--- | Defines the enum schema GetWebhookEndpointsResponseBody200Object\'
---
--- String representing the object\'s type. Objects of the same type share the same value. Always has the value \`list\`.
-data GetWebhookEndpointsResponseBody200Object'
-  = GetWebhookEndpointsResponseBody200Object'EnumOther Data.Aeson.Types.Internal.Value
-  | GetWebhookEndpointsResponseBody200Object'EnumTyped Data.Text.Internal.Text
-  | GetWebhookEndpointsResponseBody200Object'EnumStringList
-  deriving (GHC.Show.Show, GHC.Classes.Eq)
-
-instance Data.Aeson.Types.ToJSON.ToJSON GetWebhookEndpointsResponseBody200Object' where
-  toJSON (GetWebhookEndpointsResponseBody200Object'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (GetWebhookEndpointsResponseBody200Object'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (GetWebhookEndpointsResponseBody200Object'EnumStringList) = "list"
-
-instance Data.Aeson.Types.FromJSON.FromJSON GetWebhookEndpointsResponseBody200Object' where
-  parseJSON val =
-    GHC.Base.pure
-      ( if  | val GHC.Classes.== "list" -> GetWebhookEndpointsResponseBody200Object'EnumStringList
-            | GHC.Base.otherwise -> GetWebhookEndpointsResponseBody200Object'EnumOther val
-      )
+-- | Create a new 'GetWebhookEndpointsResponseBody200' with all required fields.
+mkGetWebhookEndpointsResponseBody200 ::
+  -- | 'getWebhookEndpointsResponseBody200Data'
+  [WebhookEndpoint] ->
+  -- | 'getWebhookEndpointsResponseBody200HasMore'
+  GHC.Types.Bool ->
+  -- | 'getWebhookEndpointsResponseBody200Url'
+  Data.Text.Internal.Text ->
+  GetWebhookEndpointsResponseBody200
+mkGetWebhookEndpointsResponseBody200 getWebhookEndpointsResponseBody200Data getWebhookEndpointsResponseBody200HasMore getWebhookEndpointsResponseBody200Url =
+  GetWebhookEndpointsResponseBody200
+    { getWebhookEndpointsResponseBody200Data = getWebhookEndpointsResponseBody200Data,
+      getWebhookEndpointsResponseBody200HasMore = getWebhookEndpointsResponseBody200HasMore,
+      getWebhookEndpointsResponseBody200Url = getWebhookEndpointsResponseBody200Url
+    }

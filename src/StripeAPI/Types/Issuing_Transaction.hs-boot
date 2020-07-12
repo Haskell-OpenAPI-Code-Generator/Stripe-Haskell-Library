@@ -1,11 +1,11 @@
 module StripeAPI.Types.Issuing_Transaction where
 import Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Types.Internal
-data Issuing'transaction 
-instance Show Issuing'transaction 
-instance Eq Issuing'transaction 
-instance FromJSON Issuing'transaction 
-instance ToJSON Issuing'transaction 
+data Issuing'transaction
+instance Show Issuing'transaction
+instance Eq Issuing'transaction
+instance FromJSON Issuing'transaction
+instance ToJSON Issuing'transaction
 data Issuing'transactionAuthorization'Variants
 instance Show Issuing'transactionAuthorization'Variants
 instance Eq Issuing'transactionAuthorization'Variants
@@ -31,11 +31,6 @@ instance Show Issuing'transactionDispute'Variants
 instance Eq Issuing'transactionDispute'Variants
 instance FromJSON Issuing'transactionDispute'Variants
 instance ToJSON Issuing'transactionDispute'Variants
-data Issuing'transactionObject'
-instance Show Issuing'transactionObject'
-instance Eq Issuing'transactionObject'
-instance FromJSON Issuing'transactionObject'
-instance ToJSON Issuing'transactionObject'
 data Issuing'transactionType'
 instance Show Issuing'transactionType'
 instance Eq Issuing'transactionType'

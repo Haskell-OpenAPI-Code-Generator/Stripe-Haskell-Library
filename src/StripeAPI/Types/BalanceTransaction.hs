@@ -8,6 +8,7 @@ module StripeAPI.Types.BalanceTransaction where
 
 import qualified Control.Monad.Fail
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -46,7 +47,7 @@ import {-# SOURCE #-} StripeAPI.Types.TransferReversal
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
--- | Defines the data type for the schema balance_transaction
+-- | Defines the object schema located at @components.schemas.balance_transaction@ in the specification.
 --
 -- Balance transactions represent funds moving through your Stripe account.
 -- They\'re created for every type of transaction that comes into or flows out of your Stripe account balance.
@@ -82,8 +83,6 @@ data BalanceTransaction
         balanceTransactionId :: Data.Text.Internal.Text,
         -- | net: Net amount of the transaction, in %s.
         balanceTransactionNet :: GHC.Types.Int,
-        -- | object: String representing the object\'s type. Objects of the same type share the same value.
-        balanceTransactionObject :: BalanceTransactionObject',
         -- | reporting_category: [Learn more](https:\/\/stripe.com\/docs\/reports\/reporting-categories) about how reporting categories can help you understand balance transactions from an accounting perspective.
         --
         -- Constraints:
@@ -107,34 +106,56 @@ data BalanceTransaction
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON BalanceTransaction where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "amount" (balanceTransactionAmount obj) : (Data.Aeson..=) "available_on" (balanceTransactionAvailableOn obj) : (Data.Aeson..=) "created" (balanceTransactionCreated obj) : (Data.Aeson..=) "currency" (balanceTransactionCurrency obj) : (Data.Aeson..=) "description" (balanceTransactionDescription obj) : (Data.Aeson..=) "exchange_rate" (balanceTransactionExchangeRate obj) : (Data.Aeson..=) "fee" (balanceTransactionFee obj) : (Data.Aeson..=) "fee_details" (balanceTransactionFeeDetails obj) : (Data.Aeson..=) "id" (balanceTransactionId obj) : (Data.Aeson..=) "net" (balanceTransactionNet obj) : (Data.Aeson..=) "object" (balanceTransactionObject obj) : (Data.Aeson..=) "reporting_category" (balanceTransactionReportingCategory obj) : (Data.Aeson..=) "source" (balanceTransactionSource obj) : (Data.Aeson..=) "status" (balanceTransactionStatus obj) : (Data.Aeson..=) "type" (balanceTransactionType obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "amount" (balanceTransactionAmount obj) GHC.Base.<> ((Data.Aeson..=) "available_on" (balanceTransactionAvailableOn obj) GHC.Base.<> ((Data.Aeson..=) "created" (balanceTransactionCreated obj) GHC.Base.<> ((Data.Aeson..=) "currency" (balanceTransactionCurrency obj) GHC.Base.<> ((Data.Aeson..=) "description" (balanceTransactionDescription obj) GHC.Base.<> ((Data.Aeson..=) "exchange_rate" (balanceTransactionExchangeRate obj) GHC.Base.<> ((Data.Aeson..=) "fee" (balanceTransactionFee obj) GHC.Base.<> ((Data.Aeson..=) "fee_details" (balanceTransactionFeeDetails obj) GHC.Base.<> ((Data.Aeson..=) "id" (balanceTransactionId obj) GHC.Base.<> ((Data.Aeson..=) "net" (balanceTransactionNet obj) GHC.Base.<> ((Data.Aeson..=) "object" (balanceTransactionObject obj) GHC.Base.<> ((Data.Aeson..=) "reporting_category" (balanceTransactionReportingCategory obj) GHC.Base.<> ((Data.Aeson..=) "source" (balanceTransactionSource obj) GHC.Base.<> ((Data.Aeson..=) "status" (balanceTransactionStatus obj) GHC.Base.<> (Data.Aeson..=) "type" (balanceTransactionType obj)))))))))))))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("amount" Data.Aeson.Types.ToJSON..= balanceTransactionAmount obj : "available_on" Data.Aeson.Types.ToJSON..= balanceTransactionAvailableOn obj : "created" Data.Aeson.Types.ToJSON..= balanceTransactionCreated obj : "currency" Data.Aeson.Types.ToJSON..= balanceTransactionCurrency obj : "description" Data.Aeson.Types.ToJSON..= balanceTransactionDescription obj : "exchange_rate" Data.Aeson.Types.ToJSON..= balanceTransactionExchangeRate obj : "fee" Data.Aeson.Types.ToJSON..= balanceTransactionFee obj : "fee_details" Data.Aeson.Types.ToJSON..= balanceTransactionFeeDetails obj : "id" Data.Aeson.Types.ToJSON..= balanceTransactionId obj : "net" Data.Aeson.Types.ToJSON..= balanceTransactionNet obj : "reporting_category" Data.Aeson.Types.ToJSON..= balanceTransactionReportingCategory obj : "source" Data.Aeson.Types.ToJSON..= balanceTransactionSource obj : "status" Data.Aeson.Types.ToJSON..= balanceTransactionStatus obj : "type" Data.Aeson.Types.ToJSON..= balanceTransactionType obj : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "balance_transaction" : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("amount" Data.Aeson.Types.ToJSON..= balanceTransactionAmount obj) GHC.Base.<> (("available_on" Data.Aeson.Types.ToJSON..= balanceTransactionAvailableOn obj) GHC.Base.<> (("created" Data.Aeson.Types.ToJSON..= balanceTransactionCreated obj) GHC.Base.<> (("currency" Data.Aeson.Types.ToJSON..= balanceTransactionCurrency obj) GHC.Base.<> (("description" Data.Aeson.Types.ToJSON..= balanceTransactionDescription obj) GHC.Base.<> (("exchange_rate" Data.Aeson.Types.ToJSON..= balanceTransactionExchangeRate obj) GHC.Base.<> (("fee" Data.Aeson.Types.ToJSON..= balanceTransactionFee obj) GHC.Base.<> (("fee_details" Data.Aeson.Types.ToJSON..= balanceTransactionFeeDetails obj) GHC.Base.<> (("id" Data.Aeson.Types.ToJSON..= balanceTransactionId obj) GHC.Base.<> (("net" Data.Aeson.Types.ToJSON..= balanceTransactionNet obj) GHC.Base.<> (("reporting_category" Data.Aeson.Types.ToJSON..= balanceTransactionReportingCategory obj) GHC.Base.<> (("source" Data.Aeson.Types.ToJSON..= balanceTransactionSource obj) GHC.Base.<> (("status" Data.Aeson.Types.ToJSON..= balanceTransactionStatus obj) GHC.Base.<> (("type" Data.Aeson.Types.ToJSON..= balanceTransactionType obj) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "balance_transaction")))))))))))))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON BalanceTransaction where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "BalanceTransaction" (\obj -> ((((((((((((((GHC.Base.pure BalanceTransaction GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "available_on")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "created")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "description")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "exchange_rate")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "fee")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "fee_details")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "net")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "object")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "reporting_category")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "source")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "status")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "type"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "BalanceTransaction" (\obj -> (((((((((((((GHC.Base.pure BalanceTransaction GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "available_on")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "created")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "description")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "exchange_rate")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "fee")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "fee_details")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "net")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "reporting_category")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "source")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "status")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "type"))
 
--- | Defines the enum schema balance_transactionObject\'
---
--- String representing the object\'s type. Objects of the same type share the same value.
-data BalanceTransactionObject'
-  = BalanceTransactionObject'EnumOther Data.Aeson.Types.Internal.Value
-  | BalanceTransactionObject'EnumTyped Data.Text.Internal.Text
-  | BalanceTransactionObject'EnumStringBalanceTransaction
-  deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Create a new 'BalanceTransaction' with all required fields.
+mkBalanceTransaction ::
+  -- | 'balanceTransactionAmount'
+  GHC.Types.Int ->
+  -- | 'balanceTransactionAvailableOn'
+  GHC.Types.Int ->
+  -- | 'balanceTransactionCreated'
+  GHC.Types.Int ->
+  -- | 'balanceTransactionCurrency'
+  Data.Text.Internal.Text ->
+  -- | 'balanceTransactionFee'
+  GHC.Types.Int ->
+  -- | 'balanceTransactionFeeDetails'
+  [Fee] ->
+  -- | 'balanceTransactionId'
+  Data.Text.Internal.Text ->
+  -- | 'balanceTransactionNet'
+  GHC.Types.Int ->
+  -- | 'balanceTransactionReportingCategory'
+  Data.Text.Internal.Text ->
+  -- | 'balanceTransactionStatus'
+  Data.Text.Internal.Text ->
+  -- | 'balanceTransactionType'
+  BalanceTransactionType' ->
+  BalanceTransaction
+mkBalanceTransaction balanceTransactionAmount balanceTransactionAvailableOn balanceTransactionCreated balanceTransactionCurrency balanceTransactionFee balanceTransactionFeeDetails balanceTransactionId balanceTransactionNet balanceTransactionReportingCategory balanceTransactionStatus balanceTransactionType =
+  BalanceTransaction
+    { balanceTransactionAmount = balanceTransactionAmount,
+      balanceTransactionAvailableOn = balanceTransactionAvailableOn,
+      balanceTransactionCreated = balanceTransactionCreated,
+      balanceTransactionCurrency = balanceTransactionCurrency,
+      balanceTransactionDescription = GHC.Maybe.Nothing,
+      balanceTransactionExchangeRate = GHC.Maybe.Nothing,
+      balanceTransactionFee = balanceTransactionFee,
+      balanceTransactionFeeDetails = balanceTransactionFeeDetails,
+      balanceTransactionId = balanceTransactionId,
+      balanceTransactionNet = balanceTransactionNet,
+      balanceTransactionReportingCategory = balanceTransactionReportingCategory,
+      balanceTransactionSource = GHC.Maybe.Nothing,
+      balanceTransactionStatus = balanceTransactionStatus,
+      balanceTransactionType = balanceTransactionType
+    }
 
-instance Data.Aeson.Types.ToJSON.ToJSON BalanceTransactionObject' where
-  toJSON (BalanceTransactionObject'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (BalanceTransactionObject'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (BalanceTransactionObject'EnumStringBalanceTransaction) = "balance_transaction"
-
-instance Data.Aeson.Types.FromJSON.FromJSON BalanceTransactionObject' where
-  parseJSON val =
-    GHC.Base.pure
-      ( if  | val GHC.Classes.== "balance_transaction" -> BalanceTransactionObject'EnumStringBalanceTransaction
-            | GHC.Base.otherwise -> BalanceTransactionObject'EnumOther val
-      )
-
--- | Define the one-of schema balance_transactionSource\'
+-- | Defines the oneOf schema located at @components.schemas.balance_transaction.properties.source.anyOf@ in the specification.
 --
 -- The Stripe object to which this transaction is related.
 data BalanceTransactionSource'Variants
@@ -175,141 +196,142 @@ instance Data.Aeson.Types.ToJSON.ToJSON BalanceTransactionSource'Variants where
   toJSON (BalanceTransactionSource'Text a) = Data.Aeson.Types.ToJSON.toJSON a
 
 instance Data.Aeson.Types.FromJSON.FromJSON BalanceTransactionSource'Variants where
-  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
-    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ BalanceTransactionSource'ApplicationFee a
-    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ BalanceTransactionSource'Charge a
-      Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-        Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ BalanceTransactionSource'ConnectCollectionTransfer a
-        Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-          Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ BalanceTransactionSource'Dispute a
-          Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-            Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ BalanceTransactionSource'FeeRefund a
-            Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-              Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ BalanceTransactionSource'Issuing'authorization a
-              Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-                Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ BalanceTransactionSource'Issuing'transaction a
-                Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-                  Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ BalanceTransactionSource'Payout a
-                  Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-                    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ BalanceTransactionSource'PlatformTaxFee a
-                    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-                      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ BalanceTransactionSource'Refund a
-                      Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-                        Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ BalanceTransactionSource'ReserveTransaction a
-                        Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-                          Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ BalanceTransactionSource'TaxDeductedAtSource a
-                          Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-                            Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ BalanceTransactionSource'Topup a
-                            Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-                              Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ BalanceTransactionSource'Transfer a
-                              Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-                                Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ BalanceTransactionSource'TransferReversal a
-                                Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-                                  Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ BalanceTransactionSource'Text a
-                                  Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+  parseJSON val = case (BalanceTransactionSource'ApplicationFee Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((BalanceTransactionSource'Charge Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((BalanceTransactionSource'ConnectCollectionTransfer Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((BalanceTransactionSource'Dispute Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((BalanceTransactionSource'FeeRefund Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((BalanceTransactionSource'Issuing'authorization Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((BalanceTransactionSource'Issuing'transaction Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((BalanceTransactionSource'Payout Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((BalanceTransactionSource'PlatformTaxFee Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((BalanceTransactionSource'Refund Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((BalanceTransactionSource'ReserveTransaction Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((BalanceTransactionSource'TaxDeductedAtSource Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((BalanceTransactionSource'Topup Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((BalanceTransactionSource'Transfer Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((BalanceTransactionSource'TransferReversal Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((BalanceTransactionSource'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched"))))))))))))))) of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+    Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
--- | Defines the enum schema balance_transactionType\'
+-- | Defines the enum schema located at @components.schemas.balance_transaction.properties.type@ in the specification.
 --
 -- Transaction type: \`adjustment\`, \`advance\`, \`advance_funding\`, \`application_fee\`, \`application_fee_refund\`, \`charge\`, \`connect_collection_transfer\`, \`issuing_authorization_hold\`, \`issuing_authorization_release\`, \`issuing_transaction\`, \`payment\`, \`payment_failure_refund\`, \`payment_refund\`, \`payout\`, \`payout_cancel\`, \`payout_failure\`, \`refund\`, \`refund_failure\`, \`reserve_transaction\`, \`reserved_funds\`, \`stripe_fee\`, \`stripe_fx_fee\`, \`tax_fee\`, \`topup\`, \`topup_reversal\`, \`transfer\`, \`transfer_cancel\`, \`transfer_failure\`, or \`transfer_refund\`. [Learn more](https:\/\/stripe.com\/docs\/reports\/balance-transaction-types) about balance transaction types and what they represent. If you are looking to classify transactions for accounting purposes, you might want to consider \`reporting_category\` instead.
 data BalanceTransactionType'
-  = BalanceTransactionType'EnumOther Data.Aeson.Types.Internal.Value
-  | BalanceTransactionType'EnumTyped Data.Text.Internal.Text
-  | BalanceTransactionType'EnumStringAdjustment
-  | BalanceTransactionType'EnumStringAdvance
-  | BalanceTransactionType'EnumStringAdvanceFunding
-  | BalanceTransactionType'EnumStringApplicationFee
-  | BalanceTransactionType'EnumStringApplicationFeeRefund
-  | BalanceTransactionType'EnumStringCharge
-  | BalanceTransactionType'EnumStringConnectCollectionTransfer
-  | BalanceTransactionType'EnumStringIssuingAuthorizationHold
-  | BalanceTransactionType'EnumStringIssuingAuthorizationRelease
-  | BalanceTransactionType'EnumStringIssuingTransaction
-  | BalanceTransactionType'EnumStringPayment
-  | BalanceTransactionType'EnumStringPaymentFailureRefund
-  | BalanceTransactionType'EnumStringPaymentRefund
-  | BalanceTransactionType'EnumStringPayout
-  | BalanceTransactionType'EnumStringPayoutCancel
-  | BalanceTransactionType'EnumStringPayoutFailure
-  | BalanceTransactionType'EnumStringRefund
-  | BalanceTransactionType'EnumStringRefundFailure
-  | BalanceTransactionType'EnumStringReserveTransaction
-  | BalanceTransactionType'EnumStringReservedFunds
-  | BalanceTransactionType'EnumStringStripeFee
-  | BalanceTransactionType'EnumStringStripeFxFee
-  | BalanceTransactionType'EnumStringTaxFee
-  | BalanceTransactionType'EnumStringTopup
-  | BalanceTransactionType'EnumStringTopupReversal
-  | BalanceTransactionType'EnumStringTransfer
-  | BalanceTransactionType'EnumStringTransferCancel
-  | BalanceTransactionType'EnumStringTransferFailure
-  | BalanceTransactionType'EnumStringTransferRefund
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    BalanceTransactionType'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    BalanceTransactionType'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"adjustment"@
+    BalanceTransactionType'EnumAdjustment
+  | -- | Represents the JSON value @"advance"@
+    BalanceTransactionType'EnumAdvance
+  | -- | Represents the JSON value @"advance_funding"@
+    BalanceTransactionType'EnumAdvanceFunding
+  | -- | Represents the JSON value @"application_fee"@
+    BalanceTransactionType'EnumApplicationFee
+  | -- | Represents the JSON value @"application_fee_refund"@
+    BalanceTransactionType'EnumApplicationFeeRefund
+  | -- | Represents the JSON value @"charge"@
+    BalanceTransactionType'EnumCharge
+  | -- | Represents the JSON value @"connect_collection_transfer"@
+    BalanceTransactionType'EnumConnectCollectionTransfer
+  | -- | Represents the JSON value @"issuing_authorization_hold"@
+    BalanceTransactionType'EnumIssuingAuthorizationHold
+  | -- | Represents the JSON value @"issuing_authorization_release"@
+    BalanceTransactionType'EnumIssuingAuthorizationRelease
+  | -- | Represents the JSON value @"issuing_transaction"@
+    BalanceTransactionType'EnumIssuingTransaction
+  | -- | Represents the JSON value @"payment"@
+    BalanceTransactionType'EnumPayment
+  | -- | Represents the JSON value @"payment_failure_refund"@
+    BalanceTransactionType'EnumPaymentFailureRefund
+  | -- | Represents the JSON value @"payment_refund"@
+    BalanceTransactionType'EnumPaymentRefund
+  | -- | Represents the JSON value @"payout"@
+    BalanceTransactionType'EnumPayout
+  | -- | Represents the JSON value @"payout_cancel"@
+    BalanceTransactionType'EnumPayoutCancel
+  | -- | Represents the JSON value @"payout_failure"@
+    BalanceTransactionType'EnumPayoutFailure
+  | -- | Represents the JSON value @"refund"@
+    BalanceTransactionType'EnumRefund
+  | -- | Represents the JSON value @"refund_failure"@
+    BalanceTransactionType'EnumRefundFailure
+  | -- | Represents the JSON value @"reserve_transaction"@
+    BalanceTransactionType'EnumReserveTransaction
+  | -- | Represents the JSON value @"reserved_funds"@
+    BalanceTransactionType'EnumReservedFunds
+  | -- | Represents the JSON value @"stripe_fee"@
+    BalanceTransactionType'EnumStripeFee
+  | -- | Represents the JSON value @"stripe_fx_fee"@
+    BalanceTransactionType'EnumStripeFxFee
+  | -- | Represents the JSON value @"tax_fee"@
+    BalanceTransactionType'EnumTaxFee
+  | -- | Represents the JSON value @"topup"@
+    BalanceTransactionType'EnumTopup
+  | -- | Represents the JSON value @"topup_reversal"@
+    BalanceTransactionType'EnumTopupReversal
+  | -- | Represents the JSON value @"transfer"@
+    BalanceTransactionType'EnumTransfer
+  | -- | Represents the JSON value @"transfer_cancel"@
+    BalanceTransactionType'EnumTransferCancel
+  | -- | Represents the JSON value @"transfer_failure"@
+    BalanceTransactionType'EnumTransferFailure
+  | -- | Represents the JSON value @"transfer_refund"@
+    BalanceTransactionType'EnumTransferRefund
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
 instance Data.Aeson.Types.ToJSON.ToJSON BalanceTransactionType' where
-  toJSON (BalanceTransactionType'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (BalanceTransactionType'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (BalanceTransactionType'EnumStringAdjustment) = "adjustment"
-  toJSON (BalanceTransactionType'EnumStringAdvance) = "advance"
-  toJSON (BalanceTransactionType'EnumStringAdvanceFunding) = "advance_funding"
-  toJSON (BalanceTransactionType'EnumStringApplicationFee) = "application_fee"
-  toJSON (BalanceTransactionType'EnumStringApplicationFeeRefund) = "application_fee_refund"
-  toJSON (BalanceTransactionType'EnumStringCharge) = "charge"
-  toJSON (BalanceTransactionType'EnumStringConnectCollectionTransfer) = "connect_collection_transfer"
-  toJSON (BalanceTransactionType'EnumStringIssuingAuthorizationHold) = "issuing_authorization_hold"
-  toJSON (BalanceTransactionType'EnumStringIssuingAuthorizationRelease) = "issuing_authorization_release"
-  toJSON (BalanceTransactionType'EnumStringIssuingTransaction) = "issuing_transaction"
-  toJSON (BalanceTransactionType'EnumStringPayment) = "payment"
-  toJSON (BalanceTransactionType'EnumStringPaymentFailureRefund) = "payment_failure_refund"
-  toJSON (BalanceTransactionType'EnumStringPaymentRefund) = "payment_refund"
-  toJSON (BalanceTransactionType'EnumStringPayout) = "payout"
-  toJSON (BalanceTransactionType'EnumStringPayoutCancel) = "payout_cancel"
-  toJSON (BalanceTransactionType'EnumStringPayoutFailure) = "payout_failure"
-  toJSON (BalanceTransactionType'EnumStringRefund) = "refund"
-  toJSON (BalanceTransactionType'EnumStringRefundFailure) = "refund_failure"
-  toJSON (BalanceTransactionType'EnumStringReserveTransaction) = "reserve_transaction"
-  toJSON (BalanceTransactionType'EnumStringReservedFunds) = "reserved_funds"
-  toJSON (BalanceTransactionType'EnumStringStripeFee) = "stripe_fee"
-  toJSON (BalanceTransactionType'EnumStringStripeFxFee) = "stripe_fx_fee"
-  toJSON (BalanceTransactionType'EnumStringTaxFee) = "tax_fee"
-  toJSON (BalanceTransactionType'EnumStringTopup) = "topup"
-  toJSON (BalanceTransactionType'EnumStringTopupReversal) = "topup_reversal"
-  toJSON (BalanceTransactionType'EnumStringTransfer) = "transfer"
-  toJSON (BalanceTransactionType'EnumStringTransferCancel) = "transfer_cancel"
-  toJSON (BalanceTransactionType'EnumStringTransferFailure) = "transfer_failure"
-  toJSON (BalanceTransactionType'EnumStringTransferRefund) = "transfer_refund"
+  toJSON (BalanceTransactionType'Other val) = val
+  toJSON (BalanceTransactionType'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (BalanceTransactionType'EnumAdjustment) = "adjustment"
+  toJSON (BalanceTransactionType'EnumAdvance) = "advance"
+  toJSON (BalanceTransactionType'EnumAdvanceFunding) = "advance_funding"
+  toJSON (BalanceTransactionType'EnumApplicationFee) = "application_fee"
+  toJSON (BalanceTransactionType'EnumApplicationFeeRefund) = "application_fee_refund"
+  toJSON (BalanceTransactionType'EnumCharge) = "charge"
+  toJSON (BalanceTransactionType'EnumConnectCollectionTransfer) = "connect_collection_transfer"
+  toJSON (BalanceTransactionType'EnumIssuingAuthorizationHold) = "issuing_authorization_hold"
+  toJSON (BalanceTransactionType'EnumIssuingAuthorizationRelease) = "issuing_authorization_release"
+  toJSON (BalanceTransactionType'EnumIssuingTransaction) = "issuing_transaction"
+  toJSON (BalanceTransactionType'EnumPayment) = "payment"
+  toJSON (BalanceTransactionType'EnumPaymentFailureRefund) = "payment_failure_refund"
+  toJSON (BalanceTransactionType'EnumPaymentRefund) = "payment_refund"
+  toJSON (BalanceTransactionType'EnumPayout) = "payout"
+  toJSON (BalanceTransactionType'EnumPayoutCancel) = "payout_cancel"
+  toJSON (BalanceTransactionType'EnumPayoutFailure) = "payout_failure"
+  toJSON (BalanceTransactionType'EnumRefund) = "refund"
+  toJSON (BalanceTransactionType'EnumRefundFailure) = "refund_failure"
+  toJSON (BalanceTransactionType'EnumReserveTransaction) = "reserve_transaction"
+  toJSON (BalanceTransactionType'EnumReservedFunds) = "reserved_funds"
+  toJSON (BalanceTransactionType'EnumStripeFee) = "stripe_fee"
+  toJSON (BalanceTransactionType'EnumStripeFxFee) = "stripe_fx_fee"
+  toJSON (BalanceTransactionType'EnumTaxFee) = "tax_fee"
+  toJSON (BalanceTransactionType'EnumTopup) = "topup"
+  toJSON (BalanceTransactionType'EnumTopupReversal) = "topup_reversal"
+  toJSON (BalanceTransactionType'EnumTransfer) = "transfer"
+  toJSON (BalanceTransactionType'EnumTransferCancel) = "transfer_cancel"
+  toJSON (BalanceTransactionType'EnumTransferFailure) = "transfer_failure"
+  toJSON (BalanceTransactionType'EnumTransferRefund) = "transfer_refund"
 
 instance Data.Aeson.Types.FromJSON.FromJSON BalanceTransactionType' where
   parseJSON val =
     GHC.Base.pure
-      ( if  | val GHC.Classes.== "adjustment" -> BalanceTransactionType'EnumStringAdjustment
-            | val GHC.Classes.== "advance" -> BalanceTransactionType'EnumStringAdvance
-            | val GHC.Classes.== "advance_funding" -> BalanceTransactionType'EnumStringAdvanceFunding
-            | val GHC.Classes.== "application_fee" -> BalanceTransactionType'EnumStringApplicationFee
-            | val GHC.Classes.== "application_fee_refund" -> BalanceTransactionType'EnumStringApplicationFeeRefund
-            | val GHC.Classes.== "charge" -> BalanceTransactionType'EnumStringCharge
-            | val GHC.Classes.== "connect_collection_transfer" -> BalanceTransactionType'EnumStringConnectCollectionTransfer
-            | val GHC.Classes.== "issuing_authorization_hold" -> BalanceTransactionType'EnumStringIssuingAuthorizationHold
-            | val GHC.Classes.== "issuing_authorization_release" -> BalanceTransactionType'EnumStringIssuingAuthorizationRelease
-            | val GHC.Classes.== "issuing_transaction" -> BalanceTransactionType'EnumStringIssuingTransaction
-            | val GHC.Classes.== "payment" -> BalanceTransactionType'EnumStringPayment
-            | val GHC.Classes.== "payment_failure_refund" -> BalanceTransactionType'EnumStringPaymentFailureRefund
-            | val GHC.Classes.== "payment_refund" -> BalanceTransactionType'EnumStringPaymentRefund
-            | val GHC.Classes.== "payout" -> BalanceTransactionType'EnumStringPayout
-            | val GHC.Classes.== "payout_cancel" -> BalanceTransactionType'EnumStringPayoutCancel
-            | val GHC.Classes.== "payout_failure" -> BalanceTransactionType'EnumStringPayoutFailure
-            | val GHC.Classes.== "refund" -> BalanceTransactionType'EnumStringRefund
-            | val GHC.Classes.== "refund_failure" -> BalanceTransactionType'EnumStringRefundFailure
-            | val GHC.Classes.== "reserve_transaction" -> BalanceTransactionType'EnumStringReserveTransaction
-            | val GHC.Classes.== "reserved_funds" -> BalanceTransactionType'EnumStringReservedFunds
-            | val GHC.Classes.== "stripe_fee" -> BalanceTransactionType'EnumStringStripeFee
-            | val GHC.Classes.== "stripe_fx_fee" -> BalanceTransactionType'EnumStringStripeFxFee
-            | val GHC.Classes.== "tax_fee" -> BalanceTransactionType'EnumStringTaxFee
-            | val GHC.Classes.== "topup" -> BalanceTransactionType'EnumStringTopup
-            | val GHC.Classes.== "topup_reversal" -> BalanceTransactionType'EnumStringTopupReversal
-            | val GHC.Classes.== "transfer" -> BalanceTransactionType'EnumStringTransfer
-            | val GHC.Classes.== "transfer_cancel" -> BalanceTransactionType'EnumStringTransferCancel
-            | val GHC.Classes.== "transfer_failure" -> BalanceTransactionType'EnumStringTransferFailure
-            | val GHC.Classes.== "transfer_refund" -> BalanceTransactionType'EnumStringTransferRefund
-            | GHC.Base.otherwise -> BalanceTransactionType'EnumOther val
+      ( if  | val GHC.Classes.== "adjustment" -> BalanceTransactionType'EnumAdjustment
+            | val GHC.Classes.== "advance" -> BalanceTransactionType'EnumAdvance
+            | val GHC.Classes.== "advance_funding" -> BalanceTransactionType'EnumAdvanceFunding
+            | val GHC.Classes.== "application_fee" -> BalanceTransactionType'EnumApplicationFee
+            | val GHC.Classes.== "application_fee_refund" -> BalanceTransactionType'EnumApplicationFeeRefund
+            | val GHC.Classes.== "charge" -> BalanceTransactionType'EnumCharge
+            | val GHC.Classes.== "connect_collection_transfer" -> BalanceTransactionType'EnumConnectCollectionTransfer
+            | val GHC.Classes.== "issuing_authorization_hold" -> BalanceTransactionType'EnumIssuingAuthorizationHold
+            | val GHC.Classes.== "issuing_authorization_release" -> BalanceTransactionType'EnumIssuingAuthorizationRelease
+            | val GHC.Classes.== "issuing_transaction" -> BalanceTransactionType'EnumIssuingTransaction
+            | val GHC.Classes.== "payment" -> BalanceTransactionType'EnumPayment
+            | val GHC.Classes.== "payment_failure_refund" -> BalanceTransactionType'EnumPaymentFailureRefund
+            | val GHC.Classes.== "payment_refund" -> BalanceTransactionType'EnumPaymentRefund
+            | val GHC.Classes.== "payout" -> BalanceTransactionType'EnumPayout
+            | val GHC.Classes.== "payout_cancel" -> BalanceTransactionType'EnumPayoutCancel
+            | val GHC.Classes.== "payout_failure" -> BalanceTransactionType'EnumPayoutFailure
+            | val GHC.Classes.== "refund" -> BalanceTransactionType'EnumRefund
+            | val GHC.Classes.== "refund_failure" -> BalanceTransactionType'EnumRefundFailure
+            | val GHC.Classes.== "reserve_transaction" -> BalanceTransactionType'EnumReserveTransaction
+            | val GHC.Classes.== "reserved_funds" -> BalanceTransactionType'EnumReservedFunds
+            | val GHC.Classes.== "stripe_fee" -> BalanceTransactionType'EnumStripeFee
+            | val GHC.Classes.== "stripe_fx_fee" -> BalanceTransactionType'EnumStripeFxFee
+            | val GHC.Classes.== "tax_fee" -> BalanceTransactionType'EnumTaxFee
+            | val GHC.Classes.== "topup" -> BalanceTransactionType'EnumTopup
+            | val GHC.Classes.== "topup_reversal" -> BalanceTransactionType'EnumTopupReversal
+            | val GHC.Classes.== "transfer" -> BalanceTransactionType'EnumTransfer
+            | val GHC.Classes.== "transfer_cancel" -> BalanceTransactionType'EnumTransferCancel
+            | val GHC.Classes.== "transfer_failure" -> BalanceTransactionType'EnumTransferFailure
+            | val GHC.Classes.== "transfer_refund" -> BalanceTransactionType'EnumTransferRefund
+            | GHC.Base.otherwise -> BalanceTransactionType'Other val
       )

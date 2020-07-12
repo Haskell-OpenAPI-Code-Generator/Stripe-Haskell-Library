@@ -10,6 +10,7 @@ module StripeAPI.Operations.GetRecipients where
 import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -88,7 +89,7 @@ getRecipients parameters =
         ]
     )
 
--- | Defines the data type for the schema getRecipientsParameters
+-- | Defines the object schema located at @paths.\/v1\/recipients.GET.parameters@ in the specification.
 data GetRecipientsParameters
   = GetRecipientsParameters
       { -- | queryCreated: Represents the parameter named \'created\'
@@ -134,13 +135,26 @@ data GetRecipientsParameters
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetRecipientsParameters where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "queryCreated" (getRecipientsParametersQueryCreated obj) : (Data.Aeson..=) "queryEnding_before" (getRecipientsParametersQueryEndingBefore obj) : (Data.Aeson..=) "queryExpand" (getRecipientsParametersQueryExpand obj) : (Data.Aeson..=) "queryLimit" (getRecipientsParametersQueryLimit obj) : (Data.Aeson..=) "queryStarting_after" (getRecipientsParametersQueryStartingAfter obj) : (Data.Aeson..=) "queryType" (getRecipientsParametersQueryType obj) : (Data.Aeson..=) "queryVerified" (getRecipientsParametersQueryVerified obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "queryCreated" (getRecipientsParametersQueryCreated obj) GHC.Base.<> ((Data.Aeson..=) "queryEnding_before" (getRecipientsParametersQueryEndingBefore obj) GHC.Base.<> ((Data.Aeson..=) "queryExpand" (getRecipientsParametersQueryExpand obj) GHC.Base.<> ((Data.Aeson..=) "queryLimit" (getRecipientsParametersQueryLimit obj) GHC.Base.<> ((Data.Aeson..=) "queryStarting_after" (getRecipientsParametersQueryStartingAfter obj) GHC.Base.<> ((Data.Aeson..=) "queryType" (getRecipientsParametersQueryType obj) GHC.Base.<> (Data.Aeson..=) "queryVerified" (getRecipientsParametersQueryVerified obj)))))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("queryCreated" Data.Aeson.Types.ToJSON..= getRecipientsParametersQueryCreated obj : "queryEnding_before" Data.Aeson.Types.ToJSON..= getRecipientsParametersQueryEndingBefore obj : "queryExpand" Data.Aeson.Types.ToJSON..= getRecipientsParametersQueryExpand obj : "queryLimit" Data.Aeson.Types.ToJSON..= getRecipientsParametersQueryLimit obj : "queryStarting_after" Data.Aeson.Types.ToJSON..= getRecipientsParametersQueryStartingAfter obj : "queryType" Data.Aeson.Types.ToJSON..= getRecipientsParametersQueryType obj : "queryVerified" Data.Aeson.Types.ToJSON..= getRecipientsParametersQueryVerified obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("queryCreated" Data.Aeson.Types.ToJSON..= getRecipientsParametersQueryCreated obj) GHC.Base.<> (("queryEnding_before" Data.Aeson.Types.ToJSON..= getRecipientsParametersQueryEndingBefore obj) GHC.Base.<> (("queryExpand" Data.Aeson.Types.ToJSON..= getRecipientsParametersQueryExpand obj) GHC.Base.<> (("queryLimit" Data.Aeson.Types.ToJSON..= getRecipientsParametersQueryLimit obj) GHC.Base.<> (("queryStarting_after" Data.Aeson.Types.ToJSON..= getRecipientsParametersQueryStartingAfter obj) GHC.Base.<> (("queryType" Data.Aeson.Types.ToJSON..= getRecipientsParametersQueryType obj) GHC.Base.<> ("queryVerified" Data.Aeson.Types.ToJSON..= getRecipientsParametersQueryVerified obj)))))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetRecipientsParameters where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "GetRecipientsParameters" (\obj -> ((((((GHC.Base.pure GetRecipientsParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryCreated")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryEnding_before")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryExpand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryLimit")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryStarting_after")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryType")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryVerified"))
 
--- | Defines the data type for the schema getRecipientsParametersQueryCreated\'OneOf2
+-- | Create a new 'GetRecipientsParameters' with all required fields.
+mkGetRecipientsParameters :: GetRecipientsParameters
+mkGetRecipientsParameters =
+  GetRecipientsParameters
+    { getRecipientsParametersQueryCreated = GHC.Maybe.Nothing,
+      getRecipientsParametersQueryEndingBefore = GHC.Maybe.Nothing,
+      getRecipientsParametersQueryExpand = GHC.Maybe.Nothing,
+      getRecipientsParametersQueryLimit = GHC.Maybe.Nothing,
+      getRecipientsParametersQueryStartingAfter = GHC.Maybe.Nothing,
+      getRecipientsParametersQueryType = GHC.Maybe.Nothing,
+      getRecipientsParametersQueryVerified = GHC.Maybe.Nothing
+    }
+
+-- | Defines the object schema located at @paths.\/v1\/recipients.GET.parameters.properties.queryCreated.anyOf@ in the specification.
 data GetRecipientsParametersQueryCreated'OneOf2
   = GetRecipientsParametersQueryCreated'OneOf2
       { -- | gt
@@ -158,13 +172,23 @@ data GetRecipientsParametersQueryCreated'OneOf2
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetRecipientsParametersQueryCreated'OneOf2 where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "gt" (getRecipientsParametersQueryCreated'OneOf2Gt obj) : (Data.Aeson..=) "gte" (getRecipientsParametersQueryCreated'OneOf2Gte obj) : (Data.Aeson..=) "lt" (getRecipientsParametersQueryCreated'OneOf2Lt obj) : (Data.Aeson..=) "lte" (getRecipientsParametersQueryCreated'OneOf2Lte obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "gt" (getRecipientsParametersQueryCreated'OneOf2Gt obj) GHC.Base.<> ((Data.Aeson..=) "gte" (getRecipientsParametersQueryCreated'OneOf2Gte obj) GHC.Base.<> ((Data.Aeson..=) "lt" (getRecipientsParametersQueryCreated'OneOf2Lt obj) GHC.Base.<> (Data.Aeson..=) "lte" (getRecipientsParametersQueryCreated'OneOf2Lte obj))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("gt" Data.Aeson.Types.ToJSON..= getRecipientsParametersQueryCreated'OneOf2Gt obj : "gte" Data.Aeson.Types.ToJSON..= getRecipientsParametersQueryCreated'OneOf2Gte obj : "lt" Data.Aeson.Types.ToJSON..= getRecipientsParametersQueryCreated'OneOf2Lt obj : "lte" Data.Aeson.Types.ToJSON..= getRecipientsParametersQueryCreated'OneOf2Lte obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("gt" Data.Aeson.Types.ToJSON..= getRecipientsParametersQueryCreated'OneOf2Gt obj) GHC.Base.<> (("gte" Data.Aeson.Types.ToJSON..= getRecipientsParametersQueryCreated'OneOf2Gte obj) GHC.Base.<> (("lt" Data.Aeson.Types.ToJSON..= getRecipientsParametersQueryCreated'OneOf2Lt obj) GHC.Base.<> ("lte" Data.Aeson.Types.ToJSON..= getRecipientsParametersQueryCreated'OneOf2Lte obj))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetRecipientsParametersQueryCreated'OneOf2 where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "GetRecipientsParametersQueryCreated'OneOf2" (\obj -> (((GHC.Base.pure GetRecipientsParametersQueryCreated'OneOf2 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "gt")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "gte")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "lt")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "lte"))
 
--- | Define the one-of schema getRecipientsParametersQueryCreated\'
+-- | Create a new 'GetRecipientsParametersQueryCreated'OneOf2' with all required fields.
+mkGetRecipientsParametersQueryCreated'OneOf2 :: GetRecipientsParametersQueryCreated'OneOf2
+mkGetRecipientsParametersQueryCreated'OneOf2 =
+  GetRecipientsParametersQueryCreated'OneOf2
+    { getRecipientsParametersQueryCreated'OneOf2Gt = GHC.Maybe.Nothing,
+      getRecipientsParametersQueryCreated'OneOf2Gte = GHC.Maybe.Nothing,
+      getRecipientsParametersQueryCreated'OneOf2Lt = GHC.Maybe.Nothing,
+      getRecipientsParametersQueryCreated'OneOf2Lte = GHC.Maybe.Nothing
+    }
+
+-- | Defines the oneOf schema located at @paths.\/v1\/recipients.GET.parameters.properties.queryCreated.anyOf@ in the specification.
 --
 -- Represents the parameter named \'created\'
 data GetRecipientsParametersQueryCreated'Variants
@@ -177,34 +201,36 @@ instance Data.Aeson.Types.ToJSON.ToJSON GetRecipientsParametersQueryCreated'Vari
   toJSON (GetRecipientsParametersQueryCreated'GetRecipientsParametersQueryCreated'OneOf2 a) = Data.Aeson.Types.ToJSON.toJSON a
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetRecipientsParametersQueryCreated'Variants where
-  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
-    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ GetRecipientsParametersQueryCreated'Int a
-    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ GetRecipientsParametersQueryCreated'GetRecipientsParametersQueryCreated'OneOf2 a
-      Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+  parseJSON val = case (GetRecipientsParametersQueryCreated'Int Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((GetRecipientsParametersQueryCreated'GetRecipientsParametersQueryCreated'OneOf2 Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched") of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+    Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
--- | Defines the enum schema getRecipientsParametersQueryType\'
+-- | Defines the enum schema located at @paths.\/v1\/recipients.GET.parameters.properties.queryType@ in the specification.
 --
 -- Represents the parameter named \'type\'
 data GetRecipientsParametersQueryType'
-  = GetRecipientsParametersQueryType'EnumOther Data.Aeson.Types.Internal.Value
-  | GetRecipientsParametersQueryType'EnumTyped Data.Text.Internal.Text
-  | GetRecipientsParametersQueryType'EnumStringCorporation
-  | GetRecipientsParametersQueryType'EnumStringIndividual
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    GetRecipientsParametersQueryType'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    GetRecipientsParametersQueryType'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"corporation"@
+    GetRecipientsParametersQueryType'EnumCorporation
+  | -- | Represents the JSON value @"individual"@
+    GetRecipientsParametersQueryType'EnumIndividual
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetRecipientsParametersQueryType' where
-  toJSON (GetRecipientsParametersQueryType'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (GetRecipientsParametersQueryType'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (GetRecipientsParametersQueryType'EnumStringCorporation) = "corporation"
-  toJSON (GetRecipientsParametersQueryType'EnumStringIndividual) = "individual"
+  toJSON (GetRecipientsParametersQueryType'Other val) = val
+  toJSON (GetRecipientsParametersQueryType'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (GetRecipientsParametersQueryType'EnumCorporation) = "corporation"
+  toJSON (GetRecipientsParametersQueryType'EnumIndividual) = "individual"
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetRecipientsParametersQueryType' where
   parseJSON val =
     GHC.Base.pure
-      ( if  | val GHC.Classes.== "corporation" -> GetRecipientsParametersQueryType'EnumStringCorporation
-            | val GHC.Classes.== "individual" -> GetRecipientsParametersQueryType'EnumStringIndividual
-            | GHC.Base.otherwise -> GetRecipientsParametersQueryType'EnumOther val
+      ( if  | val GHC.Classes.== "corporation" -> GetRecipientsParametersQueryType'EnumCorporation
+            | val GHC.Classes.== "individual" -> GetRecipientsParametersQueryType'EnumIndividual
+            | GHC.Base.otherwise -> GetRecipientsParametersQueryType'Other val
       )
 
 -- | Represents a response of the operation 'getRecipients'.
@@ -219,15 +245,13 @@ data GetRecipientsResponse
     GetRecipientsResponseDefault Error
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
--- | Defines the data type for the schema GetRecipientsResponseBody200
+-- | Defines the object schema located at @paths.\/v1\/recipients.GET.responses.200.content.application\/json.schema@ in the specification.
 data GetRecipientsResponseBody200
   = GetRecipientsResponseBody200
       { -- | data
         getRecipientsResponseBody200Data :: ([Recipient]),
         -- | has_more: True if this list has another page of items after this one that can be fetched.
         getRecipientsResponseBody200HasMore :: GHC.Types.Bool,
-        -- | object: String representing the object\'s type. Objects of the same type share the same value. Always has the value \`list\`.
-        getRecipientsResponseBody200Object :: GetRecipientsResponseBody200Object',
         -- | url: The URL where this list can be accessed.
         --
         -- Constraints:
@@ -242,29 +266,24 @@ data GetRecipientsResponseBody200
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetRecipientsResponseBody200 where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "data" (getRecipientsResponseBody200Data obj) : (Data.Aeson..=) "has_more" (getRecipientsResponseBody200HasMore obj) : (Data.Aeson..=) "object" (getRecipientsResponseBody200Object obj) : (Data.Aeson..=) "url" (getRecipientsResponseBody200Url obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "data" (getRecipientsResponseBody200Data obj) GHC.Base.<> ((Data.Aeson..=) "has_more" (getRecipientsResponseBody200HasMore obj) GHC.Base.<> ((Data.Aeson..=) "object" (getRecipientsResponseBody200Object obj) GHC.Base.<> (Data.Aeson..=) "url" (getRecipientsResponseBody200Url obj))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("data" Data.Aeson.Types.ToJSON..= getRecipientsResponseBody200Data obj : "has_more" Data.Aeson.Types.ToJSON..= getRecipientsResponseBody200HasMore obj : "url" Data.Aeson.Types.ToJSON..= getRecipientsResponseBody200Url obj : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "list" : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("data" Data.Aeson.Types.ToJSON..= getRecipientsResponseBody200Data obj) GHC.Base.<> (("has_more" Data.Aeson.Types.ToJSON..= getRecipientsResponseBody200HasMore obj) GHC.Base.<> (("url" Data.Aeson.Types.ToJSON..= getRecipientsResponseBody200Url obj) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "list"))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetRecipientsResponseBody200 where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetRecipientsResponseBody200" (\obj -> (((GHC.Base.pure GetRecipientsResponseBody200 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "has_more")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "object")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "url"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetRecipientsResponseBody200" (\obj -> ((GHC.Base.pure GetRecipientsResponseBody200 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "has_more")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "url"))
 
--- | Defines the enum schema GetRecipientsResponseBody200Object\'
---
--- String representing the object\'s type. Objects of the same type share the same value. Always has the value \`list\`.
-data GetRecipientsResponseBody200Object'
-  = GetRecipientsResponseBody200Object'EnumOther Data.Aeson.Types.Internal.Value
-  | GetRecipientsResponseBody200Object'EnumTyped Data.Text.Internal.Text
-  | GetRecipientsResponseBody200Object'EnumStringList
-  deriving (GHC.Show.Show, GHC.Classes.Eq)
-
-instance Data.Aeson.Types.ToJSON.ToJSON GetRecipientsResponseBody200Object' where
-  toJSON (GetRecipientsResponseBody200Object'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (GetRecipientsResponseBody200Object'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (GetRecipientsResponseBody200Object'EnumStringList) = "list"
-
-instance Data.Aeson.Types.FromJSON.FromJSON GetRecipientsResponseBody200Object' where
-  parseJSON val =
-    GHC.Base.pure
-      ( if  | val GHC.Classes.== "list" -> GetRecipientsResponseBody200Object'EnumStringList
-            | GHC.Base.otherwise -> GetRecipientsResponseBody200Object'EnumOther val
-      )
+-- | Create a new 'GetRecipientsResponseBody200' with all required fields.
+mkGetRecipientsResponseBody200 ::
+  -- | 'getRecipientsResponseBody200Data'
+  [Recipient] ->
+  -- | 'getRecipientsResponseBody200HasMore'
+  GHC.Types.Bool ->
+  -- | 'getRecipientsResponseBody200Url'
+  Data.Text.Internal.Text ->
+  GetRecipientsResponseBody200
+mkGetRecipientsResponseBody200 getRecipientsResponseBody200Data getRecipientsResponseBody200HasMore getRecipientsResponseBody200Url =
+  GetRecipientsResponseBody200
+    { getRecipientsResponseBody200Data = getRecipientsResponseBody200Data,
+      getRecipientsResponseBody200HasMore = getRecipientsResponseBody200HasMore,
+      getRecipientsResponseBody200Url = getRecipientsResponseBody200Url
+    }

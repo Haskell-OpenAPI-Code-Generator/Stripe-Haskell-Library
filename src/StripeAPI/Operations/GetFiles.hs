@@ -10,6 +10,7 @@ module StripeAPI.Operations.GetFiles where
 import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -87,7 +88,7 @@ getFiles parameters =
         ]
     )
 
--- | Defines the data type for the schema getFilesParameters
+-- | Defines the object schema located at @paths.\/v1\/files.GET.parameters@ in the specification.
 data GetFilesParameters
   = GetFilesParameters
       { -- | queryCreated: Represents the parameter named \'created\'
@@ -131,13 +132,25 @@ data GetFilesParameters
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetFilesParameters where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "queryCreated" (getFilesParametersQueryCreated obj) : (Data.Aeson..=) "queryEnding_before" (getFilesParametersQueryEndingBefore obj) : (Data.Aeson..=) "queryExpand" (getFilesParametersQueryExpand obj) : (Data.Aeson..=) "queryLimit" (getFilesParametersQueryLimit obj) : (Data.Aeson..=) "queryPurpose" (getFilesParametersQueryPurpose obj) : (Data.Aeson..=) "queryStarting_after" (getFilesParametersQueryStartingAfter obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "queryCreated" (getFilesParametersQueryCreated obj) GHC.Base.<> ((Data.Aeson..=) "queryEnding_before" (getFilesParametersQueryEndingBefore obj) GHC.Base.<> ((Data.Aeson..=) "queryExpand" (getFilesParametersQueryExpand obj) GHC.Base.<> ((Data.Aeson..=) "queryLimit" (getFilesParametersQueryLimit obj) GHC.Base.<> ((Data.Aeson..=) "queryPurpose" (getFilesParametersQueryPurpose obj) GHC.Base.<> (Data.Aeson..=) "queryStarting_after" (getFilesParametersQueryStartingAfter obj))))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("queryCreated" Data.Aeson.Types.ToJSON..= getFilesParametersQueryCreated obj : "queryEnding_before" Data.Aeson.Types.ToJSON..= getFilesParametersQueryEndingBefore obj : "queryExpand" Data.Aeson.Types.ToJSON..= getFilesParametersQueryExpand obj : "queryLimit" Data.Aeson.Types.ToJSON..= getFilesParametersQueryLimit obj : "queryPurpose" Data.Aeson.Types.ToJSON..= getFilesParametersQueryPurpose obj : "queryStarting_after" Data.Aeson.Types.ToJSON..= getFilesParametersQueryStartingAfter obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("queryCreated" Data.Aeson.Types.ToJSON..= getFilesParametersQueryCreated obj) GHC.Base.<> (("queryEnding_before" Data.Aeson.Types.ToJSON..= getFilesParametersQueryEndingBefore obj) GHC.Base.<> (("queryExpand" Data.Aeson.Types.ToJSON..= getFilesParametersQueryExpand obj) GHC.Base.<> (("queryLimit" Data.Aeson.Types.ToJSON..= getFilesParametersQueryLimit obj) GHC.Base.<> (("queryPurpose" Data.Aeson.Types.ToJSON..= getFilesParametersQueryPurpose obj) GHC.Base.<> ("queryStarting_after" Data.Aeson.Types.ToJSON..= getFilesParametersQueryStartingAfter obj))))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetFilesParameters where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "GetFilesParameters" (\obj -> (((((GHC.Base.pure GetFilesParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryCreated")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryEnding_before")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryExpand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryLimit")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryPurpose")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryStarting_after"))
 
--- | Defines the data type for the schema getFilesParametersQueryCreated\'OneOf2
+-- | Create a new 'GetFilesParameters' with all required fields.
+mkGetFilesParameters :: GetFilesParameters
+mkGetFilesParameters =
+  GetFilesParameters
+    { getFilesParametersQueryCreated = GHC.Maybe.Nothing,
+      getFilesParametersQueryEndingBefore = GHC.Maybe.Nothing,
+      getFilesParametersQueryExpand = GHC.Maybe.Nothing,
+      getFilesParametersQueryLimit = GHC.Maybe.Nothing,
+      getFilesParametersQueryPurpose = GHC.Maybe.Nothing,
+      getFilesParametersQueryStartingAfter = GHC.Maybe.Nothing
+    }
+
+-- | Defines the object schema located at @paths.\/v1\/files.GET.parameters.properties.queryCreated.anyOf@ in the specification.
 data GetFilesParametersQueryCreated'OneOf2
   = GetFilesParametersQueryCreated'OneOf2
       { -- | gt
@@ -155,13 +168,23 @@ data GetFilesParametersQueryCreated'OneOf2
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetFilesParametersQueryCreated'OneOf2 where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "gt" (getFilesParametersQueryCreated'OneOf2Gt obj) : (Data.Aeson..=) "gte" (getFilesParametersQueryCreated'OneOf2Gte obj) : (Data.Aeson..=) "lt" (getFilesParametersQueryCreated'OneOf2Lt obj) : (Data.Aeson..=) "lte" (getFilesParametersQueryCreated'OneOf2Lte obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "gt" (getFilesParametersQueryCreated'OneOf2Gt obj) GHC.Base.<> ((Data.Aeson..=) "gte" (getFilesParametersQueryCreated'OneOf2Gte obj) GHC.Base.<> ((Data.Aeson..=) "lt" (getFilesParametersQueryCreated'OneOf2Lt obj) GHC.Base.<> (Data.Aeson..=) "lte" (getFilesParametersQueryCreated'OneOf2Lte obj))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("gt" Data.Aeson.Types.ToJSON..= getFilesParametersQueryCreated'OneOf2Gt obj : "gte" Data.Aeson.Types.ToJSON..= getFilesParametersQueryCreated'OneOf2Gte obj : "lt" Data.Aeson.Types.ToJSON..= getFilesParametersQueryCreated'OneOf2Lt obj : "lte" Data.Aeson.Types.ToJSON..= getFilesParametersQueryCreated'OneOf2Lte obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("gt" Data.Aeson.Types.ToJSON..= getFilesParametersQueryCreated'OneOf2Gt obj) GHC.Base.<> (("gte" Data.Aeson.Types.ToJSON..= getFilesParametersQueryCreated'OneOf2Gte obj) GHC.Base.<> (("lt" Data.Aeson.Types.ToJSON..= getFilesParametersQueryCreated'OneOf2Lt obj) GHC.Base.<> ("lte" Data.Aeson.Types.ToJSON..= getFilesParametersQueryCreated'OneOf2Lte obj))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetFilesParametersQueryCreated'OneOf2 where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "GetFilesParametersQueryCreated'OneOf2" (\obj -> (((GHC.Base.pure GetFilesParametersQueryCreated'OneOf2 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "gt")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "gte")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "lt")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "lte"))
 
--- | Define the one-of schema getFilesParametersQueryCreated\'
+-- | Create a new 'GetFilesParametersQueryCreated'OneOf2' with all required fields.
+mkGetFilesParametersQueryCreated'OneOf2 :: GetFilesParametersQueryCreated'OneOf2
+mkGetFilesParametersQueryCreated'OneOf2 =
+  GetFilesParametersQueryCreated'OneOf2
+    { getFilesParametersQueryCreated'OneOf2Gt = GHC.Maybe.Nothing,
+      getFilesParametersQueryCreated'OneOf2Gte = GHC.Maybe.Nothing,
+      getFilesParametersQueryCreated'OneOf2Lt = GHC.Maybe.Nothing,
+      getFilesParametersQueryCreated'OneOf2Lte = GHC.Maybe.Nothing
+    }
+
+-- | Defines the oneOf schema located at @paths.\/v1\/files.GET.parameters.properties.queryCreated.anyOf@ in the specification.
 --
 -- Represents the parameter named \'created\'
 data GetFilesParametersQueryCreated'Variants
@@ -174,60 +197,70 @@ instance Data.Aeson.Types.ToJSON.ToJSON GetFilesParametersQueryCreated'Variants 
   toJSON (GetFilesParametersQueryCreated'GetFilesParametersQueryCreated'OneOf2 a) = Data.Aeson.Types.ToJSON.toJSON a
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetFilesParametersQueryCreated'Variants where
-  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
-    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ GetFilesParametersQueryCreated'Int a
-    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ GetFilesParametersQueryCreated'GetFilesParametersQueryCreated'OneOf2 a
-      Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+  parseJSON val = case (GetFilesParametersQueryCreated'Int Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((GetFilesParametersQueryCreated'GetFilesParametersQueryCreated'OneOf2 Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched") of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+    Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
--- | Defines the enum schema getFilesParametersQueryPurpose\'
+-- | Defines the enum schema located at @paths.\/v1\/files.GET.parameters.properties.queryPurpose@ in the specification.
 --
 -- Represents the parameter named \'purpose\'
 --
 -- The file purpose to filter queries by. If none is provided, files will not be filtered by purpose.
 data GetFilesParametersQueryPurpose'
-  = GetFilesParametersQueryPurpose'EnumOther Data.Aeson.Types.Internal.Value
-  | GetFilesParametersQueryPurpose'EnumTyped Data.Text.Internal.Text
-  | GetFilesParametersQueryPurpose'EnumStringAdditionalVerification
-  | GetFilesParametersQueryPurpose'EnumStringBusinessIcon
-  | GetFilesParametersQueryPurpose'EnumStringBusinessLogo
-  | GetFilesParametersQueryPurpose'EnumStringCustomerSignature
-  | GetFilesParametersQueryPurpose'EnumStringDisputeEvidence
-  | GetFilesParametersQueryPurpose'EnumStringFinanceReportRun
-  | GetFilesParametersQueryPurpose'EnumStringIdentityDocument
-  | GetFilesParametersQueryPurpose'EnumStringPciDocument
-  | GetFilesParametersQueryPurpose'EnumStringSigmaScheduledQuery
-  | GetFilesParametersQueryPurpose'EnumStringTaxDocumentUserUpload
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    GetFilesParametersQueryPurpose'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    GetFilesParametersQueryPurpose'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"additional_verification"@
+    GetFilesParametersQueryPurpose'EnumAdditionalVerification
+  | -- | Represents the JSON value @"business_icon"@
+    GetFilesParametersQueryPurpose'EnumBusinessIcon
+  | -- | Represents the JSON value @"business_logo"@
+    GetFilesParametersQueryPurpose'EnumBusinessLogo
+  | -- | Represents the JSON value @"customer_signature"@
+    GetFilesParametersQueryPurpose'EnumCustomerSignature
+  | -- | Represents the JSON value @"dispute_evidence"@
+    GetFilesParametersQueryPurpose'EnumDisputeEvidence
+  | -- | Represents the JSON value @"finance_report_run"@
+    GetFilesParametersQueryPurpose'EnumFinanceReportRun
+  | -- | Represents the JSON value @"identity_document"@
+    GetFilesParametersQueryPurpose'EnumIdentityDocument
+  | -- | Represents the JSON value @"pci_document"@
+    GetFilesParametersQueryPurpose'EnumPciDocument
+  | -- | Represents the JSON value @"sigma_scheduled_query"@
+    GetFilesParametersQueryPurpose'EnumSigmaScheduledQuery
+  | -- | Represents the JSON value @"tax_document_user_upload"@
+    GetFilesParametersQueryPurpose'EnumTaxDocumentUserUpload
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetFilesParametersQueryPurpose' where
-  toJSON (GetFilesParametersQueryPurpose'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (GetFilesParametersQueryPurpose'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (GetFilesParametersQueryPurpose'EnumStringAdditionalVerification) = "additional_verification"
-  toJSON (GetFilesParametersQueryPurpose'EnumStringBusinessIcon) = "business_icon"
-  toJSON (GetFilesParametersQueryPurpose'EnumStringBusinessLogo) = "business_logo"
-  toJSON (GetFilesParametersQueryPurpose'EnumStringCustomerSignature) = "customer_signature"
-  toJSON (GetFilesParametersQueryPurpose'EnumStringDisputeEvidence) = "dispute_evidence"
-  toJSON (GetFilesParametersQueryPurpose'EnumStringFinanceReportRun) = "finance_report_run"
-  toJSON (GetFilesParametersQueryPurpose'EnumStringIdentityDocument) = "identity_document"
-  toJSON (GetFilesParametersQueryPurpose'EnumStringPciDocument) = "pci_document"
-  toJSON (GetFilesParametersQueryPurpose'EnumStringSigmaScheduledQuery) = "sigma_scheduled_query"
-  toJSON (GetFilesParametersQueryPurpose'EnumStringTaxDocumentUserUpload) = "tax_document_user_upload"
+  toJSON (GetFilesParametersQueryPurpose'Other val) = val
+  toJSON (GetFilesParametersQueryPurpose'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (GetFilesParametersQueryPurpose'EnumAdditionalVerification) = "additional_verification"
+  toJSON (GetFilesParametersQueryPurpose'EnumBusinessIcon) = "business_icon"
+  toJSON (GetFilesParametersQueryPurpose'EnumBusinessLogo) = "business_logo"
+  toJSON (GetFilesParametersQueryPurpose'EnumCustomerSignature) = "customer_signature"
+  toJSON (GetFilesParametersQueryPurpose'EnumDisputeEvidence) = "dispute_evidence"
+  toJSON (GetFilesParametersQueryPurpose'EnumFinanceReportRun) = "finance_report_run"
+  toJSON (GetFilesParametersQueryPurpose'EnumIdentityDocument) = "identity_document"
+  toJSON (GetFilesParametersQueryPurpose'EnumPciDocument) = "pci_document"
+  toJSON (GetFilesParametersQueryPurpose'EnumSigmaScheduledQuery) = "sigma_scheduled_query"
+  toJSON (GetFilesParametersQueryPurpose'EnumTaxDocumentUserUpload) = "tax_document_user_upload"
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetFilesParametersQueryPurpose' where
   parseJSON val =
     GHC.Base.pure
-      ( if  | val GHC.Classes.== "additional_verification" -> GetFilesParametersQueryPurpose'EnumStringAdditionalVerification
-            | val GHC.Classes.== "business_icon" -> GetFilesParametersQueryPurpose'EnumStringBusinessIcon
-            | val GHC.Classes.== "business_logo" -> GetFilesParametersQueryPurpose'EnumStringBusinessLogo
-            | val GHC.Classes.== "customer_signature" -> GetFilesParametersQueryPurpose'EnumStringCustomerSignature
-            | val GHC.Classes.== "dispute_evidence" -> GetFilesParametersQueryPurpose'EnumStringDisputeEvidence
-            | val GHC.Classes.== "finance_report_run" -> GetFilesParametersQueryPurpose'EnumStringFinanceReportRun
-            | val GHC.Classes.== "identity_document" -> GetFilesParametersQueryPurpose'EnumStringIdentityDocument
-            | val GHC.Classes.== "pci_document" -> GetFilesParametersQueryPurpose'EnumStringPciDocument
-            | val GHC.Classes.== "sigma_scheduled_query" -> GetFilesParametersQueryPurpose'EnumStringSigmaScheduledQuery
-            | val GHC.Classes.== "tax_document_user_upload" -> GetFilesParametersQueryPurpose'EnumStringTaxDocumentUserUpload
-            | GHC.Base.otherwise -> GetFilesParametersQueryPurpose'EnumOther val
+      ( if  | val GHC.Classes.== "additional_verification" -> GetFilesParametersQueryPurpose'EnumAdditionalVerification
+            | val GHC.Classes.== "business_icon" -> GetFilesParametersQueryPurpose'EnumBusinessIcon
+            | val GHC.Classes.== "business_logo" -> GetFilesParametersQueryPurpose'EnumBusinessLogo
+            | val GHC.Classes.== "customer_signature" -> GetFilesParametersQueryPurpose'EnumCustomerSignature
+            | val GHC.Classes.== "dispute_evidence" -> GetFilesParametersQueryPurpose'EnumDisputeEvidence
+            | val GHC.Classes.== "finance_report_run" -> GetFilesParametersQueryPurpose'EnumFinanceReportRun
+            | val GHC.Classes.== "identity_document" -> GetFilesParametersQueryPurpose'EnumIdentityDocument
+            | val GHC.Classes.== "pci_document" -> GetFilesParametersQueryPurpose'EnumPciDocument
+            | val GHC.Classes.== "sigma_scheduled_query" -> GetFilesParametersQueryPurpose'EnumSigmaScheduledQuery
+            | val GHC.Classes.== "tax_document_user_upload" -> GetFilesParametersQueryPurpose'EnumTaxDocumentUserUpload
+            | GHC.Base.otherwise -> GetFilesParametersQueryPurpose'Other val
       )
 
 -- | Represents a response of the operation 'getFiles'.
@@ -242,15 +275,13 @@ data GetFilesResponse
     GetFilesResponseDefault Error
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
--- | Defines the data type for the schema GetFilesResponseBody200
+-- | Defines the object schema located at @paths.\/v1\/files.GET.responses.200.content.application\/json.schema@ in the specification.
 data GetFilesResponseBody200
   = GetFilesResponseBody200
       { -- | data
         getFilesResponseBody200Data :: ([File]),
         -- | has_more: True if this list has another page of items after this one that can be fetched.
         getFilesResponseBody200HasMore :: GHC.Types.Bool,
-        -- | object: String representing the object\'s type. Objects of the same type share the same value. Always has the value \`list\`.
-        getFilesResponseBody200Object :: GetFilesResponseBody200Object',
         -- | url: The URL where this list can be accessed.
         --
         -- Constraints:
@@ -265,29 +296,24 @@ data GetFilesResponseBody200
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetFilesResponseBody200 where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "data" (getFilesResponseBody200Data obj) : (Data.Aeson..=) "has_more" (getFilesResponseBody200HasMore obj) : (Data.Aeson..=) "object" (getFilesResponseBody200Object obj) : (Data.Aeson..=) "url" (getFilesResponseBody200Url obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "data" (getFilesResponseBody200Data obj) GHC.Base.<> ((Data.Aeson..=) "has_more" (getFilesResponseBody200HasMore obj) GHC.Base.<> ((Data.Aeson..=) "object" (getFilesResponseBody200Object obj) GHC.Base.<> (Data.Aeson..=) "url" (getFilesResponseBody200Url obj))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("data" Data.Aeson.Types.ToJSON..= getFilesResponseBody200Data obj : "has_more" Data.Aeson.Types.ToJSON..= getFilesResponseBody200HasMore obj : "url" Data.Aeson.Types.ToJSON..= getFilesResponseBody200Url obj : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "list" : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("data" Data.Aeson.Types.ToJSON..= getFilesResponseBody200Data obj) GHC.Base.<> (("has_more" Data.Aeson.Types.ToJSON..= getFilesResponseBody200HasMore obj) GHC.Base.<> (("url" Data.Aeson.Types.ToJSON..= getFilesResponseBody200Url obj) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "list"))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetFilesResponseBody200 where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetFilesResponseBody200" (\obj -> (((GHC.Base.pure GetFilesResponseBody200 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "has_more")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "object")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "url"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetFilesResponseBody200" (\obj -> ((GHC.Base.pure GetFilesResponseBody200 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "has_more")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "url"))
 
--- | Defines the enum schema GetFilesResponseBody200Object\'
---
--- String representing the object\'s type. Objects of the same type share the same value. Always has the value \`list\`.
-data GetFilesResponseBody200Object'
-  = GetFilesResponseBody200Object'EnumOther Data.Aeson.Types.Internal.Value
-  | GetFilesResponseBody200Object'EnumTyped Data.Text.Internal.Text
-  | GetFilesResponseBody200Object'EnumStringList
-  deriving (GHC.Show.Show, GHC.Classes.Eq)
-
-instance Data.Aeson.Types.ToJSON.ToJSON GetFilesResponseBody200Object' where
-  toJSON (GetFilesResponseBody200Object'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (GetFilesResponseBody200Object'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (GetFilesResponseBody200Object'EnumStringList) = "list"
-
-instance Data.Aeson.Types.FromJSON.FromJSON GetFilesResponseBody200Object' where
-  parseJSON val =
-    GHC.Base.pure
-      ( if  | val GHC.Classes.== "list" -> GetFilesResponseBody200Object'EnumStringList
-            | GHC.Base.otherwise -> GetFilesResponseBody200Object'EnumOther val
-      )
+-- | Create a new 'GetFilesResponseBody200' with all required fields.
+mkGetFilesResponseBody200 ::
+  -- | 'getFilesResponseBody200Data'
+  [File] ->
+  -- | 'getFilesResponseBody200HasMore'
+  GHC.Types.Bool ->
+  -- | 'getFilesResponseBody200Url'
+  Data.Text.Internal.Text ->
+  GetFilesResponseBody200
+mkGetFilesResponseBody200 getFilesResponseBody200Data getFilesResponseBody200HasMore getFilesResponseBody200Url =
+  GetFilesResponseBody200
+    { getFilesResponseBody200Data = getFilesResponseBody200Data,
+      getFilesResponseBody200HasMore = getFilesResponseBody200HasMore,
+      getFilesResponseBody200Url = getFilesResponseBody200Url
+    }

@@ -10,6 +10,7 @@ module StripeAPI.Operations.PostApplePayDomains where
 import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -77,7 +78,7 @@ postApplePayDomains body =
     )
     (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack "/v1/apple_pay/domains") [] (GHC.Maybe.Just body) StripeAPI.Common.RequestBodyEncodingFormData)
 
--- | Defines the data type for the schema postApplePayDomainsRequestBody
+-- | Defines the object schema located at @paths.\/v1\/apple_pay\/domains.POST.requestBody.content.application\/x-www-form-urlencoded.schema@ in the specification.
 data PostApplePayDomainsRequestBody
   = PostApplePayDomainsRequestBody
       { -- | domain_name
@@ -91,11 +92,22 @@ data PostApplePayDomainsRequestBody
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostApplePayDomainsRequestBody where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "domain_name" (postApplePayDomainsRequestBodyDomainName obj) : (Data.Aeson..=) "expand" (postApplePayDomainsRequestBodyExpand obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "domain_name" (postApplePayDomainsRequestBodyDomainName obj) GHC.Base.<> (Data.Aeson..=) "expand" (postApplePayDomainsRequestBodyExpand obj))
+  toJSON obj = Data.Aeson.Types.Internal.object ("domain_name" Data.Aeson.Types.ToJSON..= postApplePayDomainsRequestBodyDomainName obj : "expand" Data.Aeson.Types.ToJSON..= postApplePayDomainsRequestBodyExpand obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("domain_name" Data.Aeson.Types.ToJSON..= postApplePayDomainsRequestBodyDomainName obj) GHC.Base.<> ("expand" Data.Aeson.Types.ToJSON..= postApplePayDomainsRequestBodyExpand obj))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostApplePayDomainsRequestBody where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PostApplePayDomainsRequestBody" (\obj -> (GHC.Base.pure PostApplePayDomainsRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "domain_name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "expand"))
+
+-- | Create a new 'PostApplePayDomainsRequestBody' with all required fields.
+mkPostApplePayDomainsRequestBody ::
+  -- | 'postApplePayDomainsRequestBodyDomainName'
+  Data.Text.Internal.Text ->
+  PostApplePayDomainsRequestBody
+mkPostApplePayDomainsRequestBody postApplePayDomainsRequestBodyDomainName =
+  PostApplePayDomainsRequestBody
+    { postApplePayDomainsRequestBodyDomainName = postApplePayDomainsRequestBodyDomainName,
+      postApplePayDomainsRequestBodyExpand = GHC.Maybe.Nothing
+    }
 
 -- | Represents a response of the operation 'postApplePayDomains'.
 --

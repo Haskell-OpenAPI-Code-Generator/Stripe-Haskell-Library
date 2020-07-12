@@ -10,6 +10,7 @@ module StripeAPI.Operations.PostApplicationFeesIdRefund where
 import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -79,7 +80,7 @@ postApplicationFeesIdRefund
       )
       (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack ("/v1/application_fees/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel id)) GHC.Base.++ "/refund"))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
 
--- | Defines the data type for the schema postApplicationFeesIdRefundRequestBody
+-- | Defines the object schema located at @paths.\/v1\/application_fees\/{id}\/refund.POST.requestBody.content.application\/x-www-form-urlencoded.schema@ in the specification.
 data PostApplicationFeesIdRefundRequestBody
   = PostApplicationFeesIdRefundRequestBody
       { -- | amount
@@ -99,11 +100,20 @@ data PostApplicationFeesIdRefundRequestBody
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostApplicationFeesIdRefundRequestBody where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "amount" (postApplicationFeesIdRefundRequestBodyAmount obj) : (Data.Aeson..=) "directive" (postApplicationFeesIdRefundRequestBodyDirective obj) : (Data.Aeson..=) "expand" (postApplicationFeesIdRefundRequestBodyExpand obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "amount" (postApplicationFeesIdRefundRequestBodyAmount obj) GHC.Base.<> ((Data.Aeson..=) "directive" (postApplicationFeesIdRefundRequestBodyDirective obj) GHC.Base.<> (Data.Aeson..=) "expand" (postApplicationFeesIdRefundRequestBodyExpand obj)))
+  toJSON obj = Data.Aeson.Types.Internal.object ("amount" Data.Aeson.Types.ToJSON..= postApplicationFeesIdRefundRequestBodyAmount obj : "directive" Data.Aeson.Types.ToJSON..= postApplicationFeesIdRefundRequestBodyDirective obj : "expand" Data.Aeson.Types.ToJSON..= postApplicationFeesIdRefundRequestBodyExpand obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("amount" Data.Aeson.Types.ToJSON..= postApplicationFeesIdRefundRequestBodyAmount obj) GHC.Base.<> (("directive" Data.Aeson.Types.ToJSON..= postApplicationFeesIdRefundRequestBodyDirective obj) GHC.Base.<> ("expand" Data.Aeson.Types.ToJSON..= postApplicationFeesIdRefundRequestBodyExpand obj)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostApplicationFeesIdRefundRequestBody where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PostApplicationFeesIdRefundRequestBody" (\obj -> ((GHC.Base.pure PostApplicationFeesIdRefundRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "directive")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "expand"))
+
+-- | Create a new 'PostApplicationFeesIdRefundRequestBody' with all required fields.
+mkPostApplicationFeesIdRefundRequestBody :: PostApplicationFeesIdRefundRequestBody
+mkPostApplicationFeesIdRefundRequestBody =
+  PostApplicationFeesIdRefundRequestBody
+    { postApplicationFeesIdRefundRequestBodyAmount = GHC.Maybe.Nothing,
+      postApplicationFeesIdRefundRequestBodyDirective = GHC.Maybe.Nothing,
+      postApplicationFeesIdRefundRequestBodyExpand = GHC.Maybe.Nothing
+    }
 
 -- | Represents a response of the operation 'postApplicationFeesIdRefund'.
 --

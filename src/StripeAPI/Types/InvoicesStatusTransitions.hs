@@ -8,6 +8,7 @@ module StripeAPI.Types.InvoicesStatusTransitions where
 
 import qualified Control.Monad.Fail
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -30,7 +31,7 @@ import StripeAPI.TypeAlias
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
--- | Defines the data type for the schema invoices_status_transitions
+-- | Defines the object schema located at @components.schemas.invoices_status_transitions@ in the specification.
 data InvoicesStatusTransitions
   = InvoicesStatusTransitions
       { -- | finalized_at: The time that the invoice draft was finalized.
@@ -48,8 +49,18 @@ data InvoicesStatusTransitions
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON InvoicesStatusTransitions where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "finalized_at" (invoicesStatusTransitionsFinalizedAt obj) : (Data.Aeson..=) "marked_uncollectible_at" (invoicesStatusTransitionsMarkedUncollectibleAt obj) : (Data.Aeson..=) "paid_at" (invoicesStatusTransitionsPaidAt obj) : (Data.Aeson..=) "voided_at" (invoicesStatusTransitionsVoidedAt obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "finalized_at" (invoicesStatusTransitionsFinalizedAt obj) GHC.Base.<> ((Data.Aeson..=) "marked_uncollectible_at" (invoicesStatusTransitionsMarkedUncollectibleAt obj) GHC.Base.<> ((Data.Aeson..=) "paid_at" (invoicesStatusTransitionsPaidAt obj) GHC.Base.<> (Data.Aeson..=) "voided_at" (invoicesStatusTransitionsVoidedAt obj))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("finalized_at" Data.Aeson.Types.ToJSON..= invoicesStatusTransitionsFinalizedAt obj : "marked_uncollectible_at" Data.Aeson.Types.ToJSON..= invoicesStatusTransitionsMarkedUncollectibleAt obj : "paid_at" Data.Aeson.Types.ToJSON..= invoicesStatusTransitionsPaidAt obj : "voided_at" Data.Aeson.Types.ToJSON..= invoicesStatusTransitionsVoidedAt obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("finalized_at" Data.Aeson.Types.ToJSON..= invoicesStatusTransitionsFinalizedAt obj) GHC.Base.<> (("marked_uncollectible_at" Data.Aeson.Types.ToJSON..= invoicesStatusTransitionsMarkedUncollectibleAt obj) GHC.Base.<> (("paid_at" Data.Aeson.Types.ToJSON..= invoicesStatusTransitionsPaidAt obj) GHC.Base.<> ("voided_at" Data.Aeson.Types.ToJSON..= invoicesStatusTransitionsVoidedAt obj))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON InvoicesStatusTransitions where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "InvoicesStatusTransitions" (\obj -> (((GHC.Base.pure InvoicesStatusTransitions GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "finalized_at")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "marked_uncollectible_at")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "paid_at")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "voided_at"))
+
+-- | Create a new 'InvoicesStatusTransitions' with all required fields.
+mkInvoicesStatusTransitions :: InvoicesStatusTransitions
+mkInvoicesStatusTransitions =
+  InvoicesStatusTransitions
+    { invoicesStatusTransitionsFinalizedAt = GHC.Maybe.Nothing,
+      invoicesStatusTransitionsMarkedUncollectibleAt = GHC.Maybe.Nothing,
+      invoicesStatusTransitionsPaidAt = GHC.Maybe.Nothing,
+      invoicesStatusTransitionsVoidedAt = GHC.Maybe.Nothing
+    }

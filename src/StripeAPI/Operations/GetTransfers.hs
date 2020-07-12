@@ -10,6 +10,7 @@ module StripeAPI.Operations.GetTransfers where
 import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -88,7 +89,7 @@ getTransfers parameters =
         ]
     )
 
--- | Defines the data type for the schema getTransfersParameters
+-- | Defines the object schema located at @paths.\/v1\/transfers.GET.parameters@ in the specification.
 data GetTransfersParameters
   = GetTransfersParameters
       { -- | queryCreated: Represents the parameter named \'created\'
@@ -140,13 +141,26 @@ data GetTransfersParameters
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetTransfersParameters where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "queryCreated" (getTransfersParametersQueryCreated obj) : (Data.Aeson..=) "queryDestination" (getTransfersParametersQueryDestination obj) : (Data.Aeson..=) "queryEnding_before" (getTransfersParametersQueryEndingBefore obj) : (Data.Aeson..=) "queryExpand" (getTransfersParametersQueryExpand obj) : (Data.Aeson..=) "queryLimit" (getTransfersParametersQueryLimit obj) : (Data.Aeson..=) "queryStarting_after" (getTransfersParametersQueryStartingAfter obj) : (Data.Aeson..=) "queryTransfer_group" (getTransfersParametersQueryTransferGroup obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "queryCreated" (getTransfersParametersQueryCreated obj) GHC.Base.<> ((Data.Aeson..=) "queryDestination" (getTransfersParametersQueryDestination obj) GHC.Base.<> ((Data.Aeson..=) "queryEnding_before" (getTransfersParametersQueryEndingBefore obj) GHC.Base.<> ((Data.Aeson..=) "queryExpand" (getTransfersParametersQueryExpand obj) GHC.Base.<> ((Data.Aeson..=) "queryLimit" (getTransfersParametersQueryLimit obj) GHC.Base.<> ((Data.Aeson..=) "queryStarting_after" (getTransfersParametersQueryStartingAfter obj) GHC.Base.<> (Data.Aeson..=) "queryTransfer_group" (getTransfersParametersQueryTransferGroup obj)))))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("queryCreated" Data.Aeson.Types.ToJSON..= getTransfersParametersQueryCreated obj : "queryDestination" Data.Aeson.Types.ToJSON..= getTransfersParametersQueryDestination obj : "queryEnding_before" Data.Aeson.Types.ToJSON..= getTransfersParametersQueryEndingBefore obj : "queryExpand" Data.Aeson.Types.ToJSON..= getTransfersParametersQueryExpand obj : "queryLimit" Data.Aeson.Types.ToJSON..= getTransfersParametersQueryLimit obj : "queryStarting_after" Data.Aeson.Types.ToJSON..= getTransfersParametersQueryStartingAfter obj : "queryTransfer_group" Data.Aeson.Types.ToJSON..= getTransfersParametersQueryTransferGroup obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("queryCreated" Data.Aeson.Types.ToJSON..= getTransfersParametersQueryCreated obj) GHC.Base.<> (("queryDestination" Data.Aeson.Types.ToJSON..= getTransfersParametersQueryDestination obj) GHC.Base.<> (("queryEnding_before" Data.Aeson.Types.ToJSON..= getTransfersParametersQueryEndingBefore obj) GHC.Base.<> (("queryExpand" Data.Aeson.Types.ToJSON..= getTransfersParametersQueryExpand obj) GHC.Base.<> (("queryLimit" Data.Aeson.Types.ToJSON..= getTransfersParametersQueryLimit obj) GHC.Base.<> (("queryStarting_after" Data.Aeson.Types.ToJSON..= getTransfersParametersQueryStartingAfter obj) GHC.Base.<> ("queryTransfer_group" Data.Aeson.Types.ToJSON..= getTransfersParametersQueryTransferGroup obj)))))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetTransfersParameters where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "GetTransfersParameters" (\obj -> ((((((GHC.Base.pure GetTransfersParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryCreated")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryDestination")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryEnding_before")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryExpand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryLimit")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryStarting_after")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryTransfer_group"))
 
--- | Defines the data type for the schema getTransfersParametersQueryCreated\'OneOf2
+-- | Create a new 'GetTransfersParameters' with all required fields.
+mkGetTransfersParameters :: GetTransfersParameters
+mkGetTransfersParameters =
+  GetTransfersParameters
+    { getTransfersParametersQueryCreated = GHC.Maybe.Nothing,
+      getTransfersParametersQueryDestination = GHC.Maybe.Nothing,
+      getTransfersParametersQueryEndingBefore = GHC.Maybe.Nothing,
+      getTransfersParametersQueryExpand = GHC.Maybe.Nothing,
+      getTransfersParametersQueryLimit = GHC.Maybe.Nothing,
+      getTransfersParametersQueryStartingAfter = GHC.Maybe.Nothing,
+      getTransfersParametersQueryTransferGroup = GHC.Maybe.Nothing
+    }
+
+-- | Defines the object schema located at @paths.\/v1\/transfers.GET.parameters.properties.queryCreated.anyOf@ in the specification.
 data GetTransfersParametersQueryCreated'OneOf2
   = GetTransfersParametersQueryCreated'OneOf2
       { -- | gt
@@ -164,13 +178,23 @@ data GetTransfersParametersQueryCreated'OneOf2
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetTransfersParametersQueryCreated'OneOf2 where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "gt" (getTransfersParametersQueryCreated'OneOf2Gt obj) : (Data.Aeson..=) "gte" (getTransfersParametersQueryCreated'OneOf2Gte obj) : (Data.Aeson..=) "lt" (getTransfersParametersQueryCreated'OneOf2Lt obj) : (Data.Aeson..=) "lte" (getTransfersParametersQueryCreated'OneOf2Lte obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "gt" (getTransfersParametersQueryCreated'OneOf2Gt obj) GHC.Base.<> ((Data.Aeson..=) "gte" (getTransfersParametersQueryCreated'OneOf2Gte obj) GHC.Base.<> ((Data.Aeson..=) "lt" (getTransfersParametersQueryCreated'OneOf2Lt obj) GHC.Base.<> (Data.Aeson..=) "lte" (getTransfersParametersQueryCreated'OneOf2Lte obj))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("gt" Data.Aeson.Types.ToJSON..= getTransfersParametersQueryCreated'OneOf2Gt obj : "gte" Data.Aeson.Types.ToJSON..= getTransfersParametersQueryCreated'OneOf2Gte obj : "lt" Data.Aeson.Types.ToJSON..= getTransfersParametersQueryCreated'OneOf2Lt obj : "lte" Data.Aeson.Types.ToJSON..= getTransfersParametersQueryCreated'OneOf2Lte obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("gt" Data.Aeson.Types.ToJSON..= getTransfersParametersQueryCreated'OneOf2Gt obj) GHC.Base.<> (("gte" Data.Aeson.Types.ToJSON..= getTransfersParametersQueryCreated'OneOf2Gte obj) GHC.Base.<> (("lt" Data.Aeson.Types.ToJSON..= getTransfersParametersQueryCreated'OneOf2Lt obj) GHC.Base.<> ("lte" Data.Aeson.Types.ToJSON..= getTransfersParametersQueryCreated'OneOf2Lte obj))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetTransfersParametersQueryCreated'OneOf2 where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "GetTransfersParametersQueryCreated'OneOf2" (\obj -> (((GHC.Base.pure GetTransfersParametersQueryCreated'OneOf2 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "gt")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "gte")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "lt")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "lte"))
 
--- | Define the one-of schema getTransfersParametersQueryCreated\'
+-- | Create a new 'GetTransfersParametersQueryCreated'OneOf2' with all required fields.
+mkGetTransfersParametersQueryCreated'OneOf2 :: GetTransfersParametersQueryCreated'OneOf2
+mkGetTransfersParametersQueryCreated'OneOf2 =
+  GetTransfersParametersQueryCreated'OneOf2
+    { getTransfersParametersQueryCreated'OneOf2Gt = GHC.Maybe.Nothing,
+      getTransfersParametersQueryCreated'OneOf2Gte = GHC.Maybe.Nothing,
+      getTransfersParametersQueryCreated'OneOf2Lt = GHC.Maybe.Nothing,
+      getTransfersParametersQueryCreated'OneOf2Lte = GHC.Maybe.Nothing
+    }
+
+-- | Defines the oneOf schema located at @paths.\/v1\/transfers.GET.parameters.properties.queryCreated.anyOf@ in the specification.
 --
 -- Represents the parameter named \'created\'
 data GetTransfersParametersQueryCreated'Variants
@@ -183,11 +207,9 @@ instance Data.Aeson.Types.ToJSON.ToJSON GetTransfersParametersQueryCreated'Varia
   toJSON (GetTransfersParametersQueryCreated'GetTransfersParametersQueryCreated'OneOf2 a) = Data.Aeson.Types.ToJSON.toJSON a
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetTransfersParametersQueryCreated'Variants where
-  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
-    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ GetTransfersParametersQueryCreated'Int a
-    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ GetTransfersParametersQueryCreated'GetTransfersParametersQueryCreated'OneOf2 a
-      Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+  parseJSON val = case (GetTransfersParametersQueryCreated'Int Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((GetTransfersParametersQueryCreated'GetTransfersParametersQueryCreated'OneOf2 Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched") of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+    Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
 -- | Represents a response of the operation 'getTransfers'.
 --
@@ -201,15 +223,13 @@ data GetTransfersResponse
     GetTransfersResponseDefault Error
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
--- | Defines the data type for the schema GetTransfersResponseBody200
+-- | Defines the object schema located at @paths.\/v1\/transfers.GET.responses.200.content.application\/json.schema@ in the specification.
 data GetTransfersResponseBody200
   = GetTransfersResponseBody200
       { -- | data: Details about each object.
         getTransfersResponseBody200Data :: ([Transfer]),
         -- | has_more: True if this list has another page of items after this one that can be fetched.
         getTransfersResponseBody200HasMore :: GHC.Types.Bool,
-        -- | object: String representing the object\'s type. Objects of the same type share the same value. Always has the value \`list\`.
-        getTransfersResponseBody200Object :: GetTransfersResponseBody200Object',
         -- | url: The URL where this list can be accessed.
         --
         -- Constraints:
@@ -224,29 +244,24 @@ data GetTransfersResponseBody200
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetTransfersResponseBody200 where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "data" (getTransfersResponseBody200Data obj) : (Data.Aeson..=) "has_more" (getTransfersResponseBody200HasMore obj) : (Data.Aeson..=) "object" (getTransfersResponseBody200Object obj) : (Data.Aeson..=) "url" (getTransfersResponseBody200Url obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "data" (getTransfersResponseBody200Data obj) GHC.Base.<> ((Data.Aeson..=) "has_more" (getTransfersResponseBody200HasMore obj) GHC.Base.<> ((Data.Aeson..=) "object" (getTransfersResponseBody200Object obj) GHC.Base.<> (Data.Aeson..=) "url" (getTransfersResponseBody200Url obj))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("data" Data.Aeson.Types.ToJSON..= getTransfersResponseBody200Data obj : "has_more" Data.Aeson.Types.ToJSON..= getTransfersResponseBody200HasMore obj : "url" Data.Aeson.Types.ToJSON..= getTransfersResponseBody200Url obj : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "list" : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("data" Data.Aeson.Types.ToJSON..= getTransfersResponseBody200Data obj) GHC.Base.<> (("has_more" Data.Aeson.Types.ToJSON..= getTransfersResponseBody200HasMore obj) GHC.Base.<> (("url" Data.Aeson.Types.ToJSON..= getTransfersResponseBody200Url obj) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "list"))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetTransfersResponseBody200 where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetTransfersResponseBody200" (\obj -> (((GHC.Base.pure GetTransfersResponseBody200 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "has_more")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "object")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "url"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetTransfersResponseBody200" (\obj -> ((GHC.Base.pure GetTransfersResponseBody200 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "has_more")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "url"))
 
--- | Defines the enum schema GetTransfersResponseBody200Object\'
---
--- String representing the object\'s type. Objects of the same type share the same value. Always has the value \`list\`.
-data GetTransfersResponseBody200Object'
-  = GetTransfersResponseBody200Object'EnumOther Data.Aeson.Types.Internal.Value
-  | GetTransfersResponseBody200Object'EnumTyped Data.Text.Internal.Text
-  | GetTransfersResponseBody200Object'EnumStringList
-  deriving (GHC.Show.Show, GHC.Classes.Eq)
-
-instance Data.Aeson.Types.ToJSON.ToJSON GetTransfersResponseBody200Object' where
-  toJSON (GetTransfersResponseBody200Object'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (GetTransfersResponseBody200Object'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (GetTransfersResponseBody200Object'EnumStringList) = "list"
-
-instance Data.Aeson.Types.FromJSON.FromJSON GetTransfersResponseBody200Object' where
-  parseJSON val =
-    GHC.Base.pure
-      ( if  | val GHC.Classes.== "list" -> GetTransfersResponseBody200Object'EnumStringList
-            | GHC.Base.otherwise -> GetTransfersResponseBody200Object'EnumOther val
-      )
+-- | Create a new 'GetTransfersResponseBody200' with all required fields.
+mkGetTransfersResponseBody200 ::
+  -- | 'getTransfersResponseBody200Data'
+  [Transfer] ->
+  -- | 'getTransfersResponseBody200HasMore'
+  GHC.Types.Bool ->
+  -- | 'getTransfersResponseBody200Url'
+  Data.Text.Internal.Text ->
+  GetTransfersResponseBody200
+mkGetTransfersResponseBody200 getTransfersResponseBody200Data getTransfersResponseBody200HasMore getTransfersResponseBody200Url =
+  GetTransfersResponseBody200
+    { getTransfersResponseBody200Data = getTransfersResponseBody200Data,
+      getTransfersResponseBody200HasMore = getTransfersResponseBody200HasMore,
+      getTransfersResponseBody200Url = getTransfersResponseBody200Url
+    }

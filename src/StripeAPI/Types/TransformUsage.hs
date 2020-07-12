@@ -8,6 +8,7 @@ module StripeAPI.Types.TransformUsage where
 
 import qualified Control.Monad.Fail
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -30,7 +31,7 @@ import StripeAPI.TypeAlias
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
--- | Defines the data type for the schema transform_usage
+-- | Defines the object schema located at @components.schemas.transform_usage@ in the specification.
 data TransformUsage
   = TransformUsage
       { -- | divide_by: Divide usage by this number.
@@ -44,32 +45,49 @@ data TransformUsage
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON TransformUsage where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "divide_by" (transformUsageDivideBy obj) : (Data.Aeson..=) "round" (transformUsageRound obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "divide_by" (transformUsageDivideBy obj) GHC.Base.<> (Data.Aeson..=) "round" (transformUsageRound obj))
+  toJSON obj = Data.Aeson.Types.Internal.object ("divide_by" Data.Aeson.Types.ToJSON..= transformUsageDivideBy obj : "round" Data.Aeson.Types.ToJSON..= transformUsageRound obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("divide_by" Data.Aeson.Types.ToJSON..= transformUsageDivideBy obj) GHC.Base.<> ("round" Data.Aeson.Types.ToJSON..= transformUsageRound obj))
 
 instance Data.Aeson.Types.FromJSON.FromJSON TransformUsage where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "TransformUsage" (\obj -> (GHC.Base.pure TransformUsage GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "divide_by")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "round"))
 
--- | Defines the enum schema transform_usageRound\'
+-- | Create a new 'TransformUsage' with all required fields.
+mkTransformUsage ::
+  -- | 'transformUsageDivideBy'
+  GHC.Types.Int ->
+  -- | 'transformUsageRound'
+  TransformUsageRound' ->
+  TransformUsage
+mkTransformUsage transformUsageDivideBy transformUsageRound =
+  TransformUsage
+    { transformUsageDivideBy = transformUsageDivideBy,
+      transformUsageRound = transformUsageRound
+    }
+
+-- | Defines the enum schema located at @components.schemas.transform_usage.properties.round@ in the specification.
 --
 -- After division, either round the result \`up\` or \`down\`.
 data TransformUsageRound'
-  = TransformUsageRound'EnumOther Data.Aeson.Types.Internal.Value
-  | TransformUsageRound'EnumTyped Data.Text.Internal.Text
-  | TransformUsageRound'EnumStringDown
-  | TransformUsageRound'EnumStringUp
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    TransformUsageRound'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    TransformUsageRound'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"down"@
+    TransformUsageRound'EnumDown
+  | -- | Represents the JSON value @"up"@
+    TransformUsageRound'EnumUp
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
 instance Data.Aeson.Types.ToJSON.ToJSON TransformUsageRound' where
-  toJSON (TransformUsageRound'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (TransformUsageRound'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (TransformUsageRound'EnumStringDown) = "down"
-  toJSON (TransformUsageRound'EnumStringUp) = "up"
+  toJSON (TransformUsageRound'Other val) = val
+  toJSON (TransformUsageRound'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (TransformUsageRound'EnumDown) = "down"
+  toJSON (TransformUsageRound'EnumUp) = "up"
 
 instance Data.Aeson.Types.FromJSON.FromJSON TransformUsageRound' where
   parseJSON val =
     GHC.Base.pure
-      ( if  | val GHC.Classes.== "down" -> TransformUsageRound'EnumStringDown
-            | val GHC.Classes.== "up" -> TransformUsageRound'EnumStringUp
-            | GHC.Base.otherwise -> TransformUsageRound'EnumOther val
+      ( if  | val GHC.Classes.== "down" -> TransformUsageRound'EnumDown
+            | val GHC.Classes.== "up" -> TransformUsageRound'EnumUp
+            | GHC.Base.otherwise -> TransformUsageRound'Other val
       )

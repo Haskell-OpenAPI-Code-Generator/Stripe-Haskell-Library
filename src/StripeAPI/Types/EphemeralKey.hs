@@ -8,6 +8,7 @@ module StripeAPI.Types.EphemeralKey where
 
 import qualified Control.Monad.Fail
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -30,7 +31,7 @@ import StripeAPI.TypeAlias
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
--- | Defines the data type for the schema ephemeral_key
+-- | Defines the object schema located at @components.schemas.ephemeral_key@ in the specification.
 data EphemeralKey
   = EphemeralKey
       { -- | created: Time at which the object was created. Measured in seconds since the Unix epoch.
@@ -45,8 +46,6 @@ data EphemeralKey
         ephemeralKeyId :: Data.Text.Internal.Text,
         -- | livemode: Has the value \`true\` if the object exists in live mode or the value \`false\` if the object exists in test mode.
         ephemeralKeyLivemode :: GHC.Types.Bool,
-        -- | object: String representing the object\'s type. Objects of the same type share the same value.
-        ephemeralKeyObject :: EphemeralKeyObject',
         -- | secret: The key\'s secret. You can use this value to make authorized requests to the Stripe API.
         --
         -- Constraints:
@@ -60,29 +59,28 @@ data EphemeralKey
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON EphemeralKey where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "created" (ephemeralKeyCreated obj) : (Data.Aeson..=) "expires" (ephemeralKeyExpires obj) : (Data.Aeson..=) "id" (ephemeralKeyId obj) : (Data.Aeson..=) "livemode" (ephemeralKeyLivemode obj) : (Data.Aeson..=) "object" (ephemeralKeyObject obj) : (Data.Aeson..=) "secret" (ephemeralKeySecret obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "created" (ephemeralKeyCreated obj) GHC.Base.<> ((Data.Aeson..=) "expires" (ephemeralKeyExpires obj) GHC.Base.<> ((Data.Aeson..=) "id" (ephemeralKeyId obj) GHC.Base.<> ((Data.Aeson..=) "livemode" (ephemeralKeyLivemode obj) GHC.Base.<> ((Data.Aeson..=) "object" (ephemeralKeyObject obj) GHC.Base.<> (Data.Aeson..=) "secret" (ephemeralKeySecret obj))))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("created" Data.Aeson.Types.ToJSON..= ephemeralKeyCreated obj : "expires" Data.Aeson.Types.ToJSON..= ephemeralKeyExpires obj : "id" Data.Aeson.Types.ToJSON..= ephemeralKeyId obj : "livemode" Data.Aeson.Types.ToJSON..= ephemeralKeyLivemode obj : "secret" Data.Aeson.Types.ToJSON..= ephemeralKeySecret obj : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "ephemeral_key" : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("created" Data.Aeson.Types.ToJSON..= ephemeralKeyCreated obj) GHC.Base.<> (("expires" Data.Aeson.Types.ToJSON..= ephemeralKeyExpires obj) GHC.Base.<> (("id" Data.Aeson.Types.ToJSON..= ephemeralKeyId obj) GHC.Base.<> (("livemode" Data.Aeson.Types.ToJSON..= ephemeralKeyLivemode obj) GHC.Base.<> (("secret" Data.Aeson.Types.ToJSON..= ephemeralKeySecret obj) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "ephemeral_key"))))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON EphemeralKey where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "EphemeralKey" (\obj -> (((((GHC.Base.pure EphemeralKey GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "created")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "expires")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "livemode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "object")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "secret"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "EphemeralKey" (\obj -> ((((GHC.Base.pure EphemeralKey GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "created")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "expires")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "livemode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "secret"))
 
--- | Defines the enum schema ephemeral_keyObject\'
---
--- String representing the object\'s type. Objects of the same type share the same value.
-data EphemeralKeyObject'
-  = EphemeralKeyObject'EnumOther Data.Aeson.Types.Internal.Value
-  | EphemeralKeyObject'EnumTyped Data.Text.Internal.Text
-  | EphemeralKeyObject'EnumStringEphemeralKey
-  deriving (GHC.Show.Show, GHC.Classes.Eq)
-
-instance Data.Aeson.Types.ToJSON.ToJSON EphemeralKeyObject' where
-  toJSON (EphemeralKeyObject'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (EphemeralKeyObject'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (EphemeralKeyObject'EnumStringEphemeralKey) = "ephemeral_key"
-
-instance Data.Aeson.Types.FromJSON.FromJSON EphemeralKeyObject' where
-  parseJSON val =
-    GHC.Base.pure
-      ( if  | val GHC.Classes.== "ephemeral_key" -> EphemeralKeyObject'EnumStringEphemeralKey
-            | GHC.Base.otherwise -> EphemeralKeyObject'EnumOther val
-      )
+-- | Create a new 'EphemeralKey' with all required fields.
+mkEphemeralKey ::
+  -- | 'ephemeralKeyCreated'
+  GHC.Types.Int ->
+  -- | 'ephemeralKeyExpires'
+  GHC.Types.Int ->
+  -- | 'ephemeralKeyId'
+  Data.Text.Internal.Text ->
+  -- | 'ephemeralKeyLivemode'
+  GHC.Types.Bool ->
+  EphemeralKey
+mkEphemeralKey ephemeralKeyCreated ephemeralKeyExpires ephemeralKeyId ephemeralKeyLivemode =
+  EphemeralKey
+    { ephemeralKeyCreated = ephemeralKeyCreated,
+      ephemeralKeyExpires = ephemeralKeyExpires,
+      ephemeralKeyId = ephemeralKeyId,
+      ephemeralKeyLivemode = ephemeralKeyLivemode,
+      ephemeralKeySecret = GHC.Maybe.Nothing
+    }

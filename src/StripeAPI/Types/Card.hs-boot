@@ -1,11 +1,11 @@
 module StripeAPI.Types.Card where
 import Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Types.Internal
-data Card 
-instance Show Card 
-instance Eq Card 
-instance FromJSON Card 
-instance ToJSON Card 
+data Card
+instance Show Card
+instance Eq Card
+instance FromJSON Card
+instance ToJSON Card
 data CardAccount'Variants
 instance Show CardAccount'Variants
 instance Eq CardAccount'Variants
@@ -21,11 +21,6 @@ instance Show CardCustomer'Variants
 instance Eq CardCustomer'Variants
 instance FromJSON CardCustomer'Variants
 instance ToJSON CardCustomer'Variants
-data CardObject'
-instance Show CardObject'
-instance Eq CardObject'
-instance FromJSON CardObject'
-instance ToJSON CardObject'
 data CardRecipient'Variants
 instance Show CardRecipient'Variants
 instance Eq CardRecipient'Variants

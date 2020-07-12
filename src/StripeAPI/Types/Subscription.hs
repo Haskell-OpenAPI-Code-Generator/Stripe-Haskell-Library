@@ -8,6 +8,7 @@ module StripeAPI.Types.Subscription where
 
 import qualified Control.Monad.Fail
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -53,7 +54,7 @@ import {-# SOURCE #-} StripeAPI.Types.TransformUsage
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
--- | Defines the data type for the schema subscription
+-- | Defines the object schema located at @components.schemas.subscription@ in the specification.
 --
 -- Subscriptions allow you to charge a customer on a recurring basis.
 --
@@ -110,8 +111,6 @@ data Subscription
         subscriptionMetadata :: Data.Aeson.Types.Internal.Object,
         -- | next_pending_invoice_item_invoice: Specifies the approximate timestamp on which any pending invoice items will be billed according to the schedule provided at \`pending_invoice_item_interval\`.
         subscriptionNextPendingInvoiceItemInvoice :: (GHC.Maybe.Maybe GHC.Types.Int),
-        -- | object: String representing the object\'s type. Objects of the same type share the same value.
-        subscriptionObject :: SubscriptionObject',
         -- | pending_invoice_item_interval: Specifies an interval for how often to bill for any pending invoice items. It is analogous to calling [Create an invoice](https:\/\/stripe.com\/docs\/api\#create_invoice) for the given subscription at the specified interval.
         subscriptionPendingInvoiceItemInterval :: (GHC.Maybe.Maybe SubscriptionPendingInvoiceItemInterval'),
         -- | pending_setup_intent: You can use this [SetupIntent](https:\/\/stripe.com\/docs\/api\/setup_intents) to collect user authentication when creating a subscription without immediate payment or updating a subscription\'s payment method, allowing you to optimize for off-session payments. Learn more in the [SCA Migration Guide](https:\/\/stripe.com\/docs\/billing\/migration\/strong-customer-authentication\#scenario-2).
@@ -149,13 +148,78 @@ data Subscription
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON Subscription where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "application_fee_percent" (subscriptionApplicationFeePercent obj) : (Data.Aeson..=) "billing_cycle_anchor" (subscriptionBillingCycleAnchor obj) : (Data.Aeson..=) "billing_thresholds" (subscriptionBillingThresholds obj) : (Data.Aeson..=) "cancel_at" (subscriptionCancelAt obj) : (Data.Aeson..=) "cancel_at_period_end" (subscriptionCancelAtPeriodEnd obj) : (Data.Aeson..=) "canceled_at" (subscriptionCanceledAt obj) : (Data.Aeson..=) "collection_method" (subscriptionCollectionMethod obj) : (Data.Aeson..=) "created" (subscriptionCreated obj) : (Data.Aeson..=) "current_period_end" (subscriptionCurrentPeriodEnd obj) : (Data.Aeson..=) "current_period_start" (subscriptionCurrentPeriodStart obj) : (Data.Aeson..=) "customer" (subscriptionCustomer obj) : (Data.Aeson..=) "days_until_due" (subscriptionDaysUntilDue obj) : (Data.Aeson..=) "default_payment_method" (subscriptionDefaultPaymentMethod obj) : (Data.Aeson..=) "default_source" (subscriptionDefaultSource obj) : (Data.Aeson..=) "default_tax_rates" (subscriptionDefaultTaxRates obj) : (Data.Aeson..=) "discount" (subscriptionDiscount obj) : (Data.Aeson..=) "ended_at" (subscriptionEndedAt obj) : (Data.Aeson..=) "id" (subscriptionId obj) : (Data.Aeson..=) "items" (subscriptionItems obj) : (Data.Aeson..=) "latest_invoice" (subscriptionLatestInvoice obj) : (Data.Aeson..=) "livemode" (subscriptionLivemode obj) : (Data.Aeson..=) "metadata" (subscriptionMetadata obj) : (Data.Aeson..=) "next_pending_invoice_item_invoice" (subscriptionNextPendingInvoiceItemInvoice obj) : (Data.Aeson..=) "object" (subscriptionObject obj) : (Data.Aeson..=) "pending_invoice_item_interval" (subscriptionPendingInvoiceItemInterval obj) : (Data.Aeson..=) "pending_setup_intent" (subscriptionPendingSetupIntent obj) : (Data.Aeson..=) "pending_update" (subscriptionPendingUpdate obj) : (Data.Aeson..=) "plan" (subscriptionPlan obj) : (Data.Aeson..=) "quantity" (subscriptionQuantity obj) : (Data.Aeson..=) "schedule" (subscriptionSchedule obj) : (Data.Aeson..=) "start_date" (subscriptionStartDate obj) : (Data.Aeson..=) "status" (subscriptionStatus obj) : (Data.Aeson..=) "tax_percent" (subscriptionTaxPercent obj) : (Data.Aeson..=) "trial_end" (subscriptionTrialEnd obj) : (Data.Aeson..=) "trial_start" (subscriptionTrialStart obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "application_fee_percent" (subscriptionApplicationFeePercent obj) GHC.Base.<> ((Data.Aeson..=) "billing_cycle_anchor" (subscriptionBillingCycleAnchor obj) GHC.Base.<> ((Data.Aeson..=) "billing_thresholds" (subscriptionBillingThresholds obj) GHC.Base.<> ((Data.Aeson..=) "cancel_at" (subscriptionCancelAt obj) GHC.Base.<> ((Data.Aeson..=) "cancel_at_period_end" (subscriptionCancelAtPeriodEnd obj) GHC.Base.<> ((Data.Aeson..=) "canceled_at" (subscriptionCanceledAt obj) GHC.Base.<> ((Data.Aeson..=) "collection_method" (subscriptionCollectionMethod obj) GHC.Base.<> ((Data.Aeson..=) "created" (subscriptionCreated obj) GHC.Base.<> ((Data.Aeson..=) "current_period_end" (subscriptionCurrentPeriodEnd obj) GHC.Base.<> ((Data.Aeson..=) "current_period_start" (subscriptionCurrentPeriodStart obj) GHC.Base.<> ((Data.Aeson..=) "customer" (subscriptionCustomer obj) GHC.Base.<> ((Data.Aeson..=) "days_until_due" (subscriptionDaysUntilDue obj) GHC.Base.<> ((Data.Aeson..=) "default_payment_method" (subscriptionDefaultPaymentMethod obj) GHC.Base.<> ((Data.Aeson..=) "default_source" (subscriptionDefaultSource obj) GHC.Base.<> ((Data.Aeson..=) "default_tax_rates" (subscriptionDefaultTaxRates obj) GHC.Base.<> ((Data.Aeson..=) "discount" (subscriptionDiscount obj) GHC.Base.<> ((Data.Aeson..=) "ended_at" (subscriptionEndedAt obj) GHC.Base.<> ((Data.Aeson..=) "id" (subscriptionId obj) GHC.Base.<> ((Data.Aeson..=) "items" (subscriptionItems obj) GHC.Base.<> ((Data.Aeson..=) "latest_invoice" (subscriptionLatestInvoice obj) GHC.Base.<> ((Data.Aeson..=) "livemode" (subscriptionLivemode obj) GHC.Base.<> ((Data.Aeson..=) "metadata" (subscriptionMetadata obj) GHC.Base.<> ((Data.Aeson..=) "next_pending_invoice_item_invoice" (subscriptionNextPendingInvoiceItemInvoice obj) GHC.Base.<> ((Data.Aeson..=) "object" (subscriptionObject obj) GHC.Base.<> ((Data.Aeson..=) "pending_invoice_item_interval" (subscriptionPendingInvoiceItemInterval obj) GHC.Base.<> ((Data.Aeson..=) "pending_setup_intent" (subscriptionPendingSetupIntent obj) GHC.Base.<> ((Data.Aeson..=) "pending_update" (subscriptionPendingUpdate obj) GHC.Base.<> ((Data.Aeson..=) "plan" (subscriptionPlan obj) GHC.Base.<> ((Data.Aeson..=) "quantity" (subscriptionQuantity obj) GHC.Base.<> ((Data.Aeson..=) "schedule" (subscriptionSchedule obj) GHC.Base.<> ((Data.Aeson..=) "start_date" (subscriptionStartDate obj) GHC.Base.<> ((Data.Aeson..=) "status" (subscriptionStatus obj) GHC.Base.<> ((Data.Aeson..=) "tax_percent" (subscriptionTaxPercent obj) GHC.Base.<> ((Data.Aeson..=) "trial_end" (subscriptionTrialEnd obj) GHC.Base.<> (Data.Aeson..=) "trial_start" (subscriptionTrialStart obj)))))))))))))))))))))))))))))))))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("application_fee_percent" Data.Aeson.Types.ToJSON..= subscriptionApplicationFeePercent obj : "billing_cycle_anchor" Data.Aeson.Types.ToJSON..= subscriptionBillingCycleAnchor obj : "billing_thresholds" Data.Aeson.Types.ToJSON..= subscriptionBillingThresholds obj : "cancel_at" Data.Aeson.Types.ToJSON..= subscriptionCancelAt obj : "cancel_at_period_end" Data.Aeson.Types.ToJSON..= subscriptionCancelAtPeriodEnd obj : "canceled_at" Data.Aeson.Types.ToJSON..= subscriptionCanceledAt obj : "collection_method" Data.Aeson.Types.ToJSON..= subscriptionCollectionMethod obj : "created" Data.Aeson.Types.ToJSON..= subscriptionCreated obj : "current_period_end" Data.Aeson.Types.ToJSON..= subscriptionCurrentPeriodEnd obj : "current_period_start" Data.Aeson.Types.ToJSON..= subscriptionCurrentPeriodStart obj : "customer" Data.Aeson.Types.ToJSON..= subscriptionCustomer obj : "days_until_due" Data.Aeson.Types.ToJSON..= subscriptionDaysUntilDue obj : "default_payment_method" Data.Aeson.Types.ToJSON..= subscriptionDefaultPaymentMethod obj : "default_source" Data.Aeson.Types.ToJSON..= subscriptionDefaultSource obj : "default_tax_rates" Data.Aeson.Types.ToJSON..= subscriptionDefaultTaxRates obj : "discount" Data.Aeson.Types.ToJSON..= subscriptionDiscount obj : "ended_at" Data.Aeson.Types.ToJSON..= subscriptionEndedAt obj : "id" Data.Aeson.Types.ToJSON..= subscriptionId obj : "items" Data.Aeson.Types.ToJSON..= subscriptionItems obj : "latest_invoice" Data.Aeson.Types.ToJSON..= subscriptionLatestInvoice obj : "livemode" Data.Aeson.Types.ToJSON..= subscriptionLivemode obj : "metadata" Data.Aeson.Types.ToJSON..= subscriptionMetadata obj : "next_pending_invoice_item_invoice" Data.Aeson.Types.ToJSON..= subscriptionNextPendingInvoiceItemInvoice obj : "pending_invoice_item_interval" Data.Aeson.Types.ToJSON..= subscriptionPendingInvoiceItemInterval obj : "pending_setup_intent" Data.Aeson.Types.ToJSON..= subscriptionPendingSetupIntent obj : "pending_update" Data.Aeson.Types.ToJSON..= subscriptionPendingUpdate obj : "plan" Data.Aeson.Types.ToJSON..= subscriptionPlan obj : "quantity" Data.Aeson.Types.ToJSON..= subscriptionQuantity obj : "schedule" Data.Aeson.Types.ToJSON..= subscriptionSchedule obj : "start_date" Data.Aeson.Types.ToJSON..= subscriptionStartDate obj : "status" Data.Aeson.Types.ToJSON..= subscriptionStatus obj : "tax_percent" Data.Aeson.Types.ToJSON..= subscriptionTaxPercent obj : "trial_end" Data.Aeson.Types.ToJSON..= subscriptionTrialEnd obj : "trial_start" Data.Aeson.Types.ToJSON..= subscriptionTrialStart obj : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "subscription" : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("application_fee_percent" Data.Aeson.Types.ToJSON..= subscriptionApplicationFeePercent obj) GHC.Base.<> (("billing_cycle_anchor" Data.Aeson.Types.ToJSON..= subscriptionBillingCycleAnchor obj) GHC.Base.<> (("billing_thresholds" Data.Aeson.Types.ToJSON..= subscriptionBillingThresholds obj) GHC.Base.<> (("cancel_at" Data.Aeson.Types.ToJSON..= subscriptionCancelAt obj) GHC.Base.<> (("cancel_at_period_end" Data.Aeson.Types.ToJSON..= subscriptionCancelAtPeriodEnd obj) GHC.Base.<> (("canceled_at" Data.Aeson.Types.ToJSON..= subscriptionCanceledAt obj) GHC.Base.<> (("collection_method" Data.Aeson.Types.ToJSON..= subscriptionCollectionMethod obj) GHC.Base.<> (("created" Data.Aeson.Types.ToJSON..= subscriptionCreated obj) GHC.Base.<> (("current_period_end" Data.Aeson.Types.ToJSON..= subscriptionCurrentPeriodEnd obj) GHC.Base.<> (("current_period_start" Data.Aeson.Types.ToJSON..= subscriptionCurrentPeriodStart obj) GHC.Base.<> (("customer" Data.Aeson.Types.ToJSON..= subscriptionCustomer obj) GHC.Base.<> (("days_until_due" Data.Aeson.Types.ToJSON..= subscriptionDaysUntilDue obj) GHC.Base.<> (("default_payment_method" Data.Aeson.Types.ToJSON..= subscriptionDefaultPaymentMethod obj) GHC.Base.<> (("default_source" Data.Aeson.Types.ToJSON..= subscriptionDefaultSource obj) GHC.Base.<> (("default_tax_rates" Data.Aeson.Types.ToJSON..= subscriptionDefaultTaxRates obj) GHC.Base.<> (("discount" Data.Aeson.Types.ToJSON..= subscriptionDiscount obj) GHC.Base.<> (("ended_at" Data.Aeson.Types.ToJSON..= subscriptionEndedAt obj) GHC.Base.<> (("id" Data.Aeson.Types.ToJSON..= subscriptionId obj) GHC.Base.<> (("items" Data.Aeson.Types.ToJSON..= subscriptionItems obj) GHC.Base.<> (("latest_invoice" Data.Aeson.Types.ToJSON..= subscriptionLatestInvoice obj) GHC.Base.<> (("livemode" Data.Aeson.Types.ToJSON..= subscriptionLivemode obj) GHC.Base.<> (("metadata" Data.Aeson.Types.ToJSON..= subscriptionMetadata obj) GHC.Base.<> (("next_pending_invoice_item_invoice" Data.Aeson.Types.ToJSON..= subscriptionNextPendingInvoiceItemInvoice obj) GHC.Base.<> (("pending_invoice_item_interval" Data.Aeson.Types.ToJSON..= subscriptionPendingInvoiceItemInterval obj) GHC.Base.<> (("pending_setup_intent" Data.Aeson.Types.ToJSON..= subscriptionPendingSetupIntent obj) GHC.Base.<> (("pending_update" Data.Aeson.Types.ToJSON..= subscriptionPendingUpdate obj) GHC.Base.<> (("plan" Data.Aeson.Types.ToJSON..= subscriptionPlan obj) GHC.Base.<> (("quantity" Data.Aeson.Types.ToJSON..= subscriptionQuantity obj) GHC.Base.<> (("schedule" Data.Aeson.Types.ToJSON..= subscriptionSchedule obj) GHC.Base.<> (("start_date" Data.Aeson.Types.ToJSON..= subscriptionStartDate obj) GHC.Base.<> (("status" Data.Aeson.Types.ToJSON..= subscriptionStatus obj) GHC.Base.<> (("tax_percent" Data.Aeson.Types.ToJSON..= subscriptionTaxPercent obj) GHC.Base.<> (("trial_end" Data.Aeson.Types.ToJSON..= subscriptionTrialEnd obj) GHC.Base.<> (("trial_start" Data.Aeson.Types.ToJSON..= subscriptionTrialStart obj) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "subscription")))))))))))))))))))))))))))))))))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON Subscription where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "Subscription" (\obj -> ((((((((((((((((((((((((((((((((((GHC.Base.pure Subscription GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "application_fee_percent")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "billing_cycle_anchor")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "billing_thresholds")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "cancel_at")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "cancel_at_period_end")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "canceled_at")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "collection_method")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "created")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "current_period_end")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "current_period_start")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "customer")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "days_until_due")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "default_payment_method")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "default_source")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "default_tax_rates")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "discount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "ended_at")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "items")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "latest_invoice")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "livemode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "next_pending_invoice_item_invoice")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "object")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "pending_invoice_item_interval")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "pending_setup_intent")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "pending_update")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "plan")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "quantity")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "schedule")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "start_date")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "status")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "tax_percent")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "trial_end")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "trial_start"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "Subscription" (\obj -> (((((((((((((((((((((((((((((((((GHC.Base.pure Subscription GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "application_fee_percent")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "billing_cycle_anchor")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "billing_thresholds")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "cancel_at")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "cancel_at_period_end")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "canceled_at")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "collection_method")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "created")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "current_period_end")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "current_period_start")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "customer")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "days_until_due")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "default_payment_method")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "default_source")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "default_tax_rates")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "discount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "ended_at")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "items")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "latest_invoice")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "livemode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "next_pending_invoice_item_invoice")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "pending_invoice_item_interval")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "pending_setup_intent")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "pending_update")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "plan")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "quantity")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "schedule")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "start_date")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "status")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "tax_percent")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "trial_end")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "trial_start"))
 
--- | Defines the data type for the schema subscriptionBilling_thresholds\'
+-- | Create a new 'Subscription' with all required fields.
+mkSubscription ::
+  -- | 'subscriptionBillingCycleAnchor'
+  GHC.Types.Int ->
+  -- | 'subscriptionCancelAtPeriodEnd'
+  GHC.Types.Bool ->
+  -- | 'subscriptionCreated'
+  GHC.Types.Int ->
+  -- | 'subscriptionCurrentPeriodEnd'
+  GHC.Types.Int ->
+  -- | 'subscriptionCurrentPeriodStart'
+  GHC.Types.Int ->
+  -- | 'subscriptionCustomer'
+  SubscriptionCustomer'Variants ->
+  -- | 'subscriptionId'
+  Data.Text.Internal.Text ->
+  -- | 'subscriptionItems'
+  SubscriptionItems' ->
+  -- | 'subscriptionLivemode'
+  GHC.Types.Bool ->
+  -- | 'subscriptionMetadata'
+  Data.Aeson.Types.Internal.Object ->
+  -- | 'subscriptionStartDate'
+  GHC.Types.Int ->
+  -- | 'subscriptionStatus'
+  SubscriptionStatus' ->
+  Subscription
+mkSubscription subscriptionBillingCycleAnchor subscriptionCancelAtPeriodEnd subscriptionCreated subscriptionCurrentPeriodEnd subscriptionCurrentPeriodStart subscriptionCustomer subscriptionId subscriptionItems subscriptionLivemode subscriptionMetadata subscriptionStartDate subscriptionStatus =
+  Subscription
+    { subscriptionApplicationFeePercent = GHC.Maybe.Nothing,
+      subscriptionBillingCycleAnchor = subscriptionBillingCycleAnchor,
+      subscriptionBillingThresholds = GHC.Maybe.Nothing,
+      subscriptionCancelAt = GHC.Maybe.Nothing,
+      subscriptionCancelAtPeriodEnd = subscriptionCancelAtPeriodEnd,
+      subscriptionCanceledAt = GHC.Maybe.Nothing,
+      subscriptionCollectionMethod = GHC.Maybe.Nothing,
+      subscriptionCreated = subscriptionCreated,
+      subscriptionCurrentPeriodEnd = subscriptionCurrentPeriodEnd,
+      subscriptionCurrentPeriodStart = subscriptionCurrentPeriodStart,
+      subscriptionCustomer = subscriptionCustomer,
+      subscriptionDaysUntilDue = GHC.Maybe.Nothing,
+      subscriptionDefaultPaymentMethod = GHC.Maybe.Nothing,
+      subscriptionDefaultSource = GHC.Maybe.Nothing,
+      subscriptionDefaultTaxRates = GHC.Maybe.Nothing,
+      subscriptionDiscount = GHC.Maybe.Nothing,
+      subscriptionEndedAt = GHC.Maybe.Nothing,
+      subscriptionId = subscriptionId,
+      subscriptionItems = subscriptionItems,
+      subscriptionLatestInvoice = GHC.Maybe.Nothing,
+      subscriptionLivemode = subscriptionLivemode,
+      subscriptionMetadata = subscriptionMetadata,
+      subscriptionNextPendingInvoiceItemInvoice = GHC.Maybe.Nothing,
+      subscriptionPendingInvoiceItemInterval = GHC.Maybe.Nothing,
+      subscriptionPendingSetupIntent = GHC.Maybe.Nothing,
+      subscriptionPendingUpdate = GHC.Maybe.Nothing,
+      subscriptionPlan = GHC.Maybe.Nothing,
+      subscriptionQuantity = GHC.Maybe.Nothing,
+      subscriptionSchedule = GHC.Maybe.Nothing,
+      subscriptionStartDate = subscriptionStartDate,
+      subscriptionStatus = subscriptionStatus,
+      subscriptionTaxPercent = GHC.Maybe.Nothing,
+      subscriptionTrialEnd = GHC.Maybe.Nothing,
+      subscriptionTrialStart = GHC.Maybe.Nothing
+    }
+
+-- | Defines the object schema located at @components.schemas.subscription.properties.billing_thresholds.anyOf@ in the specification.
 --
 -- Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period
 data SubscriptionBillingThresholds'
@@ -171,37 +235,49 @@ data SubscriptionBillingThresholds'
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON SubscriptionBillingThresholds' where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "amount_gte" (subscriptionBillingThresholds'AmountGte obj) : (Data.Aeson..=) "reset_billing_cycle_anchor" (subscriptionBillingThresholds'ResetBillingCycleAnchor obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "amount_gte" (subscriptionBillingThresholds'AmountGte obj) GHC.Base.<> (Data.Aeson..=) "reset_billing_cycle_anchor" (subscriptionBillingThresholds'ResetBillingCycleAnchor obj))
+  toJSON obj = Data.Aeson.Types.Internal.object ("amount_gte" Data.Aeson.Types.ToJSON..= subscriptionBillingThresholds'AmountGte obj : "reset_billing_cycle_anchor" Data.Aeson.Types.ToJSON..= subscriptionBillingThresholds'ResetBillingCycleAnchor obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("amount_gte" Data.Aeson.Types.ToJSON..= subscriptionBillingThresholds'AmountGte obj) GHC.Base.<> ("reset_billing_cycle_anchor" Data.Aeson.Types.ToJSON..= subscriptionBillingThresholds'ResetBillingCycleAnchor obj))
 
 instance Data.Aeson.Types.FromJSON.FromJSON SubscriptionBillingThresholds' where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "SubscriptionBillingThresholds'" (\obj -> (GHC.Base.pure SubscriptionBillingThresholds' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "amount_gte")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "reset_billing_cycle_anchor"))
 
--- | Defines the enum schema subscriptionCollection_method\'
+-- | Create a new 'SubscriptionBillingThresholds'' with all required fields.
+mkSubscriptionBillingThresholds' :: SubscriptionBillingThresholds'
+mkSubscriptionBillingThresholds' =
+  SubscriptionBillingThresholds'
+    { subscriptionBillingThresholds'AmountGte = GHC.Maybe.Nothing,
+      subscriptionBillingThresholds'ResetBillingCycleAnchor = GHC.Maybe.Nothing
+    }
+
+-- | Defines the enum schema located at @components.schemas.subscription.properties.collection_method@ in the specification.
 --
 -- Either \`charge_automatically\`, or \`send_invoice\`. When charging automatically, Stripe will attempt to pay this subscription at the end of the cycle using the default source attached to the customer. When sending an invoice, Stripe will email your customer an invoice with payment instructions.
 data SubscriptionCollectionMethod'
-  = SubscriptionCollectionMethod'EnumOther Data.Aeson.Types.Internal.Value
-  | SubscriptionCollectionMethod'EnumTyped Data.Text.Internal.Text
-  | SubscriptionCollectionMethod'EnumStringChargeAutomatically
-  | SubscriptionCollectionMethod'EnumStringSendInvoice
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    SubscriptionCollectionMethod'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    SubscriptionCollectionMethod'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"charge_automatically"@
+    SubscriptionCollectionMethod'EnumChargeAutomatically
+  | -- | Represents the JSON value @"send_invoice"@
+    SubscriptionCollectionMethod'EnumSendInvoice
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
 instance Data.Aeson.Types.ToJSON.ToJSON SubscriptionCollectionMethod' where
-  toJSON (SubscriptionCollectionMethod'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (SubscriptionCollectionMethod'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (SubscriptionCollectionMethod'EnumStringChargeAutomatically) = "charge_automatically"
-  toJSON (SubscriptionCollectionMethod'EnumStringSendInvoice) = "send_invoice"
+  toJSON (SubscriptionCollectionMethod'Other val) = val
+  toJSON (SubscriptionCollectionMethod'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (SubscriptionCollectionMethod'EnumChargeAutomatically) = "charge_automatically"
+  toJSON (SubscriptionCollectionMethod'EnumSendInvoice) = "send_invoice"
 
 instance Data.Aeson.Types.FromJSON.FromJSON SubscriptionCollectionMethod' where
   parseJSON val =
     GHC.Base.pure
-      ( if  | val GHC.Classes.== "charge_automatically" -> SubscriptionCollectionMethod'EnumStringChargeAutomatically
-            | val GHC.Classes.== "send_invoice" -> SubscriptionCollectionMethod'EnumStringSendInvoice
-            | GHC.Base.otherwise -> SubscriptionCollectionMethod'EnumOther val
+      ( if  | val GHC.Classes.== "charge_automatically" -> SubscriptionCollectionMethod'EnumChargeAutomatically
+            | val GHC.Classes.== "send_invoice" -> SubscriptionCollectionMethod'EnumSendInvoice
+            | GHC.Base.otherwise -> SubscriptionCollectionMethod'Other val
       )
 
--- | Define the one-of schema subscriptionCustomer\'
+-- | Defines the oneOf schema located at @components.schemas.subscription.properties.customer.anyOf@ in the specification.
 --
 -- ID of the customer who owns the subscription.
 data SubscriptionCustomer'Variants
@@ -216,15 +292,11 @@ instance Data.Aeson.Types.ToJSON.ToJSON SubscriptionCustomer'Variants where
   toJSON (SubscriptionCustomer'Text a) = Data.Aeson.Types.ToJSON.toJSON a
 
 instance Data.Aeson.Types.FromJSON.FromJSON SubscriptionCustomer'Variants where
-  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
-    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ SubscriptionCustomer'Customer a
-    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ SubscriptionCustomer'DeletedCustomer a
-      Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-        Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ SubscriptionCustomer'Text a
-        Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+  parseJSON val = case (SubscriptionCustomer'Customer Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((SubscriptionCustomer'DeletedCustomer Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((SubscriptionCustomer'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched")) of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+    Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
--- | Define the one-of schema subscriptionDefault_payment_method\'
+-- | Defines the oneOf schema located at @components.schemas.subscription.properties.default_payment_method.anyOf@ in the specification.
 --
 -- ID of the default payment method for the subscription. It must belong to the customer associated with the subscription. If not set, invoices will use the default payment method in the customer\'s invoice settings.
 data SubscriptionDefaultPaymentMethod'Variants
@@ -237,13 +309,11 @@ instance Data.Aeson.Types.ToJSON.ToJSON SubscriptionDefaultPaymentMethod'Variant
   toJSON (SubscriptionDefaultPaymentMethod'Text a) = Data.Aeson.Types.ToJSON.toJSON a
 
 instance Data.Aeson.Types.FromJSON.FromJSON SubscriptionDefaultPaymentMethod'Variants where
-  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
-    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ SubscriptionDefaultPaymentMethod'PaymentMethod a
-    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ SubscriptionDefaultPaymentMethod'Text a
-      Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+  parseJSON val = case (SubscriptionDefaultPaymentMethod'PaymentMethod Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((SubscriptionDefaultPaymentMethod'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched") of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+    Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
--- | Define the one-of schema subscriptionDefault_source\'
+-- | Defines the oneOf schema located at @components.schemas.subscription.properties.default_source.anyOf@ in the specification.
 --
 -- ID of the default payment source for the subscription. It must belong to the customer associated with the subscription and be in a chargeable state. If not set, defaults to the customer\'s default source.
 data SubscriptionDefaultSource'Variants
@@ -264,21 +334,11 @@ instance Data.Aeson.Types.ToJSON.ToJSON SubscriptionDefaultSource'Variants where
   toJSON (SubscriptionDefaultSource'Text a) = Data.Aeson.Types.ToJSON.toJSON a
 
 instance Data.Aeson.Types.FromJSON.FromJSON SubscriptionDefaultSource'Variants where
-  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
-    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ SubscriptionDefaultSource'AlipayAccount a
-    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ SubscriptionDefaultSource'BankAccount a
-      Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-        Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ SubscriptionDefaultSource'BitcoinReceiver a
-        Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-          Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ SubscriptionDefaultSource'Card a
-          Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-            Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ SubscriptionDefaultSource'Source a
-            Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-              Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ SubscriptionDefaultSource'Text a
-              Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+  parseJSON val = case (SubscriptionDefaultSource'AlipayAccount Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((SubscriptionDefaultSource'BankAccount Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((SubscriptionDefaultSource'BitcoinReceiver Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((SubscriptionDefaultSource'Card Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((SubscriptionDefaultSource'Source Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((SubscriptionDefaultSource'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched"))))) of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+    Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
--- | Defines the data type for the schema subscriptionDiscount\'
+-- | Defines the object schema located at @components.schemas.subscription.properties.discount.anyOf@ in the specification.
 --
 -- Describes the current discount applied to this subscription, if there is one. When billing, a discount applied to a subscription overrides a discount applied on a customer-wide basis.
 data SubscriptionDiscount'
@@ -291,8 +351,6 @@ data SubscriptionDiscount'
         subscriptionDiscount'Customer :: (GHC.Maybe.Maybe SubscriptionDiscount'Customer'Variants),
         -- | end: If the coupon has a duration of \`repeating\`, the date that this discount will end. If the coupon has a duration of \`once\` or \`forever\`, this attribute will be null.
         subscriptionDiscount'End :: (GHC.Maybe.Maybe GHC.Types.Int),
-        -- | object: String representing the object\'s type. Objects of the same type share the same value.
-        subscriptionDiscount'Object :: (GHC.Maybe.Maybe SubscriptionDiscount'Object'),
         -- | start: Date that the coupon was applied.
         subscriptionDiscount'Start :: (GHC.Maybe.Maybe GHC.Types.Int),
         -- | subscription: The subscription that this coupon is applied to, if it is applied to a particular subscription.
@@ -308,13 +366,24 @@ data SubscriptionDiscount'
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON SubscriptionDiscount' where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "coupon" (subscriptionDiscount'Coupon obj) : (Data.Aeson..=) "customer" (subscriptionDiscount'Customer obj) : (Data.Aeson..=) "end" (subscriptionDiscount'End obj) : (Data.Aeson..=) "object" (subscriptionDiscount'Object obj) : (Data.Aeson..=) "start" (subscriptionDiscount'Start obj) : (Data.Aeson..=) "subscription" (subscriptionDiscount'Subscription obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "coupon" (subscriptionDiscount'Coupon obj) GHC.Base.<> ((Data.Aeson..=) "customer" (subscriptionDiscount'Customer obj) GHC.Base.<> ((Data.Aeson..=) "end" (subscriptionDiscount'End obj) GHC.Base.<> ((Data.Aeson..=) "object" (subscriptionDiscount'Object obj) GHC.Base.<> ((Data.Aeson..=) "start" (subscriptionDiscount'Start obj) GHC.Base.<> (Data.Aeson..=) "subscription" (subscriptionDiscount'Subscription obj))))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("coupon" Data.Aeson.Types.ToJSON..= subscriptionDiscount'Coupon obj : "customer" Data.Aeson.Types.ToJSON..= subscriptionDiscount'Customer obj : "end" Data.Aeson.Types.ToJSON..= subscriptionDiscount'End obj : "start" Data.Aeson.Types.ToJSON..= subscriptionDiscount'Start obj : "subscription" Data.Aeson.Types.ToJSON..= subscriptionDiscount'Subscription obj : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "discount" : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("coupon" Data.Aeson.Types.ToJSON..= subscriptionDiscount'Coupon obj) GHC.Base.<> (("customer" Data.Aeson.Types.ToJSON..= subscriptionDiscount'Customer obj) GHC.Base.<> (("end" Data.Aeson.Types.ToJSON..= subscriptionDiscount'End obj) GHC.Base.<> (("start" Data.Aeson.Types.ToJSON..= subscriptionDiscount'Start obj) GHC.Base.<> (("subscription" Data.Aeson.Types.ToJSON..= subscriptionDiscount'Subscription obj) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "discount"))))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON SubscriptionDiscount' where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "SubscriptionDiscount'" (\obj -> (((((GHC.Base.pure SubscriptionDiscount' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "coupon")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "customer")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "end")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "object")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "start")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "subscription"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "SubscriptionDiscount'" (\obj -> ((((GHC.Base.pure SubscriptionDiscount' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "coupon")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "customer")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "end")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "start")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "subscription"))
 
--- | Define the one-of schema subscriptionDiscount\'Customer\'
+-- | Create a new 'SubscriptionDiscount'' with all required fields.
+mkSubscriptionDiscount' :: SubscriptionDiscount'
+mkSubscriptionDiscount' =
+  SubscriptionDiscount'
+    { subscriptionDiscount'Coupon = GHC.Maybe.Nothing,
+      subscriptionDiscount'Customer = GHC.Maybe.Nothing,
+      subscriptionDiscount'End = GHC.Maybe.Nothing,
+      subscriptionDiscount'Start = GHC.Maybe.Nothing,
+      subscriptionDiscount'Subscription = GHC.Maybe.Nothing
+    }
+
+-- | Defines the oneOf schema located at @components.schemas.subscription.properties.discount.anyOf.properties.customer.anyOf@ in the specification.
 --
 -- The ID of the customer associated with this discount.
 data SubscriptionDiscount'Customer'Variants
@@ -329,36 +398,11 @@ instance Data.Aeson.Types.ToJSON.ToJSON SubscriptionDiscount'Customer'Variants w
   toJSON (SubscriptionDiscount'Customer'Text a) = Data.Aeson.Types.ToJSON.toJSON a
 
 instance Data.Aeson.Types.FromJSON.FromJSON SubscriptionDiscount'Customer'Variants where
-  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
-    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ SubscriptionDiscount'Customer'Customer a
-    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ SubscriptionDiscount'Customer'DeletedCustomer a
-      Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-        Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ SubscriptionDiscount'Customer'Text a
-        Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+  parseJSON val = case (SubscriptionDiscount'Customer'Customer Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((SubscriptionDiscount'Customer'DeletedCustomer Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((SubscriptionDiscount'Customer'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched")) of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+    Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
--- | Defines the enum schema subscriptionDiscount\'Object\'
---
--- String representing the object\'s type. Objects of the same type share the same value.
-data SubscriptionDiscount'Object'
-  = SubscriptionDiscount'Object'EnumOther Data.Aeson.Types.Internal.Value
-  | SubscriptionDiscount'Object'EnumTyped Data.Text.Internal.Text
-  | SubscriptionDiscount'Object'EnumStringDiscount
-  deriving (GHC.Show.Show, GHC.Classes.Eq)
-
-instance Data.Aeson.Types.ToJSON.ToJSON SubscriptionDiscount'Object' where
-  toJSON (SubscriptionDiscount'Object'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (SubscriptionDiscount'Object'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (SubscriptionDiscount'Object'EnumStringDiscount) = "discount"
-
-instance Data.Aeson.Types.FromJSON.FromJSON SubscriptionDiscount'Object' where
-  parseJSON val =
-    GHC.Base.pure
-      ( if  | val GHC.Classes.== "discount" -> SubscriptionDiscount'Object'EnumStringDiscount
-            | GHC.Base.otherwise -> SubscriptionDiscount'Object'EnumOther val
-      )
-
--- | Defines the data type for the schema subscriptionItems\'
+-- | Defines the object schema located at @components.schemas.subscription.properties.items@ in the specification.
 --
 -- List of subscription items, each with an attached plan.
 data SubscriptionItems'
@@ -367,8 +411,6 @@ data SubscriptionItems'
         subscriptionItems'Data :: ([SubscriptionItem]),
         -- | has_more: True if this list has another page of items after this one that can be fetched.
         subscriptionItems'HasMore :: GHC.Types.Bool,
-        -- | object: String representing the object\'s type. Objects of the same type share the same value. Always has the value \`list\`.
-        subscriptionItems'Object :: SubscriptionItems'Object',
         -- | url: The URL where this list can be accessed.
         --
         -- Constraints:
@@ -382,34 +424,29 @@ data SubscriptionItems'
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON SubscriptionItems' where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "data" (subscriptionItems'Data obj) : (Data.Aeson..=) "has_more" (subscriptionItems'HasMore obj) : (Data.Aeson..=) "object" (subscriptionItems'Object obj) : (Data.Aeson..=) "url" (subscriptionItems'Url obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "data" (subscriptionItems'Data obj) GHC.Base.<> ((Data.Aeson..=) "has_more" (subscriptionItems'HasMore obj) GHC.Base.<> ((Data.Aeson..=) "object" (subscriptionItems'Object obj) GHC.Base.<> (Data.Aeson..=) "url" (subscriptionItems'Url obj))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("data" Data.Aeson.Types.ToJSON..= subscriptionItems'Data obj : "has_more" Data.Aeson.Types.ToJSON..= subscriptionItems'HasMore obj : "url" Data.Aeson.Types.ToJSON..= subscriptionItems'Url obj : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "list" : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("data" Data.Aeson.Types.ToJSON..= subscriptionItems'Data obj) GHC.Base.<> (("has_more" Data.Aeson.Types.ToJSON..= subscriptionItems'HasMore obj) GHC.Base.<> (("url" Data.Aeson.Types.ToJSON..= subscriptionItems'Url obj) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "list"))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON SubscriptionItems' where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "SubscriptionItems'" (\obj -> (((GHC.Base.pure SubscriptionItems' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "has_more")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "object")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "url"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "SubscriptionItems'" (\obj -> ((GHC.Base.pure SubscriptionItems' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "has_more")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "url"))
 
--- | Defines the enum schema subscriptionItems\'Object\'
---
--- String representing the object\'s type. Objects of the same type share the same value. Always has the value \`list\`.
-data SubscriptionItems'Object'
-  = SubscriptionItems'Object'EnumOther Data.Aeson.Types.Internal.Value
-  | SubscriptionItems'Object'EnumTyped Data.Text.Internal.Text
-  | SubscriptionItems'Object'EnumStringList
-  deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Create a new 'SubscriptionItems'' with all required fields.
+mkSubscriptionItems' ::
+  -- | 'subscriptionItems'Data'
+  [SubscriptionItem] ->
+  -- | 'subscriptionItems'HasMore'
+  GHC.Types.Bool ->
+  -- | 'subscriptionItems'Url'
+  Data.Text.Internal.Text ->
+  SubscriptionItems'
+mkSubscriptionItems' subscriptionItems'Data subscriptionItems'HasMore subscriptionItems'Url =
+  SubscriptionItems'
+    { subscriptionItems'Data = subscriptionItems'Data,
+      subscriptionItems'HasMore = subscriptionItems'HasMore,
+      subscriptionItems'Url = subscriptionItems'Url
+    }
 
-instance Data.Aeson.Types.ToJSON.ToJSON SubscriptionItems'Object' where
-  toJSON (SubscriptionItems'Object'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (SubscriptionItems'Object'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (SubscriptionItems'Object'EnumStringList) = "list"
-
-instance Data.Aeson.Types.FromJSON.FromJSON SubscriptionItems'Object' where
-  parseJSON val =
-    GHC.Base.pure
-      ( if  | val GHC.Classes.== "list" -> SubscriptionItems'Object'EnumStringList
-            | GHC.Base.otherwise -> SubscriptionItems'Object'EnumOther val
-      )
-
--- | Define the one-of schema subscriptionLatest_invoice\'
+-- | Defines the oneOf schema located at @components.schemas.subscription.properties.latest_invoice.anyOf@ in the specification.
 --
 -- The most recent invoice this subscription has generated.
 data SubscriptionLatestInvoice'Variants
@@ -422,34 +459,11 @@ instance Data.Aeson.Types.ToJSON.ToJSON SubscriptionLatestInvoice'Variants where
   toJSON (SubscriptionLatestInvoice'Text a) = Data.Aeson.Types.ToJSON.toJSON a
 
 instance Data.Aeson.Types.FromJSON.FromJSON SubscriptionLatestInvoice'Variants where
-  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
-    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ SubscriptionLatestInvoice'Invoice a
-    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ SubscriptionLatestInvoice'Text a
-      Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+  parseJSON val = case (SubscriptionLatestInvoice'Invoice Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((SubscriptionLatestInvoice'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched") of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+    Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
--- | Defines the enum schema subscriptionObject\'
---
--- String representing the object\'s type. Objects of the same type share the same value.
-data SubscriptionObject'
-  = SubscriptionObject'EnumOther Data.Aeson.Types.Internal.Value
-  | SubscriptionObject'EnumTyped Data.Text.Internal.Text
-  | SubscriptionObject'EnumStringSubscription
-  deriving (GHC.Show.Show, GHC.Classes.Eq)
-
-instance Data.Aeson.Types.ToJSON.ToJSON SubscriptionObject' where
-  toJSON (SubscriptionObject'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (SubscriptionObject'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (SubscriptionObject'EnumStringSubscription) = "subscription"
-
-instance Data.Aeson.Types.FromJSON.FromJSON SubscriptionObject' where
-  parseJSON val =
-    GHC.Base.pure
-      ( if  | val GHC.Classes.== "subscription" -> SubscriptionObject'EnumStringSubscription
-            | GHC.Base.otherwise -> SubscriptionObject'EnumOther val
-      )
-
--- | Defines the data type for the schema subscriptionPending_invoice_item_interval\'
+-- | Defines the object schema located at @components.schemas.subscription.properties.pending_invoice_item_interval.anyOf@ in the specification.
 --
 -- Specifies an interval for how often to bill for any pending invoice items. It is analogous to calling [Create an invoice](https:\\\/\\\/stripe.com\\\/docs\\\/api\\\#create_invoice) for the given subscription at the specified interval.
 data SubscriptionPendingInvoiceItemInterval'
@@ -465,43 +479,57 @@ data SubscriptionPendingInvoiceItemInterval'
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON SubscriptionPendingInvoiceItemInterval' where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "interval" (subscriptionPendingInvoiceItemInterval'Interval obj) : (Data.Aeson..=) "interval_count" (subscriptionPendingInvoiceItemInterval'IntervalCount obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "interval" (subscriptionPendingInvoiceItemInterval'Interval obj) GHC.Base.<> (Data.Aeson..=) "interval_count" (subscriptionPendingInvoiceItemInterval'IntervalCount obj))
+  toJSON obj = Data.Aeson.Types.Internal.object ("interval" Data.Aeson.Types.ToJSON..= subscriptionPendingInvoiceItemInterval'Interval obj : "interval_count" Data.Aeson.Types.ToJSON..= subscriptionPendingInvoiceItemInterval'IntervalCount obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("interval" Data.Aeson.Types.ToJSON..= subscriptionPendingInvoiceItemInterval'Interval obj) GHC.Base.<> ("interval_count" Data.Aeson.Types.ToJSON..= subscriptionPendingInvoiceItemInterval'IntervalCount obj))
 
 instance Data.Aeson.Types.FromJSON.FromJSON SubscriptionPendingInvoiceItemInterval' where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "SubscriptionPendingInvoiceItemInterval'" (\obj -> (GHC.Base.pure SubscriptionPendingInvoiceItemInterval' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "interval")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "interval_count"))
 
--- | Defines the enum schema subscriptionPending_invoice_item_interval\'Interval\'
+-- | Create a new 'SubscriptionPendingInvoiceItemInterval'' with all required fields.
+mkSubscriptionPendingInvoiceItemInterval' :: SubscriptionPendingInvoiceItemInterval'
+mkSubscriptionPendingInvoiceItemInterval' =
+  SubscriptionPendingInvoiceItemInterval'
+    { subscriptionPendingInvoiceItemInterval'Interval = GHC.Maybe.Nothing,
+      subscriptionPendingInvoiceItemInterval'IntervalCount = GHC.Maybe.Nothing
+    }
+
+-- | Defines the enum schema located at @components.schemas.subscription.properties.pending_invoice_item_interval.anyOf.properties.interval@ in the specification.
 --
 -- Specifies invoicing frequency. Either \`day\`, \`week\`, \`month\` or \`year\`.
 data SubscriptionPendingInvoiceItemInterval'Interval'
-  = SubscriptionPendingInvoiceItemInterval'Interval'EnumOther Data.Aeson.Types.Internal.Value
-  | SubscriptionPendingInvoiceItemInterval'Interval'EnumTyped Data.Text.Internal.Text
-  | SubscriptionPendingInvoiceItemInterval'Interval'EnumStringDay
-  | SubscriptionPendingInvoiceItemInterval'Interval'EnumStringMonth
-  | SubscriptionPendingInvoiceItemInterval'Interval'EnumStringWeek
-  | SubscriptionPendingInvoiceItemInterval'Interval'EnumStringYear
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    SubscriptionPendingInvoiceItemInterval'Interval'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    SubscriptionPendingInvoiceItemInterval'Interval'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"day"@
+    SubscriptionPendingInvoiceItemInterval'Interval'EnumDay
+  | -- | Represents the JSON value @"month"@
+    SubscriptionPendingInvoiceItemInterval'Interval'EnumMonth
+  | -- | Represents the JSON value @"week"@
+    SubscriptionPendingInvoiceItemInterval'Interval'EnumWeek
+  | -- | Represents the JSON value @"year"@
+    SubscriptionPendingInvoiceItemInterval'Interval'EnumYear
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
 instance Data.Aeson.Types.ToJSON.ToJSON SubscriptionPendingInvoiceItemInterval'Interval' where
-  toJSON (SubscriptionPendingInvoiceItemInterval'Interval'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (SubscriptionPendingInvoiceItemInterval'Interval'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (SubscriptionPendingInvoiceItemInterval'Interval'EnumStringDay) = "day"
-  toJSON (SubscriptionPendingInvoiceItemInterval'Interval'EnumStringMonth) = "month"
-  toJSON (SubscriptionPendingInvoiceItemInterval'Interval'EnumStringWeek) = "week"
-  toJSON (SubscriptionPendingInvoiceItemInterval'Interval'EnumStringYear) = "year"
+  toJSON (SubscriptionPendingInvoiceItemInterval'Interval'Other val) = val
+  toJSON (SubscriptionPendingInvoiceItemInterval'Interval'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (SubscriptionPendingInvoiceItemInterval'Interval'EnumDay) = "day"
+  toJSON (SubscriptionPendingInvoiceItemInterval'Interval'EnumMonth) = "month"
+  toJSON (SubscriptionPendingInvoiceItemInterval'Interval'EnumWeek) = "week"
+  toJSON (SubscriptionPendingInvoiceItemInterval'Interval'EnumYear) = "year"
 
 instance Data.Aeson.Types.FromJSON.FromJSON SubscriptionPendingInvoiceItemInterval'Interval' where
   parseJSON val =
     GHC.Base.pure
-      ( if  | val GHC.Classes.== "day" -> SubscriptionPendingInvoiceItemInterval'Interval'EnumStringDay
-            | val GHC.Classes.== "month" -> SubscriptionPendingInvoiceItemInterval'Interval'EnumStringMonth
-            | val GHC.Classes.== "week" -> SubscriptionPendingInvoiceItemInterval'Interval'EnumStringWeek
-            | val GHC.Classes.== "year" -> SubscriptionPendingInvoiceItemInterval'Interval'EnumStringYear
-            | GHC.Base.otherwise -> SubscriptionPendingInvoiceItemInterval'Interval'EnumOther val
+      ( if  | val GHC.Classes.== "day" -> SubscriptionPendingInvoiceItemInterval'Interval'EnumDay
+            | val GHC.Classes.== "month" -> SubscriptionPendingInvoiceItemInterval'Interval'EnumMonth
+            | val GHC.Classes.== "week" -> SubscriptionPendingInvoiceItemInterval'Interval'EnumWeek
+            | val GHC.Classes.== "year" -> SubscriptionPendingInvoiceItemInterval'Interval'EnumYear
+            | GHC.Base.otherwise -> SubscriptionPendingInvoiceItemInterval'Interval'Other val
       )
 
--- | Define the one-of schema subscriptionPending_setup_intent\'
+-- | Defines the oneOf schema located at @components.schemas.subscription.properties.pending_setup_intent.anyOf@ in the specification.
 --
 -- You can use this [SetupIntent](https:\/\/stripe.com\/docs\/api\/setup_intents) to collect user authentication when creating a subscription without immediate payment or updating a subscription\'s payment method, allowing you to optimize for off-session payments. Learn more in the [SCA Migration Guide](https:\/\/stripe.com\/docs\/billing\/migration\/strong-customer-authentication\#scenario-2).
 data SubscriptionPendingSetupIntent'Variants
@@ -514,13 +542,11 @@ instance Data.Aeson.Types.ToJSON.ToJSON SubscriptionPendingSetupIntent'Variants 
   toJSON (SubscriptionPendingSetupIntent'Text a) = Data.Aeson.Types.ToJSON.toJSON a
 
 instance Data.Aeson.Types.FromJSON.FromJSON SubscriptionPendingSetupIntent'Variants where
-  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
-    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ SubscriptionPendingSetupIntent'SetupIntent a
-    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ SubscriptionPendingSetupIntent'Text a
-      Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+  parseJSON val = case (SubscriptionPendingSetupIntent'SetupIntent Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((SubscriptionPendingSetupIntent'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched") of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+    Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
--- | Defines the data type for the schema subscriptionPending_update\'
+-- | Defines the object schema located at @components.schemas.subscription.properties.pending_update.anyOf@ in the specification.
 --
 -- If specified, [pending updates](https:\\\/\\\/stripe.com\\\/docs\\\/billing\\\/subscriptions\\\/pending-updates) that will be applied to the subscription once the \\\`latest_invoice\\\` has been paid.
 data SubscriptionPendingUpdate'
@@ -542,13 +568,24 @@ data SubscriptionPendingUpdate'
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON SubscriptionPendingUpdate' where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "billing_cycle_anchor" (subscriptionPendingUpdate'BillingCycleAnchor obj) : (Data.Aeson..=) "expires_at" (subscriptionPendingUpdate'ExpiresAt obj) : (Data.Aeson..=) "subscription_items" (subscriptionPendingUpdate'SubscriptionItems obj) : (Data.Aeson..=) "trial_end" (subscriptionPendingUpdate'TrialEnd obj) : (Data.Aeson..=) "trial_from_plan" (subscriptionPendingUpdate'TrialFromPlan obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "billing_cycle_anchor" (subscriptionPendingUpdate'BillingCycleAnchor obj) GHC.Base.<> ((Data.Aeson..=) "expires_at" (subscriptionPendingUpdate'ExpiresAt obj) GHC.Base.<> ((Data.Aeson..=) "subscription_items" (subscriptionPendingUpdate'SubscriptionItems obj) GHC.Base.<> ((Data.Aeson..=) "trial_end" (subscriptionPendingUpdate'TrialEnd obj) GHC.Base.<> (Data.Aeson..=) "trial_from_plan" (subscriptionPendingUpdate'TrialFromPlan obj)))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("billing_cycle_anchor" Data.Aeson.Types.ToJSON..= subscriptionPendingUpdate'BillingCycleAnchor obj : "expires_at" Data.Aeson.Types.ToJSON..= subscriptionPendingUpdate'ExpiresAt obj : "subscription_items" Data.Aeson.Types.ToJSON..= subscriptionPendingUpdate'SubscriptionItems obj : "trial_end" Data.Aeson.Types.ToJSON..= subscriptionPendingUpdate'TrialEnd obj : "trial_from_plan" Data.Aeson.Types.ToJSON..= subscriptionPendingUpdate'TrialFromPlan obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("billing_cycle_anchor" Data.Aeson.Types.ToJSON..= subscriptionPendingUpdate'BillingCycleAnchor obj) GHC.Base.<> (("expires_at" Data.Aeson.Types.ToJSON..= subscriptionPendingUpdate'ExpiresAt obj) GHC.Base.<> (("subscription_items" Data.Aeson.Types.ToJSON..= subscriptionPendingUpdate'SubscriptionItems obj) GHC.Base.<> (("trial_end" Data.Aeson.Types.ToJSON..= subscriptionPendingUpdate'TrialEnd obj) GHC.Base.<> ("trial_from_plan" Data.Aeson.Types.ToJSON..= subscriptionPendingUpdate'TrialFromPlan obj)))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON SubscriptionPendingUpdate' where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "SubscriptionPendingUpdate'" (\obj -> ((((GHC.Base.pure SubscriptionPendingUpdate' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "billing_cycle_anchor")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "expires_at")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "subscription_items")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "trial_end")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "trial_from_plan"))
 
--- | Defines the data type for the schema subscriptionPlan\'
+-- | Create a new 'SubscriptionPendingUpdate'' with all required fields.
+mkSubscriptionPendingUpdate' :: SubscriptionPendingUpdate'
+mkSubscriptionPendingUpdate' =
+  SubscriptionPendingUpdate'
+    { subscriptionPendingUpdate'BillingCycleAnchor = GHC.Maybe.Nothing,
+      subscriptionPendingUpdate'ExpiresAt = GHC.Maybe.Nothing,
+      subscriptionPendingUpdate'SubscriptionItems = GHC.Maybe.Nothing,
+      subscriptionPendingUpdate'TrialEnd = GHC.Maybe.Nothing,
+      subscriptionPendingUpdate'TrialFromPlan = GHC.Maybe.Nothing
+    }
+
+-- | Defines the object schema located at @components.schemas.subscription.properties.plan.anyOf@ in the specification.
 --
 -- Hash describing the plan the customer is subscribed to. Only set if the subscription contains a single plan.
 data SubscriptionPlan'
@@ -587,8 +624,6 @@ data SubscriptionPlan'
         --
         -- * Maximum length of 5000
         subscriptionPlan'Nickname :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
-        -- | object: String representing the object\'s type. Objects of the same type share the same value.
-        subscriptionPlan'Object :: (GHC.Maybe.Maybe SubscriptionPlan'Object'),
         -- | product: The product whose pricing this plan determines.
         subscriptionPlan'Product :: (GHC.Maybe.Maybe SubscriptionPlan'Product'Variants),
         -- | tiers: Each element represents a pricing tier. This parameter requires \`billing_scheme\` to be set to \`tiered\`. See also the documentation for \`billing_scheme\`.
@@ -608,118 +643,138 @@ data SubscriptionPlan'
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON SubscriptionPlan' where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "active" (subscriptionPlan'Active obj) : (Data.Aeson..=) "aggregate_usage" (subscriptionPlan'AggregateUsage obj) : (Data.Aeson..=) "amount" (subscriptionPlan'Amount obj) : (Data.Aeson..=) "amount_decimal" (subscriptionPlan'AmountDecimal obj) : (Data.Aeson..=) "billing_scheme" (subscriptionPlan'BillingScheme obj) : (Data.Aeson..=) "created" (subscriptionPlan'Created obj) : (Data.Aeson..=) "currency" (subscriptionPlan'Currency obj) : (Data.Aeson..=) "id" (subscriptionPlan'Id obj) : (Data.Aeson..=) "interval" (subscriptionPlan'Interval obj) : (Data.Aeson..=) "interval_count" (subscriptionPlan'IntervalCount obj) : (Data.Aeson..=) "livemode" (subscriptionPlan'Livemode obj) : (Data.Aeson..=) "metadata" (subscriptionPlan'Metadata obj) : (Data.Aeson..=) "nickname" (subscriptionPlan'Nickname obj) : (Data.Aeson..=) "object" (subscriptionPlan'Object obj) : (Data.Aeson..=) "product" (subscriptionPlan'Product obj) : (Data.Aeson..=) "tiers" (subscriptionPlan'Tiers obj) : (Data.Aeson..=) "tiers_mode" (subscriptionPlan'TiersMode obj) : (Data.Aeson..=) "transform_usage" (subscriptionPlan'TransformUsage obj) : (Data.Aeson..=) "trial_period_days" (subscriptionPlan'TrialPeriodDays obj) : (Data.Aeson..=) "usage_type" (subscriptionPlan'UsageType obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "active" (subscriptionPlan'Active obj) GHC.Base.<> ((Data.Aeson..=) "aggregate_usage" (subscriptionPlan'AggregateUsage obj) GHC.Base.<> ((Data.Aeson..=) "amount" (subscriptionPlan'Amount obj) GHC.Base.<> ((Data.Aeson..=) "amount_decimal" (subscriptionPlan'AmountDecimal obj) GHC.Base.<> ((Data.Aeson..=) "billing_scheme" (subscriptionPlan'BillingScheme obj) GHC.Base.<> ((Data.Aeson..=) "created" (subscriptionPlan'Created obj) GHC.Base.<> ((Data.Aeson..=) "currency" (subscriptionPlan'Currency obj) GHC.Base.<> ((Data.Aeson..=) "id" (subscriptionPlan'Id obj) GHC.Base.<> ((Data.Aeson..=) "interval" (subscriptionPlan'Interval obj) GHC.Base.<> ((Data.Aeson..=) "interval_count" (subscriptionPlan'IntervalCount obj) GHC.Base.<> ((Data.Aeson..=) "livemode" (subscriptionPlan'Livemode obj) GHC.Base.<> ((Data.Aeson..=) "metadata" (subscriptionPlan'Metadata obj) GHC.Base.<> ((Data.Aeson..=) "nickname" (subscriptionPlan'Nickname obj) GHC.Base.<> ((Data.Aeson..=) "object" (subscriptionPlan'Object obj) GHC.Base.<> ((Data.Aeson..=) "product" (subscriptionPlan'Product obj) GHC.Base.<> ((Data.Aeson..=) "tiers" (subscriptionPlan'Tiers obj) GHC.Base.<> ((Data.Aeson..=) "tiers_mode" (subscriptionPlan'TiersMode obj) GHC.Base.<> ((Data.Aeson..=) "transform_usage" (subscriptionPlan'TransformUsage obj) GHC.Base.<> ((Data.Aeson..=) "trial_period_days" (subscriptionPlan'TrialPeriodDays obj) GHC.Base.<> (Data.Aeson..=) "usage_type" (subscriptionPlan'UsageType obj))))))))))))))))))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("active" Data.Aeson.Types.ToJSON..= subscriptionPlan'Active obj : "aggregate_usage" Data.Aeson.Types.ToJSON..= subscriptionPlan'AggregateUsage obj : "amount" Data.Aeson.Types.ToJSON..= subscriptionPlan'Amount obj : "amount_decimal" Data.Aeson.Types.ToJSON..= subscriptionPlan'AmountDecimal obj : "billing_scheme" Data.Aeson.Types.ToJSON..= subscriptionPlan'BillingScheme obj : "created" Data.Aeson.Types.ToJSON..= subscriptionPlan'Created obj : "currency" Data.Aeson.Types.ToJSON..= subscriptionPlan'Currency obj : "id" Data.Aeson.Types.ToJSON..= subscriptionPlan'Id obj : "interval" Data.Aeson.Types.ToJSON..= subscriptionPlan'Interval obj : "interval_count" Data.Aeson.Types.ToJSON..= subscriptionPlan'IntervalCount obj : "livemode" Data.Aeson.Types.ToJSON..= subscriptionPlan'Livemode obj : "metadata" Data.Aeson.Types.ToJSON..= subscriptionPlan'Metadata obj : "nickname" Data.Aeson.Types.ToJSON..= subscriptionPlan'Nickname obj : "product" Data.Aeson.Types.ToJSON..= subscriptionPlan'Product obj : "tiers" Data.Aeson.Types.ToJSON..= subscriptionPlan'Tiers obj : "tiers_mode" Data.Aeson.Types.ToJSON..= subscriptionPlan'TiersMode obj : "transform_usage" Data.Aeson.Types.ToJSON..= subscriptionPlan'TransformUsage obj : "trial_period_days" Data.Aeson.Types.ToJSON..= subscriptionPlan'TrialPeriodDays obj : "usage_type" Data.Aeson.Types.ToJSON..= subscriptionPlan'UsageType obj : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "plan" : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("active" Data.Aeson.Types.ToJSON..= subscriptionPlan'Active obj) GHC.Base.<> (("aggregate_usage" Data.Aeson.Types.ToJSON..= subscriptionPlan'AggregateUsage obj) GHC.Base.<> (("amount" Data.Aeson.Types.ToJSON..= subscriptionPlan'Amount obj) GHC.Base.<> (("amount_decimal" Data.Aeson.Types.ToJSON..= subscriptionPlan'AmountDecimal obj) GHC.Base.<> (("billing_scheme" Data.Aeson.Types.ToJSON..= subscriptionPlan'BillingScheme obj) GHC.Base.<> (("created" Data.Aeson.Types.ToJSON..= subscriptionPlan'Created obj) GHC.Base.<> (("currency" Data.Aeson.Types.ToJSON..= subscriptionPlan'Currency obj) GHC.Base.<> (("id" Data.Aeson.Types.ToJSON..= subscriptionPlan'Id obj) GHC.Base.<> (("interval" Data.Aeson.Types.ToJSON..= subscriptionPlan'Interval obj) GHC.Base.<> (("interval_count" Data.Aeson.Types.ToJSON..= subscriptionPlan'IntervalCount obj) GHC.Base.<> (("livemode" Data.Aeson.Types.ToJSON..= subscriptionPlan'Livemode obj) GHC.Base.<> (("metadata" Data.Aeson.Types.ToJSON..= subscriptionPlan'Metadata obj) GHC.Base.<> (("nickname" Data.Aeson.Types.ToJSON..= subscriptionPlan'Nickname obj) GHC.Base.<> (("product" Data.Aeson.Types.ToJSON..= subscriptionPlan'Product obj) GHC.Base.<> (("tiers" Data.Aeson.Types.ToJSON..= subscriptionPlan'Tiers obj) GHC.Base.<> (("tiers_mode" Data.Aeson.Types.ToJSON..= subscriptionPlan'TiersMode obj) GHC.Base.<> (("transform_usage" Data.Aeson.Types.ToJSON..= subscriptionPlan'TransformUsage obj) GHC.Base.<> (("trial_period_days" Data.Aeson.Types.ToJSON..= subscriptionPlan'TrialPeriodDays obj) GHC.Base.<> (("usage_type" Data.Aeson.Types.ToJSON..= subscriptionPlan'UsageType obj) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "plan"))))))))))))))))))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON SubscriptionPlan' where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "SubscriptionPlan'" (\obj -> (((((((((((((((((((GHC.Base.pure SubscriptionPlan' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "active")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "aggregate_usage")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "amount_decimal")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "billing_scheme")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "created")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "interval")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "interval_count")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "livemode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "nickname")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "object")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "product")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "tiers")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "tiers_mode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "transform_usage")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "trial_period_days")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "usage_type"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "SubscriptionPlan'" (\obj -> ((((((((((((((((((GHC.Base.pure SubscriptionPlan' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "active")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "aggregate_usage")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "amount_decimal")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "billing_scheme")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "created")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "interval")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "interval_count")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "livemode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "nickname")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "product")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "tiers")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "tiers_mode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "transform_usage")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "trial_period_days")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "usage_type"))
 
--- | Defines the enum schema subscriptionPlan\'Aggregate_usage\'
+-- | Create a new 'SubscriptionPlan'' with all required fields.
+mkSubscriptionPlan' :: SubscriptionPlan'
+mkSubscriptionPlan' =
+  SubscriptionPlan'
+    { subscriptionPlan'Active = GHC.Maybe.Nothing,
+      subscriptionPlan'AggregateUsage = GHC.Maybe.Nothing,
+      subscriptionPlan'Amount = GHC.Maybe.Nothing,
+      subscriptionPlan'AmountDecimal = GHC.Maybe.Nothing,
+      subscriptionPlan'BillingScheme = GHC.Maybe.Nothing,
+      subscriptionPlan'Created = GHC.Maybe.Nothing,
+      subscriptionPlan'Currency = GHC.Maybe.Nothing,
+      subscriptionPlan'Id = GHC.Maybe.Nothing,
+      subscriptionPlan'Interval = GHC.Maybe.Nothing,
+      subscriptionPlan'IntervalCount = GHC.Maybe.Nothing,
+      subscriptionPlan'Livemode = GHC.Maybe.Nothing,
+      subscriptionPlan'Metadata = GHC.Maybe.Nothing,
+      subscriptionPlan'Nickname = GHC.Maybe.Nothing,
+      subscriptionPlan'Product = GHC.Maybe.Nothing,
+      subscriptionPlan'Tiers = GHC.Maybe.Nothing,
+      subscriptionPlan'TiersMode = GHC.Maybe.Nothing,
+      subscriptionPlan'TransformUsage = GHC.Maybe.Nothing,
+      subscriptionPlan'TrialPeriodDays = GHC.Maybe.Nothing,
+      subscriptionPlan'UsageType = GHC.Maybe.Nothing
+    }
+
+-- | Defines the enum schema located at @components.schemas.subscription.properties.plan.anyOf.properties.aggregate_usage@ in the specification.
 --
 -- Specifies a usage aggregation strategy for plans of \`usage_type=metered\`. Allowed values are \`sum\` for summing up all usage during a period, \`last_during_period\` for using the last usage record reported within a period, \`last_ever\` for using the last usage record ever (across period bounds) or \`max\` which uses the usage record with the maximum reported usage during a period. Defaults to \`sum\`.
 data SubscriptionPlan'AggregateUsage'
-  = SubscriptionPlan'AggregateUsage'EnumOther Data.Aeson.Types.Internal.Value
-  | SubscriptionPlan'AggregateUsage'EnumTyped Data.Text.Internal.Text
-  | SubscriptionPlan'AggregateUsage'EnumStringLastDuringPeriod
-  | SubscriptionPlan'AggregateUsage'EnumStringLastEver
-  | SubscriptionPlan'AggregateUsage'EnumStringMax
-  | SubscriptionPlan'AggregateUsage'EnumStringSum
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    SubscriptionPlan'AggregateUsage'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    SubscriptionPlan'AggregateUsage'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"last_during_period"@
+    SubscriptionPlan'AggregateUsage'EnumLastDuringPeriod
+  | -- | Represents the JSON value @"last_ever"@
+    SubscriptionPlan'AggregateUsage'EnumLastEver
+  | -- | Represents the JSON value @"max"@
+    SubscriptionPlan'AggregateUsage'EnumMax
+  | -- | Represents the JSON value @"sum"@
+    SubscriptionPlan'AggregateUsage'EnumSum
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
 instance Data.Aeson.Types.ToJSON.ToJSON SubscriptionPlan'AggregateUsage' where
-  toJSON (SubscriptionPlan'AggregateUsage'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (SubscriptionPlan'AggregateUsage'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (SubscriptionPlan'AggregateUsage'EnumStringLastDuringPeriod) = "last_during_period"
-  toJSON (SubscriptionPlan'AggregateUsage'EnumStringLastEver) = "last_ever"
-  toJSON (SubscriptionPlan'AggregateUsage'EnumStringMax) = "max"
-  toJSON (SubscriptionPlan'AggregateUsage'EnumStringSum) = "sum"
+  toJSON (SubscriptionPlan'AggregateUsage'Other val) = val
+  toJSON (SubscriptionPlan'AggregateUsage'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (SubscriptionPlan'AggregateUsage'EnumLastDuringPeriod) = "last_during_period"
+  toJSON (SubscriptionPlan'AggregateUsage'EnumLastEver) = "last_ever"
+  toJSON (SubscriptionPlan'AggregateUsage'EnumMax) = "max"
+  toJSON (SubscriptionPlan'AggregateUsage'EnumSum) = "sum"
 
 instance Data.Aeson.Types.FromJSON.FromJSON SubscriptionPlan'AggregateUsage' where
   parseJSON val =
     GHC.Base.pure
-      ( if  | val GHC.Classes.== "last_during_period" -> SubscriptionPlan'AggregateUsage'EnumStringLastDuringPeriod
-            | val GHC.Classes.== "last_ever" -> SubscriptionPlan'AggregateUsage'EnumStringLastEver
-            | val GHC.Classes.== "max" -> SubscriptionPlan'AggregateUsage'EnumStringMax
-            | val GHC.Classes.== "sum" -> SubscriptionPlan'AggregateUsage'EnumStringSum
-            | GHC.Base.otherwise -> SubscriptionPlan'AggregateUsage'EnumOther val
+      ( if  | val GHC.Classes.== "last_during_period" -> SubscriptionPlan'AggregateUsage'EnumLastDuringPeriod
+            | val GHC.Classes.== "last_ever" -> SubscriptionPlan'AggregateUsage'EnumLastEver
+            | val GHC.Classes.== "max" -> SubscriptionPlan'AggregateUsage'EnumMax
+            | val GHC.Classes.== "sum" -> SubscriptionPlan'AggregateUsage'EnumSum
+            | GHC.Base.otherwise -> SubscriptionPlan'AggregateUsage'Other val
       )
 
--- | Defines the enum schema subscriptionPlan\'Billing_scheme\'
+-- | Defines the enum schema located at @components.schemas.subscription.properties.plan.anyOf.properties.billing_scheme@ in the specification.
 --
 -- Describes how to compute the price per period. Either \`per_unit\` or \`tiered\`. \`per_unit\` indicates that the fixed amount (specified in \`amount\`) will be charged per unit in \`quantity\` (for plans with \`usage_type=licensed\`), or per unit of total usage (for plans with \`usage_type=metered\`). \`tiered\` indicates that the unit pricing will be computed using a tiering strategy as defined using the \`tiers\` and \`tiers_mode\` attributes.
 data SubscriptionPlan'BillingScheme'
-  = SubscriptionPlan'BillingScheme'EnumOther Data.Aeson.Types.Internal.Value
-  | SubscriptionPlan'BillingScheme'EnumTyped Data.Text.Internal.Text
-  | SubscriptionPlan'BillingScheme'EnumStringPerUnit
-  | SubscriptionPlan'BillingScheme'EnumStringTiered
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    SubscriptionPlan'BillingScheme'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    SubscriptionPlan'BillingScheme'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"per_unit"@
+    SubscriptionPlan'BillingScheme'EnumPerUnit
+  | -- | Represents the JSON value @"tiered"@
+    SubscriptionPlan'BillingScheme'EnumTiered
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
 instance Data.Aeson.Types.ToJSON.ToJSON SubscriptionPlan'BillingScheme' where
-  toJSON (SubscriptionPlan'BillingScheme'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (SubscriptionPlan'BillingScheme'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (SubscriptionPlan'BillingScheme'EnumStringPerUnit) = "per_unit"
-  toJSON (SubscriptionPlan'BillingScheme'EnumStringTiered) = "tiered"
+  toJSON (SubscriptionPlan'BillingScheme'Other val) = val
+  toJSON (SubscriptionPlan'BillingScheme'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (SubscriptionPlan'BillingScheme'EnumPerUnit) = "per_unit"
+  toJSON (SubscriptionPlan'BillingScheme'EnumTiered) = "tiered"
 
 instance Data.Aeson.Types.FromJSON.FromJSON SubscriptionPlan'BillingScheme' where
   parseJSON val =
     GHC.Base.pure
-      ( if  | val GHC.Classes.== "per_unit" -> SubscriptionPlan'BillingScheme'EnumStringPerUnit
-            | val GHC.Classes.== "tiered" -> SubscriptionPlan'BillingScheme'EnumStringTiered
-            | GHC.Base.otherwise -> SubscriptionPlan'BillingScheme'EnumOther val
+      ( if  | val GHC.Classes.== "per_unit" -> SubscriptionPlan'BillingScheme'EnumPerUnit
+            | val GHC.Classes.== "tiered" -> SubscriptionPlan'BillingScheme'EnumTiered
+            | GHC.Base.otherwise -> SubscriptionPlan'BillingScheme'Other val
       )
 
--- | Defines the enum schema subscriptionPlan\'Interval\'
+-- | Defines the enum schema located at @components.schemas.subscription.properties.plan.anyOf.properties.interval@ in the specification.
 --
 -- The frequency at which a subscription is billed. One of \`day\`, \`week\`, \`month\` or \`year\`.
 data SubscriptionPlan'Interval'
-  = SubscriptionPlan'Interval'EnumOther Data.Aeson.Types.Internal.Value
-  | SubscriptionPlan'Interval'EnumTyped Data.Text.Internal.Text
-  | SubscriptionPlan'Interval'EnumStringDay
-  | SubscriptionPlan'Interval'EnumStringMonth
-  | SubscriptionPlan'Interval'EnumStringWeek
-  | SubscriptionPlan'Interval'EnumStringYear
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    SubscriptionPlan'Interval'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    SubscriptionPlan'Interval'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"day"@
+    SubscriptionPlan'Interval'EnumDay
+  | -- | Represents the JSON value @"month"@
+    SubscriptionPlan'Interval'EnumMonth
+  | -- | Represents the JSON value @"week"@
+    SubscriptionPlan'Interval'EnumWeek
+  | -- | Represents the JSON value @"year"@
+    SubscriptionPlan'Interval'EnumYear
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
 instance Data.Aeson.Types.ToJSON.ToJSON SubscriptionPlan'Interval' where
-  toJSON (SubscriptionPlan'Interval'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (SubscriptionPlan'Interval'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (SubscriptionPlan'Interval'EnumStringDay) = "day"
-  toJSON (SubscriptionPlan'Interval'EnumStringMonth) = "month"
-  toJSON (SubscriptionPlan'Interval'EnumStringWeek) = "week"
-  toJSON (SubscriptionPlan'Interval'EnumStringYear) = "year"
+  toJSON (SubscriptionPlan'Interval'Other val) = val
+  toJSON (SubscriptionPlan'Interval'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (SubscriptionPlan'Interval'EnumDay) = "day"
+  toJSON (SubscriptionPlan'Interval'EnumMonth) = "month"
+  toJSON (SubscriptionPlan'Interval'EnumWeek) = "week"
+  toJSON (SubscriptionPlan'Interval'EnumYear) = "year"
 
 instance Data.Aeson.Types.FromJSON.FromJSON SubscriptionPlan'Interval' where
   parseJSON val =
     GHC.Base.pure
-      ( if  | val GHC.Classes.== "day" -> SubscriptionPlan'Interval'EnumStringDay
-            | val GHC.Classes.== "month" -> SubscriptionPlan'Interval'EnumStringMonth
-            | val GHC.Classes.== "week" -> SubscriptionPlan'Interval'EnumStringWeek
-            | val GHC.Classes.== "year" -> SubscriptionPlan'Interval'EnumStringYear
-            | GHC.Base.otherwise -> SubscriptionPlan'Interval'EnumOther val
+      ( if  | val GHC.Classes.== "day" -> SubscriptionPlan'Interval'EnumDay
+            | val GHC.Classes.== "month" -> SubscriptionPlan'Interval'EnumMonth
+            | val GHC.Classes.== "week" -> SubscriptionPlan'Interval'EnumWeek
+            | val GHC.Classes.== "year" -> SubscriptionPlan'Interval'EnumYear
+            | GHC.Base.otherwise -> SubscriptionPlan'Interval'Other val
       )
 
--- | Defines the enum schema subscriptionPlan\'Object\'
---
--- String representing the object\'s type. Objects of the same type share the same value.
-data SubscriptionPlan'Object'
-  = SubscriptionPlan'Object'EnumOther Data.Aeson.Types.Internal.Value
-  | SubscriptionPlan'Object'EnumTyped Data.Text.Internal.Text
-  | SubscriptionPlan'Object'EnumStringPlan
-  deriving (GHC.Show.Show, GHC.Classes.Eq)
-
-instance Data.Aeson.Types.ToJSON.ToJSON SubscriptionPlan'Object' where
-  toJSON (SubscriptionPlan'Object'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (SubscriptionPlan'Object'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (SubscriptionPlan'Object'EnumStringPlan) = "plan"
-
-instance Data.Aeson.Types.FromJSON.FromJSON SubscriptionPlan'Object' where
-  parseJSON val =
-    GHC.Base.pure
-      ( if  | val GHC.Classes.== "plan" -> SubscriptionPlan'Object'EnumStringPlan
-            | GHC.Base.otherwise -> SubscriptionPlan'Object'EnumOther val
-      )
-
--- | Define the one-of schema subscriptionPlan\'Product\'
+-- | Defines the oneOf schema located at @components.schemas.subscription.properties.plan.anyOf.properties.product.anyOf@ in the specification.
 --
 -- The product whose pricing this plan determines.
 data SubscriptionPlan'Product'Variants
@@ -734,39 +789,39 @@ instance Data.Aeson.Types.ToJSON.ToJSON SubscriptionPlan'Product'Variants where
   toJSON (SubscriptionPlan'Product'Text a) = Data.Aeson.Types.ToJSON.toJSON a
 
 instance Data.Aeson.Types.FromJSON.FromJSON SubscriptionPlan'Product'Variants where
-  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
-    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ SubscriptionPlan'Product'DeletedProduct a
-    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ SubscriptionPlan'Product'Product a
-      Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-        Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ SubscriptionPlan'Product'Text a
-        Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+  parseJSON val = case (SubscriptionPlan'Product'DeletedProduct Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((SubscriptionPlan'Product'Product Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((SubscriptionPlan'Product'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched")) of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+    Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
--- | Defines the enum schema subscriptionPlan\'Tiers_mode\'
+-- | Defines the enum schema located at @components.schemas.subscription.properties.plan.anyOf.properties.tiers_mode@ in the specification.
 --
 -- Defines if the tiering price should be \`graduated\` or \`volume\` based. In \`volume\`-based tiering, the maximum quantity within a period determines the per unit price. In \`graduated\` tiering, pricing can change as the quantity grows.
 data SubscriptionPlan'TiersMode'
-  = SubscriptionPlan'TiersMode'EnumOther Data.Aeson.Types.Internal.Value
-  | SubscriptionPlan'TiersMode'EnumTyped Data.Text.Internal.Text
-  | SubscriptionPlan'TiersMode'EnumStringGraduated
-  | SubscriptionPlan'TiersMode'EnumStringVolume
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    SubscriptionPlan'TiersMode'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    SubscriptionPlan'TiersMode'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"graduated"@
+    SubscriptionPlan'TiersMode'EnumGraduated
+  | -- | Represents the JSON value @"volume"@
+    SubscriptionPlan'TiersMode'EnumVolume
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
 instance Data.Aeson.Types.ToJSON.ToJSON SubscriptionPlan'TiersMode' where
-  toJSON (SubscriptionPlan'TiersMode'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (SubscriptionPlan'TiersMode'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (SubscriptionPlan'TiersMode'EnumStringGraduated) = "graduated"
-  toJSON (SubscriptionPlan'TiersMode'EnumStringVolume) = "volume"
+  toJSON (SubscriptionPlan'TiersMode'Other val) = val
+  toJSON (SubscriptionPlan'TiersMode'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (SubscriptionPlan'TiersMode'EnumGraduated) = "graduated"
+  toJSON (SubscriptionPlan'TiersMode'EnumVolume) = "volume"
 
 instance Data.Aeson.Types.FromJSON.FromJSON SubscriptionPlan'TiersMode' where
   parseJSON val =
     GHC.Base.pure
-      ( if  | val GHC.Classes.== "graduated" -> SubscriptionPlan'TiersMode'EnumStringGraduated
-            | val GHC.Classes.== "volume" -> SubscriptionPlan'TiersMode'EnumStringVolume
-            | GHC.Base.otherwise -> SubscriptionPlan'TiersMode'EnumOther val
+      ( if  | val GHC.Classes.== "graduated" -> SubscriptionPlan'TiersMode'EnumGraduated
+            | val GHC.Classes.== "volume" -> SubscriptionPlan'TiersMode'EnumVolume
+            | GHC.Base.otherwise -> SubscriptionPlan'TiersMode'Other val
       )
 
--- | Defines the data type for the schema subscriptionPlan\'Transform_usage\'
+-- | Defines the object schema located at @components.schemas.subscription.properties.plan.anyOf.properties.transform_usage.anyOf@ in the specification.
 --
 -- Apply a transformation to the reported usage or set quantity before computing the amount billed. Cannot be combined with \\\`tiers\\\`.
 data SubscriptionPlan'TransformUsage'
@@ -782,61 +837,77 @@ data SubscriptionPlan'TransformUsage'
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON SubscriptionPlan'TransformUsage' where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "divide_by" (subscriptionPlan'TransformUsage'DivideBy obj) : (Data.Aeson..=) "round" (subscriptionPlan'TransformUsage'Round obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "divide_by" (subscriptionPlan'TransformUsage'DivideBy obj) GHC.Base.<> (Data.Aeson..=) "round" (subscriptionPlan'TransformUsage'Round obj))
+  toJSON obj = Data.Aeson.Types.Internal.object ("divide_by" Data.Aeson.Types.ToJSON..= subscriptionPlan'TransformUsage'DivideBy obj : "round" Data.Aeson.Types.ToJSON..= subscriptionPlan'TransformUsage'Round obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("divide_by" Data.Aeson.Types.ToJSON..= subscriptionPlan'TransformUsage'DivideBy obj) GHC.Base.<> ("round" Data.Aeson.Types.ToJSON..= subscriptionPlan'TransformUsage'Round obj))
 
 instance Data.Aeson.Types.FromJSON.FromJSON SubscriptionPlan'TransformUsage' where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "SubscriptionPlan'TransformUsage'" (\obj -> (GHC.Base.pure SubscriptionPlan'TransformUsage' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "divide_by")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "round"))
 
--- | Defines the enum schema subscriptionPlan\'Transform_usage\'Round\'
+-- | Create a new 'SubscriptionPlan'TransformUsage'' with all required fields.
+mkSubscriptionPlan'TransformUsage' :: SubscriptionPlan'TransformUsage'
+mkSubscriptionPlan'TransformUsage' =
+  SubscriptionPlan'TransformUsage'
+    { subscriptionPlan'TransformUsage'DivideBy = GHC.Maybe.Nothing,
+      subscriptionPlan'TransformUsage'Round = GHC.Maybe.Nothing
+    }
+
+-- | Defines the enum schema located at @components.schemas.subscription.properties.plan.anyOf.properties.transform_usage.anyOf.properties.round@ in the specification.
 --
 -- After division, either round the result \`up\` or \`down\`.
 data SubscriptionPlan'TransformUsage'Round'
-  = SubscriptionPlan'TransformUsage'Round'EnumOther Data.Aeson.Types.Internal.Value
-  | SubscriptionPlan'TransformUsage'Round'EnumTyped Data.Text.Internal.Text
-  | SubscriptionPlan'TransformUsage'Round'EnumStringDown
-  | SubscriptionPlan'TransformUsage'Round'EnumStringUp
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    SubscriptionPlan'TransformUsage'Round'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    SubscriptionPlan'TransformUsage'Round'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"down"@
+    SubscriptionPlan'TransformUsage'Round'EnumDown
+  | -- | Represents the JSON value @"up"@
+    SubscriptionPlan'TransformUsage'Round'EnumUp
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
 instance Data.Aeson.Types.ToJSON.ToJSON SubscriptionPlan'TransformUsage'Round' where
-  toJSON (SubscriptionPlan'TransformUsage'Round'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (SubscriptionPlan'TransformUsage'Round'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (SubscriptionPlan'TransformUsage'Round'EnumStringDown) = "down"
-  toJSON (SubscriptionPlan'TransformUsage'Round'EnumStringUp) = "up"
+  toJSON (SubscriptionPlan'TransformUsage'Round'Other val) = val
+  toJSON (SubscriptionPlan'TransformUsage'Round'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (SubscriptionPlan'TransformUsage'Round'EnumDown) = "down"
+  toJSON (SubscriptionPlan'TransformUsage'Round'EnumUp) = "up"
 
 instance Data.Aeson.Types.FromJSON.FromJSON SubscriptionPlan'TransformUsage'Round' where
   parseJSON val =
     GHC.Base.pure
-      ( if  | val GHC.Classes.== "down" -> SubscriptionPlan'TransformUsage'Round'EnumStringDown
-            | val GHC.Classes.== "up" -> SubscriptionPlan'TransformUsage'Round'EnumStringUp
-            | GHC.Base.otherwise -> SubscriptionPlan'TransformUsage'Round'EnumOther val
+      ( if  | val GHC.Classes.== "down" -> SubscriptionPlan'TransformUsage'Round'EnumDown
+            | val GHC.Classes.== "up" -> SubscriptionPlan'TransformUsage'Round'EnumUp
+            | GHC.Base.otherwise -> SubscriptionPlan'TransformUsage'Round'Other val
       )
 
--- | Defines the enum schema subscriptionPlan\'Usage_type\'
+-- | Defines the enum schema located at @components.schemas.subscription.properties.plan.anyOf.properties.usage_type@ in the specification.
 --
 -- Configures how the quantity per period should be determined. Can be either \`metered\` or \`licensed\`. \`licensed\` automatically bills the \`quantity\` set when adding it to a subscription. \`metered\` aggregates the total usage based on usage records. Defaults to \`licensed\`.
 data SubscriptionPlan'UsageType'
-  = SubscriptionPlan'UsageType'EnumOther Data.Aeson.Types.Internal.Value
-  | SubscriptionPlan'UsageType'EnumTyped Data.Text.Internal.Text
-  | SubscriptionPlan'UsageType'EnumStringLicensed
-  | SubscriptionPlan'UsageType'EnumStringMetered
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    SubscriptionPlan'UsageType'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    SubscriptionPlan'UsageType'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"licensed"@
+    SubscriptionPlan'UsageType'EnumLicensed
+  | -- | Represents the JSON value @"metered"@
+    SubscriptionPlan'UsageType'EnumMetered
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
 instance Data.Aeson.Types.ToJSON.ToJSON SubscriptionPlan'UsageType' where
-  toJSON (SubscriptionPlan'UsageType'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (SubscriptionPlan'UsageType'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (SubscriptionPlan'UsageType'EnumStringLicensed) = "licensed"
-  toJSON (SubscriptionPlan'UsageType'EnumStringMetered) = "metered"
+  toJSON (SubscriptionPlan'UsageType'Other val) = val
+  toJSON (SubscriptionPlan'UsageType'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (SubscriptionPlan'UsageType'EnumLicensed) = "licensed"
+  toJSON (SubscriptionPlan'UsageType'EnumMetered) = "metered"
 
 instance Data.Aeson.Types.FromJSON.FromJSON SubscriptionPlan'UsageType' where
   parseJSON val =
     GHC.Base.pure
-      ( if  | val GHC.Classes.== "licensed" -> SubscriptionPlan'UsageType'EnumStringLicensed
-            | val GHC.Classes.== "metered" -> SubscriptionPlan'UsageType'EnumStringMetered
-            | GHC.Base.otherwise -> SubscriptionPlan'UsageType'EnumOther val
+      ( if  | val GHC.Classes.== "licensed" -> SubscriptionPlan'UsageType'EnumLicensed
+            | val GHC.Classes.== "metered" -> SubscriptionPlan'UsageType'EnumMetered
+            | GHC.Base.otherwise -> SubscriptionPlan'UsageType'Other val
       )
 
--- | Define the one-of schema subscriptionSchedule\'
+-- | Defines the oneOf schema located at @components.schemas.subscription.properties.schedule.anyOf@ in the specification.
 --
 -- The schedule attached to the subscription
 data SubscriptionSchedule'Variants
@@ -849,13 +920,11 @@ instance Data.Aeson.Types.ToJSON.ToJSON SubscriptionSchedule'Variants where
   toJSON (SubscriptionSchedule'Text a) = Data.Aeson.Types.ToJSON.toJSON a
 
 instance Data.Aeson.Types.FromJSON.FromJSON SubscriptionSchedule'Variants where
-  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
-    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ SubscriptionSchedule'SubscriptionSchedule a
-    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ SubscriptionSchedule'Text a
-      Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+  parseJSON val = case (SubscriptionSchedule'SubscriptionSchedule Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((SubscriptionSchedule'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched") of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+    Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
--- | Defines the enum schema subscriptionStatus\'
+-- | Defines the enum schema located at @components.schemas.subscription.properties.status@ in the specification.
 --
 -- Possible values are \`incomplete\`, \`incomplete_expired\`, \`trialing\`, \`active\`, \`past_due\`, \`canceled\`, or \`unpaid\`.
 --
@@ -867,37 +936,46 @@ instance Data.Aeson.Types.FromJSON.FromJSON SubscriptionSchedule'Variants where
 --
 -- If subscription \`collection_method=send_invoice\` it becomes \`past_due\` when its invoice is not paid by the due date, and \`canceled\` or \`unpaid\` if it is still not paid by an additional deadline after that. Note that when a subscription has a status of \`unpaid\`, no subsequent invoices will be attempted (invoices will be created, but then immediately automatically closed). After receiving updated payment information from a customer, you may choose to reopen and pay their closed invoices.
 data SubscriptionStatus'
-  = SubscriptionStatus'EnumOther Data.Aeson.Types.Internal.Value
-  | SubscriptionStatus'EnumTyped Data.Text.Internal.Text
-  | SubscriptionStatus'EnumStringActive
-  | SubscriptionStatus'EnumStringCanceled
-  | SubscriptionStatus'EnumStringIncomplete
-  | SubscriptionStatus'EnumStringIncompleteExpired
-  | SubscriptionStatus'EnumStringPastDue
-  | SubscriptionStatus'EnumStringTrialing
-  | SubscriptionStatus'EnumStringUnpaid
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    SubscriptionStatus'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    SubscriptionStatus'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"active"@
+    SubscriptionStatus'EnumActive
+  | -- | Represents the JSON value @"canceled"@
+    SubscriptionStatus'EnumCanceled
+  | -- | Represents the JSON value @"incomplete"@
+    SubscriptionStatus'EnumIncomplete
+  | -- | Represents the JSON value @"incomplete_expired"@
+    SubscriptionStatus'EnumIncompleteExpired
+  | -- | Represents the JSON value @"past_due"@
+    SubscriptionStatus'EnumPastDue
+  | -- | Represents the JSON value @"trialing"@
+    SubscriptionStatus'EnumTrialing
+  | -- | Represents the JSON value @"unpaid"@
+    SubscriptionStatus'EnumUnpaid
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
 instance Data.Aeson.Types.ToJSON.ToJSON SubscriptionStatus' where
-  toJSON (SubscriptionStatus'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (SubscriptionStatus'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (SubscriptionStatus'EnumStringActive) = "active"
-  toJSON (SubscriptionStatus'EnumStringCanceled) = "canceled"
-  toJSON (SubscriptionStatus'EnumStringIncomplete) = "incomplete"
-  toJSON (SubscriptionStatus'EnumStringIncompleteExpired) = "incomplete_expired"
-  toJSON (SubscriptionStatus'EnumStringPastDue) = "past_due"
-  toJSON (SubscriptionStatus'EnumStringTrialing) = "trialing"
-  toJSON (SubscriptionStatus'EnumStringUnpaid) = "unpaid"
+  toJSON (SubscriptionStatus'Other val) = val
+  toJSON (SubscriptionStatus'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (SubscriptionStatus'EnumActive) = "active"
+  toJSON (SubscriptionStatus'EnumCanceled) = "canceled"
+  toJSON (SubscriptionStatus'EnumIncomplete) = "incomplete"
+  toJSON (SubscriptionStatus'EnumIncompleteExpired) = "incomplete_expired"
+  toJSON (SubscriptionStatus'EnumPastDue) = "past_due"
+  toJSON (SubscriptionStatus'EnumTrialing) = "trialing"
+  toJSON (SubscriptionStatus'EnumUnpaid) = "unpaid"
 
 instance Data.Aeson.Types.FromJSON.FromJSON SubscriptionStatus' where
   parseJSON val =
     GHC.Base.pure
-      ( if  | val GHC.Classes.== "active" -> SubscriptionStatus'EnumStringActive
-            | val GHC.Classes.== "canceled" -> SubscriptionStatus'EnumStringCanceled
-            | val GHC.Classes.== "incomplete" -> SubscriptionStatus'EnumStringIncomplete
-            | val GHC.Classes.== "incomplete_expired" -> SubscriptionStatus'EnumStringIncompleteExpired
-            | val GHC.Classes.== "past_due" -> SubscriptionStatus'EnumStringPastDue
-            | val GHC.Classes.== "trialing" -> SubscriptionStatus'EnumStringTrialing
-            | val GHC.Classes.== "unpaid" -> SubscriptionStatus'EnumStringUnpaid
-            | GHC.Base.otherwise -> SubscriptionStatus'EnumOther val
+      ( if  | val GHC.Classes.== "active" -> SubscriptionStatus'EnumActive
+            | val GHC.Classes.== "canceled" -> SubscriptionStatus'EnumCanceled
+            | val GHC.Classes.== "incomplete" -> SubscriptionStatus'EnumIncomplete
+            | val GHC.Classes.== "incomplete_expired" -> SubscriptionStatus'EnumIncompleteExpired
+            | val GHC.Classes.== "past_due" -> SubscriptionStatus'EnumPastDue
+            | val GHC.Classes.== "trialing" -> SubscriptionStatus'EnumTrialing
+            | val GHC.Classes.== "unpaid" -> SubscriptionStatus'EnumUnpaid
+            | GHC.Base.otherwise -> SubscriptionStatus'Other val
       )

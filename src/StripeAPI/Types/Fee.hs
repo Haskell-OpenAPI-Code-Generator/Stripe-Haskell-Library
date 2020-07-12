@@ -8,6 +8,7 @@ module StripeAPI.Types.Fee where
 
 import qualified Control.Monad.Fail
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -30,7 +31,7 @@ import StripeAPI.TypeAlias
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
--- | Defines the data type for the schema fee
+-- | Defines the object schema located at @components.schemas.fee@ in the specification.
 data Fee
   = Fee
       { -- | amount: Amount of the fee, in cents.
@@ -62,8 +63,26 @@ data Fee
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON Fee where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "amount" (feeAmount obj) : (Data.Aeson..=) "application" (feeApplication obj) : (Data.Aeson..=) "currency" (feeCurrency obj) : (Data.Aeson..=) "description" (feeDescription obj) : (Data.Aeson..=) "type" (feeType obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "amount" (feeAmount obj) GHC.Base.<> ((Data.Aeson..=) "application" (feeApplication obj) GHC.Base.<> ((Data.Aeson..=) "currency" (feeCurrency obj) GHC.Base.<> ((Data.Aeson..=) "description" (feeDescription obj) GHC.Base.<> (Data.Aeson..=) "type" (feeType obj)))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("amount" Data.Aeson.Types.ToJSON..= feeAmount obj : "application" Data.Aeson.Types.ToJSON..= feeApplication obj : "currency" Data.Aeson.Types.ToJSON..= feeCurrency obj : "description" Data.Aeson.Types.ToJSON..= feeDescription obj : "type" Data.Aeson.Types.ToJSON..= feeType obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("amount" Data.Aeson.Types.ToJSON..= feeAmount obj) GHC.Base.<> (("application" Data.Aeson.Types.ToJSON..= feeApplication obj) GHC.Base.<> (("currency" Data.Aeson.Types.ToJSON..= feeCurrency obj) GHC.Base.<> (("description" Data.Aeson.Types.ToJSON..= feeDescription obj) GHC.Base.<> ("type" Data.Aeson.Types.ToJSON..= feeType obj)))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON Fee where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "Fee" (\obj -> ((((GHC.Base.pure Fee GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "application")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "description")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "type"))
+
+-- | Create a new 'Fee' with all required fields.
+mkFee ::
+  -- | 'feeAmount'
+  GHC.Types.Int ->
+  -- | 'feeCurrency'
+  Data.Text.Internal.Text ->
+  -- | 'feeType'
+  Data.Text.Internal.Text ->
+  Fee
+mkFee feeAmount feeCurrency feeType =
+  Fee
+    { feeAmount = feeAmount,
+      feeApplication = GHC.Maybe.Nothing,
+      feeCurrency = feeCurrency,
+      feeDescription = GHC.Maybe.Nothing,
+      feeType = feeType
+    }

@@ -8,6 +8,7 @@ module StripeAPI.Types.Order where
 
 import qualified Control.Monad.Fail
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -39,7 +40,7 @@ import {-# SOURCE #-} StripeAPI.Types.StatusTransitions
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
--- | Defines the data type for the schema order
+-- | Defines the object schema located at @components.schemas.order@ in the specification.
 --
 -- Order objects are created to handle end customers\' purchases of previously
 -- defined [products](https:\/\/stripe.com\/docs\/api\#products). You can create, retrieve, and pay individual orders, as well
@@ -92,8 +93,6 @@ data Order
         orderLivemode :: GHC.Types.Bool,
         -- | metadata: Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
         orderMetadata :: Data.Aeson.Types.Internal.Object,
-        -- | object: String representing the object\'s type. Objects of the same type share the same value.
-        orderObject :: OrderObject',
         -- | returns: A list of returns that have taken place for this order.
         orderReturns :: (GHC.Maybe.Maybe OrderReturns'),
         -- | selected_shipping_method: The shipping method that is currently selected for this order, if any. If present, it is equal to one of the \`id\`s of shipping methods in the \`shipping_methods\` array. At order creation time, if there are multiple shipping methods, Stripe will automatically selected the first method.
@@ -129,13 +128,58 @@ data Order
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON Order where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "amount" (orderAmount obj) : (Data.Aeson..=) "amount_returned" (orderAmountReturned obj) : (Data.Aeson..=) "application" (orderApplication obj) : (Data.Aeson..=) "application_fee" (orderApplicationFee obj) : (Data.Aeson..=) "charge" (orderCharge obj) : (Data.Aeson..=) "created" (orderCreated obj) : (Data.Aeson..=) "currency" (orderCurrency obj) : (Data.Aeson..=) "customer" (orderCustomer obj) : (Data.Aeson..=) "email" (orderEmail obj) : (Data.Aeson..=) "external_coupon_code" (orderExternalCouponCode obj) : (Data.Aeson..=) "id" (orderId obj) : (Data.Aeson..=) "items" (orderItems obj) : (Data.Aeson..=) "livemode" (orderLivemode obj) : (Data.Aeson..=) "metadata" (orderMetadata obj) : (Data.Aeson..=) "object" (orderObject obj) : (Data.Aeson..=) "returns" (orderReturns obj) : (Data.Aeson..=) "selected_shipping_method" (orderSelectedShippingMethod obj) : (Data.Aeson..=) "shipping" (orderShipping obj) : (Data.Aeson..=) "shipping_methods" (orderShippingMethods obj) : (Data.Aeson..=) "status" (orderStatus obj) : (Data.Aeson..=) "status_transitions" (orderStatusTransitions obj) : (Data.Aeson..=) "updated" (orderUpdated obj) : (Data.Aeson..=) "upstream_id" (orderUpstreamId obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "amount" (orderAmount obj) GHC.Base.<> ((Data.Aeson..=) "amount_returned" (orderAmountReturned obj) GHC.Base.<> ((Data.Aeson..=) "application" (orderApplication obj) GHC.Base.<> ((Data.Aeson..=) "application_fee" (orderApplicationFee obj) GHC.Base.<> ((Data.Aeson..=) "charge" (orderCharge obj) GHC.Base.<> ((Data.Aeson..=) "created" (orderCreated obj) GHC.Base.<> ((Data.Aeson..=) "currency" (orderCurrency obj) GHC.Base.<> ((Data.Aeson..=) "customer" (orderCustomer obj) GHC.Base.<> ((Data.Aeson..=) "email" (orderEmail obj) GHC.Base.<> ((Data.Aeson..=) "external_coupon_code" (orderExternalCouponCode obj) GHC.Base.<> ((Data.Aeson..=) "id" (orderId obj) GHC.Base.<> ((Data.Aeson..=) "items" (orderItems obj) GHC.Base.<> ((Data.Aeson..=) "livemode" (orderLivemode obj) GHC.Base.<> ((Data.Aeson..=) "metadata" (orderMetadata obj) GHC.Base.<> ((Data.Aeson..=) "object" (orderObject obj) GHC.Base.<> ((Data.Aeson..=) "returns" (orderReturns obj) GHC.Base.<> ((Data.Aeson..=) "selected_shipping_method" (orderSelectedShippingMethod obj) GHC.Base.<> ((Data.Aeson..=) "shipping" (orderShipping obj) GHC.Base.<> ((Data.Aeson..=) "shipping_methods" (orderShippingMethods obj) GHC.Base.<> ((Data.Aeson..=) "status" (orderStatus obj) GHC.Base.<> ((Data.Aeson..=) "status_transitions" (orderStatusTransitions obj) GHC.Base.<> ((Data.Aeson..=) "updated" (orderUpdated obj) GHC.Base.<> (Data.Aeson..=) "upstream_id" (orderUpstreamId obj)))))))))))))))))))))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("amount" Data.Aeson.Types.ToJSON..= orderAmount obj : "amount_returned" Data.Aeson.Types.ToJSON..= orderAmountReturned obj : "application" Data.Aeson.Types.ToJSON..= orderApplication obj : "application_fee" Data.Aeson.Types.ToJSON..= orderApplicationFee obj : "charge" Data.Aeson.Types.ToJSON..= orderCharge obj : "created" Data.Aeson.Types.ToJSON..= orderCreated obj : "currency" Data.Aeson.Types.ToJSON..= orderCurrency obj : "customer" Data.Aeson.Types.ToJSON..= orderCustomer obj : "email" Data.Aeson.Types.ToJSON..= orderEmail obj : "external_coupon_code" Data.Aeson.Types.ToJSON..= orderExternalCouponCode obj : "id" Data.Aeson.Types.ToJSON..= orderId obj : "items" Data.Aeson.Types.ToJSON..= orderItems obj : "livemode" Data.Aeson.Types.ToJSON..= orderLivemode obj : "metadata" Data.Aeson.Types.ToJSON..= orderMetadata obj : "returns" Data.Aeson.Types.ToJSON..= orderReturns obj : "selected_shipping_method" Data.Aeson.Types.ToJSON..= orderSelectedShippingMethod obj : "shipping" Data.Aeson.Types.ToJSON..= orderShipping obj : "shipping_methods" Data.Aeson.Types.ToJSON..= orderShippingMethods obj : "status" Data.Aeson.Types.ToJSON..= orderStatus obj : "status_transitions" Data.Aeson.Types.ToJSON..= orderStatusTransitions obj : "updated" Data.Aeson.Types.ToJSON..= orderUpdated obj : "upstream_id" Data.Aeson.Types.ToJSON..= orderUpstreamId obj : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "order" : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("amount" Data.Aeson.Types.ToJSON..= orderAmount obj) GHC.Base.<> (("amount_returned" Data.Aeson.Types.ToJSON..= orderAmountReturned obj) GHC.Base.<> (("application" Data.Aeson.Types.ToJSON..= orderApplication obj) GHC.Base.<> (("application_fee" Data.Aeson.Types.ToJSON..= orderApplicationFee obj) GHC.Base.<> (("charge" Data.Aeson.Types.ToJSON..= orderCharge obj) GHC.Base.<> (("created" Data.Aeson.Types.ToJSON..= orderCreated obj) GHC.Base.<> (("currency" Data.Aeson.Types.ToJSON..= orderCurrency obj) GHC.Base.<> (("customer" Data.Aeson.Types.ToJSON..= orderCustomer obj) GHC.Base.<> (("email" Data.Aeson.Types.ToJSON..= orderEmail obj) GHC.Base.<> (("external_coupon_code" Data.Aeson.Types.ToJSON..= orderExternalCouponCode obj) GHC.Base.<> (("id" Data.Aeson.Types.ToJSON..= orderId obj) GHC.Base.<> (("items" Data.Aeson.Types.ToJSON..= orderItems obj) GHC.Base.<> (("livemode" Data.Aeson.Types.ToJSON..= orderLivemode obj) GHC.Base.<> (("metadata" Data.Aeson.Types.ToJSON..= orderMetadata obj) GHC.Base.<> (("returns" Data.Aeson.Types.ToJSON..= orderReturns obj) GHC.Base.<> (("selected_shipping_method" Data.Aeson.Types.ToJSON..= orderSelectedShippingMethod obj) GHC.Base.<> (("shipping" Data.Aeson.Types.ToJSON..= orderShipping obj) GHC.Base.<> (("shipping_methods" Data.Aeson.Types.ToJSON..= orderShippingMethods obj) GHC.Base.<> (("status" Data.Aeson.Types.ToJSON..= orderStatus obj) GHC.Base.<> (("status_transitions" Data.Aeson.Types.ToJSON..= orderStatusTransitions obj) GHC.Base.<> (("updated" Data.Aeson.Types.ToJSON..= orderUpdated obj) GHC.Base.<> (("upstream_id" Data.Aeson.Types.ToJSON..= orderUpstreamId obj) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "order")))))))))))))))))))))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON Order where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "Order" (\obj -> ((((((((((((((((((((((GHC.Base.pure Order GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "amount_returned")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "application")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "application_fee")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "charge")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "created")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "customer")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "email")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "external_coupon_code")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "items")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "livemode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "object")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "returns")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "selected_shipping_method")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "shipping")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "shipping_methods")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "status")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "status_transitions")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "updated")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "upstream_id"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "Order" (\obj -> (((((((((((((((((((((GHC.Base.pure Order GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "amount_returned")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "application")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "application_fee")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "charge")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "created")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "customer")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "email")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "external_coupon_code")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "items")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "livemode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "returns")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "selected_shipping_method")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "shipping")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "shipping_methods")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "status")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "status_transitions")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "updated")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "upstream_id"))
 
--- | Define the one-of schema orderCharge\'
+-- | Create a new 'Order' with all required fields.
+mkOrder ::
+  -- | 'orderAmount'
+  GHC.Types.Int ->
+  -- | 'orderCreated'
+  GHC.Types.Int ->
+  -- | 'orderCurrency'
+  Data.Text.Internal.Text ->
+  -- | 'orderId'
+  Data.Text.Internal.Text ->
+  -- | 'orderItems'
+  [OrderItem] ->
+  -- | 'orderLivemode'
+  GHC.Types.Bool ->
+  -- | 'orderMetadata'
+  Data.Aeson.Types.Internal.Object ->
+  -- | 'orderStatus'
+  Data.Text.Internal.Text ->
+  Order
+mkOrder orderAmount orderCreated orderCurrency orderId orderItems orderLivemode orderMetadata orderStatus =
+  Order
+    { orderAmount = orderAmount,
+      orderAmountReturned = GHC.Maybe.Nothing,
+      orderApplication = GHC.Maybe.Nothing,
+      orderApplicationFee = GHC.Maybe.Nothing,
+      orderCharge = GHC.Maybe.Nothing,
+      orderCreated = orderCreated,
+      orderCurrency = orderCurrency,
+      orderCustomer = GHC.Maybe.Nothing,
+      orderEmail = GHC.Maybe.Nothing,
+      orderExternalCouponCode = GHC.Maybe.Nothing,
+      orderId = orderId,
+      orderItems = orderItems,
+      orderLivemode = orderLivemode,
+      orderMetadata = orderMetadata,
+      orderReturns = GHC.Maybe.Nothing,
+      orderSelectedShippingMethod = GHC.Maybe.Nothing,
+      orderShipping = GHC.Maybe.Nothing,
+      orderShippingMethods = GHC.Maybe.Nothing,
+      orderStatus = orderStatus,
+      orderStatusTransitions = GHC.Maybe.Nothing,
+      orderUpdated = GHC.Maybe.Nothing,
+      orderUpstreamId = GHC.Maybe.Nothing
+    }
+
+-- | Defines the oneOf schema located at @components.schemas.order.properties.charge.anyOf@ in the specification.
 --
 -- The ID of the payment used to pay for the order. Present if the order status is \`paid\`, \`fulfilled\`, or \`refunded\`.
 data OrderCharge'Variants
@@ -148,13 +192,11 @@ instance Data.Aeson.Types.ToJSON.ToJSON OrderCharge'Variants where
   toJSON (OrderCharge'Text a) = Data.Aeson.Types.ToJSON.toJSON a
 
 instance Data.Aeson.Types.FromJSON.FromJSON OrderCharge'Variants where
-  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
-    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ OrderCharge'Charge a
-    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ OrderCharge'Text a
-      Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+  parseJSON val = case (OrderCharge'Charge Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((OrderCharge'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched") of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+    Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
--- | Define the one-of schema orderCustomer\'
+-- | Defines the oneOf schema located at @components.schemas.order.properties.customer.anyOf@ in the specification.
 --
 -- The customer used for the order.
 data OrderCustomer'Variants
@@ -169,36 +211,11 @@ instance Data.Aeson.Types.ToJSON.ToJSON OrderCustomer'Variants where
   toJSON (OrderCustomer'Text a) = Data.Aeson.Types.ToJSON.toJSON a
 
 instance Data.Aeson.Types.FromJSON.FromJSON OrderCustomer'Variants where
-  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
-    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ OrderCustomer'Customer a
-    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ OrderCustomer'DeletedCustomer a
-      Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-        Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ OrderCustomer'Text a
-        Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+  parseJSON val = case (OrderCustomer'Customer Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((OrderCustomer'DeletedCustomer Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((OrderCustomer'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched")) of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+    Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
--- | Defines the enum schema orderObject\'
---
--- String representing the object\'s type. Objects of the same type share the same value.
-data OrderObject'
-  = OrderObject'EnumOther Data.Aeson.Types.Internal.Value
-  | OrderObject'EnumTyped Data.Text.Internal.Text
-  | OrderObject'EnumStringOrder
-  deriving (GHC.Show.Show, GHC.Classes.Eq)
-
-instance Data.Aeson.Types.ToJSON.ToJSON OrderObject' where
-  toJSON (OrderObject'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (OrderObject'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (OrderObject'EnumStringOrder) = "order"
-
-instance Data.Aeson.Types.FromJSON.FromJSON OrderObject' where
-  parseJSON val =
-    GHC.Base.pure
-      ( if  | val GHC.Classes.== "order" -> OrderObject'EnumStringOrder
-            | GHC.Base.otherwise -> OrderObject'EnumOther val
-      )
-
--- | Defines the data type for the schema orderReturns\'
+-- | Defines the object schema located at @components.schemas.order.properties.returns@ in the specification.
 --
 -- A list of returns that have taken place for this order.
 data OrderReturns'
@@ -207,8 +224,6 @@ data OrderReturns'
         orderReturns'Data :: ([OrderReturn]),
         -- | has_more: True if this list has another page of items after this one that can be fetched.
         orderReturns'HasMore :: GHC.Types.Bool,
-        -- | object: String representing the object\'s type. Objects of the same type share the same value. Always has the value \`list\`.
-        orderReturns'Object :: OrderReturns'Object',
         -- | url: The URL where this list can be accessed.
         --
         -- Constraints:
@@ -222,34 +237,29 @@ data OrderReturns'
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON OrderReturns' where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "data" (orderReturns'Data obj) : (Data.Aeson..=) "has_more" (orderReturns'HasMore obj) : (Data.Aeson..=) "object" (orderReturns'Object obj) : (Data.Aeson..=) "url" (orderReturns'Url obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "data" (orderReturns'Data obj) GHC.Base.<> ((Data.Aeson..=) "has_more" (orderReturns'HasMore obj) GHC.Base.<> ((Data.Aeson..=) "object" (orderReturns'Object obj) GHC.Base.<> (Data.Aeson..=) "url" (orderReturns'Url obj))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("data" Data.Aeson.Types.ToJSON..= orderReturns'Data obj : "has_more" Data.Aeson.Types.ToJSON..= orderReturns'HasMore obj : "url" Data.Aeson.Types.ToJSON..= orderReturns'Url obj : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "list" : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("data" Data.Aeson.Types.ToJSON..= orderReturns'Data obj) GHC.Base.<> (("has_more" Data.Aeson.Types.ToJSON..= orderReturns'HasMore obj) GHC.Base.<> (("url" Data.Aeson.Types.ToJSON..= orderReturns'Url obj) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "list"))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON OrderReturns' where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "OrderReturns'" (\obj -> (((GHC.Base.pure OrderReturns' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "has_more")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "object")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "url"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "OrderReturns'" (\obj -> ((GHC.Base.pure OrderReturns' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "has_more")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "url"))
 
--- | Defines the enum schema orderReturns\'Object\'
---
--- String representing the object\'s type. Objects of the same type share the same value. Always has the value \`list\`.
-data OrderReturns'Object'
-  = OrderReturns'Object'EnumOther Data.Aeson.Types.Internal.Value
-  | OrderReturns'Object'EnumTyped Data.Text.Internal.Text
-  | OrderReturns'Object'EnumStringList
-  deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Create a new 'OrderReturns'' with all required fields.
+mkOrderReturns' ::
+  -- | 'orderReturns'Data'
+  [OrderReturn] ->
+  -- | 'orderReturns'HasMore'
+  GHC.Types.Bool ->
+  -- | 'orderReturns'Url'
+  Data.Text.Internal.Text ->
+  OrderReturns'
+mkOrderReturns' orderReturns'Data orderReturns'HasMore orderReturns'Url =
+  OrderReturns'
+    { orderReturns'Data = orderReturns'Data,
+      orderReturns'HasMore = orderReturns'HasMore,
+      orderReturns'Url = orderReturns'Url
+    }
 
-instance Data.Aeson.Types.ToJSON.ToJSON OrderReturns'Object' where
-  toJSON (OrderReturns'Object'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (OrderReturns'Object'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (OrderReturns'Object'EnumStringList) = "list"
-
-instance Data.Aeson.Types.FromJSON.FromJSON OrderReturns'Object' where
-  parseJSON val =
-    GHC.Base.pure
-      ( if  | val GHC.Classes.== "list" -> OrderReturns'Object'EnumStringList
-            | GHC.Base.otherwise -> OrderReturns'Object'EnumOther val
-      )
-
--- | Defines the data type for the schema orderShipping\'
+-- | Defines the object schema located at @components.schemas.order.properties.shipping.anyOf@ in the specification.
 --
 -- The shipping address for the order. Present if the order is for goods to be shipped.
 data OrderShipping'
@@ -287,13 +297,24 @@ data OrderShipping'
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON OrderShipping' where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "address" (orderShipping'Address obj) : (Data.Aeson..=) "carrier" (orderShipping'Carrier obj) : (Data.Aeson..=) "name" (orderShipping'Name obj) : (Data.Aeson..=) "phone" (orderShipping'Phone obj) : (Data.Aeson..=) "tracking_number" (orderShipping'TrackingNumber obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "address" (orderShipping'Address obj) GHC.Base.<> ((Data.Aeson..=) "carrier" (orderShipping'Carrier obj) GHC.Base.<> ((Data.Aeson..=) "name" (orderShipping'Name obj) GHC.Base.<> ((Data.Aeson..=) "phone" (orderShipping'Phone obj) GHC.Base.<> (Data.Aeson..=) "tracking_number" (orderShipping'TrackingNumber obj)))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("address" Data.Aeson.Types.ToJSON..= orderShipping'Address obj : "carrier" Data.Aeson.Types.ToJSON..= orderShipping'Carrier obj : "name" Data.Aeson.Types.ToJSON..= orderShipping'Name obj : "phone" Data.Aeson.Types.ToJSON..= orderShipping'Phone obj : "tracking_number" Data.Aeson.Types.ToJSON..= orderShipping'TrackingNumber obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("address" Data.Aeson.Types.ToJSON..= orderShipping'Address obj) GHC.Base.<> (("carrier" Data.Aeson.Types.ToJSON..= orderShipping'Carrier obj) GHC.Base.<> (("name" Data.Aeson.Types.ToJSON..= orderShipping'Name obj) GHC.Base.<> (("phone" Data.Aeson.Types.ToJSON..= orderShipping'Phone obj) GHC.Base.<> ("tracking_number" Data.Aeson.Types.ToJSON..= orderShipping'TrackingNumber obj)))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON OrderShipping' where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "OrderShipping'" (\obj -> ((((GHC.Base.pure OrderShipping' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "address")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "carrier")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "phone")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "tracking_number"))
 
--- | Defines the data type for the schema orderStatus_transitions\'
+-- | Create a new 'OrderShipping'' with all required fields.
+mkOrderShipping' :: OrderShipping'
+mkOrderShipping' =
+  OrderShipping'
+    { orderShipping'Address = GHC.Maybe.Nothing,
+      orderShipping'Carrier = GHC.Maybe.Nothing,
+      orderShipping'Name = GHC.Maybe.Nothing,
+      orderShipping'Phone = GHC.Maybe.Nothing,
+      orderShipping'TrackingNumber = GHC.Maybe.Nothing
+    }
+
+-- | Defines the object schema located at @components.schemas.order.properties.status_transitions.anyOf@ in the specification.
 --
 -- The timestamps at which the order status was updated.
 data OrderStatusTransitions'
@@ -313,8 +334,18 @@ data OrderStatusTransitions'
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON OrderStatusTransitions' where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "canceled" (orderStatusTransitions'Canceled obj) : (Data.Aeson..=) "fulfiled" (orderStatusTransitions'Fulfiled obj) : (Data.Aeson..=) "paid" (orderStatusTransitions'Paid obj) : (Data.Aeson..=) "returned" (orderStatusTransitions'Returned obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "canceled" (orderStatusTransitions'Canceled obj) GHC.Base.<> ((Data.Aeson..=) "fulfiled" (orderStatusTransitions'Fulfiled obj) GHC.Base.<> ((Data.Aeson..=) "paid" (orderStatusTransitions'Paid obj) GHC.Base.<> (Data.Aeson..=) "returned" (orderStatusTransitions'Returned obj))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("canceled" Data.Aeson.Types.ToJSON..= orderStatusTransitions'Canceled obj : "fulfiled" Data.Aeson.Types.ToJSON..= orderStatusTransitions'Fulfiled obj : "paid" Data.Aeson.Types.ToJSON..= orderStatusTransitions'Paid obj : "returned" Data.Aeson.Types.ToJSON..= orderStatusTransitions'Returned obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("canceled" Data.Aeson.Types.ToJSON..= orderStatusTransitions'Canceled obj) GHC.Base.<> (("fulfiled" Data.Aeson.Types.ToJSON..= orderStatusTransitions'Fulfiled obj) GHC.Base.<> (("paid" Data.Aeson.Types.ToJSON..= orderStatusTransitions'Paid obj) GHC.Base.<> ("returned" Data.Aeson.Types.ToJSON..= orderStatusTransitions'Returned obj))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON OrderStatusTransitions' where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "OrderStatusTransitions'" (\obj -> (((GHC.Base.pure OrderStatusTransitions' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "canceled")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "fulfiled")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "paid")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "returned"))
+
+-- | Create a new 'OrderStatusTransitions'' with all required fields.
+mkOrderStatusTransitions' :: OrderStatusTransitions'
+mkOrderStatusTransitions' =
+  OrderStatusTransitions'
+    { orderStatusTransitions'Canceled = GHC.Maybe.Nothing,
+      orderStatusTransitions'Fulfiled = GHC.Maybe.Nothing,
+      orderStatusTransitions'Paid = GHC.Maybe.Nothing,
+      orderStatusTransitions'Returned = GHC.Maybe.Nothing
+    }

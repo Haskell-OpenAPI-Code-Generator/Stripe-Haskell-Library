@@ -10,6 +10,7 @@ module StripeAPI.Operations.PostChargesChargeCapture where
 import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -83,7 +84,7 @@ postChargesChargeCapture
       )
       (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack ("/v1/charges/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel charge)) GHC.Base.++ "/capture"))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
 
--- | Defines the data type for the schema postChargesChargeCaptureRequestBody
+-- | Defines the object schema located at @paths.\/v1\/charges\/{charge}\/capture.POST.requestBody.content.application\/x-www-form-urlencoded.schema@ in the specification.
 data PostChargesChargeCaptureRequestBody
   = PostChargesChargeCaptureRequestBody
       { -- | amount: The amount to capture, which must be less than or equal to the original amount. Any additional amount will be automatically refunded.
@@ -119,13 +120,28 @@ data PostChargesChargeCaptureRequestBody
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostChargesChargeCaptureRequestBody where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "amount" (postChargesChargeCaptureRequestBodyAmount obj) : (Data.Aeson..=) "application_fee" (postChargesChargeCaptureRequestBodyApplicationFee obj) : (Data.Aeson..=) "application_fee_amount" (postChargesChargeCaptureRequestBodyApplicationFeeAmount obj) : (Data.Aeson..=) "expand" (postChargesChargeCaptureRequestBodyExpand obj) : (Data.Aeson..=) "receipt_email" (postChargesChargeCaptureRequestBodyReceiptEmail obj) : (Data.Aeson..=) "statement_descriptor" (postChargesChargeCaptureRequestBodyStatementDescriptor obj) : (Data.Aeson..=) "statement_descriptor_suffix" (postChargesChargeCaptureRequestBodyStatementDescriptorSuffix obj) : (Data.Aeson..=) "transfer_data" (postChargesChargeCaptureRequestBodyTransferData obj) : (Data.Aeson..=) "transfer_group" (postChargesChargeCaptureRequestBodyTransferGroup obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "amount" (postChargesChargeCaptureRequestBodyAmount obj) GHC.Base.<> ((Data.Aeson..=) "application_fee" (postChargesChargeCaptureRequestBodyApplicationFee obj) GHC.Base.<> ((Data.Aeson..=) "application_fee_amount" (postChargesChargeCaptureRequestBodyApplicationFeeAmount obj) GHC.Base.<> ((Data.Aeson..=) "expand" (postChargesChargeCaptureRequestBodyExpand obj) GHC.Base.<> ((Data.Aeson..=) "receipt_email" (postChargesChargeCaptureRequestBodyReceiptEmail obj) GHC.Base.<> ((Data.Aeson..=) "statement_descriptor" (postChargesChargeCaptureRequestBodyStatementDescriptor obj) GHC.Base.<> ((Data.Aeson..=) "statement_descriptor_suffix" (postChargesChargeCaptureRequestBodyStatementDescriptorSuffix obj) GHC.Base.<> ((Data.Aeson..=) "transfer_data" (postChargesChargeCaptureRequestBodyTransferData obj) GHC.Base.<> (Data.Aeson..=) "transfer_group" (postChargesChargeCaptureRequestBodyTransferGroup obj)))))))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("amount" Data.Aeson.Types.ToJSON..= postChargesChargeCaptureRequestBodyAmount obj : "application_fee" Data.Aeson.Types.ToJSON..= postChargesChargeCaptureRequestBodyApplicationFee obj : "application_fee_amount" Data.Aeson.Types.ToJSON..= postChargesChargeCaptureRequestBodyApplicationFeeAmount obj : "expand" Data.Aeson.Types.ToJSON..= postChargesChargeCaptureRequestBodyExpand obj : "receipt_email" Data.Aeson.Types.ToJSON..= postChargesChargeCaptureRequestBodyReceiptEmail obj : "statement_descriptor" Data.Aeson.Types.ToJSON..= postChargesChargeCaptureRequestBodyStatementDescriptor obj : "statement_descriptor_suffix" Data.Aeson.Types.ToJSON..= postChargesChargeCaptureRequestBodyStatementDescriptorSuffix obj : "transfer_data" Data.Aeson.Types.ToJSON..= postChargesChargeCaptureRequestBodyTransferData obj : "transfer_group" Data.Aeson.Types.ToJSON..= postChargesChargeCaptureRequestBodyTransferGroup obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("amount" Data.Aeson.Types.ToJSON..= postChargesChargeCaptureRequestBodyAmount obj) GHC.Base.<> (("application_fee" Data.Aeson.Types.ToJSON..= postChargesChargeCaptureRequestBodyApplicationFee obj) GHC.Base.<> (("application_fee_amount" Data.Aeson.Types.ToJSON..= postChargesChargeCaptureRequestBodyApplicationFeeAmount obj) GHC.Base.<> (("expand" Data.Aeson.Types.ToJSON..= postChargesChargeCaptureRequestBodyExpand obj) GHC.Base.<> (("receipt_email" Data.Aeson.Types.ToJSON..= postChargesChargeCaptureRequestBodyReceiptEmail obj) GHC.Base.<> (("statement_descriptor" Data.Aeson.Types.ToJSON..= postChargesChargeCaptureRequestBodyStatementDescriptor obj) GHC.Base.<> (("statement_descriptor_suffix" Data.Aeson.Types.ToJSON..= postChargesChargeCaptureRequestBodyStatementDescriptorSuffix obj) GHC.Base.<> (("transfer_data" Data.Aeson.Types.ToJSON..= postChargesChargeCaptureRequestBodyTransferData obj) GHC.Base.<> ("transfer_group" Data.Aeson.Types.ToJSON..= postChargesChargeCaptureRequestBodyTransferGroup obj)))))))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostChargesChargeCaptureRequestBody where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PostChargesChargeCaptureRequestBody" (\obj -> ((((((((GHC.Base.pure PostChargesChargeCaptureRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "application_fee")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "application_fee_amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "receipt_email")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "statement_descriptor")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "statement_descriptor_suffix")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "transfer_data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "transfer_group"))
 
--- | Defines the data type for the schema postChargesChargeCaptureRequestBodyTransfer_data\'
+-- | Create a new 'PostChargesChargeCaptureRequestBody' with all required fields.
+mkPostChargesChargeCaptureRequestBody :: PostChargesChargeCaptureRequestBody
+mkPostChargesChargeCaptureRequestBody =
+  PostChargesChargeCaptureRequestBody
+    { postChargesChargeCaptureRequestBodyAmount = GHC.Maybe.Nothing,
+      postChargesChargeCaptureRequestBodyApplicationFee = GHC.Maybe.Nothing,
+      postChargesChargeCaptureRequestBodyApplicationFeeAmount = GHC.Maybe.Nothing,
+      postChargesChargeCaptureRequestBodyExpand = GHC.Maybe.Nothing,
+      postChargesChargeCaptureRequestBodyReceiptEmail = GHC.Maybe.Nothing,
+      postChargesChargeCaptureRequestBodyStatementDescriptor = GHC.Maybe.Nothing,
+      postChargesChargeCaptureRequestBodyStatementDescriptorSuffix = GHC.Maybe.Nothing,
+      postChargesChargeCaptureRequestBodyTransferData = GHC.Maybe.Nothing,
+      postChargesChargeCaptureRequestBodyTransferGroup = GHC.Maybe.Nothing
+    }
+
+-- | Defines the object schema located at @paths.\/v1\/charges\/{charge}\/capture.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.transfer_data@ in the specification.
 --
 -- An optional dictionary including the account to automatically transfer to as part of a destination charge. [See the Connect documentation](https:\/\/stripe.com\/docs\/connect\/destination-charges) for details.
 data PostChargesChargeCaptureRequestBodyTransferData'
@@ -139,11 +155,15 @@ data PostChargesChargeCaptureRequestBodyTransferData'
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostChargesChargeCaptureRequestBodyTransferData' where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "amount" (postChargesChargeCaptureRequestBodyTransferData'Amount obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "amount" (postChargesChargeCaptureRequestBodyTransferData'Amount obj))
+  toJSON obj = Data.Aeson.Types.Internal.object ("amount" Data.Aeson.Types.ToJSON..= postChargesChargeCaptureRequestBodyTransferData'Amount obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs ("amount" Data.Aeson.Types.ToJSON..= postChargesChargeCaptureRequestBodyTransferData'Amount obj)
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostChargesChargeCaptureRequestBodyTransferData' where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PostChargesChargeCaptureRequestBodyTransferData'" (\obj -> GHC.Base.pure PostChargesChargeCaptureRequestBodyTransferData' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "amount"))
+
+-- | Create a new 'PostChargesChargeCaptureRequestBodyTransferData'' with all required fields.
+mkPostChargesChargeCaptureRequestBodyTransferData' :: PostChargesChargeCaptureRequestBodyTransferData'
+mkPostChargesChargeCaptureRequestBodyTransferData' = PostChargesChargeCaptureRequestBodyTransferData' {postChargesChargeCaptureRequestBodyTransferData'Amount = GHC.Maybe.Nothing}
 
 -- | Represents a response of the operation 'postChargesChargeCapture'.
 --

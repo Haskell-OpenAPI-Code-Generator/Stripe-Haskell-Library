@@ -8,6 +8,7 @@ module StripeAPI.Types.PaymentMethodSepaDebit where
 
 import qualified Control.Monad.Fail
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -30,7 +31,7 @@ import StripeAPI.TypeAlias
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
--- | Defines the data type for the schema payment_method_sepa_debit
+-- | Defines the object schema located at @components.schemas.payment_method_sepa_debit@ in the specification.
 data PaymentMethodSepaDebit
   = PaymentMethodSepaDebit
       { -- | bank_code: Bank code of bank associated with the bank account.
@@ -70,8 +71,19 @@ data PaymentMethodSepaDebit
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PaymentMethodSepaDebit where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "bank_code" (paymentMethodSepaDebitBankCode obj) : (Data.Aeson..=) "branch_code" (paymentMethodSepaDebitBranchCode obj) : (Data.Aeson..=) "country" (paymentMethodSepaDebitCountry obj) : (Data.Aeson..=) "fingerprint" (paymentMethodSepaDebitFingerprint obj) : (Data.Aeson..=) "last4" (paymentMethodSepaDebitLast4 obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "bank_code" (paymentMethodSepaDebitBankCode obj) GHC.Base.<> ((Data.Aeson..=) "branch_code" (paymentMethodSepaDebitBranchCode obj) GHC.Base.<> ((Data.Aeson..=) "country" (paymentMethodSepaDebitCountry obj) GHC.Base.<> ((Data.Aeson..=) "fingerprint" (paymentMethodSepaDebitFingerprint obj) GHC.Base.<> (Data.Aeson..=) "last4" (paymentMethodSepaDebitLast4 obj)))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("bank_code" Data.Aeson.Types.ToJSON..= paymentMethodSepaDebitBankCode obj : "branch_code" Data.Aeson.Types.ToJSON..= paymentMethodSepaDebitBranchCode obj : "country" Data.Aeson.Types.ToJSON..= paymentMethodSepaDebitCountry obj : "fingerprint" Data.Aeson.Types.ToJSON..= paymentMethodSepaDebitFingerprint obj : "last4" Data.Aeson.Types.ToJSON..= paymentMethodSepaDebitLast4 obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("bank_code" Data.Aeson.Types.ToJSON..= paymentMethodSepaDebitBankCode obj) GHC.Base.<> (("branch_code" Data.Aeson.Types.ToJSON..= paymentMethodSepaDebitBranchCode obj) GHC.Base.<> (("country" Data.Aeson.Types.ToJSON..= paymentMethodSepaDebitCountry obj) GHC.Base.<> (("fingerprint" Data.Aeson.Types.ToJSON..= paymentMethodSepaDebitFingerprint obj) GHC.Base.<> ("last4" Data.Aeson.Types.ToJSON..= paymentMethodSepaDebitLast4 obj)))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PaymentMethodSepaDebit where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PaymentMethodSepaDebit" (\obj -> ((((GHC.Base.pure PaymentMethodSepaDebit GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "bank_code")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "branch_code")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "country")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "fingerprint")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "last4"))
+
+-- | Create a new 'PaymentMethodSepaDebit' with all required fields.
+mkPaymentMethodSepaDebit :: PaymentMethodSepaDebit
+mkPaymentMethodSepaDebit =
+  PaymentMethodSepaDebit
+    { paymentMethodSepaDebitBankCode = GHC.Maybe.Nothing,
+      paymentMethodSepaDebitBranchCode = GHC.Maybe.Nothing,
+      paymentMethodSepaDebitCountry = GHC.Maybe.Nothing,
+      paymentMethodSepaDebitFingerprint = GHC.Maybe.Nothing,
+      paymentMethodSepaDebitLast4 = GHC.Maybe.Nothing
+    }

@@ -8,6 +8,7 @@ module StripeAPI.Types.IssuingCardShipping where
 
 import qualified Control.Monad.Fail
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -31,7 +32,7 @@ import {-# SOURCE #-} StripeAPI.Types.Address
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
--- | Defines the data type for the schema issuing_card_shipping
+-- | Defines the object schema located at @components.schemas.issuing_card_shipping@ in the specification.
 data IssuingCardShipping
   = IssuingCardShipping
       { -- | address:
@@ -71,119 +72,164 @@ data IssuingCardShipping
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON IssuingCardShipping where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "address" (issuingCardShippingAddress obj) : (Data.Aeson..=) "carrier" (issuingCardShippingCarrier obj) : (Data.Aeson..=) "eta" (issuingCardShippingEta obj) : (Data.Aeson..=) "name" (issuingCardShippingName obj) : (Data.Aeson..=) "speed" (issuingCardShippingSpeed obj) : (Data.Aeson..=) "status" (issuingCardShippingStatus obj) : (Data.Aeson..=) "tracking_number" (issuingCardShippingTrackingNumber obj) : (Data.Aeson..=) "tracking_url" (issuingCardShippingTrackingUrl obj) : (Data.Aeson..=) "type" (issuingCardShippingType obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "address" (issuingCardShippingAddress obj) GHC.Base.<> ((Data.Aeson..=) "carrier" (issuingCardShippingCarrier obj) GHC.Base.<> ((Data.Aeson..=) "eta" (issuingCardShippingEta obj) GHC.Base.<> ((Data.Aeson..=) "name" (issuingCardShippingName obj) GHC.Base.<> ((Data.Aeson..=) "speed" (issuingCardShippingSpeed obj) GHC.Base.<> ((Data.Aeson..=) "status" (issuingCardShippingStatus obj) GHC.Base.<> ((Data.Aeson..=) "tracking_number" (issuingCardShippingTrackingNumber obj) GHC.Base.<> ((Data.Aeson..=) "tracking_url" (issuingCardShippingTrackingUrl obj) GHC.Base.<> (Data.Aeson..=) "type" (issuingCardShippingType obj)))))))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("address" Data.Aeson.Types.ToJSON..= issuingCardShippingAddress obj : "carrier" Data.Aeson.Types.ToJSON..= issuingCardShippingCarrier obj : "eta" Data.Aeson.Types.ToJSON..= issuingCardShippingEta obj : "name" Data.Aeson.Types.ToJSON..= issuingCardShippingName obj : "speed" Data.Aeson.Types.ToJSON..= issuingCardShippingSpeed obj : "status" Data.Aeson.Types.ToJSON..= issuingCardShippingStatus obj : "tracking_number" Data.Aeson.Types.ToJSON..= issuingCardShippingTrackingNumber obj : "tracking_url" Data.Aeson.Types.ToJSON..= issuingCardShippingTrackingUrl obj : "type" Data.Aeson.Types.ToJSON..= issuingCardShippingType obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("address" Data.Aeson.Types.ToJSON..= issuingCardShippingAddress obj) GHC.Base.<> (("carrier" Data.Aeson.Types.ToJSON..= issuingCardShippingCarrier obj) GHC.Base.<> (("eta" Data.Aeson.Types.ToJSON..= issuingCardShippingEta obj) GHC.Base.<> (("name" Data.Aeson.Types.ToJSON..= issuingCardShippingName obj) GHC.Base.<> (("speed" Data.Aeson.Types.ToJSON..= issuingCardShippingSpeed obj) GHC.Base.<> (("status" Data.Aeson.Types.ToJSON..= issuingCardShippingStatus obj) GHC.Base.<> (("tracking_number" Data.Aeson.Types.ToJSON..= issuingCardShippingTrackingNumber obj) GHC.Base.<> (("tracking_url" Data.Aeson.Types.ToJSON..= issuingCardShippingTrackingUrl obj) GHC.Base.<> ("type" Data.Aeson.Types.ToJSON..= issuingCardShippingType obj)))))))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON IssuingCardShipping where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "IssuingCardShipping" (\obj -> ((((((((GHC.Base.pure IssuingCardShipping GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "address")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "carrier")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "eta")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "speed")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "status")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "tracking_number")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "tracking_url")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "type"))
 
--- | Defines the enum schema issuing_card_shippingCarrier\'
+-- | Create a new 'IssuingCardShipping' with all required fields.
+mkIssuingCardShipping ::
+  -- | 'issuingCardShippingAddress'
+  Address ->
+  -- | 'issuingCardShippingName'
+  Data.Text.Internal.Text ->
+  -- | 'issuingCardShippingSpeed'
+  IssuingCardShippingSpeed' ->
+  -- | 'issuingCardShippingType'
+  IssuingCardShippingType' ->
+  IssuingCardShipping
+mkIssuingCardShipping issuingCardShippingAddress issuingCardShippingName issuingCardShippingSpeed issuingCardShippingType =
+  IssuingCardShipping
+    { issuingCardShippingAddress = issuingCardShippingAddress,
+      issuingCardShippingCarrier = GHC.Maybe.Nothing,
+      issuingCardShippingEta = GHC.Maybe.Nothing,
+      issuingCardShippingName = issuingCardShippingName,
+      issuingCardShippingSpeed = issuingCardShippingSpeed,
+      issuingCardShippingStatus = GHC.Maybe.Nothing,
+      issuingCardShippingTrackingNumber = GHC.Maybe.Nothing,
+      issuingCardShippingTrackingUrl = GHC.Maybe.Nothing,
+      issuingCardShippingType = issuingCardShippingType
+    }
+
+-- | Defines the enum schema located at @components.schemas.issuing_card_shipping.properties.carrier@ in the specification.
 --
 -- The delivery company that shipped a card.
 data IssuingCardShippingCarrier'
-  = IssuingCardShippingCarrier'EnumOther Data.Aeson.Types.Internal.Value
-  | IssuingCardShippingCarrier'EnumTyped Data.Text.Internal.Text
-  | IssuingCardShippingCarrier'EnumStringFedex
-  | IssuingCardShippingCarrier'EnumStringUsps
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    IssuingCardShippingCarrier'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    IssuingCardShippingCarrier'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"fedex"@
+    IssuingCardShippingCarrier'EnumFedex
+  | -- | Represents the JSON value @"usps"@
+    IssuingCardShippingCarrier'EnumUsps
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
 instance Data.Aeson.Types.ToJSON.ToJSON IssuingCardShippingCarrier' where
-  toJSON (IssuingCardShippingCarrier'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (IssuingCardShippingCarrier'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (IssuingCardShippingCarrier'EnumStringFedex) = "fedex"
-  toJSON (IssuingCardShippingCarrier'EnumStringUsps) = "usps"
+  toJSON (IssuingCardShippingCarrier'Other val) = val
+  toJSON (IssuingCardShippingCarrier'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (IssuingCardShippingCarrier'EnumFedex) = "fedex"
+  toJSON (IssuingCardShippingCarrier'EnumUsps) = "usps"
 
 instance Data.Aeson.Types.FromJSON.FromJSON IssuingCardShippingCarrier' where
   parseJSON val =
     GHC.Base.pure
-      ( if  | val GHC.Classes.== "fedex" -> IssuingCardShippingCarrier'EnumStringFedex
-            | val GHC.Classes.== "usps" -> IssuingCardShippingCarrier'EnumStringUsps
-            | GHC.Base.otherwise -> IssuingCardShippingCarrier'EnumOther val
+      ( if  | val GHC.Classes.== "fedex" -> IssuingCardShippingCarrier'EnumFedex
+            | val GHC.Classes.== "usps" -> IssuingCardShippingCarrier'EnumUsps
+            | GHC.Base.otherwise -> IssuingCardShippingCarrier'Other val
       )
 
--- | Defines the enum schema issuing_card_shippingSpeed\'
+-- | Defines the enum schema located at @components.schemas.issuing_card_shipping.properties.speed@ in the specification.
 --
 -- Shipment speed.
 data IssuingCardShippingSpeed'
-  = IssuingCardShippingSpeed'EnumOther Data.Aeson.Types.Internal.Value
-  | IssuingCardShippingSpeed'EnumTyped Data.Text.Internal.Text
-  | IssuingCardShippingSpeed'EnumStringExpress
-  | IssuingCardShippingSpeed'EnumStringOvernight
-  | IssuingCardShippingSpeed'EnumStringStandard
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    IssuingCardShippingSpeed'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    IssuingCardShippingSpeed'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"express"@
+    IssuingCardShippingSpeed'EnumExpress
+  | -- | Represents the JSON value @"overnight"@
+    IssuingCardShippingSpeed'EnumOvernight
+  | -- | Represents the JSON value @"standard"@
+    IssuingCardShippingSpeed'EnumStandard
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
 instance Data.Aeson.Types.ToJSON.ToJSON IssuingCardShippingSpeed' where
-  toJSON (IssuingCardShippingSpeed'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (IssuingCardShippingSpeed'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (IssuingCardShippingSpeed'EnumStringExpress) = "express"
-  toJSON (IssuingCardShippingSpeed'EnumStringOvernight) = "overnight"
-  toJSON (IssuingCardShippingSpeed'EnumStringStandard) = "standard"
+  toJSON (IssuingCardShippingSpeed'Other val) = val
+  toJSON (IssuingCardShippingSpeed'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (IssuingCardShippingSpeed'EnumExpress) = "express"
+  toJSON (IssuingCardShippingSpeed'EnumOvernight) = "overnight"
+  toJSON (IssuingCardShippingSpeed'EnumStandard) = "standard"
 
 instance Data.Aeson.Types.FromJSON.FromJSON IssuingCardShippingSpeed' where
   parseJSON val =
     GHC.Base.pure
-      ( if  | val GHC.Classes.== "express" -> IssuingCardShippingSpeed'EnumStringExpress
-            | val GHC.Classes.== "overnight" -> IssuingCardShippingSpeed'EnumStringOvernight
-            | val GHC.Classes.== "standard" -> IssuingCardShippingSpeed'EnumStringStandard
-            | GHC.Base.otherwise -> IssuingCardShippingSpeed'EnumOther val
+      ( if  | val GHC.Classes.== "express" -> IssuingCardShippingSpeed'EnumExpress
+            | val GHC.Classes.== "overnight" -> IssuingCardShippingSpeed'EnumOvernight
+            | val GHC.Classes.== "standard" -> IssuingCardShippingSpeed'EnumStandard
+            | GHC.Base.otherwise -> IssuingCardShippingSpeed'Other val
       )
 
--- | Defines the enum schema issuing_card_shippingStatus\'
+-- | Defines the enum schema located at @components.schemas.issuing_card_shipping.properties.status@ in the specification.
 --
 -- The delivery status of the card.
 data IssuingCardShippingStatus'
-  = IssuingCardShippingStatus'EnumOther Data.Aeson.Types.Internal.Value
-  | IssuingCardShippingStatus'EnumTyped Data.Text.Internal.Text
-  | IssuingCardShippingStatus'EnumStringCanceled
-  | IssuingCardShippingStatus'EnumStringDelivered
-  | IssuingCardShippingStatus'EnumStringFailure
-  | IssuingCardShippingStatus'EnumStringPending
-  | IssuingCardShippingStatus'EnumStringReturned
-  | IssuingCardShippingStatus'EnumStringShipped
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    IssuingCardShippingStatus'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    IssuingCardShippingStatus'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"canceled"@
+    IssuingCardShippingStatus'EnumCanceled
+  | -- | Represents the JSON value @"delivered"@
+    IssuingCardShippingStatus'EnumDelivered
+  | -- | Represents the JSON value @"failure"@
+    IssuingCardShippingStatus'EnumFailure
+  | -- | Represents the JSON value @"pending"@
+    IssuingCardShippingStatus'EnumPending
+  | -- | Represents the JSON value @"returned"@
+    IssuingCardShippingStatus'EnumReturned
+  | -- | Represents the JSON value @"shipped"@
+    IssuingCardShippingStatus'EnumShipped
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
 instance Data.Aeson.Types.ToJSON.ToJSON IssuingCardShippingStatus' where
-  toJSON (IssuingCardShippingStatus'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (IssuingCardShippingStatus'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (IssuingCardShippingStatus'EnumStringCanceled) = "canceled"
-  toJSON (IssuingCardShippingStatus'EnumStringDelivered) = "delivered"
-  toJSON (IssuingCardShippingStatus'EnumStringFailure) = "failure"
-  toJSON (IssuingCardShippingStatus'EnumStringPending) = "pending"
-  toJSON (IssuingCardShippingStatus'EnumStringReturned) = "returned"
-  toJSON (IssuingCardShippingStatus'EnumStringShipped) = "shipped"
+  toJSON (IssuingCardShippingStatus'Other val) = val
+  toJSON (IssuingCardShippingStatus'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (IssuingCardShippingStatus'EnumCanceled) = "canceled"
+  toJSON (IssuingCardShippingStatus'EnumDelivered) = "delivered"
+  toJSON (IssuingCardShippingStatus'EnumFailure) = "failure"
+  toJSON (IssuingCardShippingStatus'EnumPending) = "pending"
+  toJSON (IssuingCardShippingStatus'EnumReturned) = "returned"
+  toJSON (IssuingCardShippingStatus'EnumShipped) = "shipped"
 
 instance Data.Aeson.Types.FromJSON.FromJSON IssuingCardShippingStatus' where
   parseJSON val =
     GHC.Base.pure
-      ( if  | val GHC.Classes.== "canceled" -> IssuingCardShippingStatus'EnumStringCanceled
-            | val GHC.Classes.== "delivered" -> IssuingCardShippingStatus'EnumStringDelivered
-            | val GHC.Classes.== "failure" -> IssuingCardShippingStatus'EnumStringFailure
-            | val GHC.Classes.== "pending" -> IssuingCardShippingStatus'EnumStringPending
-            | val GHC.Classes.== "returned" -> IssuingCardShippingStatus'EnumStringReturned
-            | val GHC.Classes.== "shipped" -> IssuingCardShippingStatus'EnumStringShipped
-            | GHC.Base.otherwise -> IssuingCardShippingStatus'EnumOther val
+      ( if  | val GHC.Classes.== "canceled" -> IssuingCardShippingStatus'EnumCanceled
+            | val GHC.Classes.== "delivered" -> IssuingCardShippingStatus'EnumDelivered
+            | val GHC.Classes.== "failure" -> IssuingCardShippingStatus'EnumFailure
+            | val GHC.Classes.== "pending" -> IssuingCardShippingStatus'EnumPending
+            | val GHC.Classes.== "returned" -> IssuingCardShippingStatus'EnumReturned
+            | val GHC.Classes.== "shipped" -> IssuingCardShippingStatus'EnumShipped
+            | GHC.Base.otherwise -> IssuingCardShippingStatus'Other val
       )
 
--- | Defines the enum schema issuing_card_shippingType\'
+-- | Defines the enum schema located at @components.schemas.issuing_card_shipping.properties.type@ in the specification.
 --
 -- Packaging options.
 data IssuingCardShippingType'
-  = IssuingCardShippingType'EnumOther Data.Aeson.Types.Internal.Value
-  | IssuingCardShippingType'EnumTyped Data.Text.Internal.Text
-  | IssuingCardShippingType'EnumStringBulk
-  | IssuingCardShippingType'EnumStringIndividual
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    IssuingCardShippingType'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    IssuingCardShippingType'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"bulk"@
+    IssuingCardShippingType'EnumBulk
+  | -- | Represents the JSON value @"individual"@
+    IssuingCardShippingType'EnumIndividual
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
 instance Data.Aeson.Types.ToJSON.ToJSON IssuingCardShippingType' where
-  toJSON (IssuingCardShippingType'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (IssuingCardShippingType'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (IssuingCardShippingType'EnumStringBulk) = "bulk"
-  toJSON (IssuingCardShippingType'EnumStringIndividual) = "individual"
+  toJSON (IssuingCardShippingType'Other val) = val
+  toJSON (IssuingCardShippingType'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (IssuingCardShippingType'EnumBulk) = "bulk"
+  toJSON (IssuingCardShippingType'EnumIndividual) = "individual"
 
 instance Data.Aeson.Types.FromJSON.FromJSON IssuingCardShippingType' where
   parseJSON val =
     GHC.Base.pure
-      ( if  | val GHC.Classes.== "bulk" -> IssuingCardShippingType'EnumStringBulk
-            | val GHC.Classes.== "individual" -> IssuingCardShippingType'EnumStringIndividual
-            | GHC.Base.otherwise -> IssuingCardShippingType'EnumOther val
+      ( if  | val GHC.Classes.== "bulk" -> IssuingCardShippingType'EnumBulk
+            | val GHC.Classes.== "individual" -> IssuingCardShippingType'EnumIndividual
+            | GHC.Base.otherwise -> IssuingCardShippingType'Other val
       )

@@ -8,6 +8,7 @@ module StripeAPI.Types.DeletedTaxId where
 
 import qualified Control.Monad.Fail
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -30,19 +31,15 @@ import StripeAPI.TypeAlias
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
--- | Defines the data type for the schema deleted_tax_id
+-- | Defines the object schema located at @components.schemas.deleted_tax_id@ in the specification.
 data DeletedTaxId
   = DeletedTaxId
-      { -- | deleted: Always true for a deleted object
-        deletedTaxIdDeleted :: DeletedTaxIdDeleted',
-        -- | id: Unique identifier for the object.
+      { -- | id: Unique identifier for the object.
         --
         -- Constraints:
         --
         -- * Maximum length of 5000
-        deletedTaxIdId :: Data.Text.Internal.Text,
-        -- | object: String representing the object\'s type. Objects of the same type share the same value.
-        deletedTaxIdObject :: DeletedTaxIdObject'
+        deletedTaxIdId :: Data.Text.Internal.Text
       }
   deriving
     ( GHC.Show.Show,
@@ -50,50 +47,15 @@ data DeletedTaxId
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON DeletedTaxId where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "deleted" (deletedTaxIdDeleted obj) : (Data.Aeson..=) "id" (deletedTaxIdId obj) : (Data.Aeson..=) "object" (deletedTaxIdObject obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "deleted" (deletedTaxIdDeleted obj) GHC.Base.<> ((Data.Aeson..=) "id" (deletedTaxIdId obj) GHC.Base.<> (Data.Aeson..=) "object" (deletedTaxIdObject obj)))
+  toJSON obj = Data.Aeson.Types.Internal.object ("id" Data.Aeson.Types.ToJSON..= deletedTaxIdId obj : "deleted" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.Bool GHC.Types.True : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "tax_id" : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("id" Data.Aeson.Types.ToJSON..= deletedTaxIdId obj) GHC.Base.<> (("deleted" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.Bool GHC.Types.True) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "tax_id")))
 
 instance Data.Aeson.Types.FromJSON.FromJSON DeletedTaxId where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "DeletedTaxId" (\obj -> ((GHC.Base.pure DeletedTaxId GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "deleted")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "object"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "DeletedTaxId" (\obj -> GHC.Base.pure DeletedTaxId GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id"))
 
--- | Defines the enum schema deleted_tax_idDeleted\'
---
--- Always true for a deleted object
-data DeletedTaxIdDeleted'
-  = DeletedTaxIdDeleted'EnumOther Data.Aeson.Types.Internal.Value
-  | DeletedTaxIdDeleted'EnumTyped GHC.Types.Bool
-  | DeletedTaxIdDeleted'EnumBoolTrue
-  deriving (GHC.Show.Show, GHC.Classes.Eq)
-
-instance Data.Aeson.Types.ToJSON.ToJSON DeletedTaxIdDeleted' where
-  toJSON (DeletedTaxIdDeleted'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (DeletedTaxIdDeleted'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (DeletedTaxIdDeleted'EnumBoolTrue) = Data.Aeson.Types.Internal.Bool GHC.Types.True
-
-instance Data.Aeson.Types.FromJSON.FromJSON DeletedTaxIdDeleted' where
-  parseJSON val =
-    GHC.Base.pure
-      ( if  | val GHC.Classes.== Data.Aeson.Types.Internal.Bool GHC.Types.True -> DeletedTaxIdDeleted'EnumBoolTrue
-            | GHC.Base.otherwise -> DeletedTaxIdDeleted'EnumOther val
-      )
-
--- | Defines the enum schema deleted_tax_idObject\'
---
--- String representing the object\'s type. Objects of the same type share the same value.
-data DeletedTaxIdObject'
-  = DeletedTaxIdObject'EnumOther Data.Aeson.Types.Internal.Value
-  | DeletedTaxIdObject'EnumTyped Data.Text.Internal.Text
-  | DeletedTaxIdObject'EnumStringTaxId
-  deriving (GHC.Show.Show, GHC.Classes.Eq)
-
-instance Data.Aeson.Types.ToJSON.ToJSON DeletedTaxIdObject' where
-  toJSON (DeletedTaxIdObject'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (DeletedTaxIdObject'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (DeletedTaxIdObject'EnumStringTaxId) = "tax_id"
-
-instance Data.Aeson.Types.FromJSON.FromJSON DeletedTaxIdObject' where
-  parseJSON val =
-    GHC.Base.pure
-      ( if  | val GHC.Classes.== "tax_id" -> DeletedTaxIdObject'EnumStringTaxId
-            | GHC.Base.otherwise -> DeletedTaxIdObject'EnumOther val
-      )
+-- | Create a new 'DeletedTaxId' with all required fields.
+mkDeletedTaxId ::
+  -- | 'deletedTaxIdId'
+  Data.Text.Internal.Text ->
+  DeletedTaxId
+mkDeletedTaxId deletedTaxIdId = DeletedTaxId {deletedTaxIdId = deletedTaxIdId}

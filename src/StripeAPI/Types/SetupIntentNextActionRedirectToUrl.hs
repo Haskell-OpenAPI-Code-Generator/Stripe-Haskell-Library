@@ -8,6 +8,7 @@ module StripeAPI.Types.SetupIntentNextActionRedirectToUrl where
 
 import qualified Control.Monad.Fail
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -30,7 +31,7 @@ import StripeAPI.TypeAlias
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
--- | Defines the data type for the schema setup_intent_next_action_redirect_to_url
+-- | Defines the object schema located at @components.schemas.setup_intent_next_action_redirect_to_url@ in the specification.
 data SetupIntentNextActionRedirectToUrl
   = SetupIntentNextActionRedirectToUrl
       { -- | return_url: If the customer does not exit their browser while authenticating, they will be redirected to this specified URL after completion.
@@ -52,8 +53,16 @@ data SetupIntentNextActionRedirectToUrl
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON SetupIntentNextActionRedirectToUrl where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "return_url" (setupIntentNextActionRedirectToUrlReturnUrl obj) : (Data.Aeson..=) "url" (setupIntentNextActionRedirectToUrlUrl obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "return_url" (setupIntentNextActionRedirectToUrlReturnUrl obj) GHC.Base.<> (Data.Aeson..=) "url" (setupIntentNextActionRedirectToUrlUrl obj))
+  toJSON obj = Data.Aeson.Types.Internal.object ("return_url" Data.Aeson.Types.ToJSON..= setupIntentNextActionRedirectToUrlReturnUrl obj : "url" Data.Aeson.Types.ToJSON..= setupIntentNextActionRedirectToUrlUrl obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("return_url" Data.Aeson.Types.ToJSON..= setupIntentNextActionRedirectToUrlReturnUrl obj) GHC.Base.<> ("url" Data.Aeson.Types.ToJSON..= setupIntentNextActionRedirectToUrlUrl obj))
 
 instance Data.Aeson.Types.FromJSON.FromJSON SetupIntentNextActionRedirectToUrl where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "SetupIntentNextActionRedirectToUrl" (\obj -> (GHC.Base.pure SetupIntentNextActionRedirectToUrl GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "return_url")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "url"))
+
+-- | Create a new 'SetupIntentNextActionRedirectToUrl' with all required fields.
+mkSetupIntentNextActionRedirectToUrl :: SetupIntentNextActionRedirectToUrl
+mkSetupIntentNextActionRedirectToUrl =
+  SetupIntentNextActionRedirectToUrl
+    { setupIntentNextActionRedirectToUrlReturnUrl = GHC.Maybe.Nothing,
+      setupIntentNextActionRedirectToUrlUrl = GHC.Maybe.Nothing
+    }

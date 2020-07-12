@@ -8,6 +8,7 @@ module StripeAPI.Types.IssuingCardPin where
 
 import qualified Control.Monad.Fail
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -30,7 +31,7 @@ import StripeAPI.TypeAlias
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
--- | Defines the data type for the schema issuing_card_pin
+-- | Defines the object schema located at @components.schemas.issuing_card_pin@ in the specification.
 data IssuingCardPin
   = IssuingCardPin
       { -- | status: Wether the PIN will be accepted or not.
@@ -42,32 +43,43 @@ data IssuingCardPin
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON IssuingCardPin where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "status" (issuingCardPinStatus obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "status" (issuingCardPinStatus obj))
+  toJSON obj = Data.Aeson.Types.Internal.object ("status" Data.Aeson.Types.ToJSON..= issuingCardPinStatus obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs ("status" Data.Aeson.Types.ToJSON..= issuingCardPinStatus obj)
 
 instance Data.Aeson.Types.FromJSON.FromJSON IssuingCardPin where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "IssuingCardPin" (\obj -> GHC.Base.pure IssuingCardPin GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "status"))
 
--- | Defines the enum schema issuing_card_pinStatus\'
+-- | Create a new 'IssuingCardPin' with all required fields.
+mkIssuingCardPin ::
+  -- | 'issuingCardPinStatus'
+  IssuingCardPinStatus' ->
+  IssuingCardPin
+mkIssuingCardPin issuingCardPinStatus = IssuingCardPin {issuingCardPinStatus = issuingCardPinStatus}
+
+-- | Defines the enum schema located at @components.schemas.issuing_card_pin.properties.status@ in the specification.
 --
 -- Wether the PIN will be accepted or not.
 data IssuingCardPinStatus'
-  = IssuingCardPinStatus'EnumOther Data.Aeson.Types.Internal.Value
-  | IssuingCardPinStatus'EnumTyped Data.Text.Internal.Text
-  | IssuingCardPinStatus'EnumStringActive
-  | IssuingCardPinStatus'EnumStringBlocked
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    IssuingCardPinStatus'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    IssuingCardPinStatus'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"active"@
+    IssuingCardPinStatus'EnumActive
+  | -- | Represents the JSON value @"blocked"@
+    IssuingCardPinStatus'EnumBlocked
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
 instance Data.Aeson.Types.ToJSON.ToJSON IssuingCardPinStatus' where
-  toJSON (IssuingCardPinStatus'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (IssuingCardPinStatus'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (IssuingCardPinStatus'EnumStringActive) = "active"
-  toJSON (IssuingCardPinStatus'EnumStringBlocked) = "blocked"
+  toJSON (IssuingCardPinStatus'Other val) = val
+  toJSON (IssuingCardPinStatus'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (IssuingCardPinStatus'EnumActive) = "active"
+  toJSON (IssuingCardPinStatus'EnumBlocked) = "blocked"
 
 instance Data.Aeson.Types.FromJSON.FromJSON IssuingCardPinStatus' where
   parseJSON val =
     GHC.Base.pure
-      ( if  | val GHC.Classes.== "active" -> IssuingCardPinStatus'EnumStringActive
-            | val GHC.Classes.== "blocked" -> IssuingCardPinStatus'EnumStringBlocked
-            | GHC.Base.otherwise -> IssuingCardPinStatus'EnumOther val
+      ( if  | val GHC.Classes.== "active" -> IssuingCardPinStatus'EnumActive
+            | val GHC.Classes.== "blocked" -> IssuingCardPinStatus'EnumBlocked
+            | GHC.Base.otherwise -> IssuingCardPinStatus'Other val
       )

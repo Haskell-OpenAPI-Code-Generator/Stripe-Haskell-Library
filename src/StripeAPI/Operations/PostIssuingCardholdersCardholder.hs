@@ -10,6 +10,7 @@ module StripeAPI.Operations.PostIssuingCardholdersCardholder where
 import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -81,7 +82,7 @@ postIssuingCardholdersCardholder
       )
       (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack ("/v1/issuing/cardholders/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel cardholder)) GHC.Base.++ ""))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
 
--- | Defines the data type for the schema postIssuingCardholdersCardholderRequestBody
+-- | Defines the object schema located at @paths.\/v1\/issuing\/cardholders\/{cardholder}.POST.requestBody.content.application\/x-www-form-urlencoded.schema@ in the specification.
 data PostIssuingCardholdersCardholderRequestBody
   = PostIssuingCardholdersCardholderRequestBody
       { -- | authorization_controls: Spending rules that give you some control over how your cards can be used. Refer to our [authorizations](https:\/\/stripe.com\/docs\/issuing\/authorizations) documentation for more details.
@@ -111,13 +112,29 @@ data PostIssuingCardholdersCardholderRequestBody
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostIssuingCardholdersCardholderRequestBody where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "authorization_controls" (postIssuingCardholdersCardholderRequestBodyAuthorizationControls obj) : (Data.Aeson..=) "billing" (postIssuingCardholdersCardholderRequestBodyBilling obj) : (Data.Aeson..=) "company" (postIssuingCardholdersCardholderRequestBodyCompany obj) : (Data.Aeson..=) "email" (postIssuingCardholdersCardholderRequestBodyEmail obj) : (Data.Aeson..=) "expand" (postIssuingCardholdersCardholderRequestBodyExpand obj) : (Data.Aeson..=) "individual" (postIssuingCardholdersCardholderRequestBodyIndividual obj) : (Data.Aeson..=) "is_default" (postIssuingCardholdersCardholderRequestBodyIsDefault obj) : (Data.Aeson..=) "metadata" (postIssuingCardholdersCardholderRequestBodyMetadata obj) : (Data.Aeson..=) "phone_number" (postIssuingCardholdersCardholderRequestBodyPhoneNumber obj) : (Data.Aeson..=) "status" (postIssuingCardholdersCardholderRequestBodyStatus obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "authorization_controls" (postIssuingCardholdersCardholderRequestBodyAuthorizationControls obj) GHC.Base.<> ((Data.Aeson..=) "billing" (postIssuingCardholdersCardholderRequestBodyBilling obj) GHC.Base.<> ((Data.Aeson..=) "company" (postIssuingCardholdersCardholderRequestBodyCompany obj) GHC.Base.<> ((Data.Aeson..=) "email" (postIssuingCardholdersCardholderRequestBodyEmail obj) GHC.Base.<> ((Data.Aeson..=) "expand" (postIssuingCardholdersCardholderRequestBodyExpand obj) GHC.Base.<> ((Data.Aeson..=) "individual" (postIssuingCardholdersCardholderRequestBodyIndividual obj) GHC.Base.<> ((Data.Aeson..=) "is_default" (postIssuingCardholdersCardholderRequestBodyIsDefault obj) GHC.Base.<> ((Data.Aeson..=) "metadata" (postIssuingCardholdersCardholderRequestBodyMetadata obj) GHC.Base.<> ((Data.Aeson..=) "phone_number" (postIssuingCardholdersCardholderRequestBodyPhoneNumber obj) GHC.Base.<> (Data.Aeson..=) "status" (postIssuingCardholdersCardholderRequestBodyStatus obj))))))))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("authorization_controls" Data.Aeson.Types.ToJSON..= postIssuingCardholdersCardholderRequestBodyAuthorizationControls obj : "billing" Data.Aeson.Types.ToJSON..= postIssuingCardholdersCardholderRequestBodyBilling obj : "company" Data.Aeson.Types.ToJSON..= postIssuingCardholdersCardholderRequestBodyCompany obj : "email" Data.Aeson.Types.ToJSON..= postIssuingCardholdersCardholderRequestBodyEmail obj : "expand" Data.Aeson.Types.ToJSON..= postIssuingCardholdersCardholderRequestBodyExpand obj : "individual" Data.Aeson.Types.ToJSON..= postIssuingCardholdersCardholderRequestBodyIndividual obj : "is_default" Data.Aeson.Types.ToJSON..= postIssuingCardholdersCardholderRequestBodyIsDefault obj : "metadata" Data.Aeson.Types.ToJSON..= postIssuingCardholdersCardholderRequestBodyMetadata obj : "phone_number" Data.Aeson.Types.ToJSON..= postIssuingCardholdersCardholderRequestBodyPhoneNumber obj : "status" Data.Aeson.Types.ToJSON..= postIssuingCardholdersCardholderRequestBodyStatus obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("authorization_controls" Data.Aeson.Types.ToJSON..= postIssuingCardholdersCardholderRequestBodyAuthorizationControls obj) GHC.Base.<> (("billing" Data.Aeson.Types.ToJSON..= postIssuingCardholdersCardholderRequestBodyBilling obj) GHC.Base.<> (("company" Data.Aeson.Types.ToJSON..= postIssuingCardholdersCardholderRequestBodyCompany obj) GHC.Base.<> (("email" Data.Aeson.Types.ToJSON..= postIssuingCardholdersCardholderRequestBodyEmail obj) GHC.Base.<> (("expand" Data.Aeson.Types.ToJSON..= postIssuingCardholdersCardholderRequestBodyExpand obj) GHC.Base.<> (("individual" Data.Aeson.Types.ToJSON..= postIssuingCardholdersCardholderRequestBodyIndividual obj) GHC.Base.<> (("is_default" Data.Aeson.Types.ToJSON..= postIssuingCardholdersCardholderRequestBodyIsDefault obj) GHC.Base.<> (("metadata" Data.Aeson.Types.ToJSON..= postIssuingCardholdersCardholderRequestBodyMetadata obj) GHC.Base.<> (("phone_number" Data.Aeson.Types.ToJSON..= postIssuingCardholdersCardholderRequestBodyPhoneNumber obj) GHC.Base.<> ("status" Data.Aeson.Types.ToJSON..= postIssuingCardholdersCardholderRequestBodyStatus obj))))))))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostIssuingCardholdersCardholderRequestBody where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PostIssuingCardholdersCardholderRequestBody" (\obj -> (((((((((GHC.Base.pure PostIssuingCardholdersCardholderRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "authorization_controls")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "billing")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "company")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "email")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "individual")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "is_default")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "phone_number")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "status"))
 
--- | Defines the data type for the schema postIssuingCardholdersCardholderRequestBodyAuthorization_controls\'
+-- | Create a new 'PostIssuingCardholdersCardholderRequestBody' with all required fields.
+mkPostIssuingCardholdersCardholderRequestBody :: PostIssuingCardholdersCardholderRequestBody
+mkPostIssuingCardholdersCardholderRequestBody =
+  PostIssuingCardholdersCardholderRequestBody
+    { postIssuingCardholdersCardholderRequestBodyAuthorizationControls = GHC.Maybe.Nothing,
+      postIssuingCardholdersCardholderRequestBodyBilling = GHC.Maybe.Nothing,
+      postIssuingCardholdersCardholderRequestBodyCompany = GHC.Maybe.Nothing,
+      postIssuingCardholdersCardholderRequestBodyEmail = GHC.Maybe.Nothing,
+      postIssuingCardholdersCardholderRequestBodyExpand = GHC.Maybe.Nothing,
+      postIssuingCardholdersCardholderRequestBodyIndividual = GHC.Maybe.Nothing,
+      postIssuingCardholdersCardholderRequestBodyIsDefault = GHC.Maybe.Nothing,
+      postIssuingCardholdersCardholderRequestBodyMetadata = GHC.Maybe.Nothing,
+      postIssuingCardholdersCardholderRequestBodyPhoneNumber = GHC.Maybe.Nothing,
+      postIssuingCardholdersCardholderRequestBodyStatus = GHC.Maybe.Nothing
+    }
+
+-- | Defines the object schema located at @paths.\/v1\/issuing\/cardholders\/{cardholder}.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.authorization_controls@ in the specification.
 --
 -- Spending rules that give you some control over how your cards can be used. Refer to our [authorizations](https:\/\/stripe.com\/docs\/issuing\/authorizations) documentation for more details.
 data PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'
@@ -137,1773 +154,2363 @@ data PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostIssuingCardholdersCardholderRequestBodyAuthorizationControls' where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "allowed_categories" (postIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories obj) : (Data.Aeson..=) "blocked_categories" (postIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories obj) : (Data.Aeson..=) "spending_limits" (postIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits obj) : (Data.Aeson..=) "spending_limits_currency" (postIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimitsCurrency obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "allowed_categories" (postIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories obj) GHC.Base.<> ((Data.Aeson..=) "blocked_categories" (postIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories obj) GHC.Base.<> ((Data.Aeson..=) "spending_limits" (postIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits obj) GHC.Base.<> (Data.Aeson..=) "spending_limits_currency" (postIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimitsCurrency obj))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("allowed_categories" Data.Aeson.Types.ToJSON..= postIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories obj : "blocked_categories" Data.Aeson.Types.ToJSON..= postIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories obj : "spending_limits" Data.Aeson.Types.ToJSON..= postIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits obj : "spending_limits_currency" Data.Aeson.Types.ToJSON..= postIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimitsCurrency obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("allowed_categories" Data.Aeson.Types.ToJSON..= postIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories obj) GHC.Base.<> (("blocked_categories" Data.Aeson.Types.ToJSON..= postIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories obj) GHC.Base.<> (("spending_limits" Data.Aeson.Types.ToJSON..= postIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits obj) GHC.Base.<> ("spending_limits_currency" Data.Aeson.Types.ToJSON..= postIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimitsCurrency obj))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostIssuingCardholdersCardholderRequestBodyAuthorizationControls' where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'" (\obj -> (((GHC.Base.pure PostIssuingCardholdersCardholderRequestBodyAuthorizationControls' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "allowed_categories")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "blocked_categories")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "spending_limits")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "spending_limits_currency"))
 
--- | Defines the enum schema postIssuingCardholdersCardholderRequestBodyAuthorization_controls\'Allowed_categories\'
+-- | Create a new 'PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'' with all required fields.
+mkPostIssuingCardholdersCardholderRequestBodyAuthorizationControls' :: PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'
+mkPostIssuingCardholdersCardholderRequestBodyAuthorizationControls' =
+  PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'
+    { postIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories = GHC.Maybe.Nothing,
+      postIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories = GHC.Maybe.Nothing,
+      postIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits = GHC.Maybe.Nothing,
+      postIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimitsCurrency = GHC.Maybe.Nothing
+    }
+
+-- | Defines the enum schema located at @paths.\/v1\/issuing\/cardholders\/{cardholder}.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.authorization_controls.properties.allowed_categories.items@ in the specification.
 data PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'
-  = PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumOther Data.Aeson.Types.Internal.Value
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumTyped Data.Text.Internal.Text
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringAcRefrigerationRepair
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringAccountingBookkeepingServices
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringAdvertisingServices
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringAgriculturalCooperative
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringAirlinesAirCarriers
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringAirportsFlyingFields
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringAmbulanceServices
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringAmusementParksCarnivals
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringAntiqueReproductions
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringAntiqueShops
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringAquariums
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringArchitecturalSurveyingServices
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringArtDealersAndGalleries
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringArtistsSupplyAndCraftShops
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringAutoAndHomeSupplyStores
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringAutoBodyRepairShops
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringAutoPaintShops
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringAutoServiceShops
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringAutomatedCashDisburse
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringAutomatedFuelDispensers
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringAutomobileAssociations
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringAutomotivePartsAndAccessoriesStores
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringAutomotiveTireStores
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringBailAndBondPayments
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringBakeries
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringBandsOrchestras
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringBarberAndBeautyShops
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringBettingCasinoGambling
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringBicycleShops
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringBilliardPoolEstablishments
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringBoatDealers
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringBoatRentalsAndLeases
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringBookStores
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringBooksPeriodicalsAndNewspapers
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringBowlingAlleys
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringBusLines
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringBusinessSecretarialSchools
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringBuyingShoppingServices
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringCableSatelliteAndOtherPayTelevisionAndRadio
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringCameraAndPhotographicSupplyStores
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringCandyNutAndConfectioneryStores
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringCarAndTruckDealersNewUsed
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringCarAndTruckDealersUsedOnly
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringCarRentalAgencies
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringCarWashes
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringCarpentryServices
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringCarpetUpholsteryCleaning
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringCaterers
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringCharitableAndSocialServiceOrganizationsFundraising
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringChemicalsAndAlliedProducts
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringChildCareServices
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringChildrensAndInfantsWearStores
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringChiropodistsPodiatrists
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringChiropractors
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringCigarStoresAndStands
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringCivicSocialFraternalAssociations
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringCleaningAndMaintenance
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringClothingRental
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringCollegesUniversities
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringCommercialEquipment
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringCommercialFootwear
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringCommercialPhotographyArtAndGraphics
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringCommuterTransportAndFerries
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringComputerNetworkServices
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringComputerProgramming
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringComputerRepair
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringComputerSoftwareStores
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringComputersPeripheralsAndSoftware
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringConcreteWorkServices
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringConstructionMaterials
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringConsultingPublicRelations
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringCorrespondenceSchools
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringCosmeticStores
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringCounselingServices
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringCountryClubs
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringCourierServices
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringCourtCosts
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringCreditReportingAgencies
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringCruiseLines
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringDairyProductsStores
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringDanceHallStudiosSchools
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringDatingEscortServices
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringDentistsOrthodontists
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringDepartmentStores
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringDetectiveAgencies
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringDigitalGoodsApplications
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringDigitalGoodsGames
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringDigitalGoodsLargeVolume
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringDigitalGoodsMedia
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringDirectMarketingCatalogMerchant
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringDirectMarketingCombinationCatalogAndRetailMerchant
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringDirectMarketingInboundTelemarketing
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringDirectMarketingInsuranceServices
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringDirectMarketingOther
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringDirectMarketingOutboundTelemarketing
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringDirectMarketingSubscription
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringDirectMarketingTravel
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringDiscountStores
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringDoctors
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringDoorToDoorSales
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringDraperyWindowCoveringAndUpholsteryStores
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringDrinkingPlaces
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringDrugStoresAndPharmacies
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringDrugsDrugProprietariesAndDruggistSundries
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringDryCleaners
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringDurableGoods
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringDutyFreeStores
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringEatingPlacesRestaurants
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringEducationalServices
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringElectricRazorStores
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringElectricalPartsAndEquipment
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringElectricalServices
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringElectronicsRepairShops
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringElectronicsStores
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringElementarySecondarySchools
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringEmploymentTempAgencies
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringEquipmentRental
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringExterminatingServices
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringFamilyClothingStores
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringFastFoodRestaurants
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringFinancialInstitutions
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringFinesGovernmentAdministrativeEntities
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringFireplaceFireplaceScreensAndAccessoriesStores
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringFloorCoveringStores
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringFlorists
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringFloristsSuppliesNurseryStockAndFlowers
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringFreezerAndLockerMeatProvisioners
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringFuelDealersNonAutomotive
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringFuneralServicesCrematories
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringFurnitureHomeFurnishingsAndEquipmentStoresExceptAppliances
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringFurnitureRepairRefinishing
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringFurriersAndFurShops
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringGeneralServices
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringGiftCardNoveltyAndSouvenirShops
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringGlassPaintAndWallpaperStores
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringGlasswareCrystalStores
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringGolfCoursesPublic
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringGovernmentServices
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringGroceryStoresSupermarkets
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringHardwareEquipmentAndSupplies
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringHardwareStores
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringHealthAndBeautySpas
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringHearingAidsSalesAndSupplies
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringHeatingPlumbingAC
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringHobbyToyAndGameShops
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringHomeSupplyWarehouseStores
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringHospitals
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringHotelsMotelsAndResorts
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringHouseholdApplianceStores
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringIndustrialSupplies
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringInformationRetrievalServices
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringInsuranceDefault
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringInsuranceUnderwritingPremiums
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringIntraCompanyPurchases
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringJewelryStoresWatchesClocksAndSilverwareStores
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringLandscapingServices
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringLaundries
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringLaundryCleaningServices
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringLegalServicesAttorneys
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringLuggageAndLeatherGoodsStores
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringLumberBuildingMaterialsStores
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringManualCashDisburse
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringMarinasServiceAndSupplies
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringMasonryStoneworkAndPlaster
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringMassageParlors
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringMedicalAndDentalLabs
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringMedicalDentalOphthalmicAndHospitalEquipmentAndSupplies
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringMedicalServices
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringMembershipOrganizations
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringMensAndBoysClothingAndAccessoriesStores
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringMensWomensClothingStores
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringMetalServiceCenters
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringMiscellaneous
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringMiscellaneousApparelAndAccessoryShops
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringMiscellaneousAutoDealers
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringMiscellaneousBusinessServices
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringMiscellaneousFoodStores
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringMiscellaneousGeneralMerchandise
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringMiscellaneousGeneralServices
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringMiscellaneousHomeFurnishingSpecialtyStores
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringMiscellaneousPublishingAndPrinting
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringMiscellaneousRecreationServices
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringMiscellaneousRepairShops
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringMiscellaneousSpecialtyRetail
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringMobileHomeDealers
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringMotionPictureTheaters
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringMotorFreightCarriersAndTrucking
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringMotorHomesDealers
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringMotorVehicleSuppliesAndNewParts
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringMotorcycleShopsAndDealers
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringMotorcycleShopsDealers
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringMusicStoresMusicalInstrumentsPianosAndSheetMusic
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringNewsDealersAndNewsstands
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringNonFiMoneyOrders
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringNonFiStoredValueCardPurchaseLoad
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringNondurableGoods
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringNurseriesLawnAndGardenSupplyStores
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringNursingPersonalCare
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringOfficeAndCommercialFurniture
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringOpticiansEyeglasses
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringOptometristsOphthalmologist
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringOrthopedicGoodsProstheticDevices
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringOsteopaths
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringPackageStoresBeerWineAndLiquor
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringPaintsVarnishesAndSupplies
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringParkingLotsGarages
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringPassengerRailways
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringPawnShops
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringPetShopsPetFoodAndSupplies
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringPetroleumAndPetroleumProducts
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringPhotoDeveloping
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringPhotographicPhotocopyMicrofilmEquipmentAndSupplies
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringPhotographicStudios
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringPictureVideoProduction
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringPieceGoodsNotionsAndOtherDryGoods
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringPlumbingHeatingEquipmentAndSupplies
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringPoliticalOrganizations
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringPostalServicesGovernmentOnly
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringPreciousStonesAndMetalsWatchesAndJewelry
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringProfessionalServices
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringPublicWarehousingAndStorage
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringQuickCopyReproAndBlueprint
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringRailroads
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringRealEstateAgentsAndManagersRentals
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringRecordStores
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringRecreationalVehicleRentals
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringReligiousGoodsStores
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringReligiousOrganizations
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringRoofingSidingSheetMetal
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringSecretarialSupportServices
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringSecurityBrokersDealers
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringServiceStations
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringSewingNeedleworkFabricAndPieceGoodsStores
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringShoeRepairHatCleaning
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringShoeStores
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringSmallApplianceRepair
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringSnowmobileDealers
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringSpecialTradeServices
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringSpecialtyCleaning
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringSportingGoodsStores
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringSportingRecreationCamps
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringSportsAndRidingApparelStores
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringSportsClubsFields
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringStampAndCoinStores
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringStationaryOfficeSuppliesPrintingAndWritingPaper
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringStationeryStoresOfficeAndSchoolSupplyStores
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringSwimmingPoolsSales
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringTUiTravelGermany
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringTailorsAlterations
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringTaxPaymentsGovernmentAgencies
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringTaxPreparationServices
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringTaxicabsLimousines
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringTelecommunicationEquipmentAndTelephoneSales
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringTelecommunicationServices
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringTelegraphServices
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringTentAndAwningShops
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringTestingLaboratories
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringTheatricalTicketAgencies
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringTimeshares
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringTireRetreadingAndRepair
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringTollsBridgeFees
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringTouristAttractionsAndExhibits
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringTowingServices
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringTrailerParksCampgrounds
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringTransportationServices
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringTravelAgenciesTourOperators
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringTruckStopIteration
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringTruckUtilityTrailerRentals
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringTypesettingPlateMakingAndRelatedServices
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringTypewriterStores
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringUSFederalGovernmentAgenciesOrDepartments
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringUniformsCommercialClothing
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringUsedMerchandiseAndSecondhandStores
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringUtilities
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringVarietyStores
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringVeterinaryServices
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringVideoAmusementGameSupplies
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringVideoGameArcades
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringVideoTapeRentalStores
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringVocationalTradeSchools
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringWatchJewelryRepair
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringWeldingRepair
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringWholesaleClubs
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringWigAndToupeeStores
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringWiresMoneyOrders
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringWomensAccessoryAndSpecialtyShops
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringWomensReadyToWearStores
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringWreckingAndSalvageYards
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"ac_refrigeration_repair"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumAcRefrigerationRepair
+  | -- | Represents the JSON value @"accounting_bookkeeping_services"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumAccountingBookkeepingServices
+  | -- | Represents the JSON value @"advertising_services"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumAdvertisingServices
+  | -- | Represents the JSON value @"agricultural_cooperative"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumAgriculturalCooperative
+  | -- | Represents the JSON value @"airlines_air_carriers"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumAirlinesAirCarriers
+  | -- | Represents the JSON value @"airports_flying_fields"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumAirportsFlyingFields
+  | -- | Represents the JSON value @"ambulance_services"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumAmbulanceServices
+  | -- | Represents the JSON value @"amusement_parks_carnivals"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumAmusementParksCarnivals
+  | -- | Represents the JSON value @"antique_reproductions"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumAntiqueReproductions
+  | -- | Represents the JSON value @"antique_shops"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumAntiqueShops
+  | -- | Represents the JSON value @"aquariums"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumAquariums
+  | -- | Represents the JSON value @"architectural_surveying_services"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumArchitecturalSurveyingServices
+  | -- | Represents the JSON value @"art_dealers_and_galleries"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumArtDealersAndGalleries
+  | -- | Represents the JSON value @"artists_supply_and_craft_shops"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumArtistsSupplyAndCraftShops
+  | -- | Represents the JSON value @"auto_and_home_supply_stores"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumAutoAndHomeSupplyStores
+  | -- | Represents the JSON value @"auto_body_repair_shops"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumAutoBodyRepairShops
+  | -- | Represents the JSON value @"auto_paint_shops"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumAutoPaintShops
+  | -- | Represents the JSON value @"auto_service_shops"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumAutoServiceShops
+  | -- | Represents the JSON value @"automated_cash_disburse"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumAutomatedCashDisburse
+  | -- | Represents the JSON value @"automated_fuel_dispensers"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumAutomatedFuelDispensers
+  | -- | Represents the JSON value @"automobile_associations"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumAutomobileAssociations
+  | -- | Represents the JSON value @"automotive_parts_and_accessories_stores"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumAutomotivePartsAndAccessoriesStores
+  | -- | Represents the JSON value @"automotive_tire_stores"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumAutomotiveTireStores
+  | -- | Represents the JSON value @"bail_and_bond_payments"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumBailAndBondPayments
+  | -- | Represents the JSON value @"bakeries"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumBakeries
+  | -- | Represents the JSON value @"bands_orchestras"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumBandsOrchestras
+  | -- | Represents the JSON value @"barber_and_beauty_shops"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumBarberAndBeautyShops
+  | -- | Represents the JSON value @"betting_casino_gambling"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumBettingCasinoGambling
+  | -- | Represents the JSON value @"bicycle_shops"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumBicycleShops
+  | -- | Represents the JSON value @"billiard_pool_establishments"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumBilliardPoolEstablishments
+  | -- | Represents the JSON value @"boat_dealers"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumBoatDealers
+  | -- | Represents the JSON value @"boat_rentals_and_leases"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumBoatRentalsAndLeases
+  | -- | Represents the JSON value @"book_stores"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumBookStores
+  | -- | Represents the JSON value @"books_periodicals_and_newspapers"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumBooksPeriodicalsAndNewspapers
+  | -- | Represents the JSON value @"bowling_alleys"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumBowlingAlleys
+  | -- | Represents the JSON value @"bus_lines"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumBusLines
+  | -- | Represents the JSON value @"business_secretarial_schools"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumBusinessSecretarialSchools
+  | -- | Represents the JSON value @"buying_shopping_services"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumBuyingShoppingServices
+  | -- | Represents the JSON value @"cable_satellite_and_other_pay_television_and_radio"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumCableSatelliteAndOtherPayTelevisionAndRadio
+  | -- | Represents the JSON value @"camera_and_photographic_supply_stores"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumCameraAndPhotographicSupplyStores
+  | -- | Represents the JSON value @"candy_nut_and_confectionery_stores"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumCandyNutAndConfectioneryStores
+  | -- | Represents the JSON value @"car_and_truck_dealers_new_used"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumCarAndTruckDealersNewUsed
+  | -- | Represents the JSON value @"car_and_truck_dealers_used_only"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumCarAndTruckDealersUsedOnly
+  | -- | Represents the JSON value @"car_rental_agencies"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumCarRentalAgencies
+  | -- | Represents the JSON value @"car_washes"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumCarWashes
+  | -- | Represents the JSON value @"carpentry_services"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumCarpentryServices
+  | -- | Represents the JSON value @"carpet_upholstery_cleaning"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumCarpetUpholsteryCleaning
+  | -- | Represents the JSON value @"caterers"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumCaterers
+  | -- | Represents the JSON value @"charitable_and_social_service_organizations_fundraising"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumCharitableAndSocialServiceOrganizationsFundraising
+  | -- | Represents the JSON value @"chemicals_and_allied_products"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumChemicalsAndAlliedProducts
+  | -- | Represents the JSON value @"child_care_services"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumChildCareServices
+  | -- | Represents the JSON value @"childrens_and_infants_wear_stores"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumChildrensAndInfantsWearStores
+  | -- | Represents the JSON value @"chiropodists_podiatrists"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumChiropodistsPodiatrists
+  | -- | Represents the JSON value @"chiropractors"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumChiropractors
+  | -- | Represents the JSON value @"cigar_stores_and_stands"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumCigarStoresAndStands
+  | -- | Represents the JSON value @"civic_social_fraternal_associations"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumCivicSocialFraternalAssociations
+  | -- | Represents the JSON value @"cleaning_and_maintenance"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumCleaningAndMaintenance
+  | -- | Represents the JSON value @"clothing_rental"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumClothingRental
+  | -- | Represents the JSON value @"colleges_universities"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumCollegesUniversities
+  | -- | Represents the JSON value @"commercial_equipment"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumCommercialEquipment
+  | -- | Represents the JSON value @"commercial_footwear"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumCommercialFootwear
+  | -- | Represents the JSON value @"commercial_photography_art_and_graphics"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumCommercialPhotographyArtAndGraphics
+  | -- | Represents the JSON value @"commuter_transport_and_ferries"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumCommuterTransportAndFerries
+  | -- | Represents the JSON value @"computer_network_services"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumComputerNetworkServices
+  | -- | Represents the JSON value @"computer_programming"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumComputerProgramming
+  | -- | Represents the JSON value @"computer_repair"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumComputerRepair
+  | -- | Represents the JSON value @"computer_software_stores"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumComputerSoftwareStores
+  | -- | Represents the JSON value @"computers_peripherals_and_software"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumComputersPeripheralsAndSoftware
+  | -- | Represents the JSON value @"concrete_work_services"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumConcreteWorkServices
+  | -- | Represents the JSON value @"construction_materials"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumConstructionMaterials
+  | -- | Represents the JSON value @"consulting_public_relations"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumConsultingPublicRelations
+  | -- | Represents the JSON value @"correspondence_schools"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumCorrespondenceSchools
+  | -- | Represents the JSON value @"cosmetic_stores"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumCosmeticStores
+  | -- | Represents the JSON value @"counseling_services"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumCounselingServices
+  | -- | Represents the JSON value @"country_clubs"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumCountryClubs
+  | -- | Represents the JSON value @"courier_services"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumCourierServices
+  | -- | Represents the JSON value @"court_costs"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumCourtCosts
+  | -- | Represents the JSON value @"credit_reporting_agencies"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumCreditReportingAgencies
+  | -- | Represents the JSON value @"cruise_lines"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumCruiseLines
+  | -- | Represents the JSON value @"dairy_products_stores"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumDairyProductsStores
+  | -- | Represents the JSON value @"dance_hall_studios_schools"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumDanceHallStudiosSchools
+  | -- | Represents the JSON value @"dating_escort_services"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumDatingEscortServices
+  | -- | Represents the JSON value @"dentists_orthodontists"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumDentistsOrthodontists
+  | -- | Represents the JSON value @"department_stores"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumDepartmentStores
+  | -- | Represents the JSON value @"detective_agencies"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumDetectiveAgencies
+  | -- | Represents the JSON value @"digital_goods_applications"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumDigitalGoodsApplications
+  | -- | Represents the JSON value @"digital_goods_games"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumDigitalGoodsGames
+  | -- | Represents the JSON value @"digital_goods_large_volume"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumDigitalGoodsLargeVolume
+  | -- | Represents the JSON value @"digital_goods_media"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumDigitalGoodsMedia
+  | -- | Represents the JSON value @"direct_marketing_catalog_merchant"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumDirectMarketingCatalogMerchant
+  | -- | Represents the JSON value @"direct_marketing_combination_catalog_and_retail_merchant"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumDirectMarketingCombinationCatalogAndRetailMerchant
+  | -- | Represents the JSON value @"direct_marketing_inbound_telemarketing"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumDirectMarketingInboundTelemarketing
+  | -- | Represents the JSON value @"direct_marketing_insurance_services"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumDirectMarketingInsuranceServices
+  | -- | Represents the JSON value @"direct_marketing_other"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumDirectMarketingOther
+  | -- | Represents the JSON value @"direct_marketing_outbound_telemarketing"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumDirectMarketingOutboundTelemarketing
+  | -- | Represents the JSON value @"direct_marketing_subscription"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumDirectMarketingSubscription
+  | -- | Represents the JSON value @"direct_marketing_travel"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumDirectMarketingTravel
+  | -- | Represents the JSON value @"discount_stores"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumDiscountStores
+  | -- | Represents the JSON value @"doctors"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumDoctors
+  | -- | Represents the JSON value @"door_to_door_sales"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumDoorToDoorSales
+  | -- | Represents the JSON value @"drapery_window_covering_and_upholstery_stores"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumDraperyWindowCoveringAndUpholsteryStores
+  | -- | Represents the JSON value @"drinking_places"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumDrinkingPlaces
+  | -- | Represents the JSON value @"drug_stores_and_pharmacies"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumDrugStoresAndPharmacies
+  | -- | Represents the JSON value @"drugs_drug_proprietaries_and_druggist_sundries"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumDrugsDrugProprietariesAndDruggistSundries
+  | -- | Represents the JSON value @"dry_cleaners"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumDryCleaners
+  | -- | Represents the JSON value @"durable_goods"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumDurableGoods
+  | -- | Represents the JSON value @"duty_free_stores"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumDutyFreeStores
+  | -- | Represents the JSON value @"eating_places_restaurants"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumEatingPlacesRestaurants
+  | -- | Represents the JSON value @"educational_services"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumEducationalServices
+  | -- | Represents the JSON value @"electric_razor_stores"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumElectricRazorStores
+  | -- | Represents the JSON value @"electrical_parts_and_equipment"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumElectricalPartsAndEquipment
+  | -- | Represents the JSON value @"electrical_services"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumElectricalServices
+  | -- | Represents the JSON value @"electronics_repair_shops"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumElectronicsRepairShops
+  | -- | Represents the JSON value @"electronics_stores"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumElectronicsStores
+  | -- | Represents the JSON value @"elementary_secondary_schools"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumElementarySecondarySchools
+  | -- | Represents the JSON value @"employment_temp_agencies"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumEmploymentTempAgencies
+  | -- | Represents the JSON value @"equipment_rental"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumEquipmentRental
+  | -- | Represents the JSON value @"exterminating_services"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumExterminatingServices
+  | -- | Represents the JSON value @"family_clothing_stores"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumFamilyClothingStores
+  | -- | Represents the JSON value @"fast_food_restaurants"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumFastFoodRestaurants
+  | -- | Represents the JSON value @"financial_institutions"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumFinancialInstitutions
+  | -- | Represents the JSON value @"fines_government_administrative_entities"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumFinesGovernmentAdministrativeEntities
+  | -- | Represents the JSON value @"fireplace_fireplace_screens_and_accessories_stores"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumFireplaceFireplaceScreensAndAccessoriesStores
+  | -- | Represents the JSON value @"floor_covering_stores"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumFloorCoveringStores
+  | -- | Represents the JSON value @"florists"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumFlorists
+  | -- | Represents the JSON value @"florists_supplies_nursery_stock_and_flowers"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumFloristsSuppliesNurseryStockAndFlowers
+  | -- | Represents the JSON value @"freezer_and_locker_meat_provisioners"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumFreezerAndLockerMeatProvisioners
+  | -- | Represents the JSON value @"fuel_dealers_non_automotive"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumFuelDealersNonAutomotive
+  | -- | Represents the JSON value @"funeral_services_crematories"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumFuneralServicesCrematories
+  | -- | Represents the JSON value @"furniture_home_furnishings_and_equipment_stores_except_appliances"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumFurnitureHomeFurnishingsAndEquipmentStoresExceptAppliances
+  | -- | Represents the JSON value @"furniture_repair_refinishing"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumFurnitureRepairRefinishing
+  | -- | Represents the JSON value @"furriers_and_fur_shops"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumFurriersAndFurShops
+  | -- | Represents the JSON value @"general_services"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumGeneralServices
+  | -- | Represents the JSON value @"gift_card_novelty_and_souvenir_shops"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumGiftCardNoveltyAndSouvenirShops
+  | -- | Represents the JSON value @"glass_paint_and_wallpaper_stores"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumGlassPaintAndWallpaperStores
+  | -- | Represents the JSON value @"glassware_crystal_stores"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumGlasswareCrystalStores
+  | -- | Represents the JSON value @"golf_courses_public"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumGolfCoursesPublic
+  | -- | Represents the JSON value @"government_services"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumGovernmentServices
+  | -- | Represents the JSON value @"grocery_stores_supermarkets"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumGroceryStoresSupermarkets
+  | -- | Represents the JSON value @"hardware_equipment_and_supplies"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumHardwareEquipmentAndSupplies
+  | -- | Represents the JSON value @"hardware_stores"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumHardwareStores
+  | -- | Represents the JSON value @"health_and_beauty_spas"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumHealthAndBeautySpas
+  | -- | Represents the JSON value @"hearing_aids_sales_and_supplies"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumHearingAidsSalesAndSupplies
+  | -- | Represents the JSON value @"heating_plumbing_a_c"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumHeatingPlumbingAC
+  | -- | Represents the JSON value @"hobby_toy_and_game_shops"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumHobbyToyAndGameShops
+  | -- | Represents the JSON value @"home_supply_warehouse_stores"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumHomeSupplyWarehouseStores
+  | -- | Represents the JSON value @"hospitals"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumHospitals
+  | -- | Represents the JSON value @"hotels_motels_and_resorts"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumHotelsMotelsAndResorts
+  | -- | Represents the JSON value @"household_appliance_stores"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumHouseholdApplianceStores
+  | -- | Represents the JSON value @"industrial_supplies"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumIndustrialSupplies
+  | -- | Represents the JSON value @"information_retrieval_services"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumInformationRetrievalServices
+  | -- | Represents the JSON value @"insurance_default"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumInsuranceDefault
+  | -- | Represents the JSON value @"insurance_underwriting_premiums"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumInsuranceUnderwritingPremiums
+  | -- | Represents the JSON value @"intra_company_purchases"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumIntraCompanyPurchases
+  | -- | Represents the JSON value @"jewelry_stores_watches_clocks_and_silverware_stores"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumJewelryStoresWatchesClocksAndSilverwareStores
+  | -- | Represents the JSON value @"landscaping_services"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumLandscapingServices
+  | -- | Represents the JSON value @"laundries"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumLaundries
+  | -- | Represents the JSON value @"laundry_cleaning_services"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumLaundryCleaningServices
+  | -- | Represents the JSON value @"legal_services_attorneys"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumLegalServicesAttorneys
+  | -- | Represents the JSON value @"luggage_and_leather_goods_stores"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumLuggageAndLeatherGoodsStores
+  | -- | Represents the JSON value @"lumber_building_materials_stores"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumLumberBuildingMaterialsStores
+  | -- | Represents the JSON value @"manual_cash_disburse"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumManualCashDisburse
+  | -- | Represents the JSON value @"marinas_service_and_supplies"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumMarinasServiceAndSupplies
+  | -- | Represents the JSON value @"masonry_stonework_and_plaster"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumMasonryStoneworkAndPlaster
+  | -- | Represents the JSON value @"massage_parlors"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumMassageParlors
+  | -- | Represents the JSON value @"medical_and_dental_labs"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumMedicalAndDentalLabs
+  | -- | Represents the JSON value @"medical_dental_ophthalmic_and_hospital_equipment_and_supplies"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumMedicalDentalOphthalmicAndHospitalEquipmentAndSupplies
+  | -- | Represents the JSON value @"medical_services"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumMedicalServices
+  | -- | Represents the JSON value @"membership_organizations"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumMembershipOrganizations
+  | -- | Represents the JSON value @"mens_and_boys_clothing_and_accessories_stores"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumMensAndBoysClothingAndAccessoriesStores
+  | -- | Represents the JSON value @"mens_womens_clothing_stores"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumMensWomensClothingStores
+  | -- | Represents the JSON value @"metal_service_centers"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumMetalServiceCenters
+  | -- | Represents the JSON value @"miscellaneous"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumMiscellaneous
+  | -- | Represents the JSON value @"miscellaneous_apparel_and_accessory_shops"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumMiscellaneousApparelAndAccessoryShops
+  | -- | Represents the JSON value @"miscellaneous_auto_dealers"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumMiscellaneousAutoDealers
+  | -- | Represents the JSON value @"miscellaneous_business_services"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumMiscellaneousBusinessServices
+  | -- | Represents the JSON value @"miscellaneous_food_stores"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumMiscellaneousFoodStores
+  | -- | Represents the JSON value @"miscellaneous_general_merchandise"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumMiscellaneousGeneralMerchandise
+  | -- | Represents the JSON value @"miscellaneous_general_services"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumMiscellaneousGeneralServices
+  | -- | Represents the JSON value @"miscellaneous_home_furnishing_specialty_stores"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumMiscellaneousHomeFurnishingSpecialtyStores
+  | -- | Represents the JSON value @"miscellaneous_publishing_and_printing"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumMiscellaneousPublishingAndPrinting
+  | -- | Represents the JSON value @"miscellaneous_recreation_services"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumMiscellaneousRecreationServices
+  | -- | Represents the JSON value @"miscellaneous_repair_shops"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumMiscellaneousRepairShops
+  | -- | Represents the JSON value @"miscellaneous_specialty_retail"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumMiscellaneousSpecialtyRetail
+  | -- | Represents the JSON value @"mobile_home_dealers"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumMobileHomeDealers
+  | -- | Represents the JSON value @"motion_picture_theaters"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumMotionPictureTheaters
+  | -- | Represents the JSON value @"motor_freight_carriers_and_trucking"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumMotorFreightCarriersAndTrucking
+  | -- | Represents the JSON value @"motor_homes_dealers"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumMotorHomesDealers
+  | -- | Represents the JSON value @"motor_vehicle_supplies_and_new_parts"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumMotorVehicleSuppliesAndNewParts
+  | -- | Represents the JSON value @"motorcycle_shops_and_dealers"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumMotorcycleShopsAndDealers
+  | -- | Represents the JSON value @"motorcycle_shops_dealers"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumMotorcycleShopsDealers
+  | -- | Represents the JSON value @"music_stores_musical_instruments_pianos_and_sheet_music"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumMusicStoresMusicalInstrumentsPianosAndSheetMusic
+  | -- | Represents the JSON value @"news_dealers_and_newsstands"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumNewsDealersAndNewsstands
+  | -- | Represents the JSON value @"non_fi_money_orders"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumNonFiMoneyOrders
+  | -- | Represents the JSON value @"non_fi_stored_value_card_purchase_load"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumNonFiStoredValueCardPurchaseLoad
+  | -- | Represents the JSON value @"nondurable_goods"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumNondurableGoods
+  | -- | Represents the JSON value @"nurseries_lawn_and_garden_supply_stores"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumNurseriesLawnAndGardenSupplyStores
+  | -- | Represents the JSON value @"nursing_personal_care"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumNursingPersonalCare
+  | -- | Represents the JSON value @"office_and_commercial_furniture"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumOfficeAndCommercialFurniture
+  | -- | Represents the JSON value @"opticians_eyeglasses"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumOpticiansEyeglasses
+  | -- | Represents the JSON value @"optometrists_ophthalmologist"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumOptometristsOphthalmologist
+  | -- | Represents the JSON value @"orthopedic_goods_prosthetic_devices"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumOrthopedicGoodsProstheticDevices
+  | -- | Represents the JSON value @"osteopaths"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumOsteopaths
+  | -- | Represents the JSON value @"package_stores_beer_wine_and_liquor"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumPackageStoresBeerWineAndLiquor
+  | -- | Represents the JSON value @"paints_varnishes_and_supplies"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumPaintsVarnishesAndSupplies
+  | -- | Represents the JSON value @"parking_lots_garages"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumParkingLotsGarages
+  | -- | Represents the JSON value @"passenger_railways"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumPassengerRailways
+  | -- | Represents the JSON value @"pawn_shops"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumPawnShops
+  | -- | Represents the JSON value @"pet_shops_pet_food_and_supplies"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumPetShopsPetFoodAndSupplies
+  | -- | Represents the JSON value @"petroleum_and_petroleum_products"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumPetroleumAndPetroleumProducts
+  | -- | Represents the JSON value @"photo_developing"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumPhotoDeveloping
+  | -- | Represents the JSON value @"photographic_photocopy_microfilm_equipment_and_supplies"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumPhotographicPhotocopyMicrofilmEquipmentAndSupplies
+  | -- | Represents the JSON value @"photographic_studios"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumPhotographicStudios
+  | -- | Represents the JSON value @"picture_video_production"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumPictureVideoProduction
+  | -- | Represents the JSON value @"piece_goods_notions_and_other_dry_goods"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumPieceGoodsNotionsAndOtherDryGoods
+  | -- | Represents the JSON value @"plumbing_heating_equipment_and_supplies"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumPlumbingHeatingEquipmentAndSupplies
+  | -- | Represents the JSON value @"political_organizations"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumPoliticalOrganizations
+  | -- | Represents the JSON value @"postal_services_government_only"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumPostalServicesGovernmentOnly
+  | -- | Represents the JSON value @"precious_stones_and_metals_watches_and_jewelry"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumPreciousStonesAndMetalsWatchesAndJewelry
+  | -- | Represents the JSON value @"professional_services"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumProfessionalServices
+  | -- | Represents the JSON value @"public_warehousing_and_storage"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumPublicWarehousingAndStorage
+  | -- | Represents the JSON value @"quick_copy_repro_and_blueprint"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumQuickCopyReproAndBlueprint
+  | -- | Represents the JSON value @"railroads"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumRailroads
+  | -- | Represents the JSON value @"real_estate_agents_and_managers_rentals"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumRealEstateAgentsAndManagersRentals
+  | -- | Represents the JSON value @"record_stores"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumRecordStores
+  | -- | Represents the JSON value @"recreational_vehicle_rentals"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumRecreationalVehicleRentals
+  | -- | Represents the JSON value @"religious_goods_stores"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumReligiousGoodsStores
+  | -- | Represents the JSON value @"religious_organizations"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumReligiousOrganizations
+  | -- | Represents the JSON value @"roofing_siding_sheet_metal"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumRoofingSidingSheetMetal
+  | -- | Represents the JSON value @"secretarial_support_services"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumSecretarialSupportServices
+  | -- | Represents the JSON value @"security_brokers_dealers"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumSecurityBrokersDealers
+  | -- | Represents the JSON value @"service_stations"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumServiceStations
+  | -- | Represents the JSON value @"sewing_needlework_fabric_and_piece_goods_stores"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumSewingNeedleworkFabricAndPieceGoodsStores
+  | -- | Represents the JSON value @"shoe_repair_hat_cleaning"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumShoeRepairHatCleaning
+  | -- | Represents the JSON value @"shoe_stores"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumShoeStores
+  | -- | Represents the JSON value @"small_appliance_repair"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumSmallApplianceRepair
+  | -- | Represents the JSON value @"snowmobile_dealers"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumSnowmobileDealers
+  | -- | Represents the JSON value @"special_trade_services"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumSpecialTradeServices
+  | -- | Represents the JSON value @"specialty_cleaning"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumSpecialtyCleaning
+  | -- | Represents the JSON value @"sporting_goods_stores"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumSportingGoodsStores
+  | -- | Represents the JSON value @"sporting_recreation_camps"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumSportingRecreationCamps
+  | -- | Represents the JSON value @"sports_and_riding_apparel_stores"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumSportsAndRidingApparelStores
+  | -- | Represents the JSON value @"sports_clubs_fields"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumSportsClubsFields
+  | -- | Represents the JSON value @"stamp_and_coin_stores"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStampAndCoinStores
+  | -- | Represents the JSON value @"stationary_office_supplies_printing_and_writing_paper"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStationaryOfficeSuppliesPrintingAndWritingPaper
+  | -- | Represents the JSON value @"stationery_stores_office_and_school_supply_stores"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStationeryStoresOfficeAndSchoolSupplyStores
+  | -- | Represents the JSON value @"swimming_pools_sales"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumSwimmingPoolsSales
+  | -- | Represents the JSON value @"t_ui_travel_germany"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumTUiTravelGermany
+  | -- | Represents the JSON value @"tailors_alterations"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumTailorsAlterations
+  | -- | Represents the JSON value @"tax_payments_government_agencies"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumTaxPaymentsGovernmentAgencies
+  | -- | Represents the JSON value @"tax_preparation_services"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumTaxPreparationServices
+  | -- | Represents the JSON value @"taxicabs_limousines"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumTaxicabsLimousines
+  | -- | Represents the JSON value @"telecommunication_equipment_and_telephone_sales"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumTelecommunicationEquipmentAndTelephoneSales
+  | -- | Represents the JSON value @"telecommunication_services"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumTelecommunicationServices
+  | -- | Represents the JSON value @"telegraph_services"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumTelegraphServices
+  | -- | Represents the JSON value @"tent_and_awning_shops"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumTentAndAwningShops
+  | -- | Represents the JSON value @"testing_laboratories"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumTestingLaboratories
+  | -- | Represents the JSON value @"theatrical_ticket_agencies"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumTheatricalTicketAgencies
+  | -- | Represents the JSON value @"timeshares"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumTimeshares
+  | -- | Represents the JSON value @"tire_retreading_and_repair"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumTireRetreadingAndRepair
+  | -- | Represents the JSON value @"tolls_bridge_fees"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumTollsBridgeFees
+  | -- | Represents the JSON value @"tourist_attractions_and_exhibits"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumTouristAttractionsAndExhibits
+  | -- | Represents the JSON value @"towing_services"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumTowingServices
+  | -- | Represents the JSON value @"trailer_parks_campgrounds"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumTrailerParksCampgrounds
+  | -- | Represents the JSON value @"transportation_services"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumTransportationServices
+  | -- | Represents the JSON value @"travel_agencies_tour_operators"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumTravelAgenciesTourOperators
+  | -- | Represents the JSON value @"truck_stop_iteration"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumTruckStopIteration
+  | -- | Represents the JSON value @"truck_utility_trailer_rentals"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumTruckUtilityTrailerRentals
+  | -- | Represents the JSON value @"typesetting_plate_making_and_related_services"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumTypesettingPlateMakingAndRelatedServices
+  | -- | Represents the JSON value @"typewriter_stores"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumTypewriterStores
+  | -- | Represents the JSON value @"u_s_federal_government_agencies_or_departments"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumUSFederalGovernmentAgenciesOrDepartments
+  | -- | Represents the JSON value @"uniforms_commercial_clothing"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumUniformsCommercialClothing
+  | -- | Represents the JSON value @"used_merchandise_and_secondhand_stores"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumUsedMerchandiseAndSecondhandStores
+  | -- | Represents the JSON value @"utilities"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumUtilities
+  | -- | Represents the JSON value @"variety_stores"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumVarietyStores
+  | -- | Represents the JSON value @"veterinary_services"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumVeterinaryServices
+  | -- | Represents the JSON value @"video_amusement_game_supplies"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumVideoAmusementGameSupplies
+  | -- | Represents the JSON value @"video_game_arcades"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumVideoGameArcades
+  | -- | Represents the JSON value @"video_tape_rental_stores"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumVideoTapeRentalStores
+  | -- | Represents the JSON value @"vocational_trade_schools"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumVocationalTradeSchools
+  | -- | Represents the JSON value @"watch_jewelry_repair"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumWatchJewelryRepair
+  | -- | Represents the JSON value @"welding_repair"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumWeldingRepair
+  | -- | Represents the JSON value @"wholesale_clubs"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumWholesaleClubs
+  | -- | Represents the JSON value @"wig_and_toupee_stores"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumWigAndToupeeStores
+  | -- | Represents the JSON value @"wires_money_orders"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumWiresMoneyOrders
+  | -- | Represents the JSON value @"womens_accessory_and_specialty_shops"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumWomensAccessoryAndSpecialtyShops
+  | -- | Represents the JSON value @"womens_ready_to_wear_stores"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumWomensReadyToWearStores
+  | -- | Represents the JSON value @"wrecking_and_salvage_yards"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumWreckingAndSalvageYards
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories' where
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringAcRefrigerationRepair) = "ac_refrigeration_repair"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringAccountingBookkeepingServices) = "accounting_bookkeeping_services"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringAdvertisingServices) = "advertising_services"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringAgriculturalCooperative) = "agricultural_cooperative"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringAirlinesAirCarriers) = "airlines_air_carriers"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringAirportsFlyingFields) = "airports_flying_fields"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringAmbulanceServices) = "ambulance_services"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringAmusementParksCarnivals) = "amusement_parks_carnivals"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringAntiqueReproductions) = "antique_reproductions"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringAntiqueShops) = "antique_shops"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringAquariums) = "aquariums"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringArchitecturalSurveyingServices) = "architectural_surveying_services"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringArtDealersAndGalleries) = "art_dealers_and_galleries"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringArtistsSupplyAndCraftShops) = "artists_supply_and_craft_shops"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringAutoAndHomeSupplyStores) = "auto_and_home_supply_stores"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringAutoBodyRepairShops) = "auto_body_repair_shops"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringAutoPaintShops) = "auto_paint_shops"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringAutoServiceShops) = "auto_service_shops"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringAutomatedCashDisburse) = "automated_cash_disburse"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringAutomatedFuelDispensers) = "automated_fuel_dispensers"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringAutomobileAssociations) = "automobile_associations"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringAutomotivePartsAndAccessoriesStores) = "automotive_parts_and_accessories_stores"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringAutomotiveTireStores) = "automotive_tire_stores"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringBailAndBondPayments) = "bail_and_bond_payments"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringBakeries) = "bakeries"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringBandsOrchestras) = "bands_orchestras"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringBarberAndBeautyShops) = "barber_and_beauty_shops"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringBettingCasinoGambling) = "betting_casino_gambling"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringBicycleShops) = "bicycle_shops"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringBilliardPoolEstablishments) = "billiard_pool_establishments"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringBoatDealers) = "boat_dealers"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringBoatRentalsAndLeases) = "boat_rentals_and_leases"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringBookStores) = "book_stores"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringBooksPeriodicalsAndNewspapers) = "books_periodicals_and_newspapers"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringBowlingAlleys) = "bowling_alleys"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringBusLines) = "bus_lines"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringBusinessSecretarialSchools) = "business_secretarial_schools"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringBuyingShoppingServices) = "buying_shopping_services"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringCableSatelliteAndOtherPayTelevisionAndRadio) = "cable_satellite_and_other_pay_television_and_radio"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringCameraAndPhotographicSupplyStores) = "camera_and_photographic_supply_stores"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringCandyNutAndConfectioneryStores) = "candy_nut_and_confectionery_stores"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringCarAndTruckDealersNewUsed) = "car_and_truck_dealers_new_used"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringCarAndTruckDealersUsedOnly) = "car_and_truck_dealers_used_only"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringCarRentalAgencies) = "car_rental_agencies"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringCarWashes) = "car_washes"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringCarpentryServices) = "carpentry_services"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringCarpetUpholsteryCleaning) = "carpet_upholstery_cleaning"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringCaterers) = "caterers"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringCharitableAndSocialServiceOrganizationsFundraising) = "charitable_and_social_service_organizations_fundraising"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringChemicalsAndAlliedProducts) = "chemicals_and_allied_products"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringChildCareServices) = "child_care_services"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringChildrensAndInfantsWearStores) = "childrens_and_infants_wear_stores"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringChiropodistsPodiatrists) = "chiropodists_podiatrists"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringChiropractors) = "chiropractors"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringCigarStoresAndStands) = "cigar_stores_and_stands"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringCivicSocialFraternalAssociations) = "civic_social_fraternal_associations"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringCleaningAndMaintenance) = "cleaning_and_maintenance"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringClothingRental) = "clothing_rental"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringCollegesUniversities) = "colleges_universities"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringCommercialEquipment) = "commercial_equipment"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringCommercialFootwear) = "commercial_footwear"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringCommercialPhotographyArtAndGraphics) = "commercial_photography_art_and_graphics"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringCommuterTransportAndFerries) = "commuter_transport_and_ferries"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringComputerNetworkServices) = "computer_network_services"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringComputerProgramming) = "computer_programming"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringComputerRepair) = "computer_repair"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringComputerSoftwareStores) = "computer_software_stores"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringComputersPeripheralsAndSoftware) = "computers_peripherals_and_software"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringConcreteWorkServices) = "concrete_work_services"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringConstructionMaterials) = "construction_materials"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringConsultingPublicRelations) = "consulting_public_relations"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringCorrespondenceSchools) = "correspondence_schools"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringCosmeticStores) = "cosmetic_stores"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringCounselingServices) = "counseling_services"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringCountryClubs) = "country_clubs"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringCourierServices) = "courier_services"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringCourtCosts) = "court_costs"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringCreditReportingAgencies) = "credit_reporting_agencies"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringCruiseLines) = "cruise_lines"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringDairyProductsStores) = "dairy_products_stores"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringDanceHallStudiosSchools) = "dance_hall_studios_schools"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringDatingEscortServices) = "dating_escort_services"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringDentistsOrthodontists) = "dentists_orthodontists"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringDepartmentStores) = "department_stores"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringDetectiveAgencies) = "detective_agencies"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringDigitalGoodsApplications) = "digital_goods_applications"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringDigitalGoodsGames) = "digital_goods_games"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringDigitalGoodsLargeVolume) = "digital_goods_large_volume"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringDigitalGoodsMedia) = "digital_goods_media"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringDirectMarketingCatalogMerchant) = "direct_marketing_catalog_merchant"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringDirectMarketingCombinationCatalogAndRetailMerchant) = "direct_marketing_combination_catalog_and_retail_merchant"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringDirectMarketingInboundTelemarketing) = "direct_marketing_inbound_telemarketing"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringDirectMarketingInsuranceServices) = "direct_marketing_insurance_services"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringDirectMarketingOther) = "direct_marketing_other"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringDirectMarketingOutboundTelemarketing) = "direct_marketing_outbound_telemarketing"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringDirectMarketingSubscription) = "direct_marketing_subscription"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringDirectMarketingTravel) = "direct_marketing_travel"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringDiscountStores) = "discount_stores"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringDoctors) = "doctors"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringDoorToDoorSales) = "door_to_door_sales"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringDraperyWindowCoveringAndUpholsteryStores) = "drapery_window_covering_and_upholstery_stores"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringDrinkingPlaces) = "drinking_places"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringDrugStoresAndPharmacies) = "drug_stores_and_pharmacies"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringDrugsDrugProprietariesAndDruggistSundries) = "drugs_drug_proprietaries_and_druggist_sundries"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringDryCleaners) = "dry_cleaners"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringDurableGoods) = "durable_goods"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringDutyFreeStores) = "duty_free_stores"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringEatingPlacesRestaurants) = "eating_places_restaurants"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringEducationalServices) = "educational_services"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringElectricRazorStores) = "electric_razor_stores"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringElectricalPartsAndEquipment) = "electrical_parts_and_equipment"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringElectricalServices) = "electrical_services"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringElectronicsRepairShops) = "electronics_repair_shops"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringElectronicsStores) = "electronics_stores"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringElementarySecondarySchools) = "elementary_secondary_schools"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringEmploymentTempAgencies) = "employment_temp_agencies"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringEquipmentRental) = "equipment_rental"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringExterminatingServices) = "exterminating_services"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringFamilyClothingStores) = "family_clothing_stores"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringFastFoodRestaurants) = "fast_food_restaurants"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringFinancialInstitutions) = "financial_institutions"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringFinesGovernmentAdministrativeEntities) = "fines_government_administrative_entities"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringFireplaceFireplaceScreensAndAccessoriesStores) = "fireplace_fireplace_screens_and_accessories_stores"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringFloorCoveringStores) = "floor_covering_stores"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringFlorists) = "florists"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringFloristsSuppliesNurseryStockAndFlowers) = "florists_supplies_nursery_stock_and_flowers"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringFreezerAndLockerMeatProvisioners) = "freezer_and_locker_meat_provisioners"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringFuelDealersNonAutomotive) = "fuel_dealers_non_automotive"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringFuneralServicesCrematories) = "funeral_services_crematories"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringFurnitureHomeFurnishingsAndEquipmentStoresExceptAppliances) = "furniture_home_furnishings_and_equipment_stores_except_appliances"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringFurnitureRepairRefinishing) = "furniture_repair_refinishing"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringFurriersAndFurShops) = "furriers_and_fur_shops"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringGeneralServices) = "general_services"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringGiftCardNoveltyAndSouvenirShops) = "gift_card_novelty_and_souvenir_shops"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringGlassPaintAndWallpaperStores) = "glass_paint_and_wallpaper_stores"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringGlasswareCrystalStores) = "glassware_crystal_stores"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringGolfCoursesPublic) = "golf_courses_public"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringGovernmentServices) = "government_services"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringGroceryStoresSupermarkets) = "grocery_stores_supermarkets"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringHardwareEquipmentAndSupplies) = "hardware_equipment_and_supplies"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringHardwareStores) = "hardware_stores"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringHealthAndBeautySpas) = "health_and_beauty_spas"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringHearingAidsSalesAndSupplies) = "hearing_aids_sales_and_supplies"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringHeatingPlumbingAC) = "heating_plumbing_a_c"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringHobbyToyAndGameShops) = "hobby_toy_and_game_shops"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringHomeSupplyWarehouseStores) = "home_supply_warehouse_stores"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringHospitals) = "hospitals"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringHotelsMotelsAndResorts) = "hotels_motels_and_resorts"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringHouseholdApplianceStores) = "household_appliance_stores"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringIndustrialSupplies) = "industrial_supplies"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringInformationRetrievalServices) = "information_retrieval_services"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringInsuranceDefault) = "insurance_default"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringInsuranceUnderwritingPremiums) = "insurance_underwriting_premiums"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringIntraCompanyPurchases) = "intra_company_purchases"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringJewelryStoresWatchesClocksAndSilverwareStores) = "jewelry_stores_watches_clocks_and_silverware_stores"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringLandscapingServices) = "landscaping_services"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringLaundries) = "laundries"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringLaundryCleaningServices) = "laundry_cleaning_services"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringLegalServicesAttorneys) = "legal_services_attorneys"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringLuggageAndLeatherGoodsStores) = "luggage_and_leather_goods_stores"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringLumberBuildingMaterialsStores) = "lumber_building_materials_stores"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringManualCashDisburse) = "manual_cash_disburse"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringMarinasServiceAndSupplies) = "marinas_service_and_supplies"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringMasonryStoneworkAndPlaster) = "masonry_stonework_and_plaster"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringMassageParlors) = "massage_parlors"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringMedicalAndDentalLabs) = "medical_and_dental_labs"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringMedicalDentalOphthalmicAndHospitalEquipmentAndSupplies) = "medical_dental_ophthalmic_and_hospital_equipment_and_supplies"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringMedicalServices) = "medical_services"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringMembershipOrganizations) = "membership_organizations"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringMensAndBoysClothingAndAccessoriesStores) = "mens_and_boys_clothing_and_accessories_stores"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringMensWomensClothingStores) = "mens_womens_clothing_stores"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringMetalServiceCenters) = "metal_service_centers"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringMiscellaneous) = "miscellaneous"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringMiscellaneousApparelAndAccessoryShops) = "miscellaneous_apparel_and_accessory_shops"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringMiscellaneousAutoDealers) = "miscellaneous_auto_dealers"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringMiscellaneousBusinessServices) = "miscellaneous_business_services"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringMiscellaneousFoodStores) = "miscellaneous_food_stores"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringMiscellaneousGeneralMerchandise) = "miscellaneous_general_merchandise"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringMiscellaneousGeneralServices) = "miscellaneous_general_services"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringMiscellaneousHomeFurnishingSpecialtyStores) = "miscellaneous_home_furnishing_specialty_stores"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringMiscellaneousPublishingAndPrinting) = "miscellaneous_publishing_and_printing"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringMiscellaneousRecreationServices) = "miscellaneous_recreation_services"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringMiscellaneousRepairShops) = "miscellaneous_repair_shops"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringMiscellaneousSpecialtyRetail) = "miscellaneous_specialty_retail"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringMobileHomeDealers) = "mobile_home_dealers"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringMotionPictureTheaters) = "motion_picture_theaters"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringMotorFreightCarriersAndTrucking) = "motor_freight_carriers_and_trucking"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringMotorHomesDealers) = "motor_homes_dealers"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringMotorVehicleSuppliesAndNewParts) = "motor_vehicle_supplies_and_new_parts"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringMotorcycleShopsAndDealers) = "motorcycle_shops_and_dealers"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringMotorcycleShopsDealers) = "motorcycle_shops_dealers"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringMusicStoresMusicalInstrumentsPianosAndSheetMusic) = "music_stores_musical_instruments_pianos_and_sheet_music"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringNewsDealersAndNewsstands) = "news_dealers_and_newsstands"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringNonFiMoneyOrders) = "non_fi_money_orders"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringNonFiStoredValueCardPurchaseLoad) = "non_fi_stored_value_card_purchase_load"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringNondurableGoods) = "nondurable_goods"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringNurseriesLawnAndGardenSupplyStores) = "nurseries_lawn_and_garden_supply_stores"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringNursingPersonalCare) = "nursing_personal_care"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringOfficeAndCommercialFurniture) = "office_and_commercial_furniture"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringOpticiansEyeglasses) = "opticians_eyeglasses"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringOptometristsOphthalmologist) = "optometrists_ophthalmologist"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringOrthopedicGoodsProstheticDevices) = "orthopedic_goods_prosthetic_devices"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringOsteopaths) = "osteopaths"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringPackageStoresBeerWineAndLiquor) = "package_stores_beer_wine_and_liquor"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringPaintsVarnishesAndSupplies) = "paints_varnishes_and_supplies"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringParkingLotsGarages) = "parking_lots_garages"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringPassengerRailways) = "passenger_railways"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringPawnShops) = "pawn_shops"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringPetShopsPetFoodAndSupplies) = "pet_shops_pet_food_and_supplies"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringPetroleumAndPetroleumProducts) = "petroleum_and_petroleum_products"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringPhotoDeveloping) = "photo_developing"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringPhotographicPhotocopyMicrofilmEquipmentAndSupplies) = "photographic_photocopy_microfilm_equipment_and_supplies"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringPhotographicStudios) = "photographic_studios"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringPictureVideoProduction) = "picture_video_production"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringPieceGoodsNotionsAndOtherDryGoods) = "piece_goods_notions_and_other_dry_goods"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringPlumbingHeatingEquipmentAndSupplies) = "plumbing_heating_equipment_and_supplies"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringPoliticalOrganizations) = "political_organizations"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringPostalServicesGovernmentOnly) = "postal_services_government_only"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringPreciousStonesAndMetalsWatchesAndJewelry) = "precious_stones_and_metals_watches_and_jewelry"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringProfessionalServices) = "professional_services"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringPublicWarehousingAndStorage) = "public_warehousing_and_storage"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringQuickCopyReproAndBlueprint) = "quick_copy_repro_and_blueprint"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringRailroads) = "railroads"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringRealEstateAgentsAndManagersRentals) = "real_estate_agents_and_managers_rentals"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringRecordStores) = "record_stores"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringRecreationalVehicleRentals) = "recreational_vehicle_rentals"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringReligiousGoodsStores) = "religious_goods_stores"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringReligiousOrganizations) = "religious_organizations"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringRoofingSidingSheetMetal) = "roofing_siding_sheet_metal"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringSecretarialSupportServices) = "secretarial_support_services"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringSecurityBrokersDealers) = "security_brokers_dealers"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringServiceStations) = "service_stations"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringSewingNeedleworkFabricAndPieceGoodsStores) = "sewing_needlework_fabric_and_piece_goods_stores"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringShoeRepairHatCleaning) = "shoe_repair_hat_cleaning"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringShoeStores) = "shoe_stores"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringSmallApplianceRepair) = "small_appliance_repair"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringSnowmobileDealers) = "snowmobile_dealers"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringSpecialTradeServices) = "special_trade_services"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringSpecialtyCleaning) = "specialty_cleaning"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringSportingGoodsStores) = "sporting_goods_stores"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringSportingRecreationCamps) = "sporting_recreation_camps"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringSportsAndRidingApparelStores) = "sports_and_riding_apparel_stores"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringSportsClubsFields) = "sports_clubs_fields"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringStampAndCoinStores) = "stamp_and_coin_stores"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringStationaryOfficeSuppliesPrintingAndWritingPaper) = "stationary_office_supplies_printing_and_writing_paper"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringStationeryStoresOfficeAndSchoolSupplyStores) = "stationery_stores_office_and_school_supply_stores"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringSwimmingPoolsSales) = "swimming_pools_sales"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringTUiTravelGermany) = "t_ui_travel_germany"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringTailorsAlterations) = "tailors_alterations"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringTaxPaymentsGovernmentAgencies) = "tax_payments_government_agencies"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringTaxPreparationServices) = "tax_preparation_services"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringTaxicabsLimousines) = "taxicabs_limousines"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringTelecommunicationEquipmentAndTelephoneSales) = "telecommunication_equipment_and_telephone_sales"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringTelecommunicationServices) = "telecommunication_services"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringTelegraphServices) = "telegraph_services"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringTentAndAwningShops) = "tent_and_awning_shops"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringTestingLaboratories) = "testing_laboratories"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringTheatricalTicketAgencies) = "theatrical_ticket_agencies"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringTimeshares) = "timeshares"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringTireRetreadingAndRepair) = "tire_retreading_and_repair"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringTollsBridgeFees) = "tolls_bridge_fees"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringTouristAttractionsAndExhibits) = "tourist_attractions_and_exhibits"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringTowingServices) = "towing_services"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringTrailerParksCampgrounds) = "trailer_parks_campgrounds"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringTransportationServices) = "transportation_services"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringTravelAgenciesTourOperators) = "travel_agencies_tour_operators"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringTruckStopIteration) = "truck_stop_iteration"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringTruckUtilityTrailerRentals) = "truck_utility_trailer_rentals"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringTypesettingPlateMakingAndRelatedServices) = "typesetting_plate_making_and_related_services"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringTypewriterStores) = "typewriter_stores"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringUSFederalGovernmentAgenciesOrDepartments) = "u_s_federal_government_agencies_or_departments"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringUniformsCommercialClothing) = "uniforms_commercial_clothing"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringUsedMerchandiseAndSecondhandStores) = "used_merchandise_and_secondhand_stores"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringUtilities) = "utilities"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringVarietyStores) = "variety_stores"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringVeterinaryServices) = "veterinary_services"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringVideoAmusementGameSupplies) = "video_amusement_game_supplies"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringVideoGameArcades) = "video_game_arcades"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringVideoTapeRentalStores) = "video_tape_rental_stores"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringVocationalTradeSchools) = "vocational_trade_schools"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringWatchJewelryRepair) = "watch_jewelry_repair"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringWeldingRepair) = "welding_repair"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringWholesaleClubs) = "wholesale_clubs"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringWigAndToupeeStores) = "wig_and_toupee_stores"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringWiresMoneyOrders) = "wires_money_orders"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringWomensAccessoryAndSpecialtyShops) = "womens_accessory_and_specialty_shops"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringWomensReadyToWearStores) = "womens_ready_to_wear_stores"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringWreckingAndSalvageYards) = "wrecking_and_salvage_yards"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'Other val) = val
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumAcRefrigerationRepair) = "ac_refrigeration_repair"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumAccountingBookkeepingServices) = "accounting_bookkeeping_services"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumAdvertisingServices) = "advertising_services"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumAgriculturalCooperative) = "agricultural_cooperative"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumAirlinesAirCarriers) = "airlines_air_carriers"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumAirportsFlyingFields) = "airports_flying_fields"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumAmbulanceServices) = "ambulance_services"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumAmusementParksCarnivals) = "amusement_parks_carnivals"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumAntiqueReproductions) = "antique_reproductions"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumAntiqueShops) = "antique_shops"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumAquariums) = "aquariums"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumArchitecturalSurveyingServices) = "architectural_surveying_services"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumArtDealersAndGalleries) = "art_dealers_and_galleries"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumArtistsSupplyAndCraftShops) = "artists_supply_and_craft_shops"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumAutoAndHomeSupplyStores) = "auto_and_home_supply_stores"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumAutoBodyRepairShops) = "auto_body_repair_shops"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumAutoPaintShops) = "auto_paint_shops"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumAutoServiceShops) = "auto_service_shops"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumAutomatedCashDisburse) = "automated_cash_disburse"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumAutomatedFuelDispensers) = "automated_fuel_dispensers"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumAutomobileAssociations) = "automobile_associations"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumAutomotivePartsAndAccessoriesStores) = "automotive_parts_and_accessories_stores"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumAutomotiveTireStores) = "automotive_tire_stores"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumBailAndBondPayments) = "bail_and_bond_payments"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumBakeries) = "bakeries"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumBandsOrchestras) = "bands_orchestras"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumBarberAndBeautyShops) = "barber_and_beauty_shops"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumBettingCasinoGambling) = "betting_casino_gambling"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumBicycleShops) = "bicycle_shops"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumBilliardPoolEstablishments) = "billiard_pool_establishments"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumBoatDealers) = "boat_dealers"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumBoatRentalsAndLeases) = "boat_rentals_and_leases"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumBookStores) = "book_stores"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumBooksPeriodicalsAndNewspapers) = "books_periodicals_and_newspapers"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumBowlingAlleys) = "bowling_alleys"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumBusLines) = "bus_lines"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumBusinessSecretarialSchools) = "business_secretarial_schools"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumBuyingShoppingServices) = "buying_shopping_services"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumCableSatelliteAndOtherPayTelevisionAndRadio) = "cable_satellite_and_other_pay_television_and_radio"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumCameraAndPhotographicSupplyStores) = "camera_and_photographic_supply_stores"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumCandyNutAndConfectioneryStores) = "candy_nut_and_confectionery_stores"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumCarAndTruckDealersNewUsed) = "car_and_truck_dealers_new_used"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumCarAndTruckDealersUsedOnly) = "car_and_truck_dealers_used_only"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumCarRentalAgencies) = "car_rental_agencies"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumCarWashes) = "car_washes"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumCarpentryServices) = "carpentry_services"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumCarpetUpholsteryCleaning) = "carpet_upholstery_cleaning"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumCaterers) = "caterers"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumCharitableAndSocialServiceOrganizationsFundraising) = "charitable_and_social_service_organizations_fundraising"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumChemicalsAndAlliedProducts) = "chemicals_and_allied_products"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumChildCareServices) = "child_care_services"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumChildrensAndInfantsWearStores) = "childrens_and_infants_wear_stores"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumChiropodistsPodiatrists) = "chiropodists_podiatrists"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumChiropractors) = "chiropractors"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumCigarStoresAndStands) = "cigar_stores_and_stands"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumCivicSocialFraternalAssociations) = "civic_social_fraternal_associations"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumCleaningAndMaintenance) = "cleaning_and_maintenance"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumClothingRental) = "clothing_rental"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumCollegesUniversities) = "colleges_universities"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumCommercialEquipment) = "commercial_equipment"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumCommercialFootwear) = "commercial_footwear"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumCommercialPhotographyArtAndGraphics) = "commercial_photography_art_and_graphics"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumCommuterTransportAndFerries) = "commuter_transport_and_ferries"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumComputerNetworkServices) = "computer_network_services"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumComputerProgramming) = "computer_programming"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumComputerRepair) = "computer_repair"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumComputerSoftwareStores) = "computer_software_stores"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumComputersPeripheralsAndSoftware) = "computers_peripherals_and_software"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumConcreteWorkServices) = "concrete_work_services"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumConstructionMaterials) = "construction_materials"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumConsultingPublicRelations) = "consulting_public_relations"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumCorrespondenceSchools) = "correspondence_schools"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumCosmeticStores) = "cosmetic_stores"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumCounselingServices) = "counseling_services"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumCountryClubs) = "country_clubs"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumCourierServices) = "courier_services"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumCourtCosts) = "court_costs"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumCreditReportingAgencies) = "credit_reporting_agencies"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumCruiseLines) = "cruise_lines"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumDairyProductsStores) = "dairy_products_stores"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumDanceHallStudiosSchools) = "dance_hall_studios_schools"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumDatingEscortServices) = "dating_escort_services"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumDentistsOrthodontists) = "dentists_orthodontists"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumDepartmentStores) = "department_stores"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumDetectiveAgencies) = "detective_agencies"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumDigitalGoodsApplications) = "digital_goods_applications"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumDigitalGoodsGames) = "digital_goods_games"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumDigitalGoodsLargeVolume) = "digital_goods_large_volume"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumDigitalGoodsMedia) = "digital_goods_media"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumDirectMarketingCatalogMerchant) = "direct_marketing_catalog_merchant"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumDirectMarketingCombinationCatalogAndRetailMerchant) = "direct_marketing_combination_catalog_and_retail_merchant"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumDirectMarketingInboundTelemarketing) = "direct_marketing_inbound_telemarketing"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumDirectMarketingInsuranceServices) = "direct_marketing_insurance_services"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumDirectMarketingOther) = "direct_marketing_other"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumDirectMarketingOutboundTelemarketing) = "direct_marketing_outbound_telemarketing"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumDirectMarketingSubscription) = "direct_marketing_subscription"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumDirectMarketingTravel) = "direct_marketing_travel"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumDiscountStores) = "discount_stores"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumDoctors) = "doctors"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumDoorToDoorSales) = "door_to_door_sales"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumDraperyWindowCoveringAndUpholsteryStores) = "drapery_window_covering_and_upholstery_stores"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumDrinkingPlaces) = "drinking_places"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumDrugStoresAndPharmacies) = "drug_stores_and_pharmacies"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumDrugsDrugProprietariesAndDruggistSundries) = "drugs_drug_proprietaries_and_druggist_sundries"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumDryCleaners) = "dry_cleaners"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumDurableGoods) = "durable_goods"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumDutyFreeStores) = "duty_free_stores"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumEatingPlacesRestaurants) = "eating_places_restaurants"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumEducationalServices) = "educational_services"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumElectricRazorStores) = "electric_razor_stores"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumElectricalPartsAndEquipment) = "electrical_parts_and_equipment"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumElectricalServices) = "electrical_services"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumElectronicsRepairShops) = "electronics_repair_shops"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumElectronicsStores) = "electronics_stores"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumElementarySecondarySchools) = "elementary_secondary_schools"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumEmploymentTempAgencies) = "employment_temp_agencies"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumEquipmentRental) = "equipment_rental"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumExterminatingServices) = "exterminating_services"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumFamilyClothingStores) = "family_clothing_stores"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumFastFoodRestaurants) = "fast_food_restaurants"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumFinancialInstitutions) = "financial_institutions"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumFinesGovernmentAdministrativeEntities) = "fines_government_administrative_entities"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumFireplaceFireplaceScreensAndAccessoriesStores) = "fireplace_fireplace_screens_and_accessories_stores"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumFloorCoveringStores) = "floor_covering_stores"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumFlorists) = "florists"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumFloristsSuppliesNurseryStockAndFlowers) = "florists_supplies_nursery_stock_and_flowers"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumFreezerAndLockerMeatProvisioners) = "freezer_and_locker_meat_provisioners"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumFuelDealersNonAutomotive) = "fuel_dealers_non_automotive"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumFuneralServicesCrematories) = "funeral_services_crematories"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumFurnitureHomeFurnishingsAndEquipmentStoresExceptAppliances) = "furniture_home_furnishings_and_equipment_stores_except_appliances"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumFurnitureRepairRefinishing) = "furniture_repair_refinishing"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumFurriersAndFurShops) = "furriers_and_fur_shops"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumGeneralServices) = "general_services"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumGiftCardNoveltyAndSouvenirShops) = "gift_card_novelty_and_souvenir_shops"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumGlassPaintAndWallpaperStores) = "glass_paint_and_wallpaper_stores"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumGlasswareCrystalStores) = "glassware_crystal_stores"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumGolfCoursesPublic) = "golf_courses_public"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumGovernmentServices) = "government_services"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumGroceryStoresSupermarkets) = "grocery_stores_supermarkets"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumHardwareEquipmentAndSupplies) = "hardware_equipment_and_supplies"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumHardwareStores) = "hardware_stores"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumHealthAndBeautySpas) = "health_and_beauty_spas"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumHearingAidsSalesAndSupplies) = "hearing_aids_sales_and_supplies"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumHeatingPlumbingAC) = "heating_plumbing_a_c"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumHobbyToyAndGameShops) = "hobby_toy_and_game_shops"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumHomeSupplyWarehouseStores) = "home_supply_warehouse_stores"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumHospitals) = "hospitals"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumHotelsMotelsAndResorts) = "hotels_motels_and_resorts"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumHouseholdApplianceStores) = "household_appliance_stores"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumIndustrialSupplies) = "industrial_supplies"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumInformationRetrievalServices) = "information_retrieval_services"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumInsuranceDefault) = "insurance_default"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumInsuranceUnderwritingPremiums) = "insurance_underwriting_premiums"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumIntraCompanyPurchases) = "intra_company_purchases"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumJewelryStoresWatchesClocksAndSilverwareStores) = "jewelry_stores_watches_clocks_and_silverware_stores"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumLandscapingServices) = "landscaping_services"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumLaundries) = "laundries"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumLaundryCleaningServices) = "laundry_cleaning_services"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumLegalServicesAttorneys) = "legal_services_attorneys"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumLuggageAndLeatherGoodsStores) = "luggage_and_leather_goods_stores"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumLumberBuildingMaterialsStores) = "lumber_building_materials_stores"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumManualCashDisburse) = "manual_cash_disburse"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumMarinasServiceAndSupplies) = "marinas_service_and_supplies"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumMasonryStoneworkAndPlaster) = "masonry_stonework_and_plaster"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumMassageParlors) = "massage_parlors"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumMedicalAndDentalLabs) = "medical_and_dental_labs"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumMedicalDentalOphthalmicAndHospitalEquipmentAndSupplies) = "medical_dental_ophthalmic_and_hospital_equipment_and_supplies"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumMedicalServices) = "medical_services"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumMembershipOrganizations) = "membership_organizations"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumMensAndBoysClothingAndAccessoriesStores) = "mens_and_boys_clothing_and_accessories_stores"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumMensWomensClothingStores) = "mens_womens_clothing_stores"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumMetalServiceCenters) = "metal_service_centers"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumMiscellaneous) = "miscellaneous"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumMiscellaneousApparelAndAccessoryShops) = "miscellaneous_apparel_and_accessory_shops"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumMiscellaneousAutoDealers) = "miscellaneous_auto_dealers"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumMiscellaneousBusinessServices) = "miscellaneous_business_services"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumMiscellaneousFoodStores) = "miscellaneous_food_stores"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumMiscellaneousGeneralMerchandise) = "miscellaneous_general_merchandise"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumMiscellaneousGeneralServices) = "miscellaneous_general_services"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumMiscellaneousHomeFurnishingSpecialtyStores) = "miscellaneous_home_furnishing_specialty_stores"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumMiscellaneousPublishingAndPrinting) = "miscellaneous_publishing_and_printing"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumMiscellaneousRecreationServices) = "miscellaneous_recreation_services"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumMiscellaneousRepairShops) = "miscellaneous_repair_shops"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumMiscellaneousSpecialtyRetail) = "miscellaneous_specialty_retail"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumMobileHomeDealers) = "mobile_home_dealers"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumMotionPictureTheaters) = "motion_picture_theaters"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumMotorFreightCarriersAndTrucking) = "motor_freight_carriers_and_trucking"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumMotorHomesDealers) = "motor_homes_dealers"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumMotorVehicleSuppliesAndNewParts) = "motor_vehicle_supplies_and_new_parts"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumMotorcycleShopsAndDealers) = "motorcycle_shops_and_dealers"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumMotorcycleShopsDealers) = "motorcycle_shops_dealers"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumMusicStoresMusicalInstrumentsPianosAndSheetMusic) = "music_stores_musical_instruments_pianos_and_sheet_music"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumNewsDealersAndNewsstands) = "news_dealers_and_newsstands"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumNonFiMoneyOrders) = "non_fi_money_orders"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumNonFiStoredValueCardPurchaseLoad) = "non_fi_stored_value_card_purchase_load"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumNondurableGoods) = "nondurable_goods"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumNurseriesLawnAndGardenSupplyStores) = "nurseries_lawn_and_garden_supply_stores"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumNursingPersonalCare) = "nursing_personal_care"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumOfficeAndCommercialFurniture) = "office_and_commercial_furniture"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumOpticiansEyeglasses) = "opticians_eyeglasses"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumOptometristsOphthalmologist) = "optometrists_ophthalmologist"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumOrthopedicGoodsProstheticDevices) = "orthopedic_goods_prosthetic_devices"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumOsteopaths) = "osteopaths"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumPackageStoresBeerWineAndLiquor) = "package_stores_beer_wine_and_liquor"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumPaintsVarnishesAndSupplies) = "paints_varnishes_and_supplies"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumParkingLotsGarages) = "parking_lots_garages"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumPassengerRailways) = "passenger_railways"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumPawnShops) = "pawn_shops"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumPetShopsPetFoodAndSupplies) = "pet_shops_pet_food_and_supplies"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumPetroleumAndPetroleumProducts) = "petroleum_and_petroleum_products"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumPhotoDeveloping) = "photo_developing"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumPhotographicPhotocopyMicrofilmEquipmentAndSupplies) = "photographic_photocopy_microfilm_equipment_and_supplies"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumPhotographicStudios) = "photographic_studios"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumPictureVideoProduction) = "picture_video_production"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumPieceGoodsNotionsAndOtherDryGoods) = "piece_goods_notions_and_other_dry_goods"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumPlumbingHeatingEquipmentAndSupplies) = "plumbing_heating_equipment_and_supplies"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumPoliticalOrganizations) = "political_organizations"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumPostalServicesGovernmentOnly) = "postal_services_government_only"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumPreciousStonesAndMetalsWatchesAndJewelry) = "precious_stones_and_metals_watches_and_jewelry"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumProfessionalServices) = "professional_services"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumPublicWarehousingAndStorage) = "public_warehousing_and_storage"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumQuickCopyReproAndBlueprint) = "quick_copy_repro_and_blueprint"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumRailroads) = "railroads"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumRealEstateAgentsAndManagersRentals) = "real_estate_agents_and_managers_rentals"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumRecordStores) = "record_stores"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumRecreationalVehicleRentals) = "recreational_vehicle_rentals"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumReligiousGoodsStores) = "religious_goods_stores"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumReligiousOrganizations) = "religious_organizations"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumRoofingSidingSheetMetal) = "roofing_siding_sheet_metal"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumSecretarialSupportServices) = "secretarial_support_services"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumSecurityBrokersDealers) = "security_brokers_dealers"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumServiceStations) = "service_stations"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumSewingNeedleworkFabricAndPieceGoodsStores) = "sewing_needlework_fabric_and_piece_goods_stores"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumShoeRepairHatCleaning) = "shoe_repair_hat_cleaning"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumShoeStores) = "shoe_stores"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumSmallApplianceRepair) = "small_appliance_repair"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumSnowmobileDealers) = "snowmobile_dealers"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumSpecialTradeServices) = "special_trade_services"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumSpecialtyCleaning) = "specialty_cleaning"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumSportingGoodsStores) = "sporting_goods_stores"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumSportingRecreationCamps) = "sporting_recreation_camps"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumSportsAndRidingApparelStores) = "sports_and_riding_apparel_stores"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumSportsClubsFields) = "sports_clubs_fields"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStampAndCoinStores) = "stamp_and_coin_stores"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStationaryOfficeSuppliesPrintingAndWritingPaper) = "stationary_office_supplies_printing_and_writing_paper"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStationeryStoresOfficeAndSchoolSupplyStores) = "stationery_stores_office_and_school_supply_stores"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumSwimmingPoolsSales) = "swimming_pools_sales"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumTUiTravelGermany) = "t_ui_travel_germany"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumTailorsAlterations) = "tailors_alterations"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumTaxPaymentsGovernmentAgencies) = "tax_payments_government_agencies"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumTaxPreparationServices) = "tax_preparation_services"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumTaxicabsLimousines) = "taxicabs_limousines"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumTelecommunicationEquipmentAndTelephoneSales) = "telecommunication_equipment_and_telephone_sales"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumTelecommunicationServices) = "telecommunication_services"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumTelegraphServices) = "telegraph_services"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumTentAndAwningShops) = "tent_and_awning_shops"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumTestingLaboratories) = "testing_laboratories"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumTheatricalTicketAgencies) = "theatrical_ticket_agencies"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumTimeshares) = "timeshares"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumTireRetreadingAndRepair) = "tire_retreading_and_repair"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumTollsBridgeFees) = "tolls_bridge_fees"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumTouristAttractionsAndExhibits) = "tourist_attractions_and_exhibits"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumTowingServices) = "towing_services"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumTrailerParksCampgrounds) = "trailer_parks_campgrounds"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumTransportationServices) = "transportation_services"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumTravelAgenciesTourOperators) = "travel_agencies_tour_operators"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumTruckStopIteration) = "truck_stop_iteration"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumTruckUtilityTrailerRentals) = "truck_utility_trailer_rentals"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumTypesettingPlateMakingAndRelatedServices) = "typesetting_plate_making_and_related_services"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumTypewriterStores) = "typewriter_stores"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumUSFederalGovernmentAgenciesOrDepartments) = "u_s_federal_government_agencies_or_departments"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumUniformsCommercialClothing) = "uniforms_commercial_clothing"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumUsedMerchandiseAndSecondhandStores) = "used_merchandise_and_secondhand_stores"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumUtilities) = "utilities"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumVarietyStores) = "variety_stores"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumVeterinaryServices) = "veterinary_services"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumVideoAmusementGameSupplies) = "video_amusement_game_supplies"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumVideoGameArcades) = "video_game_arcades"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumVideoTapeRentalStores) = "video_tape_rental_stores"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumVocationalTradeSchools) = "vocational_trade_schools"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumWatchJewelryRepair) = "watch_jewelry_repair"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumWeldingRepair) = "welding_repair"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumWholesaleClubs) = "wholesale_clubs"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumWigAndToupeeStores) = "wig_and_toupee_stores"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumWiresMoneyOrders) = "wires_money_orders"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumWomensAccessoryAndSpecialtyShops) = "womens_accessory_and_specialty_shops"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumWomensReadyToWearStores) = "womens_ready_to_wear_stores"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumWreckingAndSalvageYards) = "wrecking_and_salvage_yards"
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories' where
   parseJSON val =
     GHC.Base.pure
-      ( if  | val GHC.Classes.== "ac_refrigeration_repair" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringAcRefrigerationRepair
-            | val GHC.Classes.== "accounting_bookkeeping_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringAccountingBookkeepingServices
-            | val GHC.Classes.== "advertising_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringAdvertisingServices
-            | val GHC.Classes.== "agricultural_cooperative" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringAgriculturalCooperative
-            | val GHC.Classes.== "airlines_air_carriers" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringAirlinesAirCarriers
-            | val GHC.Classes.== "airports_flying_fields" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringAirportsFlyingFields
-            | val GHC.Classes.== "ambulance_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringAmbulanceServices
-            | val GHC.Classes.== "amusement_parks_carnivals" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringAmusementParksCarnivals
-            | val GHC.Classes.== "antique_reproductions" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringAntiqueReproductions
-            | val GHC.Classes.== "antique_shops" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringAntiqueShops
-            | val GHC.Classes.== "aquariums" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringAquariums
-            | val GHC.Classes.== "architectural_surveying_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringArchitecturalSurveyingServices
-            | val GHC.Classes.== "art_dealers_and_galleries" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringArtDealersAndGalleries
-            | val GHC.Classes.== "artists_supply_and_craft_shops" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringArtistsSupplyAndCraftShops
-            | val GHC.Classes.== "auto_and_home_supply_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringAutoAndHomeSupplyStores
-            | val GHC.Classes.== "auto_body_repair_shops" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringAutoBodyRepairShops
-            | val GHC.Classes.== "auto_paint_shops" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringAutoPaintShops
-            | val GHC.Classes.== "auto_service_shops" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringAutoServiceShops
-            | val GHC.Classes.== "automated_cash_disburse" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringAutomatedCashDisburse
-            | val GHC.Classes.== "automated_fuel_dispensers" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringAutomatedFuelDispensers
-            | val GHC.Classes.== "automobile_associations" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringAutomobileAssociations
-            | val GHC.Classes.== "automotive_parts_and_accessories_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringAutomotivePartsAndAccessoriesStores
-            | val GHC.Classes.== "automotive_tire_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringAutomotiveTireStores
-            | val GHC.Classes.== "bail_and_bond_payments" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringBailAndBondPayments
-            | val GHC.Classes.== "bakeries" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringBakeries
-            | val GHC.Classes.== "bands_orchestras" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringBandsOrchestras
-            | val GHC.Classes.== "barber_and_beauty_shops" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringBarberAndBeautyShops
-            | val GHC.Classes.== "betting_casino_gambling" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringBettingCasinoGambling
-            | val GHC.Classes.== "bicycle_shops" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringBicycleShops
-            | val GHC.Classes.== "billiard_pool_establishments" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringBilliardPoolEstablishments
-            | val GHC.Classes.== "boat_dealers" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringBoatDealers
-            | val GHC.Classes.== "boat_rentals_and_leases" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringBoatRentalsAndLeases
-            | val GHC.Classes.== "book_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringBookStores
-            | val GHC.Classes.== "books_periodicals_and_newspapers" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringBooksPeriodicalsAndNewspapers
-            | val GHC.Classes.== "bowling_alleys" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringBowlingAlleys
-            | val GHC.Classes.== "bus_lines" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringBusLines
-            | val GHC.Classes.== "business_secretarial_schools" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringBusinessSecretarialSchools
-            | val GHC.Classes.== "buying_shopping_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringBuyingShoppingServices
-            | val GHC.Classes.== "cable_satellite_and_other_pay_television_and_radio" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringCableSatelliteAndOtherPayTelevisionAndRadio
-            | val GHC.Classes.== "camera_and_photographic_supply_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringCameraAndPhotographicSupplyStores
-            | val GHC.Classes.== "candy_nut_and_confectionery_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringCandyNutAndConfectioneryStores
-            | val GHC.Classes.== "car_and_truck_dealers_new_used" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringCarAndTruckDealersNewUsed
-            | val GHC.Classes.== "car_and_truck_dealers_used_only" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringCarAndTruckDealersUsedOnly
-            | val GHC.Classes.== "car_rental_agencies" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringCarRentalAgencies
-            | val GHC.Classes.== "car_washes" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringCarWashes
-            | val GHC.Classes.== "carpentry_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringCarpentryServices
-            | val GHC.Classes.== "carpet_upholstery_cleaning" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringCarpetUpholsteryCleaning
-            | val GHC.Classes.== "caterers" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringCaterers
-            | val GHC.Classes.== "charitable_and_social_service_organizations_fundraising" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringCharitableAndSocialServiceOrganizationsFundraising
-            | val GHC.Classes.== "chemicals_and_allied_products" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringChemicalsAndAlliedProducts
-            | val GHC.Classes.== "child_care_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringChildCareServices
-            | val GHC.Classes.== "childrens_and_infants_wear_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringChildrensAndInfantsWearStores
-            | val GHC.Classes.== "chiropodists_podiatrists" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringChiropodistsPodiatrists
-            | val GHC.Classes.== "chiropractors" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringChiropractors
-            | val GHC.Classes.== "cigar_stores_and_stands" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringCigarStoresAndStands
-            | val GHC.Classes.== "civic_social_fraternal_associations" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringCivicSocialFraternalAssociations
-            | val GHC.Classes.== "cleaning_and_maintenance" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringCleaningAndMaintenance
-            | val GHC.Classes.== "clothing_rental" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringClothingRental
-            | val GHC.Classes.== "colleges_universities" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringCollegesUniversities
-            | val GHC.Classes.== "commercial_equipment" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringCommercialEquipment
-            | val GHC.Classes.== "commercial_footwear" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringCommercialFootwear
-            | val GHC.Classes.== "commercial_photography_art_and_graphics" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringCommercialPhotographyArtAndGraphics
-            | val GHC.Classes.== "commuter_transport_and_ferries" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringCommuterTransportAndFerries
-            | val GHC.Classes.== "computer_network_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringComputerNetworkServices
-            | val GHC.Classes.== "computer_programming" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringComputerProgramming
-            | val GHC.Classes.== "computer_repair" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringComputerRepair
-            | val GHC.Classes.== "computer_software_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringComputerSoftwareStores
-            | val GHC.Classes.== "computers_peripherals_and_software" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringComputersPeripheralsAndSoftware
-            | val GHC.Classes.== "concrete_work_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringConcreteWorkServices
-            | val GHC.Classes.== "construction_materials" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringConstructionMaterials
-            | val GHC.Classes.== "consulting_public_relations" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringConsultingPublicRelations
-            | val GHC.Classes.== "correspondence_schools" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringCorrespondenceSchools
-            | val GHC.Classes.== "cosmetic_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringCosmeticStores
-            | val GHC.Classes.== "counseling_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringCounselingServices
-            | val GHC.Classes.== "country_clubs" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringCountryClubs
-            | val GHC.Classes.== "courier_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringCourierServices
-            | val GHC.Classes.== "court_costs" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringCourtCosts
-            | val GHC.Classes.== "credit_reporting_agencies" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringCreditReportingAgencies
-            | val GHC.Classes.== "cruise_lines" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringCruiseLines
-            | val GHC.Classes.== "dairy_products_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringDairyProductsStores
-            | val GHC.Classes.== "dance_hall_studios_schools" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringDanceHallStudiosSchools
-            | val GHC.Classes.== "dating_escort_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringDatingEscortServices
-            | val GHC.Classes.== "dentists_orthodontists" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringDentistsOrthodontists
-            | val GHC.Classes.== "department_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringDepartmentStores
-            | val GHC.Classes.== "detective_agencies" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringDetectiveAgencies
-            | val GHC.Classes.== "digital_goods_applications" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringDigitalGoodsApplications
-            | val GHC.Classes.== "digital_goods_games" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringDigitalGoodsGames
-            | val GHC.Classes.== "digital_goods_large_volume" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringDigitalGoodsLargeVolume
-            | val GHC.Classes.== "digital_goods_media" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringDigitalGoodsMedia
-            | val GHC.Classes.== "direct_marketing_catalog_merchant" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringDirectMarketingCatalogMerchant
-            | val GHC.Classes.== "direct_marketing_combination_catalog_and_retail_merchant" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringDirectMarketingCombinationCatalogAndRetailMerchant
-            | val GHC.Classes.== "direct_marketing_inbound_telemarketing" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringDirectMarketingInboundTelemarketing
-            | val GHC.Classes.== "direct_marketing_insurance_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringDirectMarketingInsuranceServices
-            | val GHC.Classes.== "direct_marketing_other" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringDirectMarketingOther
-            | val GHC.Classes.== "direct_marketing_outbound_telemarketing" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringDirectMarketingOutboundTelemarketing
-            | val GHC.Classes.== "direct_marketing_subscription" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringDirectMarketingSubscription
-            | val GHC.Classes.== "direct_marketing_travel" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringDirectMarketingTravel
-            | val GHC.Classes.== "discount_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringDiscountStores
-            | val GHC.Classes.== "doctors" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringDoctors
-            | val GHC.Classes.== "door_to_door_sales" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringDoorToDoorSales
-            | val GHC.Classes.== "drapery_window_covering_and_upholstery_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringDraperyWindowCoveringAndUpholsteryStores
-            | val GHC.Classes.== "drinking_places" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringDrinkingPlaces
-            | val GHC.Classes.== "drug_stores_and_pharmacies" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringDrugStoresAndPharmacies
-            | val GHC.Classes.== "drugs_drug_proprietaries_and_druggist_sundries" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringDrugsDrugProprietariesAndDruggistSundries
-            | val GHC.Classes.== "dry_cleaners" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringDryCleaners
-            | val GHC.Classes.== "durable_goods" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringDurableGoods
-            | val GHC.Classes.== "duty_free_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringDutyFreeStores
-            | val GHC.Classes.== "eating_places_restaurants" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringEatingPlacesRestaurants
-            | val GHC.Classes.== "educational_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringEducationalServices
-            | val GHC.Classes.== "electric_razor_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringElectricRazorStores
-            | val GHC.Classes.== "electrical_parts_and_equipment" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringElectricalPartsAndEquipment
-            | val GHC.Classes.== "electrical_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringElectricalServices
-            | val GHC.Classes.== "electronics_repair_shops" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringElectronicsRepairShops
-            | val GHC.Classes.== "electronics_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringElectronicsStores
-            | val GHC.Classes.== "elementary_secondary_schools" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringElementarySecondarySchools
-            | val GHC.Classes.== "employment_temp_agencies" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringEmploymentTempAgencies
-            | val GHC.Classes.== "equipment_rental" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringEquipmentRental
-            | val GHC.Classes.== "exterminating_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringExterminatingServices
-            | val GHC.Classes.== "family_clothing_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringFamilyClothingStores
-            | val GHC.Classes.== "fast_food_restaurants" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringFastFoodRestaurants
-            | val GHC.Classes.== "financial_institutions" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringFinancialInstitutions
-            | val GHC.Classes.== "fines_government_administrative_entities" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringFinesGovernmentAdministrativeEntities
-            | val GHC.Classes.== "fireplace_fireplace_screens_and_accessories_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringFireplaceFireplaceScreensAndAccessoriesStores
-            | val GHC.Classes.== "floor_covering_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringFloorCoveringStores
-            | val GHC.Classes.== "florists" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringFlorists
-            | val GHC.Classes.== "florists_supplies_nursery_stock_and_flowers" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringFloristsSuppliesNurseryStockAndFlowers
-            | val GHC.Classes.== "freezer_and_locker_meat_provisioners" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringFreezerAndLockerMeatProvisioners
-            | val GHC.Classes.== "fuel_dealers_non_automotive" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringFuelDealersNonAutomotive
-            | val GHC.Classes.== "funeral_services_crematories" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringFuneralServicesCrematories
-            | val GHC.Classes.== "furniture_home_furnishings_and_equipment_stores_except_appliances" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringFurnitureHomeFurnishingsAndEquipmentStoresExceptAppliances
-            | val GHC.Classes.== "furniture_repair_refinishing" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringFurnitureRepairRefinishing
-            | val GHC.Classes.== "furriers_and_fur_shops" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringFurriersAndFurShops
-            | val GHC.Classes.== "general_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringGeneralServices
-            | val GHC.Classes.== "gift_card_novelty_and_souvenir_shops" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringGiftCardNoveltyAndSouvenirShops
-            | val GHC.Classes.== "glass_paint_and_wallpaper_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringGlassPaintAndWallpaperStores
-            | val GHC.Classes.== "glassware_crystal_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringGlasswareCrystalStores
-            | val GHC.Classes.== "golf_courses_public" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringGolfCoursesPublic
-            | val GHC.Classes.== "government_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringGovernmentServices
-            | val GHC.Classes.== "grocery_stores_supermarkets" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringGroceryStoresSupermarkets
-            | val GHC.Classes.== "hardware_equipment_and_supplies" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringHardwareEquipmentAndSupplies
-            | val GHC.Classes.== "hardware_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringHardwareStores
-            | val GHC.Classes.== "health_and_beauty_spas" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringHealthAndBeautySpas
-            | val GHC.Classes.== "hearing_aids_sales_and_supplies" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringHearingAidsSalesAndSupplies
-            | val GHC.Classes.== "heating_plumbing_a_c" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringHeatingPlumbingAC
-            | val GHC.Classes.== "hobby_toy_and_game_shops" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringHobbyToyAndGameShops
-            | val GHC.Classes.== "home_supply_warehouse_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringHomeSupplyWarehouseStores
-            | val GHC.Classes.== "hospitals" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringHospitals
-            | val GHC.Classes.== "hotels_motels_and_resorts" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringHotelsMotelsAndResorts
-            | val GHC.Classes.== "household_appliance_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringHouseholdApplianceStores
-            | val GHC.Classes.== "industrial_supplies" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringIndustrialSupplies
-            | val GHC.Classes.== "information_retrieval_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringInformationRetrievalServices
-            | val GHC.Classes.== "insurance_default" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringInsuranceDefault
-            | val GHC.Classes.== "insurance_underwriting_premiums" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringInsuranceUnderwritingPremiums
-            | val GHC.Classes.== "intra_company_purchases" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringIntraCompanyPurchases
-            | val GHC.Classes.== "jewelry_stores_watches_clocks_and_silverware_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringJewelryStoresWatchesClocksAndSilverwareStores
-            | val GHC.Classes.== "landscaping_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringLandscapingServices
-            | val GHC.Classes.== "laundries" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringLaundries
-            | val GHC.Classes.== "laundry_cleaning_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringLaundryCleaningServices
-            | val GHC.Classes.== "legal_services_attorneys" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringLegalServicesAttorneys
-            | val GHC.Classes.== "luggage_and_leather_goods_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringLuggageAndLeatherGoodsStores
-            | val GHC.Classes.== "lumber_building_materials_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringLumberBuildingMaterialsStores
-            | val GHC.Classes.== "manual_cash_disburse" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringManualCashDisburse
-            | val GHC.Classes.== "marinas_service_and_supplies" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringMarinasServiceAndSupplies
-            | val GHC.Classes.== "masonry_stonework_and_plaster" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringMasonryStoneworkAndPlaster
-            | val GHC.Classes.== "massage_parlors" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringMassageParlors
-            | val GHC.Classes.== "medical_and_dental_labs" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringMedicalAndDentalLabs
-            | val GHC.Classes.== "medical_dental_ophthalmic_and_hospital_equipment_and_supplies" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringMedicalDentalOphthalmicAndHospitalEquipmentAndSupplies
-            | val GHC.Classes.== "medical_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringMedicalServices
-            | val GHC.Classes.== "membership_organizations" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringMembershipOrganizations
-            | val GHC.Classes.== "mens_and_boys_clothing_and_accessories_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringMensAndBoysClothingAndAccessoriesStores
-            | val GHC.Classes.== "mens_womens_clothing_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringMensWomensClothingStores
-            | val GHC.Classes.== "metal_service_centers" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringMetalServiceCenters
-            | val GHC.Classes.== "miscellaneous" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringMiscellaneous
-            | val GHC.Classes.== "miscellaneous_apparel_and_accessory_shops" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringMiscellaneousApparelAndAccessoryShops
-            | val GHC.Classes.== "miscellaneous_auto_dealers" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringMiscellaneousAutoDealers
-            | val GHC.Classes.== "miscellaneous_business_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringMiscellaneousBusinessServices
-            | val GHC.Classes.== "miscellaneous_food_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringMiscellaneousFoodStores
-            | val GHC.Classes.== "miscellaneous_general_merchandise" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringMiscellaneousGeneralMerchandise
-            | val GHC.Classes.== "miscellaneous_general_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringMiscellaneousGeneralServices
-            | val GHC.Classes.== "miscellaneous_home_furnishing_specialty_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringMiscellaneousHomeFurnishingSpecialtyStores
-            | val GHC.Classes.== "miscellaneous_publishing_and_printing" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringMiscellaneousPublishingAndPrinting
-            | val GHC.Classes.== "miscellaneous_recreation_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringMiscellaneousRecreationServices
-            | val GHC.Classes.== "miscellaneous_repair_shops" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringMiscellaneousRepairShops
-            | val GHC.Classes.== "miscellaneous_specialty_retail" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringMiscellaneousSpecialtyRetail
-            | val GHC.Classes.== "mobile_home_dealers" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringMobileHomeDealers
-            | val GHC.Classes.== "motion_picture_theaters" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringMotionPictureTheaters
-            | val GHC.Classes.== "motor_freight_carriers_and_trucking" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringMotorFreightCarriersAndTrucking
-            | val GHC.Classes.== "motor_homes_dealers" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringMotorHomesDealers
-            | val GHC.Classes.== "motor_vehicle_supplies_and_new_parts" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringMotorVehicleSuppliesAndNewParts
-            | val GHC.Classes.== "motorcycle_shops_and_dealers" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringMotorcycleShopsAndDealers
-            | val GHC.Classes.== "motorcycle_shops_dealers" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringMotorcycleShopsDealers
-            | val GHC.Classes.== "music_stores_musical_instruments_pianos_and_sheet_music" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringMusicStoresMusicalInstrumentsPianosAndSheetMusic
-            | val GHC.Classes.== "news_dealers_and_newsstands" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringNewsDealersAndNewsstands
-            | val GHC.Classes.== "non_fi_money_orders" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringNonFiMoneyOrders
-            | val GHC.Classes.== "non_fi_stored_value_card_purchase_load" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringNonFiStoredValueCardPurchaseLoad
-            | val GHC.Classes.== "nondurable_goods" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringNondurableGoods
-            | val GHC.Classes.== "nurseries_lawn_and_garden_supply_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringNurseriesLawnAndGardenSupplyStores
-            | val GHC.Classes.== "nursing_personal_care" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringNursingPersonalCare
-            | val GHC.Classes.== "office_and_commercial_furniture" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringOfficeAndCommercialFurniture
-            | val GHC.Classes.== "opticians_eyeglasses" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringOpticiansEyeglasses
-            | val GHC.Classes.== "optometrists_ophthalmologist" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringOptometristsOphthalmologist
-            | val GHC.Classes.== "orthopedic_goods_prosthetic_devices" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringOrthopedicGoodsProstheticDevices
-            | val GHC.Classes.== "osteopaths" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringOsteopaths
-            | val GHC.Classes.== "package_stores_beer_wine_and_liquor" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringPackageStoresBeerWineAndLiquor
-            | val GHC.Classes.== "paints_varnishes_and_supplies" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringPaintsVarnishesAndSupplies
-            | val GHC.Classes.== "parking_lots_garages" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringParkingLotsGarages
-            | val GHC.Classes.== "passenger_railways" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringPassengerRailways
-            | val GHC.Classes.== "pawn_shops" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringPawnShops
-            | val GHC.Classes.== "pet_shops_pet_food_and_supplies" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringPetShopsPetFoodAndSupplies
-            | val GHC.Classes.== "petroleum_and_petroleum_products" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringPetroleumAndPetroleumProducts
-            | val GHC.Classes.== "photo_developing" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringPhotoDeveloping
-            | val GHC.Classes.== "photographic_photocopy_microfilm_equipment_and_supplies" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringPhotographicPhotocopyMicrofilmEquipmentAndSupplies
-            | val GHC.Classes.== "photographic_studios" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringPhotographicStudios
-            | val GHC.Classes.== "picture_video_production" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringPictureVideoProduction
-            | val GHC.Classes.== "piece_goods_notions_and_other_dry_goods" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringPieceGoodsNotionsAndOtherDryGoods
-            | val GHC.Classes.== "plumbing_heating_equipment_and_supplies" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringPlumbingHeatingEquipmentAndSupplies
-            | val GHC.Classes.== "political_organizations" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringPoliticalOrganizations
-            | val GHC.Classes.== "postal_services_government_only" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringPostalServicesGovernmentOnly
-            | val GHC.Classes.== "precious_stones_and_metals_watches_and_jewelry" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringPreciousStonesAndMetalsWatchesAndJewelry
-            | val GHC.Classes.== "professional_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringProfessionalServices
-            | val GHC.Classes.== "public_warehousing_and_storage" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringPublicWarehousingAndStorage
-            | val GHC.Classes.== "quick_copy_repro_and_blueprint" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringQuickCopyReproAndBlueprint
-            | val GHC.Classes.== "railroads" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringRailroads
-            | val GHC.Classes.== "real_estate_agents_and_managers_rentals" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringRealEstateAgentsAndManagersRentals
-            | val GHC.Classes.== "record_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringRecordStores
-            | val GHC.Classes.== "recreational_vehicle_rentals" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringRecreationalVehicleRentals
-            | val GHC.Classes.== "religious_goods_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringReligiousGoodsStores
-            | val GHC.Classes.== "religious_organizations" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringReligiousOrganizations
-            | val GHC.Classes.== "roofing_siding_sheet_metal" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringRoofingSidingSheetMetal
-            | val GHC.Classes.== "secretarial_support_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringSecretarialSupportServices
-            | val GHC.Classes.== "security_brokers_dealers" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringSecurityBrokersDealers
-            | val GHC.Classes.== "service_stations" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringServiceStations
-            | val GHC.Classes.== "sewing_needlework_fabric_and_piece_goods_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringSewingNeedleworkFabricAndPieceGoodsStores
-            | val GHC.Classes.== "shoe_repair_hat_cleaning" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringShoeRepairHatCleaning
-            | val GHC.Classes.== "shoe_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringShoeStores
-            | val GHC.Classes.== "small_appliance_repair" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringSmallApplianceRepair
-            | val GHC.Classes.== "snowmobile_dealers" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringSnowmobileDealers
-            | val GHC.Classes.== "special_trade_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringSpecialTradeServices
-            | val GHC.Classes.== "specialty_cleaning" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringSpecialtyCleaning
-            | val GHC.Classes.== "sporting_goods_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringSportingGoodsStores
-            | val GHC.Classes.== "sporting_recreation_camps" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringSportingRecreationCamps
-            | val GHC.Classes.== "sports_and_riding_apparel_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringSportsAndRidingApparelStores
-            | val GHC.Classes.== "sports_clubs_fields" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringSportsClubsFields
-            | val GHC.Classes.== "stamp_and_coin_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringStampAndCoinStores
-            | val GHC.Classes.== "stationary_office_supplies_printing_and_writing_paper" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringStationaryOfficeSuppliesPrintingAndWritingPaper
-            | val GHC.Classes.== "stationery_stores_office_and_school_supply_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringStationeryStoresOfficeAndSchoolSupplyStores
-            | val GHC.Classes.== "swimming_pools_sales" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringSwimmingPoolsSales
-            | val GHC.Classes.== "t_ui_travel_germany" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringTUiTravelGermany
-            | val GHC.Classes.== "tailors_alterations" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringTailorsAlterations
-            | val GHC.Classes.== "tax_payments_government_agencies" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringTaxPaymentsGovernmentAgencies
-            | val GHC.Classes.== "tax_preparation_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringTaxPreparationServices
-            | val GHC.Classes.== "taxicabs_limousines" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringTaxicabsLimousines
-            | val GHC.Classes.== "telecommunication_equipment_and_telephone_sales" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringTelecommunicationEquipmentAndTelephoneSales
-            | val GHC.Classes.== "telecommunication_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringTelecommunicationServices
-            | val GHC.Classes.== "telegraph_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringTelegraphServices
-            | val GHC.Classes.== "tent_and_awning_shops" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringTentAndAwningShops
-            | val GHC.Classes.== "testing_laboratories" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringTestingLaboratories
-            | val GHC.Classes.== "theatrical_ticket_agencies" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringTheatricalTicketAgencies
-            | val GHC.Classes.== "timeshares" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringTimeshares
-            | val GHC.Classes.== "tire_retreading_and_repair" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringTireRetreadingAndRepair
-            | val GHC.Classes.== "tolls_bridge_fees" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringTollsBridgeFees
-            | val GHC.Classes.== "tourist_attractions_and_exhibits" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringTouristAttractionsAndExhibits
-            | val GHC.Classes.== "towing_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringTowingServices
-            | val GHC.Classes.== "trailer_parks_campgrounds" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringTrailerParksCampgrounds
-            | val GHC.Classes.== "transportation_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringTransportationServices
-            | val GHC.Classes.== "travel_agencies_tour_operators" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringTravelAgenciesTourOperators
-            | val GHC.Classes.== "truck_stop_iteration" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringTruckStopIteration
-            | val GHC.Classes.== "truck_utility_trailer_rentals" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringTruckUtilityTrailerRentals
-            | val GHC.Classes.== "typesetting_plate_making_and_related_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringTypesettingPlateMakingAndRelatedServices
-            | val GHC.Classes.== "typewriter_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringTypewriterStores
-            | val GHC.Classes.== "u_s_federal_government_agencies_or_departments" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringUSFederalGovernmentAgenciesOrDepartments
-            | val GHC.Classes.== "uniforms_commercial_clothing" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringUniformsCommercialClothing
-            | val GHC.Classes.== "used_merchandise_and_secondhand_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringUsedMerchandiseAndSecondhandStores
-            | val GHC.Classes.== "utilities" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringUtilities
-            | val GHC.Classes.== "variety_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringVarietyStores
-            | val GHC.Classes.== "veterinary_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringVeterinaryServices
-            | val GHC.Classes.== "video_amusement_game_supplies" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringVideoAmusementGameSupplies
-            | val GHC.Classes.== "video_game_arcades" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringVideoGameArcades
-            | val GHC.Classes.== "video_tape_rental_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringVideoTapeRentalStores
-            | val GHC.Classes.== "vocational_trade_schools" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringVocationalTradeSchools
-            | val GHC.Classes.== "watch_jewelry_repair" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringWatchJewelryRepair
-            | val GHC.Classes.== "welding_repair" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringWeldingRepair
-            | val GHC.Classes.== "wholesale_clubs" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringWholesaleClubs
-            | val GHC.Classes.== "wig_and_toupee_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringWigAndToupeeStores
-            | val GHC.Classes.== "wires_money_orders" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringWiresMoneyOrders
-            | val GHC.Classes.== "womens_accessory_and_specialty_shops" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringWomensAccessoryAndSpecialtyShops
-            | val GHC.Classes.== "womens_ready_to_wear_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringWomensReadyToWearStores
-            | val GHC.Classes.== "wrecking_and_salvage_yards" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringWreckingAndSalvageYards
-            | GHC.Base.otherwise -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumOther val
+      ( if  | val GHC.Classes.== "ac_refrigeration_repair" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumAcRefrigerationRepair
+            | val GHC.Classes.== "accounting_bookkeeping_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumAccountingBookkeepingServices
+            | val GHC.Classes.== "advertising_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumAdvertisingServices
+            | val GHC.Classes.== "agricultural_cooperative" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumAgriculturalCooperative
+            | val GHC.Classes.== "airlines_air_carriers" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumAirlinesAirCarriers
+            | val GHC.Classes.== "airports_flying_fields" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumAirportsFlyingFields
+            | val GHC.Classes.== "ambulance_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumAmbulanceServices
+            | val GHC.Classes.== "amusement_parks_carnivals" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumAmusementParksCarnivals
+            | val GHC.Classes.== "antique_reproductions" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumAntiqueReproductions
+            | val GHC.Classes.== "antique_shops" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumAntiqueShops
+            | val GHC.Classes.== "aquariums" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumAquariums
+            | val GHC.Classes.== "architectural_surveying_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumArchitecturalSurveyingServices
+            | val GHC.Classes.== "art_dealers_and_galleries" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumArtDealersAndGalleries
+            | val GHC.Classes.== "artists_supply_and_craft_shops" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumArtistsSupplyAndCraftShops
+            | val GHC.Classes.== "auto_and_home_supply_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumAutoAndHomeSupplyStores
+            | val GHC.Classes.== "auto_body_repair_shops" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumAutoBodyRepairShops
+            | val GHC.Classes.== "auto_paint_shops" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumAutoPaintShops
+            | val GHC.Classes.== "auto_service_shops" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumAutoServiceShops
+            | val GHC.Classes.== "automated_cash_disburse" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumAutomatedCashDisburse
+            | val GHC.Classes.== "automated_fuel_dispensers" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumAutomatedFuelDispensers
+            | val GHC.Classes.== "automobile_associations" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumAutomobileAssociations
+            | val GHC.Classes.== "automotive_parts_and_accessories_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumAutomotivePartsAndAccessoriesStores
+            | val GHC.Classes.== "automotive_tire_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumAutomotiveTireStores
+            | val GHC.Classes.== "bail_and_bond_payments" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumBailAndBondPayments
+            | val GHC.Classes.== "bakeries" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumBakeries
+            | val GHC.Classes.== "bands_orchestras" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumBandsOrchestras
+            | val GHC.Classes.== "barber_and_beauty_shops" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumBarberAndBeautyShops
+            | val GHC.Classes.== "betting_casino_gambling" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumBettingCasinoGambling
+            | val GHC.Classes.== "bicycle_shops" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumBicycleShops
+            | val GHC.Classes.== "billiard_pool_establishments" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumBilliardPoolEstablishments
+            | val GHC.Classes.== "boat_dealers" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumBoatDealers
+            | val GHC.Classes.== "boat_rentals_and_leases" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumBoatRentalsAndLeases
+            | val GHC.Classes.== "book_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumBookStores
+            | val GHC.Classes.== "books_periodicals_and_newspapers" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumBooksPeriodicalsAndNewspapers
+            | val GHC.Classes.== "bowling_alleys" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumBowlingAlleys
+            | val GHC.Classes.== "bus_lines" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumBusLines
+            | val GHC.Classes.== "business_secretarial_schools" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumBusinessSecretarialSchools
+            | val GHC.Classes.== "buying_shopping_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumBuyingShoppingServices
+            | val GHC.Classes.== "cable_satellite_and_other_pay_television_and_radio" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumCableSatelliteAndOtherPayTelevisionAndRadio
+            | val GHC.Classes.== "camera_and_photographic_supply_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumCameraAndPhotographicSupplyStores
+            | val GHC.Classes.== "candy_nut_and_confectionery_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumCandyNutAndConfectioneryStores
+            | val GHC.Classes.== "car_and_truck_dealers_new_used" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumCarAndTruckDealersNewUsed
+            | val GHC.Classes.== "car_and_truck_dealers_used_only" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumCarAndTruckDealersUsedOnly
+            | val GHC.Classes.== "car_rental_agencies" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumCarRentalAgencies
+            | val GHC.Classes.== "car_washes" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumCarWashes
+            | val GHC.Classes.== "carpentry_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumCarpentryServices
+            | val GHC.Classes.== "carpet_upholstery_cleaning" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumCarpetUpholsteryCleaning
+            | val GHC.Classes.== "caterers" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumCaterers
+            | val GHC.Classes.== "charitable_and_social_service_organizations_fundraising" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumCharitableAndSocialServiceOrganizationsFundraising
+            | val GHC.Classes.== "chemicals_and_allied_products" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumChemicalsAndAlliedProducts
+            | val GHC.Classes.== "child_care_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumChildCareServices
+            | val GHC.Classes.== "childrens_and_infants_wear_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumChildrensAndInfantsWearStores
+            | val GHC.Classes.== "chiropodists_podiatrists" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumChiropodistsPodiatrists
+            | val GHC.Classes.== "chiropractors" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumChiropractors
+            | val GHC.Classes.== "cigar_stores_and_stands" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumCigarStoresAndStands
+            | val GHC.Classes.== "civic_social_fraternal_associations" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumCivicSocialFraternalAssociations
+            | val GHC.Classes.== "cleaning_and_maintenance" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumCleaningAndMaintenance
+            | val GHC.Classes.== "clothing_rental" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumClothingRental
+            | val GHC.Classes.== "colleges_universities" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumCollegesUniversities
+            | val GHC.Classes.== "commercial_equipment" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumCommercialEquipment
+            | val GHC.Classes.== "commercial_footwear" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumCommercialFootwear
+            | val GHC.Classes.== "commercial_photography_art_and_graphics" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumCommercialPhotographyArtAndGraphics
+            | val GHC.Classes.== "commuter_transport_and_ferries" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumCommuterTransportAndFerries
+            | val GHC.Classes.== "computer_network_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumComputerNetworkServices
+            | val GHC.Classes.== "computer_programming" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumComputerProgramming
+            | val GHC.Classes.== "computer_repair" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumComputerRepair
+            | val GHC.Classes.== "computer_software_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumComputerSoftwareStores
+            | val GHC.Classes.== "computers_peripherals_and_software" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumComputersPeripheralsAndSoftware
+            | val GHC.Classes.== "concrete_work_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumConcreteWorkServices
+            | val GHC.Classes.== "construction_materials" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumConstructionMaterials
+            | val GHC.Classes.== "consulting_public_relations" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumConsultingPublicRelations
+            | val GHC.Classes.== "correspondence_schools" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumCorrespondenceSchools
+            | val GHC.Classes.== "cosmetic_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumCosmeticStores
+            | val GHC.Classes.== "counseling_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumCounselingServices
+            | val GHC.Classes.== "country_clubs" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumCountryClubs
+            | val GHC.Classes.== "courier_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumCourierServices
+            | val GHC.Classes.== "court_costs" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumCourtCosts
+            | val GHC.Classes.== "credit_reporting_agencies" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumCreditReportingAgencies
+            | val GHC.Classes.== "cruise_lines" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumCruiseLines
+            | val GHC.Classes.== "dairy_products_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumDairyProductsStores
+            | val GHC.Classes.== "dance_hall_studios_schools" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumDanceHallStudiosSchools
+            | val GHC.Classes.== "dating_escort_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumDatingEscortServices
+            | val GHC.Classes.== "dentists_orthodontists" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumDentistsOrthodontists
+            | val GHC.Classes.== "department_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumDepartmentStores
+            | val GHC.Classes.== "detective_agencies" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumDetectiveAgencies
+            | val GHC.Classes.== "digital_goods_applications" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumDigitalGoodsApplications
+            | val GHC.Classes.== "digital_goods_games" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumDigitalGoodsGames
+            | val GHC.Classes.== "digital_goods_large_volume" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumDigitalGoodsLargeVolume
+            | val GHC.Classes.== "digital_goods_media" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumDigitalGoodsMedia
+            | val GHC.Classes.== "direct_marketing_catalog_merchant" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumDirectMarketingCatalogMerchant
+            | val GHC.Classes.== "direct_marketing_combination_catalog_and_retail_merchant" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumDirectMarketingCombinationCatalogAndRetailMerchant
+            | val GHC.Classes.== "direct_marketing_inbound_telemarketing" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumDirectMarketingInboundTelemarketing
+            | val GHC.Classes.== "direct_marketing_insurance_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumDirectMarketingInsuranceServices
+            | val GHC.Classes.== "direct_marketing_other" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumDirectMarketingOther
+            | val GHC.Classes.== "direct_marketing_outbound_telemarketing" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumDirectMarketingOutboundTelemarketing
+            | val GHC.Classes.== "direct_marketing_subscription" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumDirectMarketingSubscription
+            | val GHC.Classes.== "direct_marketing_travel" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumDirectMarketingTravel
+            | val GHC.Classes.== "discount_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumDiscountStores
+            | val GHC.Classes.== "doctors" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumDoctors
+            | val GHC.Classes.== "door_to_door_sales" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumDoorToDoorSales
+            | val GHC.Classes.== "drapery_window_covering_and_upholstery_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumDraperyWindowCoveringAndUpholsteryStores
+            | val GHC.Classes.== "drinking_places" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumDrinkingPlaces
+            | val GHC.Classes.== "drug_stores_and_pharmacies" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumDrugStoresAndPharmacies
+            | val GHC.Classes.== "drugs_drug_proprietaries_and_druggist_sundries" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumDrugsDrugProprietariesAndDruggistSundries
+            | val GHC.Classes.== "dry_cleaners" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumDryCleaners
+            | val GHC.Classes.== "durable_goods" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumDurableGoods
+            | val GHC.Classes.== "duty_free_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumDutyFreeStores
+            | val GHC.Classes.== "eating_places_restaurants" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumEatingPlacesRestaurants
+            | val GHC.Classes.== "educational_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumEducationalServices
+            | val GHC.Classes.== "electric_razor_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumElectricRazorStores
+            | val GHC.Classes.== "electrical_parts_and_equipment" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumElectricalPartsAndEquipment
+            | val GHC.Classes.== "electrical_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumElectricalServices
+            | val GHC.Classes.== "electronics_repair_shops" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumElectronicsRepairShops
+            | val GHC.Classes.== "electronics_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumElectronicsStores
+            | val GHC.Classes.== "elementary_secondary_schools" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumElementarySecondarySchools
+            | val GHC.Classes.== "employment_temp_agencies" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumEmploymentTempAgencies
+            | val GHC.Classes.== "equipment_rental" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumEquipmentRental
+            | val GHC.Classes.== "exterminating_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumExterminatingServices
+            | val GHC.Classes.== "family_clothing_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumFamilyClothingStores
+            | val GHC.Classes.== "fast_food_restaurants" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumFastFoodRestaurants
+            | val GHC.Classes.== "financial_institutions" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumFinancialInstitutions
+            | val GHC.Classes.== "fines_government_administrative_entities" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumFinesGovernmentAdministrativeEntities
+            | val GHC.Classes.== "fireplace_fireplace_screens_and_accessories_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumFireplaceFireplaceScreensAndAccessoriesStores
+            | val GHC.Classes.== "floor_covering_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumFloorCoveringStores
+            | val GHC.Classes.== "florists" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumFlorists
+            | val GHC.Classes.== "florists_supplies_nursery_stock_and_flowers" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumFloristsSuppliesNurseryStockAndFlowers
+            | val GHC.Classes.== "freezer_and_locker_meat_provisioners" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumFreezerAndLockerMeatProvisioners
+            | val GHC.Classes.== "fuel_dealers_non_automotive" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumFuelDealersNonAutomotive
+            | val GHC.Classes.== "funeral_services_crematories" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumFuneralServicesCrematories
+            | val GHC.Classes.== "furniture_home_furnishings_and_equipment_stores_except_appliances" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumFurnitureHomeFurnishingsAndEquipmentStoresExceptAppliances
+            | val GHC.Classes.== "furniture_repair_refinishing" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumFurnitureRepairRefinishing
+            | val GHC.Classes.== "furriers_and_fur_shops" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumFurriersAndFurShops
+            | val GHC.Classes.== "general_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumGeneralServices
+            | val GHC.Classes.== "gift_card_novelty_and_souvenir_shops" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumGiftCardNoveltyAndSouvenirShops
+            | val GHC.Classes.== "glass_paint_and_wallpaper_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumGlassPaintAndWallpaperStores
+            | val GHC.Classes.== "glassware_crystal_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumGlasswareCrystalStores
+            | val GHC.Classes.== "golf_courses_public" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumGolfCoursesPublic
+            | val GHC.Classes.== "government_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumGovernmentServices
+            | val GHC.Classes.== "grocery_stores_supermarkets" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumGroceryStoresSupermarkets
+            | val GHC.Classes.== "hardware_equipment_and_supplies" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumHardwareEquipmentAndSupplies
+            | val GHC.Classes.== "hardware_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumHardwareStores
+            | val GHC.Classes.== "health_and_beauty_spas" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumHealthAndBeautySpas
+            | val GHC.Classes.== "hearing_aids_sales_and_supplies" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumHearingAidsSalesAndSupplies
+            | val GHC.Classes.== "heating_plumbing_a_c" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumHeatingPlumbingAC
+            | val GHC.Classes.== "hobby_toy_and_game_shops" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumHobbyToyAndGameShops
+            | val GHC.Classes.== "home_supply_warehouse_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumHomeSupplyWarehouseStores
+            | val GHC.Classes.== "hospitals" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumHospitals
+            | val GHC.Classes.== "hotels_motels_and_resorts" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumHotelsMotelsAndResorts
+            | val GHC.Classes.== "household_appliance_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumHouseholdApplianceStores
+            | val GHC.Classes.== "industrial_supplies" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumIndustrialSupplies
+            | val GHC.Classes.== "information_retrieval_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumInformationRetrievalServices
+            | val GHC.Classes.== "insurance_default" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumInsuranceDefault
+            | val GHC.Classes.== "insurance_underwriting_premiums" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumInsuranceUnderwritingPremiums
+            | val GHC.Classes.== "intra_company_purchases" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumIntraCompanyPurchases
+            | val GHC.Classes.== "jewelry_stores_watches_clocks_and_silverware_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumJewelryStoresWatchesClocksAndSilverwareStores
+            | val GHC.Classes.== "landscaping_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumLandscapingServices
+            | val GHC.Classes.== "laundries" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumLaundries
+            | val GHC.Classes.== "laundry_cleaning_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumLaundryCleaningServices
+            | val GHC.Classes.== "legal_services_attorneys" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumLegalServicesAttorneys
+            | val GHC.Classes.== "luggage_and_leather_goods_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumLuggageAndLeatherGoodsStores
+            | val GHC.Classes.== "lumber_building_materials_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumLumberBuildingMaterialsStores
+            | val GHC.Classes.== "manual_cash_disburse" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumManualCashDisburse
+            | val GHC.Classes.== "marinas_service_and_supplies" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumMarinasServiceAndSupplies
+            | val GHC.Classes.== "masonry_stonework_and_plaster" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumMasonryStoneworkAndPlaster
+            | val GHC.Classes.== "massage_parlors" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumMassageParlors
+            | val GHC.Classes.== "medical_and_dental_labs" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumMedicalAndDentalLabs
+            | val GHC.Classes.== "medical_dental_ophthalmic_and_hospital_equipment_and_supplies" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumMedicalDentalOphthalmicAndHospitalEquipmentAndSupplies
+            | val GHC.Classes.== "medical_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumMedicalServices
+            | val GHC.Classes.== "membership_organizations" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumMembershipOrganizations
+            | val GHC.Classes.== "mens_and_boys_clothing_and_accessories_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumMensAndBoysClothingAndAccessoriesStores
+            | val GHC.Classes.== "mens_womens_clothing_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumMensWomensClothingStores
+            | val GHC.Classes.== "metal_service_centers" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumMetalServiceCenters
+            | val GHC.Classes.== "miscellaneous" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumMiscellaneous
+            | val GHC.Classes.== "miscellaneous_apparel_and_accessory_shops" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumMiscellaneousApparelAndAccessoryShops
+            | val GHC.Classes.== "miscellaneous_auto_dealers" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumMiscellaneousAutoDealers
+            | val GHC.Classes.== "miscellaneous_business_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumMiscellaneousBusinessServices
+            | val GHC.Classes.== "miscellaneous_food_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumMiscellaneousFoodStores
+            | val GHC.Classes.== "miscellaneous_general_merchandise" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumMiscellaneousGeneralMerchandise
+            | val GHC.Classes.== "miscellaneous_general_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumMiscellaneousGeneralServices
+            | val GHC.Classes.== "miscellaneous_home_furnishing_specialty_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumMiscellaneousHomeFurnishingSpecialtyStores
+            | val GHC.Classes.== "miscellaneous_publishing_and_printing" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumMiscellaneousPublishingAndPrinting
+            | val GHC.Classes.== "miscellaneous_recreation_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumMiscellaneousRecreationServices
+            | val GHC.Classes.== "miscellaneous_repair_shops" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumMiscellaneousRepairShops
+            | val GHC.Classes.== "miscellaneous_specialty_retail" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumMiscellaneousSpecialtyRetail
+            | val GHC.Classes.== "mobile_home_dealers" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumMobileHomeDealers
+            | val GHC.Classes.== "motion_picture_theaters" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumMotionPictureTheaters
+            | val GHC.Classes.== "motor_freight_carriers_and_trucking" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumMotorFreightCarriersAndTrucking
+            | val GHC.Classes.== "motor_homes_dealers" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumMotorHomesDealers
+            | val GHC.Classes.== "motor_vehicle_supplies_and_new_parts" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumMotorVehicleSuppliesAndNewParts
+            | val GHC.Classes.== "motorcycle_shops_and_dealers" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumMotorcycleShopsAndDealers
+            | val GHC.Classes.== "motorcycle_shops_dealers" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumMotorcycleShopsDealers
+            | val GHC.Classes.== "music_stores_musical_instruments_pianos_and_sheet_music" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumMusicStoresMusicalInstrumentsPianosAndSheetMusic
+            | val GHC.Classes.== "news_dealers_and_newsstands" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumNewsDealersAndNewsstands
+            | val GHC.Classes.== "non_fi_money_orders" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumNonFiMoneyOrders
+            | val GHC.Classes.== "non_fi_stored_value_card_purchase_load" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumNonFiStoredValueCardPurchaseLoad
+            | val GHC.Classes.== "nondurable_goods" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumNondurableGoods
+            | val GHC.Classes.== "nurseries_lawn_and_garden_supply_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumNurseriesLawnAndGardenSupplyStores
+            | val GHC.Classes.== "nursing_personal_care" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumNursingPersonalCare
+            | val GHC.Classes.== "office_and_commercial_furniture" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumOfficeAndCommercialFurniture
+            | val GHC.Classes.== "opticians_eyeglasses" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumOpticiansEyeglasses
+            | val GHC.Classes.== "optometrists_ophthalmologist" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumOptometristsOphthalmologist
+            | val GHC.Classes.== "orthopedic_goods_prosthetic_devices" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumOrthopedicGoodsProstheticDevices
+            | val GHC.Classes.== "osteopaths" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumOsteopaths
+            | val GHC.Classes.== "package_stores_beer_wine_and_liquor" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumPackageStoresBeerWineAndLiquor
+            | val GHC.Classes.== "paints_varnishes_and_supplies" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumPaintsVarnishesAndSupplies
+            | val GHC.Classes.== "parking_lots_garages" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumParkingLotsGarages
+            | val GHC.Classes.== "passenger_railways" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumPassengerRailways
+            | val GHC.Classes.== "pawn_shops" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumPawnShops
+            | val GHC.Classes.== "pet_shops_pet_food_and_supplies" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumPetShopsPetFoodAndSupplies
+            | val GHC.Classes.== "petroleum_and_petroleum_products" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumPetroleumAndPetroleumProducts
+            | val GHC.Classes.== "photo_developing" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumPhotoDeveloping
+            | val GHC.Classes.== "photographic_photocopy_microfilm_equipment_and_supplies" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumPhotographicPhotocopyMicrofilmEquipmentAndSupplies
+            | val GHC.Classes.== "photographic_studios" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumPhotographicStudios
+            | val GHC.Classes.== "picture_video_production" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumPictureVideoProduction
+            | val GHC.Classes.== "piece_goods_notions_and_other_dry_goods" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumPieceGoodsNotionsAndOtherDryGoods
+            | val GHC.Classes.== "plumbing_heating_equipment_and_supplies" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumPlumbingHeatingEquipmentAndSupplies
+            | val GHC.Classes.== "political_organizations" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumPoliticalOrganizations
+            | val GHC.Classes.== "postal_services_government_only" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumPostalServicesGovernmentOnly
+            | val GHC.Classes.== "precious_stones_and_metals_watches_and_jewelry" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumPreciousStonesAndMetalsWatchesAndJewelry
+            | val GHC.Classes.== "professional_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumProfessionalServices
+            | val GHC.Classes.== "public_warehousing_and_storage" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumPublicWarehousingAndStorage
+            | val GHC.Classes.== "quick_copy_repro_and_blueprint" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumQuickCopyReproAndBlueprint
+            | val GHC.Classes.== "railroads" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumRailroads
+            | val GHC.Classes.== "real_estate_agents_and_managers_rentals" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumRealEstateAgentsAndManagersRentals
+            | val GHC.Classes.== "record_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumRecordStores
+            | val GHC.Classes.== "recreational_vehicle_rentals" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumRecreationalVehicleRentals
+            | val GHC.Classes.== "religious_goods_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumReligiousGoodsStores
+            | val GHC.Classes.== "religious_organizations" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumReligiousOrganizations
+            | val GHC.Classes.== "roofing_siding_sheet_metal" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumRoofingSidingSheetMetal
+            | val GHC.Classes.== "secretarial_support_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumSecretarialSupportServices
+            | val GHC.Classes.== "security_brokers_dealers" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumSecurityBrokersDealers
+            | val GHC.Classes.== "service_stations" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumServiceStations
+            | val GHC.Classes.== "sewing_needlework_fabric_and_piece_goods_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumSewingNeedleworkFabricAndPieceGoodsStores
+            | val GHC.Classes.== "shoe_repair_hat_cleaning" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumShoeRepairHatCleaning
+            | val GHC.Classes.== "shoe_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumShoeStores
+            | val GHC.Classes.== "small_appliance_repair" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumSmallApplianceRepair
+            | val GHC.Classes.== "snowmobile_dealers" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumSnowmobileDealers
+            | val GHC.Classes.== "special_trade_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumSpecialTradeServices
+            | val GHC.Classes.== "specialty_cleaning" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumSpecialtyCleaning
+            | val GHC.Classes.== "sporting_goods_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumSportingGoodsStores
+            | val GHC.Classes.== "sporting_recreation_camps" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumSportingRecreationCamps
+            | val GHC.Classes.== "sports_and_riding_apparel_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumSportsAndRidingApparelStores
+            | val GHC.Classes.== "sports_clubs_fields" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumSportsClubsFields
+            | val GHC.Classes.== "stamp_and_coin_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStampAndCoinStores
+            | val GHC.Classes.== "stationary_office_supplies_printing_and_writing_paper" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStationaryOfficeSuppliesPrintingAndWritingPaper
+            | val GHC.Classes.== "stationery_stores_office_and_school_supply_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStationeryStoresOfficeAndSchoolSupplyStores
+            | val GHC.Classes.== "swimming_pools_sales" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumSwimmingPoolsSales
+            | val GHC.Classes.== "t_ui_travel_germany" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumTUiTravelGermany
+            | val GHC.Classes.== "tailors_alterations" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumTailorsAlterations
+            | val GHC.Classes.== "tax_payments_government_agencies" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumTaxPaymentsGovernmentAgencies
+            | val GHC.Classes.== "tax_preparation_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumTaxPreparationServices
+            | val GHC.Classes.== "taxicabs_limousines" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumTaxicabsLimousines
+            | val GHC.Classes.== "telecommunication_equipment_and_telephone_sales" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumTelecommunicationEquipmentAndTelephoneSales
+            | val GHC.Classes.== "telecommunication_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumTelecommunicationServices
+            | val GHC.Classes.== "telegraph_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumTelegraphServices
+            | val GHC.Classes.== "tent_and_awning_shops" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumTentAndAwningShops
+            | val GHC.Classes.== "testing_laboratories" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumTestingLaboratories
+            | val GHC.Classes.== "theatrical_ticket_agencies" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumTheatricalTicketAgencies
+            | val GHC.Classes.== "timeshares" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumTimeshares
+            | val GHC.Classes.== "tire_retreading_and_repair" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumTireRetreadingAndRepair
+            | val GHC.Classes.== "tolls_bridge_fees" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumTollsBridgeFees
+            | val GHC.Classes.== "tourist_attractions_and_exhibits" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumTouristAttractionsAndExhibits
+            | val GHC.Classes.== "towing_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumTowingServices
+            | val GHC.Classes.== "trailer_parks_campgrounds" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumTrailerParksCampgrounds
+            | val GHC.Classes.== "transportation_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumTransportationServices
+            | val GHC.Classes.== "travel_agencies_tour_operators" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumTravelAgenciesTourOperators
+            | val GHC.Classes.== "truck_stop_iteration" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumTruckStopIteration
+            | val GHC.Classes.== "truck_utility_trailer_rentals" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumTruckUtilityTrailerRentals
+            | val GHC.Classes.== "typesetting_plate_making_and_related_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumTypesettingPlateMakingAndRelatedServices
+            | val GHC.Classes.== "typewriter_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumTypewriterStores
+            | val GHC.Classes.== "u_s_federal_government_agencies_or_departments" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumUSFederalGovernmentAgenciesOrDepartments
+            | val GHC.Classes.== "uniforms_commercial_clothing" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumUniformsCommercialClothing
+            | val GHC.Classes.== "used_merchandise_and_secondhand_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumUsedMerchandiseAndSecondhandStores
+            | val GHC.Classes.== "utilities" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumUtilities
+            | val GHC.Classes.== "variety_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumVarietyStores
+            | val GHC.Classes.== "veterinary_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumVeterinaryServices
+            | val GHC.Classes.== "video_amusement_game_supplies" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumVideoAmusementGameSupplies
+            | val GHC.Classes.== "video_game_arcades" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumVideoGameArcades
+            | val GHC.Classes.== "video_tape_rental_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumVideoTapeRentalStores
+            | val GHC.Classes.== "vocational_trade_schools" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumVocationalTradeSchools
+            | val GHC.Classes.== "watch_jewelry_repair" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumWatchJewelryRepair
+            | val GHC.Classes.== "welding_repair" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumWeldingRepair
+            | val GHC.Classes.== "wholesale_clubs" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumWholesaleClubs
+            | val GHC.Classes.== "wig_and_toupee_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumWigAndToupeeStores
+            | val GHC.Classes.== "wires_money_orders" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumWiresMoneyOrders
+            | val GHC.Classes.== "womens_accessory_and_specialty_shops" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumWomensAccessoryAndSpecialtyShops
+            | val GHC.Classes.== "womens_ready_to_wear_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumWomensReadyToWearStores
+            | val GHC.Classes.== "wrecking_and_salvage_yards" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumWreckingAndSalvageYards
+            | GHC.Base.otherwise -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'Other val
       )
 
--- | Defines the enum schema postIssuingCardholdersCardholderRequestBodyAuthorization_controls\'Blocked_categories\'
+-- | Defines the enum schema located at @paths.\/v1\/issuing\/cardholders\/{cardholder}.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.authorization_controls.properties.blocked_categories.items@ in the specification.
 data PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'
-  = PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumOther Data.Aeson.Types.Internal.Value
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumTyped Data.Text.Internal.Text
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringAcRefrigerationRepair
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringAccountingBookkeepingServices
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringAdvertisingServices
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringAgriculturalCooperative
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringAirlinesAirCarriers
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringAirportsFlyingFields
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringAmbulanceServices
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringAmusementParksCarnivals
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringAntiqueReproductions
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringAntiqueShops
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringAquariums
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringArchitecturalSurveyingServices
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringArtDealersAndGalleries
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringArtistsSupplyAndCraftShops
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringAutoAndHomeSupplyStores
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringAutoBodyRepairShops
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringAutoPaintShops
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringAutoServiceShops
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringAutomatedCashDisburse
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringAutomatedFuelDispensers
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringAutomobileAssociations
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringAutomotivePartsAndAccessoriesStores
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringAutomotiveTireStores
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringBailAndBondPayments
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringBakeries
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringBandsOrchestras
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringBarberAndBeautyShops
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringBettingCasinoGambling
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringBicycleShops
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringBilliardPoolEstablishments
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringBoatDealers
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringBoatRentalsAndLeases
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringBookStores
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringBooksPeriodicalsAndNewspapers
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringBowlingAlleys
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringBusLines
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringBusinessSecretarialSchools
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringBuyingShoppingServices
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringCableSatelliteAndOtherPayTelevisionAndRadio
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringCameraAndPhotographicSupplyStores
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringCandyNutAndConfectioneryStores
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringCarAndTruckDealersNewUsed
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringCarAndTruckDealersUsedOnly
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringCarRentalAgencies
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringCarWashes
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringCarpentryServices
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringCarpetUpholsteryCleaning
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringCaterers
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringCharitableAndSocialServiceOrganizationsFundraising
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringChemicalsAndAlliedProducts
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringChildCareServices
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringChildrensAndInfantsWearStores
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringChiropodistsPodiatrists
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringChiropractors
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringCigarStoresAndStands
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringCivicSocialFraternalAssociations
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringCleaningAndMaintenance
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringClothingRental
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringCollegesUniversities
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringCommercialEquipment
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringCommercialFootwear
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringCommercialPhotographyArtAndGraphics
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringCommuterTransportAndFerries
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringComputerNetworkServices
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringComputerProgramming
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringComputerRepair
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringComputerSoftwareStores
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringComputersPeripheralsAndSoftware
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringConcreteWorkServices
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringConstructionMaterials
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringConsultingPublicRelations
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringCorrespondenceSchools
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringCosmeticStores
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringCounselingServices
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringCountryClubs
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringCourierServices
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringCourtCosts
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringCreditReportingAgencies
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringCruiseLines
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringDairyProductsStores
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringDanceHallStudiosSchools
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringDatingEscortServices
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringDentistsOrthodontists
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringDepartmentStores
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringDetectiveAgencies
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringDigitalGoodsApplications
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringDigitalGoodsGames
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringDigitalGoodsLargeVolume
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringDigitalGoodsMedia
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringDirectMarketingCatalogMerchant
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringDirectMarketingCombinationCatalogAndRetailMerchant
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringDirectMarketingInboundTelemarketing
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringDirectMarketingInsuranceServices
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringDirectMarketingOther
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringDirectMarketingOutboundTelemarketing
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringDirectMarketingSubscription
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringDirectMarketingTravel
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringDiscountStores
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringDoctors
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringDoorToDoorSales
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringDraperyWindowCoveringAndUpholsteryStores
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringDrinkingPlaces
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringDrugStoresAndPharmacies
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringDrugsDrugProprietariesAndDruggistSundries
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringDryCleaners
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringDurableGoods
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringDutyFreeStores
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringEatingPlacesRestaurants
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringEducationalServices
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringElectricRazorStores
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringElectricalPartsAndEquipment
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringElectricalServices
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringElectronicsRepairShops
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringElectronicsStores
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringElementarySecondarySchools
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringEmploymentTempAgencies
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringEquipmentRental
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringExterminatingServices
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringFamilyClothingStores
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringFastFoodRestaurants
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringFinancialInstitutions
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringFinesGovernmentAdministrativeEntities
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringFireplaceFireplaceScreensAndAccessoriesStores
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringFloorCoveringStores
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringFlorists
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringFloristsSuppliesNurseryStockAndFlowers
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringFreezerAndLockerMeatProvisioners
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringFuelDealersNonAutomotive
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringFuneralServicesCrematories
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringFurnitureHomeFurnishingsAndEquipmentStoresExceptAppliances
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringFurnitureRepairRefinishing
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringFurriersAndFurShops
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringGeneralServices
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringGiftCardNoveltyAndSouvenirShops
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringGlassPaintAndWallpaperStores
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringGlasswareCrystalStores
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringGolfCoursesPublic
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringGovernmentServices
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringGroceryStoresSupermarkets
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringHardwareEquipmentAndSupplies
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringHardwareStores
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringHealthAndBeautySpas
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringHearingAidsSalesAndSupplies
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringHeatingPlumbingAC
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringHobbyToyAndGameShops
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringHomeSupplyWarehouseStores
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringHospitals
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringHotelsMotelsAndResorts
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringHouseholdApplianceStores
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringIndustrialSupplies
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringInformationRetrievalServices
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringInsuranceDefault
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringInsuranceUnderwritingPremiums
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringIntraCompanyPurchases
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringJewelryStoresWatchesClocksAndSilverwareStores
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringLandscapingServices
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringLaundries
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringLaundryCleaningServices
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringLegalServicesAttorneys
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringLuggageAndLeatherGoodsStores
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringLumberBuildingMaterialsStores
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringManualCashDisburse
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringMarinasServiceAndSupplies
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringMasonryStoneworkAndPlaster
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringMassageParlors
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringMedicalAndDentalLabs
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringMedicalDentalOphthalmicAndHospitalEquipmentAndSupplies
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringMedicalServices
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringMembershipOrganizations
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringMensAndBoysClothingAndAccessoriesStores
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringMensWomensClothingStores
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringMetalServiceCenters
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringMiscellaneous
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringMiscellaneousApparelAndAccessoryShops
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringMiscellaneousAutoDealers
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringMiscellaneousBusinessServices
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringMiscellaneousFoodStores
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringMiscellaneousGeneralMerchandise
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringMiscellaneousGeneralServices
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringMiscellaneousHomeFurnishingSpecialtyStores
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringMiscellaneousPublishingAndPrinting
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringMiscellaneousRecreationServices
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringMiscellaneousRepairShops
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringMiscellaneousSpecialtyRetail
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringMobileHomeDealers
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringMotionPictureTheaters
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringMotorFreightCarriersAndTrucking
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringMotorHomesDealers
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringMotorVehicleSuppliesAndNewParts
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringMotorcycleShopsAndDealers
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringMotorcycleShopsDealers
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringMusicStoresMusicalInstrumentsPianosAndSheetMusic
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringNewsDealersAndNewsstands
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringNonFiMoneyOrders
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringNonFiStoredValueCardPurchaseLoad
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringNondurableGoods
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringNurseriesLawnAndGardenSupplyStores
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringNursingPersonalCare
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringOfficeAndCommercialFurniture
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringOpticiansEyeglasses
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringOptometristsOphthalmologist
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringOrthopedicGoodsProstheticDevices
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringOsteopaths
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringPackageStoresBeerWineAndLiquor
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringPaintsVarnishesAndSupplies
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringParkingLotsGarages
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringPassengerRailways
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringPawnShops
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringPetShopsPetFoodAndSupplies
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringPetroleumAndPetroleumProducts
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringPhotoDeveloping
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringPhotographicPhotocopyMicrofilmEquipmentAndSupplies
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringPhotographicStudios
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringPictureVideoProduction
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringPieceGoodsNotionsAndOtherDryGoods
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringPlumbingHeatingEquipmentAndSupplies
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringPoliticalOrganizations
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringPostalServicesGovernmentOnly
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringPreciousStonesAndMetalsWatchesAndJewelry
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringProfessionalServices
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringPublicWarehousingAndStorage
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringQuickCopyReproAndBlueprint
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringRailroads
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringRealEstateAgentsAndManagersRentals
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringRecordStores
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringRecreationalVehicleRentals
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringReligiousGoodsStores
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringReligiousOrganizations
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringRoofingSidingSheetMetal
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringSecretarialSupportServices
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringSecurityBrokersDealers
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringServiceStations
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringSewingNeedleworkFabricAndPieceGoodsStores
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringShoeRepairHatCleaning
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringShoeStores
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringSmallApplianceRepair
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringSnowmobileDealers
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringSpecialTradeServices
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringSpecialtyCleaning
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringSportingGoodsStores
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringSportingRecreationCamps
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringSportsAndRidingApparelStores
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringSportsClubsFields
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringStampAndCoinStores
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringStationaryOfficeSuppliesPrintingAndWritingPaper
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringStationeryStoresOfficeAndSchoolSupplyStores
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringSwimmingPoolsSales
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringTUiTravelGermany
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringTailorsAlterations
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringTaxPaymentsGovernmentAgencies
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringTaxPreparationServices
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringTaxicabsLimousines
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringTelecommunicationEquipmentAndTelephoneSales
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringTelecommunicationServices
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringTelegraphServices
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringTentAndAwningShops
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringTestingLaboratories
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringTheatricalTicketAgencies
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringTimeshares
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringTireRetreadingAndRepair
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringTollsBridgeFees
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringTouristAttractionsAndExhibits
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringTowingServices
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringTrailerParksCampgrounds
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringTransportationServices
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringTravelAgenciesTourOperators
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringTruckStopIteration
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringTruckUtilityTrailerRentals
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringTypesettingPlateMakingAndRelatedServices
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringTypewriterStores
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringUSFederalGovernmentAgenciesOrDepartments
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringUniformsCommercialClothing
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringUsedMerchandiseAndSecondhandStores
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringUtilities
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringVarietyStores
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringVeterinaryServices
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringVideoAmusementGameSupplies
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringVideoGameArcades
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringVideoTapeRentalStores
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringVocationalTradeSchools
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringWatchJewelryRepair
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringWeldingRepair
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringWholesaleClubs
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringWigAndToupeeStores
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringWiresMoneyOrders
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringWomensAccessoryAndSpecialtyShops
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringWomensReadyToWearStores
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringWreckingAndSalvageYards
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"ac_refrigeration_repair"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumAcRefrigerationRepair
+  | -- | Represents the JSON value @"accounting_bookkeeping_services"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumAccountingBookkeepingServices
+  | -- | Represents the JSON value @"advertising_services"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumAdvertisingServices
+  | -- | Represents the JSON value @"agricultural_cooperative"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumAgriculturalCooperative
+  | -- | Represents the JSON value @"airlines_air_carriers"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumAirlinesAirCarriers
+  | -- | Represents the JSON value @"airports_flying_fields"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumAirportsFlyingFields
+  | -- | Represents the JSON value @"ambulance_services"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumAmbulanceServices
+  | -- | Represents the JSON value @"amusement_parks_carnivals"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumAmusementParksCarnivals
+  | -- | Represents the JSON value @"antique_reproductions"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumAntiqueReproductions
+  | -- | Represents the JSON value @"antique_shops"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumAntiqueShops
+  | -- | Represents the JSON value @"aquariums"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumAquariums
+  | -- | Represents the JSON value @"architectural_surveying_services"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumArchitecturalSurveyingServices
+  | -- | Represents the JSON value @"art_dealers_and_galleries"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumArtDealersAndGalleries
+  | -- | Represents the JSON value @"artists_supply_and_craft_shops"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumArtistsSupplyAndCraftShops
+  | -- | Represents the JSON value @"auto_and_home_supply_stores"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumAutoAndHomeSupplyStores
+  | -- | Represents the JSON value @"auto_body_repair_shops"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumAutoBodyRepairShops
+  | -- | Represents the JSON value @"auto_paint_shops"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumAutoPaintShops
+  | -- | Represents the JSON value @"auto_service_shops"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumAutoServiceShops
+  | -- | Represents the JSON value @"automated_cash_disburse"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumAutomatedCashDisburse
+  | -- | Represents the JSON value @"automated_fuel_dispensers"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumAutomatedFuelDispensers
+  | -- | Represents the JSON value @"automobile_associations"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumAutomobileAssociations
+  | -- | Represents the JSON value @"automotive_parts_and_accessories_stores"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumAutomotivePartsAndAccessoriesStores
+  | -- | Represents the JSON value @"automotive_tire_stores"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumAutomotiveTireStores
+  | -- | Represents the JSON value @"bail_and_bond_payments"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumBailAndBondPayments
+  | -- | Represents the JSON value @"bakeries"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumBakeries
+  | -- | Represents the JSON value @"bands_orchestras"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumBandsOrchestras
+  | -- | Represents the JSON value @"barber_and_beauty_shops"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumBarberAndBeautyShops
+  | -- | Represents the JSON value @"betting_casino_gambling"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumBettingCasinoGambling
+  | -- | Represents the JSON value @"bicycle_shops"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumBicycleShops
+  | -- | Represents the JSON value @"billiard_pool_establishments"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumBilliardPoolEstablishments
+  | -- | Represents the JSON value @"boat_dealers"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumBoatDealers
+  | -- | Represents the JSON value @"boat_rentals_and_leases"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumBoatRentalsAndLeases
+  | -- | Represents the JSON value @"book_stores"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumBookStores
+  | -- | Represents the JSON value @"books_periodicals_and_newspapers"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumBooksPeriodicalsAndNewspapers
+  | -- | Represents the JSON value @"bowling_alleys"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumBowlingAlleys
+  | -- | Represents the JSON value @"bus_lines"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumBusLines
+  | -- | Represents the JSON value @"business_secretarial_schools"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumBusinessSecretarialSchools
+  | -- | Represents the JSON value @"buying_shopping_services"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumBuyingShoppingServices
+  | -- | Represents the JSON value @"cable_satellite_and_other_pay_television_and_radio"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumCableSatelliteAndOtherPayTelevisionAndRadio
+  | -- | Represents the JSON value @"camera_and_photographic_supply_stores"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumCameraAndPhotographicSupplyStores
+  | -- | Represents the JSON value @"candy_nut_and_confectionery_stores"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumCandyNutAndConfectioneryStores
+  | -- | Represents the JSON value @"car_and_truck_dealers_new_used"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumCarAndTruckDealersNewUsed
+  | -- | Represents the JSON value @"car_and_truck_dealers_used_only"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumCarAndTruckDealersUsedOnly
+  | -- | Represents the JSON value @"car_rental_agencies"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumCarRentalAgencies
+  | -- | Represents the JSON value @"car_washes"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumCarWashes
+  | -- | Represents the JSON value @"carpentry_services"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumCarpentryServices
+  | -- | Represents the JSON value @"carpet_upholstery_cleaning"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumCarpetUpholsteryCleaning
+  | -- | Represents the JSON value @"caterers"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumCaterers
+  | -- | Represents the JSON value @"charitable_and_social_service_organizations_fundraising"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumCharitableAndSocialServiceOrganizationsFundraising
+  | -- | Represents the JSON value @"chemicals_and_allied_products"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumChemicalsAndAlliedProducts
+  | -- | Represents the JSON value @"child_care_services"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumChildCareServices
+  | -- | Represents the JSON value @"childrens_and_infants_wear_stores"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumChildrensAndInfantsWearStores
+  | -- | Represents the JSON value @"chiropodists_podiatrists"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumChiropodistsPodiatrists
+  | -- | Represents the JSON value @"chiropractors"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumChiropractors
+  | -- | Represents the JSON value @"cigar_stores_and_stands"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumCigarStoresAndStands
+  | -- | Represents the JSON value @"civic_social_fraternal_associations"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumCivicSocialFraternalAssociations
+  | -- | Represents the JSON value @"cleaning_and_maintenance"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumCleaningAndMaintenance
+  | -- | Represents the JSON value @"clothing_rental"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumClothingRental
+  | -- | Represents the JSON value @"colleges_universities"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumCollegesUniversities
+  | -- | Represents the JSON value @"commercial_equipment"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumCommercialEquipment
+  | -- | Represents the JSON value @"commercial_footwear"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumCommercialFootwear
+  | -- | Represents the JSON value @"commercial_photography_art_and_graphics"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumCommercialPhotographyArtAndGraphics
+  | -- | Represents the JSON value @"commuter_transport_and_ferries"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumCommuterTransportAndFerries
+  | -- | Represents the JSON value @"computer_network_services"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumComputerNetworkServices
+  | -- | Represents the JSON value @"computer_programming"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumComputerProgramming
+  | -- | Represents the JSON value @"computer_repair"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumComputerRepair
+  | -- | Represents the JSON value @"computer_software_stores"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumComputerSoftwareStores
+  | -- | Represents the JSON value @"computers_peripherals_and_software"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumComputersPeripheralsAndSoftware
+  | -- | Represents the JSON value @"concrete_work_services"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumConcreteWorkServices
+  | -- | Represents the JSON value @"construction_materials"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumConstructionMaterials
+  | -- | Represents the JSON value @"consulting_public_relations"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumConsultingPublicRelations
+  | -- | Represents the JSON value @"correspondence_schools"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumCorrespondenceSchools
+  | -- | Represents the JSON value @"cosmetic_stores"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumCosmeticStores
+  | -- | Represents the JSON value @"counseling_services"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumCounselingServices
+  | -- | Represents the JSON value @"country_clubs"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumCountryClubs
+  | -- | Represents the JSON value @"courier_services"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumCourierServices
+  | -- | Represents the JSON value @"court_costs"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumCourtCosts
+  | -- | Represents the JSON value @"credit_reporting_agencies"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumCreditReportingAgencies
+  | -- | Represents the JSON value @"cruise_lines"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumCruiseLines
+  | -- | Represents the JSON value @"dairy_products_stores"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumDairyProductsStores
+  | -- | Represents the JSON value @"dance_hall_studios_schools"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumDanceHallStudiosSchools
+  | -- | Represents the JSON value @"dating_escort_services"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumDatingEscortServices
+  | -- | Represents the JSON value @"dentists_orthodontists"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumDentistsOrthodontists
+  | -- | Represents the JSON value @"department_stores"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumDepartmentStores
+  | -- | Represents the JSON value @"detective_agencies"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumDetectiveAgencies
+  | -- | Represents the JSON value @"digital_goods_applications"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumDigitalGoodsApplications
+  | -- | Represents the JSON value @"digital_goods_games"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumDigitalGoodsGames
+  | -- | Represents the JSON value @"digital_goods_large_volume"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumDigitalGoodsLargeVolume
+  | -- | Represents the JSON value @"digital_goods_media"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumDigitalGoodsMedia
+  | -- | Represents the JSON value @"direct_marketing_catalog_merchant"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumDirectMarketingCatalogMerchant
+  | -- | Represents the JSON value @"direct_marketing_combination_catalog_and_retail_merchant"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumDirectMarketingCombinationCatalogAndRetailMerchant
+  | -- | Represents the JSON value @"direct_marketing_inbound_telemarketing"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumDirectMarketingInboundTelemarketing
+  | -- | Represents the JSON value @"direct_marketing_insurance_services"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumDirectMarketingInsuranceServices
+  | -- | Represents the JSON value @"direct_marketing_other"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumDirectMarketingOther
+  | -- | Represents the JSON value @"direct_marketing_outbound_telemarketing"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumDirectMarketingOutboundTelemarketing
+  | -- | Represents the JSON value @"direct_marketing_subscription"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumDirectMarketingSubscription
+  | -- | Represents the JSON value @"direct_marketing_travel"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumDirectMarketingTravel
+  | -- | Represents the JSON value @"discount_stores"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumDiscountStores
+  | -- | Represents the JSON value @"doctors"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumDoctors
+  | -- | Represents the JSON value @"door_to_door_sales"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumDoorToDoorSales
+  | -- | Represents the JSON value @"drapery_window_covering_and_upholstery_stores"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumDraperyWindowCoveringAndUpholsteryStores
+  | -- | Represents the JSON value @"drinking_places"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumDrinkingPlaces
+  | -- | Represents the JSON value @"drug_stores_and_pharmacies"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumDrugStoresAndPharmacies
+  | -- | Represents the JSON value @"drugs_drug_proprietaries_and_druggist_sundries"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumDrugsDrugProprietariesAndDruggistSundries
+  | -- | Represents the JSON value @"dry_cleaners"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumDryCleaners
+  | -- | Represents the JSON value @"durable_goods"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumDurableGoods
+  | -- | Represents the JSON value @"duty_free_stores"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumDutyFreeStores
+  | -- | Represents the JSON value @"eating_places_restaurants"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumEatingPlacesRestaurants
+  | -- | Represents the JSON value @"educational_services"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumEducationalServices
+  | -- | Represents the JSON value @"electric_razor_stores"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumElectricRazorStores
+  | -- | Represents the JSON value @"electrical_parts_and_equipment"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumElectricalPartsAndEquipment
+  | -- | Represents the JSON value @"electrical_services"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumElectricalServices
+  | -- | Represents the JSON value @"electronics_repair_shops"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumElectronicsRepairShops
+  | -- | Represents the JSON value @"electronics_stores"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumElectronicsStores
+  | -- | Represents the JSON value @"elementary_secondary_schools"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumElementarySecondarySchools
+  | -- | Represents the JSON value @"employment_temp_agencies"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumEmploymentTempAgencies
+  | -- | Represents the JSON value @"equipment_rental"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumEquipmentRental
+  | -- | Represents the JSON value @"exterminating_services"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumExterminatingServices
+  | -- | Represents the JSON value @"family_clothing_stores"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumFamilyClothingStores
+  | -- | Represents the JSON value @"fast_food_restaurants"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumFastFoodRestaurants
+  | -- | Represents the JSON value @"financial_institutions"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumFinancialInstitutions
+  | -- | Represents the JSON value @"fines_government_administrative_entities"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumFinesGovernmentAdministrativeEntities
+  | -- | Represents the JSON value @"fireplace_fireplace_screens_and_accessories_stores"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumFireplaceFireplaceScreensAndAccessoriesStores
+  | -- | Represents the JSON value @"floor_covering_stores"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumFloorCoveringStores
+  | -- | Represents the JSON value @"florists"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumFlorists
+  | -- | Represents the JSON value @"florists_supplies_nursery_stock_and_flowers"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumFloristsSuppliesNurseryStockAndFlowers
+  | -- | Represents the JSON value @"freezer_and_locker_meat_provisioners"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumFreezerAndLockerMeatProvisioners
+  | -- | Represents the JSON value @"fuel_dealers_non_automotive"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumFuelDealersNonAutomotive
+  | -- | Represents the JSON value @"funeral_services_crematories"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumFuneralServicesCrematories
+  | -- | Represents the JSON value @"furniture_home_furnishings_and_equipment_stores_except_appliances"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumFurnitureHomeFurnishingsAndEquipmentStoresExceptAppliances
+  | -- | Represents the JSON value @"furniture_repair_refinishing"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumFurnitureRepairRefinishing
+  | -- | Represents the JSON value @"furriers_and_fur_shops"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumFurriersAndFurShops
+  | -- | Represents the JSON value @"general_services"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumGeneralServices
+  | -- | Represents the JSON value @"gift_card_novelty_and_souvenir_shops"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumGiftCardNoveltyAndSouvenirShops
+  | -- | Represents the JSON value @"glass_paint_and_wallpaper_stores"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumGlassPaintAndWallpaperStores
+  | -- | Represents the JSON value @"glassware_crystal_stores"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumGlasswareCrystalStores
+  | -- | Represents the JSON value @"golf_courses_public"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumGolfCoursesPublic
+  | -- | Represents the JSON value @"government_services"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumGovernmentServices
+  | -- | Represents the JSON value @"grocery_stores_supermarkets"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumGroceryStoresSupermarkets
+  | -- | Represents the JSON value @"hardware_equipment_and_supplies"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumHardwareEquipmentAndSupplies
+  | -- | Represents the JSON value @"hardware_stores"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumHardwareStores
+  | -- | Represents the JSON value @"health_and_beauty_spas"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumHealthAndBeautySpas
+  | -- | Represents the JSON value @"hearing_aids_sales_and_supplies"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumHearingAidsSalesAndSupplies
+  | -- | Represents the JSON value @"heating_plumbing_a_c"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumHeatingPlumbingAC
+  | -- | Represents the JSON value @"hobby_toy_and_game_shops"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumHobbyToyAndGameShops
+  | -- | Represents the JSON value @"home_supply_warehouse_stores"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumHomeSupplyWarehouseStores
+  | -- | Represents the JSON value @"hospitals"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumHospitals
+  | -- | Represents the JSON value @"hotels_motels_and_resorts"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumHotelsMotelsAndResorts
+  | -- | Represents the JSON value @"household_appliance_stores"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumHouseholdApplianceStores
+  | -- | Represents the JSON value @"industrial_supplies"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumIndustrialSupplies
+  | -- | Represents the JSON value @"information_retrieval_services"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumInformationRetrievalServices
+  | -- | Represents the JSON value @"insurance_default"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumInsuranceDefault
+  | -- | Represents the JSON value @"insurance_underwriting_premiums"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumInsuranceUnderwritingPremiums
+  | -- | Represents the JSON value @"intra_company_purchases"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumIntraCompanyPurchases
+  | -- | Represents the JSON value @"jewelry_stores_watches_clocks_and_silverware_stores"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumJewelryStoresWatchesClocksAndSilverwareStores
+  | -- | Represents the JSON value @"landscaping_services"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumLandscapingServices
+  | -- | Represents the JSON value @"laundries"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumLaundries
+  | -- | Represents the JSON value @"laundry_cleaning_services"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumLaundryCleaningServices
+  | -- | Represents the JSON value @"legal_services_attorneys"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumLegalServicesAttorneys
+  | -- | Represents the JSON value @"luggage_and_leather_goods_stores"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumLuggageAndLeatherGoodsStores
+  | -- | Represents the JSON value @"lumber_building_materials_stores"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumLumberBuildingMaterialsStores
+  | -- | Represents the JSON value @"manual_cash_disburse"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumManualCashDisburse
+  | -- | Represents the JSON value @"marinas_service_and_supplies"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumMarinasServiceAndSupplies
+  | -- | Represents the JSON value @"masonry_stonework_and_plaster"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumMasonryStoneworkAndPlaster
+  | -- | Represents the JSON value @"massage_parlors"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumMassageParlors
+  | -- | Represents the JSON value @"medical_and_dental_labs"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumMedicalAndDentalLabs
+  | -- | Represents the JSON value @"medical_dental_ophthalmic_and_hospital_equipment_and_supplies"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumMedicalDentalOphthalmicAndHospitalEquipmentAndSupplies
+  | -- | Represents the JSON value @"medical_services"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumMedicalServices
+  | -- | Represents the JSON value @"membership_organizations"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumMembershipOrganizations
+  | -- | Represents the JSON value @"mens_and_boys_clothing_and_accessories_stores"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumMensAndBoysClothingAndAccessoriesStores
+  | -- | Represents the JSON value @"mens_womens_clothing_stores"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumMensWomensClothingStores
+  | -- | Represents the JSON value @"metal_service_centers"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumMetalServiceCenters
+  | -- | Represents the JSON value @"miscellaneous"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumMiscellaneous
+  | -- | Represents the JSON value @"miscellaneous_apparel_and_accessory_shops"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumMiscellaneousApparelAndAccessoryShops
+  | -- | Represents the JSON value @"miscellaneous_auto_dealers"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumMiscellaneousAutoDealers
+  | -- | Represents the JSON value @"miscellaneous_business_services"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumMiscellaneousBusinessServices
+  | -- | Represents the JSON value @"miscellaneous_food_stores"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumMiscellaneousFoodStores
+  | -- | Represents the JSON value @"miscellaneous_general_merchandise"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumMiscellaneousGeneralMerchandise
+  | -- | Represents the JSON value @"miscellaneous_general_services"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumMiscellaneousGeneralServices
+  | -- | Represents the JSON value @"miscellaneous_home_furnishing_specialty_stores"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumMiscellaneousHomeFurnishingSpecialtyStores
+  | -- | Represents the JSON value @"miscellaneous_publishing_and_printing"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumMiscellaneousPublishingAndPrinting
+  | -- | Represents the JSON value @"miscellaneous_recreation_services"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumMiscellaneousRecreationServices
+  | -- | Represents the JSON value @"miscellaneous_repair_shops"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumMiscellaneousRepairShops
+  | -- | Represents the JSON value @"miscellaneous_specialty_retail"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumMiscellaneousSpecialtyRetail
+  | -- | Represents the JSON value @"mobile_home_dealers"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumMobileHomeDealers
+  | -- | Represents the JSON value @"motion_picture_theaters"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumMotionPictureTheaters
+  | -- | Represents the JSON value @"motor_freight_carriers_and_trucking"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumMotorFreightCarriersAndTrucking
+  | -- | Represents the JSON value @"motor_homes_dealers"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumMotorHomesDealers
+  | -- | Represents the JSON value @"motor_vehicle_supplies_and_new_parts"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumMotorVehicleSuppliesAndNewParts
+  | -- | Represents the JSON value @"motorcycle_shops_and_dealers"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumMotorcycleShopsAndDealers
+  | -- | Represents the JSON value @"motorcycle_shops_dealers"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumMotorcycleShopsDealers
+  | -- | Represents the JSON value @"music_stores_musical_instruments_pianos_and_sheet_music"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumMusicStoresMusicalInstrumentsPianosAndSheetMusic
+  | -- | Represents the JSON value @"news_dealers_and_newsstands"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumNewsDealersAndNewsstands
+  | -- | Represents the JSON value @"non_fi_money_orders"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumNonFiMoneyOrders
+  | -- | Represents the JSON value @"non_fi_stored_value_card_purchase_load"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumNonFiStoredValueCardPurchaseLoad
+  | -- | Represents the JSON value @"nondurable_goods"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumNondurableGoods
+  | -- | Represents the JSON value @"nurseries_lawn_and_garden_supply_stores"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumNurseriesLawnAndGardenSupplyStores
+  | -- | Represents the JSON value @"nursing_personal_care"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumNursingPersonalCare
+  | -- | Represents the JSON value @"office_and_commercial_furniture"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumOfficeAndCommercialFurniture
+  | -- | Represents the JSON value @"opticians_eyeglasses"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumOpticiansEyeglasses
+  | -- | Represents the JSON value @"optometrists_ophthalmologist"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumOptometristsOphthalmologist
+  | -- | Represents the JSON value @"orthopedic_goods_prosthetic_devices"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumOrthopedicGoodsProstheticDevices
+  | -- | Represents the JSON value @"osteopaths"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumOsteopaths
+  | -- | Represents the JSON value @"package_stores_beer_wine_and_liquor"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumPackageStoresBeerWineAndLiquor
+  | -- | Represents the JSON value @"paints_varnishes_and_supplies"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumPaintsVarnishesAndSupplies
+  | -- | Represents the JSON value @"parking_lots_garages"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumParkingLotsGarages
+  | -- | Represents the JSON value @"passenger_railways"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumPassengerRailways
+  | -- | Represents the JSON value @"pawn_shops"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumPawnShops
+  | -- | Represents the JSON value @"pet_shops_pet_food_and_supplies"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumPetShopsPetFoodAndSupplies
+  | -- | Represents the JSON value @"petroleum_and_petroleum_products"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumPetroleumAndPetroleumProducts
+  | -- | Represents the JSON value @"photo_developing"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumPhotoDeveloping
+  | -- | Represents the JSON value @"photographic_photocopy_microfilm_equipment_and_supplies"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumPhotographicPhotocopyMicrofilmEquipmentAndSupplies
+  | -- | Represents the JSON value @"photographic_studios"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumPhotographicStudios
+  | -- | Represents the JSON value @"picture_video_production"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumPictureVideoProduction
+  | -- | Represents the JSON value @"piece_goods_notions_and_other_dry_goods"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumPieceGoodsNotionsAndOtherDryGoods
+  | -- | Represents the JSON value @"plumbing_heating_equipment_and_supplies"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumPlumbingHeatingEquipmentAndSupplies
+  | -- | Represents the JSON value @"political_organizations"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumPoliticalOrganizations
+  | -- | Represents the JSON value @"postal_services_government_only"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumPostalServicesGovernmentOnly
+  | -- | Represents the JSON value @"precious_stones_and_metals_watches_and_jewelry"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumPreciousStonesAndMetalsWatchesAndJewelry
+  | -- | Represents the JSON value @"professional_services"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumProfessionalServices
+  | -- | Represents the JSON value @"public_warehousing_and_storage"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumPublicWarehousingAndStorage
+  | -- | Represents the JSON value @"quick_copy_repro_and_blueprint"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumQuickCopyReproAndBlueprint
+  | -- | Represents the JSON value @"railroads"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumRailroads
+  | -- | Represents the JSON value @"real_estate_agents_and_managers_rentals"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumRealEstateAgentsAndManagersRentals
+  | -- | Represents the JSON value @"record_stores"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumRecordStores
+  | -- | Represents the JSON value @"recreational_vehicle_rentals"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumRecreationalVehicleRentals
+  | -- | Represents the JSON value @"religious_goods_stores"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumReligiousGoodsStores
+  | -- | Represents the JSON value @"religious_organizations"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumReligiousOrganizations
+  | -- | Represents the JSON value @"roofing_siding_sheet_metal"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumRoofingSidingSheetMetal
+  | -- | Represents the JSON value @"secretarial_support_services"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumSecretarialSupportServices
+  | -- | Represents the JSON value @"security_brokers_dealers"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumSecurityBrokersDealers
+  | -- | Represents the JSON value @"service_stations"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumServiceStations
+  | -- | Represents the JSON value @"sewing_needlework_fabric_and_piece_goods_stores"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumSewingNeedleworkFabricAndPieceGoodsStores
+  | -- | Represents the JSON value @"shoe_repair_hat_cleaning"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumShoeRepairHatCleaning
+  | -- | Represents the JSON value @"shoe_stores"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumShoeStores
+  | -- | Represents the JSON value @"small_appliance_repair"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumSmallApplianceRepair
+  | -- | Represents the JSON value @"snowmobile_dealers"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumSnowmobileDealers
+  | -- | Represents the JSON value @"special_trade_services"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumSpecialTradeServices
+  | -- | Represents the JSON value @"specialty_cleaning"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumSpecialtyCleaning
+  | -- | Represents the JSON value @"sporting_goods_stores"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumSportingGoodsStores
+  | -- | Represents the JSON value @"sporting_recreation_camps"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumSportingRecreationCamps
+  | -- | Represents the JSON value @"sports_and_riding_apparel_stores"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumSportsAndRidingApparelStores
+  | -- | Represents the JSON value @"sports_clubs_fields"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumSportsClubsFields
+  | -- | Represents the JSON value @"stamp_and_coin_stores"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStampAndCoinStores
+  | -- | Represents the JSON value @"stationary_office_supplies_printing_and_writing_paper"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStationaryOfficeSuppliesPrintingAndWritingPaper
+  | -- | Represents the JSON value @"stationery_stores_office_and_school_supply_stores"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStationeryStoresOfficeAndSchoolSupplyStores
+  | -- | Represents the JSON value @"swimming_pools_sales"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumSwimmingPoolsSales
+  | -- | Represents the JSON value @"t_ui_travel_germany"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumTUiTravelGermany
+  | -- | Represents the JSON value @"tailors_alterations"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumTailorsAlterations
+  | -- | Represents the JSON value @"tax_payments_government_agencies"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumTaxPaymentsGovernmentAgencies
+  | -- | Represents the JSON value @"tax_preparation_services"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumTaxPreparationServices
+  | -- | Represents the JSON value @"taxicabs_limousines"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumTaxicabsLimousines
+  | -- | Represents the JSON value @"telecommunication_equipment_and_telephone_sales"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumTelecommunicationEquipmentAndTelephoneSales
+  | -- | Represents the JSON value @"telecommunication_services"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumTelecommunicationServices
+  | -- | Represents the JSON value @"telegraph_services"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumTelegraphServices
+  | -- | Represents the JSON value @"tent_and_awning_shops"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumTentAndAwningShops
+  | -- | Represents the JSON value @"testing_laboratories"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumTestingLaboratories
+  | -- | Represents the JSON value @"theatrical_ticket_agencies"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumTheatricalTicketAgencies
+  | -- | Represents the JSON value @"timeshares"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumTimeshares
+  | -- | Represents the JSON value @"tire_retreading_and_repair"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumTireRetreadingAndRepair
+  | -- | Represents the JSON value @"tolls_bridge_fees"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumTollsBridgeFees
+  | -- | Represents the JSON value @"tourist_attractions_and_exhibits"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumTouristAttractionsAndExhibits
+  | -- | Represents the JSON value @"towing_services"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumTowingServices
+  | -- | Represents the JSON value @"trailer_parks_campgrounds"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumTrailerParksCampgrounds
+  | -- | Represents the JSON value @"transportation_services"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumTransportationServices
+  | -- | Represents the JSON value @"travel_agencies_tour_operators"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumTravelAgenciesTourOperators
+  | -- | Represents the JSON value @"truck_stop_iteration"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumTruckStopIteration
+  | -- | Represents the JSON value @"truck_utility_trailer_rentals"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumTruckUtilityTrailerRentals
+  | -- | Represents the JSON value @"typesetting_plate_making_and_related_services"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumTypesettingPlateMakingAndRelatedServices
+  | -- | Represents the JSON value @"typewriter_stores"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumTypewriterStores
+  | -- | Represents the JSON value @"u_s_federal_government_agencies_or_departments"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumUSFederalGovernmentAgenciesOrDepartments
+  | -- | Represents the JSON value @"uniforms_commercial_clothing"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumUniformsCommercialClothing
+  | -- | Represents the JSON value @"used_merchandise_and_secondhand_stores"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumUsedMerchandiseAndSecondhandStores
+  | -- | Represents the JSON value @"utilities"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumUtilities
+  | -- | Represents the JSON value @"variety_stores"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumVarietyStores
+  | -- | Represents the JSON value @"veterinary_services"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumVeterinaryServices
+  | -- | Represents the JSON value @"video_amusement_game_supplies"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumVideoAmusementGameSupplies
+  | -- | Represents the JSON value @"video_game_arcades"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumVideoGameArcades
+  | -- | Represents the JSON value @"video_tape_rental_stores"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumVideoTapeRentalStores
+  | -- | Represents the JSON value @"vocational_trade_schools"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumVocationalTradeSchools
+  | -- | Represents the JSON value @"watch_jewelry_repair"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumWatchJewelryRepair
+  | -- | Represents the JSON value @"welding_repair"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumWeldingRepair
+  | -- | Represents the JSON value @"wholesale_clubs"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumWholesaleClubs
+  | -- | Represents the JSON value @"wig_and_toupee_stores"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumWigAndToupeeStores
+  | -- | Represents the JSON value @"wires_money_orders"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumWiresMoneyOrders
+  | -- | Represents the JSON value @"womens_accessory_and_specialty_shops"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumWomensAccessoryAndSpecialtyShops
+  | -- | Represents the JSON value @"womens_ready_to_wear_stores"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumWomensReadyToWearStores
+  | -- | Represents the JSON value @"wrecking_and_salvage_yards"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumWreckingAndSalvageYards
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories' where
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringAcRefrigerationRepair) = "ac_refrigeration_repair"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringAccountingBookkeepingServices) = "accounting_bookkeeping_services"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringAdvertisingServices) = "advertising_services"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringAgriculturalCooperative) = "agricultural_cooperative"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringAirlinesAirCarriers) = "airlines_air_carriers"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringAirportsFlyingFields) = "airports_flying_fields"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringAmbulanceServices) = "ambulance_services"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringAmusementParksCarnivals) = "amusement_parks_carnivals"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringAntiqueReproductions) = "antique_reproductions"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringAntiqueShops) = "antique_shops"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringAquariums) = "aquariums"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringArchitecturalSurveyingServices) = "architectural_surveying_services"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringArtDealersAndGalleries) = "art_dealers_and_galleries"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringArtistsSupplyAndCraftShops) = "artists_supply_and_craft_shops"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringAutoAndHomeSupplyStores) = "auto_and_home_supply_stores"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringAutoBodyRepairShops) = "auto_body_repair_shops"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringAutoPaintShops) = "auto_paint_shops"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringAutoServiceShops) = "auto_service_shops"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringAutomatedCashDisburse) = "automated_cash_disburse"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringAutomatedFuelDispensers) = "automated_fuel_dispensers"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringAutomobileAssociations) = "automobile_associations"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringAutomotivePartsAndAccessoriesStores) = "automotive_parts_and_accessories_stores"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringAutomotiveTireStores) = "automotive_tire_stores"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringBailAndBondPayments) = "bail_and_bond_payments"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringBakeries) = "bakeries"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringBandsOrchestras) = "bands_orchestras"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringBarberAndBeautyShops) = "barber_and_beauty_shops"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringBettingCasinoGambling) = "betting_casino_gambling"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringBicycleShops) = "bicycle_shops"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringBilliardPoolEstablishments) = "billiard_pool_establishments"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringBoatDealers) = "boat_dealers"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringBoatRentalsAndLeases) = "boat_rentals_and_leases"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringBookStores) = "book_stores"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringBooksPeriodicalsAndNewspapers) = "books_periodicals_and_newspapers"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringBowlingAlleys) = "bowling_alleys"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringBusLines) = "bus_lines"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringBusinessSecretarialSchools) = "business_secretarial_schools"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringBuyingShoppingServices) = "buying_shopping_services"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringCableSatelliteAndOtherPayTelevisionAndRadio) = "cable_satellite_and_other_pay_television_and_radio"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringCameraAndPhotographicSupplyStores) = "camera_and_photographic_supply_stores"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringCandyNutAndConfectioneryStores) = "candy_nut_and_confectionery_stores"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringCarAndTruckDealersNewUsed) = "car_and_truck_dealers_new_used"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringCarAndTruckDealersUsedOnly) = "car_and_truck_dealers_used_only"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringCarRentalAgencies) = "car_rental_agencies"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringCarWashes) = "car_washes"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringCarpentryServices) = "carpentry_services"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringCarpetUpholsteryCleaning) = "carpet_upholstery_cleaning"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringCaterers) = "caterers"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringCharitableAndSocialServiceOrganizationsFundraising) = "charitable_and_social_service_organizations_fundraising"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringChemicalsAndAlliedProducts) = "chemicals_and_allied_products"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringChildCareServices) = "child_care_services"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringChildrensAndInfantsWearStores) = "childrens_and_infants_wear_stores"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringChiropodistsPodiatrists) = "chiropodists_podiatrists"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringChiropractors) = "chiropractors"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringCigarStoresAndStands) = "cigar_stores_and_stands"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringCivicSocialFraternalAssociations) = "civic_social_fraternal_associations"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringCleaningAndMaintenance) = "cleaning_and_maintenance"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringClothingRental) = "clothing_rental"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringCollegesUniversities) = "colleges_universities"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringCommercialEquipment) = "commercial_equipment"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringCommercialFootwear) = "commercial_footwear"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringCommercialPhotographyArtAndGraphics) = "commercial_photography_art_and_graphics"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringCommuterTransportAndFerries) = "commuter_transport_and_ferries"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringComputerNetworkServices) = "computer_network_services"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringComputerProgramming) = "computer_programming"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringComputerRepair) = "computer_repair"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringComputerSoftwareStores) = "computer_software_stores"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringComputersPeripheralsAndSoftware) = "computers_peripherals_and_software"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringConcreteWorkServices) = "concrete_work_services"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringConstructionMaterials) = "construction_materials"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringConsultingPublicRelations) = "consulting_public_relations"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringCorrespondenceSchools) = "correspondence_schools"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringCosmeticStores) = "cosmetic_stores"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringCounselingServices) = "counseling_services"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringCountryClubs) = "country_clubs"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringCourierServices) = "courier_services"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringCourtCosts) = "court_costs"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringCreditReportingAgencies) = "credit_reporting_agencies"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringCruiseLines) = "cruise_lines"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringDairyProductsStores) = "dairy_products_stores"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringDanceHallStudiosSchools) = "dance_hall_studios_schools"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringDatingEscortServices) = "dating_escort_services"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringDentistsOrthodontists) = "dentists_orthodontists"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringDepartmentStores) = "department_stores"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringDetectiveAgencies) = "detective_agencies"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringDigitalGoodsApplications) = "digital_goods_applications"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringDigitalGoodsGames) = "digital_goods_games"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringDigitalGoodsLargeVolume) = "digital_goods_large_volume"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringDigitalGoodsMedia) = "digital_goods_media"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringDirectMarketingCatalogMerchant) = "direct_marketing_catalog_merchant"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringDirectMarketingCombinationCatalogAndRetailMerchant) = "direct_marketing_combination_catalog_and_retail_merchant"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringDirectMarketingInboundTelemarketing) = "direct_marketing_inbound_telemarketing"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringDirectMarketingInsuranceServices) = "direct_marketing_insurance_services"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringDirectMarketingOther) = "direct_marketing_other"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringDirectMarketingOutboundTelemarketing) = "direct_marketing_outbound_telemarketing"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringDirectMarketingSubscription) = "direct_marketing_subscription"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringDirectMarketingTravel) = "direct_marketing_travel"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringDiscountStores) = "discount_stores"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringDoctors) = "doctors"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringDoorToDoorSales) = "door_to_door_sales"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringDraperyWindowCoveringAndUpholsteryStores) = "drapery_window_covering_and_upholstery_stores"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringDrinkingPlaces) = "drinking_places"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringDrugStoresAndPharmacies) = "drug_stores_and_pharmacies"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringDrugsDrugProprietariesAndDruggistSundries) = "drugs_drug_proprietaries_and_druggist_sundries"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringDryCleaners) = "dry_cleaners"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringDurableGoods) = "durable_goods"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringDutyFreeStores) = "duty_free_stores"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringEatingPlacesRestaurants) = "eating_places_restaurants"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringEducationalServices) = "educational_services"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringElectricRazorStores) = "electric_razor_stores"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringElectricalPartsAndEquipment) = "electrical_parts_and_equipment"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringElectricalServices) = "electrical_services"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringElectronicsRepairShops) = "electronics_repair_shops"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringElectronicsStores) = "electronics_stores"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringElementarySecondarySchools) = "elementary_secondary_schools"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringEmploymentTempAgencies) = "employment_temp_agencies"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringEquipmentRental) = "equipment_rental"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringExterminatingServices) = "exterminating_services"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringFamilyClothingStores) = "family_clothing_stores"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringFastFoodRestaurants) = "fast_food_restaurants"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringFinancialInstitutions) = "financial_institutions"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringFinesGovernmentAdministrativeEntities) = "fines_government_administrative_entities"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringFireplaceFireplaceScreensAndAccessoriesStores) = "fireplace_fireplace_screens_and_accessories_stores"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringFloorCoveringStores) = "floor_covering_stores"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringFlorists) = "florists"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringFloristsSuppliesNurseryStockAndFlowers) = "florists_supplies_nursery_stock_and_flowers"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringFreezerAndLockerMeatProvisioners) = "freezer_and_locker_meat_provisioners"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringFuelDealersNonAutomotive) = "fuel_dealers_non_automotive"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringFuneralServicesCrematories) = "funeral_services_crematories"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringFurnitureHomeFurnishingsAndEquipmentStoresExceptAppliances) = "furniture_home_furnishings_and_equipment_stores_except_appliances"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringFurnitureRepairRefinishing) = "furniture_repair_refinishing"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringFurriersAndFurShops) = "furriers_and_fur_shops"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringGeneralServices) = "general_services"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringGiftCardNoveltyAndSouvenirShops) = "gift_card_novelty_and_souvenir_shops"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringGlassPaintAndWallpaperStores) = "glass_paint_and_wallpaper_stores"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringGlasswareCrystalStores) = "glassware_crystal_stores"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringGolfCoursesPublic) = "golf_courses_public"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringGovernmentServices) = "government_services"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringGroceryStoresSupermarkets) = "grocery_stores_supermarkets"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringHardwareEquipmentAndSupplies) = "hardware_equipment_and_supplies"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringHardwareStores) = "hardware_stores"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringHealthAndBeautySpas) = "health_and_beauty_spas"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringHearingAidsSalesAndSupplies) = "hearing_aids_sales_and_supplies"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringHeatingPlumbingAC) = "heating_plumbing_a_c"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringHobbyToyAndGameShops) = "hobby_toy_and_game_shops"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringHomeSupplyWarehouseStores) = "home_supply_warehouse_stores"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringHospitals) = "hospitals"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringHotelsMotelsAndResorts) = "hotels_motels_and_resorts"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringHouseholdApplianceStores) = "household_appliance_stores"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringIndustrialSupplies) = "industrial_supplies"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringInformationRetrievalServices) = "information_retrieval_services"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringInsuranceDefault) = "insurance_default"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringInsuranceUnderwritingPremiums) = "insurance_underwriting_premiums"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringIntraCompanyPurchases) = "intra_company_purchases"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringJewelryStoresWatchesClocksAndSilverwareStores) = "jewelry_stores_watches_clocks_and_silverware_stores"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringLandscapingServices) = "landscaping_services"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringLaundries) = "laundries"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringLaundryCleaningServices) = "laundry_cleaning_services"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringLegalServicesAttorneys) = "legal_services_attorneys"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringLuggageAndLeatherGoodsStores) = "luggage_and_leather_goods_stores"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringLumberBuildingMaterialsStores) = "lumber_building_materials_stores"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringManualCashDisburse) = "manual_cash_disburse"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringMarinasServiceAndSupplies) = "marinas_service_and_supplies"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringMasonryStoneworkAndPlaster) = "masonry_stonework_and_plaster"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringMassageParlors) = "massage_parlors"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringMedicalAndDentalLabs) = "medical_and_dental_labs"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringMedicalDentalOphthalmicAndHospitalEquipmentAndSupplies) = "medical_dental_ophthalmic_and_hospital_equipment_and_supplies"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringMedicalServices) = "medical_services"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringMembershipOrganizations) = "membership_organizations"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringMensAndBoysClothingAndAccessoriesStores) = "mens_and_boys_clothing_and_accessories_stores"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringMensWomensClothingStores) = "mens_womens_clothing_stores"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringMetalServiceCenters) = "metal_service_centers"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringMiscellaneous) = "miscellaneous"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringMiscellaneousApparelAndAccessoryShops) = "miscellaneous_apparel_and_accessory_shops"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringMiscellaneousAutoDealers) = "miscellaneous_auto_dealers"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringMiscellaneousBusinessServices) = "miscellaneous_business_services"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringMiscellaneousFoodStores) = "miscellaneous_food_stores"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringMiscellaneousGeneralMerchandise) = "miscellaneous_general_merchandise"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringMiscellaneousGeneralServices) = "miscellaneous_general_services"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringMiscellaneousHomeFurnishingSpecialtyStores) = "miscellaneous_home_furnishing_specialty_stores"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringMiscellaneousPublishingAndPrinting) = "miscellaneous_publishing_and_printing"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringMiscellaneousRecreationServices) = "miscellaneous_recreation_services"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringMiscellaneousRepairShops) = "miscellaneous_repair_shops"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringMiscellaneousSpecialtyRetail) = "miscellaneous_specialty_retail"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringMobileHomeDealers) = "mobile_home_dealers"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringMotionPictureTheaters) = "motion_picture_theaters"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringMotorFreightCarriersAndTrucking) = "motor_freight_carriers_and_trucking"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringMotorHomesDealers) = "motor_homes_dealers"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringMotorVehicleSuppliesAndNewParts) = "motor_vehicle_supplies_and_new_parts"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringMotorcycleShopsAndDealers) = "motorcycle_shops_and_dealers"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringMotorcycleShopsDealers) = "motorcycle_shops_dealers"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringMusicStoresMusicalInstrumentsPianosAndSheetMusic) = "music_stores_musical_instruments_pianos_and_sheet_music"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringNewsDealersAndNewsstands) = "news_dealers_and_newsstands"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringNonFiMoneyOrders) = "non_fi_money_orders"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringNonFiStoredValueCardPurchaseLoad) = "non_fi_stored_value_card_purchase_load"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringNondurableGoods) = "nondurable_goods"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringNurseriesLawnAndGardenSupplyStores) = "nurseries_lawn_and_garden_supply_stores"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringNursingPersonalCare) = "nursing_personal_care"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringOfficeAndCommercialFurniture) = "office_and_commercial_furniture"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringOpticiansEyeglasses) = "opticians_eyeglasses"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringOptometristsOphthalmologist) = "optometrists_ophthalmologist"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringOrthopedicGoodsProstheticDevices) = "orthopedic_goods_prosthetic_devices"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringOsteopaths) = "osteopaths"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringPackageStoresBeerWineAndLiquor) = "package_stores_beer_wine_and_liquor"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringPaintsVarnishesAndSupplies) = "paints_varnishes_and_supplies"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringParkingLotsGarages) = "parking_lots_garages"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringPassengerRailways) = "passenger_railways"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringPawnShops) = "pawn_shops"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringPetShopsPetFoodAndSupplies) = "pet_shops_pet_food_and_supplies"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringPetroleumAndPetroleumProducts) = "petroleum_and_petroleum_products"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringPhotoDeveloping) = "photo_developing"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringPhotographicPhotocopyMicrofilmEquipmentAndSupplies) = "photographic_photocopy_microfilm_equipment_and_supplies"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringPhotographicStudios) = "photographic_studios"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringPictureVideoProduction) = "picture_video_production"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringPieceGoodsNotionsAndOtherDryGoods) = "piece_goods_notions_and_other_dry_goods"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringPlumbingHeatingEquipmentAndSupplies) = "plumbing_heating_equipment_and_supplies"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringPoliticalOrganizations) = "political_organizations"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringPostalServicesGovernmentOnly) = "postal_services_government_only"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringPreciousStonesAndMetalsWatchesAndJewelry) = "precious_stones_and_metals_watches_and_jewelry"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringProfessionalServices) = "professional_services"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringPublicWarehousingAndStorage) = "public_warehousing_and_storage"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringQuickCopyReproAndBlueprint) = "quick_copy_repro_and_blueprint"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringRailroads) = "railroads"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringRealEstateAgentsAndManagersRentals) = "real_estate_agents_and_managers_rentals"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringRecordStores) = "record_stores"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringRecreationalVehicleRentals) = "recreational_vehicle_rentals"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringReligiousGoodsStores) = "religious_goods_stores"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringReligiousOrganizations) = "religious_organizations"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringRoofingSidingSheetMetal) = "roofing_siding_sheet_metal"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringSecretarialSupportServices) = "secretarial_support_services"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringSecurityBrokersDealers) = "security_brokers_dealers"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringServiceStations) = "service_stations"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringSewingNeedleworkFabricAndPieceGoodsStores) = "sewing_needlework_fabric_and_piece_goods_stores"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringShoeRepairHatCleaning) = "shoe_repair_hat_cleaning"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringShoeStores) = "shoe_stores"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringSmallApplianceRepair) = "small_appliance_repair"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringSnowmobileDealers) = "snowmobile_dealers"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringSpecialTradeServices) = "special_trade_services"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringSpecialtyCleaning) = "specialty_cleaning"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringSportingGoodsStores) = "sporting_goods_stores"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringSportingRecreationCamps) = "sporting_recreation_camps"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringSportsAndRidingApparelStores) = "sports_and_riding_apparel_stores"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringSportsClubsFields) = "sports_clubs_fields"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringStampAndCoinStores) = "stamp_and_coin_stores"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringStationaryOfficeSuppliesPrintingAndWritingPaper) = "stationary_office_supplies_printing_and_writing_paper"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringStationeryStoresOfficeAndSchoolSupplyStores) = "stationery_stores_office_and_school_supply_stores"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringSwimmingPoolsSales) = "swimming_pools_sales"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringTUiTravelGermany) = "t_ui_travel_germany"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringTailorsAlterations) = "tailors_alterations"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringTaxPaymentsGovernmentAgencies) = "tax_payments_government_agencies"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringTaxPreparationServices) = "tax_preparation_services"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringTaxicabsLimousines) = "taxicabs_limousines"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringTelecommunicationEquipmentAndTelephoneSales) = "telecommunication_equipment_and_telephone_sales"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringTelecommunicationServices) = "telecommunication_services"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringTelegraphServices) = "telegraph_services"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringTentAndAwningShops) = "tent_and_awning_shops"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringTestingLaboratories) = "testing_laboratories"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringTheatricalTicketAgencies) = "theatrical_ticket_agencies"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringTimeshares) = "timeshares"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringTireRetreadingAndRepair) = "tire_retreading_and_repair"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringTollsBridgeFees) = "tolls_bridge_fees"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringTouristAttractionsAndExhibits) = "tourist_attractions_and_exhibits"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringTowingServices) = "towing_services"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringTrailerParksCampgrounds) = "trailer_parks_campgrounds"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringTransportationServices) = "transportation_services"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringTravelAgenciesTourOperators) = "travel_agencies_tour_operators"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringTruckStopIteration) = "truck_stop_iteration"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringTruckUtilityTrailerRentals) = "truck_utility_trailer_rentals"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringTypesettingPlateMakingAndRelatedServices) = "typesetting_plate_making_and_related_services"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringTypewriterStores) = "typewriter_stores"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringUSFederalGovernmentAgenciesOrDepartments) = "u_s_federal_government_agencies_or_departments"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringUniformsCommercialClothing) = "uniforms_commercial_clothing"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringUsedMerchandiseAndSecondhandStores) = "used_merchandise_and_secondhand_stores"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringUtilities) = "utilities"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringVarietyStores) = "variety_stores"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringVeterinaryServices) = "veterinary_services"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringVideoAmusementGameSupplies) = "video_amusement_game_supplies"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringVideoGameArcades) = "video_game_arcades"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringVideoTapeRentalStores) = "video_tape_rental_stores"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringVocationalTradeSchools) = "vocational_trade_schools"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringWatchJewelryRepair) = "watch_jewelry_repair"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringWeldingRepair) = "welding_repair"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringWholesaleClubs) = "wholesale_clubs"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringWigAndToupeeStores) = "wig_and_toupee_stores"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringWiresMoneyOrders) = "wires_money_orders"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringWomensAccessoryAndSpecialtyShops) = "womens_accessory_and_specialty_shops"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringWomensReadyToWearStores) = "womens_ready_to_wear_stores"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringWreckingAndSalvageYards) = "wrecking_and_salvage_yards"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'Other val) = val
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumAcRefrigerationRepair) = "ac_refrigeration_repair"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumAccountingBookkeepingServices) = "accounting_bookkeeping_services"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumAdvertisingServices) = "advertising_services"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumAgriculturalCooperative) = "agricultural_cooperative"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumAirlinesAirCarriers) = "airlines_air_carriers"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumAirportsFlyingFields) = "airports_flying_fields"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumAmbulanceServices) = "ambulance_services"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumAmusementParksCarnivals) = "amusement_parks_carnivals"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumAntiqueReproductions) = "antique_reproductions"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumAntiqueShops) = "antique_shops"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumAquariums) = "aquariums"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumArchitecturalSurveyingServices) = "architectural_surveying_services"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumArtDealersAndGalleries) = "art_dealers_and_galleries"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumArtistsSupplyAndCraftShops) = "artists_supply_and_craft_shops"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumAutoAndHomeSupplyStores) = "auto_and_home_supply_stores"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumAutoBodyRepairShops) = "auto_body_repair_shops"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumAutoPaintShops) = "auto_paint_shops"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumAutoServiceShops) = "auto_service_shops"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumAutomatedCashDisburse) = "automated_cash_disburse"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumAutomatedFuelDispensers) = "automated_fuel_dispensers"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumAutomobileAssociations) = "automobile_associations"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumAutomotivePartsAndAccessoriesStores) = "automotive_parts_and_accessories_stores"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumAutomotiveTireStores) = "automotive_tire_stores"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumBailAndBondPayments) = "bail_and_bond_payments"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumBakeries) = "bakeries"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumBandsOrchestras) = "bands_orchestras"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumBarberAndBeautyShops) = "barber_and_beauty_shops"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumBettingCasinoGambling) = "betting_casino_gambling"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumBicycleShops) = "bicycle_shops"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumBilliardPoolEstablishments) = "billiard_pool_establishments"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumBoatDealers) = "boat_dealers"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumBoatRentalsAndLeases) = "boat_rentals_and_leases"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumBookStores) = "book_stores"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumBooksPeriodicalsAndNewspapers) = "books_periodicals_and_newspapers"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumBowlingAlleys) = "bowling_alleys"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumBusLines) = "bus_lines"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumBusinessSecretarialSchools) = "business_secretarial_schools"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumBuyingShoppingServices) = "buying_shopping_services"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumCableSatelliteAndOtherPayTelevisionAndRadio) = "cable_satellite_and_other_pay_television_and_radio"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumCameraAndPhotographicSupplyStores) = "camera_and_photographic_supply_stores"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumCandyNutAndConfectioneryStores) = "candy_nut_and_confectionery_stores"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumCarAndTruckDealersNewUsed) = "car_and_truck_dealers_new_used"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumCarAndTruckDealersUsedOnly) = "car_and_truck_dealers_used_only"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumCarRentalAgencies) = "car_rental_agencies"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumCarWashes) = "car_washes"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumCarpentryServices) = "carpentry_services"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumCarpetUpholsteryCleaning) = "carpet_upholstery_cleaning"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumCaterers) = "caterers"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumCharitableAndSocialServiceOrganizationsFundraising) = "charitable_and_social_service_organizations_fundraising"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumChemicalsAndAlliedProducts) = "chemicals_and_allied_products"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumChildCareServices) = "child_care_services"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumChildrensAndInfantsWearStores) = "childrens_and_infants_wear_stores"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumChiropodistsPodiatrists) = "chiropodists_podiatrists"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumChiropractors) = "chiropractors"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumCigarStoresAndStands) = "cigar_stores_and_stands"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumCivicSocialFraternalAssociations) = "civic_social_fraternal_associations"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumCleaningAndMaintenance) = "cleaning_and_maintenance"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumClothingRental) = "clothing_rental"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumCollegesUniversities) = "colleges_universities"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumCommercialEquipment) = "commercial_equipment"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumCommercialFootwear) = "commercial_footwear"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumCommercialPhotographyArtAndGraphics) = "commercial_photography_art_and_graphics"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumCommuterTransportAndFerries) = "commuter_transport_and_ferries"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumComputerNetworkServices) = "computer_network_services"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumComputerProgramming) = "computer_programming"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumComputerRepair) = "computer_repair"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumComputerSoftwareStores) = "computer_software_stores"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumComputersPeripheralsAndSoftware) = "computers_peripherals_and_software"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumConcreteWorkServices) = "concrete_work_services"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumConstructionMaterials) = "construction_materials"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumConsultingPublicRelations) = "consulting_public_relations"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumCorrespondenceSchools) = "correspondence_schools"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumCosmeticStores) = "cosmetic_stores"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumCounselingServices) = "counseling_services"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumCountryClubs) = "country_clubs"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumCourierServices) = "courier_services"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumCourtCosts) = "court_costs"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumCreditReportingAgencies) = "credit_reporting_agencies"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumCruiseLines) = "cruise_lines"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumDairyProductsStores) = "dairy_products_stores"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumDanceHallStudiosSchools) = "dance_hall_studios_schools"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumDatingEscortServices) = "dating_escort_services"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumDentistsOrthodontists) = "dentists_orthodontists"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumDepartmentStores) = "department_stores"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumDetectiveAgencies) = "detective_agencies"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumDigitalGoodsApplications) = "digital_goods_applications"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumDigitalGoodsGames) = "digital_goods_games"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumDigitalGoodsLargeVolume) = "digital_goods_large_volume"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumDigitalGoodsMedia) = "digital_goods_media"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumDirectMarketingCatalogMerchant) = "direct_marketing_catalog_merchant"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumDirectMarketingCombinationCatalogAndRetailMerchant) = "direct_marketing_combination_catalog_and_retail_merchant"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumDirectMarketingInboundTelemarketing) = "direct_marketing_inbound_telemarketing"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumDirectMarketingInsuranceServices) = "direct_marketing_insurance_services"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumDirectMarketingOther) = "direct_marketing_other"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumDirectMarketingOutboundTelemarketing) = "direct_marketing_outbound_telemarketing"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumDirectMarketingSubscription) = "direct_marketing_subscription"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumDirectMarketingTravel) = "direct_marketing_travel"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumDiscountStores) = "discount_stores"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumDoctors) = "doctors"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumDoorToDoorSales) = "door_to_door_sales"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumDraperyWindowCoveringAndUpholsteryStores) = "drapery_window_covering_and_upholstery_stores"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumDrinkingPlaces) = "drinking_places"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumDrugStoresAndPharmacies) = "drug_stores_and_pharmacies"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumDrugsDrugProprietariesAndDruggistSundries) = "drugs_drug_proprietaries_and_druggist_sundries"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumDryCleaners) = "dry_cleaners"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumDurableGoods) = "durable_goods"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumDutyFreeStores) = "duty_free_stores"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumEatingPlacesRestaurants) = "eating_places_restaurants"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumEducationalServices) = "educational_services"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumElectricRazorStores) = "electric_razor_stores"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumElectricalPartsAndEquipment) = "electrical_parts_and_equipment"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumElectricalServices) = "electrical_services"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumElectronicsRepairShops) = "electronics_repair_shops"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumElectronicsStores) = "electronics_stores"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumElementarySecondarySchools) = "elementary_secondary_schools"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumEmploymentTempAgencies) = "employment_temp_agencies"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumEquipmentRental) = "equipment_rental"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumExterminatingServices) = "exterminating_services"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumFamilyClothingStores) = "family_clothing_stores"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumFastFoodRestaurants) = "fast_food_restaurants"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumFinancialInstitutions) = "financial_institutions"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumFinesGovernmentAdministrativeEntities) = "fines_government_administrative_entities"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumFireplaceFireplaceScreensAndAccessoriesStores) = "fireplace_fireplace_screens_and_accessories_stores"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumFloorCoveringStores) = "floor_covering_stores"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumFlorists) = "florists"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumFloristsSuppliesNurseryStockAndFlowers) = "florists_supplies_nursery_stock_and_flowers"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumFreezerAndLockerMeatProvisioners) = "freezer_and_locker_meat_provisioners"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumFuelDealersNonAutomotive) = "fuel_dealers_non_automotive"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumFuneralServicesCrematories) = "funeral_services_crematories"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumFurnitureHomeFurnishingsAndEquipmentStoresExceptAppliances) = "furniture_home_furnishings_and_equipment_stores_except_appliances"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumFurnitureRepairRefinishing) = "furniture_repair_refinishing"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumFurriersAndFurShops) = "furriers_and_fur_shops"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumGeneralServices) = "general_services"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumGiftCardNoveltyAndSouvenirShops) = "gift_card_novelty_and_souvenir_shops"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumGlassPaintAndWallpaperStores) = "glass_paint_and_wallpaper_stores"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumGlasswareCrystalStores) = "glassware_crystal_stores"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumGolfCoursesPublic) = "golf_courses_public"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumGovernmentServices) = "government_services"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumGroceryStoresSupermarkets) = "grocery_stores_supermarkets"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumHardwareEquipmentAndSupplies) = "hardware_equipment_and_supplies"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumHardwareStores) = "hardware_stores"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumHealthAndBeautySpas) = "health_and_beauty_spas"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumHearingAidsSalesAndSupplies) = "hearing_aids_sales_and_supplies"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumHeatingPlumbingAC) = "heating_plumbing_a_c"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumHobbyToyAndGameShops) = "hobby_toy_and_game_shops"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumHomeSupplyWarehouseStores) = "home_supply_warehouse_stores"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumHospitals) = "hospitals"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumHotelsMotelsAndResorts) = "hotels_motels_and_resorts"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumHouseholdApplianceStores) = "household_appliance_stores"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumIndustrialSupplies) = "industrial_supplies"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumInformationRetrievalServices) = "information_retrieval_services"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumInsuranceDefault) = "insurance_default"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumInsuranceUnderwritingPremiums) = "insurance_underwriting_premiums"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumIntraCompanyPurchases) = "intra_company_purchases"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumJewelryStoresWatchesClocksAndSilverwareStores) = "jewelry_stores_watches_clocks_and_silverware_stores"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumLandscapingServices) = "landscaping_services"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumLaundries) = "laundries"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumLaundryCleaningServices) = "laundry_cleaning_services"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumLegalServicesAttorneys) = "legal_services_attorneys"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumLuggageAndLeatherGoodsStores) = "luggage_and_leather_goods_stores"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumLumberBuildingMaterialsStores) = "lumber_building_materials_stores"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumManualCashDisburse) = "manual_cash_disburse"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumMarinasServiceAndSupplies) = "marinas_service_and_supplies"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumMasonryStoneworkAndPlaster) = "masonry_stonework_and_plaster"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumMassageParlors) = "massage_parlors"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumMedicalAndDentalLabs) = "medical_and_dental_labs"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumMedicalDentalOphthalmicAndHospitalEquipmentAndSupplies) = "medical_dental_ophthalmic_and_hospital_equipment_and_supplies"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumMedicalServices) = "medical_services"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumMembershipOrganizations) = "membership_organizations"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumMensAndBoysClothingAndAccessoriesStores) = "mens_and_boys_clothing_and_accessories_stores"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumMensWomensClothingStores) = "mens_womens_clothing_stores"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumMetalServiceCenters) = "metal_service_centers"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumMiscellaneous) = "miscellaneous"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumMiscellaneousApparelAndAccessoryShops) = "miscellaneous_apparel_and_accessory_shops"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumMiscellaneousAutoDealers) = "miscellaneous_auto_dealers"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumMiscellaneousBusinessServices) = "miscellaneous_business_services"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumMiscellaneousFoodStores) = "miscellaneous_food_stores"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumMiscellaneousGeneralMerchandise) = "miscellaneous_general_merchandise"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumMiscellaneousGeneralServices) = "miscellaneous_general_services"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumMiscellaneousHomeFurnishingSpecialtyStores) = "miscellaneous_home_furnishing_specialty_stores"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumMiscellaneousPublishingAndPrinting) = "miscellaneous_publishing_and_printing"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumMiscellaneousRecreationServices) = "miscellaneous_recreation_services"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumMiscellaneousRepairShops) = "miscellaneous_repair_shops"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumMiscellaneousSpecialtyRetail) = "miscellaneous_specialty_retail"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumMobileHomeDealers) = "mobile_home_dealers"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumMotionPictureTheaters) = "motion_picture_theaters"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumMotorFreightCarriersAndTrucking) = "motor_freight_carriers_and_trucking"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumMotorHomesDealers) = "motor_homes_dealers"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumMotorVehicleSuppliesAndNewParts) = "motor_vehicle_supplies_and_new_parts"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumMotorcycleShopsAndDealers) = "motorcycle_shops_and_dealers"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumMotorcycleShopsDealers) = "motorcycle_shops_dealers"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumMusicStoresMusicalInstrumentsPianosAndSheetMusic) = "music_stores_musical_instruments_pianos_and_sheet_music"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumNewsDealersAndNewsstands) = "news_dealers_and_newsstands"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumNonFiMoneyOrders) = "non_fi_money_orders"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumNonFiStoredValueCardPurchaseLoad) = "non_fi_stored_value_card_purchase_load"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumNondurableGoods) = "nondurable_goods"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumNurseriesLawnAndGardenSupplyStores) = "nurseries_lawn_and_garden_supply_stores"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumNursingPersonalCare) = "nursing_personal_care"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumOfficeAndCommercialFurniture) = "office_and_commercial_furniture"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumOpticiansEyeglasses) = "opticians_eyeglasses"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumOptometristsOphthalmologist) = "optometrists_ophthalmologist"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumOrthopedicGoodsProstheticDevices) = "orthopedic_goods_prosthetic_devices"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumOsteopaths) = "osteopaths"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumPackageStoresBeerWineAndLiquor) = "package_stores_beer_wine_and_liquor"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumPaintsVarnishesAndSupplies) = "paints_varnishes_and_supplies"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumParkingLotsGarages) = "parking_lots_garages"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumPassengerRailways) = "passenger_railways"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumPawnShops) = "pawn_shops"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumPetShopsPetFoodAndSupplies) = "pet_shops_pet_food_and_supplies"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumPetroleumAndPetroleumProducts) = "petroleum_and_petroleum_products"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumPhotoDeveloping) = "photo_developing"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumPhotographicPhotocopyMicrofilmEquipmentAndSupplies) = "photographic_photocopy_microfilm_equipment_and_supplies"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumPhotographicStudios) = "photographic_studios"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumPictureVideoProduction) = "picture_video_production"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumPieceGoodsNotionsAndOtherDryGoods) = "piece_goods_notions_and_other_dry_goods"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumPlumbingHeatingEquipmentAndSupplies) = "plumbing_heating_equipment_and_supplies"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumPoliticalOrganizations) = "political_organizations"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumPostalServicesGovernmentOnly) = "postal_services_government_only"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumPreciousStonesAndMetalsWatchesAndJewelry) = "precious_stones_and_metals_watches_and_jewelry"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumProfessionalServices) = "professional_services"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumPublicWarehousingAndStorage) = "public_warehousing_and_storage"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumQuickCopyReproAndBlueprint) = "quick_copy_repro_and_blueprint"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumRailroads) = "railroads"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumRealEstateAgentsAndManagersRentals) = "real_estate_agents_and_managers_rentals"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumRecordStores) = "record_stores"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumRecreationalVehicleRentals) = "recreational_vehicle_rentals"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumReligiousGoodsStores) = "religious_goods_stores"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumReligiousOrganizations) = "religious_organizations"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumRoofingSidingSheetMetal) = "roofing_siding_sheet_metal"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumSecretarialSupportServices) = "secretarial_support_services"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumSecurityBrokersDealers) = "security_brokers_dealers"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumServiceStations) = "service_stations"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumSewingNeedleworkFabricAndPieceGoodsStores) = "sewing_needlework_fabric_and_piece_goods_stores"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumShoeRepairHatCleaning) = "shoe_repair_hat_cleaning"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumShoeStores) = "shoe_stores"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumSmallApplianceRepair) = "small_appliance_repair"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumSnowmobileDealers) = "snowmobile_dealers"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumSpecialTradeServices) = "special_trade_services"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumSpecialtyCleaning) = "specialty_cleaning"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumSportingGoodsStores) = "sporting_goods_stores"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumSportingRecreationCamps) = "sporting_recreation_camps"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumSportsAndRidingApparelStores) = "sports_and_riding_apparel_stores"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumSportsClubsFields) = "sports_clubs_fields"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStampAndCoinStores) = "stamp_and_coin_stores"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStationaryOfficeSuppliesPrintingAndWritingPaper) = "stationary_office_supplies_printing_and_writing_paper"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStationeryStoresOfficeAndSchoolSupplyStores) = "stationery_stores_office_and_school_supply_stores"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumSwimmingPoolsSales) = "swimming_pools_sales"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumTUiTravelGermany) = "t_ui_travel_germany"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumTailorsAlterations) = "tailors_alterations"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumTaxPaymentsGovernmentAgencies) = "tax_payments_government_agencies"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumTaxPreparationServices) = "tax_preparation_services"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumTaxicabsLimousines) = "taxicabs_limousines"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumTelecommunicationEquipmentAndTelephoneSales) = "telecommunication_equipment_and_telephone_sales"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumTelecommunicationServices) = "telecommunication_services"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumTelegraphServices) = "telegraph_services"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumTentAndAwningShops) = "tent_and_awning_shops"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumTestingLaboratories) = "testing_laboratories"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumTheatricalTicketAgencies) = "theatrical_ticket_agencies"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumTimeshares) = "timeshares"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumTireRetreadingAndRepair) = "tire_retreading_and_repair"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumTollsBridgeFees) = "tolls_bridge_fees"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumTouristAttractionsAndExhibits) = "tourist_attractions_and_exhibits"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumTowingServices) = "towing_services"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumTrailerParksCampgrounds) = "trailer_parks_campgrounds"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumTransportationServices) = "transportation_services"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumTravelAgenciesTourOperators) = "travel_agencies_tour_operators"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumTruckStopIteration) = "truck_stop_iteration"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumTruckUtilityTrailerRentals) = "truck_utility_trailer_rentals"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumTypesettingPlateMakingAndRelatedServices) = "typesetting_plate_making_and_related_services"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumTypewriterStores) = "typewriter_stores"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumUSFederalGovernmentAgenciesOrDepartments) = "u_s_federal_government_agencies_or_departments"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumUniformsCommercialClothing) = "uniforms_commercial_clothing"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumUsedMerchandiseAndSecondhandStores) = "used_merchandise_and_secondhand_stores"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumUtilities) = "utilities"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumVarietyStores) = "variety_stores"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumVeterinaryServices) = "veterinary_services"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumVideoAmusementGameSupplies) = "video_amusement_game_supplies"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumVideoGameArcades) = "video_game_arcades"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumVideoTapeRentalStores) = "video_tape_rental_stores"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumVocationalTradeSchools) = "vocational_trade_schools"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumWatchJewelryRepair) = "watch_jewelry_repair"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumWeldingRepair) = "welding_repair"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumWholesaleClubs) = "wholesale_clubs"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumWigAndToupeeStores) = "wig_and_toupee_stores"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumWiresMoneyOrders) = "wires_money_orders"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumWomensAccessoryAndSpecialtyShops) = "womens_accessory_and_specialty_shops"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumWomensReadyToWearStores) = "womens_ready_to_wear_stores"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumWreckingAndSalvageYards) = "wrecking_and_salvage_yards"
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories' where
   parseJSON val =
     GHC.Base.pure
-      ( if  | val GHC.Classes.== "ac_refrigeration_repair" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringAcRefrigerationRepair
-            | val GHC.Classes.== "accounting_bookkeeping_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringAccountingBookkeepingServices
-            | val GHC.Classes.== "advertising_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringAdvertisingServices
-            | val GHC.Classes.== "agricultural_cooperative" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringAgriculturalCooperative
-            | val GHC.Classes.== "airlines_air_carriers" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringAirlinesAirCarriers
-            | val GHC.Classes.== "airports_flying_fields" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringAirportsFlyingFields
-            | val GHC.Classes.== "ambulance_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringAmbulanceServices
-            | val GHC.Classes.== "amusement_parks_carnivals" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringAmusementParksCarnivals
-            | val GHC.Classes.== "antique_reproductions" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringAntiqueReproductions
-            | val GHC.Classes.== "antique_shops" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringAntiqueShops
-            | val GHC.Classes.== "aquariums" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringAquariums
-            | val GHC.Classes.== "architectural_surveying_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringArchitecturalSurveyingServices
-            | val GHC.Classes.== "art_dealers_and_galleries" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringArtDealersAndGalleries
-            | val GHC.Classes.== "artists_supply_and_craft_shops" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringArtistsSupplyAndCraftShops
-            | val GHC.Classes.== "auto_and_home_supply_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringAutoAndHomeSupplyStores
-            | val GHC.Classes.== "auto_body_repair_shops" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringAutoBodyRepairShops
-            | val GHC.Classes.== "auto_paint_shops" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringAutoPaintShops
-            | val GHC.Classes.== "auto_service_shops" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringAutoServiceShops
-            | val GHC.Classes.== "automated_cash_disburse" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringAutomatedCashDisburse
-            | val GHC.Classes.== "automated_fuel_dispensers" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringAutomatedFuelDispensers
-            | val GHC.Classes.== "automobile_associations" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringAutomobileAssociations
-            | val GHC.Classes.== "automotive_parts_and_accessories_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringAutomotivePartsAndAccessoriesStores
-            | val GHC.Classes.== "automotive_tire_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringAutomotiveTireStores
-            | val GHC.Classes.== "bail_and_bond_payments" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringBailAndBondPayments
-            | val GHC.Classes.== "bakeries" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringBakeries
-            | val GHC.Classes.== "bands_orchestras" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringBandsOrchestras
-            | val GHC.Classes.== "barber_and_beauty_shops" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringBarberAndBeautyShops
-            | val GHC.Classes.== "betting_casino_gambling" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringBettingCasinoGambling
-            | val GHC.Classes.== "bicycle_shops" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringBicycleShops
-            | val GHC.Classes.== "billiard_pool_establishments" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringBilliardPoolEstablishments
-            | val GHC.Classes.== "boat_dealers" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringBoatDealers
-            | val GHC.Classes.== "boat_rentals_and_leases" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringBoatRentalsAndLeases
-            | val GHC.Classes.== "book_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringBookStores
-            | val GHC.Classes.== "books_periodicals_and_newspapers" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringBooksPeriodicalsAndNewspapers
-            | val GHC.Classes.== "bowling_alleys" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringBowlingAlleys
-            | val GHC.Classes.== "bus_lines" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringBusLines
-            | val GHC.Classes.== "business_secretarial_schools" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringBusinessSecretarialSchools
-            | val GHC.Classes.== "buying_shopping_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringBuyingShoppingServices
-            | val GHC.Classes.== "cable_satellite_and_other_pay_television_and_radio" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringCableSatelliteAndOtherPayTelevisionAndRadio
-            | val GHC.Classes.== "camera_and_photographic_supply_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringCameraAndPhotographicSupplyStores
-            | val GHC.Classes.== "candy_nut_and_confectionery_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringCandyNutAndConfectioneryStores
-            | val GHC.Classes.== "car_and_truck_dealers_new_used" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringCarAndTruckDealersNewUsed
-            | val GHC.Classes.== "car_and_truck_dealers_used_only" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringCarAndTruckDealersUsedOnly
-            | val GHC.Classes.== "car_rental_agencies" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringCarRentalAgencies
-            | val GHC.Classes.== "car_washes" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringCarWashes
-            | val GHC.Classes.== "carpentry_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringCarpentryServices
-            | val GHC.Classes.== "carpet_upholstery_cleaning" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringCarpetUpholsteryCleaning
-            | val GHC.Classes.== "caterers" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringCaterers
-            | val GHC.Classes.== "charitable_and_social_service_organizations_fundraising" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringCharitableAndSocialServiceOrganizationsFundraising
-            | val GHC.Classes.== "chemicals_and_allied_products" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringChemicalsAndAlliedProducts
-            | val GHC.Classes.== "child_care_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringChildCareServices
-            | val GHC.Classes.== "childrens_and_infants_wear_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringChildrensAndInfantsWearStores
-            | val GHC.Classes.== "chiropodists_podiatrists" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringChiropodistsPodiatrists
-            | val GHC.Classes.== "chiropractors" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringChiropractors
-            | val GHC.Classes.== "cigar_stores_and_stands" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringCigarStoresAndStands
-            | val GHC.Classes.== "civic_social_fraternal_associations" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringCivicSocialFraternalAssociations
-            | val GHC.Classes.== "cleaning_and_maintenance" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringCleaningAndMaintenance
-            | val GHC.Classes.== "clothing_rental" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringClothingRental
-            | val GHC.Classes.== "colleges_universities" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringCollegesUniversities
-            | val GHC.Classes.== "commercial_equipment" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringCommercialEquipment
-            | val GHC.Classes.== "commercial_footwear" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringCommercialFootwear
-            | val GHC.Classes.== "commercial_photography_art_and_graphics" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringCommercialPhotographyArtAndGraphics
-            | val GHC.Classes.== "commuter_transport_and_ferries" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringCommuterTransportAndFerries
-            | val GHC.Classes.== "computer_network_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringComputerNetworkServices
-            | val GHC.Classes.== "computer_programming" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringComputerProgramming
-            | val GHC.Classes.== "computer_repair" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringComputerRepair
-            | val GHC.Classes.== "computer_software_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringComputerSoftwareStores
-            | val GHC.Classes.== "computers_peripherals_and_software" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringComputersPeripheralsAndSoftware
-            | val GHC.Classes.== "concrete_work_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringConcreteWorkServices
-            | val GHC.Classes.== "construction_materials" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringConstructionMaterials
-            | val GHC.Classes.== "consulting_public_relations" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringConsultingPublicRelations
-            | val GHC.Classes.== "correspondence_schools" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringCorrespondenceSchools
-            | val GHC.Classes.== "cosmetic_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringCosmeticStores
-            | val GHC.Classes.== "counseling_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringCounselingServices
-            | val GHC.Classes.== "country_clubs" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringCountryClubs
-            | val GHC.Classes.== "courier_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringCourierServices
-            | val GHC.Classes.== "court_costs" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringCourtCosts
-            | val GHC.Classes.== "credit_reporting_agencies" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringCreditReportingAgencies
-            | val GHC.Classes.== "cruise_lines" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringCruiseLines
-            | val GHC.Classes.== "dairy_products_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringDairyProductsStores
-            | val GHC.Classes.== "dance_hall_studios_schools" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringDanceHallStudiosSchools
-            | val GHC.Classes.== "dating_escort_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringDatingEscortServices
-            | val GHC.Classes.== "dentists_orthodontists" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringDentistsOrthodontists
-            | val GHC.Classes.== "department_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringDepartmentStores
-            | val GHC.Classes.== "detective_agencies" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringDetectiveAgencies
-            | val GHC.Classes.== "digital_goods_applications" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringDigitalGoodsApplications
-            | val GHC.Classes.== "digital_goods_games" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringDigitalGoodsGames
-            | val GHC.Classes.== "digital_goods_large_volume" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringDigitalGoodsLargeVolume
-            | val GHC.Classes.== "digital_goods_media" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringDigitalGoodsMedia
-            | val GHC.Classes.== "direct_marketing_catalog_merchant" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringDirectMarketingCatalogMerchant
-            | val GHC.Classes.== "direct_marketing_combination_catalog_and_retail_merchant" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringDirectMarketingCombinationCatalogAndRetailMerchant
-            | val GHC.Classes.== "direct_marketing_inbound_telemarketing" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringDirectMarketingInboundTelemarketing
-            | val GHC.Classes.== "direct_marketing_insurance_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringDirectMarketingInsuranceServices
-            | val GHC.Classes.== "direct_marketing_other" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringDirectMarketingOther
-            | val GHC.Classes.== "direct_marketing_outbound_telemarketing" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringDirectMarketingOutboundTelemarketing
-            | val GHC.Classes.== "direct_marketing_subscription" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringDirectMarketingSubscription
-            | val GHC.Classes.== "direct_marketing_travel" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringDirectMarketingTravel
-            | val GHC.Classes.== "discount_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringDiscountStores
-            | val GHC.Classes.== "doctors" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringDoctors
-            | val GHC.Classes.== "door_to_door_sales" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringDoorToDoorSales
-            | val GHC.Classes.== "drapery_window_covering_and_upholstery_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringDraperyWindowCoveringAndUpholsteryStores
-            | val GHC.Classes.== "drinking_places" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringDrinkingPlaces
-            | val GHC.Classes.== "drug_stores_and_pharmacies" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringDrugStoresAndPharmacies
-            | val GHC.Classes.== "drugs_drug_proprietaries_and_druggist_sundries" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringDrugsDrugProprietariesAndDruggistSundries
-            | val GHC.Classes.== "dry_cleaners" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringDryCleaners
-            | val GHC.Classes.== "durable_goods" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringDurableGoods
-            | val GHC.Classes.== "duty_free_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringDutyFreeStores
-            | val GHC.Classes.== "eating_places_restaurants" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringEatingPlacesRestaurants
-            | val GHC.Classes.== "educational_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringEducationalServices
-            | val GHC.Classes.== "electric_razor_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringElectricRazorStores
-            | val GHC.Classes.== "electrical_parts_and_equipment" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringElectricalPartsAndEquipment
-            | val GHC.Classes.== "electrical_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringElectricalServices
-            | val GHC.Classes.== "electronics_repair_shops" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringElectronicsRepairShops
-            | val GHC.Classes.== "electronics_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringElectronicsStores
-            | val GHC.Classes.== "elementary_secondary_schools" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringElementarySecondarySchools
-            | val GHC.Classes.== "employment_temp_agencies" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringEmploymentTempAgencies
-            | val GHC.Classes.== "equipment_rental" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringEquipmentRental
-            | val GHC.Classes.== "exterminating_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringExterminatingServices
-            | val GHC.Classes.== "family_clothing_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringFamilyClothingStores
-            | val GHC.Classes.== "fast_food_restaurants" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringFastFoodRestaurants
-            | val GHC.Classes.== "financial_institutions" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringFinancialInstitutions
-            | val GHC.Classes.== "fines_government_administrative_entities" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringFinesGovernmentAdministrativeEntities
-            | val GHC.Classes.== "fireplace_fireplace_screens_and_accessories_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringFireplaceFireplaceScreensAndAccessoriesStores
-            | val GHC.Classes.== "floor_covering_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringFloorCoveringStores
-            | val GHC.Classes.== "florists" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringFlorists
-            | val GHC.Classes.== "florists_supplies_nursery_stock_and_flowers" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringFloristsSuppliesNurseryStockAndFlowers
-            | val GHC.Classes.== "freezer_and_locker_meat_provisioners" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringFreezerAndLockerMeatProvisioners
-            | val GHC.Classes.== "fuel_dealers_non_automotive" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringFuelDealersNonAutomotive
-            | val GHC.Classes.== "funeral_services_crematories" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringFuneralServicesCrematories
-            | val GHC.Classes.== "furniture_home_furnishings_and_equipment_stores_except_appliances" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringFurnitureHomeFurnishingsAndEquipmentStoresExceptAppliances
-            | val GHC.Classes.== "furniture_repair_refinishing" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringFurnitureRepairRefinishing
-            | val GHC.Classes.== "furriers_and_fur_shops" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringFurriersAndFurShops
-            | val GHC.Classes.== "general_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringGeneralServices
-            | val GHC.Classes.== "gift_card_novelty_and_souvenir_shops" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringGiftCardNoveltyAndSouvenirShops
-            | val GHC.Classes.== "glass_paint_and_wallpaper_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringGlassPaintAndWallpaperStores
-            | val GHC.Classes.== "glassware_crystal_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringGlasswareCrystalStores
-            | val GHC.Classes.== "golf_courses_public" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringGolfCoursesPublic
-            | val GHC.Classes.== "government_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringGovernmentServices
-            | val GHC.Classes.== "grocery_stores_supermarkets" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringGroceryStoresSupermarkets
-            | val GHC.Classes.== "hardware_equipment_and_supplies" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringHardwareEquipmentAndSupplies
-            | val GHC.Classes.== "hardware_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringHardwareStores
-            | val GHC.Classes.== "health_and_beauty_spas" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringHealthAndBeautySpas
-            | val GHC.Classes.== "hearing_aids_sales_and_supplies" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringHearingAidsSalesAndSupplies
-            | val GHC.Classes.== "heating_plumbing_a_c" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringHeatingPlumbingAC
-            | val GHC.Classes.== "hobby_toy_and_game_shops" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringHobbyToyAndGameShops
-            | val GHC.Classes.== "home_supply_warehouse_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringHomeSupplyWarehouseStores
-            | val GHC.Classes.== "hospitals" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringHospitals
-            | val GHC.Classes.== "hotels_motels_and_resorts" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringHotelsMotelsAndResorts
-            | val GHC.Classes.== "household_appliance_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringHouseholdApplianceStores
-            | val GHC.Classes.== "industrial_supplies" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringIndustrialSupplies
-            | val GHC.Classes.== "information_retrieval_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringInformationRetrievalServices
-            | val GHC.Classes.== "insurance_default" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringInsuranceDefault
-            | val GHC.Classes.== "insurance_underwriting_premiums" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringInsuranceUnderwritingPremiums
-            | val GHC.Classes.== "intra_company_purchases" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringIntraCompanyPurchases
-            | val GHC.Classes.== "jewelry_stores_watches_clocks_and_silverware_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringJewelryStoresWatchesClocksAndSilverwareStores
-            | val GHC.Classes.== "landscaping_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringLandscapingServices
-            | val GHC.Classes.== "laundries" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringLaundries
-            | val GHC.Classes.== "laundry_cleaning_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringLaundryCleaningServices
-            | val GHC.Classes.== "legal_services_attorneys" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringLegalServicesAttorneys
-            | val GHC.Classes.== "luggage_and_leather_goods_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringLuggageAndLeatherGoodsStores
-            | val GHC.Classes.== "lumber_building_materials_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringLumberBuildingMaterialsStores
-            | val GHC.Classes.== "manual_cash_disburse" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringManualCashDisburse
-            | val GHC.Classes.== "marinas_service_and_supplies" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringMarinasServiceAndSupplies
-            | val GHC.Classes.== "masonry_stonework_and_plaster" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringMasonryStoneworkAndPlaster
-            | val GHC.Classes.== "massage_parlors" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringMassageParlors
-            | val GHC.Classes.== "medical_and_dental_labs" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringMedicalAndDentalLabs
-            | val GHC.Classes.== "medical_dental_ophthalmic_and_hospital_equipment_and_supplies" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringMedicalDentalOphthalmicAndHospitalEquipmentAndSupplies
-            | val GHC.Classes.== "medical_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringMedicalServices
-            | val GHC.Classes.== "membership_organizations" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringMembershipOrganizations
-            | val GHC.Classes.== "mens_and_boys_clothing_and_accessories_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringMensAndBoysClothingAndAccessoriesStores
-            | val GHC.Classes.== "mens_womens_clothing_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringMensWomensClothingStores
-            | val GHC.Classes.== "metal_service_centers" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringMetalServiceCenters
-            | val GHC.Classes.== "miscellaneous" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringMiscellaneous
-            | val GHC.Classes.== "miscellaneous_apparel_and_accessory_shops" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringMiscellaneousApparelAndAccessoryShops
-            | val GHC.Classes.== "miscellaneous_auto_dealers" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringMiscellaneousAutoDealers
-            | val GHC.Classes.== "miscellaneous_business_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringMiscellaneousBusinessServices
-            | val GHC.Classes.== "miscellaneous_food_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringMiscellaneousFoodStores
-            | val GHC.Classes.== "miscellaneous_general_merchandise" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringMiscellaneousGeneralMerchandise
-            | val GHC.Classes.== "miscellaneous_general_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringMiscellaneousGeneralServices
-            | val GHC.Classes.== "miscellaneous_home_furnishing_specialty_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringMiscellaneousHomeFurnishingSpecialtyStores
-            | val GHC.Classes.== "miscellaneous_publishing_and_printing" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringMiscellaneousPublishingAndPrinting
-            | val GHC.Classes.== "miscellaneous_recreation_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringMiscellaneousRecreationServices
-            | val GHC.Classes.== "miscellaneous_repair_shops" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringMiscellaneousRepairShops
-            | val GHC.Classes.== "miscellaneous_specialty_retail" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringMiscellaneousSpecialtyRetail
-            | val GHC.Classes.== "mobile_home_dealers" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringMobileHomeDealers
-            | val GHC.Classes.== "motion_picture_theaters" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringMotionPictureTheaters
-            | val GHC.Classes.== "motor_freight_carriers_and_trucking" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringMotorFreightCarriersAndTrucking
-            | val GHC.Classes.== "motor_homes_dealers" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringMotorHomesDealers
-            | val GHC.Classes.== "motor_vehicle_supplies_and_new_parts" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringMotorVehicleSuppliesAndNewParts
-            | val GHC.Classes.== "motorcycle_shops_and_dealers" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringMotorcycleShopsAndDealers
-            | val GHC.Classes.== "motorcycle_shops_dealers" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringMotorcycleShopsDealers
-            | val GHC.Classes.== "music_stores_musical_instruments_pianos_and_sheet_music" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringMusicStoresMusicalInstrumentsPianosAndSheetMusic
-            | val GHC.Classes.== "news_dealers_and_newsstands" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringNewsDealersAndNewsstands
-            | val GHC.Classes.== "non_fi_money_orders" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringNonFiMoneyOrders
-            | val GHC.Classes.== "non_fi_stored_value_card_purchase_load" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringNonFiStoredValueCardPurchaseLoad
-            | val GHC.Classes.== "nondurable_goods" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringNondurableGoods
-            | val GHC.Classes.== "nurseries_lawn_and_garden_supply_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringNurseriesLawnAndGardenSupplyStores
-            | val GHC.Classes.== "nursing_personal_care" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringNursingPersonalCare
-            | val GHC.Classes.== "office_and_commercial_furniture" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringOfficeAndCommercialFurniture
-            | val GHC.Classes.== "opticians_eyeglasses" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringOpticiansEyeglasses
-            | val GHC.Classes.== "optometrists_ophthalmologist" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringOptometristsOphthalmologist
-            | val GHC.Classes.== "orthopedic_goods_prosthetic_devices" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringOrthopedicGoodsProstheticDevices
-            | val GHC.Classes.== "osteopaths" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringOsteopaths
-            | val GHC.Classes.== "package_stores_beer_wine_and_liquor" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringPackageStoresBeerWineAndLiquor
-            | val GHC.Classes.== "paints_varnishes_and_supplies" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringPaintsVarnishesAndSupplies
-            | val GHC.Classes.== "parking_lots_garages" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringParkingLotsGarages
-            | val GHC.Classes.== "passenger_railways" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringPassengerRailways
-            | val GHC.Classes.== "pawn_shops" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringPawnShops
-            | val GHC.Classes.== "pet_shops_pet_food_and_supplies" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringPetShopsPetFoodAndSupplies
-            | val GHC.Classes.== "petroleum_and_petroleum_products" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringPetroleumAndPetroleumProducts
-            | val GHC.Classes.== "photo_developing" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringPhotoDeveloping
-            | val GHC.Classes.== "photographic_photocopy_microfilm_equipment_and_supplies" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringPhotographicPhotocopyMicrofilmEquipmentAndSupplies
-            | val GHC.Classes.== "photographic_studios" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringPhotographicStudios
-            | val GHC.Classes.== "picture_video_production" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringPictureVideoProduction
-            | val GHC.Classes.== "piece_goods_notions_and_other_dry_goods" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringPieceGoodsNotionsAndOtherDryGoods
-            | val GHC.Classes.== "plumbing_heating_equipment_and_supplies" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringPlumbingHeatingEquipmentAndSupplies
-            | val GHC.Classes.== "political_organizations" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringPoliticalOrganizations
-            | val GHC.Classes.== "postal_services_government_only" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringPostalServicesGovernmentOnly
-            | val GHC.Classes.== "precious_stones_and_metals_watches_and_jewelry" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringPreciousStonesAndMetalsWatchesAndJewelry
-            | val GHC.Classes.== "professional_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringProfessionalServices
-            | val GHC.Classes.== "public_warehousing_and_storage" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringPublicWarehousingAndStorage
-            | val GHC.Classes.== "quick_copy_repro_and_blueprint" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringQuickCopyReproAndBlueprint
-            | val GHC.Classes.== "railroads" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringRailroads
-            | val GHC.Classes.== "real_estate_agents_and_managers_rentals" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringRealEstateAgentsAndManagersRentals
-            | val GHC.Classes.== "record_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringRecordStores
-            | val GHC.Classes.== "recreational_vehicle_rentals" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringRecreationalVehicleRentals
-            | val GHC.Classes.== "religious_goods_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringReligiousGoodsStores
-            | val GHC.Classes.== "religious_organizations" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringReligiousOrganizations
-            | val GHC.Classes.== "roofing_siding_sheet_metal" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringRoofingSidingSheetMetal
-            | val GHC.Classes.== "secretarial_support_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringSecretarialSupportServices
-            | val GHC.Classes.== "security_brokers_dealers" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringSecurityBrokersDealers
-            | val GHC.Classes.== "service_stations" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringServiceStations
-            | val GHC.Classes.== "sewing_needlework_fabric_and_piece_goods_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringSewingNeedleworkFabricAndPieceGoodsStores
-            | val GHC.Classes.== "shoe_repair_hat_cleaning" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringShoeRepairHatCleaning
-            | val GHC.Classes.== "shoe_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringShoeStores
-            | val GHC.Classes.== "small_appliance_repair" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringSmallApplianceRepair
-            | val GHC.Classes.== "snowmobile_dealers" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringSnowmobileDealers
-            | val GHC.Classes.== "special_trade_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringSpecialTradeServices
-            | val GHC.Classes.== "specialty_cleaning" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringSpecialtyCleaning
-            | val GHC.Classes.== "sporting_goods_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringSportingGoodsStores
-            | val GHC.Classes.== "sporting_recreation_camps" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringSportingRecreationCamps
-            | val GHC.Classes.== "sports_and_riding_apparel_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringSportsAndRidingApparelStores
-            | val GHC.Classes.== "sports_clubs_fields" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringSportsClubsFields
-            | val GHC.Classes.== "stamp_and_coin_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringStampAndCoinStores
-            | val GHC.Classes.== "stationary_office_supplies_printing_and_writing_paper" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringStationaryOfficeSuppliesPrintingAndWritingPaper
-            | val GHC.Classes.== "stationery_stores_office_and_school_supply_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringStationeryStoresOfficeAndSchoolSupplyStores
-            | val GHC.Classes.== "swimming_pools_sales" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringSwimmingPoolsSales
-            | val GHC.Classes.== "t_ui_travel_germany" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringTUiTravelGermany
-            | val GHC.Classes.== "tailors_alterations" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringTailorsAlterations
-            | val GHC.Classes.== "tax_payments_government_agencies" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringTaxPaymentsGovernmentAgencies
-            | val GHC.Classes.== "tax_preparation_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringTaxPreparationServices
-            | val GHC.Classes.== "taxicabs_limousines" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringTaxicabsLimousines
-            | val GHC.Classes.== "telecommunication_equipment_and_telephone_sales" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringTelecommunicationEquipmentAndTelephoneSales
-            | val GHC.Classes.== "telecommunication_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringTelecommunicationServices
-            | val GHC.Classes.== "telegraph_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringTelegraphServices
-            | val GHC.Classes.== "tent_and_awning_shops" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringTentAndAwningShops
-            | val GHC.Classes.== "testing_laboratories" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringTestingLaboratories
-            | val GHC.Classes.== "theatrical_ticket_agencies" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringTheatricalTicketAgencies
-            | val GHC.Classes.== "timeshares" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringTimeshares
-            | val GHC.Classes.== "tire_retreading_and_repair" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringTireRetreadingAndRepair
-            | val GHC.Classes.== "tolls_bridge_fees" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringTollsBridgeFees
-            | val GHC.Classes.== "tourist_attractions_and_exhibits" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringTouristAttractionsAndExhibits
-            | val GHC.Classes.== "towing_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringTowingServices
-            | val GHC.Classes.== "trailer_parks_campgrounds" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringTrailerParksCampgrounds
-            | val GHC.Classes.== "transportation_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringTransportationServices
-            | val GHC.Classes.== "travel_agencies_tour_operators" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringTravelAgenciesTourOperators
-            | val GHC.Classes.== "truck_stop_iteration" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringTruckStopIteration
-            | val GHC.Classes.== "truck_utility_trailer_rentals" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringTruckUtilityTrailerRentals
-            | val GHC.Classes.== "typesetting_plate_making_and_related_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringTypesettingPlateMakingAndRelatedServices
-            | val GHC.Classes.== "typewriter_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringTypewriterStores
-            | val GHC.Classes.== "u_s_federal_government_agencies_or_departments" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringUSFederalGovernmentAgenciesOrDepartments
-            | val GHC.Classes.== "uniforms_commercial_clothing" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringUniformsCommercialClothing
-            | val GHC.Classes.== "used_merchandise_and_secondhand_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringUsedMerchandiseAndSecondhandStores
-            | val GHC.Classes.== "utilities" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringUtilities
-            | val GHC.Classes.== "variety_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringVarietyStores
-            | val GHC.Classes.== "veterinary_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringVeterinaryServices
-            | val GHC.Classes.== "video_amusement_game_supplies" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringVideoAmusementGameSupplies
-            | val GHC.Classes.== "video_game_arcades" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringVideoGameArcades
-            | val GHC.Classes.== "video_tape_rental_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringVideoTapeRentalStores
-            | val GHC.Classes.== "vocational_trade_schools" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringVocationalTradeSchools
-            | val GHC.Classes.== "watch_jewelry_repair" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringWatchJewelryRepair
-            | val GHC.Classes.== "welding_repair" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringWeldingRepair
-            | val GHC.Classes.== "wholesale_clubs" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringWholesaleClubs
-            | val GHC.Classes.== "wig_and_toupee_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringWigAndToupeeStores
-            | val GHC.Classes.== "wires_money_orders" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringWiresMoneyOrders
-            | val GHC.Classes.== "womens_accessory_and_specialty_shops" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringWomensAccessoryAndSpecialtyShops
-            | val GHC.Classes.== "womens_ready_to_wear_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringWomensReadyToWearStores
-            | val GHC.Classes.== "wrecking_and_salvage_yards" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringWreckingAndSalvageYards
-            | GHC.Base.otherwise -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumOther val
+      ( if  | val GHC.Classes.== "ac_refrigeration_repair" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumAcRefrigerationRepair
+            | val GHC.Classes.== "accounting_bookkeeping_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumAccountingBookkeepingServices
+            | val GHC.Classes.== "advertising_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumAdvertisingServices
+            | val GHC.Classes.== "agricultural_cooperative" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumAgriculturalCooperative
+            | val GHC.Classes.== "airlines_air_carriers" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumAirlinesAirCarriers
+            | val GHC.Classes.== "airports_flying_fields" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumAirportsFlyingFields
+            | val GHC.Classes.== "ambulance_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumAmbulanceServices
+            | val GHC.Classes.== "amusement_parks_carnivals" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumAmusementParksCarnivals
+            | val GHC.Classes.== "antique_reproductions" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumAntiqueReproductions
+            | val GHC.Classes.== "antique_shops" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumAntiqueShops
+            | val GHC.Classes.== "aquariums" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumAquariums
+            | val GHC.Classes.== "architectural_surveying_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumArchitecturalSurveyingServices
+            | val GHC.Classes.== "art_dealers_and_galleries" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumArtDealersAndGalleries
+            | val GHC.Classes.== "artists_supply_and_craft_shops" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumArtistsSupplyAndCraftShops
+            | val GHC.Classes.== "auto_and_home_supply_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumAutoAndHomeSupplyStores
+            | val GHC.Classes.== "auto_body_repair_shops" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumAutoBodyRepairShops
+            | val GHC.Classes.== "auto_paint_shops" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumAutoPaintShops
+            | val GHC.Classes.== "auto_service_shops" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumAutoServiceShops
+            | val GHC.Classes.== "automated_cash_disburse" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumAutomatedCashDisburse
+            | val GHC.Classes.== "automated_fuel_dispensers" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumAutomatedFuelDispensers
+            | val GHC.Classes.== "automobile_associations" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumAutomobileAssociations
+            | val GHC.Classes.== "automotive_parts_and_accessories_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumAutomotivePartsAndAccessoriesStores
+            | val GHC.Classes.== "automotive_tire_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumAutomotiveTireStores
+            | val GHC.Classes.== "bail_and_bond_payments" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumBailAndBondPayments
+            | val GHC.Classes.== "bakeries" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumBakeries
+            | val GHC.Classes.== "bands_orchestras" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumBandsOrchestras
+            | val GHC.Classes.== "barber_and_beauty_shops" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumBarberAndBeautyShops
+            | val GHC.Classes.== "betting_casino_gambling" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumBettingCasinoGambling
+            | val GHC.Classes.== "bicycle_shops" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumBicycleShops
+            | val GHC.Classes.== "billiard_pool_establishments" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumBilliardPoolEstablishments
+            | val GHC.Classes.== "boat_dealers" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumBoatDealers
+            | val GHC.Classes.== "boat_rentals_and_leases" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumBoatRentalsAndLeases
+            | val GHC.Classes.== "book_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumBookStores
+            | val GHC.Classes.== "books_periodicals_and_newspapers" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumBooksPeriodicalsAndNewspapers
+            | val GHC.Classes.== "bowling_alleys" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumBowlingAlleys
+            | val GHC.Classes.== "bus_lines" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumBusLines
+            | val GHC.Classes.== "business_secretarial_schools" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumBusinessSecretarialSchools
+            | val GHC.Classes.== "buying_shopping_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumBuyingShoppingServices
+            | val GHC.Classes.== "cable_satellite_and_other_pay_television_and_radio" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumCableSatelliteAndOtherPayTelevisionAndRadio
+            | val GHC.Classes.== "camera_and_photographic_supply_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumCameraAndPhotographicSupplyStores
+            | val GHC.Classes.== "candy_nut_and_confectionery_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumCandyNutAndConfectioneryStores
+            | val GHC.Classes.== "car_and_truck_dealers_new_used" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumCarAndTruckDealersNewUsed
+            | val GHC.Classes.== "car_and_truck_dealers_used_only" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumCarAndTruckDealersUsedOnly
+            | val GHC.Classes.== "car_rental_agencies" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumCarRentalAgencies
+            | val GHC.Classes.== "car_washes" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumCarWashes
+            | val GHC.Classes.== "carpentry_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumCarpentryServices
+            | val GHC.Classes.== "carpet_upholstery_cleaning" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumCarpetUpholsteryCleaning
+            | val GHC.Classes.== "caterers" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumCaterers
+            | val GHC.Classes.== "charitable_and_social_service_organizations_fundraising" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumCharitableAndSocialServiceOrganizationsFundraising
+            | val GHC.Classes.== "chemicals_and_allied_products" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumChemicalsAndAlliedProducts
+            | val GHC.Classes.== "child_care_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumChildCareServices
+            | val GHC.Classes.== "childrens_and_infants_wear_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumChildrensAndInfantsWearStores
+            | val GHC.Classes.== "chiropodists_podiatrists" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumChiropodistsPodiatrists
+            | val GHC.Classes.== "chiropractors" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumChiropractors
+            | val GHC.Classes.== "cigar_stores_and_stands" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumCigarStoresAndStands
+            | val GHC.Classes.== "civic_social_fraternal_associations" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumCivicSocialFraternalAssociations
+            | val GHC.Classes.== "cleaning_and_maintenance" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumCleaningAndMaintenance
+            | val GHC.Classes.== "clothing_rental" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumClothingRental
+            | val GHC.Classes.== "colleges_universities" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumCollegesUniversities
+            | val GHC.Classes.== "commercial_equipment" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumCommercialEquipment
+            | val GHC.Classes.== "commercial_footwear" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumCommercialFootwear
+            | val GHC.Classes.== "commercial_photography_art_and_graphics" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumCommercialPhotographyArtAndGraphics
+            | val GHC.Classes.== "commuter_transport_and_ferries" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumCommuterTransportAndFerries
+            | val GHC.Classes.== "computer_network_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumComputerNetworkServices
+            | val GHC.Classes.== "computer_programming" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumComputerProgramming
+            | val GHC.Classes.== "computer_repair" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumComputerRepair
+            | val GHC.Classes.== "computer_software_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumComputerSoftwareStores
+            | val GHC.Classes.== "computers_peripherals_and_software" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumComputersPeripheralsAndSoftware
+            | val GHC.Classes.== "concrete_work_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumConcreteWorkServices
+            | val GHC.Classes.== "construction_materials" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumConstructionMaterials
+            | val GHC.Classes.== "consulting_public_relations" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumConsultingPublicRelations
+            | val GHC.Classes.== "correspondence_schools" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumCorrespondenceSchools
+            | val GHC.Classes.== "cosmetic_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumCosmeticStores
+            | val GHC.Classes.== "counseling_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumCounselingServices
+            | val GHC.Classes.== "country_clubs" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumCountryClubs
+            | val GHC.Classes.== "courier_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumCourierServices
+            | val GHC.Classes.== "court_costs" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumCourtCosts
+            | val GHC.Classes.== "credit_reporting_agencies" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumCreditReportingAgencies
+            | val GHC.Classes.== "cruise_lines" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumCruiseLines
+            | val GHC.Classes.== "dairy_products_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumDairyProductsStores
+            | val GHC.Classes.== "dance_hall_studios_schools" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumDanceHallStudiosSchools
+            | val GHC.Classes.== "dating_escort_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumDatingEscortServices
+            | val GHC.Classes.== "dentists_orthodontists" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumDentistsOrthodontists
+            | val GHC.Classes.== "department_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumDepartmentStores
+            | val GHC.Classes.== "detective_agencies" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumDetectiveAgencies
+            | val GHC.Classes.== "digital_goods_applications" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumDigitalGoodsApplications
+            | val GHC.Classes.== "digital_goods_games" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumDigitalGoodsGames
+            | val GHC.Classes.== "digital_goods_large_volume" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumDigitalGoodsLargeVolume
+            | val GHC.Classes.== "digital_goods_media" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumDigitalGoodsMedia
+            | val GHC.Classes.== "direct_marketing_catalog_merchant" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumDirectMarketingCatalogMerchant
+            | val GHC.Classes.== "direct_marketing_combination_catalog_and_retail_merchant" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumDirectMarketingCombinationCatalogAndRetailMerchant
+            | val GHC.Classes.== "direct_marketing_inbound_telemarketing" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumDirectMarketingInboundTelemarketing
+            | val GHC.Classes.== "direct_marketing_insurance_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumDirectMarketingInsuranceServices
+            | val GHC.Classes.== "direct_marketing_other" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumDirectMarketingOther
+            | val GHC.Classes.== "direct_marketing_outbound_telemarketing" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumDirectMarketingOutboundTelemarketing
+            | val GHC.Classes.== "direct_marketing_subscription" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumDirectMarketingSubscription
+            | val GHC.Classes.== "direct_marketing_travel" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumDirectMarketingTravel
+            | val GHC.Classes.== "discount_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumDiscountStores
+            | val GHC.Classes.== "doctors" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumDoctors
+            | val GHC.Classes.== "door_to_door_sales" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumDoorToDoorSales
+            | val GHC.Classes.== "drapery_window_covering_and_upholstery_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumDraperyWindowCoveringAndUpholsteryStores
+            | val GHC.Classes.== "drinking_places" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumDrinkingPlaces
+            | val GHC.Classes.== "drug_stores_and_pharmacies" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumDrugStoresAndPharmacies
+            | val GHC.Classes.== "drugs_drug_proprietaries_and_druggist_sundries" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumDrugsDrugProprietariesAndDruggistSundries
+            | val GHC.Classes.== "dry_cleaners" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumDryCleaners
+            | val GHC.Classes.== "durable_goods" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumDurableGoods
+            | val GHC.Classes.== "duty_free_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumDutyFreeStores
+            | val GHC.Classes.== "eating_places_restaurants" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumEatingPlacesRestaurants
+            | val GHC.Classes.== "educational_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumEducationalServices
+            | val GHC.Classes.== "electric_razor_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumElectricRazorStores
+            | val GHC.Classes.== "electrical_parts_and_equipment" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumElectricalPartsAndEquipment
+            | val GHC.Classes.== "electrical_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumElectricalServices
+            | val GHC.Classes.== "electronics_repair_shops" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumElectronicsRepairShops
+            | val GHC.Classes.== "electronics_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumElectronicsStores
+            | val GHC.Classes.== "elementary_secondary_schools" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumElementarySecondarySchools
+            | val GHC.Classes.== "employment_temp_agencies" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumEmploymentTempAgencies
+            | val GHC.Classes.== "equipment_rental" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumEquipmentRental
+            | val GHC.Classes.== "exterminating_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumExterminatingServices
+            | val GHC.Classes.== "family_clothing_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumFamilyClothingStores
+            | val GHC.Classes.== "fast_food_restaurants" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumFastFoodRestaurants
+            | val GHC.Classes.== "financial_institutions" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumFinancialInstitutions
+            | val GHC.Classes.== "fines_government_administrative_entities" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumFinesGovernmentAdministrativeEntities
+            | val GHC.Classes.== "fireplace_fireplace_screens_and_accessories_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumFireplaceFireplaceScreensAndAccessoriesStores
+            | val GHC.Classes.== "floor_covering_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumFloorCoveringStores
+            | val GHC.Classes.== "florists" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumFlorists
+            | val GHC.Classes.== "florists_supplies_nursery_stock_and_flowers" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumFloristsSuppliesNurseryStockAndFlowers
+            | val GHC.Classes.== "freezer_and_locker_meat_provisioners" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumFreezerAndLockerMeatProvisioners
+            | val GHC.Classes.== "fuel_dealers_non_automotive" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumFuelDealersNonAutomotive
+            | val GHC.Classes.== "funeral_services_crematories" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumFuneralServicesCrematories
+            | val GHC.Classes.== "furniture_home_furnishings_and_equipment_stores_except_appliances" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumFurnitureHomeFurnishingsAndEquipmentStoresExceptAppliances
+            | val GHC.Classes.== "furniture_repair_refinishing" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumFurnitureRepairRefinishing
+            | val GHC.Classes.== "furriers_and_fur_shops" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumFurriersAndFurShops
+            | val GHC.Classes.== "general_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumGeneralServices
+            | val GHC.Classes.== "gift_card_novelty_and_souvenir_shops" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumGiftCardNoveltyAndSouvenirShops
+            | val GHC.Classes.== "glass_paint_and_wallpaper_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumGlassPaintAndWallpaperStores
+            | val GHC.Classes.== "glassware_crystal_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumGlasswareCrystalStores
+            | val GHC.Classes.== "golf_courses_public" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumGolfCoursesPublic
+            | val GHC.Classes.== "government_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumGovernmentServices
+            | val GHC.Classes.== "grocery_stores_supermarkets" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumGroceryStoresSupermarkets
+            | val GHC.Classes.== "hardware_equipment_and_supplies" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumHardwareEquipmentAndSupplies
+            | val GHC.Classes.== "hardware_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumHardwareStores
+            | val GHC.Classes.== "health_and_beauty_spas" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumHealthAndBeautySpas
+            | val GHC.Classes.== "hearing_aids_sales_and_supplies" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumHearingAidsSalesAndSupplies
+            | val GHC.Classes.== "heating_plumbing_a_c" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumHeatingPlumbingAC
+            | val GHC.Classes.== "hobby_toy_and_game_shops" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumHobbyToyAndGameShops
+            | val GHC.Classes.== "home_supply_warehouse_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumHomeSupplyWarehouseStores
+            | val GHC.Classes.== "hospitals" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumHospitals
+            | val GHC.Classes.== "hotels_motels_and_resorts" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumHotelsMotelsAndResorts
+            | val GHC.Classes.== "household_appliance_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumHouseholdApplianceStores
+            | val GHC.Classes.== "industrial_supplies" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumIndustrialSupplies
+            | val GHC.Classes.== "information_retrieval_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumInformationRetrievalServices
+            | val GHC.Classes.== "insurance_default" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumInsuranceDefault
+            | val GHC.Classes.== "insurance_underwriting_premiums" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumInsuranceUnderwritingPremiums
+            | val GHC.Classes.== "intra_company_purchases" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumIntraCompanyPurchases
+            | val GHC.Classes.== "jewelry_stores_watches_clocks_and_silverware_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumJewelryStoresWatchesClocksAndSilverwareStores
+            | val GHC.Classes.== "landscaping_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumLandscapingServices
+            | val GHC.Classes.== "laundries" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumLaundries
+            | val GHC.Classes.== "laundry_cleaning_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumLaundryCleaningServices
+            | val GHC.Classes.== "legal_services_attorneys" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumLegalServicesAttorneys
+            | val GHC.Classes.== "luggage_and_leather_goods_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumLuggageAndLeatherGoodsStores
+            | val GHC.Classes.== "lumber_building_materials_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumLumberBuildingMaterialsStores
+            | val GHC.Classes.== "manual_cash_disburse" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumManualCashDisburse
+            | val GHC.Classes.== "marinas_service_and_supplies" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumMarinasServiceAndSupplies
+            | val GHC.Classes.== "masonry_stonework_and_plaster" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumMasonryStoneworkAndPlaster
+            | val GHC.Classes.== "massage_parlors" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumMassageParlors
+            | val GHC.Classes.== "medical_and_dental_labs" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumMedicalAndDentalLabs
+            | val GHC.Classes.== "medical_dental_ophthalmic_and_hospital_equipment_and_supplies" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumMedicalDentalOphthalmicAndHospitalEquipmentAndSupplies
+            | val GHC.Classes.== "medical_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumMedicalServices
+            | val GHC.Classes.== "membership_organizations" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumMembershipOrganizations
+            | val GHC.Classes.== "mens_and_boys_clothing_and_accessories_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumMensAndBoysClothingAndAccessoriesStores
+            | val GHC.Classes.== "mens_womens_clothing_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumMensWomensClothingStores
+            | val GHC.Classes.== "metal_service_centers" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumMetalServiceCenters
+            | val GHC.Classes.== "miscellaneous" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumMiscellaneous
+            | val GHC.Classes.== "miscellaneous_apparel_and_accessory_shops" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumMiscellaneousApparelAndAccessoryShops
+            | val GHC.Classes.== "miscellaneous_auto_dealers" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumMiscellaneousAutoDealers
+            | val GHC.Classes.== "miscellaneous_business_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumMiscellaneousBusinessServices
+            | val GHC.Classes.== "miscellaneous_food_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumMiscellaneousFoodStores
+            | val GHC.Classes.== "miscellaneous_general_merchandise" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumMiscellaneousGeneralMerchandise
+            | val GHC.Classes.== "miscellaneous_general_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumMiscellaneousGeneralServices
+            | val GHC.Classes.== "miscellaneous_home_furnishing_specialty_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumMiscellaneousHomeFurnishingSpecialtyStores
+            | val GHC.Classes.== "miscellaneous_publishing_and_printing" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumMiscellaneousPublishingAndPrinting
+            | val GHC.Classes.== "miscellaneous_recreation_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumMiscellaneousRecreationServices
+            | val GHC.Classes.== "miscellaneous_repair_shops" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumMiscellaneousRepairShops
+            | val GHC.Classes.== "miscellaneous_specialty_retail" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumMiscellaneousSpecialtyRetail
+            | val GHC.Classes.== "mobile_home_dealers" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumMobileHomeDealers
+            | val GHC.Classes.== "motion_picture_theaters" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumMotionPictureTheaters
+            | val GHC.Classes.== "motor_freight_carriers_and_trucking" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumMotorFreightCarriersAndTrucking
+            | val GHC.Classes.== "motor_homes_dealers" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumMotorHomesDealers
+            | val GHC.Classes.== "motor_vehicle_supplies_and_new_parts" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumMotorVehicleSuppliesAndNewParts
+            | val GHC.Classes.== "motorcycle_shops_and_dealers" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumMotorcycleShopsAndDealers
+            | val GHC.Classes.== "motorcycle_shops_dealers" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumMotorcycleShopsDealers
+            | val GHC.Classes.== "music_stores_musical_instruments_pianos_and_sheet_music" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumMusicStoresMusicalInstrumentsPianosAndSheetMusic
+            | val GHC.Classes.== "news_dealers_and_newsstands" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumNewsDealersAndNewsstands
+            | val GHC.Classes.== "non_fi_money_orders" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumNonFiMoneyOrders
+            | val GHC.Classes.== "non_fi_stored_value_card_purchase_load" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumNonFiStoredValueCardPurchaseLoad
+            | val GHC.Classes.== "nondurable_goods" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumNondurableGoods
+            | val GHC.Classes.== "nurseries_lawn_and_garden_supply_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumNurseriesLawnAndGardenSupplyStores
+            | val GHC.Classes.== "nursing_personal_care" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumNursingPersonalCare
+            | val GHC.Classes.== "office_and_commercial_furniture" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumOfficeAndCommercialFurniture
+            | val GHC.Classes.== "opticians_eyeglasses" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumOpticiansEyeglasses
+            | val GHC.Classes.== "optometrists_ophthalmologist" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumOptometristsOphthalmologist
+            | val GHC.Classes.== "orthopedic_goods_prosthetic_devices" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumOrthopedicGoodsProstheticDevices
+            | val GHC.Classes.== "osteopaths" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumOsteopaths
+            | val GHC.Classes.== "package_stores_beer_wine_and_liquor" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumPackageStoresBeerWineAndLiquor
+            | val GHC.Classes.== "paints_varnishes_and_supplies" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumPaintsVarnishesAndSupplies
+            | val GHC.Classes.== "parking_lots_garages" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumParkingLotsGarages
+            | val GHC.Classes.== "passenger_railways" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumPassengerRailways
+            | val GHC.Classes.== "pawn_shops" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumPawnShops
+            | val GHC.Classes.== "pet_shops_pet_food_and_supplies" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumPetShopsPetFoodAndSupplies
+            | val GHC.Classes.== "petroleum_and_petroleum_products" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumPetroleumAndPetroleumProducts
+            | val GHC.Classes.== "photo_developing" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumPhotoDeveloping
+            | val GHC.Classes.== "photographic_photocopy_microfilm_equipment_and_supplies" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumPhotographicPhotocopyMicrofilmEquipmentAndSupplies
+            | val GHC.Classes.== "photographic_studios" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumPhotographicStudios
+            | val GHC.Classes.== "picture_video_production" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumPictureVideoProduction
+            | val GHC.Classes.== "piece_goods_notions_and_other_dry_goods" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumPieceGoodsNotionsAndOtherDryGoods
+            | val GHC.Classes.== "plumbing_heating_equipment_and_supplies" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumPlumbingHeatingEquipmentAndSupplies
+            | val GHC.Classes.== "political_organizations" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumPoliticalOrganizations
+            | val GHC.Classes.== "postal_services_government_only" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumPostalServicesGovernmentOnly
+            | val GHC.Classes.== "precious_stones_and_metals_watches_and_jewelry" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumPreciousStonesAndMetalsWatchesAndJewelry
+            | val GHC.Classes.== "professional_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumProfessionalServices
+            | val GHC.Classes.== "public_warehousing_and_storage" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumPublicWarehousingAndStorage
+            | val GHC.Classes.== "quick_copy_repro_and_blueprint" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumQuickCopyReproAndBlueprint
+            | val GHC.Classes.== "railroads" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumRailroads
+            | val GHC.Classes.== "real_estate_agents_and_managers_rentals" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumRealEstateAgentsAndManagersRentals
+            | val GHC.Classes.== "record_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumRecordStores
+            | val GHC.Classes.== "recreational_vehicle_rentals" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumRecreationalVehicleRentals
+            | val GHC.Classes.== "religious_goods_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumReligiousGoodsStores
+            | val GHC.Classes.== "religious_organizations" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumReligiousOrganizations
+            | val GHC.Classes.== "roofing_siding_sheet_metal" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumRoofingSidingSheetMetal
+            | val GHC.Classes.== "secretarial_support_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumSecretarialSupportServices
+            | val GHC.Classes.== "security_brokers_dealers" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumSecurityBrokersDealers
+            | val GHC.Classes.== "service_stations" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumServiceStations
+            | val GHC.Classes.== "sewing_needlework_fabric_and_piece_goods_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumSewingNeedleworkFabricAndPieceGoodsStores
+            | val GHC.Classes.== "shoe_repair_hat_cleaning" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumShoeRepairHatCleaning
+            | val GHC.Classes.== "shoe_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumShoeStores
+            | val GHC.Classes.== "small_appliance_repair" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumSmallApplianceRepair
+            | val GHC.Classes.== "snowmobile_dealers" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumSnowmobileDealers
+            | val GHC.Classes.== "special_trade_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumSpecialTradeServices
+            | val GHC.Classes.== "specialty_cleaning" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumSpecialtyCleaning
+            | val GHC.Classes.== "sporting_goods_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumSportingGoodsStores
+            | val GHC.Classes.== "sporting_recreation_camps" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumSportingRecreationCamps
+            | val GHC.Classes.== "sports_and_riding_apparel_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumSportsAndRidingApparelStores
+            | val GHC.Classes.== "sports_clubs_fields" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumSportsClubsFields
+            | val GHC.Classes.== "stamp_and_coin_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStampAndCoinStores
+            | val GHC.Classes.== "stationary_office_supplies_printing_and_writing_paper" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStationaryOfficeSuppliesPrintingAndWritingPaper
+            | val GHC.Classes.== "stationery_stores_office_and_school_supply_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStationeryStoresOfficeAndSchoolSupplyStores
+            | val GHC.Classes.== "swimming_pools_sales" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumSwimmingPoolsSales
+            | val GHC.Classes.== "t_ui_travel_germany" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumTUiTravelGermany
+            | val GHC.Classes.== "tailors_alterations" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumTailorsAlterations
+            | val GHC.Classes.== "tax_payments_government_agencies" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumTaxPaymentsGovernmentAgencies
+            | val GHC.Classes.== "tax_preparation_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumTaxPreparationServices
+            | val GHC.Classes.== "taxicabs_limousines" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumTaxicabsLimousines
+            | val GHC.Classes.== "telecommunication_equipment_and_telephone_sales" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumTelecommunicationEquipmentAndTelephoneSales
+            | val GHC.Classes.== "telecommunication_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumTelecommunicationServices
+            | val GHC.Classes.== "telegraph_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumTelegraphServices
+            | val GHC.Classes.== "tent_and_awning_shops" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumTentAndAwningShops
+            | val GHC.Classes.== "testing_laboratories" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumTestingLaboratories
+            | val GHC.Classes.== "theatrical_ticket_agencies" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumTheatricalTicketAgencies
+            | val GHC.Classes.== "timeshares" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumTimeshares
+            | val GHC.Classes.== "tire_retreading_and_repair" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumTireRetreadingAndRepair
+            | val GHC.Classes.== "tolls_bridge_fees" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumTollsBridgeFees
+            | val GHC.Classes.== "tourist_attractions_and_exhibits" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumTouristAttractionsAndExhibits
+            | val GHC.Classes.== "towing_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumTowingServices
+            | val GHC.Classes.== "trailer_parks_campgrounds" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumTrailerParksCampgrounds
+            | val GHC.Classes.== "transportation_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumTransportationServices
+            | val GHC.Classes.== "travel_agencies_tour_operators" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumTravelAgenciesTourOperators
+            | val GHC.Classes.== "truck_stop_iteration" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumTruckStopIteration
+            | val GHC.Classes.== "truck_utility_trailer_rentals" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumTruckUtilityTrailerRentals
+            | val GHC.Classes.== "typesetting_plate_making_and_related_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumTypesettingPlateMakingAndRelatedServices
+            | val GHC.Classes.== "typewriter_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumTypewriterStores
+            | val GHC.Classes.== "u_s_federal_government_agencies_or_departments" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumUSFederalGovernmentAgenciesOrDepartments
+            | val GHC.Classes.== "uniforms_commercial_clothing" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumUniformsCommercialClothing
+            | val GHC.Classes.== "used_merchandise_and_secondhand_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumUsedMerchandiseAndSecondhandStores
+            | val GHC.Classes.== "utilities" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumUtilities
+            | val GHC.Classes.== "variety_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumVarietyStores
+            | val GHC.Classes.== "veterinary_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumVeterinaryServices
+            | val GHC.Classes.== "video_amusement_game_supplies" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumVideoAmusementGameSupplies
+            | val GHC.Classes.== "video_game_arcades" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumVideoGameArcades
+            | val GHC.Classes.== "video_tape_rental_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumVideoTapeRentalStores
+            | val GHC.Classes.== "vocational_trade_schools" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumVocationalTradeSchools
+            | val GHC.Classes.== "watch_jewelry_repair" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumWatchJewelryRepair
+            | val GHC.Classes.== "welding_repair" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumWeldingRepair
+            | val GHC.Classes.== "wholesale_clubs" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumWholesaleClubs
+            | val GHC.Classes.== "wig_and_toupee_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumWigAndToupeeStores
+            | val GHC.Classes.== "wires_money_orders" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumWiresMoneyOrders
+            | val GHC.Classes.== "womens_accessory_and_specialty_shops" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumWomensAccessoryAndSpecialtyShops
+            | val GHC.Classes.== "womens_ready_to_wear_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumWomensReadyToWearStores
+            | val GHC.Classes.== "wrecking_and_salvage_yards" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumWreckingAndSalvageYards
+            | GHC.Base.otherwise -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'Other val
       )
 
--- | Defines the data type for the schema postIssuingCardholdersCardholderRequestBodyAuthorization_controls\'Spending_limits\'
+-- | Defines the object schema located at @paths.\/v1\/issuing\/cardholders\/{cardholder}.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.authorization_controls.properties.spending_limits.items@ in the specification.
 data PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'
   = PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'
       { -- | amount
@@ -1919,927 +2526,1239 @@ data PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLi
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits' where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "amount" (postIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Amount obj) : (Data.Aeson..=) "categories" (postIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories obj) : (Data.Aeson..=) "interval" (postIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Interval obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "amount" (postIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Amount obj) GHC.Base.<> ((Data.Aeson..=) "categories" (postIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories obj) GHC.Base.<> (Data.Aeson..=) "interval" (postIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Interval obj)))
+  toJSON obj = Data.Aeson.Types.Internal.object ("amount" Data.Aeson.Types.ToJSON..= postIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Amount obj : "categories" Data.Aeson.Types.ToJSON..= postIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories obj : "interval" Data.Aeson.Types.ToJSON..= postIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Interval obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("amount" Data.Aeson.Types.ToJSON..= postIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Amount obj) GHC.Base.<> (("categories" Data.Aeson.Types.ToJSON..= postIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories obj) GHC.Base.<> ("interval" Data.Aeson.Types.ToJSON..= postIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Interval obj)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits' where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'" (\obj -> ((GHC.Base.pure PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "categories")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "interval"))
 
--- | Defines the enum schema postIssuingCardholdersCardholderRequestBodyAuthorization_controls\'Spending_limits\'Categories\'
+-- | Create a new 'PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'' with all required fields.
+mkPostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits' ::
+  -- | 'postIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Amount'
+  GHC.Types.Int ->
+  -- | 'postIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Interval'
+  PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Interval' ->
+  PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'
+mkPostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits' postIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Amount postIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Interval =
+  PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'
+    { postIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Amount = postIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Amount,
+      postIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories = GHC.Maybe.Nothing,
+      postIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Interval = postIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Interval
+    }
+
+-- | Defines the enum schema located at @paths.\/v1\/issuing\/cardholders\/{cardholder}.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.authorization_controls.properties.spending_limits.items.properties.categories.items@ in the specification.
 data PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'
-  = PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumOther Data.Aeson.Types.Internal.Value
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumTyped Data.Text.Internal.Text
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringAcRefrigerationRepair
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringAccountingBookkeepingServices
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringAdvertisingServices
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringAgriculturalCooperative
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringAirlinesAirCarriers
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringAirportsFlyingFields
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringAmbulanceServices
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringAmusementParksCarnivals
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringAntiqueReproductions
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringAntiqueShops
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringAquariums
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringArchitecturalSurveyingServices
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringArtDealersAndGalleries
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringArtistsSupplyAndCraftShops
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringAutoAndHomeSupplyStores
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringAutoBodyRepairShops
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringAutoPaintShops
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringAutoServiceShops
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringAutomatedCashDisburse
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringAutomatedFuelDispensers
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringAutomobileAssociations
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringAutomotivePartsAndAccessoriesStores
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringAutomotiveTireStores
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringBailAndBondPayments
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringBakeries
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringBandsOrchestras
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringBarberAndBeautyShops
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringBettingCasinoGambling
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringBicycleShops
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringBilliardPoolEstablishments
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringBoatDealers
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringBoatRentalsAndLeases
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringBookStores
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringBooksPeriodicalsAndNewspapers
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringBowlingAlleys
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringBusLines
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringBusinessSecretarialSchools
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringBuyingShoppingServices
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringCableSatelliteAndOtherPayTelevisionAndRadio
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringCameraAndPhotographicSupplyStores
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringCandyNutAndConfectioneryStores
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringCarAndTruckDealersNewUsed
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringCarAndTruckDealersUsedOnly
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringCarRentalAgencies
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringCarWashes
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringCarpentryServices
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringCarpetUpholsteryCleaning
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringCaterers
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringCharitableAndSocialServiceOrganizationsFundraising
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringChemicalsAndAlliedProducts
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringChildCareServices
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringChildrensAndInfantsWearStores
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringChiropodistsPodiatrists
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringChiropractors
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringCigarStoresAndStands
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringCivicSocialFraternalAssociations
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringCleaningAndMaintenance
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringClothingRental
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringCollegesUniversities
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringCommercialEquipment
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringCommercialFootwear
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringCommercialPhotographyArtAndGraphics
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringCommuterTransportAndFerries
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringComputerNetworkServices
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringComputerProgramming
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringComputerRepair
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringComputerSoftwareStores
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringComputersPeripheralsAndSoftware
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringConcreteWorkServices
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringConstructionMaterials
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringConsultingPublicRelations
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringCorrespondenceSchools
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringCosmeticStores
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringCounselingServices
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringCountryClubs
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringCourierServices
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringCourtCosts
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringCreditReportingAgencies
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringCruiseLines
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringDairyProductsStores
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringDanceHallStudiosSchools
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringDatingEscortServices
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringDentistsOrthodontists
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringDepartmentStores
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringDetectiveAgencies
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringDigitalGoodsApplications
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringDigitalGoodsGames
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringDigitalGoodsLargeVolume
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringDigitalGoodsMedia
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringDirectMarketingCatalogMerchant
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringDirectMarketingCombinationCatalogAndRetailMerchant
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringDirectMarketingInboundTelemarketing
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringDirectMarketingInsuranceServices
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringDirectMarketingOther
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringDirectMarketingOutboundTelemarketing
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringDirectMarketingSubscription
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringDirectMarketingTravel
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringDiscountStores
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringDoctors
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringDoorToDoorSales
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringDraperyWindowCoveringAndUpholsteryStores
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringDrinkingPlaces
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringDrugStoresAndPharmacies
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringDrugsDrugProprietariesAndDruggistSundries
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringDryCleaners
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringDurableGoods
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringDutyFreeStores
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringEatingPlacesRestaurants
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringEducationalServices
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringElectricRazorStores
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringElectricalPartsAndEquipment
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringElectricalServices
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringElectronicsRepairShops
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringElectronicsStores
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringElementarySecondarySchools
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringEmploymentTempAgencies
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringEquipmentRental
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringExterminatingServices
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringFamilyClothingStores
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringFastFoodRestaurants
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringFinancialInstitutions
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringFinesGovernmentAdministrativeEntities
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringFireplaceFireplaceScreensAndAccessoriesStores
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringFloorCoveringStores
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringFlorists
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringFloristsSuppliesNurseryStockAndFlowers
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringFreezerAndLockerMeatProvisioners
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringFuelDealersNonAutomotive
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringFuneralServicesCrematories
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringFurnitureHomeFurnishingsAndEquipmentStoresExceptAppliances
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringFurnitureRepairRefinishing
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringFurriersAndFurShops
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringGeneralServices
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringGiftCardNoveltyAndSouvenirShops
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringGlassPaintAndWallpaperStores
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringGlasswareCrystalStores
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringGolfCoursesPublic
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringGovernmentServices
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringGroceryStoresSupermarkets
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringHardwareEquipmentAndSupplies
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringHardwareStores
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringHealthAndBeautySpas
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringHearingAidsSalesAndSupplies
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringHeatingPlumbingAC
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringHobbyToyAndGameShops
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringHomeSupplyWarehouseStores
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringHospitals
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringHotelsMotelsAndResorts
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringHouseholdApplianceStores
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringIndustrialSupplies
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringInformationRetrievalServices
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringInsuranceDefault
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringInsuranceUnderwritingPremiums
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringIntraCompanyPurchases
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringJewelryStoresWatchesClocksAndSilverwareStores
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringLandscapingServices
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringLaundries
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringLaundryCleaningServices
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringLegalServicesAttorneys
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringLuggageAndLeatherGoodsStores
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringLumberBuildingMaterialsStores
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringManualCashDisburse
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringMarinasServiceAndSupplies
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringMasonryStoneworkAndPlaster
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringMassageParlors
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringMedicalAndDentalLabs
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringMedicalDentalOphthalmicAndHospitalEquipmentAndSupplies
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringMedicalServices
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringMembershipOrganizations
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringMensAndBoysClothingAndAccessoriesStores
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringMensWomensClothingStores
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringMetalServiceCenters
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringMiscellaneous
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringMiscellaneousApparelAndAccessoryShops
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringMiscellaneousAutoDealers
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringMiscellaneousBusinessServices
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringMiscellaneousFoodStores
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringMiscellaneousGeneralMerchandise
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringMiscellaneousGeneralServices
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringMiscellaneousHomeFurnishingSpecialtyStores
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringMiscellaneousPublishingAndPrinting
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringMiscellaneousRecreationServices
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringMiscellaneousRepairShops
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringMiscellaneousSpecialtyRetail
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringMobileHomeDealers
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringMotionPictureTheaters
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringMotorFreightCarriersAndTrucking
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringMotorHomesDealers
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringMotorVehicleSuppliesAndNewParts
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringMotorcycleShopsAndDealers
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringMotorcycleShopsDealers
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringMusicStoresMusicalInstrumentsPianosAndSheetMusic
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringNewsDealersAndNewsstands
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringNonFiMoneyOrders
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringNonFiStoredValueCardPurchaseLoad
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringNondurableGoods
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringNurseriesLawnAndGardenSupplyStores
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringNursingPersonalCare
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringOfficeAndCommercialFurniture
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringOpticiansEyeglasses
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringOptometristsOphthalmologist
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringOrthopedicGoodsProstheticDevices
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringOsteopaths
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringPackageStoresBeerWineAndLiquor
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringPaintsVarnishesAndSupplies
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringParkingLotsGarages
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringPassengerRailways
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringPawnShops
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringPetShopsPetFoodAndSupplies
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringPetroleumAndPetroleumProducts
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringPhotoDeveloping
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringPhotographicPhotocopyMicrofilmEquipmentAndSupplies
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringPhotographicStudios
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringPictureVideoProduction
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringPieceGoodsNotionsAndOtherDryGoods
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringPlumbingHeatingEquipmentAndSupplies
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringPoliticalOrganizations
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringPostalServicesGovernmentOnly
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringPreciousStonesAndMetalsWatchesAndJewelry
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringProfessionalServices
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringPublicWarehousingAndStorage
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringQuickCopyReproAndBlueprint
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringRailroads
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringRealEstateAgentsAndManagersRentals
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringRecordStores
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringRecreationalVehicleRentals
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringReligiousGoodsStores
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringReligiousOrganizations
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringRoofingSidingSheetMetal
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringSecretarialSupportServices
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringSecurityBrokersDealers
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringServiceStations
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringSewingNeedleworkFabricAndPieceGoodsStores
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringShoeRepairHatCleaning
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringShoeStores
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringSmallApplianceRepair
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringSnowmobileDealers
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringSpecialTradeServices
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringSpecialtyCleaning
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringSportingGoodsStores
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringSportingRecreationCamps
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringSportsAndRidingApparelStores
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringSportsClubsFields
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringStampAndCoinStores
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringStationaryOfficeSuppliesPrintingAndWritingPaper
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringStationeryStoresOfficeAndSchoolSupplyStores
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringSwimmingPoolsSales
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringTUiTravelGermany
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringTailorsAlterations
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringTaxPaymentsGovernmentAgencies
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringTaxPreparationServices
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringTaxicabsLimousines
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringTelecommunicationEquipmentAndTelephoneSales
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringTelecommunicationServices
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringTelegraphServices
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringTentAndAwningShops
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringTestingLaboratories
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringTheatricalTicketAgencies
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringTimeshares
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringTireRetreadingAndRepair
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringTollsBridgeFees
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringTouristAttractionsAndExhibits
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringTowingServices
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringTrailerParksCampgrounds
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringTransportationServices
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringTravelAgenciesTourOperators
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringTruckStopIteration
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringTruckUtilityTrailerRentals
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringTypesettingPlateMakingAndRelatedServices
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringTypewriterStores
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringUSFederalGovernmentAgenciesOrDepartments
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringUniformsCommercialClothing
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringUsedMerchandiseAndSecondhandStores
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringUtilities
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringVarietyStores
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringVeterinaryServices
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringVideoAmusementGameSupplies
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringVideoGameArcades
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringVideoTapeRentalStores
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringVocationalTradeSchools
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringWatchJewelryRepair
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringWeldingRepair
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringWholesaleClubs
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringWigAndToupeeStores
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringWiresMoneyOrders
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringWomensAccessoryAndSpecialtyShops
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringWomensReadyToWearStores
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringWreckingAndSalvageYards
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"ac_refrigeration_repair"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumAcRefrigerationRepair
+  | -- | Represents the JSON value @"accounting_bookkeeping_services"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumAccountingBookkeepingServices
+  | -- | Represents the JSON value @"advertising_services"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumAdvertisingServices
+  | -- | Represents the JSON value @"agricultural_cooperative"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumAgriculturalCooperative
+  | -- | Represents the JSON value @"airlines_air_carriers"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumAirlinesAirCarriers
+  | -- | Represents the JSON value @"airports_flying_fields"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumAirportsFlyingFields
+  | -- | Represents the JSON value @"ambulance_services"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumAmbulanceServices
+  | -- | Represents the JSON value @"amusement_parks_carnivals"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumAmusementParksCarnivals
+  | -- | Represents the JSON value @"antique_reproductions"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumAntiqueReproductions
+  | -- | Represents the JSON value @"antique_shops"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumAntiqueShops
+  | -- | Represents the JSON value @"aquariums"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumAquariums
+  | -- | Represents the JSON value @"architectural_surveying_services"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumArchitecturalSurveyingServices
+  | -- | Represents the JSON value @"art_dealers_and_galleries"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumArtDealersAndGalleries
+  | -- | Represents the JSON value @"artists_supply_and_craft_shops"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumArtistsSupplyAndCraftShops
+  | -- | Represents the JSON value @"auto_and_home_supply_stores"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumAutoAndHomeSupplyStores
+  | -- | Represents the JSON value @"auto_body_repair_shops"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumAutoBodyRepairShops
+  | -- | Represents the JSON value @"auto_paint_shops"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumAutoPaintShops
+  | -- | Represents the JSON value @"auto_service_shops"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumAutoServiceShops
+  | -- | Represents the JSON value @"automated_cash_disburse"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumAutomatedCashDisburse
+  | -- | Represents the JSON value @"automated_fuel_dispensers"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumAutomatedFuelDispensers
+  | -- | Represents the JSON value @"automobile_associations"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumAutomobileAssociations
+  | -- | Represents the JSON value @"automotive_parts_and_accessories_stores"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumAutomotivePartsAndAccessoriesStores
+  | -- | Represents the JSON value @"automotive_tire_stores"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumAutomotiveTireStores
+  | -- | Represents the JSON value @"bail_and_bond_payments"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumBailAndBondPayments
+  | -- | Represents the JSON value @"bakeries"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumBakeries
+  | -- | Represents the JSON value @"bands_orchestras"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumBandsOrchestras
+  | -- | Represents the JSON value @"barber_and_beauty_shops"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumBarberAndBeautyShops
+  | -- | Represents the JSON value @"betting_casino_gambling"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumBettingCasinoGambling
+  | -- | Represents the JSON value @"bicycle_shops"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumBicycleShops
+  | -- | Represents the JSON value @"billiard_pool_establishments"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumBilliardPoolEstablishments
+  | -- | Represents the JSON value @"boat_dealers"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumBoatDealers
+  | -- | Represents the JSON value @"boat_rentals_and_leases"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumBoatRentalsAndLeases
+  | -- | Represents the JSON value @"book_stores"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumBookStores
+  | -- | Represents the JSON value @"books_periodicals_and_newspapers"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumBooksPeriodicalsAndNewspapers
+  | -- | Represents the JSON value @"bowling_alleys"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumBowlingAlleys
+  | -- | Represents the JSON value @"bus_lines"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumBusLines
+  | -- | Represents the JSON value @"business_secretarial_schools"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumBusinessSecretarialSchools
+  | -- | Represents the JSON value @"buying_shopping_services"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumBuyingShoppingServices
+  | -- | Represents the JSON value @"cable_satellite_and_other_pay_television_and_radio"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumCableSatelliteAndOtherPayTelevisionAndRadio
+  | -- | Represents the JSON value @"camera_and_photographic_supply_stores"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumCameraAndPhotographicSupplyStores
+  | -- | Represents the JSON value @"candy_nut_and_confectionery_stores"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumCandyNutAndConfectioneryStores
+  | -- | Represents the JSON value @"car_and_truck_dealers_new_used"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumCarAndTruckDealersNewUsed
+  | -- | Represents the JSON value @"car_and_truck_dealers_used_only"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumCarAndTruckDealersUsedOnly
+  | -- | Represents the JSON value @"car_rental_agencies"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumCarRentalAgencies
+  | -- | Represents the JSON value @"car_washes"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumCarWashes
+  | -- | Represents the JSON value @"carpentry_services"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumCarpentryServices
+  | -- | Represents the JSON value @"carpet_upholstery_cleaning"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumCarpetUpholsteryCleaning
+  | -- | Represents the JSON value @"caterers"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumCaterers
+  | -- | Represents the JSON value @"charitable_and_social_service_organizations_fundraising"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumCharitableAndSocialServiceOrganizationsFundraising
+  | -- | Represents the JSON value @"chemicals_and_allied_products"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumChemicalsAndAlliedProducts
+  | -- | Represents the JSON value @"child_care_services"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumChildCareServices
+  | -- | Represents the JSON value @"childrens_and_infants_wear_stores"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumChildrensAndInfantsWearStores
+  | -- | Represents the JSON value @"chiropodists_podiatrists"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumChiropodistsPodiatrists
+  | -- | Represents the JSON value @"chiropractors"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumChiropractors
+  | -- | Represents the JSON value @"cigar_stores_and_stands"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumCigarStoresAndStands
+  | -- | Represents the JSON value @"civic_social_fraternal_associations"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumCivicSocialFraternalAssociations
+  | -- | Represents the JSON value @"cleaning_and_maintenance"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumCleaningAndMaintenance
+  | -- | Represents the JSON value @"clothing_rental"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumClothingRental
+  | -- | Represents the JSON value @"colleges_universities"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumCollegesUniversities
+  | -- | Represents the JSON value @"commercial_equipment"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumCommercialEquipment
+  | -- | Represents the JSON value @"commercial_footwear"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumCommercialFootwear
+  | -- | Represents the JSON value @"commercial_photography_art_and_graphics"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumCommercialPhotographyArtAndGraphics
+  | -- | Represents the JSON value @"commuter_transport_and_ferries"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumCommuterTransportAndFerries
+  | -- | Represents the JSON value @"computer_network_services"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumComputerNetworkServices
+  | -- | Represents the JSON value @"computer_programming"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumComputerProgramming
+  | -- | Represents the JSON value @"computer_repair"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumComputerRepair
+  | -- | Represents the JSON value @"computer_software_stores"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumComputerSoftwareStores
+  | -- | Represents the JSON value @"computers_peripherals_and_software"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumComputersPeripheralsAndSoftware
+  | -- | Represents the JSON value @"concrete_work_services"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumConcreteWorkServices
+  | -- | Represents the JSON value @"construction_materials"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumConstructionMaterials
+  | -- | Represents the JSON value @"consulting_public_relations"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumConsultingPublicRelations
+  | -- | Represents the JSON value @"correspondence_schools"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumCorrespondenceSchools
+  | -- | Represents the JSON value @"cosmetic_stores"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumCosmeticStores
+  | -- | Represents the JSON value @"counseling_services"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumCounselingServices
+  | -- | Represents the JSON value @"country_clubs"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumCountryClubs
+  | -- | Represents the JSON value @"courier_services"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumCourierServices
+  | -- | Represents the JSON value @"court_costs"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumCourtCosts
+  | -- | Represents the JSON value @"credit_reporting_agencies"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumCreditReportingAgencies
+  | -- | Represents the JSON value @"cruise_lines"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumCruiseLines
+  | -- | Represents the JSON value @"dairy_products_stores"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumDairyProductsStores
+  | -- | Represents the JSON value @"dance_hall_studios_schools"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumDanceHallStudiosSchools
+  | -- | Represents the JSON value @"dating_escort_services"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumDatingEscortServices
+  | -- | Represents the JSON value @"dentists_orthodontists"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumDentistsOrthodontists
+  | -- | Represents the JSON value @"department_stores"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumDepartmentStores
+  | -- | Represents the JSON value @"detective_agencies"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumDetectiveAgencies
+  | -- | Represents the JSON value @"digital_goods_applications"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumDigitalGoodsApplications
+  | -- | Represents the JSON value @"digital_goods_games"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumDigitalGoodsGames
+  | -- | Represents the JSON value @"digital_goods_large_volume"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumDigitalGoodsLargeVolume
+  | -- | Represents the JSON value @"digital_goods_media"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumDigitalGoodsMedia
+  | -- | Represents the JSON value @"direct_marketing_catalog_merchant"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumDirectMarketingCatalogMerchant
+  | -- | Represents the JSON value @"direct_marketing_combination_catalog_and_retail_merchant"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumDirectMarketingCombinationCatalogAndRetailMerchant
+  | -- | Represents the JSON value @"direct_marketing_inbound_telemarketing"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumDirectMarketingInboundTelemarketing
+  | -- | Represents the JSON value @"direct_marketing_insurance_services"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumDirectMarketingInsuranceServices
+  | -- | Represents the JSON value @"direct_marketing_other"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumDirectMarketingOther
+  | -- | Represents the JSON value @"direct_marketing_outbound_telemarketing"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumDirectMarketingOutboundTelemarketing
+  | -- | Represents the JSON value @"direct_marketing_subscription"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumDirectMarketingSubscription
+  | -- | Represents the JSON value @"direct_marketing_travel"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumDirectMarketingTravel
+  | -- | Represents the JSON value @"discount_stores"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumDiscountStores
+  | -- | Represents the JSON value @"doctors"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumDoctors
+  | -- | Represents the JSON value @"door_to_door_sales"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumDoorToDoorSales
+  | -- | Represents the JSON value @"drapery_window_covering_and_upholstery_stores"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumDraperyWindowCoveringAndUpholsteryStores
+  | -- | Represents the JSON value @"drinking_places"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumDrinkingPlaces
+  | -- | Represents the JSON value @"drug_stores_and_pharmacies"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumDrugStoresAndPharmacies
+  | -- | Represents the JSON value @"drugs_drug_proprietaries_and_druggist_sundries"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumDrugsDrugProprietariesAndDruggistSundries
+  | -- | Represents the JSON value @"dry_cleaners"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumDryCleaners
+  | -- | Represents the JSON value @"durable_goods"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumDurableGoods
+  | -- | Represents the JSON value @"duty_free_stores"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumDutyFreeStores
+  | -- | Represents the JSON value @"eating_places_restaurants"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumEatingPlacesRestaurants
+  | -- | Represents the JSON value @"educational_services"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumEducationalServices
+  | -- | Represents the JSON value @"electric_razor_stores"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumElectricRazorStores
+  | -- | Represents the JSON value @"electrical_parts_and_equipment"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumElectricalPartsAndEquipment
+  | -- | Represents the JSON value @"electrical_services"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumElectricalServices
+  | -- | Represents the JSON value @"electronics_repair_shops"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumElectronicsRepairShops
+  | -- | Represents the JSON value @"electronics_stores"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumElectronicsStores
+  | -- | Represents the JSON value @"elementary_secondary_schools"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumElementarySecondarySchools
+  | -- | Represents the JSON value @"employment_temp_agencies"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumEmploymentTempAgencies
+  | -- | Represents the JSON value @"equipment_rental"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumEquipmentRental
+  | -- | Represents the JSON value @"exterminating_services"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumExterminatingServices
+  | -- | Represents the JSON value @"family_clothing_stores"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumFamilyClothingStores
+  | -- | Represents the JSON value @"fast_food_restaurants"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumFastFoodRestaurants
+  | -- | Represents the JSON value @"financial_institutions"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumFinancialInstitutions
+  | -- | Represents the JSON value @"fines_government_administrative_entities"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumFinesGovernmentAdministrativeEntities
+  | -- | Represents the JSON value @"fireplace_fireplace_screens_and_accessories_stores"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumFireplaceFireplaceScreensAndAccessoriesStores
+  | -- | Represents the JSON value @"floor_covering_stores"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumFloorCoveringStores
+  | -- | Represents the JSON value @"florists"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumFlorists
+  | -- | Represents the JSON value @"florists_supplies_nursery_stock_and_flowers"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumFloristsSuppliesNurseryStockAndFlowers
+  | -- | Represents the JSON value @"freezer_and_locker_meat_provisioners"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumFreezerAndLockerMeatProvisioners
+  | -- | Represents the JSON value @"fuel_dealers_non_automotive"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumFuelDealersNonAutomotive
+  | -- | Represents the JSON value @"funeral_services_crematories"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumFuneralServicesCrematories
+  | -- | Represents the JSON value @"furniture_home_furnishings_and_equipment_stores_except_appliances"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumFurnitureHomeFurnishingsAndEquipmentStoresExceptAppliances
+  | -- | Represents the JSON value @"furniture_repair_refinishing"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumFurnitureRepairRefinishing
+  | -- | Represents the JSON value @"furriers_and_fur_shops"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumFurriersAndFurShops
+  | -- | Represents the JSON value @"general_services"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumGeneralServices
+  | -- | Represents the JSON value @"gift_card_novelty_and_souvenir_shops"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumGiftCardNoveltyAndSouvenirShops
+  | -- | Represents the JSON value @"glass_paint_and_wallpaper_stores"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumGlassPaintAndWallpaperStores
+  | -- | Represents the JSON value @"glassware_crystal_stores"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumGlasswareCrystalStores
+  | -- | Represents the JSON value @"golf_courses_public"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumGolfCoursesPublic
+  | -- | Represents the JSON value @"government_services"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumGovernmentServices
+  | -- | Represents the JSON value @"grocery_stores_supermarkets"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumGroceryStoresSupermarkets
+  | -- | Represents the JSON value @"hardware_equipment_and_supplies"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumHardwareEquipmentAndSupplies
+  | -- | Represents the JSON value @"hardware_stores"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumHardwareStores
+  | -- | Represents the JSON value @"health_and_beauty_spas"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumHealthAndBeautySpas
+  | -- | Represents the JSON value @"hearing_aids_sales_and_supplies"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumHearingAidsSalesAndSupplies
+  | -- | Represents the JSON value @"heating_plumbing_a_c"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumHeatingPlumbingAC
+  | -- | Represents the JSON value @"hobby_toy_and_game_shops"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumHobbyToyAndGameShops
+  | -- | Represents the JSON value @"home_supply_warehouse_stores"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumHomeSupplyWarehouseStores
+  | -- | Represents the JSON value @"hospitals"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumHospitals
+  | -- | Represents the JSON value @"hotels_motels_and_resorts"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumHotelsMotelsAndResorts
+  | -- | Represents the JSON value @"household_appliance_stores"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumHouseholdApplianceStores
+  | -- | Represents the JSON value @"industrial_supplies"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumIndustrialSupplies
+  | -- | Represents the JSON value @"information_retrieval_services"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumInformationRetrievalServices
+  | -- | Represents the JSON value @"insurance_default"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumInsuranceDefault
+  | -- | Represents the JSON value @"insurance_underwriting_premiums"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumInsuranceUnderwritingPremiums
+  | -- | Represents the JSON value @"intra_company_purchases"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumIntraCompanyPurchases
+  | -- | Represents the JSON value @"jewelry_stores_watches_clocks_and_silverware_stores"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumJewelryStoresWatchesClocksAndSilverwareStores
+  | -- | Represents the JSON value @"landscaping_services"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumLandscapingServices
+  | -- | Represents the JSON value @"laundries"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumLaundries
+  | -- | Represents the JSON value @"laundry_cleaning_services"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumLaundryCleaningServices
+  | -- | Represents the JSON value @"legal_services_attorneys"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumLegalServicesAttorneys
+  | -- | Represents the JSON value @"luggage_and_leather_goods_stores"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumLuggageAndLeatherGoodsStores
+  | -- | Represents the JSON value @"lumber_building_materials_stores"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumLumberBuildingMaterialsStores
+  | -- | Represents the JSON value @"manual_cash_disburse"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumManualCashDisburse
+  | -- | Represents the JSON value @"marinas_service_and_supplies"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumMarinasServiceAndSupplies
+  | -- | Represents the JSON value @"masonry_stonework_and_plaster"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumMasonryStoneworkAndPlaster
+  | -- | Represents the JSON value @"massage_parlors"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumMassageParlors
+  | -- | Represents the JSON value @"medical_and_dental_labs"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumMedicalAndDentalLabs
+  | -- | Represents the JSON value @"medical_dental_ophthalmic_and_hospital_equipment_and_supplies"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumMedicalDentalOphthalmicAndHospitalEquipmentAndSupplies
+  | -- | Represents the JSON value @"medical_services"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumMedicalServices
+  | -- | Represents the JSON value @"membership_organizations"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumMembershipOrganizations
+  | -- | Represents the JSON value @"mens_and_boys_clothing_and_accessories_stores"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumMensAndBoysClothingAndAccessoriesStores
+  | -- | Represents the JSON value @"mens_womens_clothing_stores"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumMensWomensClothingStores
+  | -- | Represents the JSON value @"metal_service_centers"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumMetalServiceCenters
+  | -- | Represents the JSON value @"miscellaneous"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumMiscellaneous
+  | -- | Represents the JSON value @"miscellaneous_apparel_and_accessory_shops"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumMiscellaneousApparelAndAccessoryShops
+  | -- | Represents the JSON value @"miscellaneous_auto_dealers"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumMiscellaneousAutoDealers
+  | -- | Represents the JSON value @"miscellaneous_business_services"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumMiscellaneousBusinessServices
+  | -- | Represents the JSON value @"miscellaneous_food_stores"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumMiscellaneousFoodStores
+  | -- | Represents the JSON value @"miscellaneous_general_merchandise"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumMiscellaneousGeneralMerchandise
+  | -- | Represents the JSON value @"miscellaneous_general_services"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumMiscellaneousGeneralServices
+  | -- | Represents the JSON value @"miscellaneous_home_furnishing_specialty_stores"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumMiscellaneousHomeFurnishingSpecialtyStores
+  | -- | Represents the JSON value @"miscellaneous_publishing_and_printing"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumMiscellaneousPublishingAndPrinting
+  | -- | Represents the JSON value @"miscellaneous_recreation_services"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumMiscellaneousRecreationServices
+  | -- | Represents the JSON value @"miscellaneous_repair_shops"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumMiscellaneousRepairShops
+  | -- | Represents the JSON value @"miscellaneous_specialty_retail"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumMiscellaneousSpecialtyRetail
+  | -- | Represents the JSON value @"mobile_home_dealers"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumMobileHomeDealers
+  | -- | Represents the JSON value @"motion_picture_theaters"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumMotionPictureTheaters
+  | -- | Represents the JSON value @"motor_freight_carriers_and_trucking"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumMotorFreightCarriersAndTrucking
+  | -- | Represents the JSON value @"motor_homes_dealers"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumMotorHomesDealers
+  | -- | Represents the JSON value @"motor_vehicle_supplies_and_new_parts"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumMotorVehicleSuppliesAndNewParts
+  | -- | Represents the JSON value @"motorcycle_shops_and_dealers"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumMotorcycleShopsAndDealers
+  | -- | Represents the JSON value @"motorcycle_shops_dealers"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumMotorcycleShopsDealers
+  | -- | Represents the JSON value @"music_stores_musical_instruments_pianos_and_sheet_music"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumMusicStoresMusicalInstrumentsPianosAndSheetMusic
+  | -- | Represents the JSON value @"news_dealers_and_newsstands"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumNewsDealersAndNewsstands
+  | -- | Represents the JSON value @"non_fi_money_orders"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumNonFiMoneyOrders
+  | -- | Represents the JSON value @"non_fi_stored_value_card_purchase_load"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumNonFiStoredValueCardPurchaseLoad
+  | -- | Represents the JSON value @"nondurable_goods"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumNondurableGoods
+  | -- | Represents the JSON value @"nurseries_lawn_and_garden_supply_stores"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumNurseriesLawnAndGardenSupplyStores
+  | -- | Represents the JSON value @"nursing_personal_care"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumNursingPersonalCare
+  | -- | Represents the JSON value @"office_and_commercial_furniture"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumOfficeAndCommercialFurniture
+  | -- | Represents the JSON value @"opticians_eyeglasses"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumOpticiansEyeglasses
+  | -- | Represents the JSON value @"optometrists_ophthalmologist"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumOptometristsOphthalmologist
+  | -- | Represents the JSON value @"orthopedic_goods_prosthetic_devices"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumOrthopedicGoodsProstheticDevices
+  | -- | Represents the JSON value @"osteopaths"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumOsteopaths
+  | -- | Represents the JSON value @"package_stores_beer_wine_and_liquor"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumPackageStoresBeerWineAndLiquor
+  | -- | Represents the JSON value @"paints_varnishes_and_supplies"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumPaintsVarnishesAndSupplies
+  | -- | Represents the JSON value @"parking_lots_garages"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumParkingLotsGarages
+  | -- | Represents the JSON value @"passenger_railways"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumPassengerRailways
+  | -- | Represents the JSON value @"pawn_shops"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumPawnShops
+  | -- | Represents the JSON value @"pet_shops_pet_food_and_supplies"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumPetShopsPetFoodAndSupplies
+  | -- | Represents the JSON value @"petroleum_and_petroleum_products"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumPetroleumAndPetroleumProducts
+  | -- | Represents the JSON value @"photo_developing"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumPhotoDeveloping
+  | -- | Represents the JSON value @"photographic_photocopy_microfilm_equipment_and_supplies"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumPhotographicPhotocopyMicrofilmEquipmentAndSupplies
+  | -- | Represents the JSON value @"photographic_studios"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumPhotographicStudios
+  | -- | Represents the JSON value @"picture_video_production"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumPictureVideoProduction
+  | -- | Represents the JSON value @"piece_goods_notions_and_other_dry_goods"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumPieceGoodsNotionsAndOtherDryGoods
+  | -- | Represents the JSON value @"plumbing_heating_equipment_and_supplies"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumPlumbingHeatingEquipmentAndSupplies
+  | -- | Represents the JSON value @"political_organizations"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumPoliticalOrganizations
+  | -- | Represents the JSON value @"postal_services_government_only"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumPostalServicesGovernmentOnly
+  | -- | Represents the JSON value @"precious_stones_and_metals_watches_and_jewelry"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumPreciousStonesAndMetalsWatchesAndJewelry
+  | -- | Represents the JSON value @"professional_services"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumProfessionalServices
+  | -- | Represents the JSON value @"public_warehousing_and_storage"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumPublicWarehousingAndStorage
+  | -- | Represents the JSON value @"quick_copy_repro_and_blueprint"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumQuickCopyReproAndBlueprint
+  | -- | Represents the JSON value @"railroads"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumRailroads
+  | -- | Represents the JSON value @"real_estate_agents_and_managers_rentals"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumRealEstateAgentsAndManagersRentals
+  | -- | Represents the JSON value @"record_stores"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumRecordStores
+  | -- | Represents the JSON value @"recreational_vehicle_rentals"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumRecreationalVehicleRentals
+  | -- | Represents the JSON value @"religious_goods_stores"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumReligiousGoodsStores
+  | -- | Represents the JSON value @"religious_organizations"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumReligiousOrganizations
+  | -- | Represents the JSON value @"roofing_siding_sheet_metal"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumRoofingSidingSheetMetal
+  | -- | Represents the JSON value @"secretarial_support_services"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumSecretarialSupportServices
+  | -- | Represents the JSON value @"security_brokers_dealers"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumSecurityBrokersDealers
+  | -- | Represents the JSON value @"service_stations"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumServiceStations
+  | -- | Represents the JSON value @"sewing_needlework_fabric_and_piece_goods_stores"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumSewingNeedleworkFabricAndPieceGoodsStores
+  | -- | Represents the JSON value @"shoe_repair_hat_cleaning"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumShoeRepairHatCleaning
+  | -- | Represents the JSON value @"shoe_stores"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumShoeStores
+  | -- | Represents the JSON value @"small_appliance_repair"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumSmallApplianceRepair
+  | -- | Represents the JSON value @"snowmobile_dealers"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumSnowmobileDealers
+  | -- | Represents the JSON value @"special_trade_services"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumSpecialTradeServices
+  | -- | Represents the JSON value @"specialty_cleaning"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumSpecialtyCleaning
+  | -- | Represents the JSON value @"sporting_goods_stores"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumSportingGoodsStores
+  | -- | Represents the JSON value @"sporting_recreation_camps"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumSportingRecreationCamps
+  | -- | Represents the JSON value @"sports_and_riding_apparel_stores"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumSportsAndRidingApparelStores
+  | -- | Represents the JSON value @"sports_clubs_fields"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumSportsClubsFields
+  | -- | Represents the JSON value @"stamp_and_coin_stores"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStampAndCoinStores
+  | -- | Represents the JSON value @"stationary_office_supplies_printing_and_writing_paper"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStationaryOfficeSuppliesPrintingAndWritingPaper
+  | -- | Represents the JSON value @"stationery_stores_office_and_school_supply_stores"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStationeryStoresOfficeAndSchoolSupplyStores
+  | -- | Represents the JSON value @"swimming_pools_sales"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumSwimmingPoolsSales
+  | -- | Represents the JSON value @"t_ui_travel_germany"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumTUiTravelGermany
+  | -- | Represents the JSON value @"tailors_alterations"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumTailorsAlterations
+  | -- | Represents the JSON value @"tax_payments_government_agencies"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumTaxPaymentsGovernmentAgencies
+  | -- | Represents the JSON value @"tax_preparation_services"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumTaxPreparationServices
+  | -- | Represents the JSON value @"taxicabs_limousines"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumTaxicabsLimousines
+  | -- | Represents the JSON value @"telecommunication_equipment_and_telephone_sales"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumTelecommunicationEquipmentAndTelephoneSales
+  | -- | Represents the JSON value @"telecommunication_services"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumTelecommunicationServices
+  | -- | Represents the JSON value @"telegraph_services"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumTelegraphServices
+  | -- | Represents the JSON value @"tent_and_awning_shops"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumTentAndAwningShops
+  | -- | Represents the JSON value @"testing_laboratories"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumTestingLaboratories
+  | -- | Represents the JSON value @"theatrical_ticket_agencies"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumTheatricalTicketAgencies
+  | -- | Represents the JSON value @"timeshares"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumTimeshares
+  | -- | Represents the JSON value @"tire_retreading_and_repair"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumTireRetreadingAndRepair
+  | -- | Represents the JSON value @"tolls_bridge_fees"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumTollsBridgeFees
+  | -- | Represents the JSON value @"tourist_attractions_and_exhibits"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumTouristAttractionsAndExhibits
+  | -- | Represents the JSON value @"towing_services"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumTowingServices
+  | -- | Represents the JSON value @"trailer_parks_campgrounds"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumTrailerParksCampgrounds
+  | -- | Represents the JSON value @"transportation_services"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumTransportationServices
+  | -- | Represents the JSON value @"travel_agencies_tour_operators"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumTravelAgenciesTourOperators
+  | -- | Represents the JSON value @"truck_stop_iteration"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumTruckStopIteration
+  | -- | Represents the JSON value @"truck_utility_trailer_rentals"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumTruckUtilityTrailerRentals
+  | -- | Represents the JSON value @"typesetting_plate_making_and_related_services"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumTypesettingPlateMakingAndRelatedServices
+  | -- | Represents the JSON value @"typewriter_stores"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumTypewriterStores
+  | -- | Represents the JSON value @"u_s_federal_government_agencies_or_departments"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumUSFederalGovernmentAgenciesOrDepartments
+  | -- | Represents the JSON value @"uniforms_commercial_clothing"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumUniformsCommercialClothing
+  | -- | Represents the JSON value @"used_merchandise_and_secondhand_stores"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumUsedMerchandiseAndSecondhandStores
+  | -- | Represents the JSON value @"utilities"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumUtilities
+  | -- | Represents the JSON value @"variety_stores"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumVarietyStores
+  | -- | Represents the JSON value @"veterinary_services"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumVeterinaryServices
+  | -- | Represents the JSON value @"video_amusement_game_supplies"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumVideoAmusementGameSupplies
+  | -- | Represents the JSON value @"video_game_arcades"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumVideoGameArcades
+  | -- | Represents the JSON value @"video_tape_rental_stores"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumVideoTapeRentalStores
+  | -- | Represents the JSON value @"vocational_trade_schools"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumVocationalTradeSchools
+  | -- | Represents the JSON value @"watch_jewelry_repair"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumWatchJewelryRepair
+  | -- | Represents the JSON value @"welding_repair"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumWeldingRepair
+  | -- | Represents the JSON value @"wholesale_clubs"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumWholesaleClubs
+  | -- | Represents the JSON value @"wig_and_toupee_stores"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumWigAndToupeeStores
+  | -- | Represents the JSON value @"wires_money_orders"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumWiresMoneyOrders
+  | -- | Represents the JSON value @"womens_accessory_and_specialty_shops"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumWomensAccessoryAndSpecialtyShops
+  | -- | Represents the JSON value @"womens_ready_to_wear_stores"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumWomensReadyToWearStores
+  | -- | Represents the JSON value @"wrecking_and_salvage_yards"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumWreckingAndSalvageYards
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories' where
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringAcRefrigerationRepair) = "ac_refrigeration_repair"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringAccountingBookkeepingServices) = "accounting_bookkeeping_services"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringAdvertisingServices) = "advertising_services"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringAgriculturalCooperative) = "agricultural_cooperative"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringAirlinesAirCarriers) = "airlines_air_carriers"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringAirportsFlyingFields) = "airports_flying_fields"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringAmbulanceServices) = "ambulance_services"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringAmusementParksCarnivals) = "amusement_parks_carnivals"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringAntiqueReproductions) = "antique_reproductions"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringAntiqueShops) = "antique_shops"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringAquariums) = "aquariums"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringArchitecturalSurveyingServices) = "architectural_surveying_services"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringArtDealersAndGalleries) = "art_dealers_and_galleries"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringArtistsSupplyAndCraftShops) = "artists_supply_and_craft_shops"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringAutoAndHomeSupplyStores) = "auto_and_home_supply_stores"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringAutoBodyRepairShops) = "auto_body_repair_shops"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringAutoPaintShops) = "auto_paint_shops"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringAutoServiceShops) = "auto_service_shops"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringAutomatedCashDisburse) = "automated_cash_disburse"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringAutomatedFuelDispensers) = "automated_fuel_dispensers"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringAutomobileAssociations) = "automobile_associations"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringAutomotivePartsAndAccessoriesStores) = "automotive_parts_and_accessories_stores"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringAutomotiveTireStores) = "automotive_tire_stores"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringBailAndBondPayments) = "bail_and_bond_payments"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringBakeries) = "bakeries"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringBandsOrchestras) = "bands_orchestras"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringBarberAndBeautyShops) = "barber_and_beauty_shops"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringBettingCasinoGambling) = "betting_casino_gambling"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringBicycleShops) = "bicycle_shops"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringBilliardPoolEstablishments) = "billiard_pool_establishments"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringBoatDealers) = "boat_dealers"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringBoatRentalsAndLeases) = "boat_rentals_and_leases"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringBookStores) = "book_stores"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringBooksPeriodicalsAndNewspapers) = "books_periodicals_and_newspapers"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringBowlingAlleys) = "bowling_alleys"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringBusLines) = "bus_lines"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringBusinessSecretarialSchools) = "business_secretarial_schools"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringBuyingShoppingServices) = "buying_shopping_services"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringCableSatelliteAndOtherPayTelevisionAndRadio) = "cable_satellite_and_other_pay_television_and_radio"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringCameraAndPhotographicSupplyStores) = "camera_and_photographic_supply_stores"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringCandyNutAndConfectioneryStores) = "candy_nut_and_confectionery_stores"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringCarAndTruckDealersNewUsed) = "car_and_truck_dealers_new_used"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringCarAndTruckDealersUsedOnly) = "car_and_truck_dealers_used_only"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringCarRentalAgencies) = "car_rental_agencies"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringCarWashes) = "car_washes"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringCarpentryServices) = "carpentry_services"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringCarpetUpholsteryCleaning) = "carpet_upholstery_cleaning"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringCaterers) = "caterers"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringCharitableAndSocialServiceOrganizationsFundraising) = "charitable_and_social_service_organizations_fundraising"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringChemicalsAndAlliedProducts) = "chemicals_and_allied_products"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringChildCareServices) = "child_care_services"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringChildrensAndInfantsWearStores) = "childrens_and_infants_wear_stores"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringChiropodistsPodiatrists) = "chiropodists_podiatrists"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringChiropractors) = "chiropractors"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringCigarStoresAndStands) = "cigar_stores_and_stands"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringCivicSocialFraternalAssociations) = "civic_social_fraternal_associations"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringCleaningAndMaintenance) = "cleaning_and_maintenance"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringClothingRental) = "clothing_rental"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringCollegesUniversities) = "colleges_universities"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringCommercialEquipment) = "commercial_equipment"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringCommercialFootwear) = "commercial_footwear"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringCommercialPhotographyArtAndGraphics) = "commercial_photography_art_and_graphics"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringCommuterTransportAndFerries) = "commuter_transport_and_ferries"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringComputerNetworkServices) = "computer_network_services"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringComputerProgramming) = "computer_programming"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringComputerRepair) = "computer_repair"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringComputerSoftwareStores) = "computer_software_stores"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringComputersPeripheralsAndSoftware) = "computers_peripherals_and_software"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringConcreteWorkServices) = "concrete_work_services"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringConstructionMaterials) = "construction_materials"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringConsultingPublicRelations) = "consulting_public_relations"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringCorrespondenceSchools) = "correspondence_schools"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringCosmeticStores) = "cosmetic_stores"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringCounselingServices) = "counseling_services"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringCountryClubs) = "country_clubs"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringCourierServices) = "courier_services"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringCourtCosts) = "court_costs"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringCreditReportingAgencies) = "credit_reporting_agencies"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringCruiseLines) = "cruise_lines"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringDairyProductsStores) = "dairy_products_stores"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringDanceHallStudiosSchools) = "dance_hall_studios_schools"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringDatingEscortServices) = "dating_escort_services"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringDentistsOrthodontists) = "dentists_orthodontists"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringDepartmentStores) = "department_stores"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringDetectiveAgencies) = "detective_agencies"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringDigitalGoodsApplications) = "digital_goods_applications"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringDigitalGoodsGames) = "digital_goods_games"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringDigitalGoodsLargeVolume) = "digital_goods_large_volume"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringDigitalGoodsMedia) = "digital_goods_media"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringDirectMarketingCatalogMerchant) = "direct_marketing_catalog_merchant"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringDirectMarketingCombinationCatalogAndRetailMerchant) = "direct_marketing_combination_catalog_and_retail_merchant"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringDirectMarketingInboundTelemarketing) = "direct_marketing_inbound_telemarketing"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringDirectMarketingInsuranceServices) = "direct_marketing_insurance_services"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringDirectMarketingOther) = "direct_marketing_other"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringDirectMarketingOutboundTelemarketing) = "direct_marketing_outbound_telemarketing"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringDirectMarketingSubscription) = "direct_marketing_subscription"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringDirectMarketingTravel) = "direct_marketing_travel"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringDiscountStores) = "discount_stores"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringDoctors) = "doctors"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringDoorToDoorSales) = "door_to_door_sales"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringDraperyWindowCoveringAndUpholsteryStores) = "drapery_window_covering_and_upholstery_stores"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringDrinkingPlaces) = "drinking_places"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringDrugStoresAndPharmacies) = "drug_stores_and_pharmacies"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringDrugsDrugProprietariesAndDruggistSundries) = "drugs_drug_proprietaries_and_druggist_sundries"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringDryCleaners) = "dry_cleaners"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringDurableGoods) = "durable_goods"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringDutyFreeStores) = "duty_free_stores"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringEatingPlacesRestaurants) = "eating_places_restaurants"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringEducationalServices) = "educational_services"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringElectricRazorStores) = "electric_razor_stores"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringElectricalPartsAndEquipment) = "electrical_parts_and_equipment"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringElectricalServices) = "electrical_services"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringElectronicsRepairShops) = "electronics_repair_shops"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringElectronicsStores) = "electronics_stores"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringElementarySecondarySchools) = "elementary_secondary_schools"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringEmploymentTempAgencies) = "employment_temp_agencies"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringEquipmentRental) = "equipment_rental"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringExterminatingServices) = "exterminating_services"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringFamilyClothingStores) = "family_clothing_stores"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringFastFoodRestaurants) = "fast_food_restaurants"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringFinancialInstitutions) = "financial_institutions"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringFinesGovernmentAdministrativeEntities) = "fines_government_administrative_entities"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringFireplaceFireplaceScreensAndAccessoriesStores) = "fireplace_fireplace_screens_and_accessories_stores"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringFloorCoveringStores) = "floor_covering_stores"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringFlorists) = "florists"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringFloristsSuppliesNurseryStockAndFlowers) = "florists_supplies_nursery_stock_and_flowers"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringFreezerAndLockerMeatProvisioners) = "freezer_and_locker_meat_provisioners"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringFuelDealersNonAutomotive) = "fuel_dealers_non_automotive"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringFuneralServicesCrematories) = "funeral_services_crematories"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringFurnitureHomeFurnishingsAndEquipmentStoresExceptAppliances) = "furniture_home_furnishings_and_equipment_stores_except_appliances"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringFurnitureRepairRefinishing) = "furniture_repair_refinishing"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringFurriersAndFurShops) = "furriers_and_fur_shops"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringGeneralServices) = "general_services"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringGiftCardNoveltyAndSouvenirShops) = "gift_card_novelty_and_souvenir_shops"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringGlassPaintAndWallpaperStores) = "glass_paint_and_wallpaper_stores"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringGlasswareCrystalStores) = "glassware_crystal_stores"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringGolfCoursesPublic) = "golf_courses_public"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringGovernmentServices) = "government_services"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringGroceryStoresSupermarkets) = "grocery_stores_supermarkets"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringHardwareEquipmentAndSupplies) = "hardware_equipment_and_supplies"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringHardwareStores) = "hardware_stores"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringHealthAndBeautySpas) = "health_and_beauty_spas"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringHearingAidsSalesAndSupplies) = "hearing_aids_sales_and_supplies"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringHeatingPlumbingAC) = "heating_plumbing_a_c"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringHobbyToyAndGameShops) = "hobby_toy_and_game_shops"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringHomeSupplyWarehouseStores) = "home_supply_warehouse_stores"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringHospitals) = "hospitals"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringHotelsMotelsAndResorts) = "hotels_motels_and_resorts"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringHouseholdApplianceStores) = "household_appliance_stores"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringIndustrialSupplies) = "industrial_supplies"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringInformationRetrievalServices) = "information_retrieval_services"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringInsuranceDefault) = "insurance_default"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringInsuranceUnderwritingPremiums) = "insurance_underwriting_premiums"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringIntraCompanyPurchases) = "intra_company_purchases"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringJewelryStoresWatchesClocksAndSilverwareStores) = "jewelry_stores_watches_clocks_and_silverware_stores"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringLandscapingServices) = "landscaping_services"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringLaundries) = "laundries"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringLaundryCleaningServices) = "laundry_cleaning_services"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringLegalServicesAttorneys) = "legal_services_attorneys"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringLuggageAndLeatherGoodsStores) = "luggage_and_leather_goods_stores"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringLumberBuildingMaterialsStores) = "lumber_building_materials_stores"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringManualCashDisburse) = "manual_cash_disburse"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringMarinasServiceAndSupplies) = "marinas_service_and_supplies"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringMasonryStoneworkAndPlaster) = "masonry_stonework_and_plaster"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringMassageParlors) = "massage_parlors"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringMedicalAndDentalLabs) = "medical_and_dental_labs"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringMedicalDentalOphthalmicAndHospitalEquipmentAndSupplies) = "medical_dental_ophthalmic_and_hospital_equipment_and_supplies"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringMedicalServices) = "medical_services"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringMembershipOrganizations) = "membership_organizations"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringMensAndBoysClothingAndAccessoriesStores) = "mens_and_boys_clothing_and_accessories_stores"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringMensWomensClothingStores) = "mens_womens_clothing_stores"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringMetalServiceCenters) = "metal_service_centers"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringMiscellaneous) = "miscellaneous"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringMiscellaneousApparelAndAccessoryShops) = "miscellaneous_apparel_and_accessory_shops"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringMiscellaneousAutoDealers) = "miscellaneous_auto_dealers"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringMiscellaneousBusinessServices) = "miscellaneous_business_services"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringMiscellaneousFoodStores) = "miscellaneous_food_stores"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringMiscellaneousGeneralMerchandise) = "miscellaneous_general_merchandise"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringMiscellaneousGeneralServices) = "miscellaneous_general_services"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringMiscellaneousHomeFurnishingSpecialtyStores) = "miscellaneous_home_furnishing_specialty_stores"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringMiscellaneousPublishingAndPrinting) = "miscellaneous_publishing_and_printing"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringMiscellaneousRecreationServices) = "miscellaneous_recreation_services"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringMiscellaneousRepairShops) = "miscellaneous_repair_shops"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringMiscellaneousSpecialtyRetail) = "miscellaneous_specialty_retail"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringMobileHomeDealers) = "mobile_home_dealers"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringMotionPictureTheaters) = "motion_picture_theaters"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringMotorFreightCarriersAndTrucking) = "motor_freight_carriers_and_trucking"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringMotorHomesDealers) = "motor_homes_dealers"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringMotorVehicleSuppliesAndNewParts) = "motor_vehicle_supplies_and_new_parts"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringMotorcycleShopsAndDealers) = "motorcycle_shops_and_dealers"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringMotorcycleShopsDealers) = "motorcycle_shops_dealers"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringMusicStoresMusicalInstrumentsPianosAndSheetMusic) = "music_stores_musical_instruments_pianos_and_sheet_music"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringNewsDealersAndNewsstands) = "news_dealers_and_newsstands"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringNonFiMoneyOrders) = "non_fi_money_orders"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringNonFiStoredValueCardPurchaseLoad) = "non_fi_stored_value_card_purchase_load"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringNondurableGoods) = "nondurable_goods"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringNurseriesLawnAndGardenSupplyStores) = "nurseries_lawn_and_garden_supply_stores"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringNursingPersonalCare) = "nursing_personal_care"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringOfficeAndCommercialFurniture) = "office_and_commercial_furniture"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringOpticiansEyeglasses) = "opticians_eyeglasses"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringOptometristsOphthalmologist) = "optometrists_ophthalmologist"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringOrthopedicGoodsProstheticDevices) = "orthopedic_goods_prosthetic_devices"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringOsteopaths) = "osteopaths"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringPackageStoresBeerWineAndLiquor) = "package_stores_beer_wine_and_liquor"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringPaintsVarnishesAndSupplies) = "paints_varnishes_and_supplies"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringParkingLotsGarages) = "parking_lots_garages"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringPassengerRailways) = "passenger_railways"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringPawnShops) = "pawn_shops"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringPetShopsPetFoodAndSupplies) = "pet_shops_pet_food_and_supplies"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringPetroleumAndPetroleumProducts) = "petroleum_and_petroleum_products"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringPhotoDeveloping) = "photo_developing"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringPhotographicPhotocopyMicrofilmEquipmentAndSupplies) = "photographic_photocopy_microfilm_equipment_and_supplies"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringPhotographicStudios) = "photographic_studios"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringPictureVideoProduction) = "picture_video_production"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringPieceGoodsNotionsAndOtherDryGoods) = "piece_goods_notions_and_other_dry_goods"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringPlumbingHeatingEquipmentAndSupplies) = "plumbing_heating_equipment_and_supplies"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringPoliticalOrganizations) = "political_organizations"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringPostalServicesGovernmentOnly) = "postal_services_government_only"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringPreciousStonesAndMetalsWatchesAndJewelry) = "precious_stones_and_metals_watches_and_jewelry"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringProfessionalServices) = "professional_services"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringPublicWarehousingAndStorage) = "public_warehousing_and_storage"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringQuickCopyReproAndBlueprint) = "quick_copy_repro_and_blueprint"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringRailroads) = "railroads"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringRealEstateAgentsAndManagersRentals) = "real_estate_agents_and_managers_rentals"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringRecordStores) = "record_stores"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringRecreationalVehicleRentals) = "recreational_vehicle_rentals"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringReligiousGoodsStores) = "religious_goods_stores"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringReligiousOrganizations) = "religious_organizations"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringRoofingSidingSheetMetal) = "roofing_siding_sheet_metal"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringSecretarialSupportServices) = "secretarial_support_services"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringSecurityBrokersDealers) = "security_brokers_dealers"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringServiceStations) = "service_stations"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringSewingNeedleworkFabricAndPieceGoodsStores) = "sewing_needlework_fabric_and_piece_goods_stores"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringShoeRepairHatCleaning) = "shoe_repair_hat_cleaning"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringShoeStores) = "shoe_stores"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringSmallApplianceRepair) = "small_appliance_repair"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringSnowmobileDealers) = "snowmobile_dealers"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringSpecialTradeServices) = "special_trade_services"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringSpecialtyCleaning) = "specialty_cleaning"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringSportingGoodsStores) = "sporting_goods_stores"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringSportingRecreationCamps) = "sporting_recreation_camps"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringSportsAndRidingApparelStores) = "sports_and_riding_apparel_stores"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringSportsClubsFields) = "sports_clubs_fields"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringStampAndCoinStores) = "stamp_and_coin_stores"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringStationaryOfficeSuppliesPrintingAndWritingPaper) = "stationary_office_supplies_printing_and_writing_paper"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringStationeryStoresOfficeAndSchoolSupplyStores) = "stationery_stores_office_and_school_supply_stores"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringSwimmingPoolsSales) = "swimming_pools_sales"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringTUiTravelGermany) = "t_ui_travel_germany"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringTailorsAlterations) = "tailors_alterations"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringTaxPaymentsGovernmentAgencies) = "tax_payments_government_agencies"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringTaxPreparationServices) = "tax_preparation_services"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringTaxicabsLimousines) = "taxicabs_limousines"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringTelecommunicationEquipmentAndTelephoneSales) = "telecommunication_equipment_and_telephone_sales"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringTelecommunicationServices) = "telecommunication_services"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringTelegraphServices) = "telegraph_services"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringTentAndAwningShops) = "tent_and_awning_shops"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringTestingLaboratories) = "testing_laboratories"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringTheatricalTicketAgencies) = "theatrical_ticket_agencies"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringTimeshares) = "timeshares"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringTireRetreadingAndRepair) = "tire_retreading_and_repair"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringTollsBridgeFees) = "tolls_bridge_fees"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringTouristAttractionsAndExhibits) = "tourist_attractions_and_exhibits"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringTowingServices) = "towing_services"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringTrailerParksCampgrounds) = "trailer_parks_campgrounds"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringTransportationServices) = "transportation_services"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringTravelAgenciesTourOperators) = "travel_agencies_tour_operators"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringTruckStopIteration) = "truck_stop_iteration"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringTruckUtilityTrailerRentals) = "truck_utility_trailer_rentals"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringTypesettingPlateMakingAndRelatedServices) = "typesetting_plate_making_and_related_services"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringTypewriterStores) = "typewriter_stores"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringUSFederalGovernmentAgenciesOrDepartments) = "u_s_federal_government_agencies_or_departments"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringUniformsCommercialClothing) = "uniforms_commercial_clothing"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringUsedMerchandiseAndSecondhandStores) = "used_merchandise_and_secondhand_stores"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringUtilities) = "utilities"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringVarietyStores) = "variety_stores"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringVeterinaryServices) = "veterinary_services"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringVideoAmusementGameSupplies) = "video_amusement_game_supplies"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringVideoGameArcades) = "video_game_arcades"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringVideoTapeRentalStores) = "video_tape_rental_stores"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringVocationalTradeSchools) = "vocational_trade_schools"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringWatchJewelryRepair) = "watch_jewelry_repair"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringWeldingRepair) = "welding_repair"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringWholesaleClubs) = "wholesale_clubs"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringWigAndToupeeStores) = "wig_and_toupee_stores"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringWiresMoneyOrders) = "wires_money_orders"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringWomensAccessoryAndSpecialtyShops) = "womens_accessory_and_specialty_shops"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringWomensReadyToWearStores) = "womens_ready_to_wear_stores"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringWreckingAndSalvageYards) = "wrecking_and_salvage_yards"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'Other val) = val
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumAcRefrigerationRepair) = "ac_refrigeration_repair"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumAccountingBookkeepingServices) = "accounting_bookkeeping_services"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumAdvertisingServices) = "advertising_services"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumAgriculturalCooperative) = "agricultural_cooperative"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumAirlinesAirCarriers) = "airlines_air_carriers"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumAirportsFlyingFields) = "airports_flying_fields"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumAmbulanceServices) = "ambulance_services"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumAmusementParksCarnivals) = "amusement_parks_carnivals"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumAntiqueReproductions) = "antique_reproductions"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumAntiqueShops) = "antique_shops"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumAquariums) = "aquariums"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumArchitecturalSurveyingServices) = "architectural_surveying_services"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumArtDealersAndGalleries) = "art_dealers_and_galleries"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumArtistsSupplyAndCraftShops) = "artists_supply_and_craft_shops"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumAutoAndHomeSupplyStores) = "auto_and_home_supply_stores"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumAutoBodyRepairShops) = "auto_body_repair_shops"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumAutoPaintShops) = "auto_paint_shops"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumAutoServiceShops) = "auto_service_shops"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumAutomatedCashDisburse) = "automated_cash_disburse"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumAutomatedFuelDispensers) = "automated_fuel_dispensers"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumAutomobileAssociations) = "automobile_associations"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumAutomotivePartsAndAccessoriesStores) = "automotive_parts_and_accessories_stores"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumAutomotiveTireStores) = "automotive_tire_stores"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumBailAndBondPayments) = "bail_and_bond_payments"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumBakeries) = "bakeries"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumBandsOrchestras) = "bands_orchestras"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumBarberAndBeautyShops) = "barber_and_beauty_shops"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumBettingCasinoGambling) = "betting_casino_gambling"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumBicycleShops) = "bicycle_shops"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumBilliardPoolEstablishments) = "billiard_pool_establishments"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumBoatDealers) = "boat_dealers"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumBoatRentalsAndLeases) = "boat_rentals_and_leases"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumBookStores) = "book_stores"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumBooksPeriodicalsAndNewspapers) = "books_periodicals_and_newspapers"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumBowlingAlleys) = "bowling_alleys"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumBusLines) = "bus_lines"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumBusinessSecretarialSchools) = "business_secretarial_schools"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumBuyingShoppingServices) = "buying_shopping_services"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumCableSatelliteAndOtherPayTelevisionAndRadio) = "cable_satellite_and_other_pay_television_and_radio"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumCameraAndPhotographicSupplyStores) = "camera_and_photographic_supply_stores"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumCandyNutAndConfectioneryStores) = "candy_nut_and_confectionery_stores"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumCarAndTruckDealersNewUsed) = "car_and_truck_dealers_new_used"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumCarAndTruckDealersUsedOnly) = "car_and_truck_dealers_used_only"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumCarRentalAgencies) = "car_rental_agencies"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumCarWashes) = "car_washes"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumCarpentryServices) = "carpentry_services"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumCarpetUpholsteryCleaning) = "carpet_upholstery_cleaning"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumCaterers) = "caterers"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumCharitableAndSocialServiceOrganizationsFundraising) = "charitable_and_social_service_organizations_fundraising"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumChemicalsAndAlliedProducts) = "chemicals_and_allied_products"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumChildCareServices) = "child_care_services"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumChildrensAndInfantsWearStores) = "childrens_and_infants_wear_stores"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumChiropodistsPodiatrists) = "chiropodists_podiatrists"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumChiropractors) = "chiropractors"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumCigarStoresAndStands) = "cigar_stores_and_stands"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumCivicSocialFraternalAssociations) = "civic_social_fraternal_associations"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumCleaningAndMaintenance) = "cleaning_and_maintenance"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumClothingRental) = "clothing_rental"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumCollegesUniversities) = "colleges_universities"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumCommercialEquipment) = "commercial_equipment"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumCommercialFootwear) = "commercial_footwear"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumCommercialPhotographyArtAndGraphics) = "commercial_photography_art_and_graphics"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumCommuterTransportAndFerries) = "commuter_transport_and_ferries"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumComputerNetworkServices) = "computer_network_services"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumComputerProgramming) = "computer_programming"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumComputerRepair) = "computer_repair"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumComputerSoftwareStores) = "computer_software_stores"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumComputersPeripheralsAndSoftware) = "computers_peripherals_and_software"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumConcreteWorkServices) = "concrete_work_services"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumConstructionMaterials) = "construction_materials"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumConsultingPublicRelations) = "consulting_public_relations"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumCorrespondenceSchools) = "correspondence_schools"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumCosmeticStores) = "cosmetic_stores"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumCounselingServices) = "counseling_services"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumCountryClubs) = "country_clubs"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumCourierServices) = "courier_services"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumCourtCosts) = "court_costs"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumCreditReportingAgencies) = "credit_reporting_agencies"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumCruiseLines) = "cruise_lines"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumDairyProductsStores) = "dairy_products_stores"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumDanceHallStudiosSchools) = "dance_hall_studios_schools"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumDatingEscortServices) = "dating_escort_services"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumDentistsOrthodontists) = "dentists_orthodontists"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumDepartmentStores) = "department_stores"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumDetectiveAgencies) = "detective_agencies"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumDigitalGoodsApplications) = "digital_goods_applications"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumDigitalGoodsGames) = "digital_goods_games"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumDigitalGoodsLargeVolume) = "digital_goods_large_volume"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumDigitalGoodsMedia) = "digital_goods_media"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumDirectMarketingCatalogMerchant) = "direct_marketing_catalog_merchant"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumDirectMarketingCombinationCatalogAndRetailMerchant) = "direct_marketing_combination_catalog_and_retail_merchant"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumDirectMarketingInboundTelemarketing) = "direct_marketing_inbound_telemarketing"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumDirectMarketingInsuranceServices) = "direct_marketing_insurance_services"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumDirectMarketingOther) = "direct_marketing_other"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumDirectMarketingOutboundTelemarketing) = "direct_marketing_outbound_telemarketing"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumDirectMarketingSubscription) = "direct_marketing_subscription"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumDirectMarketingTravel) = "direct_marketing_travel"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumDiscountStores) = "discount_stores"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumDoctors) = "doctors"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumDoorToDoorSales) = "door_to_door_sales"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumDraperyWindowCoveringAndUpholsteryStores) = "drapery_window_covering_and_upholstery_stores"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumDrinkingPlaces) = "drinking_places"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumDrugStoresAndPharmacies) = "drug_stores_and_pharmacies"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumDrugsDrugProprietariesAndDruggistSundries) = "drugs_drug_proprietaries_and_druggist_sundries"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumDryCleaners) = "dry_cleaners"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumDurableGoods) = "durable_goods"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumDutyFreeStores) = "duty_free_stores"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumEatingPlacesRestaurants) = "eating_places_restaurants"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumEducationalServices) = "educational_services"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumElectricRazorStores) = "electric_razor_stores"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumElectricalPartsAndEquipment) = "electrical_parts_and_equipment"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumElectricalServices) = "electrical_services"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumElectronicsRepairShops) = "electronics_repair_shops"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumElectronicsStores) = "electronics_stores"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumElementarySecondarySchools) = "elementary_secondary_schools"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumEmploymentTempAgencies) = "employment_temp_agencies"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumEquipmentRental) = "equipment_rental"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumExterminatingServices) = "exterminating_services"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumFamilyClothingStores) = "family_clothing_stores"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumFastFoodRestaurants) = "fast_food_restaurants"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumFinancialInstitutions) = "financial_institutions"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumFinesGovernmentAdministrativeEntities) = "fines_government_administrative_entities"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumFireplaceFireplaceScreensAndAccessoriesStores) = "fireplace_fireplace_screens_and_accessories_stores"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumFloorCoveringStores) = "floor_covering_stores"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumFlorists) = "florists"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumFloristsSuppliesNurseryStockAndFlowers) = "florists_supplies_nursery_stock_and_flowers"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumFreezerAndLockerMeatProvisioners) = "freezer_and_locker_meat_provisioners"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumFuelDealersNonAutomotive) = "fuel_dealers_non_automotive"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumFuneralServicesCrematories) = "funeral_services_crematories"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumFurnitureHomeFurnishingsAndEquipmentStoresExceptAppliances) = "furniture_home_furnishings_and_equipment_stores_except_appliances"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumFurnitureRepairRefinishing) = "furniture_repair_refinishing"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumFurriersAndFurShops) = "furriers_and_fur_shops"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumGeneralServices) = "general_services"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumGiftCardNoveltyAndSouvenirShops) = "gift_card_novelty_and_souvenir_shops"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumGlassPaintAndWallpaperStores) = "glass_paint_and_wallpaper_stores"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumGlasswareCrystalStores) = "glassware_crystal_stores"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumGolfCoursesPublic) = "golf_courses_public"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumGovernmentServices) = "government_services"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumGroceryStoresSupermarkets) = "grocery_stores_supermarkets"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumHardwareEquipmentAndSupplies) = "hardware_equipment_and_supplies"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumHardwareStores) = "hardware_stores"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumHealthAndBeautySpas) = "health_and_beauty_spas"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumHearingAidsSalesAndSupplies) = "hearing_aids_sales_and_supplies"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumHeatingPlumbingAC) = "heating_plumbing_a_c"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumHobbyToyAndGameShops) = "hobby_toy_and_game_shops"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumHomeSupplyWarehouseStores) = "home_supply_warehouse_stores"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumHospitals) = "hospitals"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumHotelsMotelsAndResorts) = "hotels_motels_and_resorts"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumHouseholdApplianceStores) = "household_appliance_stores"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumIndustrialSupplies) = "industrial_supplies"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumInformationRetrievalServices) = "information_retrieval_services"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumInsuranceDefault) = "insurance_default"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumInsuranceUnderwritingPremiums) = "insurance_underwriting_premiums"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumIntraCompanyPurchases) = "intra_company_purchases"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumJewelryStoresWatchesClocksAndSilverwareStores) = "jewelry_stores_watches_clocks_and_silverware_stores"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumLandscapingServices) = "landscaping_services"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumLaundries) = "laundries"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumLaundryCleaningServices) = "laundry_cleaning_services"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumLegalServicesAttorneys) = "legal_services_attorneys"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumLuggageAndLeatherGoodsStores) = "luggage_and_leather_goods_stores"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumLumberBuildingMaterialsStores) = "lumber_building_materials_stores"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumManualCashDisburse) = "manual_cash_disburse"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumMarinasServiceAndSupplies) = "marinas_service_and_supplies"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumMasonryStoneworkAndPlaster) = "masonry_stonework_and_plaster"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumMassageParlors) = "massage_parlors"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumMedicalAndDentalLabs) = "medical_and_dental_labs"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumMedicalDentalOphthalmicAndHospitalEquipmentAndSupplies) = "medical_dental_ophthalmic_and_hospital_equipment_and_supplies"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumMedicalServices) = "medical_services"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumMembershipOrganizations) = "membership_organizations"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumMensAndBoysClothingAndAccessoriesStores) = "mens_and_boys_clothing_and_accessories_stores"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumMensWomensClothingStores) = "mens_womens_clothing_stores"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumMetalServiceCenters) = "metal_service_centers"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumMiscellaneous) = "miscellaneous"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumMiscellaneousApparelAndAccessoryShops) = "miscellaneous_apparel_and_accessory_shops"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumMiscellaneousAutoDealers) = "miscellaneous_auto_dealers"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumMiscellaneousBusinessServices) = "miscellaneous_business_services"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumMiscellaneousFoodStores) = "miscellaneous_food_stores"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumMiscellaneousGeneralMerchandise) = "miscellaneous_general_merchandise"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumMiscellaneousGeneralServices) = "miscellaneous_general_services"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumMiscellaneousHomeFurnishingSpecialtyStores) = "miscellaneous_home_furnishing_specialty_stores"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumMiscellaneousPublishingAndPrinting) = "miscellaneous_publishing_and_printing"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumMiscellaneousRecreationServices) = "miscellaneous_recreation_services"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumMiscellaneousRepairShops) = "miscellaneous_repair_shops"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumMiscellaneousSpecialtyRetail) = "miscellaneous_specialty_retail"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumMobileHomeDealers) = "mobile_home_dealers"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumMotionPictureTheaters) = "motion_picture_theaters"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumMotorFreightCarriersAndTrucking) = "motor_freight_carriers_and_trucking"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumMotorHomesDealers) = "motor_homes_dealers"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumMotorVehicleSuppliesAndNewParts) = "motor_vehicle_supplies_and_new_parts"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumMotorcycleShopsAndDealers) = "motorcycle_shops_and_dealers"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumMotorcycleShopsDealers) = "motorcycle_shops_dealers"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumMusicStoresMusicalInstrumentsPianosAndSheetMusic) = "music_stores_musical_instruments_pianos_and_sheet_music"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumNewsDealersAndNewsstands) = "news_dealers_and_newsstands"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumNonFiMoneyOrders) = "non_fi_money_orders"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumNonFiStoredValueCardPurchaseLoad) = "non_fi_stored_value_card_purchase_load"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumNondurableGoods) = "nondurable_goods"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumNurseriesLawnAndGardenSupplyStores) = "nurseries_lawn_and_garden_supply_stores"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumNursingPersonalCare) = "nursing_personal_care"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumOfficeAndCommercialFurniture) = "office_and_commercial_furniture"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumOpticiansEyeglasses) = "opticians_eyeglasses"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumOptometristsOphthalmologist) = "optometrists_ophthalmologist"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumOrthopedicGoodsProstheticDevices) = "orthopedic_goods_prosthetic_devices"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumOsteopaths) = "osteopaths"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumPackageStoresBeerWineAndLiquor) = "package_stores_beer_wine_and_liquor"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumPaintsVarnishesAndSupplies) = "paints_varnishes_and_supplies"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumParkingLotsGarages) = "parking_lots_garages"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumPassengerRailways) = "passenger_railways"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumPawnShops) = "pawn_shops"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumPetShopsPetFoodAndSupplies) = "pet_shops_pet_food_and_supplies"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumPetroleumAndPetroleumProducts) = "petroleum_and_petroleum_products"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumPhotoDeveloping) = "photo_developing"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumPhotographicPhotocopyMicrofilmEquipmentAndSupplies) = "photographic_photocopy_microfilm_equipment_and_supplies"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumPhotographicStudios) = "photographic_studios"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumPictureVideoProduction) = "picture_video_production"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumPieceGoodsNotionsAndOtherDryGoods) = "piece_goods_notions_and_other_dry_goods"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumPlumbingHeatingEquipmentAndSupplies) = "plumbing_heating_equipment_and_supplies"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumPoliticalOrganizations) = "political_organizations"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumPostalServicesGovernmentOnly) = "postal_services_government_only"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumPreciousStonesAndMetalsWatchesAndJewelry) = "precious_stones_and_metals_watches_and_jewelry"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumProfessionalServices) = "professional_services"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumPublicWarehousingAndStorage) = "public_warehousing_and_storage"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumQuickCopyReproAndBlueprint) = "quick_copy_repro_and_blueprint"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumRailroads) = "railroads"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumRealEstateAgentsAndManagersRentals) = "real_estate_agents_and_managers_rentals"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumRecordStores) = "record_stores"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumRecreationalVehicleRentals) = "recreational_vehicle_rentals"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumReligiousGoodsStores) = "religious_goods_stores"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumReligiousOrganizations) = "religious_organizations"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumRoofingSidingSheetMetal) = "roofing_siding_sheet_metal"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumSecretarialSupportServices) = "secretarial_support_services"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumSecurityBrokersDealers) = "security_brokers_dealers"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumServiceStations) = "service_stations"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumSewingNeedleworkFabricAndPieceGoodsStores) = "sewing_needlework_fabric_and_piece_goods_stores"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumShoeRepairHatCleaning) = "shoe_repair_hat_cleaning"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumShoeStores) = "shoe_stores"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumSmallApplianceRepair) = "small_appliance_repair"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumSnowmobileDealers) = "snowmobile_dealers"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumSpecialTradeServices) = "special_trade_services"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumSpecialtyCleaning) = "specialty_cleaning"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumSportingGoodsStores) = "sporting_goods_stores"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumSportingRecreationCamps) = "sporting_recreation_camps"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumSportsAndRidingApparelStores) = "sports_and_riding_apparel_stores"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumSportsClubsFields) = "sports_clubs_fields"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStampAndCoinStores) = "stamp_and_coin_stores"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStationaryOfficeSuppliesPrintingAndWritingPaper) = "stationary_office_supplies_printing_and_writing_paper"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStationeryStoresOfficeAndSchoolSupplyStores) = "stationery_stores_office_and_school_supply_stores"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumSwimmingPoolsSales) = "swimming_pools_sales"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumTUiTravelGermany) = "t_ui_travel_germany"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumTailorsAlterations) = "tailors_alterations"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumTaxPaymentsGovernmentAgencies) = "tax_payments_government_agencies"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumTaxPreparationServices) = "tax_preparation_services"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumTaxicabsLimousines) = "taxicabs_limousines"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumTelecommunicationEquipmentAndTelephoneSales) = "telecommunication_equipment_and_telephone_sales"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumTelecommunicationServices) = "telecommunication_services"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumTelegraphServices) = "telegraph_services"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumTentAndAwningShops) = "tent_and_awning_shops"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumTestingLaboratories) = "testing_laboratories"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumTheatricalTicketAgencies) = "theatrical_ticket_agencies"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumTimeshares) = "timeshares"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumTireRetreadingAndRepair) = "tire_retreading_and_repair"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumTollsBridgeFees) = "tolls_bridge_fees"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumTouristAttractionsAndExhibits) = "tourist_attractions_and_exhibits"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumTowingServices) = "towing_services"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumTrailerParksCampgrounds) = "trailer_parks_campgrounds"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumTransportationServices) = "transportation_services"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumTravelAgenciesTourOperators) = "travel_agencies_tour_operators"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumTruckStopIteration) = "truck_stop_iteration"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumTruckUtilityTrailerRentals) = "truck_utility_trailer_rentals"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumTypesettingPlateMakingAndRelatedServices) = "typesetting_plate_making_and_related_services"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumTypewriterStores) = "typewriter_stores"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumUSFederalGovernmentAgenciesOrDepartments) = "u_s_federal_government_agencies_or_departments"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumUniformsCommercialClothing) = "uniforms_commercial_clothing"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumUsedMerchandiseAndSecondhandStores) = "used_merchandise_and_secondhand_stores"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumUtilities) = "utilities"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumVarietyStores) = "variety_stores"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumVeterinaryServices) = "veterinary_services"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumVideoAmusementGameSupplies) = "video_amusement_game_supplies"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumVideoGameArcades) = "video_game_arcades"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumVideoTapeRentalStores) = "video_tape_rental_stores"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumVocationalTradeSchools) = "vocational_trade_schools"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumWatchJewelryRepair) = "watch_jewelry_repair"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumWeldingRepair) = "welding_repair"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumWholesaleClubs) = "wholesale_clubs"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumWigAndToupeeStores) = "wig_and_toupee_stores"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumWiresMoneyOrders) = "wires_money_orders"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumWomensAccessoryAndSpecialtyShops) = "womens_accessory_and_specialty_shops"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumWomensReadyToWearStores) = "womens_ready_to_wear_stores"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumWreckingAndSalvageYards) = "wrecking_and_salvage_yards"
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories' where
   parseJSON val =
     GHC.Base.pure
-      ( if  | val GHC.Classes.== "ac_refrigeration_repair" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringAcRefrigerationRepair
-            | val GHC.Classes.== "accounting_bookkeeping_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringAccountingBookkeepingServices
-            | val GHC.Classes.== "advertising_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringAdvertisingServices
-            | val GHC.Classes.== "agricultural_cooperative" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringAgriculturalCooperative
-            | val GHC.Classes.== "airlines_air_carriers" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringAirlinesAirCarriers
-            | val GHC.Classes.== "airports_flying_fields" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringAirportsFlyingFields
-            | val GHC.Classes.== "ambulance_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringAmbulanceServices
-            | val GHC.Classes.== "amusement_parks_carnivals" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringAmusementParksCarnivals
-            | val GHC.Classes.== "antique_reproductions" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringAntiqueReproductions
-            | val GHC.Classes.== "antique_shops" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringAntiqueShops
-            | val GHC.Classes.== "aquariums" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringAquariums
-            | val GHC.Classes.== "architectural_surveying_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringArchitecturalSurveyingServices
-            | val GHC.Classes.== "art_dealers_and_galleries" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringArtDealersAndGalleries
-            | val GHC.Classes.== "artists_supply_and_craft_shops" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringArtistsSupplyAndCraftShops
-            | val GHC.Classes.== "auto_and_home_supply_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringAutoAndHomeSupplyStores
-            | val GHC.Classes.== "auto_body_repair_shops" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringAutoBodyRepairShops
-            | val GHC.Classes.== "auto_paint_shops" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringAutoPaintShops
-            | val GHC.Classes.== "auto_service_shops" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringAutoServiceShops
-            | val GHC.Classes.== "automated_cash_disburse" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringAutomatedCashDisburse
-            | val GHC.Classes.== "automated_fuel_dispensers" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringAutomatedFuelDispensers
-            | val GHC.Classes.== "automobile_associations" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringAutomobileAssociations
-            | val GHC.Classes.== "automotive_parts_and_accessories_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringAutomotivePartsAndAccessoriesStores
-            | val GHC.Classes.== "automotive_tire_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringAutomotiveTireStores
-            | val GHC.Classes.== "bail_and_bond_payments" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringBailAndBondPayments
-            | val GHC.Classes.== "bakeries" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringBakeries
-            | val GHC.Classes.== "bands_orchestras" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringBandsOrchestras
-            | val GHC.Classes.== "barber_and_beauty_shops" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringBarberAndBeautyShops
-            | val GHC.Classes.== "betting_casino_gambling" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringBettingCasinoGambling
-            | val GHC.Classes.== "bicycle_shops" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringBicycleShops
-            | val GHC.Classes.== "billiard_pool_establishments" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringBilliardPoolEstablishments
-            | val GHC.Classes.== "boat_dealers" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringBoatDealers
-            | val GHC.Classes.== "boat_rentals_and_leases" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringBoatRentalsAndLeases
-            | val GHC.Classes.== "book_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringBookStores
-            | val GHC.Classes.== "books_periodicals_and_newspapers" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringBooksPeriodicalsAndNewspapers
-            | val GHC.Classes.== "bowling_alleys" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringBowlingAlleys
-            | val GHC.Classes.== "bus_lines" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringBusLines
-            | val GHC.Classes.== "business_secretarial_schools" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringBusinessSecretarialSchools
-            | val GHC.Classes.== "buying_shopping_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringBuyingShoppingServices
-            | val GHC.Classes.== "cable_satellite_and_other_pay_television_and_radio" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringCableSatelliteAndOtherPayTelevisionAndRadio
-            | val GHC.Classes.== "camera_and_photographic_supply_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringCameraAndPhotographicSupplyStores
-            | val GHC.Classes.== "candy_nut_and_confectionery_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringCandyNutAndConfectioneryStores
-            | val GHC.Classes.== "car_and_truck_dealers_new_used" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringCarAndTruckDealersNewUsed
-            | val GHC.Classes.== "car_and_truck_dealers_used_only" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringCarAndTruckDealersUsedOnly
-            | val GHC.Classes.== "car_rental_agencies" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringCarRentalAgencies
-            | val GHC.Classes.== "car_washes" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringCarWashes
-            | val GHC.Classes.== "carpentry_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringCarpentryServices
-            | val GHC.Classes.== "carpet_upholstery_cleaning" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringCarpetUpholsteryCleaning
-            | val GHC.Classes.== "caterers" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringCaterers
-            | val GHC.Classes.== "charitable_and_social_service_organizations_fundraising" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringCharitableAndSocialServiceOrganizationsFundraising
-            | val GHC.Classes.== "chemicals_and_allied_products" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringChemicalsAndAlliedProducts
-            | val GHC.Classes.== "child_care_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringChildCareServices
-            | val GHC.Classes.== "childrens_and_infants_wear_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringChildrensAndInfantsWearStores
-            | val GHC.Classes.== "chiropodists_podiatrists" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringChiropodistsPodiatrists
-            | val GHC.Classes.== "chiropractors" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringChiropractors
-            | val GHC.Classes.== "cigar_stores_and_stands" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringCigarStoresAndStands
-            | val GHC.Classes.== "civic_social_fraternal_associations" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringCivicSocialFraternalAssociations
-            | val GHC.Classes.== "cleaning_and_maintenance" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringCleaningAndMaintenance
-            | val GHC.Classes.== "clothing_rental" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringClothingRental
-            | val GHC.Classes.== "colleges_universities" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringCollegesUniversities
-            | val GHC.Classes.== "commercial_equipment" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringCommercialEquipment
-            | val GHC.Classes.== "commercial_footwear" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringCommercialFootwear
-            | val GHC.Classes.== "commercial_photography_art_and_graphics" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringCommercialPhotographyArtAndGraphics
-            | val GHC.Classes.== "commuter_transport_and_ferries" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringCommuterTransportAndFerries
-            | val GHC.Classes.== "computer_network_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringComputerNetworkServices
-            | val GHC.Classes.== "computer_programming" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringComputerProgramming
-            | val GHC.Classes.== "computer_repair" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringComputerRepair
-            | val GHC.Classes.== "computer_software_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringComputerSoftwareStores
-            | val GHC.Classes.== "computers_peripherals_and_software" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringComputersPeripheralsAndSoftware
-            | val GHC.Classes.== "concrete_work_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringConcreteWorkServices
-            | val GHC.Classes.== "construction_materials" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringConstructionMaterials
-            | val GHC.Classes.== "consulting_public_relations" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringConsultingPublicRelations
-            | val GHC.Classes.== "correspondence_schools" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringCorrespondenceSchools
-            | val GHC.Classes.== "cosmetic_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringCosmeticStores
-            | val GHC.Classes.== "counseling_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringCounselingServices
-            | val GHC.Classes.== "country_clubs" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringCountryClubs
-            | val GHC.Classes.== "courier_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringCourierServices
-            | val GHC.Classes.== "court_costs" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringCourtCosts
-            | val GHC.Classes.== "credit_reporting_agencies" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringCreditReportingAgencies
-            | val GHC.Classes.== "cruise_lines" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringCruiseLines
-            | val GHC.Classes.== "dairy_products_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringDairyProductsStores
-            | val GHC.Classes.== "dance_hall_studios_schools" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringDanceHallStudiosSchools
-            | val GHC.Classes.== "dating_escort_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringDatingEscortServices
-            | val GHC.Classes.== "dentists_orthodontists" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringDentistsOrthodontists
-            | val GHC.Classes.== "department_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringDepartmentStores
-            | val GHC.Classes.== "detective_agencies" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringDetectiveAgencies
-            | val GHC.Classes.== "digital_goods_applications" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringDigitalGoodsApplications
-            | val GHC.Classes.== "digital_goods_games" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringDigitalGoodsGames
-            | val GHC.Classes.== "digital_goods_large_volume" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringDigitalGoodsLargeVolume
-            | val GHC.Classes.== "digital_goods_media" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringDigitalGoodsMedia
-            | val GHC.Classes.== "direct_marketing_catalog_merchant" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringDirectMarketingCatalogMerchant
-            | val GHC.Classes.== "direct_marketing_combination_catalog_and_retail_merchant" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringDirectMarketingCombinationCatalogAndRetailMerchant
-            | val GHC.Classes.== "direct_marketing_inbound_telemarketing" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringDirectMarketingInboundTelemarketing
-            | val GHC.Classes.== "direct_marketing_insurance_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringDirectMarketingInsuranceServices
-            | val GHC.Classes.== "direct_marketing_other" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringDirectMarketingOther
-            | val GHC.Classes.== "direct_marketing_outbound_telemarketing" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringDirectMarketingOutboundTelemarketing
-            | val GHC.Classes.== "direct_marketing_subscription" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringDirectMarketingSubscription
-            | val GHC.Classes.== "direct_marketing_travel" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringDirectMarketingTravel
-            | val GHC.Classes.== "discount_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringDiscountStores
-            | val GHC.Classes.== "doctors" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringDoctors
-            | val GHC.Classes.== "door_to_door_sales" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringDoorToDoorSales
-            | val GHC.Classes.== "drapery_window_covering_and_upholstery_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringDraperyWindowCoveringAndUpholsteryStores
-            | val GHC.Classes.== "drinking_places" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringDrinkingPlaces
-            | val GHC.Classes.== "drug_stores_and_pharmacies" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringDrugStoresAndPharmacies
-            | val GHC.Classes.== "drugs_drug_proprietaries_and_druggist_sundries" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringDrugsDrugProprietariesAndDruggistSundries
-            | val GHC.Classes.== "dry_cleaners" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringDryCleaners
-            | val GHC.Classes.== "durable_goods" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringDurableGoods
-            | val GHC.Classes.== "duty_free_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringDutyFreeStores
-            | val GHC.Classes.== "eating_places_restaurants" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringEatingPlacesRestaurants
-            | val GHC.Classes.== "educational_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringEducationalServices
-            | val GHC.Classes.== "electric_razor_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringElectricRazorStores
-            | val GHC.Classes.== "electrical_parts_and_equipment" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringElectricalPartsAndEquipment
-            | val GHC.Classes.== "electrical_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringElectricalServices
-            | val GHC.Classes.== "electronics_repair_shops" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringElectronicsRepairShops
-            | val GHC.Classes.== "electronics_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringElectronicsStores
-            | val GHC.Classes.== "elementary_secondary_schools" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringElementarySecondarySchools
-            | val GHC.Classes.== "employment_temp_agencies" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringEmploymentTempAgencies
-            | val GHC.Classes.== "equipment_rental" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringEquipmentRental
-            | val GHC.Classes.== "exterminating_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringExterminatingServices
-            | val GHC.Classes.== "family_clothing_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringFamilyClothingStores
-            | val GHC.Classes.== "fast_food_restaurants" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringFastFoodRestaurants
-            | val GHC.Classes.== "financial_institutions" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringFinancialInstitutions
-            | val GHC.Classes.== "fines_government_administrative_entities" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringFinesGovernmentAdministrativeEntities
-            | val GHC.Classes.== "fireplace_fireplace_screens_and_accessories_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringFireplaceFireplaceScreensAndAccessoriesStores
-            | val GHC.Classes.== "floor_covering_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringFloorCoveringStores
-            | val GHC.Classes.== "florists" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringFlorists
-            | val GHC.Classes.== "florists_supplies_nursery_stock_and_flowers" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringFloristsSuppliesNurseryStockAndFlowers
-            | val GHC.Classes.== "freezer_and_locker_meat_provisioners" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringFreezerAndLockerMeatProvisioners
-            | val GHC.Classes.== "fuel_dealers_non_automotive" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringFuelDealersNonAutomotive
-            | val GHC.Classes.== "funeral_services_crematories" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringFuneralServicesCrematories
-            | val GHC.Classes.== "furniture_home_furnishings_and_equipment_stores_except_appliances" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringFurnitureHomeFurnishingsAndEquipmentStoresExceptAppliances
-            | val GHC.Classes.== "furniture_repair_refinishing" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringFurnitureRepairRefinishing
-            | val GHC.Classes.== "furriers_and_fur_shops" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringFurriersAndFurShops
-            | val GHC.Classes.== "general_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringGeneralServices
-            | val GHC.Classes.== "gift_card_novelty_and_souvenir_shops" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringGiftCardNoveltyAndSouvenirShops
-            | val GHC.Classes.== "glass_paint_and_wallpaper_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringGlassPaintAndWallpaperStores
-            | val GHC.Classes.== "glassware_crystal_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringGlasswareCrystalStores
-            | val GHC.Classes.== "golf_courses_public" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringGolfCoursesPublic
-            | val GHC.Classes.== "government_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringGovernmentServices
-            | val GHC.Classes.== "grocery_stores_supermarkets" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringGroceryStoresSupermarkets
-            | val GHC.Classes.== "hardware_equipment_and_supplies" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringHardwareEquipmentAndSupplies
-            | val GHC.Classes.== "hardware_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringHardwareStores
-            | val GHC.Classes.== "health_and_beauty_spas" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringHealthAndBeautySpas
-            | val GHC.Classes.== "hearing_aids_sales_and_supplies" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringHearingAidsSalesAndSupplies
-            | val GHC.Classes.== "heating_plumbing_a_c" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringHeatingPlumbingAC
-            | val GHC.Classes.== "hobby_toy_and_game_shops" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringHobbyToyAndGameShops
-            | val GHC.Classes.== "home_supply_warehouse_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringHomeSupplyWarehouseStores
-            | val GHC.Classes.== "hospitals" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringHospitals
-            | val GHC.Classes.== "hotels_motels_and_resorts" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringHotelsMotelsAndResorts
-            | val GHC.Classes.== "household_appliance_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringHouseholdApplianceStores
-            | val GHC.Classes.== "industrial_supplies" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringIndustrialSupplies
-            | val GHC.Classes.== "information_retrieval_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringInformationRetrievalServices
-            | val GHC.Classes.== "insurance_default" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringInsuranceDefault
-            | val GHC.Classes.== "insurance_underwriting_premiums" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringInsuranceUnderwritingPremiums
-            | val GHC.Classes.== "intra_company_purchases" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringIntraCompanyPurchases
-            | val GHC.Classes.== "jewelry_stores_watches_clocks_and_silverware_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringJewelryStoresWatchesClocksAndSilverwareStores
-            | val GHC.Classes.== "landscaping_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringLandscapingServices
-            | val GHC.Classes.== "laundries" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringLaundries
-            | val GHC.Classes.== "laundry_cleaning_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringLaundryCleaningServices
-            | val GHC.Classes.== "legal_services_attorneys" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringLegalServicesAttorneys
-            | val GHC.Classes.== "luggage_and_leather_goods_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringLuggageAndLeatherGoodsStores
-            | val GHC.Classes.== "lumber_building_materials_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringLumberBuildingMaterialsStores
-            | val GHC.Classes.== "manual_cash_disburse" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringManualCashDisburse
-            | val GHC.Classes.== "marinas_service_and_supplies" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringMarinasServiceAndSupplies
-            | val GHC.Classes.== "masonry_stonework_and_plaster" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringMasonryStoneworkAndPlaster
-            | val GHC.Classes.== "massage_parlors" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringMassageParlors
-            | val GHC.Classes.== "medical_and_dental_labs" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringMedicalAndDentalLabs
-            | val GHC.Classes.== "medical_dental_ophthalmic_and_hospital_equipment_and_supplies" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringMedicalDentalOphthalmicAndHospitalEquipmentAndSupplies
-            | val GHC.Classes.== "medical_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringMedicalServices
-            | val GHC.Classes.== "membership_organizations" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringMembershipOrganizations
-            | val GHC.Classes.== "mens_and_boys_clothing_and_accessories_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringMensAndBoysClothingAndAccessoriesStores
-            | val GHC.Classes.== "mens_womens_clothing_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringMensWomensClothingStores
-            | val GHC.Classes.== "metal_service_centers" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringMetalServiceCenters
-            | val GHC.Classes.== "miscellaneous" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringMiscellaneous
-            | val GHC.Classes.== "miscellaneous_apparel_and_accessory_shops" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringMiscellaneousApparelAndAccessoryShops
-            | val GHC.Classes.== "miscellaneous_auto_dealers" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringMiscellaneousAutoDealers
-            | val GHC.Classes.== "miscellaneous_business_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringMiscellaneousBusinessServices
-            | val GHC.Classes.== "miscellaneous_food_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringMiscellaneousFoodStores
-            | val GHC.Classes.== "miscellaneous_general_merchandise" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringMiscellaneousGeneralMerchandise
-            | val GHC.Classes.== "miscellaneous_general_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringMiscellaneousGeneralServices
-            | val GHC.Classes.== "miscellaneous_home_furnishing_specialty_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringMiscellaneousHomeFurnishingSpecialtyStores
-            | val GHC.Classes.== "miscellaneous_publishing_and_printing" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringMiscellaneousPublishingAndPrinting
-            | val GHC.Classes.== "miscellaneous_recreation_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringMiscellaneousRecreationServices
-            | val GHC.Classes.== "miscellaneous_repair_shops" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringMiscellaneousRepairShops
-            | val GHC.Classes.== "miscellaneous_specialty_retail" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringMiscellaneousSpecialtyRetail
-            | val GHC.Classes.== "mobile_home_dealers" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringMobileHomeDealers
-            | val GHC.Classes.== "motion_picture_theaters" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringMotionPictureTheaters
-            | val GHC.Classes.== "motor_freight_carriers_and_trucking" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringMotorFreightCarriersAndTrucking
-            | val GHC.Classes.== "motor_homes_dealers" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringMotorHomesDealers
-            | val GHC.Classes.== "motor_vehicle_supplies_and_new_parts" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringMotorVehicleSuppliesAndNewParts
-            | val GHC.Classes.== "motorcycle_shops_and_dealers" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringMotorcycleShopsAndDealers
-            | val GHC.Classes.== "motorcycle_shops_dealers" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringMotorcycleShopsDealers
-            | val GHC.Classes.== "music_stores_musical_instruments_pianos_and_sheet_music" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringMusicStoresMusicalInstrumentsPianosAndSheetMusic
-            | val GHC.Classes.== "news_dealers_and_newsstands" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringNewsDealersAndNewsstands
-            | val GHC.Classes.== "non_fi_money_orders" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringNonFiMoneyOrders
-            | val GHC.Classes.== "non_fi_stored_value_card_purchase_load" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringNonFiStoredValueCardPurchaseLoad
-            | val GHC.Classes.== "nondurable_goods" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringNondurableGoods
-            | val GHC.Classes.== "nurseries_lawn_and_garden_supply_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringNurseriesLawnAndGardenSupplyStores
-            | val GHC.Classes.== "nursing_personal_care" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringNursingPersonalCare
-            | val GHC.Classes.== "office_and_commercial_furniture" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringOfficeAndCommercialFurniture
-            | val GHC.Classes.== "opticians_eyeglasses" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringOpticiansEyeglasses
-            | val GHC.Classes.== "optometrists_ophthalmologist" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringOptometristsOphthalmologist
-            | val GHC.Classes.== "orthopedic_goods_prosthetic_devices" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringOrthopedicGoodsProstheticDevices
-            | val GHC.Classes.== "osteopaths" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringOsteopaths
-            | val GHC.Classes.== "package_stores_beer_wine_and_liquor" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringPackageStoresBeerWineAndLiquor
-            | val GHC.Classes.== "paints_varnishes_and_supplies" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringPaintsVarnishesAndSupplies
-            | val GHC.Classes.== "parking_lots_garages" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringParkingLotsGarages
-            | val GHC.Classes.== "passenger_railways" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringPassengerRailways
-            | val GHC.Classes.== "pawn_shops" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringPawnShops
-            | val GHC.Classes.== "pet_shops_pet_food_and_supplies" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringPetShopsPetFoodAndSupplies
-            | val GHC.Classes.== "petroleum_and_petroleum_products" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringPetroleumAndPetroleumProducts
-            | val GHC.Classes.== "photo_developing" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringPhotoDeveloping
-            | val GHC.Classes.== "photographic_photocopy_microfilm_equipment_and_supplies" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringPhotographicPhotocopyMicrofilmEquipmentAndSupplies
-            | val GHC.Classes.== "photographic_studios" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringPhotographicStudios
-            | val GHC.Classes.== "picture_video_production" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringPictureVideoProduction
-            | val GHC.Classes.== "piece_goods_notions_and_other_dry_goods" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringPieceGoodsNotionsAndOtherDryGoods
-            | val GHC.Classes.== "plumbing_heating_equipment_and_supplies" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringPlumbingHeatingEquipmentAndSupplies
-            | val GHC.Classes.== "political_organizations" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringPoliticalOrganizations
-            | val GHC.Classes.== "postal_services_government_only" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringPostalServicesGovernmentOnly
-            | val GHC.Classes.== "precious_stones_and_metals_watches_and_jewelry" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringPreciousStonesAndMetalsWatchesAndJewelry
-            | val GHC.Classes.== "professional_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringProfessionalServices
-            | val GHC.Classes.== "public_warehousing_and_storage" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringPublicWarehousingAndStorage
-            | val GHC.Classes.== "quick_copy_repro_and_blueprint" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringQuickCopyReproAndBlueprint
-            | val GHC.Classes.== "railroads" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringRailroads
-            | val GHC.Classes.== "real_estate_agents_and_managers_rentals" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringRealEstateAgentsAndManagersRentals
-            | val GHC.Classes.== "record_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringRecordStores
-            | val GHC.Classes.== "recreational_vehicle_rentals" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringRecreationalVehicleRentals
-            | val GHC.Classes.== "religious_goods_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringReligiousGoodsStores
-            | val GHC.Classes.== "religious_organizations" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringReligiousOrganizations
-            | val GHC.Classes.== "roofing_siding_sheet_metal" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringRoofingSidingSheetMetal
-            | val GHC.Classes.== "secretarial_support_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringSecretarialSupportServices
-            | val GHC.Classes.== "security_brokers_dealers" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringSecurityBrokersDealers
-            | val GHC.Classes.== "service_stations" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringServiceStations
-            | val GHC.Classes.== "sewing_needlework_fabric_and_piece_goods_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringSewingNeedleworkFabricAndPieceGoodsStores
-            | val GHC.Classes.== "shoe_repair_hat_cleaning" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringShoeRepairHatCleaning
-            | val GHC.Classes.== "shoe_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringShoeStores
-            | val GHC.Classes.== "small_appliance_repair" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringSmallApplianceRepair
-            | val GHC.Classes.== "snowmobile_dealers" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringSnowmobileDealers
-            | val GHC.Classes.== "special_trade_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringSpecialTradeServices
-            | val GHC.Classes.== "specialty_cleaning" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringSpecialtyCleaning
-            | val GHC.Classes.== "sporting_goods_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringSportingGoodsStores
-            | val GHC.Classes.== "sporting_recreation_camps" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringSportingRecreationCamps
-            | val GHC.Classes.== "sports_and_riding_apparel_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringSportsAndRidingApparelStores
-            | val GHC.Classes.== "sports_clubs_fields" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringSportsClubsFields
-            | val GHC.Classes.== "stamp_and_coin_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringStampAndCoinStores
-            | val GHC.Classes.== "stationary_office_supplies_printing_and_writing_paper" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringStationaryOfficeSuppliesPrintingAndWritingPaper
-            | val GHC.Classes.== "stationery_stores_office_and_school_supply_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringStationeryStoresOfficeAndSchoolSupplyStores
-            | val GHC.Classes.== "swimming_pools_sales" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringSwimmingPoolsSales
-            | val GHC.Classes.== "t_ui_travel_germany" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringTUiTravelGermany
-            | val GHC.Classes.== "tailors_alterations" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringTailorsAlterations
-            | val GHC.Classes.== "tax_payments_government_agencies" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringTaxPaymentsGovernmentAgencies
-            | val GHC.Classes.== "tax_preparation_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringTaxPreparationServices
-            | val GHC.Classes.== "taxicabs_limousines" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringTaxicabsLimousines
-            | val GHC.Classes.== "telecommunication_equipment_and_telephone_sales" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringTelecommunicationEquipmentAndTelephoneSales
-            | val GHC.Classes.== "telecommunication_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringTelecommunicationServices
-            | val GHC.Classes.== "telegraph_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringTelegraphServices
-            | val GHC.Classes.== "tent_and_awning_shops" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringTentAndAwningShops
-            | val GHC.Classes.== "testing_laboratories" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringTestingLaboratories
-            | val GHC.Classes.== "theatrical_ticket_agencies" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringTheatricalTicketAgencies
-            | val GHC.Classes.== "timeshares" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringTimeshares
-            | val GHC.Classes.== "tire_retreading_and_repair" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringTireRetreadingAndRepair
-            | val GHC.Classes.== "tolls_bridge_fees" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringTollsBridgeFees
-            | val GHC.Classes.== "tourist_attractions_and_exhibits" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringTouristAttractionsAndExhibits
-            | val GHC.Classes.== "towing_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringTowingServices
-            | val GHC.Classes.== "trailer_parks_campgrounds" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringTrailerParksCampgrounds
-            | val GHC.Classes.== "transportation_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringTransportationServices
-            | val GHC.Classes.== "travel_agencies_tour_operators" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringTravelAgenciesTourOperators
-            | val GHC.Classes.== "truck_stop_iteration" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringTruckStopIteration
-            | val GHC.Classes.== "truck_utility_trailer_rentals" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringTruckUtilityTrailerRentals
-            | val GHC.Classes.== "typesetting_plate_making_and_related_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringTypesettingPlateMakingAndRelatedServices
-            | val GHC.Classes.== "typewriter_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringTypewriterStores
-            | val GHC.Classes.== "u_s_federal_government_agencies_or_departments" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringUSFederalGovernmentAgenciesOrDepartments
-            | val GHC.Classes.== "uniforms_commercial_clothing" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringUniformsCommercialClothing
-            | val GHC.Classes.== "used_merchandise_and_secondhand_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringUsedMerchandiseAndSecondhandStores
-            | val GHC.Classes.== "utilities" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringUtilities
-            | val GHC.Classes.== "variety_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringVarietyStores
-            | val GHC.Classes.== "veterinary_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringVeterinaryServices
-            | val GHC.Classes.== "video_amusement_game_supplies" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringVideoAmusementGameSupplies
-            | val GHC.Classes.== "video_game_arcades" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringVideoGameArcades
-            | val GHC.Classes.== "video_tape_rental_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringVideoTapeRentalStores
-            | val GHC.Classes.== "vocational_trade_schools" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringVocationalTradeSchools
-            | val GHC.Classes.== "watch_jewelry_repair" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringWatchJewelryRepair
-            | val GHC.Classes.== "welding_repair" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringWeldingRepair
-            | val GHC.Classes.== "wholesale_clubs" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringWholesaleClubs
-            | val GHC.Classes.== "wig_and_toupee_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringWigAndToupeeStores
-            | val GHC.Classes.== "wires_money_orders" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringWiresMoneyOrders
-            | val GHC.Classes.== "womens_accessory_and_specialty_shops" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringWomensAccessoryAndSpecialtyShops
-            | val GHC.Classes.== "womens_ready_to_wear_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringWomensReadyToWearStores
-            | val GHC.Classes.== "wrecking_and_salvage_yards" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringWreckingAndSalvageYards
-            | GHC.Base.otherwise -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumOther val
+      ( if  | val GHC.Classes.== "ac_refrigeration_repair" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumAcRefrigerationRepair
+            | val GHC.Classes.== "accounting_bookkeeping_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumAccountingBookkeepingServices
+            | val GHC.Classes.== "advertising_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumAdvertisingServices
+            | val GHC.Classes.== "agricultural_cooperative" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumAgriculturalCooperative
+            | val GHC.Classes.== "airlines_air_carriers" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumAirlinesAirCarriers
+            | val GHC.Classes.== "airports_flying_fields" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumAirportsFlyingFields
+            | val GHC.Classes.== "ambulance_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumAmbulanceServices
+            | val GHC.Classes.== "amusement_parks_carnivals" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumAmusementParksCarnivals
+            | val GHC.Classes.== "antique_reproductions" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumAntiqueReproductions
+            | val GHC.Classes.== "antique_shops" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumAntiqueShops
+            | val GHC.Classes.== "aquariums" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumAquariums
+            | val GHC.Classes.== "architectural_surveying_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumArchitecturalSurveyingServices
+            | val GHC.Classes.== "art_dealers_and_galleries" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumArtDealersAndGalleries
+            | val GHC.Classes.== "artists_supply_and_craft_shops" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumArtistsSupplyAndCraftShops
+            | val GHC.Classes.== "auto_and_home_supply_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumAutoAndHomeSupplyStores
+            | val GHC.Classes.== "auto_body_repair_shops" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumAutoBodyRepairShops
+            | val GHC.Classes.== "auto_paint_shops" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumAutoPaintShops
+            | val GHC.Classes.== "auto_service_shops" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumAutoServiceShops
+            | val GHC.Classes.== "automated_cash_disburse" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumAutomatedCashDisburse
+            | val GHC.Classes.== "automated_fuel_dispensers" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumAutomatedFuelDispensers
+            | val GHC.Classes.== "automobile_associations" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumAutomobileAssociations
+            | val GHC.Classes.== "automotive_parts_and_accessories_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumAutomotivePartsAndAccessoriesStores
+            | val GHC.Classes.== "automotive_tire_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumAutomotiveTireStores
+            | val GHC.Classes.== "bail_and_bond_payments" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumBailAndBondPayments
+            | val GHC.Classes.== "bakeries" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumBakeries
+            | val GHC.Classes.== "bands_orchestras" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumBandsOrchestras
+            | val GHC.Classes.== "barber_and_beauty_shops" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumBarberAndBeautyShops
+            | val GHC.Classes.== "betting_casino_gambling" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumBettingCasinoGambling
+            | val GHC.Classes.== "bicycle_shops" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumBicycleShops
+            | val GHC.Classes.== "billiard_pool_establishments" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumBilliardPoolEstablishments
+            | val GHC.Classes.== "boat_dealers" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumBoatDealers
+            | val GHC.Classes.== "boat_rentals_and_leases" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumBoatRentalsAndLeases
+            | val GHC.Classes.== "book_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumBookStores
+            | val GHC.Classes.== "books_periodicals_and_newspapers" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumBooksPeriodicalsAndNewspapers
+            | val GHC.Classes.== "bowling_alleys" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumBowlingAlleys
+            | val GHC.Classes.== "bus_lines" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumBusLines
+            | val GHC.Classes.== "business_secretarial_schools" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumBusinessSecretarialSchools
+            | val GHC.Classes.== "buying_shopping_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumBuyingShoppingServices
+            | val GHC.Classes.== "cable_satellite_and_other_pay_television_and_radio" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumCableSatelliteAndOtherPayTelevisionAndRadio
+            | val GHC.Classes.== "camera_and_photographic_supply_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumCameraAndPhotographicSupplyStores
+            | val GHC.Classes.== "candy_nut_and_confectionery_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumCandyNutAndConfectioneryStores
+            | val GHC.Classes.== "car_and_truck_dealers_new_used" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumCarAndTruckDealersNewUsed
+            | val GHC.Classes.== "car_and_truck_dealers_used_only" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumCarAndTruckDealersUsedOnly
+            | val GHC.Classes.== "car_rental_agencies" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumCarRentalAgencies
+            | val GHC.Classes.== "car_washes" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumCarWashes
+            | val GHC.Classes.== "carpentry_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumCarpentryServices
+            | val GHC.Classes.== "carpet_upholstery_cleaning" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumCarpetUpholsteryCleaning
+            | val GHC.Classes.== "caterers" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumCaterers
+            | val GHC.Classes.== "charitable_and_social_service_organizations_fundraising" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumCharitableAndSocialServiceOrganizationsFundraising
+            | val GHC.Classes.== "chemicals_and_allied_products" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumChemicalsAndAlliedProducts
+            | val GHC.Classes.== "child_care_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumChildCareServices
+            | val GHC.Classes.== "childrens_and_infants_wear_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumChildrensAndInfantsWearStores
+            | val GHC.Classes.== "chiropodists_podiatrists" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumChiropodistsPodiatrists
+            | val GHC.Classes.== "chiropractors" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumChiropractors
+            | val GHC.Classes.== "cigar_stores_and_stands" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumCigarStoresAndStands
+            | val GHC.Classes.== "civic_social_fraternal_associations" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumCivicSocialFraternalAssociations
+            | val GHC.Classes.== "cleaning_and_maintenance" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumCleaningAndMaintenance
+            | val GHC.Classes.== "clothing_rental" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumClothingRental
+            | val GHC.Classes.== "colleges_universities" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumCollegesUniversities
+            | val GHC.Classes.== "commercial_equipment" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumCommercialEquipment
+            | val GHC.Classes.== "commercial_footwear" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumCommercialFootwear
+            | val GHC.Classes.== "commercial_photography_art_and_graphics" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumCommercialPhotographyArtAndGraphics
+            | val GHC.Classes.== "commuter_transport_and_ferries" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumCommuterTransportAndFerries
+            | val GHC.Classes.== "computer_network_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumComputerNetworkServices
+            | val GHC.Classes.== "computer_programming" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumComputerProgramming
+            | val GHC.Classes.== "computer_repair" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumComputerRepair
+            | val GHC.Classes.== "computer_software_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumComputerSoftwareStores
+            | val GHC.Classes.== "computers_peripherals_and_software" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumComputersPeripheralsAndSoftware
+            | val GHC.Classes.== "concrete_work_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumConcreteWorkServices
+            | val GHC.Classes.== "construction_materials" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumConstructionMaterials
+            | val GHC.Classes.== "consulting_public_relations" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumConsultingPublicRelations
+            | val GHC.Classes.== "correspondence_schools" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumCorrespondenceSchools
+            | val GHC.Classes.== "cosmetic_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumCosmeticStores
+            | val GHC.Classes.== "counseling_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumCounselingServices
+            | val GHC.Classes.== "country_clubs" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumCountryClubs
+            | val GHC.Classes.== "courier_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumCourierServices
+            | val GHC.Classes.== "court_costs" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumCourtCosts
+            | val GHC.Classes.== "credit_reporting_agencies" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumCreditReportingAgencies
+            | val GHC.Classes.== "cruise_lines" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumCruiseLines
+            | val GHC.Classes.== "dairy_products_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumDairyProductsStores
+            | val GHC.Classes.== "dance_hall_studios_schools" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumDanceHallStudiosSchools
+            | val GHC.Classes.== "dating_escort_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumDatingEscortServices
+            | val GHC.Classes.== "dentists_orthodontists" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumDentistsOrthodontists
+            | val GHC.Classes.== "department_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumDepartmentStores
+            | val GHC.Classes.== "detective_agencies" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumDetectiveAgencies
+            | val GHC.Classes.== "digital_goods_applications" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumDigitalGoodsApplications
+            | val GHC.Classes.== "digital_goods_games" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumDigitalGoodsGames
+            | val GHC.Classes.== "digital_goods_large_volume" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumDigitalGoodsLargeVolume
+            | val GHC.Classes.== "digital_goods_media" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumDigitalGoodsMedia
+            | val GHC.Classes.== "direct_marketing_catalog_merchant" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumDirectMarketingCatalogMerchant
+            | val GHC.Classes.== "direct_marketing_combination_catalog_and_retail_merchant" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumDirectMarketingCombinationCatalogAndRetailMerchant
+            | val GHC.Classes.== "direct_marketing_inbound_telemarketing" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumDirectMarketingInboundTelemarketing
+            | val GHC.Classes.== "direct_marketing_insurance_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumDirectMarketingInsuranceServices
+            | val GHC.Classes.== "direct_marketing_other" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumDirectMarketingOther
+            | val GHC.Classes.== "direct_marketing_outbound_telemarketing" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumDirectMarketingOutboundTelemarketing
+            | val GHC.Classes.== "direct_marketing_subscription" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumDirectMarketingSubscription
+            | val GHC.Classes.== "direct_marketing_travel" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumDirectMarketingTravel
+            | val GHC.Classes.== "discount_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumDiscountStores
+            | val GHC.Classes.== "doctors" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumDoctors
+            | val GHC.Classes.== "door_to_door_sales" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumDoorToDoorSales
+            | val GHC.Classes.== "drapery_window_covering_and_upholstery_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumDraperyWindowCoveringAndUpholsteryStores
+            | val GHC.Classes.== "drinking_places" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumDrinkingPlaces
+            | val GHC.Classes.== "drug_stores_and_pharmacies" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumDrugStoresAndPharmacies
+            | val GHC.Classes.== "drugs_drug_proprietaries_and_druggist_sundries" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumDrugsDrugProprietariesAndDruggistSundries
+            | val GHC.Classes.== "dry_cleaners" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumDryCleaners
+            | val GHC.Classes.== "durable_goods" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumDurableGoods
+            | val GHC.Classes.== "duty_free_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumDutyFreeStores
+            | val GHC.Classes.== "eating_places_restaurants" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumEatingPlacesRestaurants
+            | val GHC.Classes.== "educational_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumEducationalServices
+            | val GHC.Classes.== "electric_razor_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumElectricRazorStores
+            | val GHC.Classes.== "electrical_parts_and_equipment" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumElectricalPartsAndEquipment
+            | val GHC.Classes.== "electrical_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumElectricalServices
+            | val GHC.Classes.== "electronics_repair_shops" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumElectronicsRepairShops
+            | val GHC.Classes.== "electronics_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumElectronicsStores
+            | val GHC.Classes.== "elementary_secondary_schools" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumElementarySecondarySchools
+            | val GHC.Classes.== "employment_temp_agencies" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumEmploymentTempAgencies
+            | val GHC.Classes.== "equipment_rental" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumEquipmentRental
+            | val GHC.Classes.== "exterminating_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumExterminatingServices
+            | val GHC.Classes.== "family_clothing_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumFamilyClothingStores
+            | val GHC.Classes.== "fast_food_restaurants" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumFastFoodRestaurants
+            | val GHC.Classes.== "financial_institutions" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumFinancialInstitutions
+            | val GHC.Classes.== "fines_government_administrative_entities" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumFinesGovernmentAdministrativeEntities
+            | val GHC.Classes.== "fireplace_fireplace_screens_and_accessories_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumFireplaceFireplaceScreensAndAccessoriesStores
+            | val GHC.Classes.== "floor_covering_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumFloorCoveringStores
+            | val GHC.Classes.== "florists" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumFlorists
+            | val GHC.Classes.== "florists_supplies_nursery_stock_and_flowers" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumFloristsSuppliesNurseryStockAndFlowers
+            | val GHC.Classes.== "freezer_and_locker_meat_provisioners" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumFreezerAndLockerMeatProvisioners
+            | val GHC.Classes.== "fuel_dealers_non_automotive" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumFuelDealersNonAutomotive
+            | val GHC.Classes.== "funeral_services_crematories" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumFuneralServicesCrematories
+            | val GHC.Classes.== "furniture_home_furnishings_and_equipment_stores_except_appliances" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumFurnitureHomeFurnishingsAndEquipmentStoresExceptAppliances
+            | val GHC.Classes.== "furniture_repair_refinishing" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumFurnitureRepairRefinishing
+            | val GHC.Classes.== "furriers_and_fur_shops" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumFurriersAndFurShops
+            | val GHC.Classes.== "general_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumGeneralServices
+            | val GHC.Classes.== "gift_card_novelty_and_souvenir_shops" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumGiftCardNoveltyAndSouvenirShops
+            | val GHC.Classes.== "glass_paint_and_wallpaper_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumGlassPaintAndWallpaperStores
+            | val GHC.Classes.== "glassware_crystal_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumGlasswareCrystalStores
+            | val GHC.Classes.== "golf_courses_public" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumGolfCoursesPublic
+            | val GHC.Classes.== "government_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumGovernmentServices
+            | val GHC.Classes.== "grocery_stores_supermarkets" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumGroceryStoresSupermarkets
+            | val GHC.Classes.== "hardware_equipment_and_supplies" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumHardwareEquipmentAndSupplies
+            | val GHC.Classes.== "hardware_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumHardwareStores
+            | val GHC.Classes.== "health_and_beauty_spas" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumHealthAndBeautySpas
+            | val GHC.Classes.== "hearing_aids_sales_and_supplies" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumHearingAidsSalesAndSupplies
+            | val GHC.Classes.== "heating_plumbing_a_c" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumHeatingPlumbingAC
+            | val GHC.Classes.== "hobby_toy_and_game_shops" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumHobbyToyAndGameShops
+            | val GHC.Classes.== "home_supply_warehouse_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumHomeSupplyWarehouseStores
+            | val GHC.Classes.== "hospitals" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumHospitals
+            | val GHC.Classes.== "hotels_motels_and_resorts" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumHotelsMotelsAndResorts
+            | val GHC.Classes.== "household_appliance_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumHouseholdApplianceStores
+            | val GHC.Classes.== "industrial_supplies" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumIndustrialSupplies
+            | val GHC.Classes.== "information_retrieval_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumInformationRetrievalServices
+            | val GHC.Classes.== "insurance_default" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumInsuranceDefault
+            | val GHC.Classes.== "insurance_underwriting_premiums" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumInsuranceUnderwritingPremiums
+            | val GHC.Classes.== "intra_company_purchases" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumIntraCompanyPurchases
+            | val GHC.Classes.== "jewelry_stores_watches_clocks_and_silverware_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumJewelryStoresWatchesClocksAndSilverwareStores
+            | val GHC.Classes.== "landscaping_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumLandscapingServices
+            | val GHC.Classes.== "laundries" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumLaundries
+            | val GHC.Classes.== "laundry_cleaning_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumLaundryCleaningServices
+            | val GHC.Classes.== "legal_services_attorneys" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumLegalServicesAttorneys
+            | val GHC.Classes.== "luggage_and_leather_goods_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumLuggageAndLeatherGoodsStores
+            | val GHC.Classes.== "lumber_building_materials_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumLumberBuildingMaterialsStores
+            | val GHC.Classes.== "manual_cash_disburse" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumManualCashDisburse
+            | val GHC.Classes.== "marinas_service_and_supplies" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumMarinasServiceAndSupplies
+            | val GHC.Classes.== "masonry_stonework_and_plaster" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumMasonryStoneworkAndPlaster
+            | val GHC.Classes.== "massage_parlors" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumMassageParlors
+            | val GHC.Classes.== "medical_and_dental_labs" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumMedicalAndDentalLabs
+            | val GHC.Classes.== "medical_dental_ophthalmic_and_hospital_equipment_and_supplies" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumMedicalDentalOphthalmicAndHospitalEquipmentAndSupplies
+            | val GHC.Classes.== "medical_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumMedicalServices
+            | val GHC.Classes.== "membership_organizations" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumMembershipOrganizations
+            | val GHC.Classes.== "mens_and_boys_clothing_and_accessories_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumMensAndBoysClothingAndAccessoriesStores
+            | val GHC.Classes.== "mens_womens_clothing_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumMensWomensClothingStores
+            | val GHC.Classes.== "metal_service_centers" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumMetalServiceCenters
+            | val GHC.Classes.== "miscellaneous" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumMiscellaneous
+            | val GHC.Classes.== "miscellaneous_apparel_and_accessory_shops" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumMiscellaneousApparelAndAccessoryShops
+            | val GHC.Classes.== "miscellaneous_auto_dealers" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumMiscellaneousAutoDealers
+            | val GHC.Classes.== "miscellaneous_business_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumMiscellaneousBusinessServices
+            | val GHC.Classes.== "miscellaneous_food_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumMiscellaneousFoodStores
+            | val GHC.Classes.== "miscellaneous_general_merchandise" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumMiscellaneousGeneralMerchandise
+            | val GHC.Classes.== "miscellaneous_general_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumMiscellaneousGeneralServices
+            | val GHC.Classes.== "miscellaneous_home_furnishing_specialty_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumMiscellaneousHomeFurnishingSpecialtyStores
+            | val GHC.Classes.== "miscellaneous_publishing_and_printing" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumMiscellaneousPublishingAndPrinting
+            | val GHC.Classes.== "miscellaneous_recreation_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumMiscellaneousRecreationServices
+            | val GHC.Classes.== "miscellaneous_repair_shops" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumMiscellaneousRepairShops
+            | val GHC.Classes.== "miscellaneous_specialty_retail" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumMiscellaneousSpecialtyRetail
+            | val GHC.Classes.== "mobile_home_dealers" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumMobileHomeDealers
+            | val GHC.Classes.== "motion_picture_theaters" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumMotionPictureTheaters
+            | val GHC.Classes.== "motor_freight_carriers_and_trucking" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumMotorFreightCarriersAndTrucking
+            | val GHC.Classes.== "motor_homes_dealers" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumMotorHomesDealers
+            | val GHC.Classes.== "motor_vehicle_supplies_and_new_parts" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumMotorVehicleSuppliesAndNewParts
+            | val GHC.Classes.== "motorcycle_shops_and_dealers" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumMotorcycleShopsAndDealers
+            | val GHC.Classes.== "motorcycle_shops_dealers" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumMotorcycleShopsDealers
+            | val GHC.Classes.== "music_stores_musical_instruments_pianos_and_sheet_music" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumMusicStoresMusicalInstrumentsPianosAndSheetMusic
+            | val GHC.Classes.== "news_dealers_and_newsstands" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumNewsDealersAndNewsstands
+            | val GHC.Classes.== "non_fi_money_orders" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumNonFiMoneyOrders
+            | val GHC.Classes.== "non_fi_stored_value_card_purchase_load" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumNonFiStoredValueCardPurchaseLoad
+            | val GHC.Classes.== "nondurable_goods" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumNondurableGoods
+            | val GHC.Classes.== "nurseries_lawn_and_garden_supply_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumNurseriesLawnAndGardenSupplyStores
+            | val GHC.Classes.== "nursing_personal_care" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumNursingPersonalCare
+            | val GHC.Classes.== "office_and_commercial_furniture" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumOfficeAndCommercialFurniture
+            | val GHC.Classes.== "opticians_eyeglasses" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumOpticiansEyeglasses
+            | val GHC.Classes.== "optometrists_ophthalmologist" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumOptometristsOphthalmologist
+            | val GHC.Classes.== "orthopedic_goods_prosthetic_devices" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumOrthopedicGoodsProstheticDevices
+            | val GHC.Classes.== "osteopaths" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumOsteopaths
+            | val GHC.Classes.== "package_stores_beer_wine_and_liquor" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumPackageStoresBeerWineAndLiquor
+            | val GHC.Classes.== "paints_varnishes_and_supplies" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumPaintsVarnishesAndSupplies
+            | val GHC.Classes.== "parking_lots_garages" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumParkingLotsGarages
+            | val GHC.Classes.== "passenger_railways" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumPassengerRailways
+            | val GHC.Classes.== "pawn_shops" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumPawnShops
+            | val GHC.Classes.== "pet_shops_pet_food_and_supplies" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumPetShopsPetFoodAndSupplies
+            | val GHC.Classes.== "petroleum_and_petroleum_products" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumPetroleumAndPetroleumProducts
+            | val GHC.Classes.== "photo_developing" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumPhotoDeveloping
+            | val GHC.Classes.== "photographic_photocopy_microfilm_equipment_and_supplies" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumPhotographicPhotocopyMicrofilmEquipmentAndSupplies
+            | val GHC.Classes.== "photographic_studios" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumPhotographicStudios
+            | val GHC.Classes.== "picture_video_production" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumPictureVideoProduction
+            | val GHC.Classes.== "piece_goods_notions_and_other_dry_goods" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumPieceGoodsNotionsAndOtherDryGoods
+            | val GHC.Classes.== "plumbing_heating_equipment_and_supplies" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumPlumbingHeatingEquipmentAndSupplies
+            | val GHC.Classes.== "political_organizations" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumPoliticalOrganizations
+            | val GHC.Classes.== "postal_services_government_only" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumPostalServicesGovernmentOnly
+            | val GHC.Classes.== "precious_stones_and_metals_watches_and_jewelry" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumPreciousStonesAndMetalsWatchesAndJewelry
+            | val GHC.Classes.== "professional_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumProfessionalServices
+            | val GHC.Classes.== "public_warehousing_and_storage" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumPublicWarehousingAndStorage
+            | val GHC.Classes.== "quick_copy_repro_and_blueprint" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumQuickCopyReproAndBlueprint
+            | val GHC.Classes.== "railroads" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumRailroads
+            | val GHC.Classes.== "real_estate_agents_and_managers_rentals" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumRealEstateAgentsAndManagersRentals
+            | val GHC.Classes.== "record_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumRecordStores
+            | val GHC.Classes.== "recreational_vehicle_rentals" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumRecreationalVehicleRentals
+            | val GHC.Classes.== "religious_goods_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumReligiousGoodsStores
+            | val GHC.Classes.== "religious_organizations" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumReligiousOrganizations
+            | val GHC.Classes.== "roofing_siding_sheet_metal" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumRoofingSidingSheetMetal
+            | val GHC.Classes.== "secretarial_support_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumSecretarialSupportServices
+            | val GHC.Classes.== "security_brokers_dealers" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumSecurityBrokersDealers
+            | val GHC.Classes.== "service_stations" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumServiceStations
+            | val GHC.Classes.== "sewing_needlework_fabric_and_piece_goods_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumSewingNeedleworkFabricAndPieceGoodsStores
+            | val GHC.Classes.== "shoe_repair_hat_cleaning" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumShoeRepairHatCleaning
+            | val GHC.Classes.== "shoe_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumShoeStores
+            | val GHC.Classes.== "small_appliance_repair" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumSmallApplianceRepair
+            | val GHC.Classes.== "snowmobile_dealers" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumSnowmobileDealers
+            | val GHC.Classes.== "special_trade_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumSpecialTradeServices
+            | val GHC.Classes.== "specialty_cleaning" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumSpecialtyCleaning
+            | val GHC.Classes.== "sporting_goods_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumSportingGoodsStores
+            | val GHC.Classes.== "sporting_recreation_camps" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumSportingRecreationCamps
+            | val GHC.Classes.== "sports_and_riding_apparel_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumSportsAndRidingApparelStores
+            | val GHC.Classes.== "sports_clubs_fields" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumSportsClubsFields
+            | val GHC.Classes.== "stamp_and_coin_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStampAndCoinStores
+            | val GHC.Classes.== "stationary_office_supplies_printing_and_writing_paper" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStationaryOfficeSuppliesPrintingAndWritingPaper
+            | val GHC.Classes.== "stationery_stores_office_and_school_supply_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStationeryStoresOfficeAndSchoolSupplyStores
+            | val GHC.Classes.== "swimming_pools_sales" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumSwimmingPoolsSales
+            | val GHC.Classes.== "t_ui_travel_germany" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumTUiTravelGermany
+            | val GHC.Classes.== "tailors_alterations" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumTailorsAlterations
+            | val GHC.Classes.== "tax_payments_government_agencies" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumTaxPaymentsGovernmentAgencies
+            | val GHC.Classes.== "tax_preparation_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumTaxPreparationServices
+            | val GHC.Classes.== "taxicabs_limousines" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumTaxicabsLimousines
+            | val GHC.Classes.== "telecommunication_equipment_and_telephone_sales" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumTelecommunicationEquipmentAndTelephoneSales
+            | val GHC.Classes.== "telecommunication_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumTelecommunicationServices
+            | val GHC.Classes.== "telegraph_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumTelegraphServices
+            | val GHC.Classes.== "tent_and_awning_shops" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumTentAndAwningShops
+            | val GHC.Classes.== "testing_laboratories" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumTestingLaboratories
+            | val GHC.Classes.== "theatrical_ticket_agencies" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumTheatricalTicketAgencies
+            | val GHC.Classes.== "timeshares" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumTimeshares
+            | val GHC.Classes.== "tire_retreading_and_repair" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumTireRetreadingAndRepair
+            | val GHC.Classes.== "tolls_bridge_fees" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumTollsBridgeFees
+            | val GHC.Classes.== "tourist_attractions_and_exhibits" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumTouristAttractionsAndExhibits
+            | val GHC.Classes.== "towing_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumTowingServices
+            | val GHC.Classes.== "trailer_parks_campgrounds" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumTrailerParksCampgrounds
+            | val GHC.Classes.== "transportation_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumTransportationServices
+            | val GHC.Classes.== "travel_agencies_tour_operators" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumTravelAgenciesTourOperators
+            | val GHC.Classes.== "truck_stop_iteration" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumTruckStopIteration
+            | val GHC.Classes.== "truck_utility_trailer_rentals" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumTruckUtilityTrailerRentals
+            | val GHC.Classes.== "typesetting_plate_making_and_related_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumTypesettingPlateMakingAndRelatedServices
+            | val GHC.Classes.== "typewriter_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumTypewriterStores
+            | val GHC.Classes.== "u_s_federal_government_agencies_or_departments" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumUSFederalGovernmentAgenciesOrDepartments
+            | val GHC.Classes.== "uniforms_commercial_clothing" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumUniformsCommercialClothing
+            | val GHC.Classes.== "used_merchandise_and_secondhand_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumUsedMerchandiseAndSecondhandStores
+            | val GHC.Classes.== "utilities" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumUtilities
+            | val GHC.Classes.== "variety_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumVarietyStores
+            | val GHC.Classes.== "veterinary_services" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumVeterinaryServices
+            | val GHC.Classes.== "video_amusement_game_supplies" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumVideoAmusementGameSupplies
+            | val GHC.Classes.== "video_game_arcades" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumVideoGameArcades
+            | val GHC.Classes.== "video_tape_rental_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumVideoTapeRentalStores
+            | val GHC.Classes.== "vocational_trade_schools" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumVocationalTradeSchools
+            | val GHC.Classes.== "watch_jewelry_repair" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumWatchJewelryRepair
+            | val GHC.Classes.== "welding_repair" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumWeldingRepair
+            | val GHC.Classes.== "wholesale_clubs" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumWholesaleClubs
+            | val GHC.Classes.== "wig_and_toupee_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumWigAndToupeeStores
+            | val GHC.Classes.== "wires_money_orders" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumWiresMoneyOrders
+            | val GHC.Classes.== "womens_accessory_and_specialty_shops" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumWomensAccessoryAndSpecialtyShops
+            | val GHC.Classes.== "womens_ready_to_wear_stores" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumWomensReadyToWearStores
+            | val GHC.Classes.== "wrecking_and_salvage_yards" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumWreckingAndSalvageYards
+            | GHC.Base.otherwise -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'Other val
       )
 
--- | Defines the enum schema postIssuingCardholdersCardholderRequestBodyAuthorization_controls\'Spending_limits\'Interval\'
+-- | Defines the enum schema located at @paths.\/v1\/issuing\/cardholders\/{cardholder}.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.authorization_controls.properties.spending_limits.items.properties.interval@ in the specification.
 data PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Interval'
-  = PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Interval'EnumOther Data.Aeson.Types.Internal.Value
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Interval'EnumTyped Data.Text.Internal.Text
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Interval'EnumStringAllTime
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Interval'EnumStringDaily
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Interval'EnumStringMonthly
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Interval'EnumStringPerAuthorization
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Interval'EnumStringWeekly
-  | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Interval'EnumStringYearly
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Interval'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Interval'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"all_time"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Interval'EnumAllTime
+  | -- | Represents the JSON value @"daily"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Interval'EnumDaily
+  | -- | Represents the JSON value @"monthly"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Interval'EnumMonthly
+  | -- | Represents the JSON value @"per_authorization"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Interval'EnumPerAuthorization
+  | -- | Represents the JSON value @"weekly"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Interval'EnumWeekly
+  | -- | Represents the JSON value @"yearly"@
+    PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Interval'EnumYearly
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Interval' where
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Interval'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Interval'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Interval'EnumStringAllTime) = "all_time"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Interval'EnumStringDaily) = "daily"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Interval'EnumStringMonthly) = "monthly"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Interval'EnumStringPerAuthorization) = "per_authorization"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Interval'EnumStringWeekly) = "weekly"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Interval'EnumStringYearly) = "yearly"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Interval'Other val) = val
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Interval'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Interval'EnumAllTime) = "all_time"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Interval'EnumDaily) = "daily"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Interval'EnumMonthly) = "monthly"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Interval'EnumPerAuthorization) = "per_authorization"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Interval'EnumWeekly) = "weekly"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Interval'EnumYearly) = "yearly"
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Interval' where
   parseJSON val =
     GHC.Base.pure
-      ( if  | val GHC.Classes.== "all_time" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Interval'EnumStringAllTime
-            | val GHC.Classes.== "daily" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Interval'EnumStringDaily
-            | val GHC.Classes.== "monthly" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Interval'EnumStringMonthly
-            | val GHC.Classes.== "per_authorization" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Interval'EnumStringPerAuthorization
-            | val GHC.Classes.== "weekly" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Interval'EnumStringWeekly
-            | val GHC.Classes.== "yearly" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Interval'EnumStringYearly
-            | GHC.Base.otherwise -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Interval'EnumOther val
+      ( if  | val GHC.Classes.== "all_time" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Interval'EnumAllTime
+            | val GHC.Classes.== "daily" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Interval'EnumDaily
+            | val GHC.Classes.== "monthly" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Interval'EnumMonthly
+            | val GHC.Classes.== "per_authorization" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Interval'EnumPerAuthorization
+            | val GHC.Classes.== "weekly" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Interval'EnumWeekly
+            | val GHC.Classes.== "yearly" -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Interval'EnumYearly
+            | GHC.Base.otherwise -> PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Interval'Other val
       )
 
--- | Defines the data type for the schema postIssuingCardholdersCardholderRequestBodyBilling\'
+-- | Defines the object schema located at @paths.\/v1\/issuing\/cardholders\/{cardholder}.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.billing@ in the specification.
 --
 -- The cardholder\'s billing address.
 data PostIssuingCardholdersCardholderRequestBodyBilling'
@@ -2853,13 +3772,20 @@ data PostIssuingCardholdersCardholderRequestBodyBilling'
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostIssuingCardholdersCardholderRequestBodyBilling' where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "address" (postIssuingCardholdersCardholderRequestBodyBilling'Address obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "address" (postIssuingCardholdersCardholderRequestBodyBilling'Address obj))
+  toJSON obj = Data.Aeson.Types.Internal.object ("address" Data.Aeson.Types.ToJSON..= postIssuingCardholdersCardholderRequestBodyBilling'Address obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs ("address" Data.Aeson.Types.ToJSON..= postIssuingCardholdersCardholderRequestBodyBilling'Address obj)
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostIssuingCardholdersCardholderRequestBodyBilling' where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PostIssuingCardholdersCardholderRequestBodyBilling'" (\obj -> GHC.Base.pure PostIssuingCardholdersCardholderRequestBodyBilling' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "address"))
 
--- | Defines the data type for the schema postIssuingCardholdersCardholderRequestBodyBilling\'Address\'
+-- | Create a new 'PostIssuingCardholdersCardholderRequestBodyBilling'' with all required fields.
+mkPostIssuingCardholdersCardholderRequestBodyBilling' ::
+  -- | 'postIssuingCardholdersCardholderRequestBodyBilling'Address'
+  PostIssuingCardholdersCardholderRequestBodyBilling'Address' ->
+  PostIssuingCardholdersCardholderRequestBodyBilling'
+mkPostIssuingCardholdersCardholderRequestBodyBilling' postIssuingCardholdersCardholderRequestBodyBilling'Address = PostIssuingCardholdersCardholderRequestBodyBilling' {postIssuingCardholdersCardholderRequestBodyBilling'Address = postIssuingCardholdersCardholderRequestBodyBilling'Address}
+
+-- | Defines the object schema located at @paths.\/v1\/issuing\/cardholders\/{cardholder}.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.billing.properties.address@ in the specification.
 data PostIssuingCardholdersCardholderRequestBodyBilling'Address'
   = PostIssuingCardholdersCardholderRequestBodyBilling'Address'
       { -- | city
@@ -2905,13 +3831,34 @@ data PostIssuingCardholdersCardholderRequestBodyBilling'Address'
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostIssuingCardholdersCardholderRequestBodyBilling'Address' where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "city" (postIssuingCardholdersCardholderRequestBodyBilling'Address'City obj) : (Data.Aeson..=) "country" (postIssuingCardholdersCardholderRequestBodyBilling'Address'Country obj) : (Data.Aeson..=) "line1" (postIssuingCardholdersCardholderRequestBodyBilling'Address'Line1 obj) : (Data.Aeson..=) "line2" (postIssuingCardholdersCardholderRequestBodyBilling'Address'Line2 obj) : (Data.Aeson..=) "postal_code" (postIssuingCardholdersCardholderRequestBodyBilling'Address'PostalCode obj) : (Data.Aeson..=) "state" (postIssuingCardholdersCardholderRequestBodyBilling'Address'State obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "city" (postIssuingCardholdersCardholderRequestBodyBilling'Address'City obj) GHC.Base.<> ((Data.Aeson..=) "country" (postIssuingCardholdersCardholderRequestBodyBilling'Address'Country obj) GHC.Base.<> ((Data.Aeson..=) "line1" (postIssuingCardholdersCardholderRequestBodyBilling'Address'Line1 obj) GHC.Base.<> ((Data.Aeson..=) "line2" (postIssuingCardholdersCardholderRequestBodyBilling'Address'Line2 obj) GHC.Base.<> ((Data.Aeson..=) "postal_code" (postIssuingCardholdersCardholderRequestBodyBilling'Address'PostalCode obj) GHC.Base.<> (Data.Aeson..=) "state" (postIssuingCardholdersCardholderRequestBodyBilling'Address'State obj))))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("city" Data.Aeson.Types.ToJSON..= postIssuingCardholdersCardholderRequestBodyBilling'Address'City obj : "country" Data.Aeson.Types.ToJSON..= postIssuingCardholdersCardholderRequestBodyBilling'Address'Country obj : "line1" Data.Aeson.Types.ToJSON..= postIssuingCardholdersCardholderRequestBodyBilling'Address'Line1 obj : "line2" Data.Aeson.Types.ToJSON..= postIssuingCardholdersCardholderRequestBodyBilling'Address'Line2 obj : "postal_code" Data.Aeson.Types.ToJSON..= postIssuingCardholdersCardholderRequestBodyBilling'Address'PostalCode obj : "state" Data.Aeson.Types.ToJSON..= postIssuingCardholdersCardholderRequestBodyBilling'Address'State obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("city" Data.Aeson.Types.ToJSON..= postIssuingCardholdersCardholderRequestBodyBilling'Address'City obj) GHC.Base.<> (("country" Data.Aeson.Types.ToJSON..= postIssuingCardholdersCardholderRequestBodyBilling'Address'Country obj) GHC.Base.<> (("line1" Data.Aeson.Types.ToJSON..= postIssuingCardholdersCardholderRequestBodyBilling'Address'Line1 obj) GHC.Base.<> (("line2" Data.Aeson.Types.ToJSON..= postIssuingCardholdersCardholderRequestBodyBilling'Address'Line2 obj) GHC.Base.<> (("postal_code" Data.Aeson.Types.ToJSON..= postIssuingCardholdersCardholderRequestBodyBilling'Address'PostalCode obj) GHC.Base.<> ("state" Data.Aeson.Types.ToJSON..= postIssuingCardholdersCardholderRequestBodyBilling'Address'State obj))))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostIssuingCardholdersCardholderRequestBodyBilling'Address' where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PostIssuingCardholdersCardholderRequestBodyBilling'Address'" (\obj -> (((((GHC.Base.pure PostIssuingCardholdersCardholderRequestBodyBilling'Address' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "city")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "country")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "line1")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "line2")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "postal_code")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "state"))
 
--- | Defines the data type for the schema postIssuingCardholdersCardholderRequestBodyCompany\'
+-- | Create a new 'PostIssuingCardholdersCardholderRequestBodyBilling'Address'' with all required fields.
+mkPostIssuingCardholdersCardholderRequestBodyBilling'Address' ::
+  -- | 'postIssuingCardholdersCardholderRequestBodyBilling'Address'City'
+  Data.Text.Internal.Text ->
+  -- | 'postIssuingCardholdersCardholderRequestBodyBilling'Address'Country'
+  Data.Text.Internal.Text ->
+  -- | 'postIssuingCardholdersCardholderRequestBodyBilling'Address'Line1'
+  Data.Text.Internal.Text ->
+  -- | 'postIssuingCardholdersCardholderRequestBodyBilling'Address'PostalCode'
+  Data.Text.Internal.Text ->
+  PostIssuingCardholdersCardholderRequestBodyBilling'Address'
+mkPostIssuingCardholdersCardholderRequestBodyBilling'Address' postIssuingCardholdersCardholderRequestBodyBilling'Address'City postIssuingCardholdersCardholderRequestBodyBilling'Address'Country postIssuingCardholdersCardholderRequestBodyBilling'Address'Line1 postIssuingCardholdersCardholderRequestBodyBilling'Address'PostalCode =
+  PostIssuingCardholdersCardholderRequestBodyBilling'Address'
+    { postIssuingCardholdersCardholderRequestBodyBilling'Address'City = postIssuingCardholdersCardholderRequestBodyBilling'Address'City,
+      postIssuingCardholdersCardholderRequestBodyBilling'Address'Country = postIssuingCardholdersCardholderRequestBodyBilling'Address'Country,
+      postIssuingCardholdersCardholderRequestBodyBilling'Address'Line1 = postIssuingCardholdersCardholderRequestBodyBilling'Address'Line1,
+      postIssuingCardholdersCardholderRequestBodyBilling'Address'Line2 = GHC.Maybe.Nothing,
+      postIssuingCardholdersCardholderRequestBodyBilling'Address'PostalCode = postIssuingCardholdersCardholderRequestBodyBilling'Address'PostalCode,
+      postIssuingCardholdersCardholderRequestBodyBilling'Address'State = GHC.Maybe.Nothing
+    }
+
+-- | Defines the object schema located at @paths.\/v1\/issuing\/cardholders\/{cardholder}.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.company@ in the specification.
 --
 -- Additional information about a \`business_entity\` cardholder.
 data PostIssuingCardholdersCardholderRequestBodyCompany'
@@ -2929,13 +3876,17 @@ data PostIssuingCardholdersCardholderRequestBodyCompany'
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostIssuingCardholdersCardholderRequestBodyCompany' where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "tax_id" (postIssuingCardholdersCardholderRequestBodyCompany'TaxId obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "tax_id" (postIssuingCardholdersCardholderRequestBodyCompany'TaxId obj))
+  toJSON obj = Data.Aeson.Types.Internal.object ("tax_id" Data.Aeson.Types.ToJSON..= postIssuingCardholdersCardholderRequestBodyCompany'TaxId obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs ("tax_id" Data.Aeson.Types.ToJSON..= postIssuingCardholdersCardholderRequestBodyCompany'TaxId obj)
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostIssuingCardholdersCardholderRequestBodyCompany' where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PostIssuingCardholdersCardholderRequestBodyCompany'" (\obj -> GHC.Base.pure PostIssuingCardholdersCardholderRequestBodyCompany' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "tax_id"))
 
--- | Defines the data type for the schema postIssuingCardholdersCardholderRequestBodyIndividual\'
+-- | Create a new 'PostIssuingCardholdersCardholderRequestBodyCompany'' with all required fields.
+mkPostIssuingCardholdersCardholderRequestBodyCompany' :: PostIssuingCardholdersCardholderRequestBodyCompany'
+mkPostIssuingCardholdersCardholderRequestBodyCompany' = PostIssuingCardholdersCardholderRequestBodyCompany' {postIssuingCardholdersCardholderRequestBodyCompany'TaxId = GHC.Maybe.Nothing}
+
+-- | Defines the object schema located at @paths.\/v1\/issuing\/cardholders\/{cardholder}.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.individual@ in the specification.
 --
 -- Additional information about an \`individual\` cardholder.
 data PostIssuingCardholdersCardholderRequestBodyIndividual'
@@ -2963,13 +3914,28 @@ data PostIssuingCardholdersCardholderRequestBodyIndividual'
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostIssuingCardholdersCardholderRequestBodyIndividual' where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "dob" (postIssuingCardholdersCardholderRequestBodyIndividual'Dob obj) : (Data.Aeson..=) "first_name" (postIssuingCardholdersCardholderRequestBodyIndividual'FirstName obj) : (Data.Aeson..=) "last_name" (postIssuingCardholdersCardholderRequestBodyIndividual'LastName obj) : (Data.Aeson..=) "verification" (postIssuingCardholdersCardholderRequestBodyIndividual'Verification obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "dob" (postIssuingCardholdersCardholderRequestBodyIndividual'Dob obj) GHC.Base.<> ((Data.Aeson..=) "first_name" (postIssuingCardholdersCardholderRequestBodyIndividual'FirstName obj) GHC.Base.<> ((Data.Aeson..=) "last_name" (postIssuingCardholdersCardholderRequestBodyIndividual'LastName obj) GHC.Base.<> (Data.Aeson..=) "verification" (postIssuingCardholdersCardholderRequestBodyIndividual'Verification obj))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("dob" Data.Aeson.Types.ToJSON..= postIssuingCardholdersCardholderRequestBodyIndividual'Dob obj : "first_name" Data.Aeson.Types.ToJSON..= postIssuingCardholdersCardholderRequestBodyIndividual'FirstName obj : "last_name" Data.Aeson.Types.ToJSON..= postIssuingCardholdersCardholderRequestBodyIndividual'LastName obj : "verification" Data.Aeson.Types.ToJSON..= postIssuingCardholdersCardholderRequestBodyIndividual'Verification obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("dob" Data.Aeson.Types.ToJSON..= postIssuingCardholdersCardholderRequestBodyIndividual'Dob obj) GHC.Base.<> (("first_name" Data.Aeson.Types.ToJSON..= postIssuingCardholdersCardholderRequestBodyIndividual'FirstName obj) GHC.Base.<> (("last_name" Data.Aeson.Types.ToJSON..= postIssuingCardholdersCardholderRequestBodyIndividual'LastName obj) GHC.Base.<> ("verification" Data.Aeson.Types.ToJSON..= postIssuingCardholdersCardholderRequestBodyIndividual'Verification obj))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostIssuingCardholdersCardholderRequestBodyIndividual' where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PostIssuingCardholdersCardholderRequestBodyIndividual'" (\obj -> (((GHC.Base.pure PostIssuingCardholdersCardholderRequestBodyIndividual' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "dob")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "first_name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "last_name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "verification"))
 
--- | Defines the data type for the schema postIssuingCardholdersCardholderRequestBodyIndividual\'Dob\'
+-- | Create a new 'PostIssuingCardholdersCardholderRequestBodyIndividual'' with all required fields.
+mkPostIssuingCardholdersCardholderRequestBodyIndividual' ::
+  -- | 'postIssuingCardholdersCardholderRequestBodyIndividual'FirstName'
+  Data.Text.Internal.Text ->
+  -- | 'postIssuingCardholdersCardholderRequestBodyIndividual'LastName'
+  Data.Text.Internal.Text ->
+  PostIssuingCardholdersCardholderRequestBodyIndividual'
+mkPostIssuingCardholdersCardholderRequestBodyIndividual' postIssuingCardholdersCardholderRequestBodyIndividual'FirstName postIssuingCardholdersCardholderRequestBodyIndividual'LastName =
+  PostIssuingCardholdersCardholderRequestBodyIndividual'
+    { postIssuingCardholdersCardholderRequestBodyIndividual'Dob = GHC.Maybe.Nothing,
+      postIssuingCardholdersCardholderRequestBodyIndividual'FirstName = postIssuingCardholdersCardholderRequestBodyIndividual'FirstName,
+      postIssuingCardholdersCardholderRequestBodyIndividual'LastName = postIssuingCardholdersCardholderRequestBodyIndividual'LastName,
+      postIssuingCardholdersCardholderRequestBodyIndividual'Verification = GHC.Maybe.Nothing
+    }
+
+-- | Defines the object schema located at @paths.\/v1\/issuing\/cardholders\/{cardholder}.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.individual.properties.dob@ in the specification.
 data PostIssuingCardholdersCardholderRequestBodyIndividual'Dob'
   = PostIssuingCardholdersCardholderRequestBodyIndividual'Dob'
       { -- | day
@@ -2985,13 +3951,29 @@ data PostIssuingCardholdersCardholderRequestBodyIndividual'Dob'
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostIssuingCardholdersCardholderRequestBodyIndividual'Dob' where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "day" (postIssuingCardholdersCardholderRequestBodyIndividual'Dob'Day obj) : (Data.Aeson..=) "month" (postIssuingCardholdersCardholderRequestBodyIndividual'Dob'Month obj) : (Data.Aeson..=) "year" (postIssuingCardholdersCardholderRequestBodyIndividual'Dob'Year obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "day" (postIssuingCardholdersCardholderRequestBodyIndividual'Dob'Day obj) GHC.Base.<> ((Data.Aeson..=) "month" (postIssuingCardholdersCardholderRequestBodyIndividual'Dob'Month obj) GHC.Base.<> (Data.Aeson..=) "year" (postIssuingCardholdersCardholderRequestBodyIndividual'Dob'Year obj)))
+  toJSON obj = Data.Aeson.Types.Internal.object ("day" Data.Aeson.Types.ToJSON..= postIssuingCardholdersCardholderRequestBodyIndividual'Dob'Day obj : "month" Data.Aeson.Types.ToJSON..= postIssuingCardholdersCardholderRequestBodyIndividual'Dob'Month obj : "year" Data.Aeson.Types.ToJSON..= postIssuingCardholdersCardholderRequestBodyIndividual'Dob'Year obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("day" Data.Aeson.Types.ToJSON..= postIssuingCardholdersCardholderRequestBodyIndividual'Dob'Day obj) GHC.Base.<> (("month" Data.Aeson.Types.ToJSON..= postIssuingCardholdersCardholderRequestBodyIndividual'Dob'Month obj) GHC.Base.<> ("year" Data.Aeson.Types.ToJSON..= postIssuingCardholdersCardholderRequestBodyIndividual'Dob'Year obj)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostIssuingCardholdersCardholderRequestBodyIndividual'Dob' where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PostIssuingCardholdersCardholderRequestBodyIndividual'Dob'" (\obj -> ((GHC.Base.pure PostIssuingCardholdersCardholderRequestBodyIndividual'Dob' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "day")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "month")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "year"))
 
--- | Defines the data type for the schema postIssuingCardholdersCardholderRequestBodyIndividual\'Verification\'
+-- | Create a new 'PostIssuingCardholdersCardholderRequestBodyIndividual'Dob'' with all required fields.
+mkPostIssuingCardholdersCardholderRequestBodyIndividual'Dob' ::
+  -- | 'postIssuingCardholdersCardholderRequestBodyIndividual'Dob'Day'
+  GHC.Types.Int ->
+  -- | 'postIssuingCardholdersCardholderRequestBodyIndividual'Dob'Month'
+  GHC.Types.Int ->
+  -- | 'postIssuingCardholdersCardholderRequestBodyIndividual'Dob'Year'
+  GHC.Types.Int ->
+  PostIssuingCardholdersCardholderRequestBodyIndividual'Dob'
+mkPostIssuingCardholdersCardholderRequestBodyIndividual'Dob' postIssuingCardholdersCardholderRequestBodyIndividual'Dob'Day postIssuingCardholdersCardholderRequestBodyIndividual'Dob'Month postIssuingCardholdersCardholderRequestBodyIndividual'Dob'Year =
+  PostIssuingCardholdersCardholderRequestBodyIndividual'Dob'
+    { postIssuingCardholdersCardholderRequestBodyIndividual'Dob'Day = postIssuingCardholdersCardholderRequestBodyIndividual'Dob'Day,
+      postIssuingCardholdersCardholderRequestBodyIndividual'Dob'Month = postIssuingCardholdersCardholderRequestBodyIndividual'Dob'Month,
+      postIssuingCardholdersCardholderRequestBodyIndividual'Dob'Year = postIssuingCardholdersCardholderRequestBodyIndividual'Dob'Year
+    }
+
+-- | Defines the object schema located at @paths.\/v1\/issuing\/cardholders\/{cardholder}.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.individual.properties.verification@ in the specification.
 data PostIssuingCardholdersCardholderRequestBodyIndividual'Verification'
   = PostIssuingCardholdersCardholderRequestBodyIndividual'Verification'
       { -- | document
@@ -3003,13 +3985,17 @@ data PostIssuingCardholdersCardholderRequestBodyIndividual'Verification'
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostIssuingCardholdersCardholderRequestBodyIndividual'Verification' where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "document" (postIssuingCardholdersCardholderRequestBodyIndividual'Verification'Document obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "document" (postIssuingCardholdersCardholderRequestBodyIndividual'Verification'Document obj))
+  toJSON obj = Data.Aeson.Types.Internal.object ("document" Data.Aeson.Types.ToJSON..= postIssuingCardholdersCardholderRequestBodyIndividual'Verification'Document obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs ("document" Data.Aeson.Types.ToJSON..= postIssuingCardholdersCardholderRequestBodyIndividual'Verification'Document obj)
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostIssuingCardholdersCardholderRequestBodyIndividual'Verification' where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PostIssuingCardholdersCardholderRequestBodyIndividual'Verification'" (\obj -> GHC.Base.pure PostIssuingCardholdersCardholderRequestBodyIndividual'Verification' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "document"))
 
--- | Defines the data type for the schema postIssuingCardholdersCardholderRequestBodyIndividual\'Verification\'Document\'
+-- | Create a new 'PostIssuingCardholdersCardholderRequestBodyIndividual'Verification'' with all required fields.
+mkPostIssuingCardholdersCardholderRequestBodyIndividual'Verification' :: PostIssuingCardholdersCardholderRequestBodyIndividual'Verification'
+mkPostIssuingCardholdersCardholderRequestBodyIndividual'Verification' = PostIssuingCardholdersCardholderRequestBodyIndividual'Verification' {postIssuingCardholdersCardholderRequestBodyIndividual'Verification'Document = GHC.Maybe.Nothing}
+
+-- | Defines the object schema located at @paths.\/v1\/issuing\/cardholders\/{cardholder}.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.individual.properties.verification.properties.document@ in the specification.
 data PostIssuingCardholdersCardholderRequestBodyIndividual'Verification'Document'
   = PostIssuingCardholdersCardholderRequestBodyIndividual'Verification'Document'
       { -- | back
@@ -3031,34 +4017,46 @@ data PostIssuingCardholdersCardholderRequestBodyIndividual'Verification'Document
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostIssuingCardholdersCardholderRequestBodyIndividual'Verification'Document' where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "back" (postIssuingCardholdersCardholderRequestBodyIndividual'Verification'Document'Back obj) : (Data.Aeson..=) "front" (postIssuingCardholdersCardholderRequestBodyIndividual'Verification'Document'Front obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "back" (postIssuingCardholdersCardholderRequestBodyIndividual'Verification'Document'Back obj) GHC.Base.<> (Data.Aeson..=) "front" (postIssuingCardholdersCardholderRequestBodyIndividual'Verification'Document'Front obj))
+  toJSON obj = Data.Aeson.Types.Internal.object ("back" Data.Aeson.Types.ToJSON..= postIssuingCardholdersCardholderRequestBodyIndividual'Verification'Document'Back obj : "front" Data.Aeson.Types.ToJSON..= postIssuingCardholdersCardholderRequestBodyIndividual'Verification'Document'Front obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("back" Data.Aeson.Types.ToJSON..= postIssuingCardholdersCardholderRequestBodyIndividual'Verification'Document'Back obj) GHC.Base.<> ("front" Data.Aeson.Types.ToJSON..= postIssuingCardholdersCardholderRequestBodyIndividual'Verification'Document'Front obj))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostIssuingCardholdersCardholderRequestBodyIndividual'Verification'Document' where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PostIssuingCardholdersCardholderRequestBodyIndividual'Verification'Document'" (\obj -> (GHC.Base.pure PostIssuingCardholdersCardholderRequestBodyIndividual'Verification'Document' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "back")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "front"))
 
--- | Defines the enum schema postIssuingCardholdersCardholderRequestBodyStatus\'
+-- | Create a new 'PostIssuingCardholdersCardholderRequestBodyIndividual'Verification'Document'' with all required fields.
+mkPostIssuingCardholdersCardholderRequestBodyIndividual'Verification'Document' :: PostIssuingCardholdersCardholderRequestBodyIndividual'Verification'Document'
+mkPostIssuingCardholdersCardholderRequestBodyIndividual'Verification'Document' =
+  PostIssuingCardholdersCardholderRequestBodyIndividual'Verification'Document'
+    { postIssuingCardholdersCardholderRequestBodyIndividual'Verification'Document'Back = GHC.Maybe.Nothing,
+      postIssuingCardholdersCardholderRequestBodyIndividual'Verification'Document'Front = GHC.Maybe.Nothing
+    }
+
+-- | Defines the enum schema located at @paths.\/v1\/issuing\/cardholders\/{cardholder}.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.status@ in the specification.
 --
 -- Specifies whether to permit authorizations on this cardholder\'s cards.
 data PostIssuingCardholdersCardholderRequestBodyStatus'
-  = PostIssuingCardholdersCardholderRequestBodyStatus'EnumOther Data.Aeson.Types.Internal.Value
-  | PostIssuingCardholdersCardholderRequestBodyStatus'EnumTyped Data.Text.Internal.Text
-  | PostIssuingCardholdersCardholderRequestBodyStatus'EnumStringActive
-  | PostIssuingCardholdersCardholderRequestBodyStatus'EnumStringInactive
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    PostIssuingCardholdersCardholderRequestBodyStatus'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    PostIssuingCardholdersCardholderRequestBodyStatus'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"active"@
+    PostIssuingCardholdersCardholderRequestBodyStatus'EnumActive
+  | -- | Represents the JSON value @"inactive"@
+    PostIssuingCardholdersCardholderRequestBodyStatus'EnumInactive
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostIssuingCardholdersCardholderRequestBodyStatus' where
-  toJSON (PostIssuingCardholdersCardholderRequestBodyStatus'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostIssuingCardholdersCardholderRequestBodyStatus'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostIssuingCardholdersCardholderRequestBodyStatus'EnumStringActive) = "active"
-  toJSON (PostIssuingCardholdersCardholderRequestBodyStatus'EnumStringInactive) = "inactive"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyStatus'Other val) = val
+  toJSON (PostIssuingCardholdersCardholderRequestBodyStatus'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PostIssuingCardholdersCardholderRequestBodyStatus'EnumActive) = "active"
+  toJSON (PostIssuingCardholdersCardholderRequestBodyStatus'EnumInactive) = "inactive"
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostIssuingCardholdersCardholderRequestBodyStatus' where
   parseJSON val =
     GHC.Base.pure
-      ( if  | val GHC.Classes.== "active" -> PostIssuingCardholdersCardholderRequestBodyStatus'EnumStringActive
-            | val GHC.Classes.== "inactive" -> PostIssuingCardholdersCardholderRequestBodyStatus'EnumStringInactive
-            | GHC.Base.otherwise -> PostIssuingCardholdersCardholderRequestBodyStatus'EnumOther val
+      ( if  | val GHC.Classes.== "active" -> PostIssuingCardholdersCardholderRequestBodyStatus'EnumActive
+            | val GHC.Classes.== "inactive" -> PostIssuingCardholdersCardholderRequestBodyStatus'EnumInactive
+            | GHC.Base.otherwise -> PostIssuingCardholdersCardholderRequestBodyStatus'Other val
       )
 
 -- | Represents a response of the operation 'postIssuingCardholdersCardholder'.

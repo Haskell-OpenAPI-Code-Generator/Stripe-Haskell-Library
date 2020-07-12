@@ -8,6 +8,7 @@ module StripeAPI.Types.Discount where
 
 import qualified Control.Monad.Fail
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -33,7 +34,7 @@ import {-# SOURCE #-} StripeAPI.Types.DeletedCustomer
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
--- | Defines the data type for the schema discount
+-- | Defines the object schema located at @components.schemas.discount@ in the specification.
 --
 -- A discount represents the actual application of a coupon to a particular
 -- customer. It contains information about when the discount began and when it
@@ -50,8 +51,6 @@ data Discount
         discountCustomer :: (GHC.Maybe.Maybe DiscountCustomer'Variants),
         -- | end: If the coupon has a duration of \`repeating\`, the date that this discount will end. If the coupon has a duration of \`once\` or \`forever\`, this attribute will be null.
         discountEnd :: (GHC.Maybe.Maybe GHC.Types.Int),
-        -- | object: String representing the object\'s type. Objects of the same type share the same value.
-        discountObject :: DiscountObject',
         -- | start: Date that the coupon was applied.
         discountStart :: GHC.Types.Int,
         -- | subscription: The subscription that this coupon is applied to, if it is applied to a particular subscription.
@@ -67,13 +66,29 @@ data Discount
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON Discount where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "coupon" (discountCoupon obj) : (Data.Aeson..=) "customer" (discountCustomer obj) : (Data.Aeson..=) "end" (discountEnd obj) : (Data.Aeson..=) "object" (discountObject obj) : (Data.Aeson..=) "start" (discountStart obj) : (Data.Aeson..=) "subscription" (discountSubscription obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "coupon" (discountCoupon obj) GHC.Base.<> ((Data.Aeson..=) "customer" (discountCustomer obj) GHC.Base.<> ((Data.Aeson..=) "end" (discountEnd obj) GHC.Base.<> ((Data.Aeson..=) "object" (discountObject obj) GHC.Base.<> ((Data.Aeson..=) "start" (discountStart obj) GHC.Base.<> (Data.Aeson..=) "subscription" (discountSubscription obj))))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("coupon" Data.Aeson.Types.ToJSON..= discountCoupon obj : "customer" Data.Aeson.Types.ToJSON..= discountCustomer obj : "end" Data.Aeson.Types.ToJSON..= discountEnd obj : "start" Data.Aeson.Types.ToJSON..= discountStart obj : "subscription" Data.Aeson.Types.ToJSON..= discountSubscription obj : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "discount" : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("coupon" Data.Aeson.Types.ToJSON..= discountCoupon obj) GHC.Base.<> (("customer" Data.Aeson.Types.ToJSON..= discountCustomer obj) GHC.Base.<> (("end" Data.Aeson.Types.ToJSON..= discountEnd obj) GHC.Base.<> (("start" Data.Aeson.Types.ToJSON..= discountStart obj) GHC.Base.<> (("subscription" Data.Aeson.Types.ToJSON..= discountSubscription obj) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "discount"))))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON Discount where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "Discount" (\obj -> (((((GHC.Base.pure Discount GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "coupon")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "customer")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "end")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "object")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "start")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "subscription"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "Discount" (\obj -> ((((GHC.Base.pure Discount GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "coupon")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "customer")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "end")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "start")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "subscription"))
 
--- | Define the one-of schema discountCustomer\'
+-- | Create a new 'Discount' with all required fields.
+mkDiscount ::
+  -- | 'discountCoupon'
+  Coupon ->
+  -- | 'discountStart'
+  GHC.Types.Int ->
+  Discount
+mkDiscount discountCoupon discountStart =
+  Discount
+    { discountCoupon = discountCoupon,
+      discountCustomer = GHC.Maybe.Nothing,
+      discountEnd = GHC.Maybe.Nothing,
+      discountStart = discountStart,
+      discountSubscription = GHC.Maybe.Nothing
+    }
+
+-- | Defines the oneOf schema located at @components.schemas.discount.properties.customer.anyOf@ in the specification.
 --
 -- The ID of the customer associated with this discount.
 data DiscountCustomer'Variants
@@ -88,31 +103,6 @@ instance Data.Aeson.Types.ToJSON.ToJSON DiscountCustomer'Variants where
   toJSON (DiscountCustomer'Text a) = Data.Aeson.Types.ToJSON.toJSON a
 
 instance Data.Aeson.Types.FromJSON.FromJSON DiscountCustomer'Variants where
-  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
-    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ DiscountCustomer'Customer a
-    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ DiscountCustomer'DeletedCustomer a
-      Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-        Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ DiscountCustomer'Text a
-        Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
-
--- | Defines the enum schema discountObject\'
---
--- String representing the object\'s type. Objects of the same type share the same value.
-data DiscountObject'
-  = DiscountObject'EnumOther Data.Aeson.Types.Internal.Value
-  | DiscountObject'EnumTyped Data.Text.Internal.Text
-  | DiscountObject'EnumStringDiscount
-  deriving (GHC.Show.Show, GHC.Classes.Eq)
-
-instance Data.Aeson.Types.ToJSON.ToJSON DiscountObject' where
-  toJSON (DiscountObject'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (DiscountObject'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (DiscountObject'EnumStringDiscount) = "discount"
-
-instance Data.Aeson.Types.FromJSON.FromJSON DiscountObject' where
-  parseJSON val =
-    GHC.Base.pure
-      ( if  | val GHC.Classes.== "discount" -> DiscountObject'EnumStringDiscount
-            | GHC.Base.otherwise -> DiscountObject'EnumOther val
-      )
+  parseJSON val = case (DiscountCustomer'Customer Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((DiscountCustomer'DeletedCustomer Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((DiscountCustomer'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched")) of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+    Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a

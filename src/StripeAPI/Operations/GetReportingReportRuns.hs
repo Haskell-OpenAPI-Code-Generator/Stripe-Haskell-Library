@@ -10,6 +10,7 @@ module StripeAPI.Operations.GetReportingReportRuns where
 import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -86,7 +87,7 @@ getReportingReportRuns parameters =
         ]
     )
 
--- | Defines the data type for the schema getReportingReportRunsParameters
+-- | Defines the object schema located at @paths.\/v1\/reporting\/report_runs.GET.parameters@ in the specification.
 data GetReportingReportRunsParameters
   = GetReportingReportRunsParameters
       { -- | queryCreated: Represents the parameter named \'created\'
@@ -122,13 +123,24 @@ data GetReportingReportRunsParameters
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetReportingReportRunsParameters where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "queryCreated" (getReportingReportRunsParametersQueryCreated obj) : (Data.Aeson..=) "queryEnding_before" (getReportingReportRunsParametersQueryEndingBefore obj) : (Data.Aeson..=) "queryExpand" (getReportingReportRunsParametersQueryExpand obj) : (Data.Aeson..=) "queryLimit" (getReportingReportRunsParametersQueryLimit obj) : (Data.Aeson..=) "queryStarting_after" (getReportingReportRunsParametersQueryStartingAfter obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "queryCreated" (getReportingReportRunsParametersQueryCreated obj) GHC.Base.<> ((Data.Aeson..=) "queryEnding_before" (getReportingReportRunsParametersQueryEndingBefore obj) GHC.Base.<> ((Data.Aeson..=) "queryExpand" (getReportingReportRunsParametersQueryExpand obj) GHC.Base.<> ((Data.Aeson..=) "queryLimit" (getReportingReportRunsParametersQueryLimit obj) GHC.Base.<> (Data.Aeson..=) "queryStarting_after" (getReportingReportRunsParametersQueryStartingAfter obj)))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("queryCreated" Data.Aeson.Types.ToJSON..= getReportingReportRunsParametersQueryCreated obj : "queryEnding_before" Data.Aeson.Types.ToJSON..= getReportingReportRunsParametersQueryEndingBefore obj : "queryExpand" Data.Aeson.Types.ToJSON..= getReportingReportRunsParametersQueryExpand obj : "queryLimit" Data.Aeson.Types.ToJSON..= getReportingReportRunsParametersQueryLimit obj : "queryStarting_after" Data.Aeson.Types.ToJSON..= getReportingReportRunsParametersQueryStartingAfter obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("queryCreated" Data.Aeson.Types.ToJSON..= getReportingReportRunsParametersQueryCreated obj) GHC.Base.<> (("queryEnding_before" Data.Aeson.Types.ToJSON..= getReportingReportRunsParametersQueryEndingBefore obj) GHC.Base.<> (("queryExpand" Data.Aeson.Types.ToJSON..= getReportingReportRunsParametersQueryExpand obj) GHC.Base.<> (("queryLimit" Data.Aeson.Types.ToJSON..= getReportingReportRunsParametersQueryLimit obj) GHC.Base.<> ("queryStarting_after" Data.Aeson.Types.ToJSON..= getReportingReportRunsParametersQueryStartingAfter obj)))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetReportingReportRunsParameters where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "GetReportingReportRunsParameters" (\obj -> ((((GHC.Base.pure GetReportingReportRunsParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryCreated")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryEnding_before")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryExpand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryLimit")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryStarting_after"))
 
--- | Defines the data type for the schema getReportingReportRunsParametersQueryCreated\'OneOf2
+-- | Create a new 'GetReportingReportRunsParameters' with all required fields.
+mkGetReportingReportRunsParameters :: GetReportingReportRunsParameters
+mkGetReportingReportRunsParameters =
+  GetReportingReportRunsParameters
+    { getReportingReportRunsParametersQueryCreated = GHC.Maybe.Nothing,
+      getReportingReportRunsParametersQueryEndingBefore = GHC.Maybe.Nothing,
+      getReportingReportRunsParametersQueryExpand = GHC.Maybe.Nothing,
+      getReportingReportRunsParametersQueryLimit = GHC.Maybe.Nothing,
+      getReportingReportRunsParametersQueryStartingAfter = GHC.Maybe.Nothing
+    }
+
+-- | Defines the object schema located at @paths.\/v1\/reporting\/report_runs.GET.parameters.properties.queryCreated.anyOf@ in the specification.
 data GetReportingReportRunsParametersQueryCreated'OneOf2
   = GetReportingReportRunsParametersQueryCreated'OneOf2
       { -- | gt
@@ -146,13 +158,23 @@ data GetReportingReportRunsParametersQueryCreated'OneOf2
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetReportingReportRunsParametersQueryCreated'OneOf2 where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "gt" (getReportingReportRunsParametersQueryCreated'OneOf2Gt obj) : (Data.Aeson..=) "gte" (getReportingReportRunsParametersQueryCreated'OneOf2Gte obj) : (Data.Aeson..=) "lt" (getReportingReportRunsParametersQueryCreated'OneOf2Lt obj) : (Data.Aeson..=) "lte" (getReportingReportRunsParametersQueryCreated'OneOf2Lte obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "gt" (getReportingReportRunsParametersQueryCreated'OneOf2Gt obj) GHC.Base.<> ((Data.Aeson..=) "gte" (getReportingReportRunsParametersQueryCreated'OneOf2Gte obj) GHC.Base.<> ((Data.Aeson..=) "lt" (getReportingReportRunsParametersQueryCreated'OneOf2Lt obj) GHC.Base.<> (Data.Aeson..=) "lte" (getReportingReportRunsParametersQueryCreated'OneOf2Lte obj))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("gt" Data.Aeson.Types.ToJSON..= getReportingReportRunsParametersQueryCreated'OneOf2Gt obj : "gte" Data.Aeson.Types.ToJSON..= getReportingReportRunsParametersQueryCreated'OneOf2Gte obj : "lt" Data.Aeson.Types.ToJSON..= getReportingReportRunsParametersQueryCreated'OneOf2Lt obj : "lte" Data.Aeson.Types.ToJSON..= getReportingReportRunsParametersQueryCreated'OneOf2Lte obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("gt" Data.Aeson.Types.ToJSON..= getReportingReportRunsParametersQueryCreated'OneOf2Gt obj) GHC.Base.<> (("gte" Data.Aeson.Types.ToJSON..= getReportingReportRunsParametersQueryCreated'OneOf2Gte obj) GHC.Base.<> (("lt" Data.Aeson.Types.ToJSON..= getReportingReportRunsParametersQueryCreated'OneOf2Lt obj) GHC.Base.<> ("lte" Data.Aeson.Types.ToJSON..= getReportingReportRunsParametersQueryCreated'OneOf2Lte obj))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetReportingReportRunsParametersQueryCreated'OneOf2 where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "GetReportingReportRunsParametersQueryCreated'OneOf2" (\obj -> (((GHC.Base.pure GetReportingReportRunsParametersQueryCreated'OneOf2 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "gt")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "gte")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "lt")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "lte"))
 
--- | Define the one-of schema getReportingReportRunsParametersQueryCreated\'
+-- | Create a new 'GetReportingReportRunsParametersQueryCreated'OneOf2' with all required fields.
+mkGetReportingReportRunsParametersQueryCreated'OneOf2 :: GetReportingReportRunsParametersQueryCreated'OneOf2
+mkGetReportingReportRunsParametersQueryCreated'OneOf2 =
+  GetReportingReportRunsParametersQueryCreated'OneOf2
+    { getReportingReportRunsParametersQueryCreated'OneOf2Gt = GHC.Maybe.Nothing,
+      getReportingReportRunsParametersQueryCreated'OneOf2Gte = GHC.Maybe.Nothing,
+      getReportingReportRunsParametersQueryCreated'OneOf2Lt = GHC.Maybe.Nothing,
+      getReportingReportRunsParametersQueryCreated'OneOf2Lte = GHC.Maybe.Nothing
+    }
+
+-- | Defines the oneOf schema located at @paths.\/v1\/reporting\/report_runs.GET.parameters.properties.queryCreated.anyOf@ in the specification.
 --
 -- Represents the parameter named \'created\'
 data GetReportingReportRunsParametersQueryCreated'Variants
@@ -165,11 +187,9 @@ instance Data.Aeson.Types.ToJSON.ToJSON GetReportingReportRunsParametersQueryCre
   toJSON (GetReportingReportRunsParametersQueryCreated'GetReportingReportRunsParametersQueryCreated'OneOf2 a) = Data.Aeson.Types.ToJSON.toJSON a
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetReportingReportRunsParametersQueryCreated'Variants where
-  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
-    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ GetReportingReportRunsParametersQueryCreated'Int a
-    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ GetReportingReportRunsParametersQueryCreated'GetReportingReportRunsParametersQueryCreated'OneOf2 a
-      Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+  parseJSON val = case (GetReportingReportRunsParametersQueryCreated'Int Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((GetReportingReportRunsParametersQueryCreated'GetReportingReportRunsParametersQueryCreated'OneOf2 Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched") of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+    Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
 -- | Represents a response of the operation 'getReportingReportRuns'.
 --
@@ -183,15 +203,13 @@ data GetReportingReportRunsResponse
     GetReportingReportRunsResponseDefault Error
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
--- | Defines the data type for the schema GetReportingReportRunsResponseBody200
+-- | Defines the object schema located at @paths.\/v1\/reporting\/report_runs.GET.responses.200.content.application\/json.schema@ in the specification.
 data GetReportingReportRunsResponseBody200
   = GetReportingReportRunsResponseBody200
       { -- | data
         getReportingReportRunsResponseBody200Data :: ([Reporting'reportRun]),
         -- | has_more: True if this list has another page of items after this one that can be fetched.
         getReportingReportRunsResponseBody200HasMore :: GHC.Types.Bool,
-        -- | object: String representing the object\'s type. Objects of the same type share the same value. Always has the value \`list\`.
-        getReportingReportRunsResponseBody200Object :: GetReportingReportRunsResponseBody200Object',
         -- | url: The URL where this list can be accessed.
         --
         -- Constraints:
@@ -206,29 +224,24 @@ data GetReportingReportRunsResponseBody200
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetReportingReportRunsResponseBody200 where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "data" (getReportingReportRunsResponseBody200Data obj) : (Data.Aeson..=) "has_more" (getReportingReportRunsResponseBody200HasMore obj) : (Data.Aeson..=) "object" (getReportingReportRunsResponseBody200Object obj) : (Data.Aeson..=) "url" (getReportingReportRunsResponseBody200Url obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "data" (getReportingReportRunsResponseBody200Data obj) GHC.Base.<> ((Data.Aeson..=) "has_more" (getReportingReportRunsResponseBody200HasMore obj) GHC.Base.<> ((Data.Aeson..=) "object" (getReportingReportRunsResponseBody200Object obj) GHC.Base.<> (Data.Aeson..=) "url" (getReportingReportRunsResponseBody200Url obj))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("data" Data.Aeson.Types.ToJSON..= getReportingReportRunsResponseBody200Data obj : "has_more" Data.Aeson.Types.ToJSON..= getReportingReportRunsResponseBody200HasMore obj : "url" Data.Aeson.Types.ToJSON..= getReportingReportRunsResponseBody200Url obj : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "list" : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("data" Data.Aeson.Types.ToJSON..= getReportingReportRunsResponseBody200Data obj) GHC.Base.<> (("has_more" Data.Aeson.Types.ToJSON..= getReportingReportRunsResponseBody200HasMore obj) GHC.Base.<> (("url" Data.Aeson.Types.ToJSON..= getReportingReportRunsResponseBody200Url obj) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "list"))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetReportingReportRunsResponseBody200 where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetReportingReportRunsResponseBody200" (\obj -> (((GHC.Base.pure GetReportingReportRunsResponseBody200 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "has_more")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "object")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "url"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetReportingReportRunsResponseBody200" (\obj -> ((GHC.Base.pure GetReportingReportRunsResponseBody200 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "has_more")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "url"))
 
--- | Defines the enum schema GetReportingReportRunsResponseBody200Object\'
---
--- String representing the object\'s type. Objects of the same type share the same value. Always has the value \`list\`.
-data GetReportingReportRunsResponseBody200Object'
-  = GetReportingReportRunsResponseBody200Object'EnumOther Data.Aeson.Types.Internal.Value
-  | GetReportingReportRunsResponseBody200Object'EnumTyped Data.Text.Internal.Text
-  | GetReportingReportRunsResponseBody200Object'EnumStringList
-  deriving (GHC.Show.Show, GHC.Classes.Eq)
-
-instance Data.Aeson.Types.ToJSON.ToJSON GetReportingReportRunsResponseBody200Object' where
-  toJSON (GetReportingReportRunsResponseBody200Object'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (GetReportingReportRunsResponseBody200Object'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (GetReportingReportRunsResponseBody200Object'EnumStringList) = "list"
-
-instance Data.Aeson.Types.FromJSON.FromJSON GetReportingReportRunsResponseBody200Object' where
-  parseJSON val =
-    GHC.Base.pure
-      ( if  | val GHC.Classes.== "list" -> GetReportingReportRunsResponseBody200Object'EnumStringList
-            | GHC.Base.otherwise -> GetReportingReportRunsResponseBody200Object'EnumOther val
-      )
+-- | Create a new 'GetReportingReportRunsResponseBody200' with all required fields.
+mkGetReportingReportRunsResponseBody200 ::
+  -- | 'getReportingReportRunsResponseBody200Data'
+  [Reporting'reportRun] ->
+  -- | 'getReportingReportRunsResponseBody200HasMore'
+  GHC.Types.Bool ->
+  -- | 'getReportingReportRunsResponseBody200Url'
+  Data.Text.Internal.Text ->
+  GetReportingReportRunsResponseBody200
+mkGetReportingReportRunsResponseBody200 getReportingReportRunsResponseBody200Data getReportingReportRunsResponseBody200HasMore getReportingReportRunsResponseBody200Url =
+  GetReportingReportRunsResponseBody200
+    { getReportingReportRunsResponseBody200Data = getReportingReportRunsResponseBody200Data,
+      getReportingReportRunsResponseBody200HasMore = getReportingReportRunsResponseBody200HasMore,
+      getReportingReportRunsResponseBody200Url = getReportingReportRunsResponseBody200Url
+    }

@@ -10,6 +10,7 @@ module StripeAPI.Operations.GetOrdersId where
 import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -77,7 +78,7 @@ getOrdersId parameters =
     )
     (StripeAPI.Common.doCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET") (Data.Text.pack ("/v1/orders/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel (getOrdersIdParametersPathId parameters))) GHC.Base.++ ""))) [StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getOrdersIdParametersQueryExpand parameters) (Data.Text.pack "deepObject") GHC.Types.True])
 
--- | Defines the data type for the schema getOrdersIdParameters
+-- | Defines the object schema located at @paths.\/v1\/orders\/{id}.GET.parameters@ in the specification.
 data GetOrdersIdParameters
   = GetOrdersIdParameters
       { -- | pathId: Represents the parameter named \'id\'
@@ -97,11 +98,22 @@ data GetOrdersIdParameters
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetOrdersIdParameters where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "pathId" (getOrdersIdParametersPathId obj) : (Data.Aeson..=) "queryExpand" (getOrdersIdParametersQueryExpand obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "pathId" (getOrdersIdParametersPathId obj) GHC.Base.<> (Data.Aeson..=) "queryExpand" (getOrdersIdParametersQueryExpand obj))
+  toJSON obj = Data.Aeson.Types.Internal.object ("pathId" Data.Aeson.Types.ToJSON..= getOrdersIdParametersPathId obj : "queryExpand" Data.Aeson.Types.ToJSON..= getOrdersIdParametersQueryExpand obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("pathId" Data.Aeson.Types.ToJSON..= getOrdersIdParametersPathId obj) GHC.Base.<> ("queryExpand" Data.Aeson.Types.ToJSON..= getOrdersIdParametersQueryExpand obj))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetOrdersIdParameters where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "GetOrdersIdParameters" (\obj -> (GHC.Base.pure GetOrdersIdParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathId")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryExpand"))
+
+-- | Create a new 'GetOrdersIdParameters' with all required fields.
+mkGetOrdersIdParameters ::
+  -- | 'getOrdersIdParametersPathId'
+  Data.Text.Internal.Text ->
+  GetOrdersIdParameters
+mkGetOrdersIdParameters getOrdersIdParametersPathId =
+  GetOrdersIdParameters
+    { getOrdersIdParametersPathId = getOrdersIdParametersPathId,
+      getOrdersIdParametersQueryExpand = GHC.Maybe.Nothing
+    }
 
 -- | Represents a response of the operation 'getOrdersId'.
 --

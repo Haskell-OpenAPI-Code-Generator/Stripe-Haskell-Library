@@ -8,6 +8,7 @@ module StripeAPI.Types.IssuingDisputeOtherEvidence where
 
 import qualified Control.Monad.Fail
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -31,7 +32,7 @@ import {-# SOURCE #-} StripeAPI.Types.File
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
--- | Defines the data type for the schema issuing_dispute_other_evidence
+-- | Defines the object schema located at @components.schemas.issuing_dispute_other_evidence@ in the specification.
 data IssuingDisputeOtherEvidence
   = IssuingDisputeOtherEvidence
       { -- | dispute_explanation: Brief freeform text explaining why you are disputing this transaction.
@@ -49,13 +50,24 @@ data IssuingDisputeOtherEvidence
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON IssuingDisputeOtherEvidence where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "dispute_explanation" (issuingDisputeOtherEvidenceDisputeExplanation obj) : (Data.Aeson..=) "uncategorized_file" (issuingDisputeOtherEvidenceUncategorizedFile obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "dispute_explanation" (issuingDisputeOtherEvidenceDisputeExplanation obj) GHC.Base.<> (Data.Aeson..=) "uncategorized_file" (issuingDisputeOtherEvidenceUncategorizedFile obj))
+  toJSON obj = Data.Aeson.Types.Internal.object ("dispute_explanation" Data.Aeson.Types.ToJSON..= issuingDisputeOtherEvidenceDisputeExplanation obj : "uncategorized_file" Data.Aeson.Types.ToJSON..= issuingDisputeOtherEvidenceUncategorizedFile obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("dispute_explanation" Data.Aeson.Types.ToJSON..= issuingDisputeOtherEvidenceDisputeExplanation obj) GHC.Base.<> ("uncategorized_file" Data.Aeson.Types.ToJSON..= issuingDisputeOtherEvidenceUncategorizedFile obj))
 
 instance Data.Aeson.Types.FromJSON.FromJSON IssuingDisputeOtherEvidence where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "IssuingDisputeOtherEvidence" (\obj -> (GHC.Base.pure IssuingDisputeOtherEvidence GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "dispute_explanation")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "uncategorized_file"))
 
--- | Define the one-of schema issuing_dispute_other_evidenceUncategorized_file\'
+-- | Create a new 'IssuingDisputeOtherEvidence' with all required fields.
+mkIssuingDisputeOtherEvidence ::
+  -- | 'issuingDisputeOtherEvidenceDisputeExplanation'
+  Data.Text.Internal.Text ->
+  IssuingDisputeOtherEvidence
+mkIssuingDisputeOtherEvidence issuingDisputeOtherEvidenceDisputeExplanation =
+  IssuingDisputeOtherEvidence
+    { issuingDisputeOtherEvidenceDisputeExplanation = issuingDisputeOtherEvidenceDisputeExplanation,
+      issuingDisputeOtherEvidenceUncategorizedFile = GHC.Maybe.Nothing
+    }
+
+-- | Defines the oneOf schema located at @components.schemas.issuing_dispute_other_evidence.properties.uncategorized_file.anyOf@ in the specification.
 --
 -- (ID of a [file upload](https:\/\/stripe.com\/docs\/guides\/file-upload)) Additional file evidence supporting your dispute.
 data IssuingDisputeOtherEvidenceUncategorizedFile'Variants
@@ -68,8 +80,6 @@ instance Data.Aeson.Types.ToJSON.ToJSON IssuingDisputeOtherEvidenceUncategorized
   toJSON (IssuingDisputeOtherEvidenceUncategorizedFile'Text a) = Data.Aeson.Types.ToJSON.toJSON a
 
 instance Data.Aeson.Types.FromJSON.FromJSON IssuingDisputeOtherEvidenceUncategorizedFile'Variants where
-  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
-    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ IssuingDisputeOtherEvidenceUncategorizedFile'File a
-    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ IssuingDisputeOtherEvidenceUncategorizedFile'Text a
-      Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+  parseJSON val = case (IssuingDisputeOtherEvidenceUncategorizedFile'File Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((IssuingDisputeOtherEvidenceUncategorizedFile'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched") of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+    Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a

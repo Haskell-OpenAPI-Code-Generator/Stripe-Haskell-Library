@@ -8,6 +8,7 @@ module StripeAPI.Types.PersonRequirements where
 
 import qualified Control.Monad.Fail
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -31,7 +32,7 @@ import {-# SOURCE #-} StripeAPI.Types.AccountRequirementsError
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
--- | Defines the data type for the schema person_requirements
+-- | Defines the object schema located at @components.schemas.person_requirements@ in the specification.
 data PersonRequirements
   = PersonRequirements
       { -- | currently_due: Fields that need to be collected to keep the person\'s account enabled. If not collected by the account\'s \`current_deadline\`, these fields appear in \`past_due\` as well, and the account is disabled.
@@ -51,8 +52,28 @@ data PersonRequirements
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PersonRequirements where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "currently_due" (personRequirementsCurrentlyDue obj) : (Data.Aeson..=) "errors" (personRequirementsErrors obj) : (Data.Aeson..=) "eventually_due" (personRequirementsEventuallyDue obj) : (Data.Aeson..=) "past_due" (personRequirementsPastDue obj) : (Data.Aeson..=) "pending_verification" (personRequirementsPendingVerification obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "currently_due" (personRequirementsCurrentlyDue obj) GHC.Base.<> ((Data.Aeson..=) "errors" (personRequirementsErrors obj) GHC.Base.<> ((Data.Aeson..=) "eventually_due" (personRequirementsEventuallyDue obj) GHC.Base.<> ((Data.Aeson..=) "past_due" (personRequirementsPastDue obj) GHC.Base.<> (Data.Aeson..=) "pending_verification" (personRequirementsPendingVerification obj)))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("currently_due" Data.Aeson.Types.ToJSON..= personRequirementsCurrentlyDue obj : "errors" Data.Aeson.Types.ToJSON..= personRequirementsErrors obj : "eventually_due" Data.Aeson.Types.ToJSON..= personRequirementsEventuallyDue obj : "past_due" Data.Aeson.Types.ToJSON..= personRequirementsPastDue obj : "pending_verification" Data.Aeson.Types.ToJSON..= personRequirementsPendingVerification obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("currently_due" Data.Aeson.Types.ToJSON..= personRequirementsCurrentlyDue obj) GHC.Base.<> (("errors" Data.Aeson.Types.ToJSON..= personRequirementsErrors obj) GHC.Base.<> (("eventually_due" Data.Aeson.Types.ToJSON..= personRequirementsEventuallyDue obj) GHC.Base.<> (("past_due" Data.Aeson.Types.ToJSON..= personRequirementsPastDue obj) GHC.Base.<> ("pending_verification" Data.Aeson.Types.ToJSON..= personRequirementsPendingVerification obj)))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PersonRequirements where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PersonRequirements" (\obj -> ((((GHC.Base.pure PersonRequirements GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "currently_due")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "errors")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "eventually_due")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "past_due")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pending_verification"))
+
+-- | Create a new 'PersonRequirements' with all required fields.
+mkPersonRequirements ::
+  -- | 'personRequirementsCurrentlyDue'
+  [Data.Text.Internal.Text] ->
+  -- | 'personRequirementsEventuallyDue'
+  [Data.Text.Internal.Text] ->
+  -- | 'personRequirementsPastDue'
+  [Data.Text.Internal.Text] ->
+  -- | 'personRequirementsPendingVerification'
+  [Data.Text.Internal.Text] ->
+  PersonRequirements
+mkPersonRequirements personRequirementsCurrentlyDue personRequirementsEventuallyDue personRequirementsPastDue personRequirementsPendingVerification =
+  PersonRequirements
+    { personRequirementsCurrentlyDue = personRequirementsCurrentlyDue,
+      personRequirementsErrors = GHC.Maybe.Nothing,
+      personRequirementsEventuallyDue = personRequirementsEventuallyDue,
+      personRequirementsPastDue = personRequirementsPastDue,
+      personRequirementsPendingVerification = personRequirementsPendingVerification
+    }

@@ -10,6 +10,7 @@ module StripeAPI.Operations.PostFileLinksLink where
 import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -81,7 +82,7 @@ postFileLinksLink
       )
       (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack ("/v1/file_links/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel link)) GHC.Base.++ ""))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
 
--- | Defines the data type for the schema postFileLinksLinkRequestBody
+-- | Defines the object schema located at @paths.\/v1\/file_links\/{link}.POST.requestBody.content.application\/x-www-form-urlencoded.schema@ in the specification.
 data PostFileLinksLinkRequestBody
   = PostFileLinksLinkRequestBody
       { -- | expand: Specifies which fields in the response should be expanded.
@@ -97,72 +98,44 @@ data PostFileLinksLinkRequestBody
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostFileLinksLinkRequestBody where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "expand" (postFileLinksLinkRequestBodyExpand obj) : (Data.Aeson..=) "expires_at" (postFileLinksLinkRequestBodyExpiresAt obj) : (Data.Aeson..=) "metadata" (postFileLinksLinkRequestBodyMetadata obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "expand" (postFileLinksLinkRequestBodyExpand obj) GHC.Base.<> ((Data.Aeson..=) "expires_at" (postFileLinksLinkRequestBodyExpiresAt obj) GHC.Base.<> (Data.Aeson..=) "metadata" (postFileLinksLinkRequestBodyMetadata obj)))
+  toJSON obj = Data.Aeson.Types.Internal.object ("expand" Data.Aeson.Types.ToJSON..= postFileLinksLinkRequestBodyExpand obj : "expires_at" Data.Aeson.Types.ToJSON..= postFileLinksLinkRequestBodyExpiresAt obj : "metadata" Data.Aeson.Types.ToJSON..= postFileLinksLinkRequestBodyMetadata obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("expand" Data.Aeson.Types.ToJSON..= postFileLinksLinkRequestBodyExpand obj) GHC.Base.<> (("expires_at" Data.Aeson.Types.ToJSON..= postFileLinksLinkRequestBodyExpiresAt obj) GHC.Base.<> ("metadata" Data.Aeson.Types.ToJSON..= postFileLinksLinkRequestBodyMetadata obj)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostFileLinksLinkRequestBody where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PostFileLinksLinkRequestBody" (\obj -> ((GHC.Base.pure PostFileLinksLinkRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "expires_at")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "metadata"))
 
--- | Defines the enum schema postFileLinksLinkRequestBodyExpires_at\'OneOf1
-data PostFileLinksLinkRequestBodyExpiresAt'OneOf1
-  = PostFileLinksLinkRequestBodyExpiresAt'OneOf1EnumOther Data.Aeson.Types.Internal.Value
-  | PostFileLinksLinkRequestBodyExpiresAt'OneOf1EnumTyped Data.Text.Internal.Text
-  | PostFileLinksLinkRequestBodyExpiresAt'OneOf1EnumString_
-  deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Create a new 'PostFileLinksLinkRequestBody' with all required fields.
+mkPostFileLinksLinkRequestBody :: PostFileLinksLinkRequestBody
+mkPostFileLinksLinkRequestBody =
+  PostFileLinksLinkRequestBody
+    { postFileLinksLinkRequestBodyExpand = GHC.Maybe.Nothing,
+      postFileLinksLinkRequestBodyExpiresAt = GHC.Maybe.Nothing,
+      postFileLinksLinkRequestBodyMetadata = GHC.Maybe.Nothing
+    }
 
-instance Data.Aeson.Types.ToJSON.ToJSON PostFileLinksLinkRequestBodyExpiresAt'OneOf1 where
-  toJSON (PostFileLinksLinkRequestBodyExpiresAt'OneOf1EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostFileLinksLinkRequestBodyExpiresAt'OneOf1EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostFileLinksLinkRequestBodyExpiresAt'OneOf1EnumString_) = ""
-
-instance Data.Aeson.Types.FromJSON.FromJSON PostFileLinksLinkRequestBodyExpiresAt'OneOf1 where
-  parseJSON val =
-    GHC.Base.pure
-      ( if  | val GHC.Classes.== "" -> PostFileLinksLinkRequestBodyExpiresAt'OneOf1EnumString_
-            | GHC.Base.otherwise -> PostFileLinksLinkRequestBodyExpiresAt'OneOf1EnumOther val
-      )
-
--- | Defines the enum schema postFileLinksLinkRequestBodyExpires_at\'OneOf2
-data PostFileLinksLinkRequestBodyExpiresAt'OneOf2
-  = PostFileLinksLinkRequestBodyExpiresAt'OneOf2EnumOther Data.Aeson.Types.Internal.Value
-  | PostFileLinksLinkRequestBodyExpiresAt'OneOf2EnumTyped Data.Text.Internal.Text
-  | PostFileLinksLinkRequestBodyExpiresAt'OneOf2EnumStringNow
-  deriving (GHC.Show.Show, GHC.Classes.Eq)
-
-instance Data.Aeson.Types.ToJSON.ToJSON PostFileLinksLinkRequestBodyExpiresAt'OneOf2 where
-  toJSON (PostFileLinksLinkRequestBodyExpiresAt'OneOf2EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostFileLinksLinkRequestBodyExpiresAt'OneOf2EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostFileLinksLinkRequestBodyExpiresAt'OneOf2EnumStringNow) = "now"
-
-instance Data.Aeson.Types.FromJSON.FromJSON PostFileLinksLinkRequestBodyExpiresAt'OneOf2 where
-  parseJSON val =
-    GHC.Base.pure
-      ( if  | val GHC.Classes.== "now" -> PostFileLinksLinkRequestBodyExpiresAt'OneOf2EnumStringNow
-            | GHC.Base.otherwise -> PostFileLinksLinkRequestBodyExpiresAt'OneOf2EnumOther val
-      )
-
--- | Define the one-of schema postFileLinksLinkRequestBodyExpires_at\'
+-- | Defines the oneOf schema located at @paths.\/v1\/file_links\/{link}.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.expires_at.anyOf@ in the specification.
 --
 -- A future timestamp after which the link will no longer be usable, or \`now\` to expire the link immediately.
 data PostFileLinksLinkRequestBodyExpiresAt'Variants
-  = PostFileLinksLinkRequestBodyExpiresAt'PostFileLinksLinkRequestBodyExpiresAt'OneOf1 PostFileLinksLinkRequestBodyExpiresAt'OneOf1
-  | PostFileLinksLinkRequestBodyExpiresAt'PostFileLinksLinkRequestBodyExpiresAt'OneOf2 PostFileLinksLinkRequestBodyExpiresAt'OneOf2
+  = -- | Represents the JSON value @""@
+    PostFileLinksLinkRequestBodyExpiresAt'EmptyString
+  | -- | Represents the JSON value @"now"@
+    PostFileLinksLinkRequestBodyExpiresAt'Now
   | PostFileLinksLinkRequestBodyExpiresAt'Int GHC.Types.Int
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostFileLinksLinkRequestBodyExpiresAt'Variants where
-  toJSON (PostFileLinksLinkRequestBodyExpiresAt'PostFileLinksLinkRequestBodyExpiresAt'OneOf1 a) = Data.Aeson.Types.ToJSON.toJSON a
-  toJSON (PostFileLinksLinkRequestBodyExpiresAt'PostFileLinksLinkRequestBodyExpiresAt'OneOf2 a) = Data.Aeson.Types.ToJSON.toJSON a
   toJSON (PostFileLinksLinkRequestBodyExpiresAt'Int a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (PostFileLinksLinkRequestBodyExpiresAt'EmptyString) = ""
+  toJSON (PostFileLinksLinkRequestBodyExpiresAt'Now) = "now"
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostFileLinksLinkRequestBodyExpiresAt'Variants where
-  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
-    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ PostFileLinksLinkRequestBodyExpiresAt'PostFileLinksLinkRequestBodyExpiresAt'OneOf1 a
-    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ PostFileLinksLinkRequestBodyExpiresAt'PostFileLinksLinkRequestBodyExpiresAt'OneOf2 a
-      Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-        Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ PostFileLinksLinkRequestBodyExpiresAt'Int a
-        Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+  parseJSON val =
+    if  | val GHC.Classes.== "" -> GHC.Base.pure PostFileLinksLinkRequestBodyExpiresAt'EmptyString
+        | val GHC.Classes.== "now" -> GHC.Base.pure PostFileLinksLinkRequestBodyExpiresAt'Now
+        | GHC.Base.otherwise -> case (PostFileLinksLinkRequestBodyExpiresAt'Int Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched" of
+          Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+          Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
 -- | Represents a response of the operation 'postFileLinksLink'.
 --

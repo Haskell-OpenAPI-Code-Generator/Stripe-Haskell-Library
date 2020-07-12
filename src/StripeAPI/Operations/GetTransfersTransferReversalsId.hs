@@ -10,6 +10,7 @@ module StripeAPI.Operations.GetTransfersTransferReversalsId where
 import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -77,7 +78,7 @@ getTransfersTransferReversalsId parameters =
     )
     (StripeAPI.Common.doCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET") (Data.Text.pack (("/v1/transfers/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel (getTransfersTransferReversalsIdParametersPathTransfer parameters))) GHC.Base.++ "/reversals/")) GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel (getTransfersTransferReversalsIdParametersPathId parameters))) GHC.Base.++ ""))) [StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getTransfersTransferReversalsIdParametersQueryExpand parameters) (Data.Text.pack "deepObject") GHC.Types.True])
 
--- | Defines the data type for the schema getTransfersTransferReversalsIdParameters
+-- | Defines the object schema located at @paths.\/v1\/transfers\/{transfer}\/reversals\/{id}.GET.parameters@ in the specification.
 data GetTransfersTransferReversalsIdParameters
   = GetTransfersTransferReversalsIdParameters
       { -- | pathId: Represents the parameter named \'id\'
@@ -103,11 +104,25 @@ data GetTransfersTransferReversalsIdParameters
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetTransfersTransferReversalsIdParameters where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "pathId" (getTransfersTransferReversalsIdParametersPathId obj) : (Data.Aeson..=) "pathTransfer" (getTransfersTransferReversalsIdParametersPathTransfer obj) : (Data.Aeson..=) "queryExpand" (getTransfersTransferReversalsIdParametersQueryExpand obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "pathId" (getTransfersTransferReversalsIdParametersPathId obj) GHC.Base.<> ((Data.Aeson..=) "pathTransfer" (getTransfersTransferReversalsIdParametersPathTransfer obj) GHC.Base.<> (Data.Aeson..=) "queryExpand" (getTransfersTransferReversalsIdParametersQueryExpand obj)))
+  toJSON obj = Data.Aeson.Types.Internal.object ("pathId" Data.Aeson.Types.ToJSON..= getTransfersTransferReversalsIdParametersPathId obj : "pathTransfer" Data.Aeson.Types.ToJSON..= getTransfersTransferReversalsIdParametersPathTransfer obj : "queryExpand" Data.Aeson.Types.ToJSON..= getTransfersTransferReversalsIdParametersQueryExpand obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("pathId" Data.Aeson.Types.ToJSON..= getTransfersTransferReversalsIdParametersPathId obj) GHC.Base.<> (("pathTransfer" Data.Aeson.Types.ToJSON..= getTransfersTransferReversalsIdParametersPathTransfer obj) GHC.Base.<> ("queryExpand" Data.Aeson.Types.ToJSON..= getTransfersTransferReversalsIdParametersQueryExpand obj)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetTransfersTransferReversalsIdParameters where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "GetTransfersTransferReversalsIdParameters" (\obj -> ((GHC.Base.pure GetTransfersTransferReversalsIdParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathId")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathTransfer")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryExpand"))
+
+-- | Create a new 'GetTransfersTransferReversalsIdParameters' with all required fields.
+mkGetTransfersTransferReversalsIdParameters ::
+  -- | 'getTransfersTransferReversalsIdParametersPathId'
+  Data.Text.Internal.Text ->
+  -- | 'getTransfersTransferReversalsIdParametersPathTransfer'
+  Data.Text.Internal.Text ->
+  GetTransfersTransferReversalsIdParameters
+mkGetTransfersTransferReversalsIdParameters getTransfersTransferReversalsIdParametersPathId getTransfersTransferReversalsIdParametersPathTransfer =
+  GetTransfersTransferReversalsIdParameters
+    { getTransfersTransferReversalsIdParametersPathId = getTransfersTransferReversalsIdParametersPathId,
+      getTransfersTransferReversalsIdParametersPathTransfer = getTransfersTransferReversalsIdParametersPathTransfer,
+      getTransfersTransferReversalsIdParametersQueryExpand = GHC.Maybe.Nothing
+    }
 
 -- | Represents a response of the operation 'getTransfersTransferReversalsId'.
 --

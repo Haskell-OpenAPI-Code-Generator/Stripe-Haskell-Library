@@ -8,6 +8,7 @@ module StripeAPI.Types.ExchangeRate where
 
 import qualified Control.Monad.Fail
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -30,7 +31,7 @@ import StripeAPI.TypeAlias
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
--- | Defines the data type for the schema exchange_rate
+-- | Defines the object schema located at @components.schemas.exchange_rate@ in the specification.
 --
 -- \`Exchange Rate\` objects allow you to determine the rates that Stripe is
 -- currently using to convert from one currency to another. Since this number is
@@ -51,8 +52,6 @@ data ExchangeRate
         --
         -- * Maximum length of 5000
         exchangeRateId :: Data.Text.Internal.Text,
-        -- | object: String representing the object\'s type. Objects of the same type share the same value.
-        exchangeRateObject :: ExchangeRateObject',
         -- | rates: Hash where the keys are supported currencies and the values are the exchange rate at which the base id currency converts to the key currency.
         exchangeRateRates :: Data.Aeson.Types.Internal.Object
       }
@@ -62,29 +61,21 @@ data ExchangeRate
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON ExchangeRate where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "id" (exchangeRateId obj) : (Data.Aeson..=) "object" (exchangeRateObject obj) : (Data.Aeson..=) "rates" (exchangeRateRates obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "id" (exchangeRateId obj) GHC.Base.<> ((Data.Aeson..=) "object" (exchangeRateObject obj) GHC.Base.<> (Data.Aeson..=) "rates" (exchangeRateRates obj)))
+  toJSON obj = Data.Aeson.Types.Internal.object ("id" Data.Aeson.Types.ToJSON..= exchangeRateId obj : "rates" Data.Aeson.Types.ToJSON..= exchangeRateRates obj : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "exchange_rate" : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("id" Data.Aeson.Types.ToJSON..= exchangeRateId obj) GHC.Base.<> (("rates" Data.Aeson.Types.ToJSON..= exchangeRateRates obj) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "exchange_rate")))
 
 instance Data.Aeson.Types.FromJSON.FromJSON ExchangeRate where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "ExchangeRate" (\obj -> ((GHC.Base.pure ExchangeRate GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "object")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "rates"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "ExchangeRate" (\obj -> (GHC.Base.pure ExchangeRate GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "rates"))
 
--- | Defines the enum schema exchange_rateObject\'
---
--- String representing the object\'s type. Objects of the same type share the same value.
-data ExchangeRateObject'
-  = ExchangeRateObject'EnumOther Data.Aeson.Types.Internal.Value
-  | ExchangeRateObject'EnumTyped Data.Text.Internal.Text
-  | ExchangeRateObject'EnumStringExchangeRate
-  deriving (GHC.Show.Show, GHC.Classes.Eq)
-
-instance Data.Aeson.Types.ToJSON.ToJSON ExchangeRateObject' where
-  toJSON (ExchangeRateObject'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (ExchangeRateObject'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (ExchangeRateObject'EnumStringExchangeRate) = "exchange_rate"
-
-instance Data.Aeson.Types.FromJSON.FromJSON ExchangeRateObject' where
-  parseJSON val =
-    GHC.Base.pure
-      ( if  | val GHC.Classes.== "exchange_rate" -> ExchangeRateObject'EnumStringExchangeRate
-            | GHC.Base.otherwise -> ExchangeRateObject'EnumOther val
-      )
+-- | Create a new 'ExchangeRate' with all required fields.
+mkExchangeRate ::
+  -- | 'exchangeRateId'
+  Data.Text.Internal.Text ->
+  -- | 'exchangeRateRates'
+  Data.Aeson.Types.Internal.Object ->
+  ExchangeRate
+mkExchangeRate exchangeRateId exchangeRateRates =
+  ExchangeRate
+    { exchangeRateId = exchangeRateId,
+      exchangeRateRates = exchangeRateRates
+    }

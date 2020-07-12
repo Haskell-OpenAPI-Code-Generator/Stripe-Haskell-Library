@@ -10,6 +10,7 @@ module StripeAPI.Operations.GetAccountsAccountCapabilitiesCapability where
 import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -77,7 +78,7 @@ getAccountsAccountCapabilitiesCapability parameters =
     )
     (StripeAPI.Common.doCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET") (Data.Text.pack ("/v1/accounts/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel (getAccountsAccountCapabilitiesCapabilityParametersPathAccount parameters))) GHC.Base.++ ("/capabilities/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel (getAccountsAccountCapabilitiesCapabilityParametersPathCapability parameters))) GHC.Base.++ ""))))) [StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getAccountsAccountCapabilitiesCapabilityParametersQueryExpand parameters) (Data.Text.pack "deepObject") GHC.Types.True])
 
--- | Defines the data type for the schema getAccountsAccountCapabilitiesCapabilityParameters
+-- | Defines the object schema located at @paths.\/v1\/accounts\/{account}\/capabilities\/{capability}.GET.parameters@ in the specification.
 data GetAccountsAccountCapabilitiesCapabilityParameters
   = GetAccountsAccountCapabilitiesCapabilityParameters
       { -- | pathAccount: Represents the parameter named \'account\'
@@ -99,11 +100,25 @@ data GetAccountsAccountCapabilitiesCapabilityParameters
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetAccountsAccountCapabilitiesCapabilityParameters where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "pathAccount" (getAccountsAccountCapabilitiesCapabilityParametersPathAccount obj) : (Data.Aeson..=) "pathCapability" (getAccountsAccountCapabilitiesCapabilityParametersPathCapability obj) : (Data.Aeson..=) "queryExpand" (getAccountsAccountCapabilitiesCapabilityParametersQueryExpand obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "pathAccount" (getAccountsAccountCapabilitiesCapabilityParametersPathAccount obj) GHC.Base.<> ((Data.Aeson..=) "pathCapability" (getAccountsAccountCapabilitiesCapabilityParametersPathCapability obj) GHC.Base.<> (Data.Aeson..=) "queryExpand" (getAccountsAccountCapabilitiesCapabilityParametersQueryExpand obj)))
+  toJSON obj = Data.Aeson.Types.Internal.object ("pathAccount" Data.Aeson.Types.ToJSON..= getAccountsAccountCapabilitiesCapabilityParametersPathAccount obj : "pathCapability" Data.Aeson.Types.ToJSON..= getAccountsAccountCapabilitiesCapabilityParametersPathCapability obj : "queryExpand" Data.Aeson.Types.ToJSON..= getAccountsAccountCapabilitiesCapabilityParametersQueryExpand obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("pathAccount" Data.Aeson.Types.ToJSON..= getAccountsAccountCapabilitiesCapabilityParametersPathAccount obj) GHC.Base.<> (("pathCapability" Data.Aeson.Types.ToJSON..= getAccountsAccountCapabilitiesCapabilityParametersPathCapability obj) GHC.Base.<> ("queryExpand" Data.Aeson.Types.ToJSON..= getAccountsAccountCapabilitiesCapabilityParametersQueryExpand obj)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetAccountsAccountCapabilitiesCapabilityParameters where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "GetAccountsAccountCapabilitiesCapabilityParameters" (\obj -> ((GHC.Base.pure GetAccountsAccountCapabilitiesCapabilityParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathAccount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathCapability")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryExpand"))
+
+-- | Create a new 'GetAccountsAccountCapabilitiesCapabilityParameters' with all required fields.
+mkGetAccountsAccountCapabilitiesCapabilityParameters ::
+  -- | 'getAccountsAccountCapabilitiesCapabilityParametersPathAccount'
+  Data.Text.Internal.Text ->
+  -- | 'getAccountsAccountCapabilitiesCapabilityParametersPathCapability'
+  Data.Text.Internal.Text ->
+  GetAccountsAccountCapabilitiesCapabilityParameters
+mkGetAccountsAccountCapabilitiesCapabilityParameters getAccountsAccountCapabilitiesCapabilityParametersPathAccount getAccountsAccountCapabilitiesCapabilityParametersPathCapability =
+  GetAccountsAccountCapabilitiesCapabilityParameters
+    { getAccountsAccountCapabilitiesCapabilityParametersPathAccount = getAccountsAccountCapabilitiesCapabilityParametersPathAccount,
+      getAccountsAccountCapabilitiesCapabilityParametersPathCapability = getAccountsAccountCapabilitiesCapabilityParametersPathCapability,
+      getAccountsAccountCapabilitiesCapabilityParametersQueryExpand = GHC.Maybe.Nothing
+    }
 
 -- | Represents a response of the operation 'getAccountsAccountCapabilitiesCapability'.
 --

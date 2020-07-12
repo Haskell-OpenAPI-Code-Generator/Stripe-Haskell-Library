@@ -1,11 +1,11 @@
 module StripeAPI.Types.CustomerBalanceTransaction where
 import Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Types.Internal
-data CustomerBalanceTransaction 
-instance Show CustomerBalanceTransaction 
-instance Eq CustomerBalanceTransaction 
-instance FromJSON CustomerBalanceTransaction 
-instance ToJSON CustomerBalanceTransaction 
+data CustomerBalanceTransaction
+instance Show CustomerBalanceTransaction
+instance Eq CustomerBalanceTransaction
+instance FromJSON CustomerBalanceTransaction
+instance ToJSON CustomerBalanceTransaction
 data CustomerBalanceTransactionCreditNote'Variants
 instance Show CustomerBalanceTransactionCreditNote'Variants
 instance Eq CustomerBalanceTransactionCreditNote'Variants
@@ -21,11 +21,6 @@ instance Show CustomerBalanceTransactionInvoice'Variants
 instance Eq CustomerBalanceTransactionInvoice'Variants
 instance FromJSON CustomerBalanceTransactionInvoice'Variants
 instance ToJSON CustomerBalanceTransactionInvoice'Variants
-data CustomerBalanceTransactionObject'
-instance Show CustomerBalanceTransactionObject'
-instance Eq CustomerBalanceTransactionObject'
-instance FromJSON CustomerBalanceTransactionObject'
-instance ToJSON CustomerBalanceTransactionObject'
 data CustomerBalanceTransactionType'
 instance Show CustomerBalanceTransactionType'
 instance Eq CustomerBalanceTransactionType'

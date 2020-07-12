@@ -8,6 +8,7 @@ module StripeAPI.Types.Issuing_Settlement where
 
 import qualified Control.Monad.Fail
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -30,7 +31,7 @@ import StripeAPI.TypeAlias
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
--- | Defines the data type for the schema issuing.settlement
+-- | Defines the object schema located at @components.schemas.issuing.settlement@ in the specification.
 --
 -- When a non-stripe BIN is used, any use of an [issued card](https:\/\/stripe.com\/docs\/issuing) must be settled directly with the card network. The net amount owed is represented by an Issuing \`Settlement\` object.
 data Issuing'settlement
@@ -61,8 +62,6 @@ data Issuing'settlement
         issuing'settlementMetadata :: Data.Aeson.Types.Internal.Object,
         -- | net_total: The total net amount required to settle with the network.
         issuing'settlementNetTotal :: GHC.Types.Int,
-        -- | network: The card network for this settlement report. One of [\"visa\"]
-        issuing'settlementNetwork :: Issuing'settlementNetwork',
         -- | network_fees: The total amount of fees owed to the network.
         issuing'settlementNetworkFees :: GHC.Types.Int,
         -- | network_settlement_identifier: The Settlement Identification Number assigned by the network.
@@ -71,8 +70,6 @@ data Issuing'settlement
         --
         -- * Maximum length of 5000
         issuing'settlementNetworkSettlementIdentifier :: Data.Text.Internal.Text,
-        -- | object: String representing the object\'s type. Objects of the same type share the same value.
-        issuing'settlementObject :: Issuing'settlementObject',
         -- | settlement_service: One of \`international\` or \`uk_national_net\`.
         --
         -- Constraints:
@@ -90,50 +87,57 @@ data Issuing'settlement
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON Issuing'settlement where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "bin" (issuing'settlementBin obj) : (Data.Aeson..=) "clearing_date" (issuing'settlementClearingDate obj) : (Data.Aeson..=) "created" (issuing'settlementCreated obj) : (Data.Aeson..=) "currency" (issuing'settlementCurrency obj) : (Data.Aeson..=) "id" (issuing'settlementId obj) : (Data.Aeson..=) "interchange_fees" (issuing'settlementInterchangeFees obj) : (Data.Aeson..=) "livemode" (issuing'settlementLivemode obj) : (Data.Aeson..=) "metadata" (issuing'settlementMetadata obj) : (Data.Aeson..=) "net_total" (issuing'settlementNetTotal obj) : (Data.Aeson..=) "network" (issuing'settlementNetwork obj) : (Data.Aeson..=) "network_fees" (issuing'settlementNetworkFees obj) : (Data.Aeson..=) "network_settlement_identifier" (issuing'settlementNetworkSettlementIdentifier obj) : (Data.Aeson..=) "object" (issuing'settlementObject obj) : (Data.Aeson..=) "settlement_service" (issuing'settlementSettlementService obj) : (Data.Aeson..=) "transaction_count" (issuing'settlementTransactionCount obj) : (Data.Aeson..=) "transaction_volume" (issuing'settlementTransactionVolume obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "bin" (issuing'settlementBin obj) GHC.Base.<> ((Data.Aeson..=) "clearing_date" (issuing'settlementClearingDate obj) GHC.Base.<> ((Data.Aeson..=) "created" (issuing'settlementCreated obj) GHC.Base.<> ((Data.Aeson..=) "currency" (issuing'settlementCurrency obj) GHC.Base.<> ((Data.Aeson..=) "id" (issuing'settlementId obj) GHC.Base.<> ((Data.Aeson..=) "interchange_fees" (issuing'settlementInterchangeFees obj) GHC.Base.<> ((Data.Aeson..=) "livemode" (issuing'settlementLivemode obj) GHC.Base.<> ((Data.Aeson..=) "metadata" (issuing'settlementMetadata obj) GHC.Base.<> ((Data.Aeson..=) "net_total" (issuing'settlementNetTotal obj) GHC.Base.<> ((Data.Aeson..=) "network" (issuing'settlementNetwork obj) GHC.Base.<> ((Data.Aeson..=) "network_fees" (issuing'settlementNetworkFees obj) GHC.Base.<> ((Data.Aeson..=) "network_settlement_identifier" (issuing'settlementNetworkSettlementIdentifier obj) GHC.Base.<> ((Data.Aeson..=) "object" (issuing'settlementObject obj) GHC.Base.<> ((Data.Aeson..=) "settlement_service" (issuing'settlementSettlementService obj) GHC.Base.<> ((Data.Aeson..=) "transaction_count" (issuing'settlementTransactionCount obj) GHC.Base.<> (Data.Aeson..=) "transaction_volume" (issuing'settlementTransactionVolume obj))))))))))))))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("bin" Data.Aeson.Types.ToJSON..= issuing'settlementBin obj : "clearing_date" Data.Aeson.Types.ToJSON..= issuing'settlementClearingDate obj : "created" Data.Aeson.Types.ToJSON..= issuing'settlementCreated obj : "currency" Data.Aeson.Types.ToJSON..= issuing'settlementCurrency obj : "id" Data.Aeson.Types.ToJSON..= issuing'settlementId obj : "interchange_fees" Data.Aeson.Types.ToJSON..= issuing'settlementInterchangeFees obj : "livemode" Data.Aeson.Types.ToJSON..= issuing'settlementLivemode obj : "metadata" Data.Aeson.Types.ToJSON..= issuing'settlementMetadata obj : "net_total" Data.Aeson.Types.ToJSON..= issuing'settlementNetTotal obj : "network_fees" Data.Aeson.Types.ToJSON..= issuing'settlementNetworkFees obj : "network_settlement_identifier" Data.Aeson.Types.ToJSON..= issuing'settlementNetworkSettlementIdentifier obj : "settlement_service" Data.Aeson.Types.ToJSON..= issuing'settlementSettlementService obj : "transaction_count" Data.Aeson.Types.ToJSON..= issuing'settlementTransactionCount obj : "transaction_volume" Data.Aeson.Types.ToJSON..= issuing'settlementTransactionVolume obj : "network" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "visa" : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "issuing.settlement" : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("bin" Data.Aeson.Types.ToJSON..= issuing'settlementBin obj) GHC.Base.<> (("clearing_date" Data.Aeson.Types.ToJSON..= issuing'settlementClearingDate obj) GHC.Base.<> (("created" Data.Aeson.Types.ToJSON..= issuing'settlementCreated obj) GHC.Base.<> (("currency" Data.Aeson.Types.ToJSON..= issuing'settlementCurrency obj) GHC.Base.<> (("id" Data.Aeson.Types.ToJSON..= issuing'settlementId obj) GHC.Base.<> (("interchange_fees" Data.Aeson.Types.ToJSON..= issuing'settlementInterchangeFees obj) GHC.Base.<> (("livemode" Data.Aeson.Types.ToJSON..= issuing'settlementLivemode obj) GHC.Base.<> (("metadata" Data.Aeson.Types.ToJSON..= issuing'settlementMetadata obj) GHC.Base.<> (("net_total" Data.Aeson.Types.ToJSON..= issuing'settlementNetTotal obj) GHC.Base.<> (("network_fees" Data.Aeson.Types.ToJSON..= issuing'settlementNetworkFees obj) GHC.Base.<> (("network_settlement_identifier" Data.Aeson.Types.ToJSON..= issuing'settlementNetworkSettlementIdentifier obj) GHC.Base.<> (("settlement_service" Data.Aeson.Types.ToJSON..= issuing'settlementSettlementService obj) GHC.Base.<> (("transaction_count" Data.Aeson.Types.ToJSON..= issuing'settlementTransactionCount obj) GHC.Base.<> (("transaction_volume" Data.Aeson.Types.ToJSON..= issuing'settlementTransactionVolume obj) GHC.Base.<> (("network" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "visa") GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "issuing.settlement"))))))))))))))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON Issuing'settlement where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "Issuing'settlement" (\obj -> (((((((((((((((GHC.Base.pure Issuing'settlement GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "bin")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "clearing_date")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "created")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "interchange_fees")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "livemode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "net_total")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "network")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "network_fees")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "network_settlement_identifier")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "object")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "settlement_service")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "transaction_count")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "transaction_volume"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "Issuing'settlement" (\obj -> (((((((((((((GHC.Base.pure Issuing'settlement GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "bin")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "clearing_date")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "created")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "interchange_fees")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "livemode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "net_total")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "network_fees")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "network_settlement_identifier")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "settlement_service")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "transaction_count")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "transaction_volume"))
 
--- | Defines the enum schema issuing.settlementNetwork\'
---
--- The card network for this settlement report. One of [\"visa\"]
-data Issuing'settlementNetwork'
-  = Issuing'settlementNetwork'EnumOther Data.Aeson.Types.Internal.Value
-  | Issuing'settlementNetwork'EnumTyped Data.Text.Internal.Text
-  | Issuing'settlementNetwork'EnumStringVisa
-  deriving (GHC.Show.Show, GHC.Classes.Eq)
-
-instance Data.Aeson.Types.ToJSON.ToJSON Issuing'settlementNetwork' where
-  toJSON (Issuing'settlementNetwork'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (Issuing'settlementNetwork'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (Issuing'settlementNetwork'EnumStringVisa) = "visa"
-
-instance Data.Aeson.Types.FromJSON.FromJSON Issuing'settlementNetwork' where
-  parseJSON val =
-    GHC.Base.pure
-      ( if  | val GHC.Classes.== "visa" -> Issuing'settlementNetwork'EnumStringVisa
-            | GHC.Base.otherwise -> Issuing'settlementNetwork'EnumOther val
-      )
-
--- | Defines the enum schema issuing.settlementObject\'
---
--- String representing the object\'s type. Objects of the same type share the same value.
-data Issuing'settlementObject'
-  = Issuing'settlementObject'EnumOther Data.Aeson.Types.Internal.Value
-  | Issuing'settlementObject'EnumTyped Data.Text.Internal.Text
-  | Issuing'settlementObject'EnumStringIssuing'settlement
-  deriving (GHC.Show.Show, GHC.Classes.Eq)
-
-instance Data.Aeson.Types.ToJSON.ToJSON Issuing'settlementObject' where
-  toJSON (Issuing'settlementObject'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (Issuing'settlementObject'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (Issuing'settlementObject'EnumStringIssuing'settlement) = "issuing.settlement"
-
-instance Data.Aeson.Types.FromJSON.FromJSON Issuing'settlementObject' where
-  parseJSON val =
-    GHC.Base.pure
-      ( if  | val GHC.Classes.== "issuing.settlement" -> Issuing'settlementObject'EnumStringIssuing'settlement
-            | GHC.Base.otherwise -> Issuing'settlementObject'EnumOther val
-      )
+-- | Create a new 'Issuing'settlement' with all required fields.
+mkIssuing'settlement ::
+  -- | 'issuing'settlementBin'
+  Data.Text.Internal.Text ->
+  -- | 'issuing'settlementClearingDate'
+  GHC.Types.Int ->
+  -- | 'issuing'settlementCreated'
+  GHC.Types.Int ->
+  -- | 'issuing'settlementCurrency'
+  Data.Text.Internal.Text ->
+  -- | 'issuing'settlementId'
+  Data.Text.Internal.Text ->
+  -- | 'issuing'settlementInterchangeFees'
+  GHC.Types.Int ->
+  -- | 'issuing'settlementLivemode'
+  GHC.Types.Bool ->
+  -- | 'issuing'settlementMetadata'
+  Data.Aeson.Types.Internal.Object ->
+  -- | 'issuing'settlementNetTotal'
+  GHC.Types.Int ->
+  -- | 'issuing'settlementNetworkFees'
+  GHC.Types.Int ->
+  -- | 'issuing'settlementNetworkSettlementIdentifier'
+  Data.Text.Internal.Text ->
+  -- | 'issuing'settlementSettlementService'
+  Data.Text.Internal.Text ->
+  -- | 'issuing'settlementTransactionCount'
+  GHC.Types.Int ->
+  -- | 'issuing'settlementTransactionVolume'
+  GHC.Types.Int ->
+  Issuing'settlement
+mkIssuing'settlement issuing'settlementBin issuing'settlementClearingDate issuing'settlementCreated issuing'settlementCurrency issuing'settlementId issuing'settlementInterchangeFees issuing'settlementLivemode issuing'settlementMetadata issuing'settlementNetTotal issuing'settlementNetworkFees issuing'settlementNetworkSettlementIdentifier issuing'settlementSettlementService issuing'settlementTransactionCount issuing'settlementTransactionVolume =
+  Issuing'settlement
+    { issuing'settlementBin = issuing'settlementBin,
+      issuing'settlementClearingDate = issuing'settlementClearingDate,
+      issuing'settlementCreated = issuing'settlementCreated,
+      issuing'settlementCurrency = issuing'settlementCurrency,
+      issuing'settlementId = issuing'settlementId,
+      issuing'settlementInterchangeFees = issuing'settlementInterchangeFees,
+      issuing'settlementLivemode = issuing'settlementLivemode,
+      issuing'settlementMetadata = issuing'settlementMetadata,
+      issuing'settlementNetTotal = issuing'settlementNetTotal,
+      issuing'settlementNetworkFees = issuing'settlementNetworkFees,
+      issuing'settlementNetworkSettlementIdentifier = issuing'settlementNetworkSettlementIdentifier,
+      issuing'settlementSettlementService = issuing'settlementSettlementService,
+      issuing'settlementTransactionCount = issuing'settlementTransactionCount,
+      issuing'settlementTransactionVolume = issuing'settlementTransactionVolume
+    }

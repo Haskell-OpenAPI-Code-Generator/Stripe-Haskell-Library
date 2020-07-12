@@ -10,6 +10,7 @@ module StripeAPI.Operations.PostTerminalLocations where
 import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -77,7 +78,7 @@ postTerminalLocations body =
     )
     (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack "/v1/terminal/locations") [] (GHC.Maybe.Just body) StripeAPI.Common.RequestBodyEncodingFormData)
 
--- | Defines the data type for the schema postTerminalLocationsRequestBody
+-- | Defines the object schema located at @paths.\/v1\/terminal\/locations.POST.requestBody.content.application\/x-www-form-urlencoded.schema@ in the specification.
 data PostTerminalLocationsRequestBody
   = PostTerminalLocationsRequestBody
       { -- | address: The full address of the location.
@@ -99,13 +100,28 @@ data PostTerminalLocationsRequestBody
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostTerminalLocationsRequestBody where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "address" (postTerminalLocationsRequestBodyAddress obj) : (Data.Aeson..=) "display_name" (postTerminalLocationsRequestBodyDisplayName obj) : (Data.Aeson..=) "expand" (postTerminalLocationsRequestBodyExpand obj) : (Data.Aeson..=) "metadata" (postTerminalLocationsRequestBodyMetadata obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "address" (postTerminalLocationsRequestBodyAddress obj) GHC.Base.<> ((Data.Aeson..=) "display_name" (postTerminalLocationsRequestBodyDisplayName obj) GHC.Base.<> ((Data.Aeson..=) "expand" (postTerminalLocationsRequestBodyExpand obj) GHC.Base.<> (Data.Aeson..=) "metadata" (postTerminalLocationsRequestBodyMetadata obj))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("address" Data.Aeson.Types.ToJSON..= postTerminalLocationsRequestBodyAddress obj : "display_name" Data.Aeson.Types.ToJSON..= postTerminalLocationsRequestBodyDisplayName obj : "expand" Data.Aeson.Types.ToJSON..= postTerminalLocationsRequestBodyExpand obj : "metadata" Data.Aeson.Types.ToJSON..= postTerminalLocationsRequestBodyMetadata obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("address" Data.Aeson.Types.ToJSON..= postTerminalLocationsRequestBodyAddress obj) GHC.Base.<> (("display_name" Data.Aeson.Types.ToJSON..= postTerminalLocationsRequestBodyDisplayName obj) GHC.Base.<> (("expand" Data.Aeson.Types.ToJSON..= postTerminalLocationsRequestBodyExpand obj) GHC.Base.<> ("metadata" Data.Aeson.Types.ToJSON..= postTerminalLocationsRequestBodyMetadata obj))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostTerminalLocationsRequestBody where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PostTerminalLocationsRequestBody" (\obj -> (((GHC.Base.pure PostTerminalLocationsRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "address")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "display_name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "metadata"))
 
--- | Defines the data type for the schema postTerminalLocationsRequestBodyAddress\'
+-- | Create a new 'PostTerminalLocationsRequestBody' with all required fields.
+mkPostTerminalLocationsRequestBody ::
+  -- | 'postTerminalLocationsRequestBodyAddress'
+  PostTerminalLocationsRequestBodyAddress' ->
+  -- | 'postTerminalLocationsRequestBodyDisplayName'
+  Data.Text.Internal.Text ->
+  PostTerminalLocationsRequestBody
+mkPostTerminalLocationsRequestBody postTerminalLocationsRequestBodyAddress postTerminalLocationsRequestBodyDisplayName =
+  PostTerminalLocationsRequestBody
+    { postTerminalLocationsRequestBodyAddress = postTerminalLocationsRequestBodyAddress,
+      postTerminalLocationsRequestBodyDisplayName = postTerminalLocationsRequestBodyDisplayName,
+      postTerminalLocationsRequestBodyExpand = GHC.Maybe.Nothing,
+      postTerminalLocationsRequestBodyMetadata = GHC.Maybe.Nothing
+    }
+
+-- | Defines the object schema located at @paths.\/v1\/terminal\/locations.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.address@ in the specification.
 --
 -- The full address of the location.
 data PostTerminalLocationsRequestBodyAddress'
@@ -153,11 +169,26 @@ data PostTerminalLocationsRequestBodyAddress'
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostTerminalLocationsRequestBodyAddress' where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "city" (postTerminalLocationsRequestBodyAddress'City obj) : (Data.Aeson..=) "country" (postTerminalLocationsRequestBodyAddress'Country obj) : (Data.Aeson..=) "line1" (postTerminalLocationsRequestBodyAddress'Line1 obj) : (Data.Aeson..=) "line2" (postTerminalLocationsRequestBodyAddress'Line2 obj) : (Data.Aeson..=) "postal_code" (postTerminalLocationsRequestBodyAddress'PostalCode obj) : (Data.Aeson..=) "state" (postTerminalLocationsRequestBodyAddress'State obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "city" (postTerminalLocationsRequestBodyAddress'City obj) GHC.Base.<> ((Data.Aeson..=) "country" (postTerminalLocationsRequestBodyAddress'Country obj) GHC.Base.<> ((Data.Aeson..=) "line1" (postTerminalLocationsRequestBodyAddress'Line1 obj) GHC.Base.<> ((Data.Aeson..=) "line2" (postTerminalLocationsRequestBodyAddress'Line2 obj) GHC.Base.<> ((Data.Aeson..=) "postal_code" (postTerminalLocationsRequestBodyAddress'PostalCode obj) GHC.Base.<> (Data.Aeson..=) "state" (postTerminalLocationsRequestBodyAddress'State obj))))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("city" Data.Aeson.Types.ToJSON..= postTerminalLocationsRequestBodyAddress'City obj : "country" Data.Aeson.Types.ToJSON..= postTerminalLocationsRequestBodyAddress'Country obj : "line1" Data.Aeson.Types.ToJSON..= postTerminalLocationsRequestBodyAddress'Line1 obj : "line2" Data.Aeson.Types.ToJSON..= postTerminalLocationsRequestBodyAddress'Line2 obj : "postal_code" Data.Aeson.Types.ToJSON..= postTerminalLocationsRequestBodyAddress'PostalCode obj : "state" Data.Aeson.Types.ToJSON..= postTerminalLocationsRequestBodyAddress'State obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("city" Data.Aeson.Types.ToJSON..= postTerminalLocationsRequestBodyAddress'City obj) GHC.Base.<> (("country" Data.Aeson.Types.ToJSON..= postTerminalLocationsRequestBodyAddress'Country obj) GHC.Base.<> (("line1" Data.Aeson.Types.ToJSON..= postTerminalLocationsRequestBodyAddress'Line1 obj) GHC.Base.<> (("line2" Data.Aeson.Types.ToJSON..= postTerminalLocationsRequestBodyAddress'Line2 obj) GHC.Base.<> (("postal_code" Data.Aeson.Types.ToJSON..= postTerminalLocationsRequestBodyAddress'PostalCode obj) GHC.Base.<> ("state" Data.Aeson.Types.ToJSON..= postTerminalLocationsRequestBodyAddress'State obj))))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostTerminalLocationsRequestBodyAddress' where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PostTerminalLocationsRequestBodyAddress'" (\obj -> (((((GHC.Base.pure PostTerminalLocationsRequestBodyAddress' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "city")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "country")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "line1")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "line2")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "postal_code")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "state"))
+
+-- | Create a new 'PostTerminalLocationsRequestBodyAddress'' with all required fields.
+mkPostTerminalLocationsRequestBodyAddress' ::
+  -- | 'postTerminalLocationsRequestBodyAddress'Country'
+  Data.Text.Internal.Text ->
+  PostTerminalLocationsRequestBodyAddress'
+mkPostTerminalLocationsRequestBodyAddress' postTerminalLocationsRequestBodyAddress'Country =
+  PostTerminalLocationsRequestBodyAddress'
+    { postTerminalLocationsRequestBodyAddress'City = GHC.Maybe.Nothing,
+      postTerminalLocationsRequestBodyAddress'Country = postTerminalLocationsRequestBodyAddress'Country,
+      postTerminalLocationsRequestBodyAddress'Line1 = GHC.Maybe.Nothing,
+      postTerminalLocationsRequestBodyAddress'Line2 = GHC.Maybe.Nothing,
+      postTerminalLocationsRequestBodyAddress'PostalCode = GHC.Maybe.Nothing,
+      postTerminalLocationsRequestBodyAddress'State = GHC.Maybe.Nothing
+    }
 
 -- | Represents a response of the operation 'postTerminalLocations'.
 --

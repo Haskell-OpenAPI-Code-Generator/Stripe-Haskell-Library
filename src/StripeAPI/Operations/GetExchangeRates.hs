@@ -10,6 +10,7 @@ module StripeAPI.Operations.GetExchangeRates where
 import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -85,7 +86,7 @@ getExchangeRates parameters =
         ]
     )
 
--- | Defines the data type for the schema getExchangeRatesParameters
+-- | Defines the object schema located at @paths.\/v1\/exchange_rates.GET.parameters@ in the specification.
 data GetExchangeRatesParameters
   = GetExchangeRatesParameters
       { -- | queryEnding_before: Represents the parameter named \'ending_before\'
@@ -119,11 +120,21 @@ data GetExchangeRatesParameters
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetExchangeRatesParameters where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "queryEnding_before" (getExchangeRatesParametersQueryEndingBefore obj) : (Data.Aeson..=) "queryExpand" (getExchangeRatesParametersQueryExpand obj) : (Data.Aeson..=) "queryLimit" (getExchangeRatesParametersQueryLimit obj) : (Data.Aeson..=) "queryStarting_after" (getExchangeRatesParametersQueryStartingAfter obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "queryEnding_before" (getExchangeRatesParametersQueryEndingBefore obj) GHC.Base.<> ((Data.Aeson..=) "queryExpand" (getExchangeRatesParametersQueryExpand obj) GHC.Base.<> ((Data.Aeson..=) "queryLimit" (getExchangeRatesParametersQueryLimit obj) GHC.Base.<> (Data.Aeson..=) "queryStarting_after" (getExchangeRatesParametersQueryStartingAfter obj))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("queryEnding_before" Data.Aeson.Types.ToJSON..= getExchangeRatesParametersQueryEndingBefore obj : "queryExpand" Data.Aeson.Types.ToJSON..= getExchangeRatesParametersQueryExpand obj : "queryLimit" Data.Aeson.Types.ToJSON..= getExchangeRatesParametersQueryLimit obj : "queryStarting_after" Data.Aeson.Types.ToJSON..= getExchangeRatesParametersQueryStartingAfter obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("queryEnding_before" Data.Aeson.Types.ToJSON..= getExchangeRatesParametersQueryEndingBefore obj) GHC.Base.<> (("queryExpand" Data.Aeson.Types.ToJSON..= getExchangeRatesParametersQueryExpand obj) GHC.Base.<> (("queryLimit" Data.Aeson.Types.ToJSON..= getExchangeRatesParametersQueryLimit obj) GHC.Base.<> ("queryStarting_after" Data.Aeson.Types.ToJSON..= getExchangeRatesParametersQueryStartingAfter obj))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetExchangeRatesParameters where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "GetExchangeRatesParameters" (\obj -> (((GHC.Base.pure GetExchangeRatesParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryEnding_before")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryExpand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryLimit")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryStarting_after"))
+
+-- | Create a new 'GetExchangeRatesParameters' with all required fields.
+mkGetExchangeRatesParameters :: GetExchangeRatesParameters
+mkGetExchangeRatesParameters =
+  GetExchangeRatesParameters
+    { getExchangeRatesParametersQueryEndingBefore = GHC.Maybe.Nothing,
+      getExchangeRatesParametersQueryExpand = GHC.Maybe.Nothing,
+      getExchangeRatesParametersQueryLimit = GHC.Maybe.Nothing,
+      getExchangeRatesParametersQueryStartingAfter = GHC.Maybe.Nothing
+    }
 
 -- | Represents a response of the operation 'getExchangeRates'.
 --
@@ -137,15 +148,13 @@ data GetExchangeRatesResponse
     GetExchangeRatesResponseDefault Error
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
--- | Defines the data type for the schema GetExchangeRatesResponseBody200
+-- | Defines the object schema located at @paths.\/v1\/exchange_rates.GET.responses.200.content.application\/json.schema@ in the specification.
 data GetExchangeRatesResponseBody200
   = GetExchangeRatesResponseBody200
       { -- | data
         getExchangeRatesResponseBody200Data :: ([ExchangeRate]),
         -- | has_more: True if this list has another page of items after this one that can be fetched.
         getExchangeRatesResponseBody200HasMore :: GHC.Types.Bool,
-        -- | object: String representing the object\'s type. Objects of the same type share the same value. Always has the value \`list\`.
-        getExchangeRatesResponseBody200Object :: GetExchangeRatesResponseBody200Object',
         -- | url: The URL where this list can be accessed.
         --
         -- Constraints:
@@ -160,29 +169,24 @@ data GetExchangeRatesResponseBody200
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetExchangeRatesResponseBody200 where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "data" (getExchangeRatesResponseBody200Data obj) : (Data.Aeson..=) "has_more" (getExchangeRatesResponseBody200HasMore obj) : (Data.Aeson..=) "object" (getExchangeRatesResponseBody200Object obj) : (Data.Aeson..=) "url" (getExchangeRatesResponseBody200Url obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "data" (getExchangeRatesResponseBody200Data obj) GHC.Base.<> ((Data.Aeson..=) "has_more" (getExchangeRatesResponseBody200HasMore obj) GHC.Base.<> ((Data.Aeson..=) "object" (getExchangeRatesResponseBody200Object obj) GHC.Base.<> (Data.Aeson..=) "url" (getExchangeRatesResponseBody200Url obj))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("data" Data.Aeson.Types.ToJSON..= getExchangeRatesResponseBody200Data obj : "has_more" Data.Aeson.Types.ToJSON..= getExchangeRatesResponseBody200HasMore obj : "url" Data.Aeson.Types.ToJSON..= getExchangeRatesResponseBody200Url obj : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "list" : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("data" Data.Aeson.Types.ToJSON..= getExchangeRatesResponseBody200Data obj) GHC.Base.<> (("has_more" Data.Aeson.Types.ToJSON..= getExchangeRatesResponseBody200HasMore obj) GHC.Base.<> (("url" Data.Aeson.Types.ToJSON..= getExchangeRatesResponseBody200Url obj) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "list"))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetExchangeRatesResponseBody200 where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetExchangeRatesResponseBody200" (\obj -> (((GHC.Base.pure GetExchangeRatesResponseBody200 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "has_more")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "object")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "url"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetExchangeRatesResponseBody200" (\obj -> ((GHC.Base.pure GetExchangeRatesResponseBody200 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "has_more")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "url"))
 
--- | Defines the enum schema GetExchangeRatesResponseBody200Object\'
---
--- String representing the object\'s type. Objects of the same type share the same value. Always has the value \`list\`.
-data GetExchangeRatesResponseBody200Object'
-  = GetExchangeRatesResponseBody200Object'EnumOther Data.Aeson.Types.Internal.Value
-  | GetExchangeRatesResponseBody200Object'EnumTyped Data.Text.Internal.Text
-  | GetExchangeRatesResponseBody200Object'EnumStringList
-  deriving (GHC.Show.Show, GHC.Classes.Eq)
-
-instance Data.Aeson.Types.ToJSON.ToJSON GetExchangeRatesResponseBody200Object' where
-  toJSON (GetExchangeRatesResponseBody200Object'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (GetExchangeRatesResponseBody200Object'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (GetExchangeRatesResponseBody200Object'EnumStringList) = "list"
-
-instance Data.Aeson.Types.FromJSON.FromJSON GetExchangeRatesResponseBody200Object' where
-  parseJSON val =
-    GHC.Base.pure
-      ( if  | val GHC.Classes.== "list" -> GetExchangeRatesResponseBody200Object'EnumStringList
-            | GHC.Base.otherwise -> GetExchangeRatesResponseBody200Object'EnumOther val
-      )
+-- | Create a new 'GetExchangeRatesResponseBody200' with all required fields.
+mkGetExchangeRatesResponseBody200 ::
+  -- | 'getExchangeRatesResponseBody200Data'
+  [ExchangeRate] ->
+  -- | 'getExchangeRatesResponseBody200HasMore'
+  GHC.Types.Bool ->
+  -- | 'getExchangeRatesResponseBody200Url'
+  Data.Text.Internal.Text ->
+  GetExchangeRatesResponseBody200
+mkGetExchangeRatesResponseBody200 getExchangeRatesResponseBody200Data getExchangeRatesResponseBody200HasMore getExchangeRatesResponseBody200Url =
+  GetExchangeRatesResponseBody200
+    { getExchangeRatesResponseBody200Data = getExchangeRatesResponseBody200Data,
+      getExchangeRatesResponseBody200HasMore = getExchangeRatesResponseBody200HasMore,
+      getExchangeRatesResponseBody200Url = getExchangeRatesResponseBody200Url
+    }

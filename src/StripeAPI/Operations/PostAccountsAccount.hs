@@ -10,6 +10,7 @@ module StripeAPI.Operations.PostAccountsAccount where
 import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -83,7 +84,7 @@ postAccountsAccount
       )
       (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack ("/v1/accounts/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel account)) GHC.Base.++ ""))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
 
--- | Defines the data type for the schema postAccountsAccountRequestBody
+-- | Defines the object schema located at @paths.\/v1\/accounts\/{account}.POST.requestBody.content.application\/x-www-form-urlencoded.schema@ in the specification.
 data PostAccountsAccountRequestBody
   = PostAccountsAccountRequestBody
       { -- | account_token: An [account token](https:\/\/stripe.com\/docs\/api\#create_account_token), used to securely provide details to the account.
@@ -129,13 +130,33 @@ data PostAccountsAccountRequestBody
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostAccountsAccountRequestBody where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "account_token" (postAccountsAccountRequestBodyAccountToken obj) : (Data.Aeson..=) "bank_account" (postAccountsAccountRequestBodyBankAccount obj) : (Data.Aeson..=) "business_profile" (postAccountsAccountRequestBodyBusinessProfile obj) : (Data.Aeson..=) "business_type" (postAccountsAccountRequestBodyBusinessType obj) : (Data.Aeson..=) "company" (postAccountsAccountRequestBodyCompany obj) : (Data.Aeson..=) "default_currency" (postAccountsAccountRequestBodyDefaultCurrency obj) : (Data.Aeson..=) "email" (postAccountsAccountRequestBodyEmail obj) : (Data.Aeson..=) "expand" (postAccountsAccountRequestBodyExpand obj) : (Data.Aeson..=) "external_account" (postAccountsAccountRequestBodyExternalAccount obj) : (Data.Aeson..=) "individual" (postAccountsAccountRequestBodyIndividual obj) : (Data.Aeson..=) "metadata" (postAccountsAccountRequestBodyMetadata obj) : (Data.Aeson..=) "requested_capabilities" (postAccountsAccountRequestBodyRequestedCapabilities obj) : (Data.Aeson..=) "settings" (postAccountsAccountRequestBodySettings obj) : (Data.Aeson..=) "tos_acceptance" (postAccountsAccountRequestBodyTosAcceptance obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "account_token" (postAccountsAccountRequestBodyAccountToken obj) GHC.Base.<> ((Data.Aeson..=) "bank_account" (postAccountsAccountRequestBodyBankAccount obj) GHC.Base.<> ((Data.Aeson..=) "business_profile" (postAccountsAccountRequestBodyBusinessProfile obj) GHC.Base.<> ((Data.Aeson..=) "business_type" (postAccountsAccountRequestBodyBusinessType obj) GHC.Base.<> ((Data.Aeson..=) "company" (postAccountsAccountRequestBodyCompany obj) GHC.Base.<> ((Data.Aeson..=) "default_currency" (postAccountsAccountRequestBodyDefaultCurrency obj) GHC.Base.<> ((Data.Aeson..=) "email" (postAccountsAccountRequestBodyEmail obj) GHC.Base.<> ((Data.Aeson..=) "expand" (postAccountsAccountRequestBodyExpand obj) GHC.Base.<> ((Data.Aeson..=) "external_account" (postAccountsAccountRequestBodyExternalAccount obj) GHC.Base.<> ((Data.Aeson..=) "individual" (postAccountsAccountRequestBodyIndividual obj) GHC.Base.<> ((Data.Aeson..=) "metadata" (postAccountsAccountRequestBodyMetadata obj) GHC.Base.<> ((Data.Aeson..=) "requested_capabilities" (postAccountsAccountRequestBodyRequestedCapabilities obj) GHC.Base.<> ((Data.Aeson..=) "settings" (postAccountsAccountRequestBodySettings obj) GHC.Base.<> (Data.Aeson..=) "tos_acceptance" (postAccountsAccountRequestBodyTosAcceptance obj))))))))))))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("account_token" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyAccountToken obj : "bank_account" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyBankAccount obj : "business_profile" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyBusinessProfile obj : "business_type" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyBusinessType obj : "company" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyCompany obj : "default_currency" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyDefaultCurrency obj : "email" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyEmail obj : "expand" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyExpand obj : "external_account" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyExternalAccount obj : "individual" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyIndividual obj : "metadata" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyMetadata obj : "requested_capabilities" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyRequestedCapabilities obj : "settings" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodySettings obj : "tos_acceptance" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyTosAcceptance obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("account_token" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyAccountToken obj) GHC.Base.<> (("bank_account" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyBankAccount obj) GHC.Base.<> (("business_profile" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyBusinessProfile obj) GHC.Base.<> (("business_type" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyBusinessType obj) GHC.Base.<> (("company" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyCompany obj) GHC.Base.<> (("default_currency" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyDefaultCurrency obj) GHC.Base.<> (("email" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyEmail obj) GHC.Base.<> (("expand" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyExpand obj) GHC.Base.<> (("external_account" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyExternalAccount obj) GHC.Base.<> (("individual" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyIndividual obj) GHC.Base.<> (("metadata" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyMetadata obj) GHC.Base.<> (("requested_capabilities" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyRequestedCapabilities obj) GHC.Base.<> (("settings" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodySettings obj) GHC.Base.<> ("tos_acceptance" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyTosAcceptance obj))))))))))))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostAccountsAccountRequestBody where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PostAccountsAccountRequestBody" (\obj -> (((((((((((((GHC.Base.pure PostAccountsAccountRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "account_token")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "bank_account")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "business_profile")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "business_type")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "company")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "default_currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "email")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "external_account")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "individual")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "requested_capabilities")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "settings")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "tos_acceptance"))
 
--- | Defines the data type for the schema postAccountsAccountRequestBodyBank_account\'OneOf2
+-- | Create a new 'PostAccountsAccountRequestBody' with all required fields.
+mkPostAccountsAccountRequestBody :: PostAccountsAccountRequestBody
+mkPostAccountsAccountRequestBody =
+  PostAccountsAccountRequestBody
+    { postAccountsAccountRequestBodyAccountToken = GHC.Maybe.Nothing,
+      postAccountsAccountRequestBodyBankAccount = GHC.Maybe.Nothing,
+      postAccountsAccountRequestBodyBusinessProfile = GHC.Maybe.Nothing,
+      postAccountsAccountRequestBodyBusinessType = GHC.Maybe.Nothing,
+      postAccountsAccountRequestBodyCompany = GHC.Maybe.Nothing,
+      postAccountsAccountRequestBodyDefaultCurrency = GHC.Maybe.Nothing,
+      postAccountsAccountRequestBodyEmail = GHC.Maybe.Nothing,
+      postAccountsAccountRequestBodyExpand = GHC.Maybe.Nothing,
+      postAccountsAccountRequestBodyExternalAccount = GHC.Maybe.Nothing,
+      postAccountsAccountRequestBodyIndividual = GHC.Maybe.Nothing,
+      postAccountsAccountRequestBodyMetadata = GHC.Maybe.Nothing,
+      postAccountsAccountRequestBodyRequestedCapabilities = GHC.Maybe.Nothing,
+      postAccountsAccountRequestBodySettings = GHC.Maybe.Nothing,
+      postAccountsAccountRequestBodyTosAcceptance = GHC.Maybe.Nothing
+    }
+
+-- | Defines the object schema located at @paths.\/v1\/accounts\/{account}.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.bank_account.anyOf@ in the specification.
 data PostAccountsAccountRequestBodyBankAccount'OneOf2
   = PostAccountsAccountRequestBodyBankAccount'OneOf2
       { -- | account_holder_name
@@ -164,12 +185,6 @@ data PostAccountsAccountRequestBodyBankAccount'OneOf2
         postAccountsAccountRequestBodyBankAccount'OneOf2Country :: Data.Text.Internal.Text,
         -- | currency
         postAccountsAccountRequestBodyBankAccount'OneOf2Currency :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
-        -- | object
-        --
-        -- Constraints:
-        --
-        -- * Maximum length of 5000
-        postAccountsAccountRequestBodyBankAccount'OneOf2Object :: (GHC.Maybe.Maybe PostAccountsAccountRequestBodyBankAccount'OneOf2Object'),
         -- | routing_number
         --
         -- Constraints:
@@ -183,54 +198,56 @@ data PostAccountsAccountRequestBodyBankAccount'OneOf2
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostAccountsAccountRequestBodyBankAccount'OneOf2 where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "account_holder_name" (postAccountsAccountRequestBodyBankAccount'OneOf2AccountHolderName obj) : (Data.Aeson..=) "account_holder_type" (postAccountsAccountRequestBodyBankAccount'OneOf2AccountHolderType obj) : (Data.Aeson..=) "account_number" (postAccountsAccountRequestBodyBankAccount'OneOf2AccountNumber obj) : (Data.Aeson..=) "country" (postAccountsAccountRequestBodyBankAccount'OneOf2Country obj) : (Data.Aeson..=) "currency" (postAccountsAccountRequestBodyBankAccount'OneOf2Currency obj) : (Data.Aeson..=) "object" (postAccountsAccountRequestBodyBankAccount'OneOf2Object obj) : (Data.Aeson..=) "routing_number" (postAccountsAccountRequestBodyBankAccount'OneOf2RoutingNumber obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "account_holder_name" (postAccountsAccountRequestBodyBankAccount'OneOf2AccountHolderName obj) GHC.Base.<> ((Data.Aeson..=) "account_holder_type" (postAccountsAccountRequestBodyBankAccount'OneOf2AccountHolderType obj) GHC.Base.<> ((Data.Aeson..=) "account_number" (postAccountsAccountRequestBodyBankAccount'OneOf2AccountNumber obj) GHC.Base.<> ((Data.Aeson..=) "country" (postAccountsAccountRequestBodyBankAccount'OneOf2Country obj) GHC.Base.<> ((Data.Aeson..=) "currency" (postAccountsAccountRequestBodyBankAccount'OneOf2Currency obj) GHC.Base.<> ((Data.Aeson..=) "object" (postAccountsAccountRequestBodyBankAccount'OneOf2Object obj) GHC.Base.<> (Data.Aeson..=) "routing_number" (postAccountsAccountRequestBodyBankAccount'OneOf2RoutingNumber obj)))))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("account_holder_name" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyBankAccount'OneOf2AccountHolderName obj : "account_holder_type" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyBankAccount'OneOf2AccountHolderType obj : "account_number" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyBankAccount'OneOf2AccountNumber obj : "country" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyBankAccount'OneOf2Country obj : "currency" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyBankAccount'OneOf2Currency obj : "routing_number" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyBankAccount'OneOf2RoutingNumber obj : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "bank_account" : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("account_holder_name" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyBankAccount'OneOf2AccountHolderName obj) GHC.Base.<> (("account_holder_type" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyBankAccount'OneOf2AccountHolderType obj) GHC.Base.<> (("account_number" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyBankAccount'OneOf2AccountNumber obj) GHC.Base.<> (("country" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyBankAccount'OneOf2Country obj) GHC.Base.<> (("currency" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyBankAccount'OneOf2Currency obj) GHC.Base.<> (("routing_number" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyBankAccount'OneOf2RoutingNumber obj) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "bank_account")))))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostAccountsAccountRequestBodyBankAccount'OneOf2 where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostAccountsAccountRequestBodyBankAccount'OneOf2" (\obj -> ((((((GHC.Base.pure PostAccountsAccountRequestBodyBankAccount'OneOf2 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "account_holder_name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "account_holder_type")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "account_number")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "country")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "object")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "routing_number"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostAccountsAccountRequestBodyBankAccount'OneOf2" (\obj -> (((((GHC.Base.pure PostAccountsAccountRequestBodyBankAccount'OneOf2 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "account_holder_name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "account_holder_type")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "account_number")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "country")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "routing_number"))
 
--- | Defines the enum schema postAccountsAccountRequestBodyBank_account\'OneOf2Account_holder_type\'
+-- | Create a new 'PostAccountsAccountRequestBodyBankAccount'OneOf2' with all required fields.
+mkPostAccountsAccountRequestBodyBankAccount'OneOf2 ::
+  -- | 'postAccountsAccountRequestBodyBankAccount'OneOf2AccountNumber'
+  Data.Text.Internal.Text ->
+  -- | 'postAccountsAccountRequestBodyBankAccount'OneOf2Country'
+  Data.Text.Internal.Text ->
+  PostAccountsAccountRequestBodyBankAccount'OneOf2
+mkPostAccountsAccountRequestBodyBankAccount'OneOf2 postAccountsAccountRequestBodyBankAccount'OneOf2AccountNumber postAccountsAccountRequestBodyBankAccount'OneOf2Country =
+  PostAccountsAccountRequestBodyBankAccount'OneOf2
+    { postAccountsAccountRequestBodyBankAccount'OneOf2AccountHolderName = GHC.Maybe.Nothing,
+      postAccountsAccountRequestBodyBankAccount'OneOf2AccountHolderType = GHC.Maybe.Nothing,
+      postAccountsAccountRequestBodyBankAccount'OneOf2AccountNumber = postAccountsAccountRequestBodyBankAccount'OneOf2AccountNumber,
+      postAccountsAccountRequestBodyBankAccount'OneOf2Country = postAccountsAccountRequestBodyBankAccount'OneOf2Country,
+      postAccountsAccountRequestBodyBankAccount'OneOf2Currency = GHC.Maybe.Nothing,
+      postAccountsAccountRequestBodyBankAccount'OneOf2RoutingNumber = GHC.Maybe.Nothing
+    }
+
+-- | Defines the enum schema located at @paths.\/v1\/accounts\/{account}.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.bank_account.anyOf.properties.account_holder_type@ in the specification.
 data PostAccountsAccountRequestBodyBankAccount'OneOf2AccountHolderType'
-  = PostAccountsAccountRequestBodyBankAccount'OneOf2AccountHolderType'EnumOther Data.Aeson.Types.Internal.Value
-  | PostAccountsAccountRequestBodyBankAccount'OneOf2AccountHolderType'EnumTyped Data.Text.Internal.Text
-  | PostAccountsAccountRequestBodyBankAccount'OneOf2AccountHolderType'EnumStringCompany
-  | PostAccountsAccountRequestBodyBankAccount'OneOf2AccountHolderType'EnumStringIndividual
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    PostAccountsAccountRequestBodyBankAccount'OneOf2AccountHolderType'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    PostAccountsAccountRequestBodyBankAccount'OneOf2AccountHolderType'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"company"@
+    PostAccountsAccountRequestBodyBankAccount'OneOf2AccountHolderType'EnumCompany
+  | -- | Represents the JSON value @"individual"@
+    PostAccountsAccountRequestBodyBankAccount'OneOf2AccountHolderType'EnumIndividual
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostAccountsAccountRequestBodyBankAccount'OneOf2AccountHolderType' where
-  toJSON (PostAccountsAccountRequestBodyBankAccount'OneOf2AccountHolderType'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostAccountsAccountRequestBodyBankAccount'OneOf2AccountHolderType'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostAccountsAccountRequestBodyBankAccount'OneOf2AccountHolderType'EnumStringCompany) = "company"
-  toJSON (PostAccountsAccountRequestBodyBankAccount'OneOf2AccountHolderType'EnumStringIndividual) = "individual"
+  toJSON (PostAccountsAccountRequestBodyBankAccount'OneOf2AccountHolderType'Other val) = val
+  toJSON (PostAccountsAccountRequestBodyBankAccount'OneOf2AccountHolderType'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PostAccountsAccountRequestBodyBankAccount'OneOf2AccountHolderType'EnumCompany) = "company"
+  toJSON (PostAccountsAccountRequestBodyBankAccount'OneOf2AccountHolderType'EnumIndividual) = "individual"
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostAccountsAccountRequestBodyBankAccount'OneOf2AccountHolderType' where
   parseJSON val =
     GHC.Base.pure
-      ( if  | val GHC.Classes.== "company" -> PostAccountsAccountRequestBodyBankAccount'OneOf2AccountHolderType'EnumStringCompany
-            | val GHC.Classes.== "individual" -> PostAccountsAccountRequestBodyBankAccount'OneOf2AccountHolderType'EnumStringIndividual
-            | GHC.Base.otherwise -> PostAccountsAccountRequestBodyBankAccount'OneOf2AccountHolderType'EnumOther val
+      ( if  | val GHC.Classes.== "company" -> PostAccountsAccountRequestBodyBankAccount'OneOf2AccountHolderType'EnumCompany
+            | val GHC.Classes.== "individual" -> PostAccountsAccountRequestBodyBankAccount'OneOf2AccountHolderType'EnumIndividual
+            | GHC.Base.otherwise -> PostAccountsAccountRequestBodyBankAccount'OneOf2AccountHolderType'Other val
       )
 
--- | Defines the enum schema postAccountsAccountRequestBodyBank_account\'OneOf2Object\'
-data PostAccountsAccountRequestBodyBankAccount'OneOf2Object'
-  = PostAccountsAccountRequestBodyBankAccount'OneOf2Object'EnumOther Data.Aeson.Types.Internal.Value
-  | PostAccountsAccountRequestBodyBankAccount'OneOf2Object'EnumTyped Data.Text.Internal.Text
-  | PostAccountsAccountRequestBodyBankAccount'OneOf2Object'EnumStringBankAccount
-  deriving (GHC.Show.Show, GHC.Classes.Eq)
-
-instance Data.Aeson.Types.ToJSON.ToJSON PostAccountsAccountRequestBodyBankAccount'OneOf2Object' where
-  toJSON (PostAccountsAccountRequestBodyBankAccount'OneOf2Object'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostAccountsAccountRequestBodyBankAccount'OneOf2Object'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostAccountsAccountRequestBodyBankAccount'OneOf2Object'EnumStringBankAccount) = "bank_account"
-
-instance Data.Aeson.Types.FromJSON.FromJSON PostAccountsAccountRequestBodyBankAccount'OneOf2Object' where
-  parseJSON val =
-    GHC.Base.pure
-      ( if  | val GHC.Classes.== "bank_account" -> PostAccountsAccountRequestBodyBankAccount'OneOf2Object'EnumStringBankAccount
-            | GHC.Base.otherwise -> PostAccountsAccountRequestBodyBankAccount'OneOf2Object'EnumOther val
-      )
-
--- | Define the one-of schema postAccountsAccountRequestBodyBank_account\'
+-- | Defines the oneOf schema located at @paths.\/v1\/accounts\/{account}.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.bank_account.anyOf@ in the specification.
 --
 -- Either a token, like the ones returned by [Stripe.js](https:\/\/stripe.com\/docs\/stripe.js), or a dictionary containing a user\'s bank account details.
 data PostAccountsAccountRequestBodyBankAccount'Variants
@@ -243,13 +260,11 @@ instance Data.Aeson.Types.ToJSON.ToJSON PostAccountsAccountRequestBodyBankAccoun
   toJSON (PostAccountsAccountRequestBodyBankAccount'PostAccountsAccountRequestBodyBankAccount'OneOf2 a) = Data.Aeson.Types.ToJSON.toJSON a
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostAccountsAccountRequestBodyBankAccount'Variants where
-  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
-    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ PostAccountsAccountRequestBodyBankAccount'Text a
-    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ PostAccountsAccountRequestBodyBankAccount'PostAccountsAccountRequestBodyBankAccount'OneOf2 a
-      Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+  parseJSON val = case (PostAccountsAccountRequestBodyBankAccount'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((PostAccountsAccountRequestBodyBankAccount'PostAccountsAccountRequestBodyBankAccount'OneOf2 Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched") of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+    Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
--- | Defines the data type for the schema postAccountsAccountRequestBodyBusiness_profile\'
+-- | Defines the object schema located at @paths.\/v1\/accounts\/{account}.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.business_profile@ in the specification.
 --
 -- Business information about the account.
 data PostAccountsAccountRequestBodyBusinessProfile'
@@ -295,43 +310,62 @@ data PostAccountsAccountRequestBodyBusinessProfile'
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostAccountsAccountRequestBodyBusinessProfile' where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "mcc" (postAccountsAccountRequestBodyBusinessProfile'Mcc obj) : (Data.Aeson..=) "name" (postAccountsAccountRequestBodyBusinessProfile'Name obj) : (Data.Aeson..=) "product_description" (postAccountsAccountRequestBodyBusinessProfile'ProductDescription obj) : (Data.Aeson..=) "support_email" (postAccountsAccountRequestBodyBusinessProfile'SupportEmail obj) : (Data.Aeson..=) "support_phone" (postAccountsAccountRequestBodyBusinessProfile'SupportPhone obj) : (Data.Aeson..=) "support_url" (postAccountsAccountRequestBodyBusinessProfile'SupportUrl obj) : (Data.Aeson..=) "url" (postAccountsAccountRequestBodyBusinessProfile'Url obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "mcc" (postAccountsAccountRequestBodyBusinessProfile'Mcc obj) GHC.Base.<> ((Data.Aeson..=) "name" (postAccountsAccountRequestBodyBusinessProfile'Name obj) GHC.Base.<> ((Data.Aeson..=) "product_description" (postAccountsAccountRequestBodyBusinessProfile'ProductDescription obj) GHC.Base.<> ((Data.Aeson..=) "support_email" (postAccountsAccountRequestBodyBusinessProfile'SupportEmail obj) GHC.Base.<> ((Data.Aeson..=) "support_phone" (postAccountsAccountRequestBodyBusinessProfile'SupportPhone obj) GHC.Base.<> ((Data.Aeson..=) "support_url" (postAccountsAccountRequestBodyBusinessProfile'SupportUrl obj) GHC.Base.<> (Data.Aeson..=) "url" (postAccountsAccountRequestBodyBusinessProfile'Url obj)))))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("mcc" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyBusinessProfile'Mcc obj : "name" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyBusinessProfile'Name obj : "product_description" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyBusinessProfile'ProductDescription obj : "support_email" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyBusinessProfile'SupportEmail obj : "support_phone" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyBusinessProfile'SupportPhone obj : "support_url" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyBusinessProfile'SupportUrl obj : "url" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyBusinessProfile'Url obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("mcc" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyBusinessProfile'Mcc obj) GHC.Base.<> (("name" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyBusinessProfile'Name obj) GHC.Base.<> (("product_description" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyBusinessProfile'ProductDescription obj) GHC.Base.<> (("support_email" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyBusinessProfile'SupportEmail obj) GHC.Base.<> (("support_phone" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyBusinessProfile'SupportPhone obj) GHC.Base.<> (("support_url" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyBusinessProfile'SupportUrl obj) GHC.Base.<> ("url" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyBusinessProfile'Url obj)))))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostAccountsAccountRequestBodyBusinessProfile' where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PostAccountsAccountRequestBodyBusinessProfile'" (\obj -> ((((((GHC.Base.pure PostAccountsAccountRequestBodyBusinessProfile' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "mcc")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "product_description")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "support_email")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "support_phone")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "support_url")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "url"))
 
--- | Defines the enum schema postAccountsAccountRequestBodyBusiness_type\'
+-- | Create a new 'PostAccountsAccountRequestBodyBusinessProfile'' with all required fields.
+mkPostAccountsAccountRequestBodyBusinessProfile' :: PostAccountsAccountRequestBodyBusinessProfile'
+mkPostAccountsAccountRequestBodyBusinessProfile' =
+  PostAccountsAccountRequestBodyBusinessProfile'
+    { postAccountsAccountRequestBodyBusinessProfile'Mcc = GHC.Maybe.Nothing,
+      postAccountsAccountRequestBodyBusinessProfile'Name = GHC.Maybe.Nothing,
+      postAccountsAccountRequestBodyBusinessProfile'ProductDescription = GHC.Maybe.Nothing,
+      postAccountsAccountRequestBodyBusinessProfile'SupportEmail = GHC.Maybe.Nothing,
+      postAccountsAccountRequestBodyBusinessProfile'SupportPhone = GHC.Maybe.Nothing,
+      postAccountsAccountRequestBodyBusinessProfile'SupportUrl = GHC.Maybe.Nothing,
+      postAccountsAccountRequestBodyBusinessProfile'Url = GHC.Maybe.Nothing
+    }
+
+-- | Defines the enum schema located at @paths.\/v1\/accounts\/{account}.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.business_type@ in the specification.
 --
 -- The business type.
 data PostAccountsAccountRequestBodyBusinessType'
-  = PostAccountsAccountRequestBodyBusinessType'EnumOther Data.Aeson.Types.Internal.Value
-  | PostAccountsAccountRequestBodyBusinessType'EnumTyped Data.Text.Internal.Text
-  | PostAccountsAccountRequestBodyBusinessType'EnumStringCompany
-  | PostAccountsAccountRequestBodyBusinessType'EnumStringGovernmentEntity
-  | PostAccountsAccountRequestBodyBusinessType'EnumStringIndividual
-  | PostAccountsAccountRequestBodyBusinessType'EnumStringNonProfit
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    PostAccountsAccountRequestBodyBusinessType'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    PostAccountsAccountRequestBodyBusinessType'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"company"@
+    PostAccountsAccountRequestBodyBusinessType'EnumCompany
+  | -- | Represents the JSON value @"government_entity"@
+    PostAccountsAccountRequestBodyBusinessType'EnumGovernmentEntity
+  | -- | Represents the JSON value @"individual"@
+    PostAccountsAccountRequestBodyBusinessType'EnumIndividual
+  | -- | Represents the JSON value @"non_profit"@
+    PostAccountsAccountRequestBodyBusinessType'EnumNonProfit
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostAccountsAccountRequestBodyBusinessType' where
-  toJSON (PostAccountsAccountRequestBodyBusinessType'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostAccountsAccountRequestBodyBusinessType'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostAccountsAccountRequestBodyBusinessType'EnumStringCompany) = "company"
-  toJSON (PostAccountsAccountRequestBodyBusinessType'EnumStringGovernmentEntity) = "government_entity"
-  toJSON (PostAccountsAccountRequestBodyBusinessType'EnumStringIndividual) = "individual"
-  toJSON (PostAccountsAccountRequestBodyBusinessType'EnumStringNonProfit) = "non_profit"
+  toJSON (PostAccountsAccountRequestBodyBusinessType'Other val) = val
+  toJSON (PostAccountsAccountRequestBodyBusinessType'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PostAccountsAccountRequestBodyBusinessType'EnumCompany) = "company"
+  toJSON (PostAccountsAccountRequestBodyBusinessType'EnumGovernmentEntity) = "government_entity"
+  toJSON (PostAccountsAccountRequestBodyBusinessType'EnumIndividual) = "individual"
+  toJSON (PostAccountsAccountRequestBodyBusinessType'EnumNonProfit) = "non_profit"
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostAccountsAccountRequestBodyBusinessType' where
   parseJSON val =
     GHC.Base.pure
-      ( if  | val GHC.Classes.== "company" -> PostAccountsAccountRequestBodyBusinessType'EnumStringCompany
-            | val GHC.Classes.== "government_entity" -> PostAccountsAccountRequestBodyBusinessType'EnumStringGovernmentEntity
-            | val GHC.Classes.== "individual" -> PostAccountsAccountRequestBodyBusinessType'EnumStringIndividual
-            | val GHC.Classes.== "non_profit" -> PostAccountsAccountRequestBodyBusinessType'EnumStringNonProfit
-            | GHC.Base.otherwise -> PostAccountsAccountRequestBodyBusinessType'EnumOther val
+      ( if  | val GHC.Classes.== "company" -> PostAccountsAccountRequestBodyBusinessType'EnumCompany
+            | val GHC.Classes.== "government_entity" -> PostAccountsAccountRequestBodyBusinessType'EnumGovernmentEntity
+            | val GHC.Classes.== "individual" -> PostAccountsAccountRequestBodyBusinessType'EnumIndividual
+            | val GHC.Classes.== "non_profit" -> PostAccountsAccountRequestBodyBusinessType'EnumNonProfit
+            | GHC.Base.otherwise -> PostAccountsAccountRequestBodyBusinessType'Other val
       )
 
--- | Defines the data type for the schema postAccountsAccountRequestBodyCompany\'
+-- | Defines the object schema located at @paths.\/v1\/accounts\/{account}.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.company@ in the specification.
 --
 -- Information about the company or business. This field is null unless \`business_type\` is set to \`company\`, \`government_entity\`, or \`non_profit\`.
 data PostAccountsAccountRequestBodyCompany'
@@ -401,13 +435,34 @@ data PostAccountsAccountRequestBodyCompany'
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostAccountsAccountRequestBodyCompany' where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "address" (postAccountsAccountRequestBodyCompany'Address obj) : (Data.Aeson..=) "address_kana" (postAccountsAccountRequestBodyCompany'AddressKana obj) : (Data.Aeson..=) "address_kanji" (postAccountsAccountRequestBodyCompany'AddressKanji obj) : (Data.Aeson..=) "directors_provided" (postAccountsAccountRequestBodyCompany'DirectorsProvided obj) : (Data.Aeson..=) "executives_provided" (postAccountsAccountRequestBodyCompany'ExecutivesProvided obj) : (Data.Aeson..=) "name" (postAccountsAccountRequestBodyCompany'Name obj) : (Data.Aeson..=) "name_kana" (postAccountsAccountRequestBodyCompany'NameKana obj) : (Data.Aeson..=) "name_kanji" (postAccountsAccountRequestBodyCompany'NameKanji obj) : (Data.Aeson..=) "owners_provided" (postAccountsAccountRequestBodyCompany'OwnersProvided obj) : (Data.Aeson..=) "phone" (postAccountsAccountRequestBodyCompany'Phone obj) : (Data.Aeson..=) "structure" (postAccountsAccountRequestBodyCompany'Structure obj) : (Data.Aeson..=) "tax_id" (postAccountsAccountRequestBodyCompany'TaxId obj) : (Data.Aeson..=) "tax_id_registrar" (postAccountsAccountRequestBodyCompany'TaxIdRegistrar obj) : (Data.Aeson..=) "vat_id" (postAccountsAccountRequestBodyCompany'VatId obj) : (Data.Aeson..=) "verification" (postAccountsAccountRequestBodyCompany'Verification obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "address" (postAccountsAccountRequestBodyCompany'Address obj) GHC.Base.<> ((Data.Aeson..=) "address_kana" (postAccountsAccountRequestBodyCompany'AddressKana obj) GHC.Base.<> ((Data.Aeson..=) "address_kanji" (postAccountsAccountRequestBodyCompany'AddressKanji obj) GHC.Base.<> ((Data.Aeson..=) "directors_provided" (postAccountsAccountRequestBodyCompany'DirectorsProvided obj) GHC.Base.<> ((Data.Aeson..=) "executives_provided" (postAccountsAccountRequestBodyCompany'ExecutivesProvided obj) GHC.Base.<> ((Data.Aeson..=) "name" (postAccountsAccountRequestBodyCompany'Name obj) GHC.Base.<> ((Data.Aeson..=) "name_kana" (postAccountsAccountRequestBodyCompany'NameKana obj) GHC.Base.<> ((Data.Aeson..=) "name_kanji" (postAccountsAccountRequestBodyCompany'NameKanji obj) GHC.Base.<> ((Data.Aeson..=) "owners_provided" (postAccountsAccountRequestBodyCompany'OwnersProvided obj) GHC.Base.<> ((Data.Aeson..=) "phone" (postAccountsAccountRequestBodyCompany'Phone obj) GHC.Base.<> ((Data.Aeson..=) "structure" (postAccountsAccountRequestBodyCompany'Structure obj) GHC.Base.<> ((Data.Aeson..=) "tax_id" (postAccountsAccountRequestBodyCompany'TaxId obj) GHC.Base.<> ((Data.Aeson..=) "tax_id_registrar" (postAccountsAccountRequestBodyCompany'TaxIdRegistrar obj) GHC.Base.<> ((Data.Aeson..=) "vat_id" (postAccountsAccountRequestBodyCompany'VatId obj) GHC.Base.<> (Data.Aeson..=) "verification" (postAccountsAccountRequestBodyCompany'Verification obj)))))))))))))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("address" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyCompany'Address obj : "address_kana" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyCompany'AddressKana obj : "address_kanji" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyCompany'AddressKanji obj : "directors_provided" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyCompany'DirectorsProvided obj : "executives_provided" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyCompany'ExecutivesProvided obj : "name" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyCompany'Name obj : "name_kana" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyCompany'NameKana obj : "name_kanji" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyCompany'NameKanji obj : "owners_provided" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyCompany'OwnersProvided obj : "phone" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyCompany'Phone obj : "structure" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyCompany'Structure obj : "tax_id" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyCompany'TaxId obj : "tax_id_registrar" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyCompany'TaxIdRegistrar obj : "vat_id" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyCompany'VatId obj : "verification" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyCompany'Verification obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("address" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyCompany'Address obj) GHC.Base.<> (("address_kana" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyCompany'AddressKana obj) GHC.Base.<> (("address_kanji" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyCompany'AddressKanji obj) GHC.Base.<> (("directors_provided" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyCompany'DirectorsProvided obj) GHC.Base.<> (("executives_provided" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyCompany'ExecutivesProvided obj) GHC.Base.<> (("name" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyCompany'Name obj) GHC.Base.<> (("name_kana" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyCompany'NameKana obj) GHC.Base.<> (("name_kanji" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyCompany'NameKanji obj) GHC.Base.<> (("owners_provided" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyCompany'OwnersProvided obj) GHC.Base.<> (("phone" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyCompany'Phone obj) GHC.Base.<> (("structure" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyCompany'Structure obj) GHC.Base.<> (("tax_id" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyCompany'TaxId obj) GHC.Base.<> (("tax_id_registrar" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyCompany'TaxIdRegistrar obj) GHC.Base.<> (("vat_id" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyCompany'VatId obj) GHC.Base.<> ("verification" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyCompany'Verification obj)))))))))))))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostAccountsAccountRequestBodyCompany' where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PostAccountsAccountRequestBodyCompany'" (\obj -> ((((((((((((((GHC.Base.pure PostAccountsAccountRequestBodyCompany' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "address")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "address_kana")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "address_kanji")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "directors_provided")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "executives_provided")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "name_kana")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "name_kanji")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "owners_provided")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "phone")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "structure")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "tax_id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "tax_id_registrar")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "vat_id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "verification"))
 
--- | Defines the data type for the schema postAccountsAccountRequestBodyCompany\'Address\'
+-- | Create a new 'PostAccountsAccountRequestBodyCompany'' with all required fields.
+mkPostAccountsAccountRequestBodyCompany' :: PostAccountsAccountRequestBodyCompany'
+mkPostAccountsAccountRequestBodyCompany' =
+  PostAccountsAccountRequestBodyCompany'
+    { postAccountsAccountRequestBodyCompany'Address = GHC.Maybe.Nothing,
+      postAccountsAccountRequestBodyCompany'AddressKana = GHC.Maybe.Nothing,
+      postAccountsAccountRequestBodyCompany'AddressKanji = GHC.Maybe.Nothing,
+      postAccountsAccountRequestBodyCompany'DirectorsProvided = GHC.Maybe.Nothing,
+      postAccountsAccountRequestBodyCompany'ExecutivesProvided = GHC.Maybe.Nothing,
+      postAccountsAccountRequestBodyCompany'Name = GHC.Maybe.Nothing,
+      postAccountsAccountRequestBodyCompany'NameKana = GHC.Maybe.Nothing,
+      postAccountsAccountRequestBodyCompany'NameKanji = GHC.Maybe.Nothing,
+      postAccountsAccountRequestBodyCompany'OwnersProvided = GHC.Maybe.Nothing,
+      postAccountsAccountRequestBodyCompany'Phone = GHC.Maybe.Nothing,
+      postAccountsAccountRequestBodyCompany'Structure = GHC.Maybe.Nothing,
+      postAccountsAccountRequestBodyCompany'TaxId = GHC.Maybe.Nothing,
+      postAccountsAccountRequestBodyCompany'TaxIdRegistrar = GHC.Maybe.Nothing,
+      postAccountsAccountRequestBodyCompany'VatId = GHC.Maybe.Nothing,
+      postAccountsAccountRequestBodyCompany'Verification = GHC.Maybe.Nothing
+    }
+
+-- | Defines the object schema located at @paths.\/v1\/accounts\/{account}.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.company.properties.address@ in the specification.
 data PostAccountsAccountRequestBodyCompany'Address'
   = PostAccountsAccountRequestBodyCompany'Address'
       { -- | city
@@ -453,13 +508,25 @@ data PostAccountsAccountRequestBodyCompany'Address'
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostAccountsAccountRequestBodyCompany'Address' where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "city" (postAccountsAccountRequestBodyCompany'Address'City obj) : (Data.Aeson..=) "country" (postAccountsAccountRequestBodyCompany'Address'Country obj) : (Data.Aeson..=) "line1" (postAccountsAccountRequestBodyCompany'Address'Line1 obj) : (Data.Aeson..=) "line2" (postAccountsAccountRequestBodyCompany'Address'Line2 obj) : (Data.Aeson..=) "postal_code" (postAccountsAccountRequestBodyCompany'Address'PostalCode obj) : (Data.Aeson..=) "state" (postAccountsAccountRequestBodyCompany'Address'State obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "city" (postAccountsAccountRequestBodyCompany'Address'City obj) GHC.Base.<> ((Data.Aeson..=) "country" (postAccountsAccountRequestBodyCompany'Address'Country obj) GHC.Base.<> ((Data.Aeson..=) "line1" (postAccountsAccountRequestBodyCompany'Address'Line1 obj) GHC.Base.<> ((Data.Aeson..=) "line2" (postAccountsAccountRequestBodyCompany'Address'Line2 obj) GHC.Base.<> ((Data.Aeson..=) "postal_code" (postAccountsAccountRequestBodyCompany'Address'PostalCode obj) GHC.Base.<> (Data.Aeson..=) "state" (postAccountsAccountRequestBodyCompany'Address'State obj))))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("city" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyCompany'Address'City obj : "country" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyCompany'Address'Country obj : "line1" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyCompany'Address'Line1 obj : "line2" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyCompany'Address'Line2 obj : "postal_code" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyCompany'Address'PostalCode obj : "state" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyCompany'Address'State obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("city" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyCompany'Address'City obj) GHC.Base.<> (("country" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyCompany'Address'Country obj) GHC.Base.<> (("line1" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyCompany'Address'Line1 obj) GHC.Base.<> (("line2" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyCompany'Address'Line2 obj) GHC.Base.<> (("postal_code" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyCompany'Address'PostalCode obj) GHC.Base.<> ("state" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyCompany'Address'State obj))))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostAccountsAccountRequestBodyCompany'Address' where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PostAccountsAccountRequestBodyCompany'Address'" (\obj -> (((((GHC.Base.pure PostAccountsAccountRequestBodyCompany'Address' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "city")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "country")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "line1")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "line2")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "postal_code")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "state"))
 
--- | Defines the data type for the schema postAccountsAccountRequestBodyCompany\'Address_kana\'
+-- | Create a new 'PostAccountsAccountRequestBodyCompany'Address'' with all required fields.
+mkPostAccountsAccountRequestBodyCompany'Address' :: PostAccountsAccountRequestBodyCompany'Address'
+mkPostAccountsAccountRequestBodyCompany'Address' =
+  PostAccountsAccountRequestBodyCompany'Address'
+    { postAccountsAccountRequestBodyCompany'Address'City = GHC.Maybe.Nothing,
+      postAccountsAccountRequestBodyCompany'Address'Country = GHC.Maybe.Nothing,
+      postAccountsAccountRequestBodyCompany'Address'Line1 = GHC.Maybe.Nothing,
+      postAccountsAccountRequestBodyCompany'Address'Line2 = GHC.Maybe.Nothing,
+      postAccountsAccountRequestBodyCompany'Address'PostalCode = GHC.Maybe.Nothing,
+      postAccountsAccountRequestBodyCompany'Address'State = GHC.Maybe.Nothing
+    }
+
+-- | Defines the object schema located at @paths.\/v1\/accounts\/{account}.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.company.properties.address_kana@ in the specification.
 data PostAccountsAccountRequestBodyCompany'AddressKana'
   = PostAccountsAccountRequestBodyCompany'AddressKana'
       { -- | city
@@ -511,13 +578,26 @@ data PostAccountsAccountRequestBodyCompany'AddressKana'
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostAccountsAccountRequestBodyCompany'AddressKana' where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "city" (postAccountsAccountRequestBodyCompany'AddressKana'City obj) : (Data.Aeson..=) "country" (postAccountsAccountRequestBodyCompany'AddressKana'Country obj) : (Data.Aeson..=) "line1" (postAccountsAccountRequestBodyCompany'AddressKana'Line1 obj) : (Data.Aeson..=) "line2" (postAccountsAccountRequestBodyCompany'AddressKana'Line2 obj) : (Data.Aeson..=) "postal_code" (postAccountsAccountRequestBodyCompany'AddressKana'PostalCode obj) : (Data.Aeson..=) "state" (postAccountsAccountRequestBodyCompany'AddressKana'State obj) : (Data.Aeson..=) "town" (postAccountsAccountRequestBodyCompany'AddressKana'Town obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "city" (postAccountsAccountRequestBodyCompany'AddressKana'City obj) GHC.Base.<> ((Data.Aeson..=) "country" (postAccountsAccountRequestBodyCompany'AddressKana'Country obj) GHC.Base.<> ((Data.Aeson..=) "line1" (postAccountsAccountRequestBodyCompany'AddressKana'Line1 obj) GHC.Base.<> ((Data.Aeson..=) "line2" (postAccountsAccountRequestBodyCompany'AddressKana'Line2 obj) GHC.Base.<> ((Data.Aeson..=) "postal_code" (postAccountsAccountRequestBodyCompany'AddressKana'PostalCode obj) GHC.Base.<> ((Data.Aeson..=) "state" (postAccountsAccountRequestBodyCompany'AddressKana'State obj) GHC.Base.<> (Data.Aeson..=) "town" (postAccountsAccountRequestBodyCompany'AddressKana'Town obj)))))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("city" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyCompany'AddressKana'City obj : "country" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyCompany'AddressKana'Country obj : "line1" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyCompany'AddressKana'Line1 obj : "line2" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyCompany'AddressKana'Line2 obj : "postal_code" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyCompany'AddressKana'PostalCode obj : "state" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyCompany'AddressKana'State obj : "town" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyCompany'AddressKana'Town obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("city" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyCompany'AddressKana'City obj) GHC.Base.<> (("country" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyCompany'AddressKana'Country obj) GHC.Base.<> (("line1" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyCompany'AddressKana'Line1 obj) GHC.Base.<> (("line2" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyCompany'AddressKana'Line2 obj) GHC.Base.<> (("postal_code" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyCompany'AddressKana'PostalCode obj) GHC.Base.<> (("state" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyCompany'AddressKana'State obj) GHC.Base.<> ("town" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyCompany'AddressKana'Town obj)))))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostAccountsAccountRequestBodyCompany'AddressKana' where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PostAccountsAccountRequestBodyCompany'AddressKana'" (\obj -> ((((((GHC.Base.pure PostAccountsAccountRequestBodyCompany'AddressKana' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "city")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "country")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "line1")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "line2")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "postal_code")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "state")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "town"))
 
--- | Defines the data type for the schema postAccountsAccountRequestBodyCompany\'Address_kanji\'
+-- | Create a new 'PostAccountsAccountRequestBodyCompany'AddressKana'' with all required fields.
+mkPostAccountsAccountRequestBodyCompany'AddressKana' :: PostAccountsAccountRequestBodyCompany'AddressKana'
+mkPostAccountsAccountRequestBodyCompany'AddressKana' =
+  PostAccountsAccountRequestBodyCompany'AddressKana'
+    { postAccountsAccountRequestBodyCompany'AddressKana'City = GHC.Maybe.Nothing,
+      postAccountsAccountRequestBodyCompany'AddressKana'Country = GHC.Maybe.Nothing,
+      postAccountsAccountRequestBodyCompany'AddressKana'Line1 = GHC.Maybe.Nothing,
+      postAccountsAccountRequestBodyCompany'AddressKana'Line2 = GHC.Maybe.Nothing,
+      postAccountsAccountRequestBodyCompany'AddressKana'PostalCode = GHC.Maybe.Nothing,
+      postAccountsAccountRequestBodyCompany'AddressKana'State = GHC.Maybe.Nothing,
+      postAccountsAccountRequestBodyCompany'AddressKana'Town = GHC.Maybe.Nothing
+    }
+
+-- | Defines the object schema located at @paths.\/v1\/accounts\/{account}.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.company.properties.address_kanji@ in the specification.
 data PostAccountsAccountRequestBodyCompany'AddressKanji'
   = PostAccountsAccountRequestBodyCompany'AddressKanji'
       { -- | city
@@ -569,65 +649,92 @@ data PostAccountsAccountRequestBodyCompany'AddressKanji'
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostAccountsAccountRequestBodyCompany'AddressKanji' where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "city" (postAccountsAccountRequestBodyCompany'AddressKanji'City obj) : (Data.Aeson..=) "country" (postAccountsAccountRequestBodyCompany'AddressKanji'Country obj) : (Data.Aeson..=) "line1" (postAccountsAccountRequestBodyCompany'AddressKanji'Line1 obj) : (Data.Aeson..=) "line2" (postAccountsAccountRequestBodyCompany'AddressKanji'Line2 obj) : (Data.Aeson..=) "postal_code" (postAccountsAccountRequestBodyCompany'AddressKanji'PostalCode obj) : (Data.Aeson..=) "state" (postAccountsAccountRequestBodyCompany'AddressKanji'State obj) : (Data.Aeson..=) "town" (postAccountsAccountRequestBodyCompany'AddressKanji'Town obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "city" (postAccountsAccountRequestBodyCompany'AddressKanji'City obj) GHC.Base.<> ((Data.Aeson..=) "country" (postAccountsAccountRequestBodyCompany'AddressKanji'Country obj) GHC.Base.<> ((Data.Aeson..=) "line1" (postAccountsAccountRequestBodyCompany'AddressKanji'Line1 obj) GHC.Base.<> ((Data.Aeson..=) "line2" (postAccountsAccountRequestBodyCompany'AddressKanji'Line2 obj) GHC.Base.<> ((Data.Aeson..=) "postal_code" (postAccountsAccountRequestBodyCompany'AddressKanji'PostalCode obj) GHC.Base.<> ((Data.Aeson..=) "state" (postAccountsAccountRequestBodyCompany'AddressKanji'State obj) GHC.Base.<> (Data.Aeson..=) "town" (postAccountsAccountRequestBodyCompany'AddressKanji'Town obj)))))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("city" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyCompany'AddressKanji'City obj : "country" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyCompany'AddressKanji'Country obj : "line1" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyCompany'AddressKanji'Line1 obj : "line2" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyCompany'AddressKanji'Line2 obj : "postal_code" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyCompany'AddressKanji'PostalCode obj : "state" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyCompany'AddressKanji'State obj : "town" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyCompany'AddressKanji'Town obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("city" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyCompany'AddressKanji'City obj) GHC.Base.<> (("country" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyCompany'AddressKanji'Country obj) GHC.Base.<> (("line1" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyCompany'AddressKanji'Line1 obj) GHC.Base.<> (("line2" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyCompany'AddressKanji'Line2 obj) GHC.Base.<> (("postal_code" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyCompany'AddressKanji'PostalCode obj) GHC.Base.<> (("state" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyCompany'AddressKanji'State obj) GHC.Base.<> ("town" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyCompany'AddressKanji'Town obj)))))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostAccountsAccountRequestBodyCompany'AddressKanji' where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PostAccountsAccountRequestBodyCompany'AddressKanji'" (\obj -> ((((((GHC.Base.pure PostAccountsAccountRequestBodyCompany'AddressKanji' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "city")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "country")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "line1")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "line2")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "postal_code")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "state")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "town"))
 
--- | Defines the enum schema postAccountsAccountRequestBodyCompany\'Structure\'
+-- | Create a new 'PostAccountsAccountRequestBodyCompany'AddressKanji'' with all required fields.
+mkPostAccountsAccountRequestBodyCompany'AddressKanji' :: PostAccountsAccountRequestBodyCompany'AddressKanji'
+mkPostAccountsAccountRequestBodyCompany'AddressKanji' =
+  PostAccountsAccountRequestBodyCompany'AddressKanji'
+    { postAccountsAccountRequestBodyCompany'AddressKanji'City = GHC.Maybe.Nothing,
+      postAccountsAccountRequestBodyCompany'AddressKanji'Country = GHC.Maybe.Nothing,
+      postAccountsAccountRequestBodyCompany'AddressKanji'Line1 = GHC.Maybe.Nothing,
+      postAccountsAccountRequestBodyCompany'AddressKanji'Line2 = GHC.Maybe.Nothing,
+      postAccountsAccountRequestBodyCompany'AddressKanji'PostalCode = GHC.Maybe.Nothing,
+      postAccountsAccountRequestBodyCompany'AddressKanji'State = GHC.Maybe.Nothing,
+      postAccountsAccountRequestBodyCompany'AddressKanji'Town = GHC.Maybe.Nothing
+    }
+
+-- | Defines the enum schema located at @paths.\/v1\/accounts\/{account}.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.company.properties.structure@ in the specification.
 data PostAccountsAccountRequestBodyCompany'Structure'
-  = PostAccountsAccountRequestBodyCompany'Structure'EnumOther Data.Aeson.Types.Internal.Value
-  | PostAccountsAccountRequestBodyCompany'Structure'EnumTyped Data.Text.Internal.Text
-  | PostAccountsAccountRequestBodyCompany'Structure'EnumString_
-  | PostAccountsAccountRequestBodyCompany'Structure'EnumStringGovernmentInstrumentality
-  | PostAccountsAccountRequestBodyCompany'Structure'EnumStringGovernmentalUnit
-  | PostAccountsAccountRequestBodyCompany'Structure'EnumStringIncorporatedNonProfit
-  | PostAccountsAccountRequestBodyCompany'Structure'EnumStringMultiMemberLlc
-  | PostAccountsAccountRequestBodyCompany'Structure'EnumStringPrivateCorporation
-  | PostAccountsAccountRequestBodyCompany'Structure'EnumStringPrivatePartnership
-  | PostAccountsAccountRequestBodyCompany'Structure'EnumStringPublicCorporation
-  | PostAccountsAccountRequestBodyCompany'Structure'EnumStringPublicPartnership
-  | PostAccountsAccountRequestBodyCompany'Structure'EnumStringTaxExemptGovernmentInstrumentality
-  | PostAccountsAccountRequestBodyCompany'Structure'EnumStringUnincorporatedAssociation
-  | PostAccountsAccountRequestBodyCompany'Structure'EnumStringUnincorporatedNonProfit
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    PostAccountsAccountRequestBodyCompany'Structure'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    PostAccountsAccountRequestBodyCompany'Structure'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @""@
+    PostAccountsAccountRequestBodyCompany'Structure'EnumEmptyString
+  | -- | Represents the JSON value @"government_instrumentality"@
+    PostAccountsAccountRequestBodyCompany'Structure'EnumGovernmentInstrumentality
+  | -- | Represents the JSON value @"governmental_unit"@
+    PostAccountsAccountRequestBodyCompany'Structure'EnumGovernmentalUnit
+  | -- | Represents the JSON value @"incorporated_non_profit"@
+    PostAccountsAccountRequestBodyCompany'Structure'EnumIncorporatedNonProfit
+  | -- | Represents the JSON value @"multi_member_llc"@
+    PostAccountsAccountRequestBodyCompany'Structure'EnumMultiMemberLlc
+  | -- | Represents the JSON value @"private_corporation"@
+    PostAccountsAccountRequestBodyCompany'Structure'EnumPrivateCorporation
+  | -- | Represents the JSON value @"private_partnership"@
+    PostAccountsAccountRequestBodyCompany'Structure'EnumPrivatePartnership
+  | -- | Represents the JSON value @"public_corporation"@
+    PostAccountsAccountRequestBodyCompany'Structure'EnumPublicCorporation
+  | -- | Represents the JSON value @"public_partnership"@
+    PostAccountsAccountRequestBodyCompany'Structure'EnumPublicPartnership
+  | -- | Represents the JSON value @"tax_exempt_government_instrumentality"@
+    PostAccountsAccountRequestBodyCompany'Structure'EnumTaxExemptGovernmentInstrumentality
+  | -- | Represents the JSON value @"unincorporated_association"@
+    PostAccountsAccountRequestBodyCompany'Structure'EnumUnincorporatedAssociation
+  | -- | Represents the JSON value @"unincorporated_non_profit"@
+    PostAccountsAccountRequestBodyCompany'Structure'EnumUnincorporatedNonProfit
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostAccountsAccountRequestBodyCompany'Structure' where
-  toJSON (PostAccountsAccountRequestBodyCompany'Structure'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostAccountsAccountRequestBodyCompany'Structure'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostAccountsAccountRequestBodyCompany'Structure'EnumString_) = ""
-  toJSON (PostAccountsAccountRequestBodyCompany'Structure'EnumStringGovernmentInstrumentality) = "government_instrumentality"
-  toJSON (PostAccountsAccountRequestBodyCompany'Structure'EnumStringGovernmentalUnit) = "governmental_unit"
-  toJSON (PostAccountsAccountRequestBodyCompany'Structure'EnumStringIncorporatedNonProfit) = "incorporated_non_profit"
-  toJSON (PostAccountsAccountRequestBodyCompany'Structure'EnumStringMultiMemberLlc) = "multi_member_llc"
-  toJSON (PostAccountsAccountRequestBodyCompany'Structure'EnumStringPrivateCorporation) = "private_corporation"
-  toJSON (PostAccountsAccountRequestBodyCompany'Structure'EnumStringPrivatePartnership) = "private_partnership"
-  toJSON (PostAccountsAccountRequestBodyCompany'Structure'EnumStringPublicCorporation) = "public_corporation"
-  toJSON (PostAccountsAccountRequestBodyCompany'Structure'EnumStringPublicPartnership) = "public_partnership"
-  toJSON (PostAccountsAccountRequestBodyCompany'Structure'EnumStringTaxExemptGovernmentInstrumentality) = "tax_exempt_government_instrumentality"
-  toJSON (PostAccountsAccountRequestBodyCompany'Structure'EnumStringUnincorporatedAssociation) = "unincorporated_association"
-  toJSON (PostAccountsAccountRequestBodyCompany'Structure'EnumStringUnincorporatedNonProfit) = "unincorporated_non_profit"
+  toJSON (PostAccountsAccountRequestBodyCompany'Structure'Other val) = val
+  toJSON (PostAccountsAccountRequestBodyCompany'Structure'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PostAccountsAccountRequestBodyCompany'Structure'EnumEmptyString) = ""
+  toJSON (PostAccountsAccountRequestBodyCompany'Structure'EnumGovernmentInstrumentality) = "government_instrumentality"
+  toJSON (PostAccountsAccountRequestBodyCompany'Structure'EnumGovernmentalUnit) = "governmental_unit"
+  toJSON (PostAccountsAccountRequestBodyCompany'Structure'EnumIncorporatedNonProfit) = "incorporated_non_profit"
+  toJSON (PostAccountsAccountRequestBodyCompany'Structure'EnumMultiMemberLlc) = "multi_member_llc"
+  toJSON (PostAccountsAccountRequestBodyCompany'Structure'EnumPrivateCorporation) = "private_corporation"
+  toJSON (PostAccountsAccountRequestBodyCompany'Structure'EnumPrivatePartnership) = "private_partnership"
+  toJSON (PostAccountsAccountRequestBodyCompany'Structure'EnumPublicCorporation) = "public_corporation"
+  toJSON (PostAccountsAccountRequestBodyCompany'Structure'EnumPublicPartnership) = "public_partnership"
+  toJSON (PostAccountsAccountRequestBodyCompany'Structure'EnumTaxExemptGovernmentInstrumentality) = "tax_exempt_government_instrumentality"
+  toJSON (PostAccountsAccountRequestBodyCompany'Structure'EnumUnincorporatedAssociation) = "unincorporated_association"
+  toJSON (PostAccountsAccountRequestBodyCompany'Structure'EnumUnincorporatedNonProfit) = "unincorporated_non_profit"
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostAccountsAccountRequestBodyCompany'Structure' where
   parseJSON val =
     GHC.Base.pure
-      ( if  | val GHC.Classes.== "" -> PostAccountsAccountRequestBodyCompany'Structure'EnumString_
-            | val GHC.Classes.== "government_instrumentality" -> PostAccountsAccountRequestBodyCompany'Structure'EnumStringGovernmentInstrumentality
-            | val GHC.Classes.== "governmental_unit" -> PostAccountsAccountRequestBodyCompany'Structure'EnumStringGovernmentalUnit
-            | val GHC.Classes.== "incorporated_non_profit" -> PostAccountsAccountRequestBodyCompany'Structure'EnumStringIncorporatedNonProfit
-            | val GHC.Classes.== "multi_member_llc" -> PostAccountsAccountRequestBodyCompany'Structure'EnumStringMultiMemberLlc
-            | val GHC.Classes.== "private_corporation" -> PostAccountsAccountRequestBodyCompany'Structure'EnumStringPrivateCorporation
-            | val GHC.Classes.== "private_partnership" -> PostAccountsAccountRequestBodyCompany'Structure'EnumStringPrivatePartnership
-            | val GHC.Classes.== "public_corporation" -> PostAccountsAccountRequestBodyCompany'Structure'EnumStringPublicCorporation
-            | val GHC.Classes.== "public_partnership" -> PostAccountsAccountRequestBodyCompany'Structure'EnumStringPublicPartnership
-            | val GHC.Classes.== "tax_exempt_government_instrumentality" -> PostAccountsAccountRequestBodyCompany'Structure'EnumStringTaxExemptGovernmentInstrumentality
-            | val GHC.Classes.== "unincorporated_association" -> PostAccountsAccountRequestBodyCompany'Structure'EnumStringUnincorporatedAssociation
-            | val GHC.Classes.== "unincorporated_non_profit" -> PostAccountsAccountRequestBodyCompany'Structure'EnumStringUnincorporatedNonProfit
-            | GHC.Base.otherwise -> PostAccountsAccountRequestBodyCompany'Structure'EnumOther val
+      ( if  | val GHC.Classes.== "" -> PostAccountsAccountRequestBodyCompany'Structure'EnumEmptyString
+            | val GHC.Classes.== "government_instrumentality" -> PostAccountsAccountRequestBodyCompany'Structure'EnumGovernmentInstrumentality
+            | val GHC.Classes.== "governmental_unit" -> PostAccountsAccountRequestBodyCompany'Structure'EnumGovernmentalUnit
+            | val GHC.Classes.== "incorporated_non_profit" -> PostAccountsAccountRequestBodyCompany'Structure'EnumIncorporatedNonProfit
+            | val GHC.Classes.== "multi_member_llc" -> PostAccountsAccountRequestBodyCompany'Structure'EnumMultiMemberLlc
+            | val GHC.Classes.== "private_corporation" -> PostAccountsAccountRequestBodyCompany'Structure'EnumPrivateCorporation
+            | val GHC.Classes.== "private_partnership" -> PostAccountsAccountRequestBodyCompany'Structure'EnumPrivatePartnership
+            | val GHC.Classes.== "public_corporation" -> PostAccountsAccountRequestBodyCompany'Structure'EnumPublicCorporation
+            | val GHC.Classes.== "public_partnership" -> PostAccountsAccountRequestBodyCompany'Structure'EnumPublicPartnership
+            | val GHC.Classes.== "tax_exempt_government_instrumentality" -> PostAccountsAccountRequestBodyCompany'Structure'EnumTaxExemptGovernmentInstrumentality
+            | val GHC.Classes.== "unincorporated_association" -> PostAccountsAccountRequestBodyCompany'Structure'EnumUnincorporatedAssociation
+            | val GHC.Classes.== "unincorporated_non_profit" -> PostAccountsAccountRequestBodyCompany'Structure'EnumUnincorporatedNonProfit
+            | GHC.Base.otherwise -> PostAccountsAccountRequestBodyCompany'Structure'Other val
       )
 
--- | Defines the data type for the schema postAccountsAccountRequestBodyCompany\'Verification\'
+-- | Defines the object schema located at @paths.\/v1\/accounts\/{account}.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.company.properties.verification@ in the specification.
 data PostAccountsAccountRequestBodyCompany'Verification'
   = PostAccountsAccountRequestBodyCompany'Verification'
       { -- | document
@@ -639,13 +746,17 @@ data PostAccountsAccountRequestBodyCompany'Verification'
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostAccountsAccountRequestBodyCompany'Verification' where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "document" (postAccountsAccountRequestBodyCompany'Verification'Document obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "document" (postAccountsAccountRequestBodyCompany'Verification'Document obj))
+  toJSON obj = Data.Aeson.Types.Internal.object ("document" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyCompany'Verification'Document obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs ("document" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyCompany'Verification'Document obj)
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostAccountsAccountRequestBodyCompany'Verification' where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PostAccountsAccountRequestBodyCompany'Verification'" (\obj -> GHC.Base.pure PostAccountsAccountRequestBodyCompany'Verification' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "document"))
 
--- | Defines the data type for the schema postAccountsAccountRequestBodyCompany\'Verification\'Document\'
+-- | Create a new 'PostAccountsAccountRequestBodyCompany'Verification'' with all required fields.
+mkPostAccountsAccountRequestBodyCompany'Verification' :: PostAccountsAccountRequestBodyCompany'Verification'
+mkPostAccountsAccountRequestBodyCompany'Verification' = PostAccountsAccountRequestBodyCompany'Verification' {postAccountsAccountRequestBodyCompany'Verification'Document = GHC.Maybe.Nothing}
+
+-- | Defines the object schema located at @paths.\/v1\/accounts\/{account}.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.company.properties.verification.properties.document@ in the specification.
 data PostAccountsAccountRequestBodyCompany'Verification'Document'
   = PostAccountsAccountRequestBodyCompany'Verification'Document'
       { -- | back
@@ -667,13 +778,21 @@ data PostAccountsAccountRequestBodyCompany'Verification'Document'
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostAccountsAccountRequestBodyCompany'Verification'Document' where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "back" (postAccountsAccountRequestBodyCompany'Verification'Document'Back obj) : (Data.Aeson..=) "front" (postAccountsAccountRequestBodyCompany'Verification'Document'Front obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "back" (postAccountsAccountRequestBodyCompany'Verification'Document'Back obj) GHC.Base.<> (Data.Aeson..=) "front" (postAccountsAccountRequestBodyCompany'Verification'Document'Front obj))
+  toJSON obj = Data.Aeson.Types.Internal.object ("back" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyCompany'Verification'Document'Back obj : "front" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyCompany'Verification'Document'Front obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("back" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyCompany'Verification'Document'Back obj) GHC.Base.<> ("front" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyCompany'Verification'Document'Front obj))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostAccountsAccountRequestBodyCompany'Verification'Document' where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PostAccountsAccountRequestBodyCompany'Verification'Document'" (\obj -> (GHC.Base.pure PostAccountsAccountRequestBodyCompany'Verification'Document' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "back")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "front"))
 
--- | Defines the data type for the schema postAccountsAccountRequestBodyIndividual\'
+-- | Create a new 'PostAccountsAccountRequestBodyCompany'Verification'Document'' with all required fields.
+mkPostAccountsAccountRequestBodyCompany'Verification'Document' :: PostAccountsAccountRequestBodyCompany'Verification'Document'
+mkPostAccountsAccountRequestBodyCompany'Verification'Document' =
+  PostAccountsAccountRequestBodyCompany'Verification'Document'
+    { postAccountsAccountRequestBodyCompany'Verification'Document'Back = GHC.Maybe.Nothing,
+      postAccountsAccountRequestBodyCompany'Verification'Document'Front = GHC.Maybe.Nothing
+    }
+
+-- | Defines the object schema located at @paths.\/v1\/accounts\/{account}.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.individual@ in the specification.
 --
 -- Information about the person represented by the account. This field is null unless \`business_type\` is set to \`individual\`.
 data PostAccountsAccountRequestBodyIndividual'
@@ -761,13 +880,37 @@ data PostAccountsAccountRequestBodyIndividual'
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostAccountsAccountRequestBodyIndividual' where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "address" (postAccountsAccountRequestBodyIndividual'Address obj) : (Data.Aeson..=) "address_kana" (postAccountsAccountRequestBodyIndividual'AddressKana obj) : (Data.Aeson..=) "address_kanji" (postAccountsAccountRequestBodyIndividual'AddressKanji obj) : (Data.Aeson..=) "dob" (postAccountsAccountRequestBodyIndividual'Dob obj) : (Data.Aeson..=) "email" (postAccountsAccountRequestBodyIndividual'Email obj) : (Data.Aeson..=) "first_name" (postAccountsAccountRequestBodyIndividual'FirstName obj) : (Data.Aeson..=) "first_name_kana" (postAccountsAccountRequestBodyIndividual'FirstNameKana obj) : (Data.Aeson..=) "first_name_kanji" (postAccountsAccountRequestBodyIndividual'FirstNameKanji obj) : (Data.Aeson..=) "gender" (postAccountsAccountRequestBodyIndividual'Gender obj) : (Data.Aeson..=) "id_number" (postAccountsAccountRequestBodyIndividual'IdNumber obj) : (Data.Aeson..=) "last_name" (postAccountsAccountRequestBodyIndividual'LastName obj) : (Data.Aeson..=) "last_name_kana" (postAccountsAccountRequestBodyIndividual'LastNameKana obj) : (Data.Aeson..=) "last_name_kanji" (postAccountsAccountRequestBodyIndividual'LastNameKanji obj) : (Data.Aeson..=) "maiden_name" (postAccountsAccountRequestBodyIndividual'MaidenName obj) : (Data.Aeson..=) "metadata" (postAccountsAccountRequestBodyIndividual'Metadata obj) : (Data.Aeson..=) "phone" (postAccountsAccountRequestBodyIndividual'Phone obj) : (Data.Aeson..=) "ssn_last_4" (postAccountsAccountRequestBodyIndividual'SsnLast_4 obj) : (Data.Aeson..=) "verification" (postAccountsAccountRequestBodyIndividual'Verification obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "address" (postAccountsAccountRequestBodyIndividual'Address obj) GHC.Base.<> ((Data.Aeson..=) "address_kana" (postAccountsAccountRequestBodyIndividual'AddressKana obj) GHC.Base.<> ((Data.Aeson..=) "address_kanji" (postAccountsAccountRequestBodyIndividual'AddressKanji obj) GHC.Base.<> ((Data.Aeson..=) "dob" (postAccountsAccountRequestBodyIndividual'Dob obj) GHC.Base.<> ((Data.Aeson..=) "email" (postAccountsAccountRequestBodyIndividual'Email obj) GHC.Base.<> ((Data.Aeson..=) "first_name" (postAccountsAccountRequestBodyIndividual'FirstName obj) GHC.Base.<> ((Data.Aeson..=) "first_name_kana" (postAccountsAccountRequestBodyIndividual'FirstNameKana obj) GHC.Base.<> ((Data.Aeson..=) "first_name_kanji" (postAccountsAccountRequestBodyIndividual'FirstNameKanji obj) GHC.Base.<> ((Data.Aeson..=) "gender" (postAccountsAccountRequestBodyIndividual'Gender obj) GHC.Base.<> ((Data.Aeson..=) "id_number" (postAccountsAccountRequestBodyIndividual'IdNumber obj) GHC.Base.<> ((Data.Aeson..=) "last_name" (postAccountsAccountRequestBodyIndividual'LastName obj) GHC.Base.<> ((Data.Aeson..=) "last_name_kana" (postAccountsAccountRequestBodyIndividual'LastNameKana obj) GHC.Base.<> ((Data.Aeson..=) "last_name_kanji" (postAccountsAccountRequestBodyIndividual'LastNameKanji obj) GHC.Base.<> ((Data.Aeson..=) "maiden_name" (postAccountsAccountRequestBodyIndividual'MaidenName obj) GHC.Base.<> ((Data.Aeson..=) "metadata" (postAccountsAccountRequestBodyIndividual'Metadata obj) GHC.Base.<> ((Data.Aeson..=) "phone" (postAccountsAccountRequestBodyIndividual'Phone obj) GHC.Base.<> ((Data.Aeson..=) "ssn_last_4" (postAccountsAccountRequestBodyIndividual'SsnLast_4 obj) GHC.Base.<> (Data.Aeson..=) "verification" (postAccountsAccountRequestBodyIndividual'Verification obj))))))))))))))))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("address" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyIndividual'Address obj : "address_kana" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyIndividual'AddressKana obj : "address_kanji" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyIndividual'AddressKanji obj : "dob" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyIndividual'Dob obj : "email" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyIndividual'Email obj : "first_name" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyIndividual'FirstName obj : "first_name_kana" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyIndividual'FirstNameKana obj : "first_name_kanji" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyIndividual'FirstNameKanji obj : "gender" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyIndividual'Gender obj : "id_number" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyIndividual'IdNumber obj : "last_name" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyIndividual'LastName obj : "last_name_kana" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyIndividual'LastNameKana obj : "last_name_kanji" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyIndividual'LastNameKanji obj : "maiden_name" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyIndividual'MaidenName obj : "metadata" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyIndividual'Metadata obj : "phone" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyIndividual'Phone obj : "ssn_last_4" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyIndividual'SsnLast_4 obj : "verification" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyIndividual'Verification obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("address" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyIndividual'Address obj) GHC.Base.<> (("address_kana" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyIndividual'AddressKana obj) GHC.Base.<> (("address_kanji" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyIndividual'AddressKanji obj) GHC.Base.<> (("dob" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyIndividual'Dob obj) GHC.Base.<> (("email" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyIndividual'Email obj) GHC.Base.<> (("first_name" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyIndividual'FirstName obj) GHC.Base.<> (("first_name_kana" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyIndividual'FirstNameKana obj) GHC.Base.<> (("first_name_kanji" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyIndividual'FirstNameKanji obj) GHC.Base.<> (("gender" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyIndividual'Gender obj) GHC.Base.<> (("id_number" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyIndividual'IdNumber obj) GHC.Base.<> (("last_name" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyIndividual'LastName obj) GHC.Base.<> (("last_name_kana" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyIndividual'LastNameKana obj) GHC.Base.<> (("last_name_kanji" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyIndividual'LastNameKanji obj) GHC.Base.<> (("maiden_name" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyIndividual'MaidenName obj) GHC.Base.<> (("metadata" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyIndividual'Metadata obj) GHC.Base.<> (("phone" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyIndividual'Phone obj) GHC.Base.<> (("ssn_last_4" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyIndividual'SsnLast_4 obj) GHC.Base.<> ("verification" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyIndividual'Verification obj))))))))))))))))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostAccountsAccountRequestBodyIndividual' where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PostAccountsAccountRequestBodyIndividual'" (\obj -> (((((((((((((((((GHC.Base.pure PostAccountsAccountRequestBodyIndividual' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "address")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "address_kana")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "address_kanji")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "dob")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "email")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "first_name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "first_name_kana")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "first_name_kanji")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "gender")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "id_number")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "last_name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "last_name_kana")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "last_name_kanji")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "maiden_name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "phone")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "ssn_last_4")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "verification"))
 
--- | Defines the data type for the schema postAccountsAccountRequestBodyIndividual\'Address\'
+-- | Create a new 'PostAccountsAccountRequestBodyIndividual'' with all required fields.
+mkPostAccountsAccountRequestBodyIndividual' :: PostAccountsAccountRequestBodyIndividual'
+mkPostAccountsAccountRequestBodyIndividual' =
+  PostAccountsAccountRequestBodyIndividual'
+    { postAccountsAccountRequestBodyIndividual'Address = GHC.Maybe.Nothing,
+      postAccountsAccountRequestBodyIndividual'AddressKana = GHC.Maybe.Nothing,
+      postAccountsAccountRequestBodyIndividual'AddressKanji = GHC.Maybe.Nothing,
+      postAccountsAccountRequestBodyIndividual'Dob = GHC.Maybe.Nothing,
+      postAccountsAccountRequestBodyIndividual'Email = GHC.Maybe.Nothing,
+      postAccountsAccountRequestBodyIndividual'FirstName = GHC.Maybe.Nothing,
+      postAccountsAccountRequestBodyIndividual'FirstNameKana = GHC.Maybe.Nothing,
+      postAccountsAccountRequestBodyIndividual'FirstNameKanji = GHC.Maybe.Nothing,
+      postAccountsAccountRequestBodyIndividual'Gender = GHC.Maybe.Nothing,
+      postAccountsAccountRequestBodyIndividual'IdNumber = GHC.Maybe.Nothing,
+      postAccountsAccountRequestBodyIndividual'LastName = GHC.Maybe.Nothing,
+      postAccountsAccountRequestBodyIndividual'LastNameKana = GHC.Maybe.Nothing,
+      postAccountsAccountRequestBodyIndividual'LastNameKanji = GHC.Maybe.Nothing,
+      postAccountsAccountRequestBodyIndividual'MaidenName = GHC.Maybe.Nothing,
+      postAccountsAccountRequestBodyIndividual'Metadata = GHC.Maybe.Nothing,
+      postAccountsAccountRequestBodyIndividual'Phone = GHC.Maybe.Nothing,
+      postAccountsAccountRequestBodyIndividual'SsnLast_4 = GHC.Maybe.Nothing,
+      postAccountsAccountRequestBodyIndividual'Verification = GHC.Maybe.Nothing
+    }
+
+-- | Defines the object schema located at @paths.\/v1\/accounts\/{account}.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.individual.properties.address@ in the specification.
 data PostAccountsAccountRequestBodyIndividual'Address'
   = PostAccountsAccountRequestBodyIndividual'Address'
       { -- | city
@@ -813,13 +956,25 @@ data PostAccountsAccountRequestBodyIndividual'Address'
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostAccountsAccountRequestBodyIndividual'Address' where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "city" (postAccountsAccountRequestBodyIndividual'Address'City obj) : (Data.Aeson..=) "country" (postAccountsAccountRequestBodyIndividual'Address'Country obj) : (Data.Aeson..=) "line1" (postAccountsAccountRequestBodyIndividual'Address'Line1 obj) : (Data.Aeson..=) "line2" (postAccountsAccountRequestBodyIndividual'Address'Line2 obj) : (Data.Aeson..=) "postal_code" (postAccountsAccountRequestBodyIndividual'Address'PostalCode obj) : (Data.Aeson..=) "state" (postAccountsAccountRequestBodyIndividual'Address'State obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "city" (postAccountsAccountRequestBodyIndividual'Address'City obj) GHC.Base.<> ((Data.Aeson..=) "country" (postAccountsAccountRequestBodyIndividual'Address'Country obj) GHC.Base.<> ((Data.Aeson..=) "line1" (postAccountsAccountRequestBodyIndividual'Address'Line1 obj) GHC.Base.<> ((Data.Aeson..=) "line2" (postAccountsAccountRequestBodyIndividual'Address'Line2 obj) GHC.Base.<> ((Data.Aeson..=) "postal_code" (postAccountsAccountRequestBodyIndividual'Address'PostalCode obj) GHC.Base.<> (Data.Aeson..=) "state" (postAccountsAccountRequestBodyIndividual'Address'State obj))))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("city" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyIndividual'Address'City obj : "country" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyIndividual'Address'Country obj : "line1" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyIndividual'Address'Line1 obj : "line2" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyIndividual'Address'Line2 obj : "postal_code" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyIndividual'Address'PostalCode obj : "state" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyIndividual'Address'State obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("city" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyIndividual'Address'City obj) GHC.Base.<> (("country" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyIndividual'Address'Country obj) GHC.Base.<> (("line1" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyIndividual'Address'Line1 obj) GHC.Base.<> (("line2" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyIndividual'Address'Line2 obj) GHC.Base.<> (("postal_code" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyIndividual'Address'PostalCode obj) GHC.Base.<> ("state" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyIndividual'Address'State obj))))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostAccountsAccountRequestBodyIndividual'Address' where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PostAccountsAccountRequestBodyIndividual'Address'" (\obj -> (((((GHC.Base.pure PostAccountsAccountRequestBodyIndividual'Address' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "city")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "country")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "line1")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "line2")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "postal_code")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "state"))
 
--- | Defines the data type for the schema postAccountsAccountRequestBodyIndividual\'Address_kana\'
+-- | Create a new 'PostAccountsAccountRequestBodyIndividual'Address'' with all required fields.
+mkPostAccountsAccountRequestBodyIndividual'Address' :: PostAccountsAccountRequestBodyIndividual'Address'
+mkPostAccountsAccountRequestBodyIndividual'Address' =
+  PostAccountsAccountRequestBodyIndividual'Address'
+    { postAccountsAccountRequestBodyIndividual'Address'City = GHC.Maybe.Nothing,
+      postAccountsAccountRequestBodyIndividual'Address'Country = GHC.Maybe.Nothing,
+      postAccountsAccountRequestBodyIndividual'Address'Line1 = GHC.Maybe.Nothing,
+      postAccountsAccountRequestBodyIndividual'Address'Line2 = GHC.Maybe.Nothing,
+      postAccountsAccountRequestBodyIndividual'Address'PostalCode = GHC.Maybe.Nothing,
+      postAccountsAccountRequestBodyIndividual'Address'State = GHC.Maybe.Nothing
+    }
+
+-- | Defines the object schema located at @paths.\/v1\/accounts\/{account}.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.individual.properties.address_kana@ in the specification.
 data PostAccountsAccountRequestBodyIndividual'AddressKana'
   = PostAccountsAccountRequestBodyIndividual'AddressKana'
       { -- | city
@@ -871,13 +1026,26 @@ data PostAccountsAccountRequestBodyIndividual'AddressKana'
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostAccountsAccountRequestBodyIndividual'AddressKana' where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "city" (postAccountsAccountRequestBodyIndividual'AddressKana'City obj) : (Data.Aeson..=) "country" (postAccountsAccountRequestBodyIndividual'AddressKana'Country obj) : (Data.Aeson..=) "line1" (postAccountsAccountRequestBodyIndividual'AddressKana'Line1 obj) : (Data.Aeson..=) "line2" (postAccountsAccountRequestBodyIndividual'AddressKana'Line2 obj) : (Data.Aeson..=) "postal_code" (postAccountsAccountRequestBodyIndividual'AddressKana'PostalCode obj) : (Data.Aeson..=) "state" (postAccountsAccountRequestBodyIndividual'AddressKana'State obj) : (Data.Aeson..=) "town" (postAccountsAccountRequestBodyIndividual'AddressKana'Town obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "city" (postAccountsAccountRequestBodyIndividual'AddressKana'City obj) GHC.Base.<> ((Data.Aeson..=) "country" (postAccountsAccountRequestBodyIndividual'AddressKana'Country obj) GHC.Base.<> ((Data.Aeson..=) "line1" (postAccountsAccountRequestBodyIndividual'AddressKana'Line1 obj) GHC.Base.<> ((Data.Aeson..=) "line2" (postAccountsAccountRequestBodyIndividual'AddressKana'Line2 obj) GHC.Base.<> ((Data.Aeson..=) "postal_code" (postAccountsAccountRequestBodyIndividual'AddressKana'PostalCode obj) GHC.Base.<> ((Data.Aeson..=) "state" (postAccountsAccountRequestBodyIndividual'AddressKana'State obj) GHC.Base.<> (Data.Aeson..=) "town" (postAccountsAccountRequestBodyIndividual'AddressKana'Town obj)))))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("city" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyIndividual'AddressKana'City obj : "country" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyIndividual'AddressKana'Country obj : "line1" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyIndividual'AddressKana'Line1 obj : "line2" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyIndividual'AddressKana'Line2 obj : "postal_code" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyIndividual'AddressKana'PostalCode obj : "state" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyIndividual'AddressKana'State obj : "town" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyIndividual'AddressKana'Town obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("city" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyIndividual'AddressKana'City obj) GHC.Base.<> (("country" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyIndividual'AddressKana'Country obj) GHC.Base.<> (("line1" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyIndividual'AddressKana'Line1 obj) GHC.Base.<> (("line2" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyIndividual'AddressKana'Line2 obj) GHC.Base.<> (("postal_code" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyIndividual'AddressKana'PostalCode obj) GHC.Base.<> (("state" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyIndividual'AddressKana'State obj) GHC.Base.<> ("town" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyIndividual'AddressKana'Town obj)))))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostAccountsAccountRequestBodyIndividual'AddressKana' where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PostAccountsAccountRequestBodyIndividual'AddressKana'" (\obj -> ((((((GHC.Base.pure PostAccountsAccountRequestBodyIndividual'AddressKana' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "city")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "country")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "line1")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "line2")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "postal_code")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "state")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "town"))
 
--- | Defines the data type for the schema postAccountsAccountRequestBodyIndividual\'Address_kanji\'
+-- | Create a new 'PostAccountsAccountRequestBodyIndividual'AddressKana'' with all required fields.
+mkPostAccountsAccountRequestBodyIndividual'AddressKana' :: PostAccountsAccountRequestBodyIndividual'AddressKana'
+mkPostAccountsAccountRequestBodyIndividual'AddressKana' =
+  PostAccountsAccountRequestBodyIndividual'AddressKana'
+    { postAccountsAccountRequestBodyIndividual'AddressKana'City = GHC.Maybe.Nothing,
+      postAccountsAccountRequestBodyIndividual'AddressKana'Country = GHC.Maybe.Nothing,
+      postAccountsAccountRequestBodyIndividual'AddressKana'Line1 = GHC.Maybe.Nothing,
+      postAccountsAccountRequestBodyIndividual'AddressKana'Line2 = GHC.Maybe.Nothing,
+      postAccountsAccountRequestBodyIndividual'AddressKana'PostalCode = GHC.Maybe.Nothing,
+      postAccountsAccountRequestBodyIndividual'AddressKana'State = GHC.Maybe.Nothing,
+      postAccountsAccountRequestBodyIndividual'AddressKana'Town = GHC.Maybe.Nothing
+    }
+
+-- | Defines the object schema located at @paths.\/v1\/accounts\/{account}.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.individual.properties.address_kanji@ in the specification.
 data PostAccountsAccountRequestBodyIndividual'AddressKanji'
   = PostAccountsAccountRequestBodyIndividual'AddressKanji'
       { -- | city
@@ -929,71 +1097,82 @@ data PostAccountsAccountRequestBodyIndividual'AddressKanji'
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostAccountsAccountRequestBodyIndividual'AddressKanji' where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "city" (postAccountsAccountRequestBodyIndividual'AddressKanji'City obj) : (Data.Aeson..=) "country" (postAccountsAccountRequestBodyIndividual'AddressKanji'Country obj) : (Data.Aeson..=) "line1" (postAccountsAccountRequestBodyIndividual'AddressKanji'Line1 obj) : (Data.Aeson..=) "line2" (postAccountsAccountRequestBodyIndividual'AddressKanji'Line2 obj) : (Data.Aeson..=) "postal_code" (postAccountsAccountRequestBodyIndividual'AddressKanji'PostalCode obj) : (Data.Aeson..=) "state" (postAccountsAccountRequestBodyIndividual'AddressKanji'State obj) : (Data.Aeson..=) "town" (postAccountsAccountRequestBodyIndividual'AddressKanji'Town obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "city" (postAccountsAccountRequestBodyIndividual'AddressKanji'City obj) GHC.Base.<> ((Data.Aeson..=) "country" (postAccountsAccountRequestBodyIndividual'AddressKanji'Country obj) GHC.Base.<> ((Data.Aeson..=) "line1" (postAccountsAccountRequestBodyIndividual'AddressKanji'Line1 obj) GHC.Base.<> ((Data.Aeson..=) "line2" (postAccountsAccountRequestBodyIndividual'AddressKanji'Line2 obj) GHC.Base.<> ((Data.Aeson..=) "postal_code" (postAccountsAccountRequestBodyIndividual'AddressKanji'PostalCode obj) GHC.Base.<> ((Data.Aeson..=) "state" (postAccountsAccountRequestBodyIndividual'AddressKanji'State obj) GHC.Base.<> (Data.Aeson..=) "town" (postAccountsAccountRequestBodyIndividual'AddressKanji'Town obj)))))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("city" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyIndividual'AddressKanji'City obj : "country" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyIndividual'AddressKanji'Country obj : "line1" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyIndividual'AddressKanji'Line1 obj : "line2" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyIndividual'AddressKanji'Line2 obj : "postal_code" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyIndividual'AddressKanji'PostalCode obj : "state" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyIndividual'AddressKanji'State obj : "town" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyIndividual'AddressKanji'Town obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("city" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyIndividual'AddressKanji'City obj) GHC.Base.<> (("country" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyIndividual'AddressKanji'Country obj) GHC.Base.<> (("line1" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyIndividual'AddressKanji'Line1 obj) GHC.Base.<> (("line2" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyIndividual'AddressKanji'Line2 obj) GHC.Base.<> (("postal_code" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyIndividual'AddressKanji'PostalCode obj) GHC.Base.<> (("state" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyIndividual'AddressKanji'State obj) GHC.Base.<> ("town" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyIndividual'AddressKanji'Town obj)))))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostAccountsAccountRequestBodyIndividual'AddressKanji' where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PostAccountsAccountRequestBodyIndividual'AddressKanji'" (\obj -> ((((((GHC.Base.pure PostAccountsAccountRequestBodyIndividual'AddressKanji' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "city")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "country")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "line1")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "line2")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "postal_code")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "state")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "town"))
 
--- | Defines the enum schema postAccountsAccountRequestBodyIndividual\'Dob\'OneOf1
+-- | Create a new 'PostAccountsAccountRequestBodyIndividual'AddressKanji'' with all required fields.
+mkPostAccountsAccountRequestBodyIndividual'AddressKanji' :: PostAccountsAccountRequestBodyIndividual'AddressKanji'
+mkPostAccountsAccountRequestBodyIndividual'AddressKanji' =
+  PostAccountsAccountRequestBodyIndividual'AddressKanji'
+    { postAccountsAccountRequestBodyIndividual'AddressKanji'City = GHC.Maybe.Nothing,
+      postAccountsAccountRequestBodyIndividual'AddressKanji'Country = GHC.Maybe.Nothing,
+      postAccountsAccountRequestBodyIndividual'AddressKanji'Line1 = GHC.Maybe.Nothing,
+      postAccountsAccountRequestBodyIndividual'AddressKanji'Line2 = GHC.Maybe.Nothing,
+      postAccountsAccountRequestBodyIndividual'AddressKanji'PostalCode = GHC.Maybe.Nothing,
+      postAccountsAccountRequestBodyIndividual'AddressKanji'State = GHC.Maybe.Nothing,
+      postAccountsAccountRequestBodyIndividual'AddressKanji'Town = GHC.Maybe.Nothing
+    }
+
+-- | Defines the object schema located at @paths.\/v1\/accounts\/{account}.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.individual.properties.dob.anyOf@ in the specification.
 data PostAccountsAccountRequestBodyIndividual'Dob'OneOf1
-  = PostAccountsAccountRequestBodyIndividual'Dob'OneOf1EnumOther Data.Aeson.Types.Internal.Value
-  | PostAccountsAccountRequestBodyIndividual'Dob'OneOf1EnumTyped Data.Text.Internal.Text
-  | PostAccountsAccountRequestBodyIndividual'Dob'OneOf1EnumString_
-  deriving (GHC.Show.Show, GHC.Classes.Eq)
-
-instance Data.Aeson.Types.ToJSON.ToJSON PostAccountsAccountRequestBodyIndividual'Dob'OneOf1 where
-  toJSON (PostAccountsAccountRequestBodyIndividual'Dob'OneOf1EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostAccountsAccountRequestBodyIndividual'Dob'OneOf1EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostAccountsAccountRequestBodyIndividual'Dob'OneOf1EnumString_) = ""
-
-instance Data.Aeson.Types.FromJSON.FromJSON PostAccountsAccountRequestBodyIndividual'Dob'OneOf1 where
-  parseJSON val =
-    GHC.Base.pure
-      ( if  | val GHC.Classes.== "" -> PostAccountsAccountRequestBodyIndividual'Dob'OneOf1EnumString_
-            | GHC.Base.otherwise -> PostAccountsAccountRequestBodyIndividual'Dob'OneOf1EnumOther val
-      )
-
--- | Defines the data type for the schema postAccountsAccountRequestBodyIndividual\'Dob\'OneOf2
-data PostAccountsAccountRequestBodyIndividual'Dob'OneOf2
-  = PostAccountsAccountRequestBodyIndividual'Dob'OneOf2
+  = PostAccountsAccountRequestBodyIndividual'Dob'OneOf1
       { -- | day
-        postAccountsAccountRequestBodyIndividual'Dob'OneOf2Day :: GHC.Types.Int,
+        postAccountsAccountRequestBodyIndividual'Dob'OneOf1Day :: GHC.Types.Int,
         -- | month
-        postAccountsAccountRequestBodyIndividual'Dob'OneOf2Month :: GHC.Types.Int,
+        postAccountsAccountRequestBodyIndividual'Dob'OneOf1Month :: GHC.Types.Int,
         -- | year
-        postAccountsAccountRequestBodyIndividual'Dob'OneOf2Year :: GHC.Types.Int
+        postAccountsAccountRequestBodyIndividual'Dob'OneOf1Year :: GHC.Types.Int
       }
   deriving
     ( GHC.Show.Show,
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.Types.ToJSON.ToJSON PostAccountsAccountRequestBodyIndividual'Dob'OneOf2 where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "day" (postAccountsAccountRequestBodyIndividual'Dob'OneOf2Day obj) : (Data.Aeson..=) "month" (postAccountsAccountRequestBodyIndividual'Dob'OneOf2Month obj) : (Data.Aeson..=) "year" (postAccountsAccountRequestBodyIndividual'Dob'OneOf2Year obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "day" (postAccountsAccountRequestBodyIndividual'Dob'OneOf2Day obj) GHC.Base.<> ((Data.Aeson..=) "month" (postAccountsAccountRequestBodyIndividual'Dob'OneOf2Month obj) GHC.Base.<> (Data.Aeson..=) "year" (postAccountsAccountRequestBodyIndividual'Dob'OneOf2Year obj)))
+instance Data.Aeson.Types.ToJSON.ToJSON PostAccountsAccountRequestBodyIndividual'Dob'OneOf1 where
+  toJSON obj = Data.Aeson.Types.Internal.object ("day" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyIndividual'Dob'OneOf1Day obj : "month" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyIndividual'Dob'OneOf1Month obj : "year" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyIndividual'Dob'OneOf1Year obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("day" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyIndividual'Dob'OneOf1Day obj) GHC.Base.<> (("month" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyIndividual'Dob'OneOf1Month obj) GHC.Base.<> ("year" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyIndividual'Dob'OneOf1Year obj)))
 
-instance Data.Aeson.Types.FromJSON.FromJSON PostAccountsAccountRequestBodyIndividual'Dob'OneOf2 where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostAccountsAccountRequestBodyIndividual'Dob'OneOf2" (\obj -> ((GHC.Base.pure PostAccountsAccountRequestBodyIndividual'Dob'OneOf2 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "day")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "month")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "year"))
+instance Data.Aeson.Types.FromJSON.FromJSON PostAccountsAccountRequestBodyIndividual'Dob'OneOf1 where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostAccountsAccountRequestBodyIndividual'Dob'OneOf1" (\obj -> ((GHC.Base.pure PostAccountsAccountRequestBodyIndividual'Dob'OneOf1 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "day")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "month")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "year"))
 
--- | Define the one-of schema postAccountsAccountRequestBodyIndividual\'Dob\'
+-- | Create a new 'PostAccountsAccountRequestBodyIndividual'Dob'OneOf1' with all required fields.
+mkPostAccountsAccountRequestBodyIndividual'Dob'OneOf1 ::
+  -- | 'postAccountsAccountRequestBodyIndividual'Dob'OneOf1Day'
+  GHC.Types.Int ->
+  -- | 'postAccountsAccountRequestBodyIndividual'Dob'OneOf1Month'
+  GHC.Types.Int ->
+  -- | 'postAccountsAccountRequestBodyIndividual'Dob'OneOf1Year'
+  GHC.Types.Int ->
+  PostAccountsAccountRequestBodyIndividual'Dob'OneOf1
+mkPostAccountsAccountRequestBodyIndividual'Dob'OneOf1 postAccountsAccountRequestBodyIndividual'Dob'OneOf1Day postAccountsAccountRequestBodyIndividual'Dob'OneOf1Month postAccountsAccountRequestBodyIndividual'Dob'OneOf1Year =
+  PostAccountsAccountRequestBodyIndividual'Dob'OneOf1
+    { postAccountsAccountRequestBodyIndividual'Dob'OneOf1Day = postAccountsAccountRequestBodyIndividual'Dob'OneOf1Day,
+      postAccountsAccountRequestBodyIndividual'Dob'OneOf1Month = postAccountsAccountRequestBodyIndividual'Dob'OneOf1Month,
+      postAccountsAccountRequestBodyIndividual'Dob'OneOf1Year = postAccountsAccountRequestBodyIndividual'Dob'OneOf1Year
+    }
+
+-- | Defines the oneOf schema located at @paths.\/v1\/accounts\/{account}.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.individual.properties.dob.anyOf@ in the specification.
 data PostAccountsAccountRequestBodyIndividual'Dob'Variants
-  = PostAccountsAccountRequestBodyIndividual'Dob'PostAccountsAccountRequestBodyIndividual'Dob'OneOf1 PostAccountsAccountRequestBodyIndividual'Dob'OneOf1
-  | PostAccountsAccountRequestBodyIndividual'Dob'PostAccountsAccountRequestBodyIndividual'Dob'OneOf2 PostAccountsAccountRequestBodyIndividual'Dob'OneOf2
+  = -- | Represents the JSON value @""@
+    PostAccountsAccountRequestBodyIndividual'Dob'EmptyString
+  | PostAccountsAccountRequestBodyIndividual'Dob'PostAccountsAccountRequestBodyIndividual'Dob'OneOf1 PostAccountsAccountRequestBodyIndividual'Dob'OneOf1
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostAccountsAccountRequestBodyIndividual'Dob'Variants where
   toJSON (PostAccountsAccountRequestBodyIndividual'Dob'PostAccountsAccountRequestBodyIndividual'Dob'OneOf1 a) = Data.Aeson.Types.ToJSON.toJSON a
-  toJSON (PostAccountsAccountRequestBodyIndividual'Dob'PostAccountsAccountRequestBodyIndividual'Dob'OneOf2 a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (PostAccountsAccountRequestBodyIndividual'Dob'EmptyString) = ""
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostAccountsAccountRequestBodyIndividual'Dob'Variants where
-  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
-    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ PostAccountsAccountRequestBodyIndividual'Dob'PostAccountsAccountRequestBodyIndividual'Dob'OneOf1 a
-    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ PostAccountsAccountRequestBodyIndividual'Dob'PostAccountsAccountRequestBodyIndividual'Dob'OneOf2 a
-      Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+  parseJSON val =
+    if  | val GHC.Classes.== "" -> GHC.Base.pure PostAccountsAccountRequestBodyIndividual'Dob'EmptyString
+        | GHC.Base.otherwise -> case (PostAccountsAccountRequestBodyIndividual'Dob'PostAccountsAccountRequestBodyIndividual'Dob'OneOf1 Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched" of
+          Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+          Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
--- | Defines the data type for the schema postAccountsAccountRequestBodyIndividual\'Verification\'
+-- | Defines the object schema located at @paths.\/v1\/accounts\/{account}.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.individual.properties.verification@ in the specification.
 data PostAccountsAccountRequestBodyIndividual'Verification'
   = PostAccountsAccountRequestBodyIndividual'Verification'
       { -- | additional_document
@@ -1007,13 +1186,21 @@ data PostAccountsAccountRequestBodyIndividual'Verification'
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostAccountsAccountRequestBodyIndividual'Verification' where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "additional_document" (postAccountsAccountRequestBodyIndividual'Verification'AdditionalDocument obj) : (Data.Aeson..=) "document" (postAccountsAccountRequestBodyIndividual'Verification'Document obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "additional_document" (postAccountsAccountRequestBodyIndividual'Verification'AdditionalDocument obj) GHC.Base.<> (Data.Aeson..=) "document" (postAccountsAccountRequestBodyIndividual'Verification'Document obj))
+  toJSON obj = Data.Aeson.Types.Internal.object ("additional_document" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyIndividual'Verification'AdditionalDocument obj : "document" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyIndividual'Verification'Document obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("additional_document" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyIndividual'Verification'AdditionalDocument obj) GHC.Base.<> ("document" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyIndividual'Verification'Document obj))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostAccountsAccountRequestBodyIndividual'Verification' where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PostAccountsAccountRequestBodyIndividual'Verification'" (\obj -> (GHC.Base.pure PostAccountsAccountRequestBodyIndividual'Verification' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "additional_document")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "document"))
 
--- | Defines the data type for the schema postAccountsAccountRequestBodyIndividual\'Verification\'Additional_document\'
+-- | Create a new 'PostAccountsAccountRequestBodyIndividual'Verification'' with all required fields.
+mkPostAccountsAccountRequestBodyIndividual'Verification' :: PostAccountsAccountRequestBodyIndividual'Verification'
+mkPostAccountsAccountRequestBodyIndividual'Verification' =
+  PostAccountsAccountRequestBodyIndividual'Verification'
+    { postAccountsAccountRequestBodyIndividual'Verification'AdditionalDocument = GHC.Maybe.Nothing,
+      postAccountsAccountRequestBodyIndividual'Verification'Document = GHC.Maybe.Nothing
+    }
+
+-- | Defines the object schema located at @paths.\/v1\/accounts\/{account}.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.individual.properties.verification.properties.additional_document@ in the specification.
 data PostAccountsAccountRequestBodyIndividual'Verification'AdditionalDocument'
   = PostAccountsAccountRequestBodyIndividual'Verification'AdditionalDocument'
       { -- | back
@@ -1035,13 +1222,21 @@ data PostAccountsAccountRequestBodyIndividual'Verification'AdditionalDocument'
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostAccountsAccountRequestBodyIndividual'Verification'AdditionalDocument' where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "back" (postAccountsAccountRequestBodyIndividual'Verification'AdditionalDocument'Back obj) : (Data.Aeson..=) "front" (postAccountsAccountRequestBodyIndividual'Verification'AdditionalDocument'Front obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "back" (postAccountsAccountRequestBodyIndividual'Verification'AdditionalDocument'Back obj) GHC.Base.<> (Data.Aeson..=) "front" (postAccountsAccountRequestBodyIndividual'Verification'AdditionalDocument'Front obj))
+  toJSON obj = Data.Aeson.Types.Internal.object ("back" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyIndividual'Verification'AdditionalDocument'Back obj : "front" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyIndividual'Verification'AdditionalDocument'Front obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("back" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyIndividual'Verification'AdditionalDocument'Back obj) GHC.Base.<> ("front" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyIndividual'Verification'AdditionalDocument'Front obj))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostAccountsAccountRequestBodyIndividual'Verification'AdditionalDocument' where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PostAccountsAccountRequestBodyIndividual'Verification'AdditionalDocument'" (\obj -> (GHC.Base.pure PostAccountsAccountRequestBodyIndividual'Verification'AdditionalDocument' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "back")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "front"))
 
--- | Defines the data type for the schema postAccountsAccountRequestBodyIndividual\'Verification\'Document\'
+-- | Create a new 'PostAccountsAccountRequestBodyIndividual'Verification'AdditionalDocument'' with all required fields.
+mkPostAccountsAccountRequestBodyIndividual'Verification'AdditionalDocument' :: PostAccountsAccountRequestBodyIndividual'Verification'AdditionalDocument'
+mkPostAccountsAccountRequestBodyIndividual'Verification'AdditionalDocument' =
+  PostAccountsAccountRequestBodyIndividual'Verification'AdditionalDocument'
+    { postAccountsAccountRequestBodyIndividual'Verification'AdditionalDocument'Back = GHC.Maybe.Nothing,
+      postAccountsAccountRequestBodyIndividual'Verification'AdditionalDocument'Front = GHC.Maybe.Nothing
+    }
+
+-- | Defines the object schema located at @paths.\/v1\/accounts\/{account}.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.individual.properties.verification.properties.document@ in the specification.
 data PostAccountsAccountRequestBodyIndividual'Verification'Document'
   = PostAccountsAccountRequestBodyIndividual'Verification'Document'
       { -- | back
@@ -1063,41 +1258,55 @@ data PostAccountsAccountRequestBodyIndividual'Verification'Document'
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostAccountsAccountRequestBodyIndividual'Verification'Document' where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "back" (postAccountsAccountRequestBodyIndividual'Verification'Document'Back obj) : (Data.Aeson..=) "front" (postAccountsAccountRequestBodyIndividual'Verification'Document'Front obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "back" (postAccountsAccountRequestBodyIndividual'Verification'Document'Back obj) GHC.Base.<> (Data.Aeson..=) "front" (postAccountsAccountRequestBodyIndividual'Verification'Document'Front obj))
+  toJSON obj = Data.Aeson.Types.Internal.object ("back" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyIndividual'Verification'Document'Back obj : "front" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyIndividual'Verification'Document'Front obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("back" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyIndividual'Verification'Document'Back obj) GHC.Base.<> ("front" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyIndividual'Verification'Document'Front obj))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostAccountsAccountRequestBodyIndividual'Verification'Document' where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PostAccountsAccountRequestBodyIndividual'Verification'Document'" (\obj -> (GHC.Base.pure PostAccountsAccountRequestBodyIndividual'Verification'Document' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "back")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "front"))
 
--- | Defines the enum schema postAccountsAccountRequestBodyRequested_capabilities\'
+-- | Create a new 'PostAccountsAccountRequestBodyIndividual'Verification'Document'' with all required fields.
+mkPostAccountsAccountRequestBodyIndividual'Verification'Document' :: PostAccountsAccountRequestBodyIndividual'Verification'Document'
+mkPostAccountsAccountRequestBodyIndividual'Verification'Document' =
+  PostAccountsAccountRequestBodyIndividual'Verification'Document'
+    { postAccountsAccountRequestBodyIndividual'Verification'Document'Back = GHC.Maybe.Nothing,
+      postAccountsAccountRequestBodyIndividual'Verification'Document'Front = GHC.Maybe.Nothing
+    }
+
+-- | Defines the enum schema located at @paths.\/v1\/accounts\/{account}.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.requested_capabilities.items@ in the specification.
 data PostAccountsAccountRequestBodyRequestedCapabilities'
-  = PostAccountsAccountRequestBodyRequestedCapabilities'EnumOther Data.Aeson.Types.Internal.Value
-  | PostAccountsAccountRequestBodyRequestedCapabilities'EnumTyped Data.Text.Internal.Text
-  | PostAccountsAccountRequestBodyRequestedCapabilities'EnumStringCardIssuing
-  | PostAccountsAccountRequestBodyRequestedCapabilities'EnumStringCardPayments
-  | PostAccountsAccountRequestBodyRequestedCapabilities'EnumStringLegacyPayments
-  | PostAccountsAccountRequestBodyRequestedCapabilities'EnumStringTransfers
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    PostAccountsAccountRequestBodyRequestedCapabilities'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    PostAccountsAccountRequestBodyRequestedCapabilities'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"card_issuing"@
+    PostAccountsAccountRequestBodyRequestedCapabilities'EnumCardIssuing
+  | -- | Represents the JSON value @"card_payments"@
+    PostAccountsAccountRequestBodyRequestedCapabilities'EnumCardPayments
+  | -- | Represents the JSON value @"legacy_payments"@
+    PostAccountsAccountRequestBodyRequestedCapabilities'EnumLegacyPayments
+  | -- | Represents the JSON value @"transfers"@
+    PostAccountsAccountRequestBodyRequestedCapabilities'EnumTransfers
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostAccountsAccountRequestBodyRequestedCapabilities' where
-  toJSON (PostAccountsAccountRequestBodyRequestedCapabilities'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostAccountsAccountRequestBodyRequestedCapabilities'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostAccountsAccountRequestBodyRequestedCapabilities'EnumStringCardIssuing) = "card_issuing"
-  toJSON (PostAccountsAccountRequestBodyRequestedCapabilities'EnumStringCardPayments) = "card_payments"
-  toJSON (PostAccountsAccountRequestBodyRequestedCapabilities'EnumStringLegacyPayments) = "legacy_payments"
-  toJSON (PostAccountsAccountRequestBodyRequestedCapabilities'EnumStringTransfers) = "transfers"
+  toJSON (PostAccountsAccountRequestBodyRequestedCapabilities'Other val) = val
+  toJSON (PostAccountsAccountRequestBodyRequestedCapabilities'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PostAccountsAccountRequestBodyRequestedCapabilities'EnumCardIssuing) = "card_issuing"
+  toJSON (PostAccountsAccountRequestBodyRequestedCapabilities'EnumCardPayments) = "card_payments"
+  toJSON (PostAccountsAccountRequestBodyRequestedCapabilities'EnumLegacyPayments) = "legacy_payments"
+  toJSON (PostAccountsAccountRequestBodyRequestedCapabilities'EnumTransfers) = "transfers"
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostAccountsAccountRequestBodyRequestedCapabilities' where
   parseJSON val =
     GHC.Base.pure
-      ( if  | val GHC.Classes.== "card_issuing" -> PostAccountsAccountRequestBodyRequestedCapabilities'EnumStringCardIssuing
-            | val GHC.Classes.== "card_payments" -> PostAccountsAccountRequestBodyRequestedCapabilities'EnumStringCardPayments
-            | val GHC.Classes.== "legacy_payments" -> PostAccountsAccountRequestBodyRequestedCapabilities'EnumStringLegacyPayments
-            | val GHC.Classes.== "transfers" -> PostAccountsAccountRequestBodyRequestedCapabilities'EnumStringTransfers
-            | GHC.Base.otherwise -> PostAccountsAccountRequestBodyRequestedCapabilities'EnumOther val
+      ( if  | val GHC.Classes.== "card_issuing" -> PostAccountsAccountRequestBodyRequestedCapabilities'EnumCardIssuing
+            | val GHC.Classes.== "card_payments" -> PostAccountsAccountRequestBodyRequestedCapabilities'EnumCardPayments
+            | val GHC.Classes.== "legacy_payments" -> PostAccountsAccountRequestBodyRequestedCapabilities'EnumLegacyPayments
+            | val GHC.Classes.== "transfers" -> PostAccountsAccountRequestBodyRequestedCapabilities'EnumTransfers
+            | GHC.Base.otherwise -> PostAccountsAccountRequestBodyRequestedCapabilities'Other val
       )
 
--- | Defines the data type for the schema postAccountsAccountRequestBodySettings\'
+-- | Defines the object schema located at @paths.\/v1\/accounts\/{account}.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.settings@ in the specification.
 --
 -- Options for customizing how the account functions within Stripe.
 data PostAccountsAccountRequestBodySettings'
@@ -1117,13 +1326,23 @@ data PostAccountsAccountRequestBodySettings'
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostAccountsAccountRequestBodySettings' where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "branding" (postAccountsAccountRequestBodySettings'Branding obj) : (Data.Aeson..=) "card_payments" (postAccountsAccountRequestBodySettings'CardPayments obj) : (Data.Aeson..=) "payments" (postAccountsAccountRequestBodySettings'Payments obj) : (Data.Aeson..=) "payouts" (postAccountsAccountRequestBodySettings'Payouts obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "branding" (postAccountsAccountRequestBodySettings'Branding obj) GHC.Base.<> ((Data.Aeson..=) "card_payments" (postAccountsAccountRequestBodySettings'CardPayments obj) GHC.Base.<> ((Data.Aeson..=) "payments" (postAccountsAccountRequestBodySettings'Payments obj) GHC.Base.<> (Data.Aeson..=) "payouts" (postAccountsAccountRequestBodySettings'Payouts obj))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("branding" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodySettings'Branding obj : "card_payments" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodySettings'CardPayments obj : "payments" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodySettings'Payments obj : "payouts" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodySettings'Payouts obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("branding" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodySettings'Branding obj) GHC.Base.<> (("card_payments" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodySettings'CardPayments obj) GHC.Base.<> (("payments" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodySettings'Payments obj) GHC.Base.<> ("payouts" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodySettings'Payouts obj))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostAccountsAccountRequestBodySettings' where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PostAccountsAccountRequestBodySettings'" (\obj -> (((GHC.Base.pure PostAccountsAccountRequestBodySettings' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "branding")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "card_payments")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "payments")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "payouts"))
 
--- | Defines the data type for the schema postAccountsAccountRequestBodySettings\'Branding\'
+-- | Create a new 'PostAccountsAccountRequestBodySettings'' with all required fields.
+mkPostAccountsAccountRequestBodySettings' :: PostAccountsAccountRequestBodySettings'
+mkPostAccountsAccountRequestBodySettings' =
+  PostAccountsAccountRequestBodySettings'
+    { postAccountsAccountRequestBodySettings'Branding = GHC.Maybe.Nothing,
+      postAccountsAccountRequestBodySettings'CardPayments = GHC.Maybe.Nothing,
+      postAccountsAccountRequestBodySettings'Payments = GHC.Maybe.Nothing,
+      postAccountsAccountRequestBodySettings'Payouts = GHC.Maybe.Nothing
+    }
+
+-- | Defines the object schema located at @paths.\/v1\/accounts\/{account}.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.settings.properties.branding@ in the specification.
 data PostAccountsAccountRequestBodySettings'Branding'
   = PostAccountsAccountRequestBodySettings'Branding'
       { -- | icon
@@ -1151,13 +1370,22 @@ data PostAccountsAccountRequestBodySettings'Branding'
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostAccountsAccountRequestBodySettings'Branding' where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "icon" (postAccountsAccountRequestBodySettings'Branding'Icon obj) : (Data.Aeson..=) "logo" (postAccountsAccountRequestBodySettings'Branding'Logo obj) : (Data.Aeson..=) "primary_color" (postAccountsAccountRequestBodySettings'Branding'PrimaryColor obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "icon" (postAccountsAccountRequestBodySettings'Branding'Icon obj) GHC.Base.<> ((Data.Aeson..=) "logo" (postAccountsAccountRequestBodySettings'Branding'Logo obj) GHC.Base.<> (Data.Aeson..=) "primary_color" (postAccountsAccountRequestBodySettings'Branding'PrimaryColor obj)))
+  toJSON obj = Data.Aeson.Types.Internal.object ("icon" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodySettings'Branding'Icon obj : "logo" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodySettings'Branding'Logo obj : "primary_color" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodySettings'Branding'PrimaryColor obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("icon" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodySettings'Branding'Icon obj) GHC.Base.<> (("logo" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodySettings'Branding'Logo obj) GHC.Base.<> ("primary_color" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodySettings'Branding'PrimaryColor obj)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostAccountsAccountRequestBodySettings'Branding' where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PostAccountsAccountRequestBodySettings'Branding'" (\obj -> ((GHC.Base.pure PostAccountsAccountRequestBodySettings'Branding' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "icon")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "logo")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "primary_color"))
 
--- | Defines the data type for the schema postAccountsAccountRequestBodySettings\'Card_payments\'
+-- | Create a new 'PostAccountsAccountRequestBodySettings'Branding'' with all required fields.
+mkPostAccountsAccountRequestBodySettings'Branding' :: PostAccountsAccountRequestBodySettings'Branding'
+mkPostAccountsAccountRequestBodySettings'Branding' =
+  PostAccountsAccountRequestBodySettings'Branding'
+    { postAccountsAccountRequestBodySettings'Branding'Icon = GHC.Maybe.Nothing,
+      postAccountsAccountRequestBodySettings'Branding'Logo = GHC.Maybe.Nothing,
+      postAccountsAccountRequestBodySettings'Branding'PrimaryColor = GHC.Maybe.Nothing
+    }
+
+-- | Defines the object schema located at @paths.\/v1\/accounts\/{account}.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.settings.properties.card_payments@ in the specification.
 data PostAccountsAccountRequestBodySettings'CardPayments'
   = PostAccountsAccountRequestBodySettings'CardPayments'
       { -- | decline_on
@@ -1175,13 +1403,21 @@ data PostAccountsAccountRequestBodySettings'CardPayments'
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostAccountsAccountRequestBodySettings'CardPayments' where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "decline_on" (postAccountsAccountRequestBodySettings'CardPayments'DeclineOn obj) : (Data.Aeson..=) "statement_descriptor_prefix" (postAccountsAccountRequestBodySettings'CardPayments'StatementDescriptorPrefix obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "decline_on" (postAccountsAccountRequestBodySettings'CardPayments'DeclineOn obj) GHC.Base.<> (Data.Aeson..=) "statement_descriptor_prefix" (postAccountsAccountRequestBodySettings'CardPayments'StatementDescriptorPrefix obj))
+  toJSON obj = Data.Aeson.Types.Internal.object ("decline_on" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodySettings'CardPayments'DeclineOn obj : "statement_descriptor_prefix" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodySettings'CardPayments'StatementDescriptorPrefix obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("decline_on" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodySettings'CardPayments'DeclineOn obj) GHC.Base.<> ("statement_descriptor_prefix" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodySettings'CardPayments'StatementDescriptorPrefix obj))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostAccountsAccountRequestBodySettings'CardPayments' where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PostAccountsAccountRequestBodySettings'CardPayments'" (\obj -> (GHC.Base.pure PostAccountsAccountRequestBodySettings'CardPayments' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "decline_on")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "statement_descriptor_prefix"))
 
--- | Defines the data type for the schema postAccountsAccountRequestBodySettings\'Card_payments\'Decline_on\'
+-- | Create a new 'PostAccountsAccountRequestBodySettings'CardPayments'' with all required fields.
+mkPostAccountsAccountRequestBodySettings'CardPayments' :: PostAccountsAccountRequestBodySettings'CardPayments'
+mkPostAccountsAccountRequestBodySettings'CardPayments' =
+  PostAccountsAccountRequestBodySettings'CardPayments'
+    { postAccountsAccountRequestBodySettings'CardPayments'DeclineOn = GHC.Maybe.Nothing,
+      postAccountsAccountRequestBodySettings'CardPayments'StatementDescriptorPrefix = GHC.Maybe.Nothing
+    }
+
+-- | Defines the object schema located at @paths.\/v1\/accounts\/{account}.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.settings.properties.card_payments.properties.decline_on@ in the specification.
 data PostAccountsAccountRequestBodySettings'CardPayments'DeclineOn'
   = PostAccountsAccountRequestBodySettings'CardPayments'DeclineOn'
       { -- | avs_failure
@@ -1195,13 +1431,21 @@ data PostAccountsAccountRequestBodySettings'CardPayments'DeclineOn'
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostAccountsAccountRequestBodySettings'CardPayments'DeclineOn' where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "avs_failure" (postAccountsAccountRequestBodySettings'CardPayments'DeclineOn'AvsFailure obj) : (Data.Aeson..=) "cvc_failure" (postAccountsAccountRequestBodySettings'CardPayments'DeclineOn'CvcFailure obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "avs_failure" (postAccountsAccountRequestBodySettings'CardPayments'DeclineOn'AvsFailure obj) GHC.Base.<> (Data.Aeson..=) "cvc_failure" (postAccountsAccountRequestBodySettings'CardPayments'DeclineOn'CvcFailure obj))
+  toJSON obj = Data.Aeson.Types.Internal.object ("avs_failure" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodySettings'CardPayments'DeclineOn'AvsFailure obj : "cvc_failure" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodySettings'CardPayments'DeclineOn'CvcFailure obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("avs_failure" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodySettings'CardPayments'DeclineOn'AvsFailure obj) GHC.Base.<> ("cvc_failure" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodySettings'CardPayments'DeclineOn'CvcFailure obj))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostAccountsAccountRequestBodySettings'CardPayments'DeclineOn' where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PostAccountsAccountRequestBodySettings'CardPayments'DeclineOn'" (\obj -> (GHC.Base.pure PostAccountsAccountRequestBodySettings'CardPayments'DeclineOn' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "avs_failure")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "cvc_failure"))
 
--- | Defines the data type for the schema postAccountsAccountRequestBodySettings\'Payments\'
+-- | Create a new 'PostAccountsAccountRequestBodySettings'CardPayments'DeclineOn'' with all required fields.
+mkPostAccountsAccountRequestBodySettings'CardPayments'DeclineOn' :: PostAccountsAccountRequestBodySettings'CardPayments'DeclineOn'
+mkPostAccountsAccountRequestBodySettings'CardPayments'DeclineOn' =
+  PostAccountsAccountRequestBodySettings'CardPayments'DeclineOn'
+    { postAccountsAccountRequestBodySettings'CardPayments'DeclineOn'AvsFailure = GHC.Maybe.Nothing,
+      postAccountsAccountRequestBodySettings'CardPayments'DeclineOn'CvcFailure = GHC.Maybe.Nothing
+    }
+
+-- | Defines the object schema located at @paths.\/v1\/accounts\/{account}.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.settings.properties.payments@ in the specification.
 data PostAccountsAccountRequestBodySettings'Payments'
   = PostAccountsAccountRequestBodySettings'Payments'
       { -- | statement_descriptor
@@ -1229,13 +1473,22 @@ data PostAccountsAccountRequestBodySettings'Payments'
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostAccountsAccountRequestBodySettings'Payments' where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "statement_descriptor" (postAccountsAccountRequestBodySettings'Payments'StatementDescriptor obj) : (Data.Aeson..=) "statement_descriptor_kana" (postAccountsAccountRequestBodySettings'Payments'StatementDescriptorKana obj) : (Data.Aeson..=) "statement_descriptor_kanji" (postAccountsAccountRequestBodySettings'Payments'StatementDescriptorKanji obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "statement_descriptor" (postAccountsAccountRequestBodySettings'Payments'StatementDescriptor obj) GHC.Base.<> ((Data.Aeson..=) "statement_descriptor_kana" (postAccountsAccountRequestBodySettings'Payments'StatementDescriptorKana obj) GHC.Base.<> (Data.Aeson..=) "statement_descriptor_kanji" (postAccountsAccountRequestBodySettings'Payments'StatementDescriptorKanji obj)))
+  toJSON obj = Data.Aeson.Types.Internal.object ("statement_descriptor" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodySettings'Payments'StatementDescriptor obj : "statement_descriptor_kana" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodySettings'Payments'StatementDescriptorKana obj : "statement_descriptor_kanji" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodySettings'Payments'StatementDescriptorKanji obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("statement_descriptor" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodySettings'Payments'StatementDescriptor obj) GHC.Base.<> (("statement_descriptor_kana" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodySettings'Payments'StatementDescriptorKana obj) GHC.Base.<> ("statement_descriptor_kanji" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodySettings'Payments'StatementDescriptorKanji obj)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostAccountsAccountRequestBodySettings'Payments' where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PostAccountsAccountRequestBodySettings'Payments'" (\obj -> ((GHC.Base.pure PostAccountsAccountRequestBodySettings'Payments' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "statement_descriptor")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "statement_descriptor_kana")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "statement_descriptor_kanji"))
 
--- | Defines the data type for the schema postAccountsAccountRequestBodySettings\'Payouts\'
+-- | Create a new 'PostAccountsAccountRequestBodySettings'Payments'' with all required fields.
+mkPostAccountsAccountRequestBodySettings'Payments' :: PostAccountsAccountRequestBodySettings'Payments'
+mkPostAccountsAccountRequestBodySettings'Payments' =
+  PostAccountsAccountRequestBodySettings'Payments'
+    { postAccountsAccountRequestBodySettings'Payments'StatementDescriptor = GHC.Maybe.Nothing,
+      postAccountsAccountRequestBodySettings'Payments'StatementDescriptorKana = GHC.Maybe.Nothing,
+      postAccountsAccountRequestBodySettings'Payments'StatementDescriptorKanji = GHC.Maybe.Nothing
+    }
+
+-- | Defines the object schema located at @paths.\/v1\/accounts\/{account}.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.settings.properties.payouts@ in the specification.
 data PostAccountsAccountRequestBodySettings'Payouts'
   = PostAccountsAccountRequestBodySettings'Payouts'
       { -- | debit_negative_balances
@@ -1255,13 +1508,22 @@ data PostAccountsAccountRequestBodySettings'Payouts'
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostAccountsAccountRequestBodySettings'Payouts' where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "debit_negative_balances" (postAccountsAccountRequestBodySettings'Payouts'DebitNegativeBalances obj) : (Data.Aeson..=) "schedule" (postAccountsAccountRequestBodySettings'Payouts'Schedule obj) : (Data.Aeson..=) "statement_descriptor" (postAccountsAccountRequestBodySettings'Payouts'StatementDescriptor obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "debit_negative_balances" (postAccountsAccountRequestBodySettings'Payouts'DebitNegativeBalances obj) GHC.Base.<> ((Data.Aeson..=) "schedule" (postAccountsAccountRequestBodySettings'Payouts'Schedule obj) GHC.Base.<> (Data.Aeson..=) "statement_descriptor" (postAccountsAccountRequestBodySettings'Payouts'StatementDescriptor obj)))
+  toJSON obj = Data.Aeson.Types.Internal.object ("debit_negative_balances" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodySettings'Payouts'DebitNegativeBalances obj : "schedule" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodySettings'Payouts'Schedule obj : "statement_descriptor" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodySettings'Payouts'StatementDescriptor obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("debit_negative_balances" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodySettings'Payouts'DebitNegativeBalances obj) GHC.Base.<> (("schedule" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodySettings'Payouts'Schedule obj) GHC.Base.<> ("statement_descriptor" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodySettings'Payouts'StatementDescriptor obj)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostAccountsAccountRequestBodySettings'Payouts' where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PostAccountsAccountRequestBodySettings'Payouts'" (\obj -> ((GHC.Base.pure PostAccountsAccountRequestBodySettings'Payouts' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "debit_negative_balances")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "schedule")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "statement_descriptor"))
 
--- | Defines the data type for the schema postAccountsAccountRequestBodySettings\'Payouts\'Schedule\'
+-- | Create a new 'PostAccountsAccountRequestBodySettings'Payouts'' with all required fields.
+mkPostAccountsAccountRequestBodySettings'Payouts' :: PostAccountsAccountRequestBodySettings'Payouts'
+mkPostAccountsAccountRequestBodySettings'Payouts' =
+  PostAccountsAccountRequestBodySettings'Payouts'
+    { postAccountsAccountRequestBodySettings'Payouts'DebitNegativeBalances = GHC.Maybe.Nothing,
+      postAccountsAccountRequestBodySettings'Payouts'Schedule = GHC.Maybe.Nothing,
+      postAccountsAccountRequestBodySettings'Payouts'StatementDescriptor = GHC.Maybe.Nothing
+    }
+
+-- | Defines the object schema located at @paths.\/v1\/accounts\/{account}.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.settings.properties.payouts.properties.schedule@ in the specification.
 data PostAccountsAccountRequestBodySettings'Payouts'Schedule'
   = PostAccountsAccountRequestBodySettings'Payouts'Schedule'
       { -- | delay_days
@@ -1287,114 +1549,121 @@ data PostAccountsAccountRequestBodySettings'Payouts'Schedule'
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostAccountsAccountRequestBodySettings'Payouts'Schedule' where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "delay_days" (postAccountsAccountRequestBodySettings'Payouts'Schedule'DelayDays obj) : (Data.Aeson..=) "interval" (postAccountsAccountRequestBodySettings'Payouts'Schedule'Interval obj) : (Data.Aeson..=) "monthly_anchor" (postAccountsAccountRequestBodySettings'Payouts'Schedule'MonthlyAnchor obj) : (Data.Aeson..=) "weekly_anchor" (postAccountsAccountRequestBodySettings'Payouts'Schedule'WeeklyAnchor obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "delay_days" (postAccountsAccountRequestBodySettings'Payouts'Schedule'DelayDays obj) GHC.Base.<> ((Data.Aeson..=) "interval" (postAccountsAccountRequestBodySettings'Payouts'Schedule'Interval obj) GHC.Base.<> ((Data.Aeson..=) "monthly_anchor" (postAccountsAccountRequestBodySettings'Payouts'Schedule'MonthlyAnchor obj) GHC.Base.<> (Data.Aeson..=) "weekly_anchor" (postAccountsAccountRequestBodySettings'Payouts'Schedule'WeeklyAnchor obj))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("delay_days" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodySettings'Payouts'Schedule'DelayDays obj : "interval" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodySettings'Payouts'Schedule'Interval obj : "monthly_anchor" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodySettings'Payouts'Schedule'MonthlyAnchor obj : "weekly_anchor" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodySettings'Payouts'Schedule'WeeklyAnchor obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("delay_days" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodySettings'Payouts'Schedule'DelayDays obj) GHC.Base.<> (("interval" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodySettings'Payouts'Schedule'Interval obj) GHC.Base.<> (("monthly_anchor" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodySettings'Payouts'Schedule'MonthlyAnchor obj) GHC.Base.<> ("weekly_anchor" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodySettings'Payouts'Schedule'WeeklyAnchor obj))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostAccountsAccountRequestBodySettings'Payouts'Schedule' where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PostAccountsAccountRequestBodySettings'Payouts'Schedule'" (\obj -> (((GHC.Base.pure PostAccountsAccountRequestBodySettings'Payouts'Schedule' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "delay_days")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "interval")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "monthly_anchor")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "weekly_anchor"))
 
--- | Defines the enum schema postAccountsAccountRequestBodySettings\'Payouts\'Schedule\'Delay_days\'OneOf1
-data PostAccountsAccountRequestBodySettings'Payouts'Schedule'DelayDays'OneOf1
-  = PostAccountsAccountRequestBodySettings'Payouts'Schedule'DelayDays'OneOf1EnumOther Data.Aeson.Types.Internal.Value
-  | PostAccountsAccountRequestBodySettings'Payouts'Schedule'DelayDays'OneOf1EnumTyped Data.Text.Internal.Text
-  | PostAccountsAccountRequestBodySettings'Payouts'Schedule'DelayDays'OneOf1EnumStringMinimum
-  deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Create a new 'PostAccountsAccountRequestBodySettings'Payouts'Schedule'' with all required fields.
+mkPostAccountsAccountRequestBodySettings'Payouts'Schedule' :: PostAccountsAccountRequestBodySettings'Payouts'Schedule'
+mkPostAccountsAccountRequestBodySettings'Payouts'Schedule' =
+  PostAccountsAccountRequestBodySettings'Payouts'Schedule'
+    { postAccountsAccountRequestBodySettings'Payouts'Schedule'DelayDays = GHC.Maybe.Nothing,
+      postAccountsAccountRequestBodySettings'Payouts'Schedule'Interval = GHC.Maybe.Nothing,
+      postAccountsAccountRequestBodySettings'Payouts'Schedule'MonthlyAnchor = GHC.Maybe.Nothing,
+      postAccountsAccountRequestBodySettings'Payouts'Schedule'WeeklyAnchor = GHC.Maybe.Nothing
+    }
 
-instance Data.Aeson.Types.ToJSON.ToJSON PostAccountsAccountRequestBodySettings'Payouts'Schedule'DelayDays'OneOf1 where
-  toJSON (PostAccountsAccountRequestBodySettings'Payouts'Schedule'DelayDays'OneOf1EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostAccountsAccountRequestBodySettings'Payouts'Schedule'DelayDays'OneOf1EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostAccountsAccountRequestBodySettings'Payouts'Schedule'DelayDays'OneOf1EnumStringMinimum) = "minimum"
-
-instance Data.Aeson.Types.FromJSON.FromJSON PostAccountsAccountRequestBodySettings'Payouts'Schedule'DelayDays'OneOf1 where
-  parseJSON val =
-    GHC.Base.pure
-      ( if  | val GHC.Classes.== "minimum" -> PostAccountsAccountRequestBodySettings'Payouts'Schedule'DelayDays'OneOf1EnumStringMinimum
-            | GHC.Base.otherwise -> PostAccountsAccountRequestBodySettings'Payouts'Schedule'DelayDays'OneOf1EnumOther val
-      )
-
--- | Define the one-of schema postAccountsAccountRequestBodySettings\'Payouts\'Schedule\'Delay_days\'
+-- | Defines the oneOf schema located at @paths.\/v1\/accounts\/{account}.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.settings.properties.payouts.properties.schedule.properties.delay_days.anyOf@ in the specification.
 data PostAccountsAccountRequestBodySettings'Payouts'Schedule'DelayDays'Variants
-  = PostAccountsAccountRequestBodySettings'Payouts'Schedule'DelayDays'PostAccountsAccountRequestBodySettings'Payouts'Schedule'DelayDays'OneOf1 PostAccountsAccountRequestBodySettings'Payouts'Schedule'DelayDays'OneOf1
+  = -- | Represents the JSON value @"minimum"@
+    PostAccountsAccountRequestBodySettings'Payouts'Schedule'DelayDays'Minimum
   | PostAccountsAccountRequestBodySettings'Payouts'Schedule'DelayDays'Int GHC.Types.Int
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostAccountsAccountRequestBodySettings'Payouts'Schedule'DelayDays'Variants where
-  toJSON (PostAccountsAccountRequestBodySettings'Payouts'Schedule'DelayDays'PostAccountsAccountRequestBodySettings'Payouts'Schedule'DelayDays'OneOf1 a) = Data.Aeson.Types.ToJSON.toJSON a
   toJSON (PostAccountsAccountRequestBodySettings'Payouts'Schedule'DelayDays'Int a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (PostAccountsAccountRequestBodySettings'Payouts'Schedule'DelayDays'Minimum) = "minimum"
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostAccountsAccountRequestBodySettings'Payouts'Schedule'DelayDays'Variants where
-  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
-    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ PostAccountsAccountRequestBodySettings'Payouts'Schedule'DelayDays'PostAccountsAccountRequestBodySettings'Payouts'Schedule'DelayDays'OneOf1 a
-    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ PostAccountsAccountRequestBodySettings'Payouts'Schedule'DelayDays'Int a
-      Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+  parseJSON val =
+    if  | val GHC.Classes.== "minimum" -> GHC.Base.pure PostAccountsAccountRequestBodySettings'Payouts'Schedule'DelayDays'Minimum
+        | GHC.Base.otherwise -> case (PostAccountsAccountRequestBodySettings'Payouts'Schedule'DelayDays'Int Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched" of
+          Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+          Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
--- | Defines the enum schema postAccountsAccountRequestBodySettings\'Payouts\'Schedule\'Interval\'
+-- | Defines the enum schema located at @paths.\/v1\/accounts\/{account}.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.settings.properties.payouts.properties.schedule.properties.interval@ in the specification.
 data PostAccountsAccountRequestBodySettings'Payouts'Schedule'Interval'
-  = PostAccountsAccountRequestBodySettings'Payouts'Schedule'Interval'EnumOther Data.Aeson.Types.Internal.Value
-  | PostAccountsAccountRequestBodySettings'Payouts'Schedule'Interval'EnumTyped Data.Text.Internal.Text
-  | PostAccountsAccountRequestBodySettings'Payouts'Schedule'Interval'EnumStringDaily
-  | PostAccountsAccountRequestBodySettings'Payouts'Schedule'Interval'EnumStringManual
-  | PostAccountsAccountRequestBodySettings'Payouts'Schedule'Interval'EnumStringMonthly
-  | PostAccountsAccountRequestBodySettings'Payouts'Schedule'Interval'EnumStringWeekly
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    PostAccountsAccountRequestBodySettings'Payouts'Schedule'Interval'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    PostAccountsAccountRequestBodySettings'Payouts'Schedule'Interval'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"daily"@
+    PostAccountsAccountRequestBodySettings'Payouts'Schedule'Interval'EnumDaily
+  | -- | Represents the JSON value @"manual"@
+    PostAccountsAccountRequestBodySettings'Payouts'Schedule'Interval'EnumManual
+  | -- | Represents the JSON value @"monthly"@
+    PostAccountsAccountRequestBodySettings'Payouts'Schedule'Interval'EnumMonthly
+  | -- | Represents the JSON value @"weekly"@
+    PostAccountsAccountRequestBodySettings'Payouts'Schedule'Interval'EnumWeekly
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostAccountsAccountRequestBodySettings'Payouts'Schedule'Interval' where
-  toJSON (PostAccountsAccountRequestBodySettings'Payouts'Schedule'Interval'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostAccountsAccountRequestBodySettings'Payouts'Schedule'Interval'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostAccountsAccountRequestBodySettings'Payouts'Schedule'Interval'EnumStringDaily) = "daily"
-  toJSON (PostAccountsAccountRequestBodySettings'Payouts'Schedule'Interval'EnumStringManual) = "manual"
-  toJSON (PostAccountsAccountRequestBodySettings'Payouts'Schedule'Interval'EnumStringMonthly) = "monthly"
-  toJSON (PostAccountsAccountRequestBodySettings'Payouts'Schedule'Interval'EnumStringWeekly) = "weekly"
+  toJSON (PostAccountsAccountRequestBodySettings'Payouts'Schedule'Interval'Other val) = val
+  toJSON (PostAccountsAccountRequestBodySettings'Payouts'Schedule'Interval'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PostAccountsAccountRequestBodySettings'Payouts'Schedule'Interval'EnumDaily) = "daily"
+  toJSON (PostAccountsAccountRequestBodySettings'Payouts'Schedule'Interval'EnumManual) = "manual"
+  toJSON (PostAccountsAccountRequestBodySettings'Payouts'Schedule'Interval'EnumMonthly) = "monthly"
+  toJSON (PostAccountsAccountRequestBodySettings'Payouts'Schedule'Interval'EnumWeekly) = "weekly"
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostAccountsAccountRequestBodySettings'Payouts'Schedule'Interval' where
   parseJSON val =
     GHC.Base.pure
-      ( if  | val GHC.Classes.== "daily" -> PostAccountsAccountRequestBodySettings'Payouts'Schedule'Interval'EnumStringDaily
-            | val GHC.Classes.== "manual" -> PostAccountsAccountRequestBodySettings'Payouts'Schedule'Interval'EnumStringManual
-            | val GHC.Classes.== "monthly" -> PostAccountsAccountRequestBodySettings'Payouts'Schedule'Interval'EnumStringMonthly
-            | val GHC.Classes.== "weekly" -> PostAccountsAccountRequestBodySettings'Payouts'Schedule'Interval'EnumStringWeekly
-            | GHC.Base.otherwise -> PostAccountsAccountRequestBodySettings'Payouts'Schedule'Interval'EnumOther val
+      ( if  | val GHC.Classes.== "daily" -> PostAccountsAccountRequestBodySettings'Payouts'Schedule'Interval'EnumDaily
+            | val GHC.Classes.== "manual" -> PostAccountsAccountRequestBodySettings'Payouts'Schedule'Interval'EnumManual
+            | val GHC.Classes.== "monthly" -> PostAccountsAccountRequestBodySettings'Payouts'Schedule'Interval'EnumMonthly
+            | val GHC.Classes.== "weekly" -> PostAccountsAccountRequestBodySettings'Payouts'Schedule'Interval'EnumWeekly
+            | GHC.Base.otherwise -> PostAccountsAccountRequestBodySettings'Payouts'Schedule'Interval'Other val
       )
 
--- | Defines the enum schema postAccountsAccountRequestBodySettings\'Payouts\'Schedule\'Weekly_anchor\'
+-- | Defines the enum schema located at @paths.\/v1\/accounts\/{account}.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.settings.properties.payouts.properties.schedule.properties.weekly_anchor@ in the specification.
 data PostAccountsAccountRequestBodySettings'Payouts'Schedule'WeeklyAnchor'
-  = PostAccountsAccountRequestBodySettings'Payouts'Schedule'WeeklyAnchor'EnumOther Data.Aeson.Types.Internal.Value
-  | PostAccountsAccountRequestBodySettings'Payouts'Schedule'WeeklyAnchor'EnumTyped Data.Text.Internal.Text
-  | PostAccountsAccountRequestBodySettings'Payouts'Schedule'WeeklyAnchor'EnumStringFriday
-  | PostAccountsAccountRequestBodySettings'Payouts'Schedule'WeeklyAnchor'EnumStringMonday
-  | PostAccountsAccountRequestBodySettings'Payouts'Schedule'WeeklyAnchor'EnumStringSaturday
-  | PostAccountsAccountRequestBodySettings'Payouts'Schedule'WeeklyAnchor'EnumStringSunday
-  | PostAccountsAccountRequestBodySettings'Payouts'Schedule'WeeklyAnchor'EnumStringThursday
-  | PostAccountsAccountRequestBodySettings'Payouts'Schedule'WeeklyAnchor'EnumStringTuesday
-  | PostAccountsAccountRequestBodySettings'Payouts'Schedule'WeeklyAnchor'EnumStringWednesday
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    PostAccountsAccountRequestBodySettings'Payouts'Schedule'WeeklyAnchor'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    PostAccountsAccountRequestBodySettings'Payouts'Schedule'WeeklyAnchor'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"friday"@
+    PostAccountsAccountRequestBodySettings'Payouts'Schedule'WeeklyAnchor'EnumFriday
+  | -- | Represents the JSON value @"monday"@
+    PostAccountsAccountRequestBodySettings'Payouts'Schedule'WeeklyAnchor'EnumMonday
+  | -- | Represents the JSON value @"saturday"@
+    PostAccountsAccountRequestBodySettings'Payouts'Schedule'WeeklyAnchor'EnumSaturday
+  | -- | Represents the JSON value @"sunday"@
+    PostAccountsAccountRequestBodySettings'Payouts'Schedule'WeeklyAnchor'EnumSunday
+  | -- | Represents the JSON value @"thursday"@
+    PostAccountsAccountRequestBodySettings'Payouts'Schedule'WeeklyAnchor'EnumThursday
+  | -- | Represents the JSON value @"tuesday"@
+    PostAccountsAccountRequestBodySettings'Payouts'Schedule'WeeklyAnchor'EnumTuesday
+  | -- | Represents the JSON value @"wednesday"@
+    PostAccountsAccountRequestBodySettings'Payouts'Schedule'WeeklyAnchor'EnumWednesday
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostAccountsAccountRequestBodySettings'Payouts'Schedule'WeeklyAnchor' where
-  toJSON (PostAccountsAccountRequestBodySettings'Payouts'Schedule'WeeklyAnchor'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostAccountsAccountRequestBodySettings'Payouts'Schedule'WeeklyAnchor'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostAccountsAccountRequestBodySettings'Payouts'Schedule'WeeklyAnchor'EnumStringFriday) = "friday"
-  toJSON (PostAccountsAccountRequestBodySettings'Payouts'Schedule'WeeklyAnchor'EnumStringMonday) = "monday"
-  toJSON (PostAccountsAccountRequestBodySettings'Payouts'Schedule'WeeklyAnchor'EnumStringSaturday) = "saturday"
-  toJSON (PostAccountsAccountRequestBodySettings'Payouts'Schedule'WeeklyAnchor'EnumStringSunday) = "sunday"
-  toJSON (PostAccountsAccountRequestBodySettings'Payouts'Schedule'WeeklyAnchor'EnumStringThursday) = "thursday"
-  toJSON (PostAccountsAccountRequestBodySettings'Payouts'Schedule'WeeklyAnchor'EnumStringTuesday) = "tuesday"
-  toJSON (PostAccountsAccountRequestBodySettings'Payouts'Schedule'WeeklyAnchor'EnumStringWednesday) = "wednesday"
+  toJSON (PostAccountsAccountRequestBodySettings'Payouts'Schedule'WeeklyAnchor'Other val) = val
+  toJSON (PostAccountsAccountRequestBodySettings'Payouts'Schedule'WeeklyAnchor'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PostAccountsAccountRequestBodySettings'Payouts'Schedule'WeeklyAnchor'EnumFriday) = "friday"
+  toJSON (PostAccountsAccountRequestBodySettings'Payouts'Schedule'WeeklyAnchor'EnumMonday) = "monday"
+  toJSON (PostAccountsAccountRequestBodySettings'Payouts'Schedule'WeeklyAnchor'EnumSaturday) = "saturday"
+  toJSON (PostAccountsAccountRequestBodySettings'Payouts'Schedule'WeeklyAnchor'EnumSunday) = "sunday"
+  toJSON (PostAccountsAccountRequestBodySettings'Payouts'Schedule'WeeklyAnchor'EnumThursday) = "thursday"
+  toJSON (PostAccountsAccountRequestBodySettings'Payouts'Schedule'WeeklyAnchor'EnumTuesday) = "tuesday"
+  toJSON (PostAccountsAccountRequestBodySettings'Payouts'Schedule'WeeklyAnchor'EnumWednesday) = "wednesday"
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostAccountsAccountRequestBodySettings'Payouts'Schedule'WeeklyAnchor' where
   parseJSON val =
     GHC.Base.pure
-      ( if  | val GHC.Classes.== "friday" -> PostAccountsAccountRequestBodySettings'Payouts'Schedule'WeeklyAnchor'EnumStringFriday
-            | val GHC.Classes.== "monday" -> PostAccountsAccountRequestBodySettings'Payouts'Schedule'WeeklyAnchor'EnumStringMonday
-            | val GHC.Classes.== "saturday" -> PostAccountsAccountRequestBodySettings'Payouts'Schedule'WeeklyAnchor'EnumStringSaturday
-            | val GHC.Classes.== "sunday" -> PostAccountsAccountRequestBodySettings'Payouts'Schedule'WeeklyAnchor'EnumStringSunday
-            | val GHC.Classes.== "thursday" -> PostAccountsAccountRequestBodySettings'Payouts'Schedule'WeeklyAnchor'EnumStringThursday
-            | val GHC.Classes.== "tuesday" -> PostAccountsAccountRequestBodySettings'Payouts'Schedule'WeeklyAnchor'EnumStringTuesday
-            | val GHC.Classes.== "wednesday" -> PostAccountsAccountRequestBodySettings'Payouts'Schedule'WeeklyAnchor'EnumStringWednesday
-            | GHC.Base.otherwise -> PostAccountsAccountRequestBodySettings'Payouts'Schedule'WeeklyAnchor'EnumOther val
+      ( if  | val GHC.Classes.== "friday" -> PostAccountsAccountRequestBodySettings'Payouts'Schedule'WeeklyAnchor'EnumFriday
+            | val GHC.Classes.== "monday" -> PostAccountsAccountRequestBodySettings'Payouts'Schedule'WeeklyAnchor'EnumMonday
+            | val GHC.Classes.== "saturday" -> PostAccountsAccountRequestBodySettings'Payouts'Schedule'WeeklyAnchor'EnumSaturday
+            | val GHC.Classes.== "sunday" -> PostAccountsAccountRequestBodySettings'Payouts'Schedule'WeeklyAnchor'EnumSunday
+            | val GHC.Classes.== "thursday" -> PostAccountsAccountRequestBodySettings'Payouts'Schedule'WeeklyAnchor'EnumThursday
+            | val GHC.Classes.== "tuesday" -> PostAccountsAccountRequestBodySettings'Payouts'Schedule'WeeklyAnchor'EnumTuesday
+            | val GHC.Classes.== "wednesday" -> PostAccountsAccountRequestBodySettings'Payouts'Schedule'WeeklyAnchor'EnumWednesday
+            | GHC.Base.otherwise -> PostAccountsAccountRequestBodySettings'Payouts'Schedule'WeeklyAnchor'Other val
       )
 
--- | Defines the data type for the schema postAccountsAccountRequestBodyTos_acceptance\'
+-- | Defines the object schema located at @paths.\/v1\/accounts\/{account}.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.tos_acceptance@ in the specification.
 --
 -- Details on the account\'s acceptance of the [Stripe Services Agreement](https:\/\/stripe.com\/docs\/connect\/updating-accounts\#tos-acceptance).
 data PostAccountsAccountRequestBodyTosAcceptance'
@@ -1416,11 +1685,20 @@ data PostAccountsAccountRequestBodyTosAcceptance'
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostAccountsAccountRequestBodyTosAcceptance' where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "date" (postAccountsAccountRequestBodyTosAcceptance'Date obj) : (Data.Aeson..=) "ip" (postAccountsAccountRequestBodyTosAcceptance'Ip obj) : (Data.Aeson..=) "user_agent" (postAccountsAccountRequestBodyTosAcceptance'UserAgent obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "date" (postAccountsAccountRequestBodyTosAcceptance'Date obj) GHC.Base.<> ((Data.Aeson..=) "ip" (postAccountsAccountRequestBodyTosAcceptance'Ip obj) GHC.Base.<> (Data.Aeson..=) "user_agent" (postAccountsAccountRequestBodyTosAcceptance'UserAgent obj)))
+  toJSON obj = Data.Aeson.Types.Internal.object ("date" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyTosAcceptance'Date obj : "ip" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyTosAcceptance'Ip obj : "user_agent" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyTosAcceptance'UserAgent obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("date" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyTosAcceptance'Date obj) GHC.Base.<> (("ip" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyTosAcceptance'Ip obj) GHC.Base.<> ("user_agent" Data.Aeson.Types.ToJSON..= postAccountsAccountRequestBodyTosAcceptance'UserAgent obj)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostAccountsAccountRequestBodyTosAcceptance' where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PostAccountsAccountRequestBodyTosAcceptance'" (\obj -> ((GHC.Base.pure PostAccountsAccountRequestBodyTosAcceptance' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "date")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "ip")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "user_agent"))
+
+-- | Create a new 'PostAccountsAccountRequestBodyTosAcceptance'' with all required fields.
+mkPostAccountsAccountRequestBodyTosAcceptance' :: PostAccountsAccountRequestBodyTosAcceptance'
+mkPostAccountsAccountRequestBodyTosAcceptance' =
+  PostAccountsAccountRequestBodyTosAcceptance'
+    { postAccountsAccountRequestBodyTosAcceptance'Date = GHC.Maybe.Nothing,
+      postAccountsAccountRequestBodyTosAcceptance'Ip = GHC.Maybe.Nothing,
+      postAccountsAccountRequestBodyTosAcceptance'UserAgent = GHC.Maybe.Nothing
+    }
 
 -- | Represents a response of the operation 'postAccountsAccount'.
 --

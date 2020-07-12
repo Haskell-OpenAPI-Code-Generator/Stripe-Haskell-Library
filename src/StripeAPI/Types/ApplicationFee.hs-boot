@@ -1,11 +1,11 @@
 module StripeAPI.Types.ApplicationFee where
 import Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Types.Internal
-data ApplicationFee 
-instance Show ApplicationFee 
-instance Eq ApplicationFee 
-instance FromJSON ApplicationFee 
-instance ToJSON ApplicationFee 
+data ApplicationFee
+instance Show ApplicationFee
+instance Eq ApplicationFee
+instance FromJSON ApplicationFee
+instance ToJSON ApplicationFee
 data ApplicationFeeAccount'Variants
 instance Show ApplicationFeeAccount'Variants
 instance Eq ApplicationFeeAccount'Variants
@@ -26,23 +26,13 @@ instance Show ApplicationFeeCharge'Variants
 instance Eq ApplicationFeeCharge'Variants
 instance FromJSON ApplicationFeeCharge'Variants
 instance ToJSON ApplicationFeeCharge'Variants
-data ApplicationFeeObject'
-instance Show ApplicationFeeObject'
-instance Eq ApplicationFeeObject'
-instance FromJSON ApplicationFeeObject'
-instance ToJSON ApplicationFeeObject'
 data ApplicationFeeOriginatingTransaction'Variants
 instance Show ApplicationFeeOriginatingTransaction'Variants
 instance Eq ApplicationFeeOriginatingTransaction'Variants
 instance FromJSON ApplicationFeeOriginatingTransaction'Variants
 instance ToJSON ApplicationFeeOriginatingTransaction'Variants
-data ApplicationFeeRefunds' 
-instance Show ApplicationFeeRefunds' 
-instance Eq ApplicationFeeRefunds' 
-instance FromJSON ApplicationFeeRefunds' 
-instance ToJSON ApplicationFeeRefunds' 
-data ApplicationFeeRefunds'Object'
-instance Show ApplicationFeeRefunds'Object'
-instance Eq ApplicationFeeRefunds'Object'
-instance FromJSON ApplicationFeeRefunds'Object'
-instance ToJSON ApplicationFeeRefunds'Object'
+data ApplicationFeeRefunds'
+instance Show ApplicationFeeRefunds'
+instance Eq ApplicationFeeRefunds'
+instance FromJSON ApplicationFeeRefunds'
+instance ToJSON ApplicationFeeRefunds'

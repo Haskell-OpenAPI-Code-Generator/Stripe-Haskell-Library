@@ -8,6 +8,7 @@ module StripeAPI.Types.File where
 
 import qualified Control.Monad.Fail
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -31,7 +32,7 @@ import {-# SOURCE #-} StripeAPI.Types.FileLink
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
--- | Defines the data type for the schema file
+-- | Defines the object schema located at @components.schemas.file@ in the specification.
 --
 -- This is an object representing a file hosted on Stripe\'s servers. The
 -- file may have been uploaded by yourself using the [create file](https:\/\/stripe.com\/docs\/api\#create_file)
@@ -58,8 +59,6 @@ data File
         fileId :: Data.Text.Internal.Text,
         -- | links: A list of [file links](https:\/\/stripe.com\/docs\/api\#file_links) that point at this file.
         fileLinks :: (GHC.Maybe.Maybe FileLinks'),
-        -- | object: String representing the object\'s type. Objects of the same type share the same value.
-        fileObject :: FileObject',
         -- | purpose: The purpose of the file. Possible values are \`additional_verification\`, \`business_icon\`, \`business_logo\`, \`customer_signature\`, \`dispute_evidence\`, \`finance_report_run\`, \`identity_document\`, \`pci_document\`, \`sigma_scheduled_query\`, or \`tax_document_user_upload\`.
         --
         -- Constraints:
@@ -93,13 +92,37 @@ data File
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON File where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "created" (fileCreated obj) : (Data.Aeson..=) "filename" (fileFilename obj) : (Data.Aeson..=) "id" (fileId obj) : (Data.Aeson..=) "links" (fileLinks obj) : (Data.Aeson..=) "object" (fileObject obj) : (Data.Aeson..=) "purpose" (filePurpose obj) : (Data.Aeson..=) "size" (fileSize obj) : (Data.Aeson..=) "title" (fileTitle obj) : (Data.Aeson..=) "type" (fileType obj) : (Data.Aeson..=) "url" (fileUrl obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "created" (fileCreated obj) GHC.Base.<> ((Data.Aeson..=) "filename" (fileFilename obj) GHC.Base.<> ((Data.Aeson..=) "id" (fileId obj) GHC.Base.<> ((Data.Aeson..=) "links" (fileLinks obj) GHC.Base.<> ((Data.Aeson..=) "object" (fileObject obj) GHC.Base.<> ((Data.Aeson..=) "purpose" (filePurpose obj) GHC.Base.<> ((Data.Aeson..=) "size" (fileSize obj) GHC.Base.<> ((Data.Aeson..=) "title" (fileTitle obj) GHC.Base.<> ((Data.Aeson..=) "type" (fileType obj) GHC.Base.<> (Data.Aeson..=) "url" (fileUrl obj))))))))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("created" Data.Aeson.Types.ToJSON..= fileCreated obj : "filename" Data.Aeson.Types.ToJSON..= fileFilename obj : "id" Data.Aeson.Types.ToJSON..= fileId obj : "links" Data.Aeson.Types.ToJSON..= fileLinks obj : "purpose" Data.Aeson.Types.ToJSON..= filePurpose obj : "size" Data.Aeson.Types.ToJSON..= fileSize obj : "title" Data.Aeson.Types.ToJSON..= fileTitle obj : "type" Data.Aeson.Types.ToJSON..= fileType obj : "url" Data.Aeson.Types.ToJSON..= fileUrl obj : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "file" : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("created" Data.Aeson.Types.ToJSON..= fileCreated obj) GHC.Base.<> (("filename" Data.Aeson.Types.ToJSON..= fileFilename obj) GHC.Base.<> (("id" Data.Aeson.Types.ToJSON..= fileId obj) GHC.Base.<> (("links" Data.Aeson.Types.ToJSON..= fileLinks obj) GHC.Base.<> (("purpose" Data.Aeson.Types.ToJSON..= filePurpose obj) GHC.Base.<> (("size" Data.Aeson.Types.ToJSON..= fileSize obj) GHC.Base.<> (("title" Data.Aeson.Types.ToJSON..= fileTitle obj) GHC.Base.<> (("type" Data.Aeson.Types.ToJSON..= fileType obj) GHC.Base.<> (("url" Data.Aeson.Types.ToJSON..= fileUrl obj) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "file"))))))))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON File where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "File" (\obj -> (((((((((GHC.Base.pure File GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "created")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "filename")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "links")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "object")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "purpose")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "size")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "title")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "type")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "url"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "File" (\obj -> ((((((((GHC.Base.pure File GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "created")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "filename")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "links")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "purpose")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "size")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "title")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "type")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "url"))
 
--- | Defines the data type for the schema fileLinks\'
+-- | Create a new 'File' with all required fields.
+mkFile ::
+  -- | 'fileCreated'
+  GHC.Types.Int ->
+  -- | 'fileId'
+  Data.Text.Internal.Text ->
+  -- | 'filePurpose'
+  Data.Text.Internal.Text ->
+  -- | 'fileSize'
+  GHC.Types.Int ->
+  File
+mkFile fileCreated fileId filePurpose fileSize =
+  File
+    { fileCreated = fileCreated,
+      fileFilename = GHC.Maybe.Nothing,
+      fileId = fileId,
+      fileLinks = GHC.Maybe.Nothing,
+      filePurpose = filePurpose,
+      fileSize = fileSize,
+      fileTitle = GHC.Maybe.Nothing,
+      fileType = GHC.Maybe.Nothing,
+      fileUrl = GHC.Maybe.Nothing
+    }
+
+-- | Defines the object schema located at @components.schemas.file.properties.links@ in the specification.
 --
 -- A list of [file links](https:\/\/stripe.com\/docs\/api\#file_links) that point at this file.
 data FileLinks'
@@ -108,8 +131,6 @@ data FileLinks'
         fileLinks'Data :: ([FileLink]),
         -- | has_more: True if this list has another page of items after this one that can be fetched.
         fileLinks'HasMore :: GHC.Types.Bool,
-        -- | object: String representing the object\'s type. Objects of the same type share the same value. Always has the value \`list\`.
-        fileLinks'Object :: FileLinks'Object',
         -- | url: The URL where this list can be accessed.
         --
         -- Constraints:
@@ -123,50 +144,24 @@ data FileLinks'
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON FileLinks' where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "data" (fileLinks'Data obj) : (Data.Aeson..=) "has_more" (fileLinks'HasMore obj) : (Data.Aeson..=) "object" (fileLinks'Object obj) : (Data.Aeson..=) "url" (fileLinks'Url obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "data" (fileLinks'Data obj) GHC.Base.<> ((Data.Aeson..=) "has_more" (fileLinks'HasMore obj) GHC.Base.<> ((Data.Aeson..=) "object" (fileLinks'Object obj) GHC.Base.<> (Data.Aeson..=) "url" (fileLinks'Url obj))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("data" Data.Aeson.Types.ToJSON..= fileLinks'Data obj : "has_more" Data.Aeson.Types.ToJSON..= fileLinks'HasMore obj : "url" Data.Aeson.Types.ToJSON..= fileLinks'Url obj : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "list" : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("data" Data.Aeson.Types.ToJSON..= fileLinks'Data obj) GHC.Base.<> (("has_more" Data.Aeson.Types.ToJSON..= fileLinks'HasMore obj) GHC.Base.<> (("url" Data.Aeson.Types.ToJSON..= fileLinks'Url obj) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "list"))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON FileLinks' where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "FileLinks'" (\obj -> (((GHC.Base.pure FileLinks' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "has_more")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "object")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "url"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "FileLinks'" (\obj -> ((GHC.Base.pure FileLinks' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "has_more")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "url"))
 
--- | Defines the enum schema fileLinks\'Object\'
---
--- String representing the object\'s type. Objects of the same type share the same value. Always has the value \`list\`.
-data FileLinks'Object'
-  = FileLinks'Object'EnumOther Data.Aeson.Types.Internal.Value
-  | FileLinks'Object'EnumTyped Data.Text.Internal.Text
-  | FileLinks'Object'EnumStringList
-  deriving (GHC.Show.Show, GHC.Classes.Eq)
-
-instance Data.Aeson.Types.ToJSON.ToJSON FileLinks'Object' where
-  toJSON (FileLinks'Object'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (FileLinks'Object'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (FileLinks'Object'EnumStringList) = "list"
-
-instance Data.Aeson.Types.FromJSON.FromJSON FileLinks'Object' where
-  parseJSON val =
-    GHC.Base.pure
-      ( if  | val GHC.Classes.== "list" -> FileLinks'Object'EnumStringList
-            | GHC.Base.otherwise -> FileLinks'Object'EnumOther val
-      )
-
--- | Defines the enum schema fileObject\'
---
--- String representing the object\'s type. Objects of the same type share the same value.
-data FileObject'
-  = FileObject'EnumOther Data.Aeson.Types.Internal.Value
-  | FileObject'EnumTyped Data.Text.Internal.Text
-  | FileObject'EnumStringFile
-  deriving (GHC.Show.Show, GHC.Classes.Eq)
-
-instance Data.Aeson.Types.ToJSON.ToJSON FileObject' where
-  toJSON (FileObject'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (FileObject'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (FileObject'EnumStringFile) = "file"
-
-instance Data.Aeson.Types.FromJSON.FromJSON FileObject' where
-  parseJSON val =
-    GHC.Base.pure
-      ( if  | val GHC.Classes.== "file" -> FileObject'EnumStringFile
-            | GHC.Base.otherwise -> FileObject'EnumOther val
-      )
+-- | Create a new 'FileLinks'' with all required fields.
+mkFileLinks' ::
+  -- | 'fileLinks'Data'
+  [FileLink] ->
+  -- | 'fileLinks'HasMore'
+  GHC.Types.Bool ->
+  -- | 'fileLinks'Url'
+  Data.Text.Internal.Text ->
+  FileLinks'
+mkFileLinks' fileLinks'Data fileLinks'HasMore fileLinks'Url =
+  FileLinks'
+    { fileLinks'Data = fileLinks'Data,
+      fileLinks'HasMore = fileLinks'HasMore,
+      fileLinks'Url = fileLinks'Url
+    }

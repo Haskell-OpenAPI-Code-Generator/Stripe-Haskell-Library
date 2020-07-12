@@ -8,6 +8,7 @@ module StripeAPI.Types.Rule where
 
 import qualified Control.Monad.Fail
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -30,7 +31,7 @@ import StripeAPI.TypeAlias
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
--- | Defines the data type for the schema rule
+-- | Defines the object schema located at @components.schemas.rule@ in the specification.
 data Rule
   = Rule
       { -- | action: The action taken on the payment.
@@ -58,8 +59,24 @@ data Rule
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON Rule where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "action" (ruleAction obj) : (Data.Aeson..=) "id" (ruleId obj) : (Data.Aeson..=) "predicate" (rulePredicate obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "action" (ruleAction obj) GHC.Base.<> ((Data.Aeson..=) "id" (ruleId obj) GHC.Base.<> (Data.Aeson..=) "predicate" (rulePredicate obj)))
+  toJSON obj = Data.Aeson.Types.Internal.object ("action" Data.Aeson.Types.ToJSON..= ruleAction obj : "id" Data.Aeson.Types.ToJSON..= ruleId obj : "predicate" Data.Aeson.Types.ToJSON..= rulePredicate obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("action" Data.Aeson.Types.ToJSON..= ruleAction obj) GHC.Base.<> (("id" Data.Aeson.Types.ToJSON..= ruleId obj) GHC.Base.<> ("predicate" Data.Aeson.Types.ToJSON..= rulePredicate obj)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON Rule where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "Rule" (\obj -> ((GHC.Base.pure Rule GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "action")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "predicate"))
+
+-- | Create a new 'Rule' with all required fields.
+mkRule ::
+  -- | 'ruleAction'
+  Data.Text.Internal.Text ->
+  -- | 'ruleId'
+  Data.Text.Internal.Text ->
+  -- | 'rulePredicate'
+  Data.Text.Internal.Text ->
+  Rule
+mkRule ruleAction ruleId rulePredicate =
+  Rule
+    { ruleAction = ruleAction,
+      ruleId = ruleId,
+      rulePredicate = rulePredicate
+    }

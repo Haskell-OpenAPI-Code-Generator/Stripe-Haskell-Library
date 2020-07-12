@@ -10,6 +10,7 @@ module StripeAPI.Operations.GetSourcesSourceSourceTransactions where
 import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -85,7 +86,7 @@ getSourcesSourceSourceTransactions parameters =
         ]
     )
 
--- | Defines the data type for the schema getSourcesSourceSourceTransactionsParameters
+-- | Defines the object schema located at @paths.\/v1\/sources\/{source}\/source_transactions.GET.parameters@ in the specification.
 data GetSourcesSourceSourceTransactionsParameters
   = GetSourcesSourceSourceTransactionsParameters
       { -- | pathSource: Represents the parameter named \'source\'
@@ -125,11 +126,25 @@ data GetSourcesSourceSourceTransactionsParameters
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetSourcesSourceSourceTransactionsParameters where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "pathSource" (getSourcesSourceSourceTransactionsParametersPathSource obj) : (Data.Aeson..=) "queryEnding_before" (getSourcesSourceSourceTransactionsParametersQueryEndingBefore obj) : (Data.Aeson..=) "queryExpand" (getSourcesSourceSourceTransactionsParametersQueryExpand obj) : (Data.Aeson..=) "queryLimit" (getSourcesSourceSourceTransactionsParametersQueryLimit obj) : (Data.Aeson..=) "queryStarting_after" (getSourcesSourceSourceTransactionsParametersQueryStartingAfter obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "pathSource" (getSourcesSourceSourceTransactionsParametersPathSource obj) GHC.Base.<> ((Data.Aeson..=) "queryEnding_before" (getSourcesSourceSourceTransactionsParametersQueryEndingBefore obj) GHC.Base.<> ((Data.Aeson..=) "queryExpand" (getSourcesSourceSourceTransactionsParametersQueryExpand obj) GHC.Base.<> ((Data.Aeson..=) "queryLimit" (getSourcesSourceSourceTransactionsParametersQueryLimit obj) GHC.Base.<> (Data.Aeson..=) "queryStarting_after" (getSourcesSourceSourceTransactionsParametersQueryStartingAfter obj)))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("pathSource" Data.Aeson.Types.ToJSON..= getSourcesSourceSourceTransactionsParametersPathSource obj : "queryEnding_before" Data.Aeson.Types.ToJSON..= getSourcesSourceSourceTransactionsParametersQueryEndingBefore obj : "queryExpand" Data.Aeson.Types.ToJSON..= getSourcesSourceSourceTransactionsParametersQueryExpand obj : "queryLimit" Data.Aeson.Types.ToJSON..= getSourcesSourceSourceTransactionsParametersQueryLimit obj : "queryStarting_after" Data.Aeson.Types.ToJSON..= getSourcesSourceSourceTransactionsParametersQueryStartingAfter obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("pathSource" Data.Aeson.Types.ToJSON..= getSourcesSourceSourceTransactionsParametersPathSource obj) GHC.Base.<> (("queryEnding_before" Data.Aeson.Types.ToJSON..= getSourcesSourceSourceTransactionsParametersQueryEndingBefore obj) GHC.Base.<> (("queryExpand" Data.Aeson.Types.ToJSON..= getSourcesSourceSourceTransactionsParametersQueryExpand obj) GHC.Base.<> (("queryLimit" Data.Aeson.Types.ToJSON..= getSourcesSourceSourceTransactionsParametersQueryLimit obj) GHC.Base.<> ("queryStarting_after" Data.Aeson.Types.ToJSON..= getSourcesSourceSourceTransactionsParametersQueryStartingAfter obj)))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetSourcesSourceSourceTransactionsParameters where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "GetSourcesSourceSourceTransactionsParameters" (\obj -> ((((GHC.Base.pure GetSourcesSourceSourceTransactionsParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathSource")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryEnding_before")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryExpand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryLimit")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryStarting_after"))
+
+-- | Create a new 'GetSourcesSourceSourceTransactionsParameters' with all required fields.
+mkGetSourcesSourceSourceTransactionsParameters ::
+  -- | 'getSourcesSourceSourceTransactionsParametersPathSource'
+  Data.Text.Internal.Text ->
+  GetSourcesSourceSourceTransactionsParameters
+mkGetSourcesSourceSourceTransactionsParameters getSourcesSourceSourceTransactionsParametersPathSource =
+  GetSourcesSourceSourceTransactionsParameters
+    { getSourcesSourceSourceTransactionsParametersPathSource = getSourcesSourceSourceTransactionsParametersPathSource,
+      getSourcesSourceSourceTransactionsParametersQueryEndingBefore = GHC.Maybe.Nothing,
+      getSourcesSourceSourceTransactionsParametersQueryExpand = GHC.Maybe.Nothing,
+      getSourcesSourceSourceTransactionsParametersQueryLimit = GHC.Maybe.Nothing,
+      getSourcesSourceSourceTransactionsParametersQueryStartingAfter = GHC.Maybe.Nothing
+    }
 
 -- | Represents a response of the operation 'getSourcesSourceSourceTransactions'.
 --
@@ -143,15 +158,13 @@ data GetSourcesSourceSourceTransactionsResponse
     GetSourcesSourceSourceTransactionsResponseDefault Error
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
--- | Defines the data type for the schema GetSourcesSourceSourceTransactionsResponseBody200
+-- | Defines the object schema located at @paths.\/v1\/sources\/{source}\/source_transactions.GET.responses.200.content.application\/json.schema@ in the specification.
 data GetSourcesSourceSourceTransactionsResponseBody200
   = GetSourcesSourceSourceTransactionsResponseBody200
       { -- | data
         getSourcesSourceSourceTransactionsResponseBody200Data :: ([SourceTransaction]),
         -- | has_more: True if this list has another page of items after this one that can be fetched.
         getSourcesSourceSourceTransactionsResponseBody200HasMore :: GHC.Types.Bool,
-        -- | object: String representing the object\'s type. Objects of the same type share the same value. Always has the value \`list\`.
-        getSourcesSourceSourceTransactionsResponseBody200Object :: GetSourcesSourceSourceTransactionsResponseBody200Object',
         -- | url: The URL where this list can be accessed.
         --
         -- Constraints:
@@ -165,29 +178,24 @@ data GetSourcesSourceSourceTransactionsResponseBody200
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetSourcesSourceSourceTransactionsResponseBody200 where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "data" (getSourcesSourceSourceTransactionsResponseBody200Data obj) : (Data.Aeson..=) "has_more" (getSourcesSourceSourceTransactionsResponseBody200HasMore obj) : (Data.Aeson..=) "object" (getSourcesSourceSourceTransactionsResponseBody200Object obj) : (Data.Aeson..=) "url" (getSourcesSourceSourceTransactionsResponseBody200Url obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "data" (getSourcesSourceSourceTransactionsResponseBody200Data obj) GHC.Base.<> ((Data.Aeson..=) "has_more" (getSourcesSourceSourceTransactionsResponseBody200HasMore obj) GHC.Base.<> ((Data.Aeson..=) "object" (getSourcesSourceSourceTransactionsResponseBody200Object obj) GHC.Base.<> (Data.Aeson..=) "url" (getSourcesSourceSourceTransactionsResponseBody200Url obj))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("data" Data.Aeson.Types.ToJSON..= getSourcesSourceSourceTransactionsResponseBody200Data obj : "has_more" Data.Aeson.Types.ToJSON..= getSourcesSourceSourceTransactionsResponseBody200HasMore obj : "url" Data.Aeson.Types.ToJSON..= getSourcesSourceSourceTransactionsResponseBody200Url obj : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "list" : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("data" Data.Aeson.Types.ToJSON..= getSourcesSourceSourceTransactionsResponseBody200Data obj) GHC.Base.<> (("has_more" Data.Aeson.Types.ToJSON..= getSourcesSourceSourceTransactionsResponseBody200HasMore obj) GHC.Base.<> (("url" Data.Aeson.Types.ToJSON..= getSourcesSourceSourceTransactionsResponseBody200Url obj) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "list"))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetSourcesSourceSourceTransactionsResponseBody200 where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetSourcesSourceSourceTransactionsResponseBody200" (\obj -> (((GHC.Base.pure GetSourcesSourceSourceTransactionsResponseBody200 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "has_more")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "object")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "url"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetSourcesSourceSourceTransactionsResponseBody200" (\obj -> ((GHC.Base.pure GetSourcesSourceSourceTransactionsResponseBody200 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "has_more")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "url"))
 
--- | Defines the enum schema GetSourcesSourceSourceTransactionsResponseBody200Object\'
---
--- String representing the object\'s type. Objects of the same type share the same value. Always has the value \`list\`.
-data GetSourcesSourceSourceTransactionsResponseBody200Object'
-  = GetSourcesSourceSourceTransactionsResponseBody200Object'EnumOther Data.Aeson.Types.Internal.Value
-  | GetSourcesSourceSourceTransactionsResponseBody200Object'EnumTyped Data.Text.Internal.Text
-  | GetSourcesSourceSourceTransactionsResponseBody200Object'EnumStringList
-  deriving (GHC.Show.Show, GHC.Classes.Eq)
-
-instance Data.Aeson.Types.ToJSON.ToJSON GetSourcesSourceSourceTransactionsResponseBody200Object' where
-  toJSON (GetSourcesSourceSourceTransactionsResponseBody200Object'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (GetSourcesSourceSourceTransactionsResponseBody200Object'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (GetSourcesSourceSourceTransactionsResponseBody200Object'EnumStringList) = "list"
-
-instance Data.Aeson.Types.FromJSON.FromJSON GetSourcesSourceSourceTransactionsResponseBody200Object' where
-  parseJSON val =
-    GHC.Base.pure
-      ( if  | val GHC.Classes.== "list" -> GetSourcesSourceSourceTransactionsResponseBody200Object'EnumStringList
-            | GHC.Base.otherwise -> GetSourcesSourceSourceTransactionsResponseBody200Object'EnumOther val
-      )
+-- | Create a new 'GetSourcesSourceSourceTransactionsResponseBody200' with all required fields.
+mkGetSourcesSourceSourceTransactionsResponseBody200 ::
+  -- | 'getSourcesSourceSourceTransactionsResponseBody200Data'
+  [SourceTransaction] ->
+  -- | 'getSourcesSourceSourceTransactionsResponseBody200HasMore'
+  GHC.Types.Bool ->
+  -- | 'getSourcesSourceSourceTransactionsResponseBody200Url'
+  Data.Text.Internal.Text ->
+  GetSourcesSourceSourceTransactionsResponseBody200
+mkGetSourcesSourceSourceTransactionsResponseBody200 getSourcesSourceSourceTransactionsResponseBody200Data getSourcesSourceSourceTransactionsResponseBody200HasMore getSourcesSourceSourceTransactionsResponseBody200Url =
+  GetSourcesSourceSourceTransactionsResponseBody200
+    { getSourcesSourceSourceTransactionsResponseBody200Data = getSourcesSourceSourceTransactionsResponseBody200Data,
+      getSourcesSourceSourceTransactionsResponseBody200HasMore = getSourcesSourceSourceTransactionsResponseBody200HasMore,
+      getSourcesSourceSourceTransactionsResponseBody200Url = getSourcesSourceSourceTransactionsResponseBody200Url
+    }

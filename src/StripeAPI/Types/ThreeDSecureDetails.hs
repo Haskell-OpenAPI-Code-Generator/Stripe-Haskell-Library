@@ -8,6 +8,7 @@ module StripeAPI.Types.ThreeDSecureDetails where
 
 import qualified Control.Monad.Fail
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -30,7 +31,7 @@ import StripeAPI.TypeAlias
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
--- | Defines the data type for the schema three_d_secure_details
+-- | Defines the object schema located at @components.schemas.three_d_secure_details@ in the specification.
 data ThreeDSecureDetails
   = ThreeDSecureDetails
       { -- | authenticated: Whether or not authentication was performed. 3D Secure will succeed without authentication when the card is not enrolled.
@@ -50,8 +51,24 @@ data ThreeDSecureDetails
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON ThreeDSecureDetails where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "authenticated" (threeDSecureDetailsAuthenticated obj) : (Data.Aeson..=) "succeeded" (threeDSecureDetailsSucceeded obj) : (Data.Aeson..=) "version" (threeDSecureDetailsVersion obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "authenticated" (threeDSecureDetailsAuthenticated obj) GHC.Base.<> ((Data.Aeson..=) "succeeded" (threeDSecureDetailsSucceeded obj) GHC.Base.<> (Data.Aeson..=) "version" (threeDSecureDetailsVersion obj)))
+  toJSON obj = Data.Aeson.Types.Internal.object ("authenticated" Data.Aeson.Types.ToJSON..= threeDSecureDetailsAuthenticated obj : "succeeded" Data.Aeson.Types.ToJSON..= threeDSecureDetailsSucceeded obj : "version" Data.Aeson.Types.ToJSON..= threeDSecureDetailsVersion obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("authenticated" Data.Aeson.Types.ToJSON..= threeDSecureDetailsAuthenticated obj) GHC.Base.<> (("succeeded" Data.Aeson.Types.ToJSON..= threeDSecureDetailsSucceeded obj) GHC.Base.<> ("version" Data.Aeson.Types.ToJSON..= threeDSecureDetailsVersion obj)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON ThreeDSecureDetails where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "ThreeDSecureDetails" (\obj -> ((GHC.Base.pure ThreeDSecureDetails GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "authenticated")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "succeeded")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "version"))
+
+-- | Create a new 'ThreeDSecureDetails' with all required fields.
+mkThreeDSecureDetails ::
+  -- | 'threeDSecureDetailsAuthenticated'
+  GHC.Types.Bool ->
+  -- | 'threeDSecureDetailsSucceeded'
+  GHC.Types.Bool ->
+  -- | 'threeDSecureDetailsVersion'
+  Data.Text.Internal.Text ->
+  ThreeDSecureDetails
+mkThreeDSecureDetails threeDSecureDetailsAuthenticated threeDSecureDetailsSucceeded threeDSecureDetailsVersion =
+  ThreeDSecureDetails
+    { threeDSecureDetailsAuthenticated = threeDSecureDetailsAuthenticated,
+      threeDSecureDetailsSucceeded = threeDSecureDetailsSucceeded,
+      threeDSecureDetailsVersion = threeDSecureDetailsVersion
+    }

@@ -10,6 +10,7 @@ module StripeAPI.Operations.GetMandatesMandate where
 import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -77,7 +78,7 @@ getMandatesMandate parameters =
     )
     (StripeAPI.Common.doCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET") (Data.Text.pack ("/v1/mandates/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel (getMandatesMandateParametersPathMandate parameters))) GHC.Base.++ ""))) [StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getMandatesMandateParametersQueryExpand parameters) (Data.Text.pack "deepObject") GHC.Types.True])
 
--- | Defines the data type for the schema getMandatesMandateParameters
+-- | Defines the object schema located at @paths.\/v1\/mandates\/{mandate}.GET.parameters@ in the specification.
 data GetMandatesMandateParameters
   = GetMandatesMandateParameters
       { -- | pathMandate: Represents the parameter named \'mandate\'
@@ -93,11 +94,22 @@ data GetMandatesMandateParameters
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetMandatesMandateParameters where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "pathMandate" (getMandatesMandateParametersPathMandate obj) : (Data.Aeson..=) "queryExpand" (getMandatesMandateParametersQueryExpand obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "pathMandate" (getMandatesMandateParametersPathMandate obj) GHC.Base.<> (Data.Aeson..=) "queryExpand" (getMandatesMandateParametersQueryExpand obj))
+  toJSON obj = Data.Aeson.Types.Internal.object ("pathMandate" Data.Aeson.Types.ToJSON..= getMandatesMandateParametersPathMandate obj : "queryExpand" Data.Aeson.Types.ToJSON..= getMandatesMandateParametersQueryExpand obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("pathMandate" Data.Aeson.Types.ToJSON..= getMandatesMandateParametersPathMandate obj) GHC.Base.<> ("queryExpand" Data.Aeson.Types.ToJSON..= getMandatesMandateParametersQueryExpand obj))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetMandatesMandateParameters where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "GetMandatesMandateParameters" (\obj -> (GHC.Base.pure GetMandatesMandateParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathMandate")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryExpand"))
+
+-- | Create a new 'GetMandatesMandateParameters' with all required fields.
+mkGetMandatesMandateParameters ::
+  -- | 'getMandatesMandateParametersPathMandate'
+  Data.Text.Internal.Text ->
+  GetMandatesMandateParameters
+mkGetMandatesMandateParameters getMandatesMandateParametersPathMandate =
+  GetMandatesMandateParameters
+    { getMandatesMandateParametersPathMandate = getMandatesMandateParametersPathMandate,
+      getMandatesMandateParametersQueryExpand = GHC.Maybe.Nothing
+    }
 
 -- | Represents a response of the operation 'getMandatesMandate'.
 --

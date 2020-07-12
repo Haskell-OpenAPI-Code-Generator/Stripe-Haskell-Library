@@ -1,11 +1,11 @@
 module StripeAPI.Types.DisputeEvidence where
 import Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Types.Internal
-data DisputeEvidence 
-instance Show DisputeEvidence 
-instance Eq DisputeEvidence 
-instance FromJSON DisputeEvidence 
-instance ToJSON DisputeEvidence 
+data DisputeEvidence
+instance Show DisputeEvidence
+instance Eq DisputeEvidence
+instance FromJSON DisputeEvidence
+instance ToJSON DisputeEvidence
 data DisputeEvidenceCancellationPolicy'Variants
 instance Show DisputeEvidenceCancellationPolicy'Variants
 instance Eq DisputeEvidenceCancellationPolicy'Variants

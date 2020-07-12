@@ -10,6 +10,7 @@ module StripeAPI.Operations.GetTokensToken where
 import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -77,7 +78,7 @@ getTokensToken parameters =
     )
     (StripeAPI.Common.doCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET") (Data.Text.pack ("/v1/tokens/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel (getTokensTokenParametersPathToken parameters))) GHC.Base.++ ""))) [StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getTokensTokenParametersQueryExpand parameters) (Data.Text.pack "deepObject") GHC.Types.True])
 
--- | Defines the data type for the schema getTokensTokenParameters
+-- | Defines the object schema located at @paths.\/v1\/tokens\/{token}.GET.parameters@ in the specification.
 data GetTokensTokenParameters
   = GetTokensTokenParameters
       { -- | pathToken: Represents the parameter named \'token\'
@@ -97,11 +98,22 @@ data GetTokensTokenParameters
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetTokensTokenParameters where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "pathToken" (getTokensTokenParametersPathToken obj) : (Data.Aeson..=) "queryExpand" (getTokensTokenParametersQueryExpand obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "pathToken" (getTokensTokenParametersPathToken obj) GHC.Base.<> (Data.Aeson..=) "queryExpand" (getTokensTokenParametersQueryExpand obj))
+  toJSON obj = Data.Aeson.Types.Internal.object ("pathToken" Data.Aeson.Types.ToJSON..= getTokensTokenParametersPathToken obj : "queryExpand" Data.Aeson.Types.ToJSON..= getTokensTokenParametersQueryExpand obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("pathToken" Data.Aeson.Types.ToJSON..= getTokensTokenParametersPathToken obj) GHC.Base.<> ("queryExpand" Data.Aeson.Types.ToJSON..= getTokensTokenParametersQueryExpand obj))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetTokensTokenParameters where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "GetTokensTokenParameters" (\obj -> (GHC.Base.pure GetTokensTokenParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathToken")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryExpand"))
+
+-- | Create a new 'GetTokensTokenParameters' with all required fields.
+mkGetTokensTokenParameters ::
+  -- | 'getTokensTokenParametersPathToken'
+  Data.Text.Internal.Text ->
+  GetTokensTokenParameters
+mkGetTokensTokenParameters getTokensTokenParametersPathToken =
+  GetTokensTokenParameters
+    { getTokensTokenParametersPathToken = getTokensTokenParametersPathToken,
+      getTokensTokenParametersQueryExpand = GHC.Maybe.Nothing
+    }
 
 -- | Represents a response of the operation 'getTokensToken'.
 --

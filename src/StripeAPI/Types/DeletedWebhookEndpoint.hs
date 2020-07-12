@@ -8,6 +8,7 @@ module StripeAPI.Types.DeletedWebhookEndpoint where
 
 import qualified Control.Monad.Fail
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -30,19 +31,15 @@ import StripeAPI.TypeAlias
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
--- | Defines the data type for the schema deleted_webhook_endpoint
+-- | Defines the object schema located at @components.schemas.deleted_webhook_endpoint@ in the specification.
 data DeletedWebhookEndpoint
   = DeletedWebhookEndpoint
-      { -- | deleted: Always true for a deleted object
-        deletedWebhookEndpointDeleted :: DeletedWebhookEndpointDeleted',
-        -- | id: Unique identifier for the object.
+      { -- | id: Unique identifier for the object.
         --
         -- Constraints:
         --
         -- * Maximum length of 5000
-        deletedWebhookEndpointId :: Data.Text.Internal.Text,
-        -- | object: String representing the object\'s type. Objects of the same type share the same value.
-        deletedWebhookEndpointObject :: DeletedWebhookEndpointObject'
+        deletedWebhookEndpointId :: Data.Text.Internal.Text
       }
   deriving
     ( GHC.Show.Show,
@@ -50,50 +47,15 @@ data DeletedWebhookEndpoint
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON DeletedWebhookEndpoint where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "deleted" (deletedWebhookEndpointDeleted obj) : (Data.Aeson..=) "id" (deletedWebhookEndpointId obj) : (Data.Aeson..=) "object" (deletedWebhookEndpointObject obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "deleted" (deletedWebhookEndpointDeleted obj) GHC.Base.<> ((Data.Aeson..=) "id" (deletedWebhookEndpointId obj) GHC.Base.<> (Data.Aeson..=) "object" (deletedWebhookEndpointObject obj)))
+  toJSON obj = Data.Aeson.Types.Internal.object ("id" Data.Aeson.Types.ToJSON..= deletedWebhookEndpointId obj : "deleted" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.Bool GHC.Types.True : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "webhook_endpoint" : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("id" Data.Aeson.Types.ToJSON..= deletedWebhookEndpointId obj) GHC.Base.<> (("deleted" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.Bool GHC.Types.True) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "webhook_endpoint")))
 
 instance Data.Aeson.Types.FromJSON.FromJSON DeletedWebhookEndpoint where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "DeletedWebhookEndpoint" (\obj -> ((GHC.Base.pure DeletedWebhookEndpoint GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "deleted")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "object"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "DeletedWebhookEndpoint" (\obj -> GHC.Base.pure DeletedWebhookEndpoint GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id"))
 
--- | Defines the enum schema deleted_webhook_endpointDeleted\'
---
--- Always true for a deleted object
-data DeletedWebhookEndpointDeleted'
-  = DeletedWebhookEndpointDeleted'EnumOther Data.Aeson.Types.Internal.Value
-  | DeletedWebhookEndpointDeleted'EnumTyped GHC.Types.Bool
-  | DeletedWebhookEndpointDeleted'EnumBoolTrue
-  deriving (GHC.Show.Show, GHC.Classes.Eq)
-
-instance Data.Aeson.Types.ToJSON.ToJSON DeletedWebhookEndpointDeleted' where
-  toJSON (DeletedWebhookEndpointDeleted'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (DeletedWebhookEndpointDeleted'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (DeletedWebhookEndpointDeleted'EnumBoolTrue) = Data.Aeson.Types.Internal.Bool GHC.Types.True
-
-instance Data.Aeson.Types.FromJSON.FromJSON DeletedWebhookEndpointDeleted' where
-  parseJSON val =
-    GHC.Base.pure
-      ( if  | val GHC.Classes.== Data.Aeson.Types.Internal.Bool GHC.Types.True -> DeletedWebhookEndpointDeleted'EnumBoolTrue
-            | GHC.Base.otherwise -> DeletedWebhookEndpointDeleted'EnumOther val
-      )
-
--- | Defines the enum schema deleted_webhook_endpointObject\'
---
--- String representing the object\'s type. Objects of the same type share the same value.
-data DeletedWebhookEndpointObject'
-  = DeletedWebhookEndpointObject'EnumOther Data.Aeson.Types.Internal.Value
-  | DeletedWebhookEndpointObject'EnumTyped Data.Text.Internal.Text
-  | DeletedWebhookEndpointObject'EnumStringWebhookEndpoint
-  deriving (GHC.Show.Show, GHC.Classes.Eq)
-
-instance Data.Aeson.Types.ToJSON.ToJSON DeletedWebhookEndpointObject' where
-  toJSON (DeletedWebhookEndpointObject'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (DeletedWebhookEndpointObject'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (DeletedWebhookEndpointObject'EnumStringWebhookEndpoint) = "webhook_endpoint"
-
-instance Data.Aeson.Types.FromJSON.FromJSON DeletedWebhookEndpointObject' where
-  parseJSON val =
-    GHC.Base.pure
-      ( if  | val GHC.Classes.== "webhook_endpoint" -> DeletedWebhookEndpointObject'EnumStringWebhookEndpoint
-            | GHC.Base.otherwise -> DeletedWebhookEndpointObject'EnumOther val
-      )
+-- | Create a new 'DeletedWebhookEndpoint' with all required fields.
+mkDeletedWebhookEndpoint ::
+  -- | 'deletedWebhookEndpointId'
+  Data.Text.Internal.Text ->
+  DeletedWebhookEndpoint
+mkDeletedWebhookEndpoint deletedWebhookEndpointId = DeletedWebhookEndpoint {deletedWebhookEndpointId = deletedWebhookEndpointId}

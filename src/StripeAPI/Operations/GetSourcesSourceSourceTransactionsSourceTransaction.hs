@@ -10,6 +10,7 @@ module StripeAPI.Operations.GetSourcesSourceSourceTransactionsSourceTransaction 
 import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -77,7 +78,7 @@ getSourcesSourceSourceTransactionsSourceTransaction parameters =
     )
     (StripeAPI.Common.doCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET") (Data.Text.pack ("/v1/sources/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel (getSourcesSourceSourceTransactionsSourceTransactionParametersPathSource parameters))) GHC.Base.++ ("/source_transactions/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel (getSourcesSourceSourceTransactionsSourceTransactionParametersPathSourceTransaction parameters))) GHC.Base.++ ""))))) [StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getSourcesSourceSourceTransactionsSourceTransactionParametersQueryExpand parameters) (Data.Text.pack "deepObject") GHC.Types.True])
 
--- | Defines the data type for the schema getSourcesSourceSourceTransactionsSourceTransactionParameters
+-- | Defines the object schema located at @paths.\/v1\/sources\/{source}\/source_transactions\/{source_transaction}.GET.parameters@ in the specification.
 data GetSourcesSourceSourceTransactionsSourceTransactionParameters
   = GetSourcesSourceSourceTransactionsSourceTransactionParameters
       { -- | pathSource: Represents the parameter named \'source\'
@@ -103,11 +104,25 @@ data GetSourcesSourceSourceTransactionsSourceTransactionParameters
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetSourcesSourceSourceTransactionsSourceTransactionParameters where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "pathSource" (getSourcesSourceSourceTransactionsSourceTransactionParametersPathSource obj) : (Data.Aeson..=) "pathSource_transaction" (getSourcesSourceSourceTransactionsSourceTransactionParametersPathSourceTransaction obj) : (Data.Aeson..=) "queryExpand" (getSourcesSourceSourceTransactionsSourceTransactionParametersQueryExpand obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "pathSource" (getSourcesSourceSourceTransactionsSourceTransactionParametersPathSource obj) GHC.Base.<> ((Data.Aeson..=) "pathSource_transaction" (getSourcesSourceSourceTransactionsSourceTransactionParametersPathSourceTransaction obj) GHC.Base.<> (Data.Aeson..=) "queryExpand" (getSourcesSourceSourceTransactionsSourceTransactionParametersQueryExpand obj)))
+  toJSON obj = Data.Aeson.Types.Internal.object ("pathSource" Data.Aeson.Types.ToJSON..= getSourcesSourceSourceTransactionsSourceTransactionParametersPathSource obj : "pathSource_transaction" Data.Aeson.Types.ToJSON..= getSourcesSourceSourceTransactionsSourceTransactionParametersPathSourceTransaction obj : "queryExpand" Data.Aeson.Types.ToJSON..= getSourcesSourceSourceTransactionsSourceTransactionParametersQueryExpand obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("pathSource" Data.Aeson.Types.ToJSON..= getSourcesSourceSourceTransactionsSourceTransactionParametersPathSource obj) GHC.Base.<> (("pathSource_transaction" Data.Aeson.Types.ToJSON..= getSourcesSourceSourceTransactionsSourceTransactionParametersPathSourceTransaction obj) GHC.Base.<> ("queryExpand" Data.Aeson.Types.ToJSON..= getSourcesSourceSourceTransactionsSourceTransactionParametersQueryExpand obj)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetSourcesSourceSourceTransactionsSourceTransactionParameters where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "GetSourcesSourceSourceTransactionsSourceTransactionParameters" (\obj -> ((GHC.Base.pure GetSourcesSourceSourceTransactionsSourceTransactionParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathSource")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathSource_transaction")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryExpand"))
+
+-- | Create a new 'GetSourcesSourceSourceTransactionsSourceTransactionParameters' with all required fields.
+mkGetSourcesSourceSourceTransactionsSourceTransactionParameters ::
+  -- | 'getSourcesSourceSourceTransactionsSourceTransactionParametersPathSource'
+  Data.Text.Internal.Text ->
+  -- | 'getSourcesSourceSourceTransactionsSourceTransactionParametersPathSourceTransaction'
+  Data.Text.Internal.Text ->
+  GetSourcesSourceSourceTransactionsSourceTransactionParameters
+mkGetSourcesSourceSourceTransactionsSourceTransactionParameters getSourcesSourceSourceTransactionsSourceTransactionParametersPathSource getSourcesSourceSourceTransactionsSourceTransactionParametersPathSourceTransaction =
+  GetSourcesSourceSourceTransactionsSourceTransactionParameters
+    { getSourcesSourceSourceTransactionsSourceTransactionParametersPathSource = getSourcesSourceSourceTransactionsSourceTransactionParametersPathSource,
+      getSourcesSourceSourceTransactionsSourceTransactionParametersPathSourceTransaction = getSourcesSourceSourceTransactionsSourceTransactionParametersPathSourceTransaction,
+      getSourcesSourceSourceTransactionsSourceTransactionParametersQueryExpand = GHC.Maybe.Nothing
+    }
 
 -- | Represents a response of the operation 'getSourcesSourceSourceTransactionsSourceTransaction'.
 --

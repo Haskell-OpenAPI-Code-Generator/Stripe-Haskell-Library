@@ -8,6 +8,7 @@ module StripeAPI.Types.InvoiceLineItemPeriod where
 
 import qualified Control.Monad.Fail
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -30,7 +31,7 @@ import StripeAPI.TypeAlias
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
--- | Defines the data type for the schema invoice_line_item_period
+-- | Defines the object schema located at @components.schemas.invoice_line_item_period@ in the specification.
 data InvoiceLineItemPeriod
   = InvoiceLineItemPeriod
       { -- | end: End of the line item\'s billing period
@@ -44,8 +45,21 @@ data InvoiceLineItemPeriod
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON InvoiceLineItemPeriod where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "end" (invoiceLineItemPeriodEnd obj) : (Data.Aeson..=) "start" (invoiceLineItemPeriodStart obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "end" (invoiceLineItemPeriodEnd obj) GHC.Base.<> (Data.Aeson..=) "start" (invoiceLineItemPeriodStart obj))
+  toJSON obj = Data.Aeson.Types.Internal.object ("end" Data.Aeson.Types.ToJSON..= invoiceLineItemPeriodEnd obj : "start" Data.Aeson.Types.ToJSON..= invoiceLineItemPeriodStart obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("end" Data.Aeson.Types.ToJSON..= invoiceLineItemPeriodEnd obj) GHC.Base.<> ("start" Data.Aeson.Types.ToJSON..= invoiceLineItemPeriodStart obj))
 
 instance Data.Aeson.Types.FromJSON.FromJSON InvoiceLineItemPeriod where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "InvoiceLineItemPeriod" (\obj -> (GHC.Base.pure InvoiceLineItemPeriod GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "end")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "start"))
+
+-- | Create a new 'InvoiceLineItemPeriod' with all required fields.
+mkInvoiceLineItemPeriod ::
+  -- | 'invoiceLineItemPeriodEnd'
+  GHC.Types.Int ->
+  -- | 'invoiceLineItemPeriodStart'
+  GHC.Types.Int ->
+  InvoiceLineItemPeriod
+mkInvoiceLineItemPeriod invoiceLineItemPeriodEnd invoiceLineItemPeriodStart =
+  InvoiceLineItemPeriod
+    { invoiceLineItemPeriodEnd = invoiceLineItemPeriodEnd,
+      invoiceLineItemPeriodStart = invoiceLineItemPeriodStart
+    }

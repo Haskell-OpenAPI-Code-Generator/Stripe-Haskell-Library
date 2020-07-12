@@ -10,6 +10,7 @@ module StripeAPI.Operations.GetIssuerFraudRecordsIssuerFraudRecord where
 import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -79,7 +80,7 @@ getIssuerFraudRecordsIssuerFraudRecord parameters =
     )
     (StripeAPI.Common.doCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET") (Data.Text.pack ("/v1/issuer_fraud_records/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel (getIssuerFraudRecordsIssuerFraudRecordParametersPathIssuerFraudRecord parameters))) GHC.Base.++ ""))) [StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getIssuerFraudRecordsIssuerFraudRecordParametersQueryExpand parameters) (Data.Text.pack "deepObject") GHC.Types.True])
 
--- | Defines the data type for the schema getIssuerFraudRecordsIssuerFraudRecordParameters
+-- | Defines the object schema located at @paths.\/v1\/issuer_fraud_records\/{issuer_fraud_record}.GET.parameters@ in the specification.
 data GetIssuerFraudRecordsIssuerFraudRecordParameters
   = GetIssuerFraudRecordsIssuerFraudRecordParameters
       { -- | pathIssuer_fraud_record: Represents the parameter named \'issuer_fraud_record\'
@@ -99,11 +100,22 @@ data GetIssuerFraudRecordsIssuerFraudRecordParameters
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetIssuerFraudRecordsIssuerFraudRecordParameters where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "pathIssuer_fraud_record" (getIssuerFraudRecordsIssuerFraudRecordParametersPathIssuerFraudRecord obj) : (Data.Aeson..=) "queryExpand" (getIssuerFraudRecordsIssuerFraudRecordParametersQueryExpand obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "pathIssuer_fraud_record" (getIssuerFraudRecordsIssuerFraudRecordParametersPathIssuerFraudRecord obj) GHC.Base.<> (Data.Aeson..=) "queryExpand" (getIssuerFraudRecordsIssuerFraudRecordParametersQueryExpand obj))
+  toJSON obj = Data.Aeson.Types.Internal.object ("pathIssuer_fraud_record" Data.Aeson.Types.ToJSON..= getIssuerFraudRecordsIssuerFraudRecordParametersPathIssuerFraudRecord obj : "queryExpand" Data.Aeson.Types.ToJSON..= getIssuerFraudRecordsIssuerFraudRecordParametersQueryExpand obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("pathIssuer_fraud_record" Data.Aeson.Types.ToJSON..= getIssuerFraudRecordsIssuerFraudRecordParametersPathIssuerFraudRecord obj) GHC.Base.<> ("queryExpand" Data.Aeson.Types.ToJSON..= getIssuerFraudRecordsIssuerFraudRecordParametersQueryExpand obj))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetIssuerFraudRecordsIssuerFraudRecordParameters where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "GetIssuerFraudRecordsIssuerFraudRecordParameters" (\obj -> (GHC.Base.pure GetIssuerFraudRecordsIssuerFraudRecordParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathIssuer_fraud_record")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryExpand"))
+
+-- | Create a new 'GetIssuerFraudRecordsIssuerFraudRecordParameters' with all required fields.
+mkGetIssuerFraudRecordsIssuerFraudRecordParameters ::
+  -- | 'getIssuerFraudRecordsIssuerFraudRecordParametersPathIssuerFraudRecord'
+  Data.Text.Internal.Text ->
+  GetIssuerFraudRecordsIssuerFraudRecordParameters
+mkGetIssuerFraudRecordsIssuerFraudRecordParameters getIssuerFraudRecordsIssuerFraudRecordParametersPathIssuerFraudRecord =
+  GetIssuerFraudRecordsIssuerFraudRecordParameters
+    { getIssuerFraudRecordsIssuerFraudRecordParametersPathIssuerFraudRecord = getIssuerFraudRecordsIssuerFraudRecordParametersPathIssuerFraudRecord,
+      getIssuerFraudRecordsIssuerFraudRecordParametersQueryExpand = GHC.Maybe.Nothing
+    }
 
 -- | Represents a response of the operation 'getIssuerFraudRecordsIssuerFraudRecord'.
 --

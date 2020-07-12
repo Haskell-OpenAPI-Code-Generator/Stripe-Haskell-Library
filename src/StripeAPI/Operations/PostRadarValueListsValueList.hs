@@ -10,6 +10,7 @@ module StripeAPI.Operations.PostRadarValueListsValueList where
 import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -81,7 +82,7 @@ postRadarValueListsValueList
       )
       (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack ("/v1/radar/value_lists/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel valueList)) GHC.Base.++ ""))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
 
--- | Defines the data type for the schema postRadarValueListsValueListRequestBody
+-- | Defines the object schema located at @paths.\/v1\/radar\/value_lists\/{value_list}.POST.requestBody.content.application\/x-www-form-urlencoded.schema@ in the specification.
 data PostRadarValueListsValueListRequestBody
   = PostRadarValueListsValueListRequestBody
       { -- | alias: The name of the value list for use in rules.
@@ -107,11 +108,21 @@ data PostRadarValueListsValueListRequestBody
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostRadarValueListsValueListRequestBody where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "alias" (postRadarValueListsValueListRequestBodyAlias obj) : (Data.Aeson..=) "expand" (postRadarValueListsValueListRequestBodyExpand obj) : (Data.Aeson..=) "metadata" (postRadarValueListsValueListRequestBodyMetadata obj) : (Data.Aeson..=) "name" (postRadarValueListsValueListRequestBodyName obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "alias" (postRadarValueListsValueListRequestBodyAlias obj) GHC.Base.<> ((Data.Aeson..=) "expand" (postRadarValueListsValueListRequestBodyExpand obj) GHC.Base.<> ((Data.Aeson..=) "metadata" (postRadarValueListsValueListRequestBodyMetadata obj) GHC.Base.<> (Data.Aeson..=) "name" (postRadarValueListsValueListRequestBodyName obj))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("alias" Data.Aeson.Types.ToJSON..= postRadarValueListsValueListRequestBodyAlias obj : "expand" Data.Aeson.Types.ToJSON..= postRadarValueListsValueListRequestBodyExpand obj : "metadata" Data.Aeson.Types.ToJSON..= postRadarValueListsValueListRequestBodyMetadata obj : "name" Data.Aeson.Types.ToJSON..= postRadarValueListsValueListRequestBodyName obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("alias" Data.Aeson.Types.ToJSON..= postRadarValueListsValueListRequestBodyAlias obj) GHC.Base.<> (("expand" Data.Aeson.Types.ToJSON..= postRadarValueListsValueListRequestBodyExpand obj) GHC.Base.<> (("metadata" Data.Aeson.Types.ToJSON..= postRadarValueListsValueListRequestBodyMetadata obj) GHC.Base.<> ("name" Data.Aeson.Types.ToJSON..= postRadarValueListsValueListRequestBodyName obj))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostRadarValueListsValueListRequestBody where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PostRadarValueListsValueListRequestBody" (\obj -> (((GHC.Base.pure PostRadarValueListsValueListRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "alias")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "name"))
+
+-- | Create a new 'PostRadarValueListsValueListRequestBody' with all required fields.
+mkPostRadarValueListsValueListRequestBody :: PostRadarValueListsValueListRequestBody
+mkPostRadarValueListsValueListRequestBody =
+  PostRadarValueListsValueListRequestBody
+    { postRadarValueListsValueListRequestBodyAlias = GHC.Maybe.Nothing,
+      postRadarValueListsValueListRequestBodyExpand = GHC.Maybe.Nothing,
+      postRadarValueListsValueListRequestBodyMetadata = GHC.Maybe.Nothing,
+      postRadarValueListsValueListRequestBodyName = GHC.Maybe.Nothing
+    }
 
 -- | Represents a response of the operation 'postRadarValueListsValueList'.
 --

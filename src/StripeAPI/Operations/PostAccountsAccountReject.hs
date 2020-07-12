@@ -10,6 +10,7 @@ module StripeAPI.Operations.PostAccountsAccountReject where
 import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -83,7 +84,7 @@ postAccountsAccountReject
       )
       (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack ("/v1/accounts/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel account)) GHC.Base.++ "/reject"))) [] (GHC.Maybe.Just body) StripeAPI.Common.RequestBodyEncodingFormData)
 
--- | Defines the data type for the schema postAccountsAccountRejectRequestBody
+-- | Defines the object schema located at @paths.\/v1\/accounts\/{account}\/reject.POST.requestBody.content.application\/x-www-form-urlencoded.schema@ in the specification.
 data PostAccountsAccountRejectRequestBody
   = PostAccountsAccountRejectRequestBody
       { -- | expand: Specifies which fields in the response should be expanded.
@@ -101,11 +102,22 @@ data PostAccountsAccountRejectRequestBody
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostAccountsAccountRejectRequestBody where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "expand" (postAccountsAccountRejectRequestBodyExpand obj) : (Data.Aeson..=) "reason" (postAccountsAccountRejectRequestBodyReason obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "expand" (postAccountsAccountRejectRequestBodyExpand obj) GHC.Base.<> (Data.Aeson..=) "reason" (postAccountsAccountRejectRequestBodyReason obj))
+  toJSON obj = Data.Aeson.Types.Internal.object ("expand" Data.Aeson.Types.ToJSON..= postAccountsAccountRejectRequestBodyExpand obj : "reason" Data.Aeson.Types.ToJSON..= postAccountsAccountRejectRequestBodyReason obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("expand" Data.Aeson.Types.ToJSON..= postAccountsAccountRejectRequestBodyExpand obj) GHC.Base.<> ("reason" Data.Aeson.Types.ToJSON..= postAccountsAccountRejectRequestBodyReason obj))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostAccountsAccountRejectRequestBody where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PostAccountsAccountRejectRequestBody" (\obj -> (GHC.Base.pure PostAccountsAccountRejectRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "reason"))
+
+-- | Create a new 'PostAccountsAccountRejectRequestBody' with all required fields.
+mkPostAccountsAccountRejectRequestBody ::
+  -- | 'postAccountsAccountRejectRequestBodyReason'
+  Data.Text.Internal.Text ->
+  PostAccountsAccountRejectRequestBody
+mkPostAccountsAccountRejectRequestBody postAccountsAccountRejectRequestBodyReason =
+  PostAccountsAccountRejectRequestBody
+    { postAccountsAccountRejectRequestBodyExpand = GHC.Maybe.Nothing,
+      postAccountsAccountRejectRequestBodyReason = postAccountsAccountRejectRequestBodyReason
+    }
 
 -- | Represents a response of the operation 'postAccountsAccountReject'.
 --

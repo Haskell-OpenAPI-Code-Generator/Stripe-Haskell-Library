@@ -10,6 +10,7 @@ module StripeAPI.Operations.GetCreditNotesId where
 import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -77,7 +78,7 @@ getCreditNotesId parameters =
     )
     (StripeAPI.Common.doCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET") (Data.Text.pack ("/v1/credit_notes/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel (getCreditNotesIdParametersPathId parameters))) GHC.Base.++ ""))) [StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getCreditNotesIdParametersQueryExpand parameters) (Data.Text.pack "deepObject") GHC.Types.True])
 
--- | Defines the data type for the schema getCreditNotesIdParameters
+-- | Defines the object schema located at @paths.\/v1\/credit_notes\/{id}.GET.parameters@ in the specification.
 data GetCreditNotesIdParameters
   = GetCreditNotesIdParameters
       { -- | pathId: Represents the parameter named \'id\'
@@ -97,11 +98,22 @@ data GetCreditNotesIdParameters
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetCreditNotesIdParameters where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "pathId" (getCreditNotesIdParametersPathId obj) : (Data.Aeson..=) "queryExpand" (getCreditNotesIdParametersQueryExpand obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "pathId" (getCreditNotesIdParametersPathId obj) GHC.Base.<> (Data.Aeson..=) "queryExpand" (getCreditNotesIdParametersQueryExpand obj))
+  toJSON obj = Data.Aeson.Types.Internal.object ("pathId" Data.Aeson.Types.ToJSON..= getCreditNotesIdParametersPathId obj : "queryExpand" Data.Aeson.Types.ToJSON..= getCreditNotesIdParametersQueryExpand obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("pathId" Data.Aeson.Types.ToJSON..= getCreditNotesIdParametersPathId obj) GHC.Base.<> ("queryExpand" Data.Aeson.Types.ToJSON..= getCreditNotesIdParametersQueryExpand obj))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetCreditNotesIdParameters where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "GetCreditNotesIdParameters" (\obj -> (GHC.Base.pure GetCreditNotesIdParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathId")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryExpand"))
+
+-- | Create a new 'GetCreditNotesIdParameters' with all required fields.
+mkGetCreditNotesIdParameters ::
+  -- | 'getCreditNotesIdParametersPathId'
+  Data.Text.Internal.Text ->
+  GetCreditNotesIdParameters
+mkGetCreditNotesIdParameters getCreditNotesIdParametersPathId =
+  GetCreditNotesIdParameters
+    { getCreditNotesIdParametersPathId = getCreditNotesIdParametersPathId,
+      getCreditNotesIdParametersQueryExpand = GHC.Maybe.Nothing
+    }
 
 -- | Represents a response of the operation 'getCreditNotesId'.
 --

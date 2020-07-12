@@ -8,6 +8,7 @@ module StripeAPI.Types.DeletedPerson where
 
 import qualified Control.Monad.Fail
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -30,19 +31,15 @@ import StripeAPI.TypeAlias
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
--- | Defines the data type for the schema deleted_person
+-- | Defines the object schema located at @components.schemas.deleted_person@ in the specification.
 data DeletedPerson
   = DeletedPerson
-      { -- | deleted: Always true for a deleted object
-        deletedPersonDeleted :: DeletedPersonDeleted',
-        -- | id: Unique identifier for the object.
+      { -- | id: Unique identifier for the object.
         --
         -- Constraints:
         --
         -- * Maximum length of 5000
-        deletedPersonId :: Data.Text.Internal.Text,
-        -- | object: String representing the object\'s type. Objects of the same type share the same value.
-        deletedPersonObject :: DeletedPersonObject'
+        deletedPersonId :: Data.Text.Internal.Text
       }
   deriving
     ( GHC.Show.Show,
@@ -50,50 +47,15 @@ data DeletedPerson
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON DeletedPerson where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "deleted" (deletedPersonDeleted obj) : (Data.Aeson..=) "id" (deletedPersonId obj) : (Data.Aeson..=) "object" (deletedPersonObject obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "deleted" (deletedPersonDeleted obj) GHC.Base.<> ((Data.Aeson..=) "id" (deletedPersonId obj) GHC.Base.<> (Data.Aeson..=) "object" (deletedPersonObject obj)))
+  toJSON obj = Data.Aeson.Types.Internal.object ("id" Data.Aeson.Types.ToJSON..= deletedPersonId obj : "deleted" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.Bool GHC.Types.True : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "person" : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("id" Data.Aeson.Types.ToJSON..= deletedPersonId obj) GHC.Base.<> (("deleted" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.Bool GHC.Types.True) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "person")))
 
 instance Data.Aeson.Types.FromJSON.FromJSON DeletedPerson where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "DeletedPerson" (\obj -> ((GHC.Base.pure DeletedPerson GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "deleted")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "object"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "DeletedPerson" (\obj -> GHC.Base.pure DeletedPerson GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id"))
 
--- | Defines the enum schema deleted_personDeleted\'
---
--- Always true for a deleted object
-data DeletedPersonDeleted'
-  = DeletedPersonDeleted'EnumOther Data.Aeson.Types.Internal.Value
-  | DeletedPersonDeleted'EnumTyped GHC.Types.Bool
-  | DeletedPersonDeleted'EnumBoolTrue
-  deriving (GHC.Show.Show, GHC.Classes.Eq)
-
-instance Data.Aeson.Types.ToJSON.ToJSON DeletedPersonDeleted' where
-  toJSON (DeletedPersonDeleted'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (DeletedPersonDeleted'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (DeletedPersonDeleted'EnumBoolTrue) = Data.Aeson.Types.Internal.Bool GHC.Types.True
-
-instance Data.Aeson.Types.FromJSON.FromJSON DeletedPersonDeleted' where
-  parseJSON val =
-    GHC.Base.pure
-      ( if  | val GHC.Classes.== Data.Aeson.Types.Internal.Bool GHC.Types.True -> DeletedPersonDeleted'EnumBoolTrue
-            | GHC.Base.otherwise -> DeletedPersonDeleted'EnumOther val
-      )
-
--- | Defines the enum schema deleted_personObject\'
---
--- String representing the object\'s type. Objects of the same type share the same value.
-data DeletedPersonObject'
-  = DeletedPersonObject'EnumOther Data.Aeson.Types.Internal.Value
-  | DeletedPersonObject'EnumTyped Data.Text.Internal.Text
-  | DeletedPersonObject'EnumStringPerson
-  deriving (GHC.Show.Show, GHC.Classes.Eq)
-
-instance Data.Aeson.Types.ToJSON.ToJSON DeletedPersonObject' where
-  toJSON (DeletedPersonObject'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (DeletedPersonObject'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (DeletedPersonObject'EnumStringPerson) = "person"
-
-instance Data.Aeson.Types.FromJSON.FromJSON DeletedPersonObject' where
-  parseJSON val =
-    GHC.Base.pure
-      ( if  | val GHC.Classes.== "person" -> DeletedPersonObject'EnumStringPerson
-            | GHC.Base.otherwise -> DeletedPersonObject'EnumOther val
-      )
+-- | Create a new 'DeletedPerson' with all required fields.
+mkDeletedPerson ::
+  -- | 'deletedPersonId'
+  Data.Text.Internal.Text ->
+  DeletedPerson
+mkDeletedPerson deletedPersonId = DeletedPerson {deletedPersonId = deletedPersonId}

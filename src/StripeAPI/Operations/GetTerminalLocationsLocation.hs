@@ -10,6 +10,7 @@ module StripeAPI.Operations.GetTerminalLocationsLocation where
 import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -77,7 +78,7 @@ getTerminalLocationsLocation parameters =
     )
     (StripeAPI.Common.doCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET") (Data.Text.pack ("/v1/terminal/locations/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel (getTerminalLocationsLocationParametersPathLocation parameters))) GHC.Base.++ ""))) [StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getTerminalLocationsLocationParametersQueryExpand parameters) (Data.Text.pack "deepObject") GHC.Types.True])
 
--- | Defines the data type for the schema getTerminalLocationsLocationParameters
+-- | Defines the object schema located at @paths.\/v1\/terminal\/locations\/{location}.GET.parameters@ in the specification.
 data GetTerminalLocationsLocationParameters
   = GetTerminalLocationsLocationParameters
       { -- | pathLocation: Represents the parameter named \'location\'
@@ -97,11 +98,22 @@ data GetTerminalLocationsLocationParameters
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetTerminalLocationsLocationParameters where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "pathLocation" (getTerminalLocationsLocationParametersPathLocation obj) : (Data.Aeson..=) "queryExpand" (getTerminalLocationsLocationParametersQueryExpand obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "pathLocation" (getTerminalLocationsLocationParametersPathLocation obj) GHC.Base.<> (Data.Aeson..=) "queryExpand" (getTerminalLocationsLocationParametersQueryExpand obj))
+  toJSON obj = Data.Aeson.Types.Internal.object ("pathLocation" Data.Aeson.Types.ToJSON..= getTerminalLocationsLocationParametersPathLocation obj : "queryExpand" Data.Aeson.Types.ToJSON..= getTerminalLocationsLocationParametersQueryExpand obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("pathLocation" Data.Aeson.Types.ToJSON..= getTerminalLocationsLocationParametersPathLocation obj) GHC.Base.<> ("queryExpand" Data.Aeson.Types.ToJSON..= getTerminalLocationsLocationParametersQueryExpand obj))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetTerminalLocationsLocationParameters where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "GetTerminalLocationsLocationParameters" (\obj -> (GHC.Base.pure GetTerminalLocationsLocationParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathLocation")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryExpand"))
+
+-- | Create a new 'GetTerminalLocationsLocationParameters' with all required fields.
+mkGetTerminalLocationsLocationParameters ::
+  -- | 'getTerminalLocationsLocationParametersPathLocation'
+  Data.Text.Internal.Text ->
+  GetTerminalLocationsLocationParameters
+mkGetTerminalLocationsLocationParameters getTerminalLocationsLocationParametersPathLocation =
+  GetTerminalLocationsLocationParameters
+    { getTerminalLocationsLocationParametersPathLocation = getTerminalLocationsLocationParametersPathLocation,
+      getTerminalLocationsLocationParametersQueryExpand = GHC.Maybe.Nothing
+    }
 
 -- | Represents a response of the operation 'getTerminalLocationsLocation'.
 --

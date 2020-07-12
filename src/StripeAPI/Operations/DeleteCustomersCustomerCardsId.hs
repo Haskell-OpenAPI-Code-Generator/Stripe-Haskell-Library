@@ -10,6 +10,7 @@ module StripeAPI.Operations.DeleteCustomersCustomerCardsId where
 import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -81,7 +82,7 @@ deleteCustomersCustomerCardsId
       )
       (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "DELETE") (Data.Text.pack ("/v1/customers/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel (deleteCustomersCustomerCardsIdParametersPathCustomer parameters))) GHC.Base.++ ("/cards/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel (deleteCustomersCustomerCardsIdParametersPathId parameters))) GHC.Base.++ ""))))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
 
--- | Defines the data type for the schema deleteCustomersCustomerCardsIdParameters
+-- | Defines the object schema located at @paths.\/v1\/customers\/{customer}\/cards\/{id}.DELETE.parameters@ in the specification.
 data DeleteCustomersCustomerCardsIdParameters
   = DeleteCustomersCustomerCardsIdParameters
       { -- | pathCustomer: Represents the parameter named \'customer\'
@@ -99,13 +100,26 @@ data DeleteCustomersCustomerCardsIdParameters
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON DeleteCustomersCustomerCardsIdParameters where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "pathCustomer" (deleteCustomersCustomerCardsIdParametersPathCustomer obj) : (Data.Aeson..=) "pathId" (deleteCustomersCustomerCardsIdParametersPathId obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "pathCustomer" (deleteCustomersCustomerCardsIdParametersPathCustomer obj) GHC.Base.<> (Data.Aeson..=) "pathId" (deleteCustomersCustomerCardsIdParametersPathId obj))
+  toJSON obj = Data.Aeson.Types.Internal.object ("pathCustomer" Data.Aeson.Types.ToJSON..= deleteCustomersCustomerCardsIdParametersPathCustomer obj : "pathId" Data.Aeson.Types.ToJSON..= deleteCustomersCustomerCardsIdParametersPathId obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("pathCustomer" Data.Aeson.Types.ToJSON..= deleteCustomersCustomerCardsIdParametersPathCustomer obj) GHC.Base.<> ("pathId" Data.Aeson.Types.ToJSON..= deleteCustomersCustomerCardsIdParametersPathId obj))
 
 instance Data.Aeson.Types.FromJSON.FromJSON DeleteCustomersCustomerCardsIdParameters where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "DeleteCustomersCustomerCardsIdParameters" (\obj -> (GHC.Base.pure DeleteCustomersCustomerCardsIdParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathCustomer")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathId"))
 
--- | Defines the data type for the schema deleteCustomersCustomerCardsIdRequestBody
+-- | Create a new 'DeleteCustomersCustomerCardsIdParameters' with all required fields.
+mkDeleteCustomersCustomerCardsIdParameters ::
+  -- | 'deleteCustomersCustomerCardsIdParametersPathCustomer'
+  Data.Text.Internal.Text ->
+  -- | 'deleteCustomersCustomerCardsIdParametersPathId'
+  Data.Text.Internal.Text ->
+  DeleteCustomersCustomerCardsIdParameters
+mkDeleteCustomersCustomerCardsIdParameters deleteCustomersCustomerCardsIdParametersPathCustomer deleteCustomersCustomerCardsIdParametersPathId =
+  DeleteCustomersCustomerCardsIdParameters
+    { deleteCustomersCustomerCardsIdParametersPathCustomer = deleteCustomersCustomerCardsIdParametersPathCustomer,
+      deleteCustomersCustomerCardsIdParametersPathId = deleteCustomersCustomerCardsIdParametersPathId
+    }
+
+-- | Defines the object schema located at @paths.\/v1\/customers\/{customer}\/cards\/{id}.DELETE.requestBody.content.application\/x-www-form-urlencoded.schema@ in the specification.
 data DeleteCustomersCustomerCardsIdRequestBody
   = DeleteCustomersCustomerCardsIdRequestBody
       { -- | expand: Specifies which fields in the response should be expanded.
@@ -117,11 +131,15 @@ data DeleteCustomersCustomerCardsIdRequestBody
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON DeleteCustomersCustomerCardsIdRequestBody where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "expand" (deleteCustomersCustomerCardsIdRequestBodyExpand obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "expand" (deleteCustomersCustomerCardsIdRequestBodyExpand obj))
+  toJSON obj = Data.Aeson.Types.Internal.object ("expand" Data.Aeson.Types.ToJSON..= deleteCustomersCustomerCardsIdRequestBodyExpand obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs ("expand" Data.Aeson.Types.ToJSON..= deleteCustomersCustomerCardsIdRequestBodyExpand obj)
 
 instance Data.Aeson.Types.FromJSON.FromJSON DeleteCustomersCustomerCardsIdRequestBody where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "DeleteCustomersCustomerCardsIdRequestBody" (\obj -> GHC.Base.pure DeleteCustomersCustomerCardsIdRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "expand"))
+
+-- | Create a new 'DeleteCustomersCustomerCardsIdRequestBody' with all required fields.
+mkDeleteCustomersCustomerCardsIdRequestBody :: DeleteCustomersCustomerCardsIdRequestBody
+mkDeleteCustomersCustomerCardsIdRequestBody = DeleteCustomersCustomerCardsIdRequestBody {deleteCustomersCustomerCardsIdRequestBodyExpand = GHC.Maybe.Nothing}
 
 -- | Represents a response of the operation 'deleteCustomersCustomerCardsId'.
 --
@@ -135,7 +153,7 @@ data DeleteCustomersCustomerCardsIdResponse
     DeleteCustomersCustomerCardsIdResponseDefault Error
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
--- | Defines the data type for the schema DeleteCustomersCustomerCardsIdResponseBody200
+-- | Defines the object schema located at @paths.\/v1\/customers\/{customer}\/cards\/{id}.DELETE.responses.200.content.application\/json.schema.anyOf.anyOf@ in the specification.
 data DeleteCustomersCustomerCardsIdResponseBody200
   = DeleteCustomersCustomerCardsIdResponseBody200
       { -- | currency: Three-letter [ISO code for the currency](https:\/\/stripe.com\/docs\/payouts) paid out to the bank account.
@@ -144,16 +162,12 @@ data DeleteCustomersCustomerCardsIdResponseBody200
         --
         -- * Maximum length of 5000
         deleteCustomersCustomerCardsIdResponseBody200Currency :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
-        -- | deleted: Always true for a deleted object
-        deleteCustomersCustomerCardsIdResponseBody200Deleted :: (GHC.Maybe.Maybe DeleteCustomersCustomerCardsIdResponseBody200Deleted'),
         -- | id: Unique identifier for the object.
         --
         -- Constraints:
         --
         -- * Maximum length of 5000
-        deleteCustomersCustomerCardsIdResponseBody200Id :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
-        -- | object: String representing the object\'s type. Objects of the same type share the same value.
-        deleteCustomersCustomerCardsIdResponseBody200Object :: (GHC.Maybe.Maybe DeleteCustomersCustomerCardsIdResponseBody200Object')
+        deleteCustomersCustomerCardsIdResponseBody200Id :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
       }
   deriving
     ( GHC.Show.Show,
@@ -161,50 +175,16 @@ data DeleteCustomersCustomerCardsIdResponseBody200
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON DeleteCustomersCustomerCardsIdResponseBody200 where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "currency" (deleteCustomersCustomerCardsIdResponseBody200Currency obj) : (Data.Aeson..=) "deleted" (deleteCustomersCustomerCardsIdResponseBody200Deleted obj) : (Data.Aeson..=) "id" (deleteCustomersCustomerCardsIdResponseBody200Id obj) : (Data.Aeson..=) "object" (deleteCustomersCustomerCardsIdResponseBody200Object obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "currency" (deleteCustomersCustomerCardsIdResponseBody200Currency obj) GHC.Base.<> ((Data.Aeson..=) "deleted" (deleteCustomersCustomerCardsIdResponseBody200Deleted obj) GHC.Base.<> ((Data.Aeson..=) "id" (deleteCustomersCustomerCardsIdResponseBody200Id obj) GHC.Base.<> (Data.Aeson..=) "object" (deleteCustomersCustomerCardsIdResponseBody200Object obj))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("currency" Data.Aeson.Types.ToJSON..= deleteCustomersCustomerCardsIdResponseBody200Currency obj : "id" Data.Aeson.Types.ToJSON..= deleteCustomersCustomerCardsIdResponseBody200Id obj : "deleted" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.Bool GHC.Types.True : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "alipay_account" : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("currency" Data.Aeson.Types.ToJSON..= deleteCustomersCustomerCardsIdResponseBody200Currency obj) GHC.Base.<> (("id" Data.Aeson.Types.ToJSON..= deleteCustomersCustomerCardsIdResponseBody200Id obj) GHC.Base.<> (("deleted" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.Bool GHC.Types.True) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "alipay_account"))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON DeleteCustomersCustomerCardsIdResponseBody200 where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "DeleteCustomersCustomerCardsIdResponseBody200" (\obj -> (((GHC.Base.pure DeleteCustomersCustomerCardsIdResponseBody200 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "deleted")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "object"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "DeleteCustomersCustomerCardsIdResponseBody200" (\obj -> (GHC.Base.pure DeleteCustomersCustomerCardsIdResponseBody200 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "id"))
 
--- | Defines the enum schema DeleteCustomersCustomerCardsIdResponseBody200Deleted\'
---
--- Always true for a deleted object
-data DeleteCustomersCustomerCardsIdResponseBody200Deleted'
-  = DeleteCustomersCustomerCardsIdResponseBody200Deleted'EnumOther Data.Aeson.Types.Internal.Value
-  | DeleteCustomersCustomerCardsIdResponseBody200Deleted'EnumTyped GHC.Types.Bool
-  | DeleteCustomersCustomerCardsIdResponseBody200Deleted'EnumBoolTrue
-  deriving (GHC.Show.Show, GHC.Classes.Eq)
-
-instance Data.Aeson.Types.ToJSON.ToJSON DeleteCustomersCustomerCardsIdResponseBody200Deleted' where
-  toJSON (DeleteCustomersCustomerCardsIdResponseBody200Deleted'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (DeleteCustomersCustomerCardsIdResponseBody200Deleted'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (DeleteCustomersCustomerCardsIdResponseBody200Deleted'EnumBoolTrue) = Data.Aeson.Types.Internal.Bool GHC.Types.True
-
-instance Data.Aeson.Types.FromJSON.FromJSON DeleteCustomersCustomerCardsIdResponseBody200Deleted' where
-  parseJSON val =
-    GHC.Base.pure
-      ( if  | val GHC.Classes.== Data.Aeson.Types.Internal.Bool GHC.Types.True -> DeleteCustomersCustomerCardsIdResponseBody200Deleted'EnumBoolTrue
-            | GHC.Base.otherwise -> DeleteCustomersCustomerCardsIdResponseBody200Deleted'EnumOther val
-      )
-
--- | Defines the enum schema DeleteCustomersCustomerCardsIdResponseBody200Object\'
---
--- String representing the object\'s type. Objects of the same type share the same value.
-data DeleteCustomersCustomerCardsIdResponseBody200Object'
-  = DeleteCustomersCustomerCardsIdResponseBody200Object'EnumOther Data.Aeson.Types.Internal.Value
-  | DeleteCustomersCustomerCardsIdResponseBody200Object'EnumTyped Data.Text.Internal.Text
-  | DeleteCustomersCustomerCardsIdResponseBody200Object'EnumStringAlipayAccount
-  deriving (GHC.Show.Show, GHC.Classes.Eq)
-
-instance Data.Aeson.Types.ToJSON.ToJSON DeleteCustomersCustomerCardsIdResponseBody200Object' where
-  toJSON (DeleteCustomersCustomerCardsIdResponseBody200Object'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (DeleteCustomersCustomerCardsIdResponseBody200Object'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (DeleteCustomersCustomerCardsIdResponseBody200Object'EnumStringAlipayAccount) = "alipay_account"
-
-instance Data.Aeson.Types.FromJSON.FromJSON DeleteCustomersCustomerCardsIdResponseBody200Object' where
-  parseJSON val =
-    GHC.Base.pure
-      ( if  | val GHC.Classes.== "alipay_account" -> DeleteCustomersCustomerCardsIdResponseBody200Object'EnumStringAlipayAccount
-            | GHC.Base.otherwise -> DeleteCustomersCustomerCardsIdResponseBody200Object'EnumOther val
-      )
+-- | Create a new 'DeleteCustomersCustomerCardsIdResponseBody200' with all required fields.
+mkDeleteCustomersCustomerCardsIdResponseBody200 :: DeleteCustomersCustomerCardsIdResponseBody200
+mkDeleteCustomersCustomerCardsIdResponseBody200 =
+  DeleteCustomersCustomerCardsIdResponseBody200
+    { deleteCustomersCustomerCardsIdResponseBody200Currency = GHC.Maybe.Nothing,
+      deleteCustomersCustomerCardsIdResponseBody200Id = GHC.Maybe.Nothing
+    }

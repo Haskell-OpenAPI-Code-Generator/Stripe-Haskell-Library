@@ -8,6 +8,7 @@ module StripeAPI.Types.DeletedRecipient where
 
 import qualified Control.Monad.Fail
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -30,19 +31,15 @@ import StripeAPI.TypeAlias
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
--- | Defines the data type for the schema deleted_recipient
+-- | Defines the object schema located at @components.schemas.deleted_recipient@ in the specification.
 data DeletedRecipient
   = DeletedRecipient
-      { -- | deleted: Always true for a deleted object
-        deletedRecipientDeleted :: DeletedRecipientDeleted',
-        -- | id: Unique identifier for the object.
+      { -- | id: Unique identifier for the object.
         --
         -- Constraints:
         --
         -- * Maximum length of 5000
-        deletedRecipientId :: Data.Text.Internal.Text,
-        -- | object: String representing the object\'s type. Objects of the same type share the same value.
-        deletedRecipientObject :: DeletedRecipientObject'
+        deletedRecipientId :: Data.Text.Internal.Text
       }
   deriving
     ( GHC.Show.Show,
@@ -50,50 +47,15 @@ data DeletedRecipient
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON DeletedRecipient where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "deleted" (deletedRecipientDeleted obj) : (Data.Aeson..=) "id" (deletedRecipientId obj) : (Data.Aeson..=) "object" (deletedRecipientObject obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "deleted" (deletedRecipientDeleted obj) GHC.Base.<> ((Data.Aeson..=) "id" (deletedRecipientId obj) GHC.Base.<> (Data.Aeson..=) "object" (deletedRecipientObject obj)))
+  toJSON obj = Data.Aeson.Types.Internal.object ("id" Data.Aeson.Types.ToJSON..= deletedRecipientId obj : "deleted" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.Bool GHC.Types.True : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "recipient" : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("id" Data.Aeson.Types.ToJSON..= deletedRecipientId obj) GHC.Base.<> (("deleted" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.Bool GHC.Types.True) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "recipient")))
 
 instance Data.Aeson.Types.FromJSON.FromJSON DeletedRecipient where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "DeletedRecipient" (\obj -> ((GHC.Base.pure DeletedRecipient GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "deleted")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "object"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "DeletedRecipient" (\obj -> GHC.Base.pure DeletedRecipient GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id"))
 
--- | Defines the enum schema deleted_recipientDeleted\'
---
--- Always true for a deleted object
-data DeletedRecipientDeleted'
-  = DeletedRecipientDeleted'EnumOther Data.Aeson.Types.Internal.Value
-  | DeletedRecipientDeleted'EnumTyped GHC.Types.Bool
-  | DeletedRecipientDeleted'EnumBoolTrue
-  deriving (GHC.Show.Show, GHC.Classes.Eq)
-
-instance Data.Aeson.Types.ToJSON.ToJSON DeletedRecipientDeleted' where
-  toJSON (DeletedRecipientDeleted'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (DeletedRecipientDeleted'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (DeletedRecipientDeleted'EnumBoolTrue) = Data.Aeson.Types.Internal.Bool GHC.Types.True
-
-instance Data.Aeson.Types.FromJSON.FromJSON DeletedRecipientDeleted' where
-  parseJSON val =
-    GHC.Base.pure
-      ( if  | val GHC.Classes.== Data.Aeson.Types.Internal.Bool GHC.Types.True -> DeletedRecipientDeleted'EnumBoolTrue
-            | GHC.Base.otherwise -> DeletedRecipientDeleted'EnumOther val
-      )
-
--- | Defines the enum schema deleted_recipientObject\'
---
--- String representing the object\'s type. Objects of the same type share the same value.
-data DeletedRecipientObject'
-  = DeletedRecipientObject'EnumOther Data.Aeson.Types.Internal.Value
-  | DeletedRecipientObject'EnumTyped Data.Text.Internal.Text
-  | DeletedRecipientObject'EnumStringRecipient
-  deriving (GHC.Show.Show, GHC.Classes.Eq)
-
-instance Data.Aeson.Types.ToJSON.ToJSON DeletedRecipientObject' where
-  toJSON (DeletedRecipientObject'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (DeletedRecipientObject'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (DeletedRecipientObject'EnumStringRecipient) = "recipient"
-
-instance Data.Aeson.Types.FromJSON.FromJSON DeletedRecipientObject' where
-  parseJSON val =
-    GHC.Base.pure
-      ( if  | val GHC.Classes.== "recipient" -> DeletedRecipientObject'EnumStringRecipient
-            | GHC.Base.otherwise -> DeletedRecipientObject'EnumOther val
-      )
+-- | Create a new 'DeletedRecipient' with all required fields.
+mkDeletedRecipient ::
+  -- | 'deletedRecipientId'
+  Data.Text.Internal.Text ->
+  DeletedRecipient
+mkDeletedRecipient deletedRecipientId = DeletedRecipient {deletedRecipientId = deletedRecipientId}

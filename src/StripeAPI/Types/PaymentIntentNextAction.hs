@@ -8,6 +8,7 @@ module StripeAPI.Types.PaymentIntentNextAction where
 
 import qualified Control.Monad.Fail
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -31,7 +32,7 @@ import {-# SOURCE #-} StripeAPI.Types.PaymentIntentNextActionRedirectToUrl
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
--- | Defines the data type for the schema payment_intent_next_action
+-- | Defines the object schema located at @components.schemas.payment_intent_next_action@ in the specification.
 data PaymentIntentNextAction
   = PaymentIntentNextAction
       { -- | redirect_to_url:
@@ -51,8 +52,20 @@ data PaymentIntentNextAction
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PaymentIntentNextAction where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "redirect_to_url" (paymentIntentNextActionRedirectToUrl obj) : (Data.Aeson..=) "type" (paymentIntentNextActionType obj) : (Data.Aeson..=) "use_stripe_sdk" (paymentIntentNextActionUseStripeSdk obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "redirect_to_url" (paymentIntentNextActionRedirectToUrl obj) GHC.Base.<> ((Data.Aeson..=) "type" (paymentIntentNextActionType obj) GHC.Base.<> (Data.Aeson..=) "use_stripe_sdk" (paymentIntentNextActionUseStripeSdk obj)))
+  toJSON obj = Data.Aeson.Types.Internal.object ("redirect_to_url" Data.Aeson.Types.ToJSON..= paymentIntentNextActionRedirectToUrl obj : "type" Data.Aeson.Types.ToJSON..= paymentIntentNextActionType obj : "use_stripe_sdk" Data.Aeson.Types.ToJSON..= paymentIntentNextActionUseStripeSdk obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("redirect_to_url" Data.Aeson.Types.ToJSON..= paymentIntentNextActionRedirectToUrl obj) GHC.Base.<> (("type" Data.Aeson.Types.ToJSON..= paymentIntentNextActionType obj) GHC.Base.<> ("use_stripe_sdk" Data.Aeson.Types.ToJSON..= paymentIntentNextActionUseStripeSdk obj)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PaymentIntentNextAction where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PaymentIntentNextAction" (\obj -> ((GHC.Base.pure PaymentIntentNextAction GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "redirect_to_url")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "type")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "use_stripe_sdk"))
+
+-- | Create a new 'PaymentIntentNextAction' with all required fields.
+mkPaymentIntentNextAction ::
+  -- | 'paymentIntentNextActionType'
+  Data.Text.Internal.Text ->
+  PaymentIntentNextAction
+mkPaymentIntentNextAction paymentIntentNextActionType =
+  PaymentIntentNextAction
+    { paymentIntentNextActionRedirectToUrl = GHC.Maybe.Nothing,
+      paymentIntentNextActionType = paymentIntentNextActionType,
+      paymentIntentNextActionUseStripeSdk = GHC.Maybe.Nothing
+    }

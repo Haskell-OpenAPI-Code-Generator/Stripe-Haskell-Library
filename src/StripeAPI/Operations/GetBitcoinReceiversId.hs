@@ -10,6 +10,7 @@ module StripeAPI.Operations.GetBitcoinReceiversId where
 import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -77,7 +78,7 @@ getBitcoinReceiversId parameters =
     )
     (StripeAPI.Common.doCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET") (Data.Text.pack ("/v1/bitcoin/receivers/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel (getBitcoinReceiversIdParametersPathId parameters))) GHC.Base.++ ""))) [StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getBitcoinReceiversIdParametersQueryExpand parameters) (Data.Text.pack "deepObject") GHC.Types.True])
 
--- | Defines the data type for the schema getBitcoinReceiversIdParameters
+-- | Defines the object schema located at @paths.\/v1\/bitcoin\/receivers\/{id}.GET.parameters@ in the specification.
 data GetBitcoinReceiversIdParameters
   = GetBitcoinReceiversIdParameters
       { -- | pathId: Represents the parameter named \'id\'
@@ -97,11 +98,22 @@ data GetBitcoinReceiversIdParameters
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetBitcoinReceiversIdParameters where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "pathId" (getBitcoinReceiversIdParametersPathId obj) : (Data.Aeson..=) "queryExpand" (getBitcoinReceiversIdParametersQueryExpand obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "pathId" (getBitcoinReceiversIdParametersPathId obj) GHC.Base.<> (Data.Aeson..=) "queryExpand" (getBitcoinReceiversIdParametersQueryExpand obj))
+  toJSON obj = Data.Aeson.Types.Internal.object ("pathId" Data.Aeson.Types.ToJSON..= getBitcoinReceiversIdParametersPathId obj : "queryExpand" Data.Aeson.Types.ToJSON..= getBitcoinReceiversIdParametersQueryExpand obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("pathId" Data.Aeson.Types.ToJSON..= getBitcoinReceiversIdParametersPathId obj) GHC.Base.<> ("queryExpand" Data.Aeson.Types.ToJSON..= getBitcoinReceiversIdParametersQueryExpand obj))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetBitcoinReceiversIdParameters where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "GetBitcoinReceiversIdParameters" (\obj -> (GHC.Base.pure GetBitcoinReceiversIdParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathId")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryExpand"))
+
+-- | Create a new 'GetBitcoinReceiversIdParameters' with all required fields.
+mkGetBitcoinReceiversIdParameters ::
+  -- | 'getBitcoinReceiversIdParametersPathId'
+  Data.Text.Internal.Text ->
+  GetBitcoinReceiversIdParameters
+mkGetBitcoinReceiversIdParameters getBitcoinReceiversIdParametersPathId =
+  GetBitcoinReceiversIdParameters
+    { getBitcoinReceiversIdParametersPathId = getBitcoinReceiversIdParametersPathId,
+      getBitcoinReceiversIdParametersQueryExpand = GHC.Maybe.Nothing
+    }
 
 -- | Represents a response of the operation 'getBitcoinReceiversId'.
 --

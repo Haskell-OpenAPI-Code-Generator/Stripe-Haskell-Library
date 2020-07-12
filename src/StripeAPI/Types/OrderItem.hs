@@ -8,6 +8,7 @@ module StripeAPI.Types.OrderItem where
 
 import qualified Control.Monad.Fail
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -31,7 +32,7 @@ import {-# SOURCE #-} StripeAPI.Types.Sku
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
--- | Defines the data type for the schema order_item
+-- | Defines the object schema located at @components.schemas.order_item@ in the specification.
 --
 -- A representation of the constituent items of any given order. Can be used to
 -- represent [SKUs](https:\/\/stripe.com\/docs\/api\#skus), shipping costs, or taxes owed on the order.
@@ -49,8 +50,6 @@ data OrderItem
         --
         -- * Maximum length of 5000
         orderItemDescription :: Data.Text.Internal.Text,
-        -- | object: String representing the object\'s type. Objects of the same type share the same value.
-        orderItemObject :: OrderItemObject',
         -- | parent: The ID of the associated object for this line item. Expandable if not null (e.g., expandable to a SKU).
         orderItemParent :: (GHC.Maybe.Maybe OrderItemParent'Variants),
         -- | quantity: A positive integer representing the number of instances of \`parent\` that are included in this order item. Applicable\/present only if \`type\` is \`sku\`.
@@ -68,34 +67,34 @@ data OrderItem
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON OrderItem where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "amount" (orderItemAmount obj) : (Data.Aeson..=) "currency" (orderItemCurrency obj) : (Data.Aeson..=) "description" (orderItemDescription obj) : (Data.Aeson..=) "object" (orderItemObject obj) : (Data.Aeson..=) "parent" (orderItemParent obj) : (Data.Aeson..=) "quantity" (orderItemQuantity obj) : (Data.Aeson..=) "type" (orderItemType obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "amount" (orderItemAmount obj) GHC.Base.<> ((Data.Aeson..=) "currency" (orderItemCurrency obj) GHC.Base.<> ((Data.Aeson..=) "description" (orderItemDescription obj) GHC.Base.<> ((Data.Aeson..=) "object" (orderItemObject obj) GHC.Base.<> ((Data.Aeson..=) "parent" (orderItemParent obj) GHC.Base.<> ((Data.Aeson..=) "quantity" (orderItemQuantity obj) GHC.Base.<> (Data.Aeson..=) "type" (orderItemType obj)))))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("amount" Data.Aeson.Types.ToJSON..= orderItemAmount obj : "currency" Data.Aeson.Types.ToJSON..= orderItemCurrency obj : "description" Data.Aeson.Types.ToJSON..= orderItemDescription obj : "parent" Data.Aeson.Types.ToJSON..= orderItemParent obj : "quantity" Data.Aeson.Types.ToJSON..= orderItemQuantity obj : "type" Data.Aeson.Types.ToJSON..= orderItemType obj : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "order_item" : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("amount" Data.Aeson.Types.ToJSON..= orderItemAmount obj) GHC.Base.<> (("currency" Data.Aeson.Types.ToJSON..= orderItemCurrency obj) GHC.Base.<> (("description" Data.Aeson.Types.ToJSON..= orderItemDescription obj) GHC.Base.<> (("parent" Data.Aeson.Types.ToJSON..= orderItemParent obj) GHC.Base.<> (("quantity" Data.Aeson.Types.ToJSON..= orderItemQuantity obj) GHC.Base.<> (("type" Data.Aeson.Types.ToJSON..= orderItemType obj) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "order_item")))))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON OrderItem where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "OrderItem" (\obj -> ((((((GHC.Base.pure OrderItem GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "description")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "object")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "parent")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "quantity")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "type"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "OrderItem" (\obj -> (((((GHC.Base.pure OrderItem GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "description")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "parent")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "quantity")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "type"))
 
--- | Defines the enum schema order_itemObject\'
---
--- String representing the object\'s type. Objects of the same type share the same value.
-data OrderItemObject'
-  = OrderItemObject'EnumOther Data.Aeson.Types.Internal.Value
-  | OrderItemObject'EnumTyped Data.Text.Internal.Text
-  | OrderItemObject'EnumStringOrderItem
-  deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Create a new 'OrderItem' with all required fields.
+mkOrderItem ::
+  -- | 'orderItemAmount'
+  GHC.Types.Int ->
+  -- | 'orderItemCurrency'
+  Data.Text.Internal.Text ->
+  -- | 'orderItemDescription'
+  Data.Text.Internal.Text ->
+  -- | 'orderItemType'
+  Data.Text.Internal.Text ->
+  OrderItem
+mkOrderItem orderItemAmount orderItemCurrency orderItemDescription orderItemType =
+  OrderItem
+    { orderItemAmount = orderItemAmount,
+      orderItemCurrency = orderItemCurrency,
+      orderItemDescription = orderItemDescription,
+      orderItemParent = GHC.Maybe.Nothing,
+      orderItemQuantity = GHC.Maybe.Nothing,
+      orderItemType = orderItemType
+    }
 
-instance Data.Aeson.Types.ToJSON.ToJSON OrderItemObject' where
-  toJSON (OrderItemObject'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (OrderItemObject'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (OrderItemObject'EnumStringOrderItem) = "order_item"
-
-instance Data.Aeson.Types.FromJSON.FromJSON OrderItemObject' where
-  parseJSON val =
-    GHC.Base.pure
-      ( if  | val GHC.Classes.== "order_item" -> OrderItemObject'EnumStringOrderItem
-            | GHC.Base.otherwise -> OrderItemObject'EnumOther val
-      )
-
--- | Define the one-of schema order_itemParent\'
+-- | Defines the oneOf schema located at @components.schemas.order_item.properties.parent.anyOf@ in the specification.
 --
 -- The ID of the associated object for this line item. Expandable if not null (e.g., expandable to a SKU).
 data OrderItemParent'Variants
@@ -108,8 +107,6 @@ instance Data.Aeson.Types.ToJSON.ToJSON OrderItemParent'Variants where
   toJSON (OrderItemParent'Text a) = Data.Aeson.Types.ToJSON.toJSON a
 
 instance Data.Aeson.Types.FromJSON.FromJSON OrderItemParent'Variants where
-  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
-    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ OrderItemParent'Sku a
-    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ OrderItemParent'Text a
-      Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+  parseJSON val = case (OrderItemParent'Sku Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((OrderItemParent'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched") of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+    Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a

@@ -8,6 +8,7 @@ module StripeAPI.Types.LineItem where
 
 import qualified Control.Monad.Fail
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -38,7 +39,7 @@ import {-# SOURCE #-} StripeAPI.Types.TransformUsage
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
--- | Defines the data type for the schema line_item
+-- | Defines the object schema located at @components.schemas.line_item@ in the specification.
 data LineItem
   = LineItem
       { -- | amount: The amount, in %s.
@@ -69,8 +70,6 @@ data LineItem
         lineItemLivemode :: GHC.Types.Bool,
         -- | metadata: Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Note that for line items with \`type=subscription\` this will reflect the metadata of the subscription that caused the line item to be created.
         lineItemMetadata :: Data.Aeson.Types.Internal.Object,
-        -- | object: String representing the object\'s type. Objects of the same type share the same value.
-        lineItemObject :: LineItemObject',
         -- | period:
         lineItemPeriod :: InvoiceLineItemPeriod,
         -- | plan: The plan of the subscription, if the line item is a subscription or a proration.
@@ -104,34 +103,55 @@ data LineItem
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON LineItem where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "amount" (lineItemAmount obj) : (Data.Aeson..=) "currency" (lineItemCurrency obj) : (Data.Aeson..=) "description" (lineItemDescription obj) : (Data.Aeson..=) "discountable" (lineItemDiscountable obj) : (Data.Aeson..=) "id" (lineItemId obj) : (Data.Aeson..=) "invoice_item" (lineItemInvoiceItem obj) : (Data.Aeson..=) "livemode" (lineItemLivemode obj) : (Data.Aeson..=) "metadata" (lineItemMetadata obj) : (Data.Aeson..=) "object" (lineItemObject obj) : (Data.Aeson..=) "period" (lineItemPeriod obj) : (Data.Aeson..=) "plan" (lineItemPlan obj) : (Data.Aeson..=) "proration" (lineItemProration obj) : (Data.Aeson..=) "quantity" (lineItemQuantity obj) : (Data.Aeson..=) "subscription" (lineItemSubscription obj) : (Data.Aeson..=) "subscription_item" (lineItemSubscriptionItem obj) : (Data.Aeson..=) "tax_amounts" (lineItemTaxAmounts obj) : (Data.Aeson..=) "tax_rates" (lineItemTaxRates obj) : (Data.Aeson..=) "type" (lineItemType obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "amount" (lineItemAmount obj) GHC.Base.<> ((Data.Aeson..=) "currency" (lineItemCurrency obj) GHC.Base.<> ((Data.Aeson..=) "description" (lineItemDescription obj) GHC.Base.<> ((Data.Aeson..=) "discountable" (lineItemDiscountable obj) GHC.Base.<> ((Data.Aeson..=) "id" (lineItemId obj) GHC.Base.<> ((Data.Aeson..=) "invoice_item" (lineItemInvoiceItem obj) GHC.Base.<> ((Data.Aeson..=) "livemode" (lineItemLivemode obj) GHC.Base.<> ((Data.Aeson..=) "metadata" (lineItemMetadata obj) GHC.Base.<> ((Data.Aeson..=) "object" (lineItemObject obj) GHC.Base.<> ((Data.Aeson..=) "period" (lineItemPeriod obj) GHC.Base.<> ((Data.Aeson..=) "plan" (lineItemPlan obj) GHC.Base.<> ((Data.Aeson..=) "proration" (lineItemProration obj) GHC.Base.<> ((Data.Aeson..=) "quantity" (lineItemQuantity obj) GHC.Base.<> ((Data.Aeson..=) "subscription" (lineItemSubscription obj) GHC.Base.<> ((Data.Aeson..=) "subscription_item" (lineItemSubscriptionItem obj) GHC.Base.<> ((Data.Aeson..=) "tax_amounts" (lineItemTaxAmounts obj) GHC.Base.<> ((Data.Aeson..=) "tax_rates" (lineItemTaxRates obj) GHC.Base.<> (Data.Aeson..=) "type" (lineItemType obj))))))))))))))))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("amount" Data.Aeson.Types.ToJSON..= lineItemAmount obj : "currency" Data.Aeson.Types.ToJSON..= lineItemCurrency obj : "description" Data.Aeson.Types.ToJSON..= lineItemDescription obj : "discountable" Data.Aeson.Types.ToJSON..= lineItemDiscountable obj : "id" Data.Aeson.Types.ToJSON..= lineItemId obj : "invoice_item" Data.Aeson.Types.ToJSON..= lineItemInvoiceItem obj : "livemode" Data.Aeson.Types.ToJSON..= lineItemLivemode obj : "metadata" Data.Aeson.Types.ToJSON..= lineItemMetadata obj : "period" Data.Aeson.Types.ToJSON..= lineItemPeriod obj : "plan" Data.Aeson.Types.ToJSON..= lineItemPlan obj : "proration" Data.Aeson.Types.ToJSON..= lineItemProration obj : "quantity" Data.Aeson.Types.ToJSON..= lineItemQuantity obj : "subscription" Data.Aeson.Types.ToJSON..= lineItemSubscription obj : "subscription_item" Data.Aeson.Types.ToJSON..= lineItemSubscriptionItem obj : "tax_amounts" Data.Aeson.Types.ToJSON..= lineItemTaxAmounts obj : "tax_rates" Data.Aeson.Types.ToJSON..= lineItemTaxRates obj : "type" Data.Aeson.Types.ToJSON..= lineItemType obj : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "line_item" : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("amount" Data.Aeson.Types.ToJSON..= lineItemAmount obj) GHC.Base.<> (("currency" Data.Aeson.Types.ToJSON..= lineItemCurrency obj) GHC.Base.<> (("description" Data.Aeson.Types.ToJSON..= lineItemDescription obj) GHC.Base.<> (("discountable" Data.Aeson.Types.ToJSON..= lineItemDiscountable obj) GHC.Base.<> (("id" Data.Aeson.Types.ToJSON..= lineItemId obj) GHC.Base.<> (("invoice_item" Data.Aeson.Types.ToJSON..= lineItemInvoiceItem obj) GHC.Base.<> (("livemode" Data.Aeson.Types.ToJSON..= lineItemLivemode obj) GHC.Base.<> (("metadata" Data.Aeson.Types.ToJSON..= lineItemMetadata obj) GHC.Base.<> (("period" Data.Aeson.Types.ToJSON..= lineItemPeriod obj) GHC.Base.<> (("plan" Data.Aeson.Types.ToJSON..= lineItemPlan obj) GHC.Base.<> (("proration" Data.Aeson.Types.ToJSON..= lineItemProration obj) GHC.Base.<> (("quantity" Data.Aeson.Types.ToJSON..= lineItemQuantity obj) GHC.Base.<> (("subscription" Data.Aeson.Types.ToJSON..= lineItemSubscription obj) GHC.Base.<> (("subscription_item" Data.Aeson.Types.ToJSON..= lineItemSubscriptionItem obj) GHC.Base.<> (("tax_amounts" Data.Aeson.Types.ToJSON..= lineItemTaxAmounts obj) GHC.Base.<> (("tax_rates" Data.Aeson.Types.ToJSON..= lineItemTaxRates obj) GHC.Base.<> (("type" Data.Aeson.Types.ToJSON..= lineItemType obj) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "line_item"))))))))))))))))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON LineItem where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "LineItem" (\obj -> (((((((((((((((((GHC.Base.pure LineItem GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "description")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "discountable")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "invoice_item")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "livemode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "object")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "period")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "plan")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "proration")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "quantity")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "subscription")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "subscription_item")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "tax_amounts")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "tax_rates")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "type"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "LineItem" (\obj -> ((((((((((((((((GHC.Base.pure LineItem GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "description")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "discountable")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "invoice_item")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "livemode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "period")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "plan")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "proration")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "quantity")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "subscription")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "subscription_item")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "tax_amounts")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "tax_rates")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "type"))
 
--- | Defines the enum schema line_itemObject\'
---
--- String representing the object\'s type. Objects of the same type share the same value.
-data LineItemObject'
-  = LineItemObject'EnumOther Data.Aeson.Types.Internal.Value
-  | LineItemObject'EnumTyped Data.Text.Internal.Text
-  | LineItemObject'EnumStringLineItem
-  deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Create a new 'LineItem' with all required fields.
+mkLineItem ::
+  -- | 'lineItemAmount'
+  GHC.Types.Int ->
+  -- | 'lineItemCurrency'
+  Data.Text.Internal.Text ->
+  -- | 'lineItemDiscountable'
+  GHC.Types.Bool ->
+  -- | 'lineItemId'
+  Data.Text.Internal.Text ->
+  -- | 'lineItemLivemode'
+  GHC.Types.Bool ->
+  -- | 'lineItemMetadata'
+  Data.Aeson.Types.Internal.Object ->
+  -- | 'lineItemPeriod'
+  InvoiceLineItemPeriod ->
+  -- | 'lineItemProration'
+  GHC.Types.Bool ->
+  -- | 'lineItemType'
+  LineItemType' ->
+  LineItem
+mkLineItem lineItemAmount lineItemCurrency lineItemDiscountable lineItemId lineItemLivemode lineItemMetadata lineItemPeriod lineItemProration lineItemType =
+  LineItem
+    { lineItemAmount = lineItemAmount,
+      lineItemCurrency = lineItemCurrency,
+      lineItemDescription = GHC.Maybe.Nothing,
+      lineItemDiscountable = lineItemDiscountable,
+      lineItemId = lineItemId,
+      lineItemInvoiceItem = GHC.Maybe.Nothing,
+      lineItemLivemode = lineItemLivemode,
+      lineItemMetadata = lineItemMetadata,
+      lineItemPeriod = lineItemPeriod,
+      lineItemPlan = GHC.Maybe.Nothing,
+      lineItemProration = lineItemProration,
+      lineItemQuantity = GHC.Maybe.Nothing,
+      lineItemSubscription = GHC.Maybe.Nothing,
+      lineItemSubscriptionItem = GHC.Maybe.Nothing,
+      lineItemTaxAmounts = GHC.Maybe.Nothing,
+      lineItemTaxRates = GHC.Maybe.Nothing,
+      lineItemType = lineItemType
+    }
 
-instance Data.Aeson.Types.ToJSON.ToJSON LineItemObject' where
-  toJSON (LineItemObject'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (LineItemObject'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (LineItemObject'EnumStringLineItem) = "line_item"
-
-instance Data.Aeson.Types.FromJSON.FromJSON LineItemObject' where
-  parseJSON val =
-    GHC.Base.pure
-      ( if  | val GHC.Classes.== "line_item" -> LineItemObject'EnumStringLineItem
-            | GHC.Base.otherwise -> LineItemObject'EnumOther val
-      )
-
--- | Defines the data type for the schema line_itemPlan\'
+-- | Defines the object schema located at @components.schemas.line_item.properties.plan.anyOf@ in the specification.
 --
 -- The plan of the subscription, if the line item is a subscription or a proration.
 data LineItemPlan'
@@ -170,8 +190,6 @@ data LineItemPlan'
         --
         -- * Maximum length of 5000
         lineItemPlan'Nickname :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
-        -- | object: String representing the object\'s type. Objects of the same type share the same value.
-        lineItemPlan'Object :: (GHC.Maybe.Maybe LineItemPlan'Object'),
         -- | product: The product whose pricing this plan determines.
         lineItemPlan'Product :: (GHC.Maybe.Maybe LineItemPlan'Product'Variants),
         -- | tiers: Each element represents a pricing tier. This parameter requires \`billing_scheme\` to be set to \`tiered\`. See also the documentation for \`billing_scheme\`.
@@ -191,118 +209,138 @@ data LineItemPlan'
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON LineItemPlan' where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "active" (lineItemPlan'Active obj) : (Data.Aeson..=) "aggregate_usage" (lineItemPlan'AggregateUsage obj) : (Data.Aeson..=) "amount" (lineItemPlan'Amount obj) : (Data.Aeson..=) "amount_decimal" (lineItemPlan'AmountDecimal obj) : (Data.Aeson..=) "billing_scheme" (lineItemPlan'BillingScheme obj) : (Data.Aeson..=) "created" (lineItemPlan'Created obj) : (Data.Aeson..=) "currency" (lineItemPlan'Currency obj) : (Data.Aeson..=) "id" (lineItemPlan'Id obj) : (Data.Aeson..=) "interval" (lineItemPlan'Interval obj) : (Data.Aeson..=) "interval_count" (lineItemPlan'IntervalCount obj) : (Data.Aeson..=) "livemode" (lineItemPlan'Livemode obj) : (Data.Aeson..=) "metadata" (lineItemPlan'Metadata obj) : (Data.Aeson..=) "nickname" (lineItemPlan'Nickname obj) : (Data.Aeson..=) "object" (lineItemPlan'Object obj) : (Data.Aeson..=) "product" (lineItemPlan'Product obj) : (Data.Aeson..=) "tiers" (lineItemPlan'Tiers obj) : (Data.Aeson..=) "tiers_mode" (lineItemPlan'TiersMode obj) : (Data.Aeson..=) "transform_usage" (lineItemPlan'TransformUsage obj) : (Data.Aeson..=) "trial_period_days" (lineItemPlan'TrialPeriodDays obj) : (Data.Aeson..=) "usage_type" (lineItemPlan'UsageType obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "active" (lineItemPlan'Active obj) GHC.Base.<> ((Data.Aeson..=) "aggregate_usage" (lineItemPlan'AggregateUsage obj) GHC.Base.<> ((Data.Aeson..=) "amount" (lineItemPlan'Amount obj) GHC.Base.<> ((Data.Aeson..=) "amount_decimal" (lineItemPlan'AmountDecimal obj) GHC.Base.<> ((Data.Aeson..=) "billing_scheme" (lineItemPlan'BillingScheme obj) GHC.Base.<> ((Data.Aeson..=) "created" (lineItemPlan'Created obj) GHC.Base.<> ((Data.Aeson..=) "currency" (lineItemPlan'Currency obj) GHC.Base.<> ((Data.Aeson..=) "id" (lineItemPlan'Id obj) GHC.Base.<> ((Data.Aeson..=) "interval" (lineItemPlan'Interval obj) GHC.Base.<> ((Data.Aeson..=) "interval_count" (lineItemPlan'IntervalCount obj) GHC.Base.<> ((Data.Aeson..=) "livemode" (lineItemPlan'Livemode obj) GHC.Base.<> ((Data.Aeson..=) "metadata" (lineItemPlan'Metadata obj) GHC.Base.<> ((Data.Aeson..=) "nickname" (lineItemPlan'Nickname obj) GHC.Base.<> ((Data.Aeson..=) "object" (lineItemPlan'Object obj) GHC.Base.<> ((Data.Aeson..=) "product" (lineItemPlan'Product obj) GHC.Base.<> ((Data.Aeson..=) "tiers" (lineItemPlan'Tiers obj) GHC.Base.<> ((Data.Aeson..=) "tiers_mode" (lineItemPlan'TiersMode obj) GHC.Base.<> ((Data.Aeson..=) "transform_usage" (lineItemPlan'TransformUsage obj) GHC.Base.<> ((Data.Aeson..=) "trial_period_days" (lineItemPlan'TrialPeriodDays obj) GHC.Base.<> (Data.Aeson..=) "usage_type" (lineItemPlan'UsageType obj))))))))))))))))))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("active" Data.Aeson.Types.ToJSON..= lineItemPlan'Active obj : "aggregate_usage" Data.Aeson.Types.ToJSON..= lineItemPlan'AggregateUsage obj : "amount" Data.Aeson.Types.ToJSON..= lineItemPlan'Amount obj : "amount_decimal" Data.Aeson.Types.ToJSON..= lineItemPlan'AmountDecimal obj : "billing_scheme" Data.Aeson.Types.ToJSON..= lineItemPlan'BillingScheme obj : "created" Data.Aeson.Types.ToJSON..= lineItemPlan'Created obj : "currency" Data.Aeson.Types.ToJSON..= lineItemPlan'Currency obj : "id" Data.Aeson.Types.ToJSON..= lineItemPlan'Id obj : "interval" Data.Aeson.Types.ToJSON..= lineItemPlan'Interval obj : "interval_count" Data.Aeson.Types.ToJSON..= lineItemPlan'IntervalCount obj : "livemode" Data.Aeson.Types.ToJSON..= lineItemPlan'Livemode obj : "metadata" Data.Aeson.Types.ToJSON..= lineItemPlan'Metadata obj : "nickname" Data.Aeson.Types.ToJSON..= lineItemPlan'Nickname obj : "product" Data.Aeson.Types.ToJSON..= lineItemPlan'Product obj : "tiers" Data.Aeson.Types.ToJSON..= lineItemPlan'Tiers obj : "tiers_mode" Data.Aeson.Types.ToJSON..= lineItemPlan'TiersMode obj : "transform_usage" Data.Aeson.Types.ToJSON..= lineItemPlan'TransformUsage obj : "trial_period_days" Data.Aeson.Types.ToJSON..= lineItemPlan'TrialPeriodDays obj : "usage_type" Data.Aeson.Types.ToJSON..= lineItemPlan'UsageType obj : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "plan" : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("active" Data.Aeson.Types.ToJSON..= lineItemPlan'Active obj) GHC.Base.<> (("aggregate_usage" Data.Aeson.Types.ToJSON..= lineItemPlan'AggregateUsage obj) GHC.Base.<> (("amount" Data.Aeson.Types.ToJSON..= lineItemPlan'Amount obj) GHC.Base.<> (("amount_decimal" Data.Aeson.Types.ToJSON..= lineItemPlan'AmountDecimal obj) GHC.Base.<> (("billing_scheme" Data.Aeson.Types.ToJSON..= lineItemPlan'BillingScheme obj) GHC.Base.<> (("created" Data.Aeson.Types.ToJSON..= lineItemPlan'Created obj) GHC.Base.<> (("currency" Data.Aeson.Types.ToJSON..= lineItemPlan'Currency obj) GHC.Base.<> (("id" Data.Aeson.Types.ToJSON..= lineItemPlan'Id obj) GHC.Base.<> (("interval" Data.Aeson.Types.ToJSON..= lineItemPlan'Interval obj) GHC.Base.<> (("interval_count" Data.Aeson.Types.ToJSON..= lineItemPlan'IntervalCount obj) GHC.Base.<> (("livemode" Data.Aeson.Types.ToJSON..= lineItemPlan'Livemode obj) GHC.Base.<> (("metadata" Data.Aeson.Types.ToJSON..= lineItemPlan'Metadata obj) GHC.Base.<> (("nickname" Data.Aeson.Types.ToJSON..= lineItemPlan'Nickname obj) GHC.Base.<> (("product" Data.Aeson.Types.ToJSON..= lineItemPlan'Product obj) GHC.Base.<> (("tiers" Data.Aeson.Types.ToJSON..= lineItemPlan'Tiers obj) GHC.Base.<> (("tiers_mode" Data.Aeson.Types.ToJSON..= lineItemPlan'TiersMode obj) GHC.Base.<> (("transform_usage" Data.Aeson.Types.ToJSON..= lineItemPlan'TransformUsage obj) GHC.Base.<> (("trial_period_days" Data.Aeson.Types.ToJSON..= lineItemPlan'TrialPeriodDays obj) GHC.Base.<> (("usage_type" Data.Aeson.Types.ToJSON..= lineItemPlan'UsageType obj) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "plan"))))))))))))))))))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON LineItemPlan' where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "LineItemPlan'" (\obj -> (((((((((((((((((((GHC.Base.pure LineItemPlan' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "active")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "aggregate_usage")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "amount_decimal")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "billing_scheme")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "created")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "interval")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "interval_count")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "livemode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "nickname")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "object")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "product")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "tiers")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "tiers_mode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "transform_usage")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "trial_period_days")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "usage_type"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "LineItemPlan'" (\obj -> ((((((((((((((((((GHC.Base.pure LineItemPlan' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "active")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "aggregate_usage")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "amount_decimal")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "billing_scheme")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "created")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "interval")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "interval_count")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "livemode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "nickname")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "product")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "tiers")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "tiers_mode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "transform_usage")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "trial_period_days")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "usage_type"))
 
--- | Defines the enum schema line_itemPlan\'Aggregate_usage\'
+-- | Create a new 'LineItemPlan'' with all required fields.
+mkLineItemPlan' :: LineItemPlan'
+mkLineItemPlan' =
+  LineItemPlan'
+    { lineItemPlan'Active = GHC.Maybe.Nothing,
+      lineItemPlan'AggregateUsage = GHC.Maybe.Nothing,
+      lineItemPlan'Amount = GHC.Maybe.Nothing,
+      lineItemPlan'AmountDecimal = GHC.Maybe.Nothing,
+      lineItemPlan'BillingScheme = GHC.Maybe.Nothing,
+      lineItemPlan'Created = GHC.Maybe.Nothing,
+      lineItemPlan'Currency = GHC.Maybe.Nothing,
+      lineItemPlan'Id = GHC.Maybe.Nothing,
+      lineItemPlan'Interval = GHC.Maybe.Nothing,
+      lineItemPlan'IntervalCount = GHC.Maybe.Nothing,
+      lineItemPlan'Livemode = GHC.Maybe.Nothing,
+      lineItemPlan'Metadata = GHC.Maybe.Nothing,
+      lineItemPlan'Nickname = GHC.Maybe.Nothing,
+      lineItemPlan'Product = GHC.Maybe.Nothing,
+      lineItemPlan'Tiers = GHC.Maybe.Nothing,
+      lineItemPlan'TiersMode = GHC.Maybe.Nothing,
+      lineItemPlan'TransformUsage = GHC.Maybe.Nothing,
+      lineItemPlan'TrialPeriodDays = GHC.Maybe.Nothing,
+      lineItemPlan'UsageType = GHC.Maybe.Nothing
+    }
+
+-- | Defines the enum schema located at @components.schemas.line_item.properties.plan.anyOf.properties.aggregate_usage@ in the specification.
 --
 -- Specifies a usage aggregation strategy for plans of \`usage_type=metered\`. Allowed values are \`sum\` for summing up all usage during a period, \`last_during_period\` for using the last usage record reported within a period, \`last_ever\` for using the last usage record ever (across period bounds) or \`max\` which uses the usage record with the maximum reported usage during a period. Defaults to \`sum\`.
 data LineItemPlan'AggregateUsage'
-  = LineItemPlan'AggregateUsage'EnumOther Data.Aeson.Types.Internal.Value
-  | LineItemPlan'AggregateUsage'EnumTyped Data.Text.Internal.Text
-  | LineItemPlan'AggregateUsage'EnumStringLastDuringPeriod
-  | LineItemPlan'AggregateUsage'EnumStringLastEver
-  | LineItemPlan'AggregateUsage'EnumStringMax
-  | LineItemPlan'AggregateUsage'EnumStringSum
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    LineItemPlan'AggregateUsage'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    LineItemPlan'AggregateUsage'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"last_during_period"@
+    LineItemPlan'AggregateUsage'EnumLastDuringPeriod
+  | -- | Represents the JSON value @"last_ever"@
+    LineItemPlan'AggregateUsage'EnumLastEver
+  | -- | Represents the JSON value @"max"@
+    LineItemPlan'AggregateUsage'EnumMax
+  | -- | Represents the JSON value @"sum"@
+    LineItemPlan'AggregateUsage'EnumSum
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
 instance Data.Aeson.Types.ToJSON.ToJSON LineItemPlan'AggregateUsage' where
-  toJSON (LineItemPlan'AggregateUsage'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (LineItemPlan'AggregateUsage'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (LineItemPlan'AggregateUsage'EnumStringLastDuringPeriod) = "last_during_period"
-  toJSON (LineItemPlan'AggregateUsage'EnumStringLastEver) = "last_ever"
-  toJSON (LineItemPlan'AggregateUsage'EnumStringMax) = "max"
-  toJSON (LineItemPlan'AggregateUsage'EnumStringSum) = "sum"
+  toJSON (LineItemPlan'AggregateUsage'Other val) = val
+  toJSON (LineItemPlan'AggregateUsage'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (LineItemPlan'AggregateUsage'EnumLastDuringPeriod) = "last_during_period"
+  toJSON (LineItemPlan'AggregateUsage'EnumLastEver) = "last_ever"
+  toJSON (LineItemPlan'AggregateUsage'EnumMax) = "max"
+  toJSON (LineItemPlan'AggregateUsage'EnumSum) = "sum"
 
 instance Data.Aeson.Types.FromJSON.FromJSON LineItemPlan'AggregateUsage' where
   parseJSON val =
     GHC.Base.pure
-      ( if  | val GHC.Classes.== "last_during_period" -> LineItemPlan'AggregateUsage'EnumStringLastDuringPeriod
-            | val GHC.Classes.== "last_ever" -> LineItemPlan'AggregateUsage'EnumStringLastEver
-            | val GHC.Classes.== "max" -> LineItemPlan'AggregateUsage'EnumStringMax
-            | val GHC.Classes.== "sum" -> LineItemPlan'AggregateUsage'EnumStringSum
-            | GHC.Base.otherwise -> LineItemPlan'AggregateUsage'EnumOther val
+      ( if  | val GHC.Classes.== "last_during_period" -> LineItemPlan'AggregateUsage'EnumLastDuringPeriod
+            | val GHC.Classes.== "last_ever" -> LineItemPlan'AggregateUsage'EnumLastEver
+            | val GHC.Classes.== "max" -> LineItemPlan'AggregateUsage'EnumMax
+            | val GHC.Classes.== "sum" -> LineItemPlan'AggregateUsage'EnumSum
+            | GHC.Base.otherwise -> LineItemPlan'AggregateUsage'Other val
       )
 
--- | Defines the enum schema line_itemPlan\'Billing_scheme\'
+-- | Defines the enum schema located at @components.schemas.line_item.properties.plan.anyOf.properties.billing_scheme@ in the specification.
 --
 -- Describes how to compute the price per period. Either \`per_unit\` or \`tiered\`. \`per_unit\` indicates that the fixed amount (specified in \`amount\`) will be charged per unit in \`quantity\` (for plans with \`usage_type=licensed\`), or per unit of total usage (for plans with \`usage_type=metered\`). \`tiered\` indicates that the unit pricing will be computed using a tiering strategy as defined using the \`tiers\` and \`tiers_mode\` attributes.
 data LineItemPlan'BillingScheme'
-  = LineItemPlan'BillingScheme'EnumOther Data.Aeson.Types.Internal.Value
-  | LineItemPlan'BillingScheme'EnumTyped Data.Text.Internal.Text
-  | LineItemPlan'BillingScheme'EnumStringPerUnit
-  | LineItemPlan'BillingScheme'EnumStringTiered
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    LineItemPlan'BillingScheme'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    LineItemPlan'BillingScheme'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"per_unit"@
+    LineItemPlan'BillingScheme'EnumPerUnit
+  | -- | Represents the JSON value @"tiered"@
+    LineItemPlan'BillingScheme'EnumTiered
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
 instance Data.Aeson.Types.ToJSON.ToJSON LineItemPlan'BillingScheme' where
-  toJSON (LineItemPlan'BillingScheme'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (LineItemPlan'BillingScheme'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (LineItemPlan'BillingScheme'EnumStringPerUnit) = "per_unit"
-  toJSON (LineItemPlan'BillingScheme'EnumStringTiered) = "tiered"
+  toJSON (LineItemPlan'BillingScheme'Other val) = val
+  toJSON (LineItemPlan'BillingScheme'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (LineItemPlan'BillingScheme'EnumPerUnit) = "per_unit"
+  toJSON (LineItemPlan'BillingScheme'EnumTiered) = "tiered"
 
 instance Data.Aeson.Types.FromJSON.FromJSON LineItemPlan'BillingScheme' where
   parseJSON val =
     GHC.Base.pure
-      ( if  | val GHC.Classes.== "per_unit" -> LineItemPlan'BillingScheme'EnumStringPerUnit
-            | val GHC.Classes.== "tiered" -> LineItemPlan'BillingScheme'EnumStringTiered
-            | GHC.Base.otherwise -> LineItemPlan'BillingScheme'EnumOther val
+      ( if  | val GHC.Classes.== "per_unit" -> LineItemPlan'BillingScheme'EnumPerUnit
+            | val GHC.Classes.== "tiered" -> LineItemPlan'BillingScheme'EnumTiered
+            | GHC.Base.otherwise -> LineItemPlan'BillingScheme'Other val
       )
 
--- | Defines the enum schema line_itemPlan\'Interval\'
+-- | Defines the enum schema located at @components.schemas.line_item.properties.plan.anyOf.properties.interval@ in the specification.
 --
 -- The frequency at which a subscription is billed. One of \`day\`, \`week\`, \`month\` or \`year\`.
 data LineItemPlan'Interval'
-  = LineItemPlan'Interval'EnumOther Data.Aeson.Types.Internal.Value
-  | LineItemPlan'Interval'EnumTyped Data.Text.Internal.Text
-  | LineItemPlan'Interval'EnumStringDay
-  | LineItemPlan'Interval'EnumStringMonth
-  | LineItemPlan'Interval'EnumStringWeek
-  | LineItemPlan'Interval'EnumStringYear
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    LineItemPlan'Interval'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    LineItemPlan'Interval'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"day"@
+    LineItemPlan'Interval'EnumDay
+  | -- | Represents the JSON value @"month"@
+    LineItemPlan'Interval'EnumMonth
+  | -- | Represents the JSON value @"week"@
+    LineItemPlan'Interval'EnumWeek
+  | -- | Represents the JSON value @"year"@
+    LineItemPlan'Interval'EnumYear
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
 instance Data.Aeson.Types.ToJSON.ToJSON LineItemPlan'Interval' where
-  toJSON (LineItemPlan'Interval'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (LineItemPlan'Interval'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (LineItemPlan'Interval'EnumStringDay) = "day"
-  toJSON (LineItemPlan'Interval'EnumStringMonth) = "month"
-  toJSON (LineItemPlan'Interval'EnumStringWeek) = "week"
-  toJSON (LineItemPlan'Interval'EnumStringYear) = "year"
+  toJSON (LineItemPlan'Interval'Other val) = val
+  toJSON (LineItemPlan'Interval'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (LineItemPlan'Interval'EnumDay) = "day"
+  toJSON (LineItemPlan'Interval'EnumMonth) = "month"
+  toJSON (LineItemPlan'Interval'EnumWeek) = "week"
+  toJSON (LineItemPlan'Interval'EnumYear) = "year"
 
 instance Data.Aeson.Types.FromJSON.FromJSON LineItemPlan'Interval' where
   parseJSON val =
     GHC.Base.pure
-      ( if  | val GHC.Classes.== "day" -> LineItemPlan'Interval'EnumStringDay
-            | val GHC.Classes.== "month" -> LineItemPlan'Interval'EnumStringMonth
-            | val GHC.Classes.== "week" -> LineItemPlan'Interval'EnumStringWeek
-            | val GHC.Classes.== "year" -> LineItemPlan'Interval'EnumStringYear
-            | GHC.Base.otherwise -> LineItemPlan'Interval'EnumOther val
+      ( if  | val GHC.Classes.== "day" -> LineItemPlan'Interval'EnumDay
+            | val GHC.Classes.== "month" -> LineItemPlan'Interval'EnumMonth
+            | val GHC.Classes.== "week" -> LineItemPlan'Interval'EnumWeek
+            | val GHC.Classes.== "year" -> LineItemPlan'Interval'EnumYear
+            | GHC.Base.otherwise -> LineItemPlan'Interval'Other val
       )
 
--- | Defines the enum schema line_itemPlan\'Object\'
---
--- String representing the object\'s type. Objects of the same type share the same value.
-data LineItemPlan'Object'
-  = LineItemPlan'Object'EnumOther Data.Aeson.Types.Internal.Value
-  | LineItemPlan'Object'EnumTyped Data.Text.Internal.Text
-  | LineItemPlan'Object'EnumStringPlan
-  deriving (GHC.Show.Show, GHC.Classes.Eq)
-
-instance Data.Aeson.Types.ToJSON.ToJSON LineItemPlan'Object' where
-  toJSON (LineItemPlan'Object'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (LineItemPlan'Object'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (LineItemPlan'Object'EnumStringPlan) = "plan"
-
-instance Data.Aeson.Types.FromJSON.FromJSON LineItemPlan'Object' where
-  parseJSON val =
-    GHC.Base.pure
-      ( if  | val GHC.Classes.== "plan" -> LineItemPlan'Object'EnumStringPlan
-            | GHC.Base.otherwise -> LineItemPlan'Object'EnumOther val
-      )
-
--- | Define the one-of schema line_itemPlan\'Product\'
+-- | Defines the oneOf schema located at @components.schemas.line_item.properties.plan.anyOf.properties.product.anyOf@ in the specification.
 --
 -- The product whose pricing this plan determines.
 data LineItemPlan'Product'Variants
@@ -317,39 +355,39 @@ instance Data.Aeson.Types.ToJSON.ToJSON LineItemPlan'Product'Variants where
   toJSON (LineItemPlan'Product'Text a) = Data.Aeson.Types.ToJSON.toJSON a
 
 instance Data.Aeson.Types.FromJSON.FromJSON LineItemPlan'Product'Variants where
-  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
-    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ LineItemPlan'Product'DeletedProduct a
-    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ LineItemPlan'Product'Product a
-      Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-        Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ LineItemPlan'Product'Text a
-        Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+  parseJSON val = case (LineItemPlan'Product'DeletedProduct Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((LineItemPlan'Product'Product Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((LineItemPlan'Product'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched")) of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+    Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
--- | Defines the enum schema line_itemPlan\'Tiers_mode\'
+-- | Defines the enum schema located at @components.schemas.line_item.properties.plan.anyOf.properties.tiers_mode@ in the specification.
 --
 -- Defines if the tiering price should be \`graduated\` or \`volume\` based. In \`volume\`-based tiering, the maximum quantity within a period determines the per unit price. In \`graduated\` tiering, pricing can change as the quantity grows.
 data LineItemPlan'TiersMode'
-  = LineItemPlan'TiersMode'EnumOther Data.Aeson.Types.Internal.Value
-  | LineItemPlan'TiersMode'EnumTyped Data.Text.Internal.Text
-  | LineItemPlan'TiersMode'EnumStringGraduated
-  | LineItemPlan'TiersMode'EnumStringVolume
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    LineItemPlan'TiersMode'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    LineItemPlan'TiersMode'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"graduated"@
+    LineItemPlan'TiersMode'EnumGraduated
+  | -- | Represents the JSON value @"volume"@
+    LineItemPlan'TiersMode'EnumVolume
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
 instance Data.Aeson.Types.ToJSON.ToJSON LineItemPlan'TiersMode' where
-  toJSON (LineItemPlan'TiersMode'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (LineItemPlan'TiersMode'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (LineItemPlan'TiersMode'EnumStringGraduated) = "graduated"
-  toJSON (LineItemPlan'TiersMode'EnumStringVolume) = "volume"
+  toJSON (LineItemPlan'TiersMode'Other val) = val
+  toJSON (LineItemPlan'TiersMode'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (LineItemPlan'TiersMode'EnumGraduated) = "graduated"
+  toJSON (LineItemPlan'TiersMode'EnumVolume) = "volume"
 
 instance Data.Aeson.Types.FromJSON.FromJSON LineItemPlan'TiersMode' where
   parseJSON val =
     GHC.Base.pure
-      ( if  | val GHC.Classes.== "graduated" -> LineItemPlan'TiersMode'EnumStringGraduated
-            | val GHC.Classes.== "volume" -> LineItemPlan'TiersMode'EnumStringVolume
-            | GHC.Base.otherwise -> LineItemPlan'TiersMode'EnumOther val
+      ( if  | val GHC.Classes.== "graduated" -> LineItemPlan'TiersMode'EnumGraduated
+            | val GHC.Classes.== "volume" -> LineItemPlan'TiersMode'EnumVolume
+            | GHC.Base.otherwise -> LineItemPlan'TiersMode'Other val
       )
 
--- | Defines the data type for the schema line_itemPlan\'Transform_usage\'
+-- | Defines the object schema located at @components.schemas.line_item.properties.plan.anyOf.properties.transform_usage.anyOf@ in the specification.
 --
 -- Apply a transformation to the reported usage or set quantity before computing the amount billed. Cannot be combined with \\\`tiers\\\`.
 data LineItemPlan'TransformUsage'
@@ -365,80 +403,100 @@ data LineItemPlan'TransformUsage'
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON LineItemPlan'TransformUsage' where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "divide_by" (lineItemPlan'TransformUsage'DivideBy obj) : (Data.Aeson..=) "round" (lineItemPlan'TransformUsage'Round obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "divide_by" (lineItemPlan'TransformUsage'DivideBy obj) GHC.Base.<> (Data.Aeson..=) "round" (lineItemPlan'TransformUsage'Round obj))
+  toJSON obj = Data.Aeson.Types.Internal.object ("divide_by" Data.Aeson.Types.ToJSON..= lineItemPlan'TransformUsage'DivideBy obj : "round" Data.Aeson.Types.ToJSON..= lineItemPlan'TransformUsage'Round obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("divide_by" Data.Aeson.Types.ToJSON..= lineItemPlan'TransformUsage'DivideBy obj) GHC.Base.<> ("round" Data.Aeson.Types.ToJSON..= lineItemPlan'TransformUsage'Round obj))
 
 instance Data.Aeson.Types.FromJSON.FromJSON LineItemPlan'TransformUsage' where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "LineItemPlan'TransformUsage'" (\obj -> (GHC.Base.pure LineItemPlan'TransformUsage' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "divide_by")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "round"))
 
--- | Defines the enum schema line_itemPlan\'Transform_usage\'Round\'
+-- | Create a new 'LineItemPlan'TransformUsage'' with all required fields.
+mkLineItemPlan'TransformUsage' :: LineItemPlan'TransformUsage'
+mkLineItemPlan'TransformUsage' =
+  LineItemPlan'TransformUsage'
+    { lineItemPlan'TransformUsage'DivideBy = GHC.Maybe.Nothing,
+      lineItemPlan'TransformUsage'Round = GHC.Maybe.Nothing
+    }
+
+-- | Defines the enum schema located at @components.schemas.line_item.properties.plan.anyOf.properties.transform_usage.anyOf.properties.round@ in the specification.
 --
 -- After division, either round the result \`up\` or \`down\`.
 data LineItemPlan'TransformUsage'Round'
-  = LineItemPlan'TransformUsage'Round'EnumOther Data.Aeson.Types.Internal.Value
-  | LineItemPlan'TransformUsage'Round'EnumTyped Data.Text.Internal.Text
-  | LineItemPlan'TransformUsage'Round'EnumStringDown
-  | LineItemPlan'TransformUsage'Round'EnumStringUp
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    LineItemPlan'TransformUsage'Round'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    LineItemPlan'TransformUsage'Round'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"down"@
+    LineItemPlan'TransformUsage'Round'EnumDown
+  | -- | Represents the JSON value @"up"@
+    LineItemPlan'TransformUsage'Round'EnumUp
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
 instance Data.Aeson.Types.ToJSON.ToJSON LineItemPlan'TransformUsage'Round' where
-  toJSON (LineItemPlan'TransformUsage'Round'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (LineItemPlan'TransformUsage'Round'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (LineItemPlan'TransformUsage'Round'EnumStringDown) = "down"
-  toJSON (LineItemPlan'TransformUsage'Round'EnumStringUp) = "up"
+  toJSON (LineItemPlan'TransformUsage'Round'Other val) = val
+  toJSON (LineItemPlan'TransformUsage'Round'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (LineItemPlan'TransformUsage'Round'EnumDown) = "down"
+  toJSON (LineItemPlan'TransformUsage'Round'EnumUp) = "up"
 
 instance Data.Aeson.Types.FromJSON.FromJSON LineItemPlan'TransformUsage'Round' where
   parseJSON val =
     GHC.Base.pure
-      ( if  | val GHC.Classes.== "down" -> LineItemPlan'TransformUsage'Round'EnumStringDown
-            | val GHC.Classes.== "up" -> LineItemPlan'TransformUsage'Round'EnumStringUp
-            | GHC.Base.otherwise -> LineItemPlan'TransformUsage'Round'EnumOther val
+      ( if  | val GHC.Classes.== "down" -> LineItemPlan'TransformUsage'Round'EnumDown
+            | val GHC.Classes.== "up" -> LineItemPlan'TransformUsage'Round'EnumUp
+            | GHC.Base.otherwise -> LineItemPlan'TransformUsage'Round'Other val
       )
 
--- | Defines the enum schema line_itemPlan\'Usage_type\'
+-- | Defines the enum schema located at @components.schemas.line_item.properties.plan.anyOf.properties.usage_type@ in the specification.
 --
 -- Configures how the quantity per period should be determined. Can be either \`metered\` or \`licensed\`. \`licensed\` automatically bills the \`quantity\` set when adding it to a subscription. \`metered\` aggregates the total usage based on usage records. Defaults to \`licensed\`.
 data LineItemPlan'UsageType'
-  = LineItemPlan'UsageType'EnumOther Data.Aeson.Types.Internal.Value
-  | LineItemPlan'UsageType'EnumTyped Data.Text.Internal.Text
-  | LineItemPlan'UsageType'EnumStringLicensed
-  | LineItemPlan'UsageType'EnumStringMetered
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    LineItemPlan'UsageType'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    LineItemPlan'UsageType'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"licensed"@
+    LineItemPlan'UsageType'EnumLicensed
+  | -- | Represents the JSON value @"metered"@
+    LineItemPlan'UsageType'EnumMetered
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
 instance Data.Aeson.Types.ToJSON.ToJSON LineItemPlan'UsageType' where
-  toJSON (LineItemPlan'UsageType'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (LineItemPlan'UsageType'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (LineItemPlan'UsageType'EnumStringLicensed) = "licensed"
-  toJSON (LineItemPlan'UsageType'EnumStringMetered) = "metered"
+  toJSON (LineItemPlan'UsageType'Other val) = val
+  toJSON (LineItemPlan'UsageType'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (LineItemPlan'UsageType'EnumLicensed) = "licensed"
+  toJSON (LineItemPlan'UsageType'EnumMetered) = "metered"
 
 instance Data.Aeson.Types.FromJSON.FromJSON LineItemPlan'UsageType' where
   parseJSON val =
     GHC.Base.pure
-      ( if  | val GHC.Classes.== "licensed" -> LineItemPlan'UsageType'EnumStringLicensed
-            | val GHC.Classes.== "metered" -> LineItemPlan'UsageType'EnumStringMetered
-            | GHC.Base.otherwise -> LineItemPlan'UsageType'EnumOther val
+      ( if  | val GHC.Classes.== "licensed" -> LineItemPlan'UsageType'EnumLicensed
+            | val GHC.Classes.== "metered" -> LineItemPlan'UsageType'EnumMetered
+            | GHC.Base.otherwise -> LineItemPlan'UsageType'Other val
       )
 
--- | Defines the enum schema line_itemType\'
+-- | Defines the enum schema located at @components.schemas.line_item.properties.type@ in the specification.
 --
 -- A string identifying the type of the source of this line item, either an \`invoiceitem\` or a \`subscription\`.
 data LineItemType'
-  = LineItemType'EnumOther Data.Aeson.Types.Internal.Value
-  | LineItemType'EnumTyped Data.Text.Internal.Text
-  | LineItemType'EnumStringInvoiceitem
-  | LineItemType'EnumStringSubscription
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    LineItemType'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    LineItemType'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"invoiceitem"@
+    LineItemType'EnumInvoiceitem
+  | -- | Represents the JSON value @"subscription"@
+    LineItemType'EnumSubscription
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
 instance Data.Aeson.Types.ToJSON.ToJSON LineItemType' where
-  toJSON (LineItemType'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (LineItemType'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (LineItemType'EnumStringInvoiceitem) = "invoiceitem"
-  toJSON (LineItemType'EnumStringSubscription) = "subscription"
+  toJSON (LineItemType'Other val) = val
+  toJSON (LineItemType'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (LineItemType'EnumInvoiceitem) = "invoiceitem"
+  toJSON (LineItemType'EnumSubscription) = "subscription"
 
 instance Data.Aeson.Types.FromJSON.FromJSON LineItemType' where
   parseJSON val =
     GHC.Base.pure
-      ( if  | val GHC.Classes.== "invoiceitem" -> LineItemType'EnumStringInvoiceitem
-            | val GHC.Classes.== "subscription" -> LineItemType'EnumStringSubscription
-            | GHC.Base.otherwise -> LineItemType'EnumOther val
+      ( if  | val GHC.Classes.== "invoiceitem" -> LineItemType'EnumInvoiceitem
+            | val GHC.Classes.== "subscription" -> LineItemType'EnumSubscription
+            | GHC.Base.otherwise -> LineItemType'Other val
       )

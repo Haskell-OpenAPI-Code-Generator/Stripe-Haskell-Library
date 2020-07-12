@@ -8,6 +8,7 @@ module StripeAPI.Types.AccountDashboardSettings where
 
 import qualified Control.Monad.Fail
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -30,7 +31,7 @@ import StripeAPI.TypeAlias
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
--- | Defines the data type for the schema account_dashboard_settings
+-- | Defines the object schema located at @components.schemas.account_dashboard_settings@ in the specification.
 data AccountDashboardSettings
   = AccountDashboardSettings
       { -- | display_name: The display name for this account. This is used on the Stripe Dashboard to differentiate between accounts.
@@ -52,8 +53,16 @@ data AccountDashboardSettings
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON AccountDashboardSettings where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "display_name" (accountDashboardSettingsDisplayName obj) : (Data.Aeson..=) "timezone" (accountDashboardSettingsTimezone obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "display_name" (accountDashboardSettingsDisplayName obj) GHC.Base.<> (Data.Aeson..=) "timezone" (accountDashboardSettingsTimezone obj))
+  toJSON obj = Data.Aeson.Types.Internal.object ("display_name" Data.Aeson.Types.ToJSON..= accountDashboardSettingsDisplayName obj : "timezone" Data.Aeson.Types.ToJSON..= accountDashboardSettingsTimezone obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("display_name" Data.Aeson.Types.ToJSON..= accountDashboardSettingsDisplayName obj) GHC.Base.<> ("timezone" Data.Aeson.Types.ToJSON..= accountDashboardSettingsTimezone obj))
 
 instance Data.Aeson.Types.FromJSON.FromJSON AccountDashboardSettings where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "AccountDashboardSettings" (\obj -> (GHC.Base.pure AccountDashboardSettings GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "display_name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "timezone"))
+
+-- | Create a new 'AccountDashboardSettings' with all required fields.
+mkAccountDashboardSettings :: AccountDashboardSettings
+mkAccountDashboardSettings =
+  AccountDashboardSettings
+    { accountDashboardSettingsDisplayName = GHC.Maybe.Nothing,
+      accountDashboardSettingsTimezone = GHC.Maybe.Nothing
+    }

@@ -10,6 +10,7 @@ module StripeAPI.Operations.GetApplicationFeesId where
 import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -77,7 +78,7 @@ getApplicationFeesId parameters =
     )
     (StripeAPI.Common.doCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET") (Data.Text.pack ("/v1/application_fees/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel (getApplicationFeesIdParametersPathId parameters))) GHC.Base.++ ""))) [StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getApplicationFeesIdParametersQueryExpand parameters) (Data.Text.pack "deepObject") GHC.Types.True])
 
--- | Defines the data type for the schema getApplicationFeesIdParameters
+-- | Defines the object schema located at @paths.\/v1\/application_fees\/{id}.GET.parameters@ in the specification.
 data GetApplicationFeesIdParameters
   = GetApplicationFeesIdParameters
       { -- | pathId: Represents the parameter named \'id\'
@@ -97,11 +98,22 @@ data GetApplicationFeesIdParameters
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetApplicationFeesIdParameters where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "pathId" (getApplicationFeesIdParametersPathId obj) : (Data.Aeson..=) "queryExpand" (getApplicationFeesIdParametersQueryExpand obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "pathId" (getApplicationFeesIdParametersPathId obj) GHC.Base.<> (Data.Aeson..=) "queryExpand" (getApplicationFeesIdParametersQueryExpand obj))
+  toJSON obj = Data.Aeson.Types.Internal.object ("pathId" Data.Aeson.Types.ToJSON..= getApplicationFeesIdParametersPathId obj : "queryExpand" Data.Aeson.Types.ToJSON..= getApplicationFeesIdParametersQueryExpand obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("pathId" Data.Aeson.Types.ToJSON..= getApplicationFeesIdParametersPathId obj) GHC.Base.<> ("queryExpand" Data.Aeson.Types.ToJSON..= getApplicationFeesIdParametersQueryExpand obj))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetApplicationFeesIdParameters where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "GetApplicationFeesIdParameters" (\obj -> (GHC.Base.pure GetApplicationFeesIdParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathId")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryExpand"))
+
+-- | Create a new 'GetApplicationFeesIdParameters' with all required fields.
+mkGetApplicationFeesIdParameters ::
+  -- | 'getApplicationFeesIdParametersPathId'
+  Data.Text.Internal.Text ->
+  GetApplicationFeesIdParameters
+mkGetApplicationFeesIdParameters getApplicationFeesIdParametersPathId =
+  GetApplicationFeesIdParameters
+    { getApplicationFeesIdParametersPathId = getApplicationFeesIdParametersPathId,
+      getApplicationFeesIdParametersQueryExpand = GHC.Maybe.Nothing
+    }
 
 -- | Represents a response of the operation 'getApplicationFeesId'.
 --

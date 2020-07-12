@@ -8,6 +8,7 @@ module StripeAPI.Types.WebhookEndpoint where
 
 import qualified Control.Monad.Fail
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -30,7 +31,7 @@ import StripeAPI.TypeAlias
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
--- | Defines the data type for the schema webhook_endpoint
+-- | Defines the object schema located at @components.schemas.webhook_endpoint@ in the specification.
 --
 -- You can configure [webhook endpoints](https:\/\/stripe.com\/docs\/webhooks\/) via the API to be
 -- notified about events that happen in your Stripe account or connected
@@ -65,8 +66,6 @@ data WebhookEndpoint
         webhookEndpointId :: Data.Text.Internal.Text,
         -- | livemode: Has the value \`true\` if the object exists in live mode or the value \`false\` if the object exists in test mode.
         webhookEndpointLivemode :: GHC.Types.Bool,
-        -- | object: String representing the object\'s type. Objects of the same type share the same value.
-        webhookEndpointObject :: WebhookEndpointObject',
         -- | secret: The endpoint\'s secret, used to generate [webhook signatures](https:\/\/stripe.com\/docs\/webhooks\/signatures). Only returned at creation.
         --
         -- Constraints:
@@ -92,29 +91,36 @@ data WebhookEndpoint
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON WebhookEndpoint where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "api_version" (webhookEndpointApiVersion obj) : (Data.Aeson..=) "application" (webhookEndpointApplication obj) : (Data.Aeson..=) "created" (webhookEndpointCreated obj) : (Data.Aeson..=) "enabled_events" (webhookEndpointEnabledEvents obj) : (Data.Aeson..=) "id" (webhookEndpointId obj) : (Data.Aeson..=) "livemode" (webhookEndpointLivemode obj) : (Data.Aeson..=) "object" (webhookEndpointObject obj) : (Data.Aeson..=) "secret" (webhookEndpointSecret obj) : (Data.Aeson..=) "status" (webhookEndpointStatus obj) : (Data.Aeson..=) "url" (webhookEndpointUrl obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "api_version" (webhookEndpointApiVersion obj) GHC.Base.<> ((Data.Aeson..=) "application" (webhookEndpointApplication obj) GHC.Base.<> ((Data.Aeson..=) "created" (webhookEndpointCreated obj) GHC.Base.<> ((Data.Aeson..=) "enabled_events" (webhookEndpointEnabledEvents obj) GHC.Base.<> ((Data.Aeson..=) "id" (webhookEndpointId obj) GHC.Base.<> ((Data.Aeson..=) "livemode" (webhookEndpointLivemode obj) GHC.Base.<> ((Data.Aeson..=) "object" (webhookEndpointObject obj) GHC.Base.<> ((Data.Aeson..=) "secret" (webhookEndpointSecret obj) GHC.Base.<> ((Data.Aeson..=) "status" (webhookEndpointStatus obj) GHC.Base.<> (Data.Aeson..=) "url" (webhookEndpointUrl obj))))))))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("api_version" Data.Aeson.Types.ToJSON..= webhookEndpointApiVersion obj : "application" Data.Aeson.Types.ToJSON..= webhookEndpointApplication obj : "created" Data.Aeson.Types.ToJSON..= webhookEndpointCreated obj : "enabled_events" Data.Aeson.Types.ToJSON..= webhookEndpointEnabledEvents obj : "id" Data.Aeson.Types.ToJSON..= webhookEndpointId obj : "livemode" Data.Aeson.Types.ToJSON..= webhookEndpointLivemode obj : "secret" Data.Aeson.Types.ToJSON..= webhookEndpointSecret obj : "status" Data.Aeson.Types.ToJSON..= webhookEndpointStatus obj : "url" Data.Aeson.Types.ToJSON..= webhookEndpointUrl obj : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "webhook_endpoint" : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("api_version" Data.Aeson.Types.ToJSON..= webhookEndpointApiVersion obj) GHC.Base.<> (("application" Data.Aeson.Types.ToJSON..= webhookEndpointApplication obj) GHC.Base.<> (("created" Data.Aeson.Types.ToJSON..= webhookEndpointCreated obj) GHC.Base.<> (("enabled_events" Data.Aeson.Types.ToJSON..= webhookEndpointEnabledEvents obj) GHC.Base.<> (("id" Data.Aeson.Types.ToJSON..= webhookEndpointId obj) GHC.Base.<> (("livemode" Data.Aeson.Types.ToJSON..= webhookEndpointLivemode obj) GHC.Base.<> (("secret" Data.Aeson.Types.ToJSON..= webhookEndpointSecret obj) GHC.Base.<> (("status" Data.Aeson.Types.ToJSON..= webhookEndpointStatus obj) GHC.Base.<> (("url" Data.Aeson.Types.ToJSON..= webhookEndpointUrl obj) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "webhook_endpoint"))))))))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON WebhookEndpoint where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "WebhookEndpoint" (\obj -> (((((((((GHC.Base.pure WebhookEndpoint GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "api_version")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "application")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "created")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "enabled_events")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "livemode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "object")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "secret")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "status")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "url"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "WebhookEndpoint" (\obj -> ((((((((GHC.Base.pure WebhookEndpoint GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "api_version")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "application")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "created")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "enabled_events")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "livemode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "secret")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "status")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "url"))
 
--- | Defines the enum schema webhook_endpointObject\'
---
--- String representing the object\'s type. Objects of the same type share the same value.
-data WebhookEndpointObject'
-  = WebhookEndpointObject'EnumOther Data.Aeson.Types.Internal.Value
-  | WebhookEndpointObject'EnumTyped Data.Text.Internal.Text
-  | WebhookEndpointObject'EnumStringWebhookEndpoint
-  deriving (GHC.Show.Show, GHC.Classes.Eq)
-
-instance Data.Aeson.Types.ToJSON.ToJSON WebhookEndpointObject' where
-  toJSON (WebhookEndpointObject'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (WebhookEndpointObject'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (WebhookEndpointObject'EnumStringWebhookEndpoint) = "webhook_endpoint"
-
-instance Data.Aeson.Types.FromJSON.FromJSON WebhookEndpointObject' where
-  parseJSON val =
-    GHC.Base.pure
-      ( if  | val GHC.Classes.== "webhook_endpoint" -> WebhookEndpointObject'EnumStringWebhookEndpoint
-            | GHC.Base.otherwise -> WebhookEndpointObject'EnumOther val
-      )
+-- | Create a new 'WebhookEndpoint' with all required fields.
+mkWebhookEndpoint ::
+  -- | 'webhookEndpointCreated'
+  GHC.Types.Int ->
+  -- | 'webhookEndpointEnabledEvents'
+  [Data.Text.Internal.Text] ->
+  -- | 'webhookEndpointId'
+  Data.Text.Internal.Text ->
+  -- | 'webhookEndpointLivemode'
+  GHC.Types.Bool ->
+  -- | 'webhookEndpointStatus'
+  Data.Text.Internal.Text ->
+  -- | 'webhookEndpointUrl'
+  Data.Text.Internal.Text ->
+  WebhookEndpoint
+mkWebhookEndpoint webhookEndpointCreated webhookEndpointEnabledEvents webhookEndpointId webhookEndpointLivemode webhookEndpointStatus webhookEndpointUrl =
+  WebhookEndpoint
+    { webhookEndpointApiVersion = GHC.Maybe.Nothing,
+      webhookEndpointApplication = GHC.Maybe.Nothing,
+      webhookEndpointCreated = webhookEndpointCreated,
+      webhookEndpointEnabledEvents = webhookEndpointEnabledEvents,
+      webhookEndpointId = webhookEndpointId,
+      webhookEndpointLivemode = webhookEndpointLivemode,
+      webhookEndpointSecret = GHC.Maybe.Nothing,
+      webhookEndpointStatus = webhookEndpointStatus,
+      webhookEndpointUrl = webhookEndpointUrl
+    }

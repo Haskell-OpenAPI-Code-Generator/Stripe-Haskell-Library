@@ -10,6 +10,7 @@ module StripeAPI.Operations.PostInvoicesInvoiceFinalize where
 import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -81,7 +82,7 @@ postInvoicesInvoiceFinalize
       )
       (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack ("/v1/invoices/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel invoice)) GHC.Base.++ "/finalize"))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
 
--- | Defines the data type for the schema postInvoicesInvoiceFinalizeRequestBody
+-- | Defines the object schema located at @paths.\/v1\/invoices\/{invoice}\/finalize.POST.requestBody.content.application\/x-www-form-urlencoded.schema@ in the specification.
 data PostInvoicesInvoiceFinalizeRequestBody
   = PostInvoicesInvoiceFinalizeRequestBody
       { -- | auto_advance: Controls whether Stripe will perform [automatic collection](https:\/\/stripe.com\/docs\/billing\/invoices\/workflow\/\#auto_advance) of the invoice. When \`false\`, the invoice\'s state will not automatically advance without an explicit action.
@@ -95,11 +96,19 @@ data PostInvoicesInvoiceFinalizeRequestBody
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostInvoicesInvoiceFinalizeRequestBody where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "auto_advance" (postInvoicesInvoiceFinalizeRequestBodyAutoAdvance obj) : (Data.Aeson..=) "expand" (postInvoicesInvoiceFinalizeRequestBodyExpand obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "auto_advance" (postInvoicesInvoiceFinalizeRequestBodyAutoAdvance obj) GHC.Base.<> (Data.Aeson..=) "expand" (postInvoicesInvoiceFinalizeRequestBodyExpand obj))
+  toJSON obj = Data.Aeson.Types.Internal.object ("auto_advance" Data.Aeson.Types.ToJSON..= postInvoicesInvoiceFinalizeRequestBodyAutoAdvance obj : "expand" Data.Aeson.Types.ToJSON..= postInvoicesInvoiceFinalizeRequestBodyExpand obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("auto_advance" Data.Aeson.Types.ToJSON..= postInvoicesInvoiceFinalizeRequestBodyAutoAdvance obj) GHC.Base.<> ("expand" Data.Aeson.Types.ToJSON..= postInvoicesInvoiceFinalizeRequestBodyExpand obj))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostInvoicesInvoiceFinalizeRequestBody where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PostInvoicesInvoiceFinalizeRequestBody" (\obj -> (GHC.Base.pure PostInvoicesInvoiceFinalizeRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "auto_advance")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "expand"))
+
+-- | Create a new 'PostInvoicesInvoiceFinalizeRequestBody' with all required fields.
+mkPostInvoicesInvoiceFinalizeRequestBody :: PostInvoicesInvoiceFinalizeRequestBody
+mkPostInvoicesInvoiceFinalizeRequestBody =
+  PostInvoicesInvoiceFinalizeRequestBody
+    { postInvoicesInvoiceFinalizeRequestBodyAutoAdvance = GHC.Maybe.Nothing,
+      postInvoicesInvoiceFinalizeRequestBodyExpand = GHC.Maybe.Nothing
+    }
 
 -- | Represents a response of the operation 'postInvoicesInvoiceFinalize'.
 --

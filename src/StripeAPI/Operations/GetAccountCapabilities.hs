@@ -10,6 +10,7 @@ module StripeAPI.Operations.GetAccountCapabilities where
 import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -89,15 +90,13 @@ data GetAccountCapabilitiesResponse
     GetAccountCapabilitiesResponseDefault Error
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
--- | Defines the data type for the schema GetAccountCapabilitiesResponseBody200
+-- | Defines the object schema located at @paths.\/v1\/account\/capabilities.GET.responses.200.content.application\/json.schema@ in the specification.
 data GetAccountCapabilitiesResponseBody200
   = GetAccountCapabilitiesResponseBody200
       { -- | data
         getAccountCapabilitiesResponseBody200Data :: ([Capability]),
         -- | has_more: True if this list has another page of items after this one that can be fetched.
         getAccountCapabilitiesResponseBody200HasMore :: GHC.Types.Bool,
-        -- | object: String representing the object\'s type. Objects of the same type share the same value. Always has the value \`list\`.
-        getAccountCapabilitiesResponseBody200Object :: GetAccountCapabilitiesResponseBody200Object',
         -- | url: The URL where this list can be accessed.
         --
         -- Constraints:
@@ -111,29 +110,24 @@ data GetAccountCapabilitiesResponseBody200
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetAccountCapabilitiesResponseBody200 where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "data" (getAccountCapabilitiesResponseBody200Data obj) : (Data.Aeson..=) "has_more" (getAccountCapabilitiesResponseBody200HasMore obj) : (Data.Aeson..=) "object" (getAccountCapabilitiesResponseBody200Object obj) : (Data.Aeson..=) "url" (getAccountCapabilitiesResponseBody200Url obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "data" (getAccountCapabilitiesResponseBody200Data obj) GHC.Base.<> ((Data.Aeson..=) "has_more" (getAccountCapabilitiesResponseBody200HasMore obj) GHC.Base.<> ((Data.Aeson..=) "object" (getAccountCapabilitiesResponseBody200Object obj) GHC.Base.<> (Data.Aeson..=) "url" (getAccountCapabilitiesResponseBody200Url obj))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("data" Data.Aeson.Types.ToJSON..= getAccountCapabilitiesResponseBody200Data obj : "has_more" Data.Aeson.Types.ToJSON..= getAccountCapabilitiesResponseBody200HasMore obj : "url" Data.Aeson.Types.ToJSON..= getAccountCapabilitiesResponseBody200Url obj : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "list" : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("data" Data.Aeson.Types.ToJSON..= getAccountCapabilitiesResponseBody200Data obj) GHC.Base.<> (("has_more" Data.Aeson.Types.ToJSON..= getAccountCapabilitiesResponseBody200HasMore obj) GHC.Base.<> (("url" Data.Aeson.Types.ToJSON..= getAccountCapabilitiesResponseBody200Url obj) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "list"))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetAccountCapabilitiesResponseBody200 where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetAccountCapabilitiesResponseBody200" (\obj -> (((GHC.Base.pure GetAccountCapabilitiesResponseBody200 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "has_more")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "object")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "url"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetAccountCapabilitiesResponseBody200" (\obj -> ((GHC.Base.pure GetAccountCapabilitiesResponseBody200 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "has_more")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "url"))
 
--- | Defines the enum schema GetAccountCapabilitiesResponseBody200Object\'
---
--- String representing the object\'s type. Objects of the same type share the same value. Always has the value \`list\`.
-data GetAccountCapabilitiesResponseBody200Object'
-  = GetAccountCapabilitiesResponseBody200Object'EnumOther Data.Aeson.Types.Internal.Value
-  | GetAccountCapabilitiesResponseBody200Object'EnumTyped Data.Text.Internal.Text
-  | GetAccountCapabilitiesResponseBody200Object'EnumStringList
-  deriving (GHC.Show.Show, GHC.Classes.Eq)
-
-instance Data.Aeson.Types.ToJSON.ToJSON GetAccountCapabilitiesResponseBody200Object' where
-  toJSON (GetAccountCapabilitiesResponseBody200Object'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (GetAccountCapabilitiesResponseBody200Object'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (GetAccountCapabilitiesResponseBody200Object'EnumStringList) = "list"
-
-instance Data.Aeson.Types.FromJSON.FromJSON GetAccountCapabilitiesResponseBody200Object' where
-  parseJSON val =
-    GHC.Base.pure
-      ( if  | val GHC.Classes.== "list" -> GetAccountCapabilitiesResponseBody200Object'EnumStringList
-            | GHC.Base.otherwise -> GetAccountCapabilitiesResponseBody200Object'EnumOther val
-      )
+-- | Create a new 'GetAccountCapabilitiesResponseBody200' with all required fields.
+mkGetAccountCapabilitiesResponseBody200 ::
+  -- | 'getAccountCapabilitiesResponseBody200Data'
+  [Capability] ->
+  -- | 'getAccountCapabilitiesResponseBody200HasMore'
+  GHC.Types.Bool ->
+  -- | 'getAccountCapabilitiesResponseBody200Url'
+  Data.Text.Internal.Text ->
+  GetAccountCapabilitiesResponseBody200
+mkGetAccountCapabilitiesResponseBody200 getAccountCapabilitiesResponseBody200Data getAccountCapabilitiesResponseBody200HasMore getAccountCapabilitiesResponseBody200Url =
+  GetAccountCapabilitiesResponseBody200
+    { getAccountCapabilitiesResponseBody200Data = getAccountCapabilitiesResponseBody200Data,
+      getAccountCapabilitiesResponseBody200HasMore = getAccountCapabilitiesResponseBody200HasMore,
+      getAccountCapabilitiesResponseBody200Url = getAccountCapabilitiesResponseBody200Url
+    }

@@ -10,6 +10,7 @@ module StripeAPI.Operations.PostTerminalReaders where
 import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -77,7 +78,7 @@ postTerminalReaders body =
     )
     (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack "/v1/terminal/readers") [] (GHC.Maybe.Just body) StripeAPI.Common.RequestBodyEncodingFormData)
 
--- | Defines the data type for the schema postTerminalReadersRequestBody
+-- | Defines the object schema located at @paths.\/v1\/terminal\/readers.POST.requestBody.content.application\/x-www-form-urlencoded.schema@ in the specification.
 data PostTerminalReadersRequestBody
   = PostTerminalReadersRequestBody
       { -- | expand: Specifies which fields in the response should be expanded.
@@ -109,11 +110,25 @@ data PostTerminalReadersRequestBody
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostTerminalReadersRequestBody where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "expand" (postTerminalReadersRequestBodyExpand obj) : (Data.Aeson..=) "label" (postTerminalReadersRequestBodyLabel obj) : (Data.Aeson..=) "location" (postTerminalReadersRequestBodyLocation obj) : (Data.Aeson..=) "metadata" (postTerminalReadersRequestBodyMetadata obj) : (Data.Aeson..=) "registration_code" (postTerminalReadersRequestBodyRegistrationCode obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "expand" (postTerminalReadersRequestBodyExpand obj) GHC.Base.<> ((Data.Aeson..=) "label" (postTerminalReadersRequestBodyLabel obj) GHC.Base.<> ((Data.Aeson..=) "location" (postTerminalReadersRequestBodyLocation obj) GHC.Base.<> ((Data.Aeson..=) "metadata" (postTerminalReadersRequestBodyMetadata obj) GHC.Base.<> (Data.Aeson..=) "registration_code" (postTerminalReadersRequestBodyRegistrationCode obj)))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("expand" Data.Aeson.Types.ToJSON..= postTerminalReadersRequestBodyExpand obj : "label" Data.Aeson.Types.ToJSON..= postTerminalReadersRequestBodyLabel obj : "location" Data.Aeson.Types.ToJSON..= postTerminalReadersRequestBodyLocation obj : "metadata" Data.Aeson.Types.ToJSON..= postTerminalReadersRequestBodyMetadata obj : "registration_code" Data.Aeson.Types.ToJSON..= postTerminalReadersRequestBodyRegistrationCode obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("expand" Data.Aeson.Types.ToJSON..= postTerminalReadersRequestBodyExpand obj) GHC.Base.<> (("label" Data.Aeson.Types.ToJSON..= postTerminalReadersRequestBodyLabel obj) GHC.Base.<> (("location" Data.Aeson.Types.ToJSON..= postTerminalReadersRequestBodyLocation obj) GHC.Base.<> (("metadata" Data.Aeson.Types.ToJSON..= postTerminalReadersRequestBodyMetadata obj) GHC.Base.<> ("registration_code" Data.Aeson.Types.ToJSON..= postTerminalReadersRequestBodyRegistrationCode obj)))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostTerminalReadersRequestBody where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PostTerminalReadersRequestBody" (\obj -> ((((GHC.Base.pure PostTerminalReadersRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "label")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "location")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "registration_code"))
+
+-- | Create a new 'PostTerminalReadersRequestBody' with all required fields.
+mkPostTerminalReadersRequestBody ::
+  -- | 'postTerminalReadersRequestBodyRegistrationCode'
+  Data.Text.Internal.Text ->
+  PostTerminalReadersRequestBody
+mkPostTerminalReadersRequestBody postTerminalReadersRequestBodyRegistrationCode =
+  PostTerminalReadersRequestBody
+    { postTerminalReadersRequestBodyExpand = GHC.Maybe.Nothing,
+      postTerminalReadersRequestBodyLabel = GHC.Maybe.Nothing,
+      postTerminalReadersRequestBodyLocation = GHC.Maybe.Nothing,
+      postTerminalReadersRequestBodyMetadata = GHC.Maybe.Nothing,
+      postTerminalReadersRequestBodyRegistrationCode = postTerminalReadersRequestBodyRegistrationCode
+    }
 
 -- | Represents a response of the operation 'postTerminalReaders'.
 --

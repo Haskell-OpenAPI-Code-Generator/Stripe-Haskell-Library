@@ -10,6 +10,7 @@ module StripeAPI.Operations.PostCustomersCustomerTaxIds where
 import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -81,7 +82,7 @@ postCustomersCustomerTaxIds
       )
       (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack ("/v1/customers/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel customer)) GHC.Base.++ "/tax_ids"))) [] (GHC.Maybe.Just body) StripeAPI.Common.RequestBodyEncodingFormData)
 
--- | Defines the data type for the schema postCustomersCustomerTaxIdsRequestBody
+-- | Defines the object schema located at @paths.\/v1\/customers\/{customer}\/tax_ids.POST.requestBody.content.application\/x-www-form-urlencoded.schema@ in the specification.
 data PostCustomersCustomerTaxIdsRequestBody
   = PostCustomersCustomerTaxIdsRequestBody
       { -- | expand: Specifies which fields in the response should be expanded.
@@ -101,94 +102,132 @@ data PostCustomersCustomerTaxIdsRequestBody
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostCustomersCustomerTaxIdsRequestBody where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "expand" (postCustomersCustomerTaxIdsRequestBodyExpand obj) : (Data.Aeson..=) "type" (postCustomersCustomerTaxIdsRequestBodyType obj) : (Data.Aeson..=) "value" (postCustomersCustomerTaxIdsRequestBodyValue obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "expand" (postCustomersCustomerTaxIdsRequestBodyExpand obj) GHC.Base.<> ((Data.Aeson..=) "type" (postCustomersCustomerTaxIdsRequestBodyType obj) GHC.Base.<> (Data.Aeson..=) "value" (postCustomersCustomerTaxIdsRequestBodyValue obj)))
+  toJSON obj = Data.Aeson.Types.Internal.object ("expand" Data.Aeson.Types.ToJSON..= postCustomersCustomerTaxIdsRequestBodyExpand obj : "type" Data.Aeson.Types.ToJSON..= postCustomersCustomerTaxIdsRequestBodyType obj : "value" Data.Aeson.Types.ToJSON..= postCustomersCustomerTaxIdsRequestBodyValue obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("expand" Data.Aeson.Types.ToJSON..= postCustomersCustomerTaxIdsRequestBodyExpand obj) GHC.Base.<> (("type" Data.Aeson.Types.ToJSON..= postCustomersCustomerTaxIdsRequestBodyType obj) GHC.Base.<> ("value" Data.Aeson.Types.ToJSON..= postCustomersCustomerTaxIdsRequestBodyValue obj)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostCustomersCustomerTaxIdsRequestBody where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PostCustomersCustomerTaxIdsRequestBody" (\obj -> ((GHC.Base.pure PostCustomersCustomerTaxIdsRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "type")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "value"))
 
--- | Defines the enum schema postCustomersCustomerTaxIdsRequestBodyType\'
+-- | Create a new 'PostCustomersCustomerTaxIdsRequestBody' with all required fields.
+mkPostCustomersCustomerTaxIdsRequestBody ::
+  -- | 'postCustomersCustomerTaxIdsRequestBodyType'
+  PostCustomersCustomerTaxIdsRequestBodyType' ->
+  -- | 'postCustomersCustomerTaxIdsRequestBodyValue'
+  Data.Text.Internal.Text ->
+  PostCustomersCustomerTaxIdsRequestBody
+mkPostCustomersCustomerTaxIdsRequestBody postCustomersCustomerTaxIdsRequestBodyType postCustomersCustomerTaxIdsRequestBodyValue =
+  PostCustomersCustomerTaxIdsRequestBody
+    { postCustomersCustomerTaxIdsRequestBodyExpand = GHC.Maybe.Nothing,
+      postCustomersCustomerTaxIdsRequestBodyType = postCustomersCustomerTaxIdsRequestBodyType,
+      postCustomersCustomerTaxIdsRequestBodyValue = postCustomersCustomerTaxIdsRequestBodyValue
+    }
+
+-- | Defines the enum schema located at @paths.\/v1\/customers\/{customer}\/tax_ids.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.type@ in the specification.
 --
 -- Type of the tax ID, one of \`eu_vat\`, \`nz_gst\`, \`au_abn\`, \`in_gst\`, \`no_vat\`, \`za_vat\`, \`ch_vat\`, \`mx_rfc\`, \`sg_uen\`, \`ru_inn\`, \`ca_bn\`, \`hk_br\`, \`es_cif\`, \`tw_vat\`, \`th_vat\`, \`jp_cn\`, \`li_uid\`, \`my_itn\`, \`us_ein\`, \`kr_brn\`, \`ca_qst\`, or \`my_sst\`
 data PostCustomersCustomerTaxIdsRequestBodyType'
-  = PostCustomersCustomerTaxIdsRequestBodyType'EnumOther Data.Aeson.Types.Internal.Value
-  | PostCustomersCustomerTaxIdsRequestBodyType'EnumTyped Data.Text.Internal.Text
-  | PostCustomersCustomerTaxIdsRequestBodyType'EnumStringAuAbn
-  | PostCustomersCustomerTaxIdsRequestBodyType'EnumStringCaBn
-  | PostCustomersCustomerTaxIdsRequestBodyType'EnumStringCaQst
-  | PostCustomersCustomerTaxIdsRequestBodyType'EnumStringChVat
-  | PostCustomersCustomerTaxIdsRequestBodyType'EnumStringEsCif
-  | PostCustomersCustomerTaxIdsRequestBodyType'EnumStringEuVat
-  | PostCustomersCustomerTaxIdsRequestBodyType'EnumStringHkBr
-  | PostCustomersCustomerTaxIdsRequestBodyType'EnumStringInGst
-  | PostCustomersCustomerTaxIdsRequestBodyType'EnumStringJpCn
-  | PostCustomersCustomerTaxIdsRequestBodyType'EnumStringKrBrn
-  | PostCustomersCustomerTaxIdsRequestBodyType'EnumStringLiUid
-  | PostCustomersCustomerTaxIdsRequestBodyType'EnumStringMxRfc
-  | PostCustomersCustomerTaxIdsRequestBodyType'EnumStringMyItn
-  | PostCustomersCustomerTaxIdsRequestBodyType'EnumStringMySst
-  | PostCustomersCustomerTaxIdsRequestBodyType'EnumStringNoVat
-  | PostCustomersCustomerTaxIdsRequestBodyType'EnumStringNzGst
-  | PostCustomersCustomerTaxIdsRequestBodyType'EnumStringRuInn
-  | PostCustomersCustomerTaxIdsRequestBodyType'EnumStringSgUen
-  | PostCustomersCustomerTaxIdsRequestBodyType'EnumStringThVat
-  | PostCustomersCustomerTaxIdsRequestBodyType'EnumStringTwVat
-  | PostCustomersCustomerTaxIdsRequestBodyType'EnumStringUsEin
-  | PostCustomersCustomerTaxIdsRequestBodyType'EnumStringZaVat
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    PostCustomersCustomerTaxIdsRequestBodyType'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    PostCustomersCustomerTaxIdsRequestBodyType'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"au_abn"@
+    PostCustomersCustomerTaxIdsRequestBodyType'EnumAuAbn
+  | -- | Represents the JSON value @"ca_bn"@
+    PostCustomersCustomerTaxIdsRequestBodyType'EnumCaBn
+  | -- | Represents the JSON value @"ca_qst"@
+    PostCustomersCustomerTaxIdsRequestBodyType'EnumCaQst
+  | -- | Represents the JSON value @"ch_vat"@
+    PostCustomersCustomerTaxIdsRequestBodyType'EnumChVat
+  | -- | Represents the JSON value @"es_cif"@
+    PostCustomersCustomerTaxIdsRequestBodyType'EnumEsCif
+  | -- | Represents the JSON value @"eu_vat"@
+    PostCustomersCustomerTaxIdsRequestBodyType'EnumEuVat
+  | -- | Represents the JSON value @"hk_br"@
+    PostCustomersCustomerTaxIdsRequestBodyType'EnumHkBr
+  | -- | Represents the JSON value @"in_gst"@
+    PostCustomersCustomerTaxIdsRequestBodyType'EnumInGst
+  | -- | Represents the JSON value @"jp_cn"@
+    PostCustomersCustomerTaxIdsRequestBodyType'EnumJpCn
+  | -- | Represents the JSON value @"kr_brn"@
+    PostCustomersCustomerTaxIdsRequestBodyType'EnumKrBrn
+  | -- | Represents the JSON value @"li_uid"@
+    PostCustomersCustomerTaxIdsRequestBodyType'EnumLiUid
+  | -- | Represents the JSON value @"mx_rfc"@
+    PostCustomersCustomerTaxIdsRequestBodyType'EnumMxRfc
+  | -- | Represents the JSON value @"my_itn"@
+    PostCustomersCustomerTaxIdsRequestBodyType'EnumMyItn
+  | -- | Represents the JSON value @"my_sst"@
+    PostCustomersCustomerTaxIdsRequestBodyType'EnumMySst
+  | -- | Represents the JSON value @"no_vat"@
+    PostCustomersCustomerTaxIdsRequestBodyType'EnumNoVat
+  | -- | Represents the JSON value @"nz_gst"@
+    PostCustomersCustomerTaxIdsRequestBodyType'EnumNzGst
+  | -- | Represents the JSON value @"ru_inn"@
+    PostCustomersCustomerTaxIdsRequestBodyType'EnumRuInn
+  | -- | Represents the JSON value @"sg_uen"@
+    PostCustomersCustomerTaxIdsRequestBodyType'EnumSgUen
+  | -- | Represents the JSON value @"th_vat"@
+    PostCustomersCustomerTaxIdsRequestBodyType'EnumThVat
+  | -- | Represents the JSON value @"tw_vat"@
+    PostCustomersCustomerTaxIdsRequestBodyType'EnumTwVat
+  | -- | Represents the JSON value @"us_ein"@
+    PostCustomersCustomerTaxIdsRequestBodyType'EnumUsEin
+  | -- | Represents the JSON value @"za_vat"@
+    PostCustomersCustomerTaxIdsRequestBodyType'EnumZaVat
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostCustomersCustomerTaxIdsRequestBodyType' where
-  toJSON (PostCustomersCustomerTaxIdsRequestBodyType'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostCustomersCustomerTaxIdsRequestBodyType'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostCustomersCustomerTaxIdsRequestBodyType'EnumStringAuAbn) = "au_abn"
-  toJSON (PostCustomersCustomerTaxIdsRequestBodyType'EnumStringCaBn) = "ca_bn"
-  toJSON (PostCustomersCustomerTaxIdsRequestBodyType'EnumStringCaQst) = "ca_qst"
-  toJSON (PostCustomersCustomerTaxIdsRequestBodyType'EnumStringChVat) = "ch_vat"
-  toJSON (PostCustomersCustomerTaxIdsRequestBodyType'EnumStringEsCif) = "es_cif"
-  toJSON (PostCustomersCustomerTaxIdsRequestBodyType'EnumStringEuVat) = "eu_vat"
-  toJSON (PostCustomersCustomerTaxIdsRequestBodyType'EnumStringHkBr) = "hk_br"
-  toJSON (PostCustomersCustomerTaxIdsRequestBodyType'EnumStringInGst) = "in_gst"
-  toJSON (PostCustomersCustomerTaxIdsRequestBodyType'EnumStringJpCn) = "jp_cn"
-  toJSON (PostCustomersCustomerTaxIdsRequestBodyType'EnumStringKrBrn) = "kr_brn"
-  toJSON (PostCustomersCustomerTaxIdsRequestBodyType'EnumStringLiUid) = "li_uid"
-  toJSON (PostCustomersCustomerTaxIdsRequestBodyType'EnumStringMxRfc) = "mx_rfc"
-  toJSON (PostCustomersCustomerTaxIdsRequestBodyType'EnumStringMyItn) = "my_itn"
-  toJSON (PostCustomersCustomerTaxIdsRequestBodyType'EnumStringMySst) = "my_sst"
-  toJSON (PostCustomersCustomerTaxIdsRequestBodyType'EnumStringNoVat) = "no_vat"
-  toJSON (PostCustomersCustomerTaxIdsRequestBodyType'EnumStringNzGst) = "nz_gst"
-  toJSON (PostCustomersCustomerTaxIdsRequestBodyType'EnumStringRuInn) = "ru_inn"
-  toJSON (PostCustomersCustomerTaxIdsRequestBodyType'EnumStringSgUen) = "sg_uen"
-  toJSON (PostCustomersCustomerTaxIdsRequestBodyType'EnumStringThVat) = "th_vat"
-  toJSON (PostCustomersCustomerTaxIdsRequestBodyType'EnumStringTwVat) = "tw_vat"
-  toJSON (PostCustomersCustomerTaxIdsRequestBodyType'EnumStringUsEin) = "us_ein"
-  toJSON (PostCustomersCustomerTaxIdsRequestBodyType'EnumStringZaVat) = "za_vat"
+  toJSON (PostCustomersCustomerTaxIdsRequestBodyType'Other val) = val
+  toJSON (PostCustomersCustomerTaxIdsRequestBodyType'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PostCustomersCustomerTaxIdsRequestBodyType'EnumAuAbn) = "au_abn"
+  toJSON (PostCustomersCustomerTaxIdsRequestBodyType'EnumCaBn) = "ca_bn"
+  toJSON (PostCustomersCustomerTaxIdsRequestBodyType'EnumCaQst) = "ca_qst"
+  toJSON (PostCustomersCustomerTaxIdsRequestBodyType'EnumChVat) = "ch_vat"
+  toJSON (PostCustomersCustomerTaxIdsRequestBodyType'EnumEsCif) = "es_cif"
+  toJSON (PostCustomersCustomerTaxIdsRequestBodyType'EnumEuVat) = "eu_vat"
+  toJSON (PostCustomersCustomerTaxIdsRequestBodyType'EnumHkBr) = "hk_br"
+  toJSON (PostCustomersCustomerTaxIdsRequestBodyType'EnumInGst) = "in_gst"
+  toJSON (PostCustomersCustomerTaxIdsRequestBodyType'EnumJpCn) = "jp_cn"
+  toJSON (PostCustomersCustomerTaxIdsRequestBodyType'EnumKrBrn) = "kr_brn"
+  toJSON (PostCustomersCustomerTaxIdsRequestBodyType'EnumLiUid) = "li_uid"
+  toJSON (PostCustomersCustomerTaxIdsRequestBodyType'EnumMxRfc) = "mx_rfc"
+  toJSON (PostCustomersCustomerTaxIdsRequestBodyType'EnumMyItn) = "my_itn"
+  toJSON (PostCustomersCustomerTaxIdsRequestBodyType'EnumMySst) = "my_sst"
+  toJSON (PostCustomersCustomerTaxIdsRequestBodyType'EnumNoVat) = "no_vat"
+  toJSON (PostCustomersCustomerTaxIdsRequestBodyType'EnumNzGst) = "nz_gst"
+  toJSON (PostCustomersCustomerTaxIdsRequestBodyType'EnumRuInn) = "ru_inn"
+  toJSON (PostCustomersCustomerTaxIdsRequestBodyType'EnumSgUen) = "sg_uen"
+  toJSON (PostCustomersCustomerTaxIdsRequestBodyType'EnumThVat) = "th_vat"
+  toJSON (PostCustomersCustomerTaxIdsRequestBodyType'EnumTwVat) = "tw_vat"
+  toJSON (PostCustomersCustomerTaxIdsRequestBodyType'EnumUsEin) = "us_ein"
+  toJSON (PostCustomersCustomerTaxIdsRequestBodyType'EnumZaVat) = "za_vat"
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostCustomersCustomerTaxIdsRequestBodyType' where
   parseJSON val =
     GHC.Base.pure
-      ( if  | val GHC.Classes.== "au_abn" -> PostCustomersCustomerTaxIdsRequestBodyType'EnumStringAuAbn
-            | val GHC.Classes.== "ca_bn" -> PostCustomersCustomerTaxIdsRequestBodyType'EnumStringCaBn
-            | val GHC.Classes.== "ca_qst" -> PostCustomersCustomerTaxIdsRequestBodyType'EnumStringCaQst
-            | val GHC.Classes.== "ch_vat" -> PostCustomersCustomerTaxIdsRequestBodyType'EnumStringChVat
-            | val GHC.Classes.== "es_cif" -> PostCustomersCustomerTaxIdsRequestBodyType'EnumStringEsCif
-            | val GHC.Classes.== "eu_vat" -> PostCustomersCustomerTaxIdsRequestBodyType'EnumStringEuVat
-            | val GHC.Classes.== "hk_br" -> PostCustomersCustomerTaxIdsRequestBodyType'EnumStringHkBr
-            | val GHC.Classes.== "in_gst" -> PostCustomersCustomerTaxIdsRequestBodyType'EnumStringInGst
-            | val GHC.Classes.== "jp_cn" -> PostCustomersCustomerTaxIdsRequestBodyType'EnumStringJpCn
-            | val GHC.Classes.== "kr_brn" -> PostCustomersCustomerTaxIdsRequestBodyType'EnumStringKrBrn
-            | val GHC.Classes.== "li_uid" -> PostCustomersCustomerTaxIdsRequestBodyType'EnumStringLiUid
-            | val GHC.Classes.== "mx_rfc" -> PostCustomersCustomerTaxIdsRequestBodyType'EnumStringMxRfc
-            | val GHC.Classes.== "my_itn" -> PostCustomersCustomerTaxIdsRequestBodyType'EnumStringMyItn
-            | val GHC.Classes.== "my_sst" -> PostCustomersCustomerTaxIdsRequestBodyType'EnumStringMySst
-            | val GHC.Classes.== "no_vat" -> PostCustomersCustomerTaxIdsRequestBodyType'EnumStringNoVat
-            | val GHC.Classes.== "nz_gst" -> PostCustomersCustomerTaxIdsRequestBodyType'EnumStringNzGst
-            | val GHC.Classes.== "ru_inn" -> PostCustomersCustomerTaxIdsRequestBodyType'EnumStringRuInn
-            | val GHC.Classes.== "sg_uen" -> PostCustomersCustomerTaxIdsRequestBodyType'EnumStringSgUen
-            | val GHC.Classes.== "th_vat" -> PostCustomersCustomerTaxIdsRequestBodyType'EnumStringThVat
-            | val GHC.Classes.== "tw_vat" -> PostCustomersCustomerTaxIdsRequestBodyType'EnumStringTwVat
-            | val GHC.Classes.== "us_ein" -> PostCustomersCustomerTaxIdsRequestBodyType'EnumStringUsEin
-            | val GHC.Classes.== "za_vat" -> PostCustomersCustomerTaxIdsRequestBodyType'EnumStringZaVat
-            | GHC.Base.otherwise -> PostCustomersCustomerTaxIdsRequestBodyType'EnumOther val
+      ( if  | val GHC.Classes.== "au_abn" -> PostCustomersCustomerTaxIdsRequestBodyType'EnumAuAbn
+            | val GHC.Classes.== "ca_bn" -> PostCustomersCustomerTaxIdsRequestBodyType'EnumCaBn
+            | val GHC.Classes.== "ca_qst" -> PostCustomersCustomerTaxIdsRequestBodyType'EnumCaQst
+            | val GHC.Classes.== "ch_vat" -> PostCustomersCustomerTaxIdsRequestBodyType'EnumChVat
+            | val GHC.Classes.== "es_cif" -> PostCustomersCustomerTaxIdsRequestBodyType'EnumEsCif
+            | val GHC.Classes.== "eu_vat" -> PostCustomersCustomerTaxIdsRequestBodyType'EnumEuVat
+            | val GHC.Classes.== "hk_br" -> PostCustomersCustomerTaxIdsRequestBodyType'EnumHkBr
+            | val GHC.Classes.== "in_gst" -> PostCustomersCustomerTaxIdsRequestBodyType'EnumInGst
+            | val GHC.Classes.== "jp_cn" -> PostCustomersCustomerTaxIdsRequestBodyType'EnumJpCn
+            | val GHC.Classes.== "kr_brn" -> PostCustomersCustomerTaxIdsRequestBodyType'EnumKrBrn
+            | val GHC.Classes.== "li_uid" -> PostCustomersCustomerTaxIdsRequestBodyType'EnumLiUid
+            | val GHC.Classes.== "mx_rfc" -> PostCustomersCustomerTaxIdsRequestBodyType'EnumMxRfc
+            | val GHC.Classes.== "my_itn" -> PostCustomersCustomerTaxIdsRequestBodyType'EnumMyItn
+            | val GHC.Classes.== "my_sst" -> PostCustomersCustomerTaxIdsRequestBodyType'EnumMySst
+            | val GHC.Classes.== "no_vat" -> PostCustomersCustomerTaxIdsRequestBodyType'EnumNoVat
+            | val GHC.Classes.== "nz_gst" -> PostCustomersCustomerTaxIdsRequestBodyType'EnumNzGst
+            | val GHC.Classes.== "ru_inn" -> PostCustomersCustomerTaxIdsRequestBodyType'EnumRuInn
+            | val GHC.Classes.== "sg_uen" -> PostCustomersCustomerTaxIdsRequestBodyType'EnumSgUen
+            | val GHC.Classes.== "th_vat" -> PostCustomersCustomerTaxIdsRequestBodyType'EnumThVat
+            | val GHC.Classes.== "tw_vat" -> PostCustomersCustomerTaxIdsRequestBodyType'EnumTwVat
+            | val GHC.Classes.== "us_ein" -> PostCustomersCustomerTaxIdsRequestBodyType'EnumUsEin
+            | val GHC.Classes.== "za_vat" -> PostCustomersCustomerTaxIdsRequestBodyType'EnumZaVat
+            | GHC.Base.otherwise -> PostCustomersCustomerTaxIdsRequestBodyType'Other val
       )
 
 -- | Represents a response of the operation 'postCustomersCustomerTaxIds'.

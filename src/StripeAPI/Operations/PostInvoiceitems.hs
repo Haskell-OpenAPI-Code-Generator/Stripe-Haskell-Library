@@ -10,6 +10,7 @@ module StripeAPI.Operations.PostInvoiceitems where
 import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -77,7 +78,7 @@ postInvoiceitems body =
     )
     (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack "/v1/invoiceitems") [] (GHC.Maybe.Just body) StripeAPI.Common.RequestBodyEncodingFormData)
 
--- | Defines the data type for the schema postInvoiceitemsRequestBody
+-- | Defines the object schema located at @paths.\/v1\/invoiceitems.POST.requestBody.content.application\/x-www-form-urlencoded.schema@ in the specification.
 data PostInvoiceitemsRequestBody
   = PostInvoiceitemsRequestBody
       { -- | amount: The integer amount in **%s** of the charge to be applied to the upcoming invoice. Passing in a negative \`amount\` will reduce the \`amount_due\` on the invoice.
@@ -131,13 +132,36 @@ data PostInvoiceitemsRequestBody
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostInvoiceitemsRequestBody where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "amount" (postInvoiceitemsRequestBodyAmount obj) : (Data.Aeson..=) "currency" (postInvoiceitemsRequestBodyCurrency obj) : (Data.Aeson..=) "customer" (postInvoiceitemsRequestBodyCustomer obj) : (Data.Aeson..=) "description" (postInvoiceitemsRequestBodyDescription obj) : (Data.Aeson..=) "discountable" (postInvoiceitemsRequestBodyDiscountable obj) : (Data.Aeson..=) "expand" (postInvoiceitemsRequestBodyExpand obj) : (Data.Aeson..=) "invoice" (postInvoiceitemsRequestBodyInvoice obj) : (Data.Aeson..=) "metadata" (postInvoiceitemsRequestBodyMetadata obj) : (Data.Aeson..=) "period" (postInvoiceitemsRequestBodyPeriod obj) : (Data.Aeson..=) "quantity" (postInvoiceitemsRequestBodyQuantity obj) : (Data.Aeson..=) "subscription" (postInvoiceitemsRequestBodySubscription obj) : (Data.Aeson..=) "tax_rates" (postInvoiceitemsRequestBodyTaxRates obj) : (Data.Aeson..=) "unit_amount" (postInvoiceitemsRequestBodyUnitAmount obj) : (Data.Aeson..=) "unit_amount_decimal" (postInvoiceitemsRequestBodyUnitAmountDecimal obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "amount" (postInvoiceitemsRequestBodyAmount obj) GHC.Base.<> ((Data.Aeson..=) "currency" (postInvoiceitemsRequestBodyCurrency obj) GHC.Base.<> ((Data.Aeson..=) "customer" (postInvoiceitemsRequestBodyCustomer obj) GHC.Base.<> ((Data.Aeson..=) "description" (postInvoiceitemsRequestBodyDescription obj) GHC.Base.<> ((Data.Aeson..=) "discountable" (postInvoiceitemsRequestBodyDiscountable obj) GHC.Base.<> ((Data.Aeson..=) "expand" (postInvoiceitemsRequestBodyExpand obj) GHC.Base.<> ((Data.Aeson..=) "invoice" (postInvoiceitemsRequestBodyInvoice obj) GHC.Base.<> ((Data.Aeson..=) "metadata" (postInvoiceitemsRequestBodyMetadata obj) GHC.Base.<> ((Data.Aeson..=) "period" (postInvoiceitemsRequestBodyPeriod obj) GHC.Base.<> ((Data.Aeson..=) "quantity" (postInvoiceitemsRequestBodyQuantity obj) GHC.Base.<> ((Data.Aeson..=) "subscription" (postInvoiceitemsRequestBodySubscription obj) GHC.Base.<> ((Data.Aeson..=) "tax_rates" (postInvoiceitemsRequestBodyTaxRates obj) GHC.Base.<> ((Data.Aeson..=) "unit_amount" (postInvoiceitemsRequestBodyUnitAmount obj) GHC.Base.<> (Data.Aeson..=) "unit_amount_decimal" (postInvoiceitemsRequestBodyUnitAmountDecimal obj))))))))))))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("amount" Data.Aeson.Types.ToJSON..= postInvoiceitemsRequestBodyAmount obj : "currency" Data.Aeson.Types.ToJSON..= postInvoiceitemsRequestBodyCurrency obj : "customer" Data.Aeson.Types.ToJSON..= postInvoiceitemsRequestBodyCustomer obj : "description" Data.Aeson.Types.ToJSON..= postInvoiceitemsRequestBodyDescription obj : "discountable" Data.Aeson.Types.ToJSON..= postInvoiceitemsRequestBodyDiscountable obj : "expand" Data.Aeson.Types.ToJSON..= postInvoiceitemsRequestBodyExpand obj : "invoice" Data.Aeson.Types.ToJSON..= postInvoiceitemsRequestBodyInvoice obj : "metadata" Data.Aeson.Types.ToJSON..= postInvoiceitemsRequestBodyMetadata obj : "period" Data.Aeson.Types.ToJSON..= postInvoiceitemsRequestBodyPeriod obj : "quantity" Data.Aeson.Types.ToJSON..= postInvoiceitemsRequestBodyQuantity obj : "subscription" Data.Aeson.Types.ToJSON..= postInvoiceitemsRequestBodySubscription obj : "tax_rates" Data.Aeson.Types.ToJSON..= postInvoiceitemsRequestBodyTaxRates obj : "unit_amount" Data.Aeson.Types.ToJSON..= postInvoiceitemsRequestBodyUnitAmount obj : "unit_amount_decimal" Data.Aeson.Types.ToJSON..= postInvoiceitemsRequestBodyUnitAmountDecimal obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("amount" Data.Aeson.Types.ToJSON..= postInvoiceitemsRequestBodyAmount obj) GHC.Base.<> (("currency" Data.Aeson.Types.ToJSON..= postInvoiceitemsRequestBodyCurrency obj) GHC.Base.<> (("customer" Data.Aeson.Types.ToJSON..= postInvoiceitemsRequestBodyCustomer obj) GHC.Base.<> (("description" Data.Aeson.Types.ToJSON..= postInvoiceitemsRequestBodyDescription obj) GHC.Base.<> (("discountable" Data.Aeson.Types.ToJSON..= postInvoiceitemsRequestBodyDiscountable obj) GHC.Base.<> (("expand" Data.Aeson.Types.ToJSON..= postInvoiceitemsRequestBodyExpand obj) GHC.Base.<> (("invoice" Data.Aeson.Types.ToJSON..= postInvoiceitemsRequestBodyInvoice obj) GHC.Base.<> (("metadata" Data.Aeson.Types.ToJSON..= postInvoiceitemsRequestBodyMetadata obj) GHC.Base.<> (("period" Data.Aeson.Types.ToJSON..= postInvoiceitemsRequestBodyPeriod obj) GHC.Base.<> (("quantity" Data.Aeson.Types.ToJSON..= postInvoiceitemsRequestBodyQuantity obj) GHC.Base.<> (("subscription" Data.Aeson.Types.ToJSON..= postInvoiceitemsRequestBodySubscription obj) GHC.Base.<> (("tax_rates" Data.Aeson.Types.ToJSON..= postInvoiceitemsRequestBodyTaxRates obj) GHC.Base.<> (("unit_amount" Data.Aeson.Types.ToJSON..= postInvoiceitemsRequestBodyUnitAmount obj) GHC.Base.<> ("unit_amount_decimal" Data.Aeson.Types.ToJSON..= postInvoiceitemsRequestBodyUnitAmountDecimal obj))))))))))))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostInvoiceitemsRequestBody where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PostInvoiceitemsRequestBody" (\obj -> (((((((((((((GHC.Base.pure PostInvoiceitemsRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "customer")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "description")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "discountable")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "invoice")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "period")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "quantity")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "subscription")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "tax_rates")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "unit_amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "unit_amount_decimal"))
 
--- | Defines the data type for the schema postInvoiceitemsRequestBodyPeriod\'
+-- | Create a new 'PostInvoiceitemsRequestBody' with all required fields.
+mkPostInvoiceitemsRequestBody ::
+  -- | 'postInvoiceitemsRequestBodyCustomer'
+  Data.Text.Internal.Text ->
+  PostInvoiceitemsRequestBody
+mkPostInvoiceitemsRequestBody postInvoiceitemsRequestBodyCustomer =
+  PostInvoiceitemsRequestBody
+    { postInvoiceitemsRequestBodyAmount = GHC.Maybe.Nothing,
+      postInvoiceitemsRequestBodyCurrency = GHC.Maybe.Nothing,
+      postInvoiceitemsRequestBodyCustomer = postInvoiceitemsRequestBodyCustomer,
+      postInvoiceitemsRequestBodyDescription = GHC.Maybe.Nothing,
+      postInvoiceitemsRequestBodyDiscountable = GHC.Maybe.Nothing,
+      postInvoiceitemsRequestBodyExpand = GHC.Maybe.Nothing,
+      postInvoiceitemsRequestBodyInvoice = GHC.Maybe.Nothing,
+      postInvoiceitemsRequestBodyMetadata = GHC.Maybe.Nothing,
+      postInvoiceitemsRequestBodyPeriod = GHC.Maybe.Nothing,
+      postInvoiceitemsRequestBodyQuantity = GHC.Maybe.Nothing,
+      postInvoiceitemsRequestBodySubscription = GHC.Maybe.Nothing,
+      postInvoiceitemsRequestBodyTaxRates = GHC.Maybe.Nothing,
+      postInvoiceitemsRequestBodyUnitAmount = GHC.Maybe.Nothing,
+      postInvoiceitemsRequestBodyUnitAmountDecimal = GHC.Maybe.Nothing
+    }
+
+-- | Defines the object schema located at @paths.\/v1\/invoiceitems.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.period@ in the specification.
 --
 -- The period associated with this invoice item.
 data PostInvoiceitemsRequestBodyPeriod'
@@ -153,11 +177,24 @@ data PostInvoiceitemsRequestBodyPeriod'
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostInvoiceitemsRequestBodyPeriod' where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "end" (postInvoiceitemsRequestBodyPeriod'End obj) : (Data.Aeson..=) "start" (postInvoiceitemsRequestBodyPeriod'Start obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "end" (postInvoiceitemsRequestBodyPeriod'End obj) GHC.Base.<> (Data.Aeson..=) "start" (postInvoiceitemsRequestBodyPeriod'Start obj))
+  toJSON obj = Data.Aeson.Types.Internal.object ("end" Data.Aeson.Types.ToJSON..= postInvoiceitemsRequestBodyPeriod'End obj : "start" Data.Aeson.Types.ToJSON..= postInvoiceitemsRequestBodyPeriod'Start obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("end" Data.Aeson.Types.ToJSON..= postInvoiceitemsRequestBodyPeriod'End obj) GHC.Base.<> ("start" Data.Aeson.Types.ToJSON..= postInvoiceitemsRequestBodyPeriod'Start obj))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostInvoiceitemsRequestBodyPeriod' where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PostInvoiceitemsRequestBodyPeriod'" (\obj -> (GHC.Base.pure PostInvoiceitemsRequestBodyPeriod' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "end")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "start"))
+
+-- | Create a new 'PostInvoiceitemsRequestBodyPeriod'' with all required fields.
+mkPostInvoiceitemsRequestBodyPeriod' ::
+  -- | 'postInvoiceitemsRequestBodyPeriod'End'
+  GHC.Types.Int ->
+  -- | 'postInvoiceitemsRequestBodyPeriod'Start'
+  GHC.Types.Int ->
+  PostInvoiceitemsRequestBodyPeriod'
+mkPostInvoiceitemsRequestBodyPeriod' postInvoiceitemsRequestBodyPeriod'End postInvoiceitemsRequestBodyPeriod'Start =
+  PostInvoiceitemsRequestBodyPeriod'
+    { postInvoiceitemsRequestBodyPeriod'End = postInvoiceitemsRequestBodyPeriod'End,
+      postInvoiceitemsRequestBodyPeriod'Start = postInvoiceitemsRequestBodyPeriod'Start
+    }
 
 -- | Represents a response of the operation 'postInvoiceitems'.
 --

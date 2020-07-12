@@ -1,11 +1,11 @@
 module StripeAPI.Types.ExternalAccount where
 import Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Types.Internal
-data ExternalAccount 
-instance Show ExternalAccount 
-instance Eq ExternalAccount 
-instance FromJSON ExternalAccount 
-instance ToJSON ExternalAccount 
+data ExternalAccount
+instance Show ExternalAccount
+instance Eq ExternalAccount
+instance FromJSON ExternalAccount
+instance ToJSON ExternalAccount
 data ExternalAccountAccount'Variants
 instance Show ExternalAccountAccount'Variants
 instance Eq ExternalAccountAccount'Variants
@@ -21,11 +21,6 @@ instance Show ExternalAccountCustomer'Variants
 instance Eq ExternalAccountCustomer'Variants
 instance FromJSON ExternalAccountCustomer'Variants
 instance ToJSON ExternalAccountCustomer'Variants
-data ExternalAccountObject'
-instance Show ExternalAccountObject'
-instance Eq ExternalAccountObject'
-instance FromJSON ExternalAccountObject'
-instance ToJSON ExternalAccountObject'
 data ExternalAccountRecipient'Variants
 instance Show ExternalAccountRecipient'Variants
 instance Eq ExternalAccountRecipient'Variants

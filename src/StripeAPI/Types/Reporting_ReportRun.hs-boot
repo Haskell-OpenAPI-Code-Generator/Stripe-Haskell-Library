@@ -1,33 +1,18 @@
 module StripeAPI.Types.Reporting_ReportRun where
 import Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Types.Internal
-data Reporting'reportRun 
-instance Show Reporting'reportRun 
-instance Eq Reporting'reportRun 
-instance FromJSON Reporting'reportRun 
-instance ToJSON Reporting'reportRun 
-data Reporting'reportRunObject'
-instance Show Reporting'reportRunObject'
-instance Eq Reporting'reportRunObject'
-instance FromJSON Reporting'reportRunObject'
-instance ToJSON Reporting'reportRunObject'
-data Reporting'reportRunResult' 
-instance Show Reporting'reportRunResult' 
-instance Eq Reporting'reportRunResult' 
-instance FromJSON Reporting'reportRunResult' 
-instance ToJSON Reporting'reportRunResult' 
-data Reporting'reportRunResult'Links' 
-instance Show Reporting'reportRunResult'Links' 
-instance Eq Reporting'reportRunResult'Links' 
-instance FromJSON Reporting'reportRunResult'Links' 
-instance ToJSON Reporting'reportRunResult'Links' 
-data Reporting'reportRunResult'Links'Object'
-instance Show Reporting'reportRunResult'Links'Object'
-instance Eq Reporting'reportRunResult'Links'Object'
-instance FromJSON Reporting'reportRunResult'Links'Object'
-instance ToJSON Reporting'reportRunResult'Links'Object'
-data Reporting'reportRunResult'Object'
-instance Show Reporting'reportRunResult'Object'
-instance Eq Reporting'reportRunResult'Object'
-instance FromJSON Reporting'reportRunResult'Object'
-instance ToJSON Reporting'reportRunResult'Object'
+data Reporting'reportRun
+instance Show Reporting'reportRun
+instance Eq Reporting'reportRun
+instance FromJSON Reporting'reportRun
+instance ToJSON Reporting'reportRun
+data Reporting'reportRunResult'
+instance Show Reporting'reportRunResult'
+instance Eq Reporting'reportRunResult'
+instance FromJSON Reporting'reportRunResult'
+instance ToJSON Reporting'reportRunResult'
+data Reporting'reportRunResult'Links'
+instance Show Reporting'reportRunResult'Links'
+instance Eq Reporting'reportRunResult'Links'
+instance FromJSON Reporting'reportRunResult'Links'
+instance ToJSON Reporting'reportRunResult'Links'

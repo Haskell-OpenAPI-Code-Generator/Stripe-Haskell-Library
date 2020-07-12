@@ -8,6 +8,7 @@ module StripeAPI.Types.Terminal_Location where
 
 import qualified Control.Monad.Fail
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -31,7 +32,7 @@ import {-# SOURCE #-} StripeAPI.Types.Address
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
--- | Defines the data type for the schema terminal.location
+-- | Defines the object schema located at @components.schemas.terminal.location@ in the specification.
 --
 -- A Location represents a grouping of readers.
 --
@@ -55,9 +56,7 @@ data Terminal'location
         -- | livemode: Has the value \`true\` if the object exists in live mode or the value \`false\` if the object exists in test mode.
         terminal'locationLivemode :: GHC.Types.Bool,
         -- | metadata: Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
-        terminal'locationMetadata :: Data.Aeson.Types.Internal.Object,
-        -- | object: String representing the object\'s type. Objects of the same type share the same value.
-        terminal'locationObject :: Terminal'locationObject'
+        terminal'locationMetadata :: Data.Aeson.Types.Internal.Object
       }
   deriving
     ( GHC.Show.Show,
@@ -65,29 +64,30 @@ data Terminal'location
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON Terminal'location where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "address" (terminal'locationAddress obj) : (Data.Aeson..=) "display_name" (terminal'locationDisplayName obj) : (Data.Aeson..=) "id" (terminal'locationId obj) : (Data.Aeson..=) "livemode" (terminal'locationLivemode obj) : (Data.Aeson..=) "metadata" (terminal'locationMetadata obj) : (Data.Aeson..=) "object" (terminal'locationObject obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "address" (terminal'locationAddress obj) GHC.Base.<> ((Data.Aeson..=) "display_name" (terminal'locationDisplayName obj) GHC.Base.<> ((Data.Aeson..=) "id" (terminal'locationId obj) GHC.Base.<> ((Data.Aeson..=) "livemode" (terminal'locationLivemode obj) GHC.Base.<> ((Data.Aeson..=) "metadata" (terminal'locationMetadata obj) GHC.Base.<> (Data.Aeson..=) "object" (terminal'locationObject obj))))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("address" Data.Aeson.Types.ToJSON..= terminal'locationAddress obj : "display_name" Data.Aeson.Types.ToJSON..= terminal'locationDisplayName obj : "id" Data.Aeson.Types.ToJSON..= terminal'locationId obj : "livemode" Data.Aeson.Types.ToJSON..= terminal'locationLivemode obj : "metadata" Data.Aeson.Types.ToJSON..= terminal'locationMetadata obj : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "terminal.location" : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("address" Data.Aeson.Types.ToJSON..= terminal'locationAddress obj) GHC.Base.<> (("display_name" Data.Aeson.Types.ToJSON..= terminal'locationDisplayName obj) GHC.Base.<> (("id" Data.Aeson.Types.ToJSON..= terminal'locationId obj) GHC.Base.<> (("livemode" Data.Aeson.Types.ToJSON..= terminal'locationLivemode obj) GHC.Base.<> (("metadata" Data.Aeson.Types.ToJSON..= terminal'locationMetadata obj) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "terminal.location"))))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON Terminal'location where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "Terminal'location" (\obj -> (((((GHC.Base.pure Terminal'location GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "address")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "display_name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "livemode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "object"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "Terminal'location" (\obj -> ((((GHC.Base.pure Terminal'location GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "address")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "display_name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "livemode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "metadata"))
 
--- | Defines the enum schema terminal.locationObject\'
---
--- String representing the object\'s type. Objects of the same type share the same value.
-data Terminal'locationObject'
-  = Terminal'locationObject'EnumOther Data.Aeson.Types.Internal.Value
-  | Terminal'locationObject'EnumTyped Data.Text.Internal.Text
-  | Terminal'locationObject'EnumStringTerminal'location
-  deriving (GHC.Show.Show, GHC.Classes.Eq)
-
-instance Data.Aeson.Types.ToJSON.ToJSON Terminal'locationObject' where
-  toJSON (Terminal'locationObject'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (Terminal'locationObject'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (Terminal'locationObject'EnumStringTerminal'location) = "terminal.location"
-
-instance Data.Aeson.Types.FromJSON.FromJSON Terminal'locationObject' where
-  parseJSON val =
-    GHC.Base.pure
-      ( if  | val GHC.Classes.== "terminal.location" -> Terminal'locationObject'EnumStringTerminal'location
-            | GHC.Base.otherwise -> Terminal'locationObject'EnumOther val
-      )
+-- | Create a new 'Terminal'location' with all required fields.
+mkTerminal'location ::
+  -- | 'terminal'locationAddress'
+  Address ->
+  -- | 'terminal'locationDisplayName'
+  Data.Text.Internal.Text ->
+  -- | 'terminal'locationId'
+  Data.Text.Internal.Text ->
+  -- | 'terminal'locationLivemode'
+  GHC.Types.Bool ->
+  -- | 'terminal'locationMetadata'
+  Data.Aeson.Types.Internal.Object ->
+  Terminal'location
+mkTerminal'location terminal'locationAddress terminal'locationDisplayName terminal'locationId terminal'locationLivemode terminal'locationMetadata =
+  Terminal'location
+    { terminal'locationAddress = terminal'locationAddress,
+      terminal'locationDisplayName = terminal'locationDisplayName,
+      terminal'locationId = terminal'locationId,
+      terminal'locationLivemode = terminal'locationLivemode,
+      terminal'locationMetadata = terminal'locationMetadata
+    }

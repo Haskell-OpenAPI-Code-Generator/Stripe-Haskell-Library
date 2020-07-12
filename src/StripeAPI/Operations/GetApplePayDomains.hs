@@ -10,6 +10,7 @@ module StripeAPI.Operations.GetApplePayDomains where
 import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -86,7 +87,7 @@ getApplePayDomains parameters =
         ]
     )
 
--- | Defines the data type for the schema getApplePayDomainsParameters
+-- | Defines the object schema located at @paths.\/v1\/apple_pay\/domains.GET.parameters@ in the specification.
 data GetApplePayDomainsParameters
   = GetApplePayDomainsParameters
       { -- | queryDomain_name: Represents the parameter named \'domain_name\'
@@ -126,11 +127,22 @@ data GetApplePayDomainsParameters
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetApplePayDomainsParameters where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "queryDomain_name" (getApplePayDomainsParametersQueryDomainName obj) : (Data.Aeson..=) "queryEnding_before" (getApplePayDomainsParametersQueryEndingBefore obj) : (Data.Aeson..=) "queryExpand" (getApplePayDomainsParametersQueryExpand obj) : (Data.Aeson..=) "queryLimit" (getApplePayDomainsParametersQueryLimit obj) : (Data.Aeson..=) "queryStarting_after" (getApplePayDomainsParametersQueryStartingAfter obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "queryDomain_name" (getApplePayDomainsParametersQueryDomainName obj) GHC.Base.<> ((Data.Aeson..=) "queryEnding_before" (getApplePayDomainsParametersQueryEndingBefore obj) GHC.Base.<> ((Data.Aeson..=) "queryExpand" (getApplePayDomainsParametersQueryExpand obj) GHC.Base.<> ((Data.Aeson..=) "queryLimit" (getApplePayDomainsParametersQueryLimit obj) GHC.Base.<> (Data.Aeson..=) "queryStarting_after" (getApplePayDomainsParametersQueryStartingAfter obj)))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("queryDomain_name" Data.Aeson.Types.ToJSON..= getApplePayDomainsParametersQueryDomainName obj : "queryEnding_before" Data.Aeson.Types.ToJSON..= getApplePayDomainsParametersQueryEndingBefore obj : "queryExpand" Data.Aeson.Types.ToJSON..= getApplePayDomainsParametersQueryExpand obj : "queryLimit" Data.Aeson.Types.ToJSON..= getApplePayDomainsParametersQueryLimit obj : "queryStarting_after" Data.Aeson.Types.ToJSON..= getApplePayDomainsParametersQueryStartingAfter obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("queryDomain_name" Data.Aeson.Types.ToJSON..= getApplePayDomainsParametersQueryDomainName obj) GHC.Base.<> (("queryEnding_before" Data.Aeson.Types.ToJSON..= getApplePayDomainsParametersQueryEndingBefore obj) GHC.Base.<> (("queryExpand" Data.Aeson.Types.ToJSON..= getApplePayDomainsParametersQueryExpand obj) GHC.Base.<> (("queryLimit" Data.Aeson.Types.ToJSON..= getApplePayDomainsParametersQueryLimit obj) GHC.Base.<> ("queryStarting_after" Data.Aeson.Types.ToJSON..= getApplePayDomainsParametersQueryStartingAfter obj)))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetApplePayDomainsParameters where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "GetApplePayDomainsParameters" (\obj -> ((((GHC.Base.pure GetApplePayDomainsParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryDomain_name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryEnding_before")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryExpand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryLimit")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryStarting_after"))
+
+-- | Create a new 'GetApplePayDomainsParameters' with all required fields.
+mkGetApplePayDomainsParameters :: GetApplePayDomainsParameters
+mkGetApplePayDomainsParameters =
+  GetApplePayDomainsParameters
+    { getApplePayDomainsParametersQueryDomainName = GHC.Maybe.Nothing,
+      getApplePayDomainsParametersQueryEndingBefore = GHC.Maybe.Nothing,
+      getApplePayDomainsParametersQueryExpand = GHC.Maybe.Nothing,
+      getApplePayDomainsParametersQueryLimit = GHC.Maybe.Nothing,
+      getApplePayDomainsParametersQueryStartingAfter = GHC.Maybe.Nothing
+    }
 
 -- | Represents a response of the operation 'getApplePayDomains'.
 --
@@ -144,15 +156,13 @@ data GetApplePayDomainsResponse
     GetApplePayDomainsResponseDefault Error
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
--- | Defines the data type for the schema GetApplePayDomainsResponseBody200
+-- | Defines the object schema located at @paths.\/v1\/apple_pay\/domains.GET.responses.200.content.application\/json.schema@ in the specification.
 data GetApplePayDomainsResponseBody200
   = GetApplePayDomainsResponseBody200
       { -- | data
         getApplePayDomainsResponseBody200Data :: ([ApplePayDomain]),
         -- | has_more: True if this list has another page of items after this one that can be fetched.
         getApplePayDomainsResponseBody200HasMore :: GHC.Types.Bool,
-        -- | object: String representing the object\'s type. Objects of the same type share the same value. Always has the value \`list\`.
-        getApplePayDomainsResponseBody200Object :: GetApplePayDomainsResponseBody200Object',
         -- | url: The URL where this list can be accessed.
         --
         -- Constraints:
@@ -167,29 +177,24 @@ data GetApplePayDomainsResponseBody200
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetApplePayDomainsResponseBody200 where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "data" (getApplePayDomainsResponseBody200Data obj) : (Data.Aeson..=) "has_more" (getApplePayDomainsResponseBody200HasMore obj) : (Data.Aeson..=) "object" (getApplePayDomainsResponseBody200Object obj) : (Data.Aeson..=) "url" (getApplePayDomainsResponseBody200Url obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "data" (getApplePayDomainsResponseBody200Data obj) GHC.Base.<> ((Data.Aeson..=) "has_more" (getApplePayDomainsResponseBody200HasMore obj) GHC.Base.<> ((Data.Aeson..=) "object" (getApplePayDomainsResponseBody200Object obj) GHC.Base.<> (Data.Aeson..=) "url" (getApplePayDomainsResponseBody200Url obj))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("data" Data.Aeson.Types.ToJSON..= getApplePayDomainsResponseBody200Data obj : "has_more" Data.Aeson.Types.ToJSON..= getApplePayDomainsResponseBody200HasMore obj : "url" Data.Aeson.Types.ToJSON..= getApplePayDomainsResponseBody200Url obj : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "list" : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("data" Data.Aeson.Types.ToJSON..= getApplePayDomainsResponseBody200Data obj) GHC.Base.<> (("has_more" Data.Aeson.Types.ToJSON..= getApplePayDomainsResponseBody200HasMore obj) GHC.Base.<> (("url" Data.Aeson.Types.ToJSON..= getApplePayDomainsResponseBody200Url obj) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "list"))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetApplePayDomainsResponseBody200 where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetApplePayDomainsResponseBody200" (\obj -> (((GHC.Base.pure GetApplePayDomainsResponseBody200 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "has_more")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "object")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "url"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetApplePayDomainsResponseBody200" (\obj -> ((GHC.Base.pure GetApplePayDomainsResponseBody200 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "has_more")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "url"))
 
--- | Defines the enum schema GetApplePayDomainsResponseBody200Object\'
---
--- String representing the object\'s type. Objects of the same type share the same value. Always has the value \`list\`.
-data GetApplePayDomainsResponseBody200Object'
-  = GetApplePayDomainsResponseBody200Object'EnumOther Data.Aeson.Types.Internal.Value
-  | GetApplePayDomainsResponseBody200Object'EnumTyped Data.Text.Internal.Text
-  | GetApplePayDomainsResponseBody200Object'EnumStringList
-  deriving (GHC.Show.Show, GHC.Classes.Eq)
-
-instance Data.Aeson.Types.ToJSON.ToJSON GetApplePayDomainsResponseBody200Object' where
-  toJSON (GetApplePayDomainsResponseBody200Object'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (GetApplePayDomainsResponseBody200Object'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (GetApplePayDomainsResponseBody200Object'EnumStringList) = "list"
-
-instance Data.Aeson.Types.FromJSON.FromJSON GetApplePayDomainsResponseBody200Object' where
-  parseJSON val =
-    GHC.Base.pure
-      ( if  | val GHC.Classes.== "list" -> GetApplePayDomainsResponseBody200Object'EnumStringList
-            | GHC.Base.otherwise -> GetApplePayDomainsResponseBody200Object'EnumOther val
-      )
+-- | Create a new 'GetApplePayDomainsResponseBody200' with all required fields.
+mkGetApplePayDomainsResponseBody200 ::
+  -- | 'getApplePayDomainsResponseBody200Data'
+  [ApplePayDomain] ->
+  -- | 'getApplePayDomainsResponseBody200HasMore'
+  GHC.Types.Bool ->
+  -- | 'getApplePayDomainsResponseBody200Url'
+  Data.Text.Internal.Text ->
+  GetApplePayDomainsResponseBody200
+mkGetApplePayDomainsResponseBody200 getApplePayDomainsResponseBody200Data getApplePayDomainsResponseBody200HasMore getApplePayDomainsResponseBody200Url =
+  GetApplePayDomainsResponseBody200
+    { getApplePayDomainsResponseBody200Data = getApplePayDomainsResponseBody200Data,
+      getApplePayDomainsResponseBody200HasMore = getApplePayDomainsResponseBody200HasMore,
+      getApplePayDomainsResponseBody200Url = getApplePayDomainsResponseBody200Url
+    }

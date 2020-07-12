@@ -8,6 +8,7 @@ module StripeAPI.Types.PaymentMethodDetailsBancontact where
 
 import qualified Control.Monad.Fail
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -30,7 +31,7 @@ import StripeAPI.TypeAlias
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
--- | Defines the data type for the schema payment_method_details_bancontact
+-- | Defines the object schema located at @components.schemas.payment_method_details_bancontact@ in the specification.
 data PaymentMethodDetailsBancontact
   = PaymentMethodDetailsBancontact
       { -- | bank_code: Bank code of bank associated with the bank account.
@@ -74,39 +75,57 @@ data PaymentMethodDetailsBancontact
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PaymentMethodDetailsBancontact where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "bank_code" (paymentMethodDetailsBancontactBankCode obj) : (Data.Aeson..=) "bank_name" (paymentMethodDetailsBancontactBankName obj) : (Data.Aeson..=) "bic" (paymentMethodDetailsBancontactBic obj) : (Data.Aeson..=) "iban_last4" (paymentMethodDetailsBancontactIbanLast4 obj) : (Data.Aeson..=) "preferred_language" (paymentMethodDetailsBancontactPreferredLanguage obj) : (Data.Aeson..=) "verified_name" (paymentMethodDetailsBancontactVerifiedName obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "bank_code" (paymentMethodDetailsBancontactBankCode obj) GHC.Base.<> ((Data.Aeson..=) "bank_name" (paymentMethodDetailsBancontactBankName obj) GHC.Base.<> ((Data.Aeson..=) "bic" (paymentMethodDetailsBancontactBic obj) GHC.Base.<> ((Data.Aeson..=) "iban_last4" (paymentMethodDetailsBancontactIbanLast4 obj) GHC.Base.<> ((Data.Aeson..=) "preferred_language" (paymentMethodDetailsBancontactPreferredLanguage obj) GHC.Base.<> (Data.Aeson..=) "verified_name" (paymentMethodDetailsBancontactVerifiedName obj))))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("bank_code" Data.Aeson.Types.ToJSON..= paymentMethodDetailsBancontactBankCode obj : "bank_name" Data.Aeson.Types.ToJSON..= paymentMethodDetailsBancontactBankName obj : "bic" Data.Aeson.Types.ToJSON..= paymentMethodDetailsBancontactBic obj : "iban_last4" Data.Aeson.Types.ToJSON..= paymentMethodDetailsBancontactIbanLast4 obj : "preferred_language" Data.Aeson.Types.ToJSON..= paymentMethodDetailsBancontactPreferredLanguage obj : "verified_name" Data.Aeson.Types.ToJSON..= paymentMethodDetailsBancontactVerifiedName obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("bank_code" Data.Aeson.Types.ToJSON..= paymentMethodDetailsBancontactBankCode obj) GHC.Base.<> (("bank_name" Data.Aeson.Types.ToJSON..= paymentMethodDetailsBancontactBankName obj) GHC.Base.<> (("bic" Data.Aeson.Types.ToJSON..= paymentMethodDetailsBancontactBic obj) GHC.Base.<> (("iban_last4" Data.Aeson.Types.ToJSON..= paymentMethodDetailsBancontactIbanLast4 obj) GHC.Base.<> (("preferred_language" Data.Aeson.Types.ToJSON..= paymentMethodDetailsBancontactPreferredLanguage obj) GHC.Base.<> ("verified_name" Data.Aeson.Types.ToJSON..= paymentMethodDetailsBancontactVerifiedName obj))))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PaymentMethodDetailsBancontact where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PaymentMethodDetailsBancontact" (\obj -> (((((GHC.Base.pure PaymentMethodDetailsBancontact GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "bank_code")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "bank_name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "bic")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "iban_last4")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "preferred_language")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "verified_name"))
 
--- | Defines the enum schema payment_method_details_bancontactPreferred_language\'
+-- | Create a new 'PaymentMethodDetailsBancontact' with all required fields.
+mkPaymentMethodDetailsBancontact :: PaymentMethodDetailsBancontact
+mkPaymentMethodDetailsBancontact =
+  PaymentMethodDetailsBancontact
+    { paymentMethodDetailsBancontactBankCode = GHC.Maybe.Nothing,
+      paymentMethodDetailsBancontactBankName = GHC.Maybe.Nothing,
+      paymentMethodDetailsBancontactBic = GHC.Maybe.Nothing,
+      paymentMethodDetailsBancontactIbanLast4 = GHC.Maybe.Nothing,
+      paymentMethodDetailsBancontactPreferredLanguage = GHC.Maybe.Nothing,
+      paymentMethodDetailsBancontactVerifiedName = GHC.Maybe.Nothing
+    }
+
+-- | Defines the enum schema located at @components.schemas.payment_method_details_bancontact.properties.preferred_language@ in the specification.
 --
 -- Preferred language of the Bancontact authorization page that the customer is redirected to.
 -- Can be one of \`en\`, \`de\`, \`fr\`, or \`nl\`
 data PaymentMethodDetailsBancontactPreferredLanguage'
-  = PaymentMethodDetailsBancontactPreferredLanguage'EnumOther Data.Aeson.Types.Internal.Value
-  | PaymentMethodDetailsBancontactPreferredLanguage'EnumTyped Data.Text.Internal.Text
-  | PaymentMethodDetailsBancontactPreferredLanguage'EnumStringDe
-  | PaymentMethodDetailsBancontactPreferredLanguage'EnumStringEn
-  | PaymentMethodDetailsBancontactPreferredLanguage'EnumStringFr
-  | PaymentMethodDetailsBancontactPreferredLanguage'EnumStringNl
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    PaymentMethodDetailsBancontactPreferredLanguage'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    PaymentMethodDetailsBancontactPreferredLanguage'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"de"@
+    PaymentMethodDetailsBancontactPreferredLanguage'EnumDe
+  | -- | Represents the JSON value @"en"@
+    PaymentMethodDetailsBancontactPreferredLanguage'EnumEn
+  | -- | Represents the JSON value @"fr"@
+    PaymentMethodDetailsBancontactPreferredLanguage'EnumFr
+  | -- | Represents the JSON value @"nl"@
+    PaymentMethodDetailsBancontactPreferredLanguage'EnumNl
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
 instance Data.Aeson.Types.ToJSON.ToJSON PaymentMethodDetailsBancontactPreferredLanguage' where
-  toJSON (PaymentMethodDetailsBancontactPreferredLanguage'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PaymentMethodDetailsBancontactPreferredLanguage'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PaymentMethodDetailsBancontactPreferredLanguage'EnumStringDe) = "de"
-  toJSON (PaymentMethodDetailsBancontactPreferredLanguage'EnumStringEn) = "en"
-  toJSON (PaymentMethodDetailsBancontactPreferredLanguage'EnumStringFr) = "fr"
-  toJSON (PaymentMethodDetailsBancontactPreferredLanguage'EnumStringNl) = "nl"
+  toJSON (PaymentMethodDetailsBancontactPreferredLanguage'Other val) = val
+  toJSON (PaymentMethodDetailsBancontactPreferredLanguage'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PaymentMethodDetailsBancontactPreferredLanguage'EnumDe) = "de"
+  toJSON (PaymentMethodDetailsBancontactPreferredLanguage'EnumEn) = "en"
+  toJSON (PaymentMethodDetailsBancontactPreferredLanguage'EnumFr) = "fr"
+  toJSON (PaymentMethodDetailsBancontactPreferredLanguage'EnumNl) = "nl"
 
 instance Data.Aeson.Types.FromJSON.FromJSON PaymentMethodDetailsBancontactPreferredLanguage' where
   parseJSON val =
     GHC.Base.pure
-      ( if  | val GHC.Classes.== "de" -> PaymentMethodDetailsBancontactPreferredLanguage'EnumStringDe
-            | val GHC.Classes.== "en" -> PaymentMethodDetailsBancontactPreferredLanguage'EnumStringEn
-            | val GHC.Classes.== "fr" -> PaymentMethodDetailsBancontactPreferredLanguage'EnumStringFr
-            | val GHC.Classes.== "nl" -> PaymentMethodDetailsBancontactPreferredLanguage'EnumStringNl
-            | GHC.Base.otherwise -> PaymentMethodDetailsBancontactPreferredLanguage'EnumOther val
+      ( if  | val GHC.Classes.== "de" -> PaymentMethodDetailsBancontactPreferredLanguage'EnumDe
+            | val GHC.Classes.== "en" -> PaymentMethodDetailsBancontactPreferredLanguage'EnumEn
+            | val GHC.Classes.== "fr" -> PaymentMethodDetailsBancontactPreferredLanguage'EnumFr
+            | val GHC.Classes.== "nl" -> PaymentMethodDetailsBancontactPreferredLanguage'EnumNl
+            | GHC.Base.otherwise -> PaymentMethodDetailsBancontactPreferredLanguage'Other val
       )

@@ -10,6 +10,7 @@ module StripeAPI.Operations.GetRadarValueListsValueList where
 import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -77,7 +78,7 @@ getRadarValueListsValueList parameters =
     )
     (StripeAPI.Common.doCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET") (Data.Text.pack ("/v1/radar/value_lists/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel (getRadarValueListsValueListParametersPathValueList parameters))) GHC.Base.++ ""))) [StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getRadarValueListsValueListParametersQueryExpand parameters) (Data.Text.pack "deepObject") GHC.Types.True])
 
--- | Defines the data type for the schema getRadarValueListsValueListParameters
+-- | Defines the object schema located at @paths.\/v1\/radar\/value_lists\/{value_list}.GET.parameters@ in the specification.
 data GetRadarValueListsValueListParameters
   = GetRadarValueListsValueListParameters
       { -- | pathValue_list: Represents the parameter named \'value_list\'
@@ -97,11 +98,22 @@ data GetRadarValueListsValueListParameters
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetRadarValueListsValueListParameters where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "pathValue_list" (getRadarValueListsValueListParametersPathValueList obj) : (Data.Aeson..=) "queryExpand" (getRadarValueListsValueListParametersQueryExpand obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "pathValue_list" (getRadarValueListsValueListParametersPathValueList obj) GHC.Base.<> (Data.Aeson..=) "queryExpand" (getRadarValueListsValueListParametersQueryExpand obj))
+  toJSON obj = Data.Aeson.Types.Internal.object ("pathValue_list" Data.Aeson.Types.ToJSON..= getRadarValueListsValueListParametersPathValueList obj : "queryExpand" Data.Aeson.Types.ToJSON..= getRadarValueListsValueListParametersQueryExpand obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("pathValue_list" Data.Aeson.Types.ToJSON..= getRadarValueListsValueListParametersPathValueList obj) GHC.Base.<> ("queryExpand" Data.Aeson.Types.ToJSON..= getRadarValueListsValueListParametersQueryExpand obj))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetRadarValueListsValueListParameters where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "GetRadarValueListsValueListParameters" (\obj -> (GHC.Base.pure GetRadarValueListsValueListParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathValue_list")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryExpand"))
+
+-- | Create a new 'GetRadarValueListsValueListParameters' with all required fields.
+mkGetRadarValueListsValueListParameters ::
+  -- | 'getRadarValueListsValueListParametersPathValueList'
+  Data.Text.Internal.Text ->
+  GetRadarValueListsValueListParameters
+mkGetRadarValueListsValueListParameters getRadarValueListsValueListParametersPathValueList =
+  GetRadarValueListsValueListParameters
+    { getRadarValueListsValueListParametersPathValueList = getRadarValueListsValueListParametersPathValueList,
+      getRadarValueListsValueListParametersQueryExpand = GHC.Maybe.Nothing
+    }
 
 -- | Represents a response of the operation 'getRadarValueListsValueList'.
 --

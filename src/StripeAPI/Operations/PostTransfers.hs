@@ -10,6 +10,7 @@ module StripeAPI.Operations.PostTransfers where
 import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -77,7 +78,7 @@ postTransfers body =
     )
     (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack "/v1/transfers") [] (GHC.Maybe.Just body) StripeAPI.Common.RequestBodyEncodingFormData)
 
--- | Defines the data type for the schema postTransfersRequestBody
+-- | Defines the object schema located at @paths.\/v1\/transfers.POST.requestBody.content.application\/x-www-form-urlencoded.schema@ in the specification.
 data PostTransfersRequestBody
   = PostTransfersRequestBody
       { -- | amount: A positive integer in %s representing how much to transfer.
@@ -113,37 +114,62 @@ data PostTransfersRequestBody
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostTransfersRequestBody where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "amount" (postTransfersRequestBodyAmount obj) : (Data.Aeson..=) "currency" (postTransfersRequestBodyCurrency obj) : (Data.Aeson..=) "description" (postTransfersRequestBodyDescription obj) : (Data.Aeson..=) "destination" (postTransfersRequestBodyDestination obj) : (Data.Aeson..=) "expand" (postTransfersRequestBodyExpand obj) : (Data.Aeson..=) "metadata" (postTransfersRequestBodyMetadata obj) : (Data.Aeson..=) "source_transaction" (postTransfersRequestBodySourceTransaction obj) : (Data.Aeson..=) "source_type" (postTransfersRequestBodySourceType obj) : (Data.Aeson..=) "transfer_group" (postTransfersRequestBodyTransferGroup obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "amount" (postTransfersRequestBodyAmount obj) GHC.Base.<> ((Data.Aeson..=) "currency" (postTransfersRequestBodyCurrency obj) GHC.Base.<> ((Data.Aeson..=) "description" (postTransfersRequestBodyDescription obj) GHC.Base.<> ((Data.Aeson..=) "destination" (postTransfersRequestBodyDestination obj) GHC.Base.<> ((Data.Aeson..=) "expand" (postTransfersRequestBodyExpand obj) GHC.Base.<> ((Data.Aeson..=) "metadata" (postTransfersRequestBodyMetadata obj) GHC.Base.<> ((Data.Aeson..=) "source_transaction" (postTransfersRequestBodySourceTransaction obj) GHC.Base.<> ((Data.Aeson..=) "source_type" (postTransfersRequestBodySourceType obj) GHC.Base.<> (Data.Aeson..=) "transfer_group" (postTransfersRequestBodyTransferGroup obj)))))))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("amount" Data.Aeson.Types.ToJSON..= postTransfersRequestBodyAmount obj : "currency" Data.Aeson.Types.ToJSON..= postTransfersRequestBodyCurrency obj : "description" Data.Aeson.Types.ToJSON..= postTransfersRequestBodyDescription obj : "destination" Data.Aeson.Types.ToJSON..= postTransfersRequestBodyDestination obj : "expand" Data.Aeson.Types.ToJSON..= postTransfersRequestBodyExpand obj : "metadata" Data.Aeson.Types.ToJSON..= postTransfersRequestBodyMetadata obj : "source_transaction" Data.Aeson.Types.ToJSON..= postTransfersRequestBodySourceTransaction obj : "source_type" Data.Aeson.Types.ToJSON..= postTransfersRequestBodySourceType obj : "transfer_group" Data.Aeson.Types.ToJSON..= postTransfersRequestBodyTransferGroup obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("amount" Data.Aeson.Types.ToJSON..= postTransfersRequestBodyAmount obj) GHC.Base.<> (("currency" Data.Aeson.Types.ToJSON..= postTransfersRequestBodyCurrency obj) GHC.Base.<> (("description" Data.Aeson.Types.ToJSON..= postTransfersRequestBodyDescription obj) GHC.Base.<> (("destination" Data.Aeson.Types.ToJSON..= postTransfersRequestBodyDestination obj) GHC.Base.<> (("expand" Data.Aeson.Types.ToJSON..= postTransfersRequestBodyExpand obj) GHC.Base.<> (("metadata" Data.Aeson.Types.ToJSON..= postTransfersRequestBodyMetadata obj) GHC.Base.<> (("source_transaction" Data.Aeson.Types.ToJSON..= postTransfersRequestBodySourceTransaction obj) GHC.Base.<> (("source_type" Data.Aeson.Types.ToJSON..= postTransfersRequestBodySourceType obj) GHC.Base.<> ("transfer_group" Data.Aeson.Types.ToJSON..= postTransfersRequestBodyTransferGroup obj)))))))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostTransfersRequestBody where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PostTransfersRequestBody" (\obj -> ((((((((GHC.Base.pure PostTransfersRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "description")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "destination")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "source_transaction")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "source_type")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "transfer_group"))
 
--- | Defines the enum schema postTransfersRequestBodySource_type\'
+-- | Create a new 'PostTransfersRequestBody' with all required fields.
+mkPostTransfersRequestBody ::
+  -- | 'postTransfersRequestBodyCurrency'
+  Data.Text.Internal.Text ->
+  -- | 'postTransfersRequestBodyDestination'
+  Data.Text.Internal.Text ->
+  PostTransfersRequestBody
+mkPostTransfersRequestBody postTransfersRequestBodyCurrency postTransfersRequestBodyDestination =
+  PostTransfersRequestBody
+    { postTransfersRequestBodyAmount = GHC.Maybe.Nothing,
+      postTransfersRequestBodyCurrency = postTransfersRequestBodyCurrency,
+      postTransfersRequestBodyDescription = GHC.Maybe.Nothing,
+      postTransfersRequestBodyDestination = postTransfersRequestBodyDestination,
+      postTransfersRequestBodyExpand = GHC.Maybe.Nothing,
+      postTransfersRequestBodyMetadata = GHC.Maybe.Nothing,
+      postTransfersRequestBodySourceTransaction = GHC.Maybe.Nothing,
+      postTransfersRequestBodySourceType = GHC.Maybe.Nothing,
+      postTransfersRequestBodyTransferGroup = GHC.Maybe.Nothing
+    }
+
+-- | Defines the enum schema located at @paths.\/v1\/transfers.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.source_type@ in the specification.
 --
 -- The source balance to use for this transfer. One of \`bank_account\`, \`card\`, or \`fpx\`. For most users, this will default to \`card\`.
 data PostTransfersRequestBodySourceType'
-  = PostTransfersRequestBodySourceType'EnumOther Data.Aeson.Types.Internal.Value
-  | PostTransfersRequestBodySourceType'EnumTyped Data.Text.Internal.Text
-  | PostTransfersRequestBodySourceType'EnumStringBankAccount
-  | PostTransfersRequestBodySourceType'EnumStringCard
-  | PostTransfersRequestBodySourceType'EnumStringFpx
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    PostTransfersRequestBodySourceType'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    PostTransfersRequestBodySourceType'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"bank_account"@
+    PostTransfersRequestBodySourceType'EnumBankAccount
+  | -- | Represents the JSON value @"card"@
+    PostTransfersRequestBodySourceType'EnumCard
+  | -- | Represents the JSON value @"fpx"@
+    PostTransfersRequestBodySourceType'EnumFpx
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostTransfersRequestBodySourceType' where
-  toJSON (PostTransfersRequestBodySourceType'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostTransfersRequestBodySourceType'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostTransfersRequestBodySourceType'EnumStringBankAccount) = "bank_account"
-  toJSON (PostTransfersRequestBodySourceType'EnumStringCard) = "card"
-  toJSON (PostTransfersRequestBodySourceType'EnumStringFpx) = "fpx"
+  toJSON (PostTransfersRequestBodySourceType'Other val) = val
+  toJSON (PostTransfersRequestBodySourceType'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PostTransfersRequestBodySourceType'EnumBankAccount) = "bank_account"
+  toJSON (PostTransfersRequestBodySourceType'EnumCard) = "card"
+  toJSON (PostTransfersRequestBodySourceType'EnumFpx) = "fpx"
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostTransfersRequestBodySourceType' where
   parseJSON val =
     GHC.Base.pure
-      ( if  | val GHC.Classes.== "bank_account" -> PostTransfersRequestBodySourceType'EnumStringBankAccount
-            | val GHC.Classes.== "card" -> PostTransfersRequestBodySourceType'EnumStringCard
-            | val GHC.Classes.== "fpx" -> PostTransfersRequestBodySourceType'EnumStringFpx
-            | GHC.Base.otherwise -> PostTransfersRequestBodySourceType'EnumOther val
+      ( if  | val GHC.Classes.== "bank_account" -> PostTransfersRequestBodySourceType'EnumBankAccount
+            | val GHC.Classes.== "card" -> PostTransfersRequestBodySourceType'EnumCard
+            | val GHC.Classes.== "fpx" -> PostTransfersRequestBodySourceType'EnumFpx
+            | GHC.Base.otherwise -> PostTransfersRequestBodySourceType'Other val
       )
 
 -- | Represents a response of the operation 'postTransfers'.

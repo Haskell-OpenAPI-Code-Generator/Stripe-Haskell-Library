@@ -10,6 +10,7 @@ module StripeAPI.Operations.GetTaxRates where
 import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -88,7 +89,7 @@ getTaxRates parameters =
         ]
     )
 
--- | Defines the data type for the schema getTaxRatesParameters
+-- | Defines the object schema located at @paths.\/v1\/tax_rates.GET.parameters@ in the specification.
 data GetTaxRatesParameters
   = GetTaxRatesParameters
       { -- | queryActive: Represents the parameter named \'active\'
@@ -134,13 +135,26 @@ data GetTaxRatesParameters
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetTaxRatesParameters where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "queryActive" (getTaxRatesParametersQueryActive obj) : (Data.Aeson..=) "queryCreated" (getTaxRatesParametersQueryCreated obj) : (Data.Aeson..=) "queryEnding_before" (getTaxRatesParametersQueryEndingBefore obj) : (Data.Aeson..=) "queryExpand" (getTaxRatesParametersQueryExpand obj) : (Data.Aeson..=) "queryInclusive" (getTaxRatesParametersQueryInclusive obj) : (Data.Aeson..=) "queryLimit" (getTaxRatesParametersQueryLimit obj) : (Data.Aeson..=) "queryStarting_after" (getTaxRatesParametersQueryStartingAfter obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "queryActive" (getTaxRatesParametersQueryActive obj) GHC.Base.<> ((Data.Aeson..=) "queryCreated" (getTaxRatesParametersQueryCreated obj) GHC.Base.<> ((Data.Aeson..=) "queryEnding_before" (getTaxRatesParametersQueryEndingBefore obj) GHC.Base.<> ((Data.Aeson..=) "queryExpand" (getTaxRatesParametersQueryExpand obj) GHC.Base.<> ((Data.Aeson..=) "queryInclusive" (getTaxRatesParametersQueryInclusive obj) GHC.Base.<> ((Data.Aeson..=) "queryLimit" (getTaxRatesParametersQueryLimit obj) GHC.Base.<> (Data.Aeson..=) "queryStarting_after" (getTaxRatesParametersQueryStartingAfter obj)))))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("queryActive" Data.Aeson.Types.ToJSON..= getTaxRatesParametersQueryActive obj : "queryCreated" Data.Aeson.Types.ToJSON..= getTaxRatesParametersQueryCreated obj : "queryEnding_before" Data.Aeson.Types.ToJSON..= getTaxRatesParametersQueryEndingBefore obj : "queryExpand" Data.Aeson.Types.ToJSON..= getTaxRatesParametersQueryExpand obj : "queryInclusive" Data.Aeson.Types.ToJSON..= getTaxRatesParametersQueryInclusive obj : "queryLimit" Data.Aeson.Types.ToJSON..= getTaxRatesParametersQueryLimit obj : "queryStarting_after" Data.Aeson.Types.ToJSON..= getTaxRatesParametersQueryStartingAfter obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("queryActive" Data.Aeson.Types.ToJSON..= getTaxRatesParametersQueryActive obj) GHC.Base.<> (("queryCreated" Data.Aeson.Types.ToJSON..= getTaxRatesParametersQueryCreated obj) GHC.Base.<> (("queryEnding_before" Data.Aeson.Types.ToJSON..= getTaxRatesParametersQueryEndingBefore obj) GHC.Base.<> (("queryExpand" Data.Aeson.Types.ToJSON..= getTaxRatesParametersQueryExpand obj) GHC.Base.<> (("queryInclusive" Data.Aeson.Types.ToJSON..= getTaxRatesParametersQueryInclusive obj) GHC.Base.<> (("queryLimit" Data.Aeson.Types.ToJSON..= getTaxRatesParametersQueryLimit obj) GHC.Base.<> ("queryStarting_after" Data.Aeson.Types.ToJSON..= getTaxRatesParametersQueryStartingAfter obj)))))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetTaxRatesParameters where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "GetTaxRatesParameters" (\obj -> ((((((GHC.Base.pure GetTaxRatesParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryActive")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryCreated")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryEnding_before")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryExpand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryInclusive")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryLimit")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryStarting_after"))
 
--- | Defines the data type for the schema getTaxRatesParametersQueryCreated\'OneOf2
+-- | Create a new 'GetTaxRatesParameters' with all required fields.
+mkGetTaxRatesParameters :: GetTaxRatesParameters
+mkGetTaxRatesParameters =
+  GetTaxRatesParameters
+    { getTaxRatesParametersQueryActive = GHC.Maybe.Nothing,
+      getTaxRatesParametersQueryCreated = GHC.Maybe.Nothing,
+      getTaxRatesParametersQueryEndingBefore = GHC.Maybe.Nothing,
+      getTaxRatesParametersQueryExpand = GHC.Maybe.Nothing,
+      getTaxRatesParametersQueryInclusive = GHC.Maybe.Nothing,
+      getTaxRatesParametersQueryLimit = GHC.Maybe.Nothing,
+      getTaxRatesParametersQueryStartingAfter = GHC.Maybe.Nothing
+    }
+
+-- | Defines the object schema located at @paths.\/v1\/tax_rates.GET.parameters.properties.queryCreated.anyOf@ in the specification.
 data GetTaxRatesParametersQueryCreated'OneOf2
   = GetTaxRatesParametersQueryCreated'OneOf2
       { -- | gt
@@ -158,13 +172,23 @@ data GetTaxRatesParametersQueryCreated'OneOf2
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetTaxRatesParametersQueryCreated'OneOf2 where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "gt" (getTaxRatesParametersQueryCreated'OneOf2Gt obj) : (Data.Aeson..=) "gte" (getTaxRatesParametersQueryCreated'OneOf2Gte obj) : (Data.Aeson..=) "lt" (getTaxRatesParametersQueryCreated'OneOf2Lt obj) : (Data.Aeson..=) "lte" (getTaxRatesParametersQueryCreated'OneOf2Lte obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "gt" (getTaxRatesParametersQueryCreated'OneOf2Gt obj) GHC.Base.<> ((Data.Aeson..=) "gte" (getTaxRatesParametersQueryCreated'OneOf2Gte obj) GHC.Base.<> ((Data.Aeson..=) "lt" (getTaxRatesParametersQueryCreated'OneOf2Lt obj) GHC.Base.<> (Data.Aeson..=) "lte" (getTaxRatesParametersQueryCreated'OneOf2Lte obj))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("gt" Data.Aeson.Types.ToJSON..= getTaxRatesParametersQueryCreated'OneOf2Gt obj : "gte" Data.Aeson.Types.ToJSON..= getTaxRatesParametersQueryCreated'OneOf2Gte obj : "lt" Data.Aeson.Types.ToJSON..= getTaxRatesParametersQueryCreated'OneOf2Lt obj : "lte" Data.Aeson.Types.ToJSON..= getTaxRatesParametersQueryCreated'OneOf2Lte obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("gt" Data.Aeson.Types.ToJSON..= getTaxRatesParametersQueryCreated'OneOf2Gt obj) GHC.Base.<> (("gte" Data.Aeson.Types.ToJSON..= getTaxRatesParametersQueryCreated'OneOf2Gte obj) GHC.Base.<> (("lt" Data.Aeson.Types.ToJSON..= getTaxRatesParametersQueryCreated'OneOf2Lt obj) GHC.Base.<> ("lte" Data.Aeson.Types.ToJSON..= getTaxRatesParametersQueryCreated'OneOf2Lte obj))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetTaxRatesParametersQueryCreated'OneOf2 where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "GetTaxRatesParametersQueryCreated'OneOf2" (\obj -> (((GHC.Base.pure GetTaxRatesParametersQueryCreated'OneOf2 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "gt")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "gte")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "lt")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "lte"))
 
--- | Define the one-of schema getTaxRatesParametersQueryCreated\'
+-- | Create a new 'GetTaxRatesParametersQueryCreated'OneOf2' with all required fields.
+mkGetTaxRatesParametersQueryCreated'OneOf2 :: GetTaxRatesParametersQueryCreated'OneOf2
+mkGetTaxRatesParametersQueryCreated'OneOf2 =
+  GetTaxRatesParametersQueryCreated'OneOf2
+    { getTaxRatesParametersQueryCreated'OneOf2Gt = GHC.Maybe.Nothing,
+      getTaxRatesParametersQueryCreated'OneOf2Gte = GHC.Maybe.Nothing,
+      getTaxRatesParametersQueryCreated'OneOf2Lt = GHC.Maybe.Nothing,
+      getTaxRatesParametersQueryCreated'OneOf2Lte = GHC.Maybe.Nothing
+    }
+
+-- | Defines the oneOf schema located at @paths.\/v1\/tax_rates.GET.parameters.properties.queryCreated.anyOf@ in the specification.
 --
 -- Represents the parameter named \'created\'
 --
@@ -179,11 +203,9 @@ instance Data.Aeson.Types.ToJSON.ToJSON GetTaxRatesParametersQueryCreated'Varian
   toJSON (GetTaxRatesParametersQueryCreated'GetTaxRatesParametersQueryCreated'OneOf2 a) = Data.Aeson.Types.ToJSON.toJSON a
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetTaxRatesParametersQueryCreated'Variants where
-  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
-    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ GetTaxRatesParametersQueryCreated'Int a
-    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ GetTaxRatesParametersQueryCreated'GetTaxRatesParametersQueryCreated'OneOf2 a
-      Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+  parseJSON val = case (GetTaxRatesParametersQueryCreated'Int Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((GetTaxRatesParametersQueryCreated'GetTaxRatesParametersQueryCreated'OneOf2 Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched") of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+    Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
 -- | Represents a response of the operation 'getTaxRates'.
 --
@@ -197,15 +219,13 @@ data GetTaxRatesResponse
     GetTaxRatesResponseDefault Error
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
--- | Defines the data type for the schema GetTaxRatesResponseBody200
+-- | Defines the object schema located at @paths.\/v1\/tax_rates.GET.responses.200.content.application\/json.schema@ in the specification.
 data GetTaxRatesResponseBody200
   = GetTaxRatesResponseBody200
       { -- | data
         getTaxRatesResponseBody200Data :: ([TaxRate]),
         -- | has_more: True if this list has another page of items after this one that can be fetched.
         getTaxRatesResponseBody200HasMore :: GHC.Types.Bool,
-        -- | object: String representing the object\'s type. Objects of the same type share the same value. Always has the value \`list\`.
-        getTaxRatesResponseBody200Object :: GetTaxRatesResponseBody200Object',
         -- | url: The URL where this list can be accessed.
         --
         -- Constraints:
@@ -220,29 +240,24 @@ data GetTaxRatesResponseBody200
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetTaxRatesResponseBody200 where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "data" (getTaxRatesResponseBody200Data obj) : (Data.Aeson..=) "has_more" (getTaxRatesResponseBody200HasMore obj) : (Data.Aeson..=) "object" (getTaxRatesResponseBody200Object obj) : (Data.Aeson..=) "url" (getTaxRatesResponseBody200Url obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "data" (getTaxRatesResponseBody200Data obj) GHC.Base.<> ((Data.Aeson..=) "has_more" (getTaxRatesResponseBody200HasMore obj) GHC.Base.<> ((Data.Aeson..=) "object" (getTaxRatesResponseBody200Object obj) GHC.Base.<> (Data.Aeson..=) "url" (getTaxRatesResponseBody200Url obj))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("data" Data.Aeson.Types.ToJSON..= getTaxRatesResponseBody200Data obj : "has_more" Data.Aeson.Types.ToJSON..= getTaxRatesResponseBody200HasMore obj : "url" Data.Aeson.Types.ToJSON..= getTaxRatesResponseBody200Url obj : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "list" : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("data" Data.Aeson.Types.ToJSON..= getTaxRatesResponseBody200Data obj) GHC.Base.<> (("has_more" Data.Aeson.Types.ToJSON..= getTaxRatesResponseBody200HasMore obj) GHC.Base.<> (("url" Data.Aeson.Types.ToJSON..= getTaxRatesResponseBody200Url obj) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "list"))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetTaxRatesResponseBody200 where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetTaxRatesResponseBody200" (\obj -> (((GHC.Base.pure GetTaxRatesResponseBody200 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "has_more")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "object")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "url"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetTaxRatesResponseBody200" (\obj -> ((GHC.Base.pure GetTaxRatesResponseBody200 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "has_more")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "url"))
 
--- | Defines the enum schema GetTaxRatesResponseBody200Object\'
---
--- String representing the object\'s type. Objects of the same type share the same value. Always has the value \`list\`.
-data GetTaxRatesResponseBody200Object'
-  = GetTaxRatesResponseBody200Object'EnumOther Data.Aeson.Types.Internal.Value
-  | GetTaxRatesResponseBody200Object'EnumTyped Data.Text.Internal.Text
-  | GetTaxRatesResponseBody200Object'EnumStringList
-  deriving (GHC.Show.Show, GHC.Classes.Eq)
-
-instance Data.Aeson.Types.ToJSON.ToJSON GetTaxRatesResponseBody200Object' where
-  toJSON (GetTaxRatesResponseBody200Object'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (GetTaxRatesResponseBody200Object'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (GetTaxRatesResponseBody200Object'EnumStringList) = "list"
-
-instance Data.Aeson.Types.FromJSON.FromJSON GetTaxRatesResponseBody200Object' where
-  parseJSON val =
-    GHC.Base.pure
-      ( if  | val GHC.Classes.== "list" -> GetTaxRatesResponseBody200Object'EnumStringList
-            | GHC.Base.otherwise -> GetTaxRatesResponseBody200Object'EnumOther val
-      )
+-- | Create a new 'GetTaxRatesResponseBody200' with all required fields.
+mkGetTaxRatesResponseBody200 ::
+  -- | 'getTaxRatesResponseBody200Data'
+  [TaxRate] ->
+  -- | 'getTaxRatesResponseBody200HasMore'
+  GHC.Types.Bool ->
+  -- | 'getTaxRatesResponseBody200Url'
+  Data.Text.Internal.Text ->
+  GetTaxRatesResponseBody200
+mkGetTaxRatesResponseBody200 getTaxRatesResponseBody200Data getTaxRatesResponseBody200HasMore getTaxRatesResponseBody200Url =
+  GetTaxRatesResponseBody200
+    { getTaxRatesResponseBody200Data = getTaxRatesResponseBody200Data,
+      getTaxRatesResponseBody200HasMore = getTaxRatesResponseBody200HasMore,
+      getTaxRatesResponseBody200Url = getTaxRatesResponseBody200Url
+    }

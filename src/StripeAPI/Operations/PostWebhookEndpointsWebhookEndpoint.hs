@@ -10,6 +10,7 @@ module StripeAPI.Operations.PostWebhookEndpointsWebhookEndpoint where
 import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -81,7 +82,7 @@ postWebhookEndpointsWebhookEndpoint
       )
       (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack ("/v1/webhook_endpoints/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel webhookEndpoint)) GHC.Base.++ ""))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
 
--- | Defines the data type for the schema postWebhookEndpointsWebhookEndpointRequestBody
+-- | Defines the object schema located at @paths.\/v1\/webhook_endpoints\/{webhook_endpoint}.POST.requestBody.content.application\/x-www-form-urlencoded.schema@ in the specification.
 data PostWebhookEndpointsWebhookEndpointRequestBody
   = PostWebhookEndpointsWebhookEndpointRequestBody
       { -- | disabled: Disable the webhook endpoint if set to true.
@@ -99,485 +100,650 @@ data PostWebhookEndpointsWebhookEndpointRequestBody
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostWebhookEndpointsWebhookEndpointRequestBody where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "disabled" (postWebhookEndpointsWebhookEndpointRequestBodyDisabled obj) : (Data.Aeson..=) "enabled_events" (postWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents obj) : (Data.Aeson..=) "expand" (postWebhookEndpointsWebhookEndpointRequestBodyExpand obj) : (Data.Aeson..=) "url" (postWebhookEndpointsWebhookEndpointRequestBodyUrl obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "disabled" (postWebhookEndpointsWebhookEndpointRequestBodyDisabled obj) GHC.Base.<> ((Data.Aeson..=) "enabled_events" (postWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents obj) GHC.Base.<> ((Data.Aeson..=) "expand" (postWebhookEndpointsWebhookEndpointRequestBodyExpand obj) GHC.Base.<> (Data.Aeson..=) "url" (postWebhookEndpointsWebhookEndpointRequestBodyUrl obj))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("disabled" Data.Aeson.Types.ToJSON..= postWebhookEndpointsWebhookEndpointRequestBodyDisabled obj : "enabled_events" Data.Aeson.Types.ToJSON..= postWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents obj : "expand" Data.Aeson.Types.ToJSON..= postWebhookEndpointsWebhookEndpointRequestBodyExpand obj : "url" Data.Aeson.Types.ToJSON..= postWebhookEndpointsWebhookEndpointRequestBodyUrl obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("disabled" Data.Aeson.Types.ToJSON..= postWebhookEndpointsWebhookEndpointRequestBodyDisabled obj) GHC.Base.<> (("enabled_events" Data.Aeson.Types.ToJSON..= postWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents obj) GHC.Base.<> (("expand" Data.Aeson.Types.ToJSON..= postWebhookEndpointsWebhookEndpointRequestBodyExpand obj) GHC.Base.<> ("url" Data.Aeson.Types.ToJSON..= postWebhookEndpointsWebhookEndpointRequestBodyUrl obj))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostWebhookEndpointsWebhookEndpointRequestBody where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PostWebhookEndpointsWebhookEndpointRequestBody" (\obj -> (((GHC.Base.pure PostWebhookEndpointsWebhookEndpointRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "disabled")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "enabled_events")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "url"))
 
--- | Defines the enum schema postWebhookEndpointsWebhookEndpointRequestBodyEnabled_events\'
+-- | Create a new 'PostWebhookEndpointsWebhookEndpointRequestBody' with all required fields.
+mkPostWebhookEndpointsWebhookEndpointRequestBody :: PostWebhookEndpointsWebhookEndpointRequestBody
+mkPostWebhookEndpointsWebhookEndpointRequestBody =
+  PostWebhookEndpointsWebhookEndpointRequestBody
+    { postWebhookEndpointsWebhookEndpointRequestBodyDisabled = GHC.Maybe.Nothing,
+      postWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents = GHC.Maybe.Nothing,
+      postWebhookEndpointsWebhookEndpointRequestBodyExpand = GHC.Maybe.Nothing,
+      postWebhookEndpointsWebhookEndpointRequestBodyUrl = GHC.Maybe.Nothing
+    }
+
+-- | Defines the enum schema located at @paths.\/v1\/webhook_endpoints\/{webhook_endpoint}.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.enabled_events.items@ in the specification.
 data PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'
-  = PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumOther Data.Aeson.Types.Internal.Value
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumTyped Data.Text.Internal.Text
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumString__
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringAccount'application'authorized
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringAccount'application'deauthorized
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringAccount'externalAccount'created
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringAccount'externalAccount'deleted
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringAccount'externalAccount'updated
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringAccount'updated
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringApplicationFee'created
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringApplicationFee'refund'updated
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringApplicationFee'refunded
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringBalance'available
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCapability'updated
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCharge'captured
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCharge'dispute'closed
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCharge'dispute'created
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCharge'dispute'fundsReinstated
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCharge'dispute'fundsWithdrawn
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCharge'dispute'updated
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCharge'expired
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCharge'failed
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCharge'pending
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCharge'refund'updated
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCharge'refunded
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCharge'succeeded
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCharge'updated
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCheckout'session'completed
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCoupon'created
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCoupon'deleted
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCoupon'updated
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCreditNote'created
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCreditNote'updated
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCreditNote'voided
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCustomer'created
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCustomer'deleted
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCustomer'discount'created
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCustomer'discount'deleted
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCustomer'discount'updated
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCustomer'source'created
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCustomer'source'deleted
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCustomer'source'expiring
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCustomer'source'updated
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCustomer'subscription'created
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCustomer'subscription'deleted
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCustomer'subscription'pendingUpdateApplied
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCustomer'subscription'pendingUpdateExpired
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCustomer'subscription'trialWillEnd
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCustomer'subscription'updated
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCustomer'taxId'created
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCustomer'taxId'deleted
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCustomer'taxId'updated
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCustomer'updated
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringFile'created
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringInvoice'created
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringInvoice'deleted
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringInvoice'finalized
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringInvoice'markedUncollectible
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringInvoice'paymentActionRequired
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringInvoice'paymentFailed
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringInvoice'paymentSucceeded
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringInvoice'sent
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringInvoice'upcoming
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringInvoice'updated
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringInvoice'voided
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringInvoiceitem'created
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringInvoiceitem'deleted
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringInvoiceitem'updated
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringIssuingAuthorization'created
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringIssuingAuthorization'request
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringIssuingAuthorization'updated
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringIssuingCard'created
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringIssuingCard'updated
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringIssuingCardholder'created
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringIssuingCardholder'updated
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringIssuingDispute'created
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringIssuingDispute'updated
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringIssuingSettlement'created
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringIssuingSettlement'updated
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringIssuingTransaction'created
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringIssuingTransaction'updated
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringMandate'updated
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringOrder'created
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringOrder'paymentFailed
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringOrder'paymentSucceeded
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringOrder'updated
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringOrderReturn'created
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringPaymentIntent'amountCapturableUpdated
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringPaymentIntent'canceled
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringPaymentIntent'created
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringPaymentIntent'paymentFailed
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringPaymentIntent'processing
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringPaymentIntent'succeeded
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringPaymentMethod'attached
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringPaymentMethod'cardAutomaticallyUpdated
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringPaymentMethod'detached
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringPaymentMethod'updated
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringPayout'canceled
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringPayout'created
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringPayout'failed
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringPayout'paid
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringPayout'updated
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringPerson'created
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringPerson'deleted
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringPerson'updated
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringPlan'created
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringPlan'deleted
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringPlan'updated
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringProduct'created
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringProduct'deleted
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringProduct'updated
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringRadar'earlyFraudWarning'created
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringRadar'earlyFraudWarning'updated
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringRecipient'created
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringRecipient'deleted
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringRecipient'updated
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringReporting'reportRun'failed
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringReporting'reportRun'succeeded
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringReporting'reportType'updated
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringReview'closed
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringReview'opened
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringSetupIntent'canceled
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringSetupIntent'created
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringSetupIntent'setupFailed
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringSetupIntent'succeeded
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringSigma'scheduledQueryRun'created
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringSku'created
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringSku'deleted
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringSku'updated
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringSource'canceled
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringSource'chargeable
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringSource'failed
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringSource'mandateNotification
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringSource'refundAttributesRequired
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringSource'transaction'created
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringSource'transaction'updated
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringSubscriptionSchedule'aborted
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringSubscriptionSchedule'canceled
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringSubscriptionSchedule'completed
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringSubscriptionSchedule'created
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringSubscriptionSchedule'expiring
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringSubscriptionSchedule'released
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringSubscriptionSchedule'updated
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringTaxRate'created
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringTaxRate'updated
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringTopup'canceled
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringTopup'created
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringTopup'failed
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringTopup'reversed
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringTopup'succeeded
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringTransfer'created
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringTransfer'failed
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringTransfer'paid
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringTransfer'reversed
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringTransfer'updated
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"*"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'Enum_
+  | -- | Represents the JSON value @"account.application.authorized"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumAccount'application'authorized
+  | -- | Represents the JSON value @"account.application.deauthorized"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumAccount'application'deauthorized
+  | -- | Represents the JSON value @"account.external_account.created"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumAccount'externalAccount'created
+  | -- | Represents the JSON value @"account.external_account.deleted"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumAccount'externalAccount'deleted
+  | -- | Represents the JSON value @"account.external_account.updated"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumAccount'externalAccount'updated
+  | -- | Represents the JSON value @"account.updated"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumAccount'updated
+  | -- | Represents the JSON value @"application_fee.created"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumApplicationFee'created
+  | -- | Represents the JSON value @"application_fee.refund.updated"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumApplicationFee'refund'updated
+  | -- | Represents the JSON value @"application_fee.refunded"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumApplicationFee'refunded
+  | -- | Represents the JSON value @"balance.available"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumBalance'available
+  | -- | Represents the JSON value @"capability.updated"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCapability'updated
+  | -- | Represents the JSON value @"charge.captured"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCharge'captured
+  | -- | Represents the JSON value @"charge.dispute.closed"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCharge'dispute'closed
+  | -- | Represents the JSON value @"charge.dispute.created"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCharge'dispute'created
+  | -- | Represents the JSON value @"charge.dispute.funds_reinstated"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCharge'dispute'fundsReinstated
+  | -- | Represents the JSON value @"charge.dispute.funds_withdrawn"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCharge'dispute'fundsWithdrawn
+  | -- | Represents the JSON value @"charge.dispute.updated"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCharge'dispute'updated
+  | -- | Represents the JSON value @"charge.expired"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCharge'expired
+  | -- | Represents the JSON value @"charge.failed"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCharge'failed
+  | -- | Represents the JSON value @"charge.pending"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCharge'pending
+  | -- | Represents the JSON value @"charge.refund.updated"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCharge'refund'updated
+  | -- | Represents the JSON value @"charge.refunded"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCharge'refunded
+  | -- | Represents the JSON value @"charge.succeeded"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCharge'succeeded
+  | -- | Represents the JSON value @"charge.updated"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCharge'updated
+  | -- | Represents the JSON value @"checkout.session.completed"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCheckout'session'completed
+  | -- | Represents the JSON value @"coupon.created"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCoupon'created
+  | -- | Represents the JSON value @"coupon.deleted"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCoupon'deleted
+  | -- | Represents the JSON value @"coupon.updated"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCoupon'updated
+  | -- | Represents the JSON value @"credit_note.created"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCreditNote'created
+  | -- | Represents the JSON value @"credit_note.updated"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCreditNote'updated
+  | -- | Represents the JSON value @"credit_note.voided"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCreditNote'voided
+  | -- | Represents the JSON value @"customer.created"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCustomer'created
+  | -- | Represents the JSON value @"customer.deleted"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCustomer'deleted
+  | -- | Represents the JSON value @"customer.discount.created"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCustomer'discount'created
+  | -- | Represents the JSON value @"customer.discount.deleted"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCustomer'discount'deleted
+  | -- | Represents the JSON value @"customer.discount.updated"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCustomer'discount'updated
+  | -- | Represents the JSON value @"customer.source.created"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCustomer'source'created
+  | -- | Represents the JSON value @"customer.source.deleted"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCustomer'source'deleted
+  | -- | Represents the JSON value @"customer.source.expiring"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCustomer'source'expiring
+  | -- | Represents the JSON value @"customer.source.updated"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCustomer'source'updated
+  | -- | Represents the JSON value @"customer.subscription.created"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCustomer'subscription'created
+  | -- | Represents the JSON value @"customer.subscription.deleted"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCustomer'subscription'deleted
+  | -- | Represents the JSON value @"customer.subscription.pending_update_applied"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCustomer'subscription'pendingUpdateApplied
+  | -- | Represents the JSON value @"customer.subscription.pending_update_expired"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCustomer'subscription'pendingUpdateExpired
+  | -- | Represents the JSON value @"customer.subscription.trial_will_end"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCustomer'subscription'trialWillEnd
+  | -- | Represents the JSON value @"customer.subscription.updated"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCustomer'subscription'updated
+  | -- | Represents the JSON value @"customer.tax_id.created"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCustomer'taxId'created
+  | -- | Represents the JSON value @"customer.tax_id.deleted"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCustomer'taxId'deleted
+  | -- | Represents the JSON value @"customer.tax_id.updated"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCustomer'taxId'updated
+  | -- | Represents the JSON value @"customer.updated"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCustomer'updated
+  | -- | Represents the JSON value @"file.created"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumFile'created
+  | -- | Represents the JSON value @"invoice.created"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumInvoice'created
+  | -- | Represents the JSON value @"invoice.deleted"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumInvoice'deleted
+  | -- | Represents the JSON value @"invoice.finalized"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumInvoice'finalized
+  | -- | Represents the JSON value @"invoice.marked_uncollectible"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumInvoice'markedUncollectible
+  | -- | Represents the JSON value @"invoice.payment_action_required"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumInvoice'paymentActionRequired
+  | -- | Represents the JSON value @"invoice.payment_failed"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumInvoice'paymentFailed
+  | -- | Represents the JSON value @"invoice.payment_succeeded"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumInvoice'paymentSucceeded
+  | -- | Represents the JSON value @"invoice.sent"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumInvoice'sent
+  | -- | Represents the JSON value @"invoice.upcoming"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumInvoice'upcoming
+  | -- | Represents the JSON value @"invoice.updated"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumInvoice'updated
+  | -- | Represents the JSON value @"invoice.voided"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumInvoice'voided
+  | -- | Represents the JSON value @"invoiceitem.created"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumInvoiceitem'created
+  | -- | Represents the JSON value @"invoiceitem.deleted"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumInvoiceitem'deleted
+  | -- | Represents the JSON value @"invoiceitem.updated"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumInvoiceitem'updated
+  | -- | Represents the JSON value @"issuing_authorization.created"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumIssuingAuthorization'created
+  | -- | Represents the JSON value @"issuing_authorization.request"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumIssuingAuthorization'request
+  | -- | Represents the JSON value @"issuing_authorization.updated"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumIssuingAuthorization'updated
+  | -- | Represents the JSON value @"issuing_card.created"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumIssuingCard'created
+  | -- | Represents the JSON value @"issuing_card.updated"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumIssuingCard'updated
+  | -- | Represents the JSON value @"issuing_cardholder.created"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumIssuingCardholder'created
+  | -- | Represents the JSON value @"issuing_cardholder.updated"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumIssuingCardholder'updated
+  | -- | Represents the JSON value @"issuing_dispute.created"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumIssuingDispute'created
+  | -- | Represents the JSON value @"issuing_dispute.updated"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumIssuingDispute'updated
+  | -- | Represents the JSON value @"issuing_settlement.created"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumIssuingSettlement'created
+  | -- | Represents the JSON value @"issuing_settlement.updated"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumIssuingSettlement'updated
+  | -- | Represents the JSON value @"issuing_transaction.created"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumIssuingTransaction'created
+  | -- | Represents the JSON value @"issuing_transaction.updated"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumIssuingTransaction'updated
+  | -- | Represents the JSON value @"mandate.updated"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumMandate'updated
+  | -- | Represents the JSON value @"order.created"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumOrder'created
+  | -- | Represents the JSON value @"order.payment_failed"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumOrder'paymentFailed
+  | -- | Represents the JSON value @"order.payment_succeeded"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumOrder'paymentSucceeded
+  | -- | Represents the JSON value @"order.updated"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumOrder'updated
+  | -- | Represents the JSON value @"order_return.created"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumOrderReturn'created
+  | -- | Represents the JSON value @"payment_intent.amount_capturable_updated"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumPaymentIntent'amountCapturableUpdated
+  | -- | Represents the JSON value @"payment_intent.canceled"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumPaymentIntent'canceled
+  | -- | Represents the JSON value @"payment_intent.created"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumPaymentIntent'created
+  | -- | Represents the JSON value @"payment_intent.payment_failed"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumPaymentIntent'paymentFailed
+  | -- | Represents the JSON value @"payment_intent.processing"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumPaymentIntent'processing
+  | -- | Represents the JSON value @"payment_intent.succeeded"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumPaymentIntent'succeeded
+  | -- | Represents the JSON value @"payment_method.attached"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumPaymentMethod'attached
+  | -- | Represents the JSON value @"payment_method.card_automatically_updated"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumPaymentMethod'cardAutomaticallyUpdated
+  | -- | Represents the JSON value @"payment_method.detached"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumPaymentMethod'detached
+  | -- | Represents the JSON value @"payment_method.updated"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumPaymentMethod'updated
+  | -- | Represents the JSON value @"payout.canceled"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumPayout'canceled
+  | -- | Represents the JSON value @"payout.created"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumPayout'created
+  | -- | Represents the JSON value @"payout.failed"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumPayout'failed
+  | -- | Represents the JSON value @"payout.paid"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumPayout'paid
+  | -- | Represents the JSON value @"payout.updated"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumPayout'updated
+  | -- | Represents the JSON value @"person.created"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumPerson'created
+  | -- | Represents the JSON value @"person.deleted"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumPerson'deleted
+  | -- | Represents the JSON value @"person.updated"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumPerson'updated
+  | -- | Represents the JSON value @"plan.created"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumPlan'created
+  | -- | Represents the JSON value @"plan.deleted"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumPlan'deleted
+  | -- | Represents the JSON value @"plan.updated"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumPlan'updated
+  | -- | Represents the JSON value @"product.created"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumProduct'created
+  | -- | Represents the JSON value @"product.deleted"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumProduct'deleted
+  | -- | Represents the JSON value @"product.updated"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumProduct'updated
+  | -- | Represents the JSON value @"radar.early_fraud_warning.created"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumRadar'earlyFraudWarning'created
+  | -- | Represents the JSON value @"radar.early_fraud_warning.updated"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumRadar'earlyFraudWarning'updated
+  | -- | Represents the JSON value @"recipient.created"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumRecipient'created
+  | -- | Represents the JSON value @"recipient.deleted"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumRecipient'deleted
+  | -- | Represents the JSON value @"recipient.updated"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumRecipient'updated
+  | -- | Represents the JSON value @"reporting.report_run.failed"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumReporting'reportRun'failed
+  | -- | Represents the JSON value @"reporting.report_run.succeeded"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumReporting'reportRun'succeeded
+  | -- | Represents the JSON value @"reporting.report_type.updated"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumReporting'reportType'updated
+  | -- | Represents the JSON value @"review.closed"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumReview'closed
+  | -- | Represents the JSON value @"review.opened"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumReview'opened
+  | -- | Represents the JSON value @"setup_intent.canceled"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumSetupIntent'canceled
+  | -- | Represents the JSON value @"setup_intent.created"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumSetupIntent'created
+  | -- | Represents the JSON value @"setup_intent.setup_failed"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumSetupIntent'setupFailed
+  | -- | Represents the JSON value @"setup_intent.succeeded"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumSetupIntent'succeeded
+  | -- | Represents the JSON value @"sigma.scheduled_query_run.created"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumSigma'scheduledQueryRun'created
+  | -- | Represents the JSON value @"sku.created"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumSku'created
+  | -- | Represents the JSON value @"sku.deleted"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumSku'deleted
+  | -- | Represents the JSON value @"sku.updated"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumSku'updated
+  | -- | Represents the JSON value @"source.canceled"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumSource'canceled
+  | -- | Represents the JSON value @"source.chargeable"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumSource'chargeable
+  | -- | Represents the JSON value @"source.failed"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumSource'failed
+  | -- | Represents the JSON value @"source.mandate_notification"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumSource'mandateNotification
+  | -- | Represents the JSON value @"source.refund_attributes_required"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumSource'refundAttributesRequired
+  | -- | Represents the JSON value @"source.transaction.created"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumSource'transaction'created
+  | -- | Represents the JSON value @"source.transaction.updated"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumSource'transaction'updated
+  | -- | Represents the JSON value @"subscription_schedule.aborted"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumSubscriptionSchedule'aborted
+  | -- | Represents the JSON value @"subscription_schedule.canceled"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumSubscriptionSchedule'canceled
+  | -- | Represents the JSON value @"subscription_schedule.completed"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumSubscriptionSchedule'completed
+  | -- | Represents the JSON value @"subscription_schedule.created"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumSubscriptionSchedule'created
+  | -- | Represents the JSON value @"subscription_schedule.expiring"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumSubscriptionSchedule'expiring
+  | -- | Represents the JSON value @"subscription_schedule.released"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumSubscriptionSchedule'released
+  | -- | Represents the JSON value @"subscription_schedule.updated"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumSubscriptionSchedule'updated
+  | -- | Represents the JSON value @"tax_rate.created"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumTaxRate'created
+  | -- | Represents the JSON value @"tax_rate.updated"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumTaxRate'updated
+  | -- | Represents the JSON value @"topup.canceled"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumTopup'canceled
+  | -- | Represents the JSON value @"topup.created"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumTopup'created
+  | -- | Represents the JSON value @"topup.failed"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumTopup'failed
+  | -- | Represents the JSON value @"topup.reversed"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumTopup'reversed
+  | -- | Represents the JSON value @"topup.succeeded"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumTopup'succeeded
+  | -- | Represents the JSON value @"transfer.created"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumTransfer'created
+  | -- | Represents the JSON value @"transfer.failed"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumTransfer'failed
+  | -- | Represents the JSON value @"transfer.paid"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumTransfer'paid
+  | -- | Represents the JSON value @"transfer.reversed"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumTransfer'reversed
+  | -- | Represents the JSON value @"transfer.updated"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumTransfer'updated
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents' where
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumString__) = "*"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringAccount'application'authorized) = "account.application.authorized"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringAccount'application'deauthorized) = "account.application.deauthorized"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringAccount'externalAccount'created) = "account.external_account.created"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringAccount'externalAccount'deleted) = "account.external_account.deleted"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringAccount'externalAccount'updated) = "account.external_account.updated"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringAccount'updated) = "account.updated"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringApplicationFee'created) = "application_fee.created"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringApplicationFee'refund'updated) = "application_fee.refund.updated"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringApplicationFee'refunded) = "application_fee.refunded"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringBalance'available) = "balance.available"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCapability'updated) = "capability.updated"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCharge'captured) = "charge.captured"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCharge'dispute'closed) = "charge.dispute.closed"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCharge'dispute'created) = "charge.dispute.created"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCharge'dispute'fundsReinstated) = "charge.dispute.funds_reinstated"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCharge'dispute'fundsWithdrawn) = "charge.dispute.funds_withdrawn"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCharge'dispute'updated) = "charge.dispute.updated"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCharge'expired) = "charge.expired"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCharge'failed) = "charge.failed"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCharge'pending) = "charge.pending"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCharge'refund'updated) = "charge.refund.updated"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCharge'refunded) = "charge.refunded"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCharge'succeeded) = "charge.succeeded"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCharge'updated) = "charge.updated"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCheckout'session'completed) = "checkout.session.completed"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCoupon'created) = "coupon.created"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCoupon'deleted) = "coupon.deleted"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCoupon'updated) = "coupon.updated"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCreditNote'created) = "credit_note.created"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCreditNote'updated) = "credit_note.updated"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCreditNote'voided) = "credit_note.voided"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCustomer'created) = "customer.created"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCustomer'deleted) = "customer.deleted"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCustomer'discount'created) = "customer.discount.created"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCustomer'discount'deleted) = "customer.discount.deleted"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCustomer'discount'updated) = "customer.discount.updated"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCustomer'source'created) = "customer.source.created"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCustomer'source'deleted) = "customer.source.deleted"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCustomer'source'expiring) = "customer.source.expiring"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCustomer'source'updated) = "customer.source.updated"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCustomer'subscription'created) = "customer.subscription.created"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCustomer'subscription'deleted) = "customer.subscription.deleted"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCustomer'subscription'pendingUpdateApplied) = "customer.subscription.pending_update_applied"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCustomer'subscription'pendingUpdateExpired) = "customer.subscription.pending_update_expired"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCustomer'subscription'trialWillEnd) = "customer.subscription.trial_will_end"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCustomer'subscription'updated) = "customer.subscription.updated"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCustomer'taxId'created) = "customer.tax_id.created"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCustomer'taxId'deleted) = "customer.tax_id.deleted"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCustomer'taxId'updated) = "customer.tax_id.updated"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCustomer'updated) = "customer.updated"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringFile'created) = "file.created"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringInvoice'created) = "invoice.created"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringInvoice'deleted) = "invoice.deleted"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringInvoice'finalized) = "invoice.finalized"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringInvoice'markedUncollectible) = "invoice.marked_uncollectible"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringInvoice'paymentActionRequired) = "invoice.payment_action_required"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringInvoice'paymentFailed) = "invoice.payment_failed"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringInvoice'paymentSucceeded) = "invoice.payment_succeeded"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringInvoice'sent) = "invoice.sent"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringInvoice'upcoming) = "invoice.upcoming"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringInvoice'updated) = "invoice.updated"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringInvoice'voided) = "invoice.voided"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringInvoiceitem'created) = "invoiceitem.created"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringInvoiceitem'deleted) = "invoiceitem.deleted"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringInvoiceitem'updated) = "invoiceitem.updated"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringIssuingAuthorization'created) = "issuing_authorization.created"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringIssuingAuthorization'request) = "issuing_authorization.request"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringIssuingAuthorization'updated) = "issuing_authorization.updated"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringIssuingCard'created) = "issuing_card.created"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringIssuingCard'updated) = "issuing_card.updated"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringIssuingCardholder'created) = "issuing_cardholder.created"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringIssuingCardholder'updated) = "issuing_cardholder.updated"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringIssuingDispute'created) = "issuing_dispute.created"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringIssuingDispute'updated) = "issuing_dispute.updated"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringIssuingSettlement'created) = "issuing_settlement.created"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringIssuingSettlement'updated) = "issuing_settlement.updated"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringIssuingTransaction'created) = "issuing_transaction.created"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringIssuingTransaction'updated) = "issuing_transaction.updated"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringMandate'updated) = "mandate.updated"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringOrder'created) = "order.created"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringOrder'paymentFailed) = "order.payment_failed"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringOrder'paymentSucceeded) = "order.payment_succeeded"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringOrder'updated) = "order.updated"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringOrderReturn'created) = "order_return.created"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringPaymentIntent'amountCapturableUpdated) = "payment_intent.amount_capturable_updated"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringPaymentIntent'canceled) = "payment_intent.canceled"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringPaymentIntent'created) = "payment_intent.created"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringPaymentIntent'paymentFailed) = "payment_intent.payment_failed"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringPaymentIntent'processing) = "payment_intent.processing"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringPaymentIntent'succeeded) = "payment_intent.succeeded"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringPaymentMethod'attached) = "payment_method.attached"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringPaymentMethod'cardAutomaticallyUpdated) = "payment_method.card_automatically_updated"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringPaymentMethod'detached) = "payment_method.detached"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringPaymentMethod'updated) = "payment_method.updated"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringPayout'canceled) = "payout.canceled"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringPayout'created) = "payout.created"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringPayout'failed) = "payout.failed"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringPayout'paid) = "payout.paid"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringPayout'updated) = "payout.updated"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringPerson'created) = "person.created"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringPerson'deleted) = "person.deleted"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringPerson'updated) = "person.updated"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringPlan'created) = "plan.created"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringPlan'deleted) = "plan.deleted"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringPlan'updated) = "plan.updated"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringProduct'created) = "product.created"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringProduct'deleted) = "product.deleted"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringProduct'updated) = "product.updated"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringRadar'earlyFraudWarning'created) = "radar.early_fraud_warning.created"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringRadar'earlyFraudWarning'updated) = "radar.early_fraud_warning.updated"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringRecipient'created) = "recipient.created"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringRecipient'deleted) = "recipient.deleted"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringRecipient'updated) = "recipient.updated"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringReporting'reportRun'failed) = "reporting.report_run.failed"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringReporting'reportRun'succeeded) = "reporting.report_run.succeeded"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringReporting'reportType'updated) = "reporting.report_type.updated"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringReview'closed) = "review.closed"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringReview'opened) = "review.opened"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringSetupIntent'canceled) = "setup_intent.canceled"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringSetupIntent'created) = "setup_intent.created"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringSetupIntent'setupFailed) = "setup_intent.setup_failed"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringSetupIntent'succeeded) = "setup_intent.succeeded"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringSigma'scheduledQueryRun'created) = "sigma.scheduled_query_run.created"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringSku'created) = "sku.created"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringSku'deleted) = "sku.deleted"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringSku'updated) = "sku.updated"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringSource'canceled) = "source.canceled"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringSource'chargeable) = "source.chargeable"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringSource'failed) = "source.failed"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringSource'mandateNotification) = "source.mandate_notification"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringSource'refundAttributesRequired) = "source.refund_attributes_required"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringSource'transaction'created) = "source.transaction.created"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringSource'transaction'updated) = "source.transaction.updated"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringSubscriptionSchedule'aborted) = "subscription_schedule.aborted"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringSubscriptionSchedule'canceled) = "subscription_schedule.canceled"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringSubscriptionSchedule'completed) = "subscription_schedule.completed"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringSubscriptionSchedule'created) = "subscription_schedule.created"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringSubscriptionSchedule'expiring) = "subscription_schedule.expiring"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringSubscriptionSchedule'released) = "subscription_schedule.released"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringSubscriptionSchedule'updated) = "subscription_schedule.updated"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringTaxRate'created) = "tax_rate.created"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringTaxRate'updated) = "tax_rate.updated"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringTopup'canceled) = "topup.canceled"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringTopup'created) = "topup.created"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringTopup'failed) = "topup.failed"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringTopup'reversed) = "topup.reversed"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringTopup'succeeded) = "topup.succeeded"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringTransfer'created) = "transfer.created"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringTransfer'failed) = "transfer.failed"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringTransfer'paid) = "transfer.paid"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringTransfer'reversed) = "transfer.reversed"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringTransfer'updated) = "transfer.updated"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'Other val) = val
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'Enum_) = "*"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumAccount'application'authorized) = "account.application.authorized"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumAccount'application'deauthorized) = "account.application.deauthorized"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumAccount'externalAccount'created) = "account.external_account.created"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumAccount'externalAccount'deleted) = "account.external_account.deleted"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumAccount'externalAccount'updated) = "account.external_account.updated"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumAccount'updated) = "account.updated"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumApplicationFee'created) = "application_fee.created"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumApplicationFee'refund'updated) = "application_fee.refund.updated"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumApplicationFee'refunded) = "application_fee.refunded"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumBalance'available) = "balance.available"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCapability'updated) = "capability.updated"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCharge'captured) = "charge.captured"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCharge'dispute'closed) = "charge.dispute.closed"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCharge'dispute'created) = "charge.dispute.created"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCharge'dispute'fundsReinstated) = "charge.dispute.funds_reinstated"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCharge'dispute'fundsWithdrawn) = "charge.dispute.funds_withdrawn"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCharge'dispute'updated) = "charge.dispute.updated"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCharge'expired) = "charge.expired"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCharge'failed) = "charge.failed"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCharge'pending) = "charge.pending"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCharge'refund'updated) = "charge.refund.updated"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCharge'refunded) = "charge.refunded"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCharge'succeeded) = "charge.succeeded"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCharge'updated) = "charge.updated"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCheckout'session'completed) = "checkout.session.completed"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCoupon'created) = "coupon.created"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCoupon'deleted) = "coupon.deleted"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCoupon'updated) = "coupon.updated"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCreditNote'created) = "credit_note.created"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCreditNote'updated) = "credit_note.updated"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCreditNote'voided) = "credit_note.voided"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCustomer'created) = "customer.created"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCustomer'deleted) = "customer.deleted"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCustomer'discount'created) = "customer.discount.created"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCustomer'discount'deleted) = "customer.discount.deleted"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCustomer'discount'updated) = "customer.discount.updated"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCustomer'source'created) = "customer.source.created"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCustomer'source'deleted) = "customer.source.deleted"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCustomer'source'expiring) = "customer.source.expiring"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCustomer'source'updated) = "customer.source.updated"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCustomer'subscription'created) = "customer.subscription.created"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCustomer'subscription'deleted) = "customer.subscription.deleted"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCustomer'subscription'pendingUpdateApplied) = "customer.subscription.pending_update_applied"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCustomer'subscription'pendingUpdateExpired) = "customer.subscription.pending_update_expired"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCustomer'subscription'trialWillEnd) = "customer.subscription.trial_will_end"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCustomer'subscription'updated) = "customer.subscription.updated"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCustomer'taxId'created) = "customer.tax_id.created"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCustomer'taxId'deleted) = "customer.tax_id.deleted"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCustomer'taxId'updated) = "customer.tax_id.updated"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCustomer'updated) = "customer.updated"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumFile'created) = "file.created"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumInvoice'created) = "invoice.created"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumInvoice'deleted) = "invoice.deleted"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumInvoice'finalized) = "invoice.finalized"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumInvoice'markedUncollectible) = "invoice.marked_uncollectible"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumInvoice'paymentActionRequired) = "invoice.payment_action_required"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumInvoice'paymentFailed) = "invoice.payment_failed"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumInvoice'paymentSucceeded) = "invoice.payment_succeeded"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumInvoice'sent) = "invoice.sent"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumInvoice'upcoming) = "invoice.upcoming"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumInvoice'updated) = "invoice.updated"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumInvoice'voided) = "invoice.voided"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumInvoiceitem'created) = "invoiceitem.created"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumInvoiceitem'deleted) = "invoiceitem.deleted"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumInvoiceitem'updated) = "invoiceitem.updated"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumIssuingAuthorization'created) = "issuing_authorization.created"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumIssuingAuthorization'request) = "issuing_authorization.request"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumIssuingAuthorization'updated) = "issuing_authorization.updated"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumIssuingCard'created) = "issuing_card.created"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumIssuingCard'updated) = "issuing_card.updated"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumIssuingCardholder'created) = "issuing_cardholder.created"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumIssuingCardholder'updated) = "issuing_cardholder.updated"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumIssuingDispute'created) = "issuing_dispute.created"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumIssuingDispute'updated) = "issuing_dispute.updated"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumIssuingSettlement'created) = "issuing_settlement.created"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumIssuingSettlement'updated) = "issuing_settlement.updated"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumIssuingTransaction'created) = "issuing_transaction.created"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumIssuingTransaction'updated) = "issuing_transaction.updated"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumMandate'updated) = "mandate.updated"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumOrder'created) = "order.created"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumOrder'paymentFailed) = "order.payment_failed"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumOrder'paymentSucceeded) = "order.payment_succeeded"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumOrder'updated) = "order.updated"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumOrderReturn'created) = "order_return.created"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumPaymentIntent'amountCapturableUpdated) = "payment_intent.amount_capturable_updated"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumPaymentIntent'canceled) = "payment_intent.canceled"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumPaymentIntent'created) = "payment_intent.created"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumPaymentIntent'paymentFailed) = "payment_intent.payment_failed"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumPaymentIntent'processing) = "payment_intent.processing"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumPaymentIntent'succeeded) = "payment_intent.succeeded"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumPaymentMethod'attached) = "payment_method.attached"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumPaymentMethod'cardAutomaticallyUpdated) = "payment_method.card_automatically_updated"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumPaymentMethod'detached) = "payment_method.detached"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumPaymentMethod'updated) = "payment_method.updated"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumPayout'canceled) = "payout.canceled"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumPayout'created) = "payout.created"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumPayout'failed) = "payout.failed"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumPayout'paid) = "payout.paid"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumPayout'updated) = "payout.updated"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumPerson'created) = "person.created"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumPerson'deleted) = "person.deleted"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumPerson'updated) = "person.updated"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumPlan'created) = "plan.created"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumPlan'deleted) = "plan.deleted"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumPlan'updated) = "plan.updated"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumProduct'created) = "product.created"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumProduct'deleted) = "product.deleted"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumProduct'updated) = "product.updated"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumRadar'earlyFraudWarning'created) = "radar.early_fraud_warning.created"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumRadar'earlyFraudWarning'updated) = "radar.early_fraud_warning.updated"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumRecipient'created) = "recipient.created"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumRecipient'deleted) = "recipient.deleted"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumRecipient'updated) = "recipient.updated"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumReporting'reportRun'failed) = "reporting.report_run.failed"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumReporting'reportRun'succeeded) = "reporting.report_run.succeeded"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumReporting'reportType'updated) = "reporting.report_type.updated"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumReview'closed) = "review.closed"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumReview'opened) = "review.opened"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumSetupIntent'canceled) = "setup_intent.canceled"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumSetupIntent'created) = "setup_intent.created"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumSetupIntent'setupFailed) = "setup_intent.setup_failed"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumSetupIntent'succeeded) = "setup_intent.succeeded"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumSigma'scheduledQueryRun'created) = "sigma.scheduled_query_run.created"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumSku'created) = "sku.created"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumSku'deleted) = "sku.deleted"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumSku'updated) = "sku.updated"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumSource'canceled) = "source.canceled"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumSource'chargeable) = "source.chargeable"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumSource'failed) = "source.failed"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumSource'mandateNotification) = "source.mandate_notification"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumSource'refundAttributesRequired) = "source.refund_attributes_required"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumSource'transaction'created) = "source.transaction.created"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumSource'transaction'updated) = "source.transaction.updated"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumSubscriptionSchedule'aborted) = "subscription_schedule.aborted"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumSubscriptionSchedule'canceled) = "subscription_schedule.canceled"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumSubscriptionSchedule'completed) = "subscription_schedule.completed"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumSubscriptionSchedule'created) = "subscription_schedule.created"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumSubscriptionSchedule'expiring) = "subscription_schedule.expiring"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumSubscriptionSchedule'released) = "subscription_schedule.released"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumSubscriptionSchedule'updated) = "subscription_schedule.updated"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumTaxRate'created) = "tax_rate.created"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumTaxRate'updated) = "tax_rate.updated"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumTopup'canceled) = "topup.canceled"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumTopup'created) = "topup.created"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumTopup'failed) = "topup.failed"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumTopup'reversed) = "topup.reversed"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumTopup'succeeded) = "topup.succeeded"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumTransfer'created) = "transfer.created"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumTransfer'failed) = "transfer.failed"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumTransfer'paid) = "transfer.paid"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumTransfer'reversed) = "transfer.reversed"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumTransfer'updated) = "transfer.updated"
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents' where
   parseJSON val =
     GHC.Base.pure
-      ( if  | val GHC.Classes.== "*" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumString__
-            | val GHC.Classes.== "account.application.authorized" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringAccount'application'authorized
-            | val GHC.Classes.== "account.application.deauthorized" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringAccount'application'deauthorized
-            | val GHC.Classes.== "account.external_account.created" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringAccount'externalAccount'created
-            | val GHC.Classes.== "account.external_account.deleted" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringAccount'externalAccount'deleted
-            | val GHC.Classes.== "account.external_account.updated" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringAccount'externalAccount'updated
-            | val GHC.Classes.== "account.updated" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringAccount'updated
-            | val GHC.Classes.== "application_fee.created" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringApplicationFee'created
-            | val GHC.Classes.== "application_fee.refund.updated" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringApplicationFee'refund'updated
-            | val GHC.Classes.== "application_fee.refunded" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringApplicationFee'refunded
-            | val GHC.Classes.== "balance.available" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringBalance'available
-            | val GHC.Classes.== "capability.updated" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCapability'updated
-            | val GHC.Classes.== "charge.captured" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCharge'captured
-            | val GHC.Classes.== "charge.dispute.closed" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCharge'dispute'closed
-            | val GHC.Classes.== "charge.dispute.created" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCharge'dispute'created
-            | val GHC.Classes.== "charge.dispute.funds_reinstated" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCharge'dispute'fundsReinstated
-            | val GHC.Classes.== "charge.dispute.funds_withdrawn" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCharge'dispute'fundsWithdrawn
-            | val GHC.Classes.== "charge.dispute.updated" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCharge'dispute'updated
-            | val GHC.Classes.== "charge.expired" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCharge'expired
-            | val GHC.Classes.== "charge.failed" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCharge'failed
-            | val GHC.Classes.== "charge.pending" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCharge'pending
-            | val GHC.Classes.== "charge.refund.updated" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCharge'refund'updated
-            | val GHC.Classes.== "charge.refunded" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCharge'refunded
-            | val GHC.Classes.== "charge.succeeded" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCharge'succeeded
-            | val GHC.Classes.== "charge.updated" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCharge'updated
-            | val GHC.Classes.== "checkout.session.completed" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCheckout'session'completed
-            | val GHC.Classes.== "coupon.created" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCoupon'created
-            | val GHC.Classes.== "coupon.deleted" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCoupon'deleted
-            | val GHC.Classes.== "coupon.updated" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCoupon'updated
-            | val GHC.Classes.== "credit_note.created" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCreditNote'created
-            | val GHC.Classes.== "credit_note.updated" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCreditNote'updated
-            | val GHC.Classes.== "credit_note.voided" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCreditNote'voided
-            | val GHC.Classes.== "customer.created" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCustomer'created
-            | val GHC.Classes.== "customer.deleted" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCustomer'deleted
-            | val GHC.Classes.== "customer.discount.created" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCustomer'discount'created
-            | val GHC.Classes.== "customer.discount.deleted" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCustomer'discount'deleted
-            | val GHC.Classes.== "customer.discount.updated" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCustomer'discount'updated
-            | val GHC.Classes.== "customer.source.created" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCustomer'source'created
-            | val GHC.Classes.== "customer.source.deleted" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCustomer'source'deleted
-            | val GHC.Classes.== "customer.source.expiring" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCustomer'source'expiring
-            | val GHC.Classes.== "customer.source.updated" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCustomer'source'updated
-            | val GHC.Classes.== "customer.subscription.created" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCustomer'subscription'created
-            | val GHC.Classes.== "customer.subscription.deleted" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCustomer'subscription'deleted
-            | val GHC.Classes.== "customer.subscription.pending_update_applied" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCustomer'subscription'pendingUpdateApplied
-            | val GHC.Classes.== "customer.subscription.pending_update_expired" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCustomer'subscription'pendingUpdateExpired
-            | val GHC.Classes.== "customer.subscription.trial_will_end" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCustomer'subscription'trialWillEnd
-            | val GHC.Classes.== "customer.subscription.updated" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCustomer'subscription'updated
-            | val GHC.Classes.== "customer.tax_id.created" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCustomer'taxId'created
-            | val GHC.Classes.== "customer.tax_id.deleted" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCustomer'taxId'deleted
-            | val GHC.Classes.== "customer.tax_id.updated" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCustomer'taxId'updated
-            | val GHC.Classes.== "customer.updated" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCustomer'updated
-            | val GHC.Classes.== "file.created" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringFile'created
-            | val GHC.Classes.== "invoice.created" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringInvoice'created
-            | val GHC.Classes.== "invoice.deleted" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringInvoice'deleted
-            | val GHC.Classes.== "invoice.finalized" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringInvoice'finalized
-            | val GHC.Classes.== "invoice.marked_uncollectible" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringInvoice'markedUncollectible
-            | val GHC.Classes.== "invoice.payment_action_required" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringInvoice'paymentActionRequired
-            | val GHC.Classes.== "invoice.payment_failed" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringInvoice'paymentFailed
-            | val GHC.Classes.== "invoice.payment_succeeded" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringInvoice'paymentSucceeded
-            | val GHC.Classes.== "invoice.sent" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringInvoice'sent
-            | val GHC.Classes.== "invoice.upcoming" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringInvoice'upcoming
-            | val GHC.Classes.== "invoice.updated" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringInvoice'updated
-            | val GHC.Classes.== "invoice.voided" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringInvoice'voided
-            | val GHC.Classes.== "invoiceitem.created" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringInvoiceitem'created
-            | val GHC.Classes.== "invoiceitem.deleted" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringInvoiceitem'deleted
-            | val GHC.Classes.== "invoiceitem.updated" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringInvoiceitem'updated
-            | val GHC.Classes.== "issuing_authorization.created" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringIssuingAuthorization'created
-            | val GHC.Classes.== "issuing_authorization.request" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringIssuingAuthorization'request
-            | val GHC.Classes.== "issuing_authorization.updated" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringIssuingAuthorization'updated
-            | val GHC.Classes.== "issuing_card.created" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringIssuingCard'created
-            | val GHC.Classes.== "issuing_card.updated" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringIssuingCard'updated
-            | val GHC.Classes.== "issuing_cardholder.created" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringIssuingCardholder'created
-            | val GHC.Classes.== "issuing_cardholder.updated" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringIssuingCardholder'updated
-            | val GHC.Classes.== "issuing_dispute.created" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringIssuingDispute'created
-            | val GHC.Classes.== "issuing_dispute.updated" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringIssuingDispute'updated
-            | val GHC.Classes.== "issuing_settlement.created" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringIssuingSettlement'created
-            | val GHC.Classes.== "issuing_settlement.updated" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringIssuingSettlement'updated
-            | val GHC.Classes.== "issuing_transaction.created" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringIssuingTransaction'created
-            | val GHC.Classes.== "issuing_transaction.updated" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringIssuingTransaction'updated
-            | val GHC.Classes.== "mandate.updated" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringMandate'updated
-            | val GHC.Classes.== "order.created" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringOrder'created
-            | val GHC.Classes.== "order.payment_failed" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringOrder'paymentFailed
-            | val GHC.Classes.== "order.payment_succeeded" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringOrder'paymentSucceeded
-            | val GHC.Classes.== "order.updated" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringOrder'updated
-            | val GHC.Classes.== "order_return.created" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringOrderReturn'created
-            | val GHC.Classes.== "payment_intent.amount_capturable_updated" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringPaymentIntent'amountCapturableUpdated
-            | val GHC.Classes.== "payment_intent.canceled" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringPaymentIntent'canceled
-            | val GHC.Classes.== "payment_intent.created" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringPaymentIntent'created
-            | val GHC.Classes.== "payment_intent.payment_failed" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringPaymentIntent'paymentFailed
-            | val GHC.Classes.== "payment_intent.processing" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringPaymentIntent'processing
-            | val GHC.Classes.== "payment_intent.succeeded" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringPaymentIntent'succeeded
-            | val GHC.Classes.== "payment_method.attached" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringPaymentMethod'attached
-            | val GHC.Classes.== "payment_method.card_automatically_updated" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringPaymentMethod'cardAutomaticallyUpdated
-            | val GHC.Classes.== "payment_method.detached" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringPaymentMethod'detached
-            | val GHC.Classes.== "payment_method.updated" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringPaymentMethod'updated
-            | val GHC.Classes.== "payout.canceled" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringPayout'canceled
-            | val GHC.Classes.== "payout.created" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringPayout'created
-            | val GHC.Classes.== "payout.failed" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringPayout'failed
-            | val GHC.Classes.== "payout.paid" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringPayout'paid
-            | val GHC.Classes.== "payout.updated" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringPayout'updated
-            | val GHC.Classes.== "person.created" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringPerson'created
-            | val GHC.Classes.== "person.deleted" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringPerson'deleted
-            | val GHC.Classes.== "person.updated" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringPerson'updated
-            | val GHC.Classes.== "plan.created" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringPlan'created
-            | val GHC.Classes.== "plan.deleted" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringPlan'deleted
-            | val GHC.Classes.== "plan.updated" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringPlan'updated
-            | val GHC.Classes.== "product.created" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringProduct'created
-            | val GHC.Classes.== "product.deleted" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringProduct'deleted
-            | val GHC.Classes.== "product.updated" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringProduct'updated
-            | val GHC.Classes.== "radar.early_fraud_warning.created" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringRadar'earlyFraudWarning'created
-            | val GHC.Classes.== "radar.early_fraud_warning.updated" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringRadar'earlyFraudWarning'updated
-            | val GHC.Classes.== "recipient.created" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringRecipient'created
-            | val GHC.Classes.== "recipient.deleted" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringRecipient'deleted
-            | val GHC.Classes.== "recipient.updated" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringRecipient'updated
-            | val GHC.Classes.== "reporting.report_run.failed" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringReporting'reportRun'failed
-            | val GHC.Classes.== "reporting.report_run.succeeded" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringReporting'reportRun'succeeded
-            | val GHC.Classes.== "reporting.report_type.updated" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringReporting'reportType'updated
-            | val GHC.Classes.== "review.closed" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringReview'closed
-            | val GHC.Classes.== "review.opened" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringReview'opened
-            | val GHC.Classes.== "setup_intent.canceled" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringSetupIntent'canceled
-            | val GHC.Classes.== "setup_intent.created" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringSetupIntent'created
-            | val GHC.Classes.== "setup_intent.setup_failed" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringSetupIntent'setupFailed
-            | val GHC.Classes.== "setup_intent.succeeded" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringSetupIntent'succeeded
-            | val GHC.Classes.== "sigma.scheduled_query_run.created" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringSigma'scheduledQueryRun'created
-            | val GHC.Classes.== "sku.created" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringSku'created
-            | val GHC.Classes.== "sku.deleted" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringSku'deleted
-            | val GHC.Classes.== "sku.updated" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringSku'updated
-            | val GHC.Classes.== "source.canceled" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringSource'canceled
-            | val GHC.Classes.== "source.chargeable" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringSource'chargeable
-            | val GHC.Classes.== "source.failed" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringSource'failed
-            | val GHC.Classes.== "source.mandate_notification" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringSource'mandateNotification
-            | val GHC.Classes.== "source.refund_attributes_required" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringSource'refundAttributesRequired
-            | val GHC.Classes.== "source.transaction.created" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringSource'transaction'created
-            | val GHC.Classes.== "source.transaction.updated" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringSource'transaction'updated
-            | val GHC.Classes.== "subscription_schedule.aborted" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringSubscriptionSchedule'aborted
-            | val GHC.Classes.== "subscription_schedule.canceled" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringSubscriptionSchedule'canceled
-            | val GHC.Classes.== "subscription_schedule.completed" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringSubscriptionSchedule'completed
-            | val GHC.Classes.== "subscription_schedule.created" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringSubscriptionSchedule'created
-            | val GHC.Classes.== "subscription_schedule.expiring" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringSubscriptionSchedule'expiring
-            | val GHC.Classes.== "subscription_schedule.released" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringSubscriptionSchedule'released
-            | val GHC.Classes.== "subscription_schedule.updated" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringSubscriptionSchedule'updated
-            | val GHC.Classes.== "tax_rate.created" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringTaxRate'created
-            | val GHC.Classes.== "tax_rate.updated" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringTaxRate'updated
-            | val GHC.Classes.== "topup.canceled" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringTopup'canceled
-            | val GHC.Classes.== "topup.created" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringTopup'created
-            | val GHC.Classes.== "topup.failed" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringTopup'failed
-            | val GHC.Classes.== "topup.reversed" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringTopup'reversed
-            | val GHC.Classes.== "topup.succeeded" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringTopup'succeeded
-            | val GHC.Classes.== "transfer.created" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringTransfer'created
-            | val GHC.Classes.== "transfer.failed" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringTransfer'failed
-            | val GHC.Classes.== "transfer.paid" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringTransfer'paid
-            | val GHC.Classes.== "transfer.reversed" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringTransfer'reversed
-            | val GHC.Classes.== "transfer.updated" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringTransfer'updated
-            | GHC.Base.otherwise -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumOther val
+      ( if  | val GHC.Classes.== "*" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'Enum_
+            | val GHC.Classes.== "account.application.authorized" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumAccount'application'authorized
+            | val GHC.Classes.== "account.application.deauthorized" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumAccount'application'deauthorized
+            | val GHC.Classes.== "account.external_account.created" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumAccount'externalAccount'created
+            | val GHC.Classes.== "account.external_account.deleted" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumAccount'externalAccount'deleted
+            | val GHC.Classes.== "account.external_account.updated" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumAccount'externalAccount'updated
+            | val GHC.Classes.== "account.updated" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumAccount'updated
+            | val GHC.Classes.== "application_fee.created" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumApplicationFee'created
+            | val GHC.Classes.== "application_fee.refund.updated" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumApplicationFee'refund'updated
+            | val GHC.Classes.== "application_fee.refunded" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumApplicationFee'refunded
+            | val GHC.Classes.== "balance.available" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumBalance'available
+            | val GHC.Classes.== "capability.updated" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCapability'updated
+            | val GHC.Classes.== "charge.captured" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCharge'captured
+            | val GHC.Classes.== "charge.dispute.closed" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCharge'dispute'closed
+            | val GHC.Classes.== "charge.dispute.created" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCharge'dispute'created
+            | val GHC.Classes.== "charge.dispute.funds_reinstated" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCharge'dispute'fundsReinstated
+            | val GHC.Classes.== "charge.dispute.funds_withdrawn" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCharge'dispute'fundsWithdrawn
+            | val GHC.Classes.== "charge.dispute.updated" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCharge'dispute'updated
+            | val GHC.Classes.== "charge.expired" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCharge'expired
+            | val GHC.Classes.== "charge.failed" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCharge'failed
+            | val GHC.Classes.== "charge.pending" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCharge'pending
+            | val GHC.Classes.== "charge.refund.updated" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCharge'refund'updated
+            | val GHC.Classes.== "charge.refunded" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCharge'refunded
+            | val GHC.Classes.== "charge.succeeded" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCharge'succeeded
+            | val GHC.Classes.== "charge.updated" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCharge'updated
+            | val GHC.Classes.== "checkout.session.completed" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCheckout'session'completed
+            | val GHC.Classes.== "coupon.created" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCoupon'created
+            | val GHC.Classes.== "coupon.deleted" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCoupon'deleted
+            | val GHC.Classes.== "coupon.updated" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCoupon'updated
+            | val GHC.Classes.== "credit_note.created" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCreditNote'created
+            | val GHC.Classes.== "credit_note.updated" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCreditNote'updated
+            | val GHC.Classes.== "credit_note.voided" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCreditNote'voided
+            | val GHC.Classes.== "customer.created" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCustomer'created
+            | val GHC.Classes.== "customer.deleted" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCustomer'deleted
+            | val GHC.Classes.== "customer.discount.created" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCustomer'discount'created
+            | val GHC.Classes.== "customer.discount.deleted" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCustomer'discount'deleted
+            | val GHC.Classes.== "customer.discount.updated" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCustomer'discount'updated
+            | val GHC.Classes.== "customer.source.created" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCustomer'source'created
+            | val GHC.Classes.== "customer.source.deleted" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCustomer'source'deleted
+            | val GHC.Classes.== "customer.source.expiring" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCustomer'source'expiring
+            | val GHC.Classes.== "customer.source.updated" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCustomer'source'updated
+            | val GHC.Classes.== "customer.subscription.created" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCustomer'subscription'created
+            | val GHC.Classes.== "customer.subscription.deleted" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCustomer'subscription'deleted
+            | val GHC.Classes.== "customer.subscription.pending_update_applied" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCustomer'subscription'pendingUpdateApplied
+            | val GHC.Classes.== "customer.subscription.pending_update_expired" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCustomer'subscription'pendingUpdateExpired
+            | val GHC.Classes.== "customer.subscription.trial_will_end" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCustomer'subscription'trialWillEnd
+            | val GHC.Classes.== "customer.subscription.updated" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCustomer'subscription'updated
+            | val GHC.Classes.== "customer.tax_id.created" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCustomer'taxId'created
+            | val GHC.Classes.== "customer.tax_id.deleted" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCustomer'taxId'deleted
+            | val GHC.Classes.== "customer.tax_id.updated" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCustomer'taxId'updated
+            | val GHC.Classes.== "customer.updated" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCustomer'updated
+            | val GHC.Classes.== "file.created" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumFile'created
+            | val GHC.Classes.== "invoice.created" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumInvoice'created
+            | val GHC.Classes.== "invoice.deleted" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumInvoice'deleted
+            | val GHC.Classes.== "invoice.finalized" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumInvoice'finalized
+            | val GHC.Classes.== "invoice.marked_uncollectible" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumInvoice'markedUncollectible
+            | val GHC.Classes.== "invoice.payment_action_required" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumInvoice'paymentActionRequired
+            | val GHC.Classes.== "invoice.payment_failed" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumInvoice'paymentFailed
+            | val GHC.Classes.== "invoice.payment_succeeded" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumInvoice'paymentSucceeded
+            | val GHC.Classes.== "invoice.sent" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumInvoice'sent
+            | val GHC.Classes.== "invoice.upcoming" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumInvoice'upcoming
+            | val GHC.Classes.== "invoice.updated" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumInvoice'updated
+            | val GHC.Classes.== "invoice.voided" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumInvoice'voided
+            | val GHC.Classes.== "invoiceitem.created" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumInvoiceitem'created
+            | val GHC.Classes.== "invoiceitem.deleted" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumInvoiceitem'deleted
+            | val GHC.Classes.== "invoiceitem.updated" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumInvoiceitem'updated
+            | val GHC.Classes.== "issuing_authorization.created" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumIssuingAuthorization'created
+            | val GHC.Classes.== "issuing_authorization.request" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumIssuingAuthorization'request
+            | val GHC.Classes.== "issuing_authorization.updated" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumIssuingAuthorization'updated
+            | val GHC.Classes.== "issuing_card.created" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumIssuingCard'created
+            | val GHC.Classes.== "issuing_card.updated" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumIssuingCard'updated
+            | val GHC.Classes.== "issuing_cardholder.created" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumIssuingCardholder'created
+            | val GHC.Classes.== "issuing_cardholder.updated" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumIssuingCardholder'updated
+            | val GHC.Classes.== "issuing_dispute.created" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumIssuingDispute'created
+            | val GHC.Classes.== "issuing_dispute.updated" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumIssuingDispute'updated
+            | val GHC.Classes.== "issuing_settlement.created" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumIssuingSettlement'created
+            | val GHC.Classes.== "issuing_settlement.updated" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumIssuingSettlement'updated
+            | val GHC.Classes.== "issuing_transaction.created" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumIssuingTransaction'created
+            | val GHC.Classes.== "issuing_transaction.updated" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumIssuingTransaction'updated
+            | val GHC.Classes.== "mandate.updated" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumMandate'updated
+            | val GHC.Classes.== "order.created" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumOrder'created
+            | val GHC.Classes.== "order.payment_failed" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumOrder'paymentFailed
+            | val GHC.Classes.== "order.payment_succeeded" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumOrder'paymentSucceeded
+            | val GHC.Classes.== "order.updated" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumOrder'updated
+            | val GHC.Classes.== "order_return.created" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumOrderReturn'created
+            | val GHC.Classes.== "payment_intent.amount_capturable_updated" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumPaymentIntent'amountCapturableUpdated
+            | val GHC.Classes.== "payment_intent.canceled" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumPaymentIntent'canceled
+            | val GHC.Classes.== "payment_intent.created" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumPaymentIntent'created
+            | val GHC.Classes.== "payment_intent.payment_failed" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumPaymentIntent'paymentFailed
+            | val GHC.Classes.== "payment_intent.processing" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumPaymentIntent'processing
+            | val GHC.Classes.== "payment_intent.succeeded" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumPaymentIntent'succeeded
+            | val GHC.Classes.== "payment_method.attached" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumPaymentMethod'attached
+            | val GHC.Classes.== "payment_method.card_automatically_updated" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumPaymentMethod'cardAutomaticallyUpdated
+            | val GHC.Classes.== "payment_method.detached" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumPaymentMethod'detached
+            | val GHC.Classes.== "payment_method.updated" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumPaymentMethod'updated
+            | val GHC.Classes.== "payout.canceled" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumPayout'canceled
+            | val GHC.Classes.== "payout.created" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumPayout'created
+            | val GHC.Classes.== "payout.failed" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumPayout'failed
+            | val GHC.Classes.== "payout.paid" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumPayout'paid
+            | val GHC.Classes.== "payout.updated" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumPayout'updated
+            | val GHC.Classes.== "person.created" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumPerson'created
+            | val GHC.Classes.== "person.deleted" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumPerson'deleted
+            | val GHC.Classes.== "person.updated" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumPerson'updated
+            | val GHC.Classes.== "plan.created" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumPlan'created
+            | val GHC.Classes.== "plan.deleted" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumPlan'deleted
+            | val GHC.Classes.== "plan.updated" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumPlan'updated
+            | val GHC.Classes.== "product.created" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumProduct'created
+            | val GHC.Classes.== "product.deleted" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumProduct'deleted
+            | val GHC.Classes.== "product.updated" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumProduct'updated
+            | val GHC.Classes.== "radar.early_fraud_warning.created" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumRadar'earlyFraudWarning'created
+            | val GHC.Classes.== "radar.early_fraud_warning.updated" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumRadar'earlyFraudWarning'updated
+            | val GHC.Classes.== "recipient.created" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumRecipient'created
+            | val GHC.Classes.== "recipient.deleted" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumRecipient'deleted
+            | val GHC.Classes.== "recipient.updated" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumRecipient'updated
+            | val GHC.Classes.== "reporting.report_run.failed" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumReporting'reportRun'failed
+            | val GHC.Classes.== "reporting.report_run.succeeded" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumReporting'reportRun'succeeded
+            | val GHC.Classes.== "reporting.report_type.updated" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumReporting'reportType'updated
+            | val GHC.Classes.== "review.closed" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumReview'closed
+            | val GHC.Classes.== "review.opened" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumReview'opened
+            | val GHC.Classes.== "setup_intent.canceled" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumSetupIntent'canceled
+            | val GHC.Classes.== "setup_intent.created" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumSetupIntent'created
+            | val GHC.Classes.== "setup_intent.setup_failed" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumSetupIntent'setupFailed
+            | val GHC.Classes.== "setup_intent.succeeded" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumSetupIntent'succeeded
+            | val GHC.Classes.== "sigma.scheduled_query_run.created" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumSigma'scheduledQueryRun'created
+            | val GHC.Classes.== "sku.created" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumSku'created
+            | val GHC.Classes.== "sku.deleted" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumSku'deleted
+            | val GHC.Classes.== "sku.updated" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumSku'updated
+            | val GHC.Classes.== "source.canceled" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumSource'canceled
+            | val GHC.Classes.== "source.chargeable" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumSource'chargeable
+            | val GHC.Classes.== "source.failed" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumSource'failed
+            | val GHC.Classes.== "source.mandate_notification" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumSource'mandateNotification
+            | val GHC.Classes.== "source.refund_attributes_required" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumSource'refundAttributesRequired
+            | val GHC.Classes.== "source.transaction.created" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumSource'transaction'created
+            | val GHC.Classes.== "source.transaction.updated" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumSource'transaction'updated
+            | val GHC.Classes.== "subscription_schedule.aborted" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumSubscriptionSchedule'aborted
+            | val GHC.Classes.== "subscription_schedule.canceled" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumSubscriptionSchedule'canceled
+            | val GHC.Classes.== "subscription_schedule.completed" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumSubscriptionSchedule'completed
+            | val GHC.Classes.== "subscription_schedule.created" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumSubscriptionSchedule'created
+            | val GHC.Classes.== "subscription_schedule.expiring" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumSubscriptionSchedule'expiring
+            | val GHC.Classes.== "subscription_schedule.released" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumSubscriptionSchedule'released
+            | val GHC.Classes.== "subscription_schedule.updated" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumSubscriptionSchedule'updated
+            | val GHC.Classes.== "tax_rate.created" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumTaxRate'created
+            | val GHC.Classes.== "tax_rate.updated" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumTaxRate'updated
+            | val GHC.Classes.== "topup.canceled" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumTopup'canceled
+            | val GHC.Classes.== "topup.created" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumTopup'created
+            | val GHC.Classes.== "topup.failed" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumTopup'failed
+            | val GHC.Classes.== "topup.reversed" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumTopup'reversed
+            | val GHC.Classes.== "topup.succeeded" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumTopup'succeeded
+            | val GHC.Classes.== "transfer.created" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumTransfer'created
+            | val GHC.Classes.== "transfer.failed" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumTransfer'failed
+            | val GHC.Classes.== "transfer.paid" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumTransfer'paid
+            | val GHC.Classes.== "transfer.reversed" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumTransfer'reversed
+            | val GHC.Classes.== "transfer.updated" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumTransfer'updated
+            | GHC.Base.otherwise -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'Other val
       )
 
 -- | Represents a response of the operation 'postWebhookEndpointsWebhookEndpoint'.

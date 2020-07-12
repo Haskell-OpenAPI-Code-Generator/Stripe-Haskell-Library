@@ -10,6 +10,7 @@ module StripeAPI.Operations.GetTerminalReaders where
 import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -88,7 +89,7 @@ getTerminalReaders parameters =
         ]
     )
 
--- | Defines the data type for the schema getTerminalReadersParameters
+-- | Defines the object schema located at @paths.\/v1\/terminal\/readers.GET.parameters@ in the specification.
 data GetTerminalReadersParameters
   = GetTerminalReadersParameters
       { -- | queryDevice_type: Represents the parameter named \'device_type\'
@@ -138,62 +139,83 @@ data GetTerminalReadersParameters
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetTerminalReadersParameters where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "queryDevice_type" (getTerminalReadersParametersQueryDeviceType obj) : (Data.Aeson..=) "queryEnding_before" (getTerminalReadersParametersQueryEndingBefore obj) : (Data.Aeson..=) "queryExpand" (getTerminalReadersParametersQueryExpand obj) : (Data.Aeson..=) "queryLimit" (getTerminalReadersParametersQueryLimit obj) : (Data.Aeson..=) "queryLocation" (getTerminalReadersParametersQueryLocation obj) : (Data.Aeson..=) "queryStarting_after" (getTerminalReadersParametersQueryStartingAfter obj) : (Data.Aeson..=) "queryStatus" (getTerminalReadersParametersQueryStatus obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "queryDevice_type" (getTerminalReadersParametersQueryDeviceType obj) GHC.Base.<> ((Data.Aeson..=) "queryEnding_before" (getTerminalReadersParametersQueryEndingBefore obj) GHC.Base.<> ((Data.Aeson..=) "queryExpand" (getTerminalReadersParametersQueryExpand obj) GHC.Base.<> ((Data.Aeson..=) "queryLimit" (getTerminalReadersParametersQueryLimit obj) GHC.Base.<> ((Data.Aeson..=) "queryLocation" (getTerminalReadersParametersQueryLocation obj) GHC.Base.<> ((Data.Aeson..=) "queryStarting_after" (getTerminalReadersParametersQueryStartingAfter obj) GHC.Base.<> (Data.Aeson..=) "queryStatus" (getTerminalReadersParametersQueryStatus obj)))))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("queryDevice_type" Data.Aeson.Types.ToJSON..= getTerminalReadersParametersQueryDeviceType obj : "queryEnding_before" Data.Aeson.Types.ToJSON..= getTerminalReadersParametersQueryEndingBefore obj : "queryExpand" Data.Aeson.Types.ToJSON..= getTerminalReadersParametersQueryExpand obj : "queryLimit" Data.Aeson.Types.ToJSON..= getTerminalReadersParametersQueryLimit obj : "queryLocation" Data.Aeson.Types.ToJSON..= getTerminalReadersParametersQueryLocation obj : "queryStarting_after" Data.Aeson.Types.ToJSON..= getTerminalReadersParametersQueryStartingAfter obj : "queryStatus" Data.Aeson.Types.ToJSON..= getTerminalReadersParametersQueryStatus obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("queryDevice_type" Data.Aeson.Types.ToJSON..= getTerminalReadersParametersQueryDeviceType obj) GHC.Base.<> (("queryEnding_before" Data.Aeson.Types.ToJSON..= getTerminalReadersParametersQueryEndingBefore obj) GHC.Base.<> (("queryExpand" Data.Aeson.Types.ToJSON..= getTerminalReadersParametersQueryExpand obj) GHC.Base.<> (("queryLimit" Data.Aeson.Types.ToJSON..= getTerminalReadersParametersQueryLimit obj) GHC.Base.<> (("queryLocation" Data.Aeson.Types.ToJSON..= getTerminalReadersParametersQueryLocation obj) GHC.Base.<> (("queryStarting_after" Data.Aeson.Types.ToJSON..= getTerminalReadersParametersQueryStartingAfter obj) GHC.Base.<> ("queryStatus" Data.Aeson.Types.ToJSON..= getTerminalReadersParametersQueryStatus obj)))))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetTerminalReadersParameters where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "GetTerminalReadersParameters" (\obj -> ((((((GHC.Base.pure GetTerminalReadersParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryDevice_type")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryEnding_before")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryExpand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryLimit")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryLocation")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryStarting_after")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryStatus"))
 
--- | Defines the enum schema getTerminalReadersParametersQueryDevice_type\'
+-- | Create a new 'GetTerminalReadersParameters' with all required fields.
+mkGetTerminalReadersParameters :: GetTerminalReadersParameters
+mkGetTerminalReadersParameters =
+  GetTerminalReadersParameters
+    { getTerminalReadersParametersQueryDeviceType = GHC.Maybe.Nothing,
+      getTerminalReadersParametersQueryEndingBefore = GHC.Maybe.Nothing,
+      getTerminalReadersParametersQueryExpand = GHC.Maybe.Nothing,
+      getTerminalReadersParametersQueryLimit = GHC.Maybe.Nothing,
+      getTerminalReadersParametersQueryLocation = GHC.Maybe.Nothing,
+      getTerminalReadersParametersQueryStartingAfter = GHC.Maybe.Nothing,
+      getTerminalReadersParametersQueryStatus = GHC.Maybe.Nothing
+    }
+
+-- | Defines the enum schema located at @paths.\/v1\/terminal\/readers.GET.parameters.properties.queryDevice_type@ in the specification.
 --
 -- Represents the parameter named \'device_type\'
 --
 -- Filters readers by device type
 data GetTerminalReadersParametersQueryDeviceType'
-  = GetTerminalReadersParametersQueryDeviceType'EnumOther Data.Aeson.Types.Internal.Value
-  | GetTerminalReadersParametersQueryDeviceType'EnumTyped Data.Text.Internal.Text
-  | GetTerminalReadersParametersQueryDeviceType'EnumStringBbposChipper2x
-  | GetTerminalReadersParametersQueryDeviceType'EnumStringVerifoneP400
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    GetTerminalReadersParametersQueryDeviceType'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    GetTerminalReadersParametersQueryDeviceType'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"bbpos_chipper2x"@
+    GetTerminalReadersParametersQueryDeviceType'EnumBbposChipper2x
+  | -- | Represents the JSON value @"verifone_P400"@
+    GetTerminalReadersParametersQueryDeviceType'EnumVerifoneP400
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetTerminalReadersParametersQueryDeviceType' where
-  toJSON (GetTerminalReadersParametersQueryDeviceType'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (GetTerminalReadersParametersQueryDeviceType'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (GetTerminalReadersParametersQueryDeviceType'EnumStringBbposChipper2x) = "bbpos_chipper2x"
-  toJSON (GetTerminalReadersParametersQueryDeviceType'EnumStringVerifoneP400) = "verifone_P400"
+  toJSON (GetTerminalReadersParametersQueryDeviceType'Other val) = val
+  toJSON (GetTerminalReadersParametersQueryDeviceType'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (GetTerminalReadersParametersQueryDeviceType'EnumBbposChipper2x) = "bbpos_chipper2x"
+  toJSON (GetTerminalReadersParametersQueryDeviceType'EnumVerifoneP400) = "verifone_P400"
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetTerminalReadersParametersQueryDeviceType' where
   parseJSON val =
     GHC.Base.pure
-      ( if  | val GHC.Classes.== "bbpos_chipper2x" -> GetTerminalReadersParametersQueryDeviceType'EnumStringBbposChipper2x
-            | val GHC.Classes.== "verifone_P400" -> GetTerminalReadersParametersQueryDeviceType'EnumStringVerifoneP400
-            | GHC.Base.otherwise -> GetTerminalReadersParametersQueryDeviceType'EnumOther val
+      ( if  | val GHC.Classes.== "bbpos_chipper2x" -> GetTerminalReadersParametersQueryDeviceType'EnumBbposChipper2x
+            | val GHC.Classes.== "verifone_P400" -> GetTerminalReadersParametersQueryDeviceType'EnumVerifoneP400
+            | GHC.Base.otherwise -> GetTerminalReadersParametersQueryDeviceType'Other val
       )
 
--- | Defines the enum schema getTerminalReadersParametersQueryStatus\'
+-- | Defines the enum schema located at @paths.\/v1\/terminal\/readers.GET.parameters.properties.queryStatus@ in the specification.
 --
 -- Represents the parameter named \'status\'
 --
 -- A status filter to filter readers to only offline or online readers
 data GetTerminalReadersParametersQueryStatus'
-  = GetTerminalReadersParametersQueryStatus'EnumOther Data.Aeson.Types.Internal.Value
-  | GetTerminalReadersParametersQueryStatus'EnumTyped Data.Text.Internal.Text
-  | GetTerminalReadersParametersQueryStatus'EnumStringOffline
-  | GetTerminalReadersParametersQueryStatus'EnumStringOnline
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    GetTerminalReadersParametersQueryStatus'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    GetTerminalReadersParametersQueryStatus'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"offline"@
+    GetTerminalReadersParametersQueryStatus'EnumOffline
+  | -- | Represents the JSON value @"online"@
+    GetTerminalReadersParametersQueryStatus'EnumOnline
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetTerminalReadersParametersQueryStatus' where
-  toJSON (GetTerminalReadersParametersQueryStatus'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (GetTerminalReadersParametersQueryStatus'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (GetTerminalReadersParametersQueryStatus'EnumStringOffline) = "offline"
-  toJSON (GetTerminalReadersParametersQueryStatus'EnumStringOnline) = "online"
+  toJSON (GetTerminalReadersParametersQueryStatus'Other val) = val
+  toJSON (GetTerminalReadersParametersQueryStatus'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (GetTerminalReadersParametersQueryStatus'EnumOffline) = "offline"
+  toJSON (GetTerminalReadersParametersQueryStatus'EnumOnline) = "online"
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetTerminalReadersParametersQueryStatus' where
   parseJSON val =
     GHC.Base.pure
-      ( if  | val GHC.Classes.== "offline" -> GetTerminalReadersParametersQueryStatus'EnumStringOffline
-            | val GHC.Classes.== "online" -> GetTerminalReadersParametersQueryStatus'EnumStringOnline
-            | GHC.Base.otherwise -> GetTerminalReadersParametersQueryStatus'EnumOther val
+      ( if  | val GHC.Classes.== "offline" -> GetTerminalReadersParametersQueryStatus'EnumOffline
+            | val GHC.Classes.== "online" -> GetTerminalReadersParametersQueryStatus'EnumOnline
+            | GHC.Base.otherwise -> GetTerminalReadersParametersQueryStatus'Other val
       )
 
 -- | Represents a response of the operation 'getTerminalReaders'.
@@ -208,15 +230,13 @@ data GetTerminalReadersResponse
     GetTerminalReadersResponseDefault Error
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
--- | Defines the data type for the schema GetTerminalReadersResponseBody200
+-- | Defines the object schema located at @paths.\/v1\/terminal\/readers.GET.responses.200.content.application\/json.schema@ in the specification.
 data GetTerminalReadersResponseBody200
   = GetTerminalReadersResponseBody200
       { -- | data: A list of readers
         getTerminalReadersResponseBody200Data :: ([Terminal'reader]),
         -- | has_more: True if this list has another page of items after this one that can be fetched.
         getTerminalReadersResponseBody200HasMore :: GHC.Types.Bool,
-        -- | object: String representing the object\'s type. Objects of the same type share the same value. Always has the value \`list\`.
-        getTerminalReadersResponseBody200Object :: GetTerminalReadersResponseBody200Object',
         -- | url: The URL where this list can be accessed.
         --
         -- Constraints:
@@ -230,29 +250,24 @@ data GetTerminalReadersResponseBody200
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetTerminalReadersResponseBody200 where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "data" (getTerminalReadersResponseBody200Data obj) : (Data.Aeson..=) "has_more" (getTerminalReadersResponseBody200HasMore obj) : (Data.Aeson..=) "object" (getTerminalReadersResponseBody200Object obj) : (Data.Aeson..=) "url" (getTerminalReadersResponseBody200Url obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "data" (getTerminalReadersResponseBody200Data obj) GHC.Base.<> ((Data.Aeson..=) "has_more" (getTerminalReadersResponseBody200HasMore obj) GHC.Base.<> ((Data.Aeson..=) "object" (getTerminalReadersResponseBody200Object obj) GHC.Base.<> (Data.Aeson..=) "url" (getTerminalReadersResponseBody200Url obj))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("data" Data.Aeson.Types.ToJSON..= getTerminalReadersResponseBody200Data obj : "has_more" Data.Aeson.Types.ToJSON..= getTerminalReadersResponseBody200HasMore obj : "url" Data.Aeson.Types.ToJSON..= getTerminalReadersResponseBody200Url obj : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "list" : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("data" Data.Aeson.Types.ToJSON..= getTerminalReadersResponseBody200Data obj) GHC.Base.<> (("has_more" Data.Aeson.Types.ToJSON..= getTerminalReadersResponseBody200HasMore obj) GHC.Base.<> (("url" Data.Aeson.Types.ToJSON..= getTerminalReadersResponseBody200Url obj) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "list"))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetTerminalReadersResponseBody200 where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetTerminalReadersResponseBody200" (\obj -> (((GHC.Base.pure GetTerminalReadersResponseBody200 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "has_more")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "object")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "url"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetTerminalReadersResponseBody200" (\obj -> ((GHC.Base.pure GetTerminalReadersResponseBody200 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "has_more")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "url"))
 
--- | Defines the enum schema GetTerminalReadersResponseBody200Object\'
---
--- String representing the object\'s type. Objects of the same type share the same value. Always has the value \`list\`.
-data GetTerminalReadersResponseBody200Object'
-  = GetTerminalReadersResponseBody200Object'EnumOther Data.Aeson.Types.Internal.Value
-  | GetTerminalReadersResponseBody200Object'EnumTyped Data.Text.Internal.Text
-  | GetTerminalReadersResponseBody200Object'EnumStringList
-  deriving (GHC.Show.Show, GHC.Classes.Eq)
-
-instance Data.Aeson.Types.ToJSON.ToJSON GetTerminalReadersResponseBody200Object' where
-  toJSON (GetTerminalReadersResponseBody200Object'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (GetTerminalReadersResponseBody200Object'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (GetTerminalReadersResponseBody200Object'EnumStringList) = "list"
-
-instance Data.Aeson.Types.FromJSON.FromJSON GetTerminalReadersResponseBody200Object' where
-  parseJSON val =
-    GHC.Base.pure
-      ( if  | val GHC.Classes.== "list" -> GetTerminalReadersResponseBody200Object'EnumStringList
-            | GHC.Base.otherwise -> GetTerminalReadersResponseBody200Object'EnumOther val
-      )
+-- | Create a new 'GetTerminalReadersResponseBody200' with all required fields.
+mkGetTerminalReadersResponseBody200 ::
+  -- | 'getTerminalReadersResponseBody200Data'
+  [Terminal'reader] ->
+  -- | 'getTerminalReadersResponseBody200HasMore'
+  GHC.Types.Bool ->
+  -- | 'getTerminalReadersResponseBody200Url'
+  Data.Text.Internal.Text ->
+  GetTerminalReadersResponseBody200
+mkGetTerminalReadersResponseBody200 getTerminalReadersResponseBody200Data getTerminalReadersResponseBody200HasMore getTerminalReadersResponseBody200Url =
+  GetTerminalReadersResponseBody200
+    { getTerminalReadersResponseBody200Data = getTerminalReadersResponseBody200Data,
+      getTerminalReadersResponseBody200HasMore = getTerminalReadersResponseBody200HasMore,
+      getTerminalReadersResponseBody200Url = getTerminalReadersResponseBody200Url
+    }

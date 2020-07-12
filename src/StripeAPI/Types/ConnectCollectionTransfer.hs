@@ -8,6 +8,7 @@ module StripeAPI.Types.ConnectCollectionTransfer where
 
 import qualified Control.Monad.Fail
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -31,7 +32,7 @@ import {-# SOURCE #-} StripeAPI.Types.Account
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
--- | Defines the data type for the schema connect_collection_transfer
+-- | Defines the object schema located at @components.schemas.connect_collection_transfer@ in the specification.
 data ConnectCollectionTransfer
   = ConnectCollectionTransfer
       { -- | amount: Amount transferred, in %s.
@@ -47,9 +48,7 @@ data ConnectCollectionTransfer
         -- * Maximum length of 5000
         connectCollectionTransferId :: Data.Text.Internal.Text,
         -- | livemode: Has the value \`true\` if the object exists in live mode or the value \`false\` if the object exists in test mode.
-        connectCollectionTransferLivemode :: GHC.Types.Bool,
-        -- | object: String representing the object\'s type. Objects of the same type share the same value.
-        connectCollectionTransferObject :: ConnectCollectionTransferObject'
+        connectCollectionTransferLivemode :: GHC.Types.Bool
       }
   deriving
     ( GHC.Show.Show,
@@ -57,13 +56,35 @@ data ConnectCollectionTransfer
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON ConnectCollectionTransfer where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "amount" (connectCollectionTransferAmount obj) : (Data.Aeson..=) "currency" (connectCollectionTransferCurrency obj) : (Data.Aeson..=) "destination" (connectCollectionTransferDestination obj) : (Data.Aeson..=) "id" (connectCollectionTransferId obj) : (Data.Aeson..=) "livemode" (connectCollectionTransferLivemode obj) : (Data.Aeson..=) "object" (connectCollectionTransferObject obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "amount" (connectCollectionTransferAmount obj) GHC.Base.<> ((Data.Aeson..=) "currency" (connectCollectionTransferCurrency obj) GHC.Base.<> ((Data.Aeson..=) "destination" (connectCollectionTransferDestination obj) GHC.Base.<> ((Data.Aeson..=) "id" (connectCollectionTransferId obj) GHC.Base.<> ((Data.Aeson..=) "livemode" (connectCollectionTransferLivemode obj) GHC.Base.<> (Data.Aeson..=) "object" (connectCollectionTransferObject obj))))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("amount" Data.Aeson.Types.ToJSON..= connectCollectionTransferAmount obj : "currency" Data.Aeson.Types.ToJSON..= connectCollectionTransferCurrency obj : "destination" Data.Aeson.Types.ToJSON..= connectCollectionTransferDestination obj : "id" Data.Aeson.Types.ToJSON..= connectCollectionTransferId obj : "livemode" Data.Aeson.Types.ToJSON..= connectCollectionTransferLivemode obj : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "connect_collection_transfer" : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("amount" Data.Aeson.Types.ToJSON..= connectCollectionTransferAmount obj) GHC.Base.<> (("currency" Data.Aeson.Types.ToJSON..= connectCollectionTransferCurrency obj) GHC.Base.<> (("destination" Data.Aeson.Types.ToJSON..= connectCollectionTransferDestination obj) GHC.Base.<> (("id" Data.Aeson.Types.ToJSON..= connectCollectionTransferId obj) GHC.Base.<> (("livemode" Data.Aeson.Types.ToJSON..= connectCollectionTransferLivemode obj) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "connect_collection_transfer"))))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON ConnectCollectionTransfer where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "ConnectCollectionTransfer" (\obj -> (((((GHC.Base.pure ConnectCollectionTransfer GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "destination")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "livemode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "object"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "ConnectCollectionTransfer" (\obj -> ((((GHC.Base.pure ConnectCollectionTransfer GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "destination")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "livemode"))
 
--- | Define the one-of schema connect_collection_transferDestination\'
+-- | Create a new 'ConnectCollectionTransfer' with all required fields.
+mkConnectCollectionTransfer ::
+  -- | 'connectCollectionTransferAmount'
+  GHC.Types.Int ->
+  -- | 'connectCollectionTransferCurrency'
+  Data.Text.Internal.Text ->
+  -- | 'connectCollectionTransferDestination'
+  ConnectCollectionTransferDestination'Variants ->
+  -- | 'connectCollectionTransferId'
+  Data.Text.Internal.Text ->
+  -- | 'connectCollectionTransferLivemode'
+  GHC.Types.Bool ->
+  ConnectCollectionTransfer
+mkConnectCollectionTransfer connectCollectionTransferAmount connectCollectionTransferCurrency connectCollectionTransferDestination connectCollectionTransferId connectCollectionTransferLivemode =
+  ConnectCollectionTransfer
+    { connectCollectionTransferAmount = connectCollectionTransferAmount,
+      connectCollectionTransferCurrency = connectCollectionTransferCurrency,
+      connectCollectionTransferDestination = connectCollectionTransferDestination,
+      connectCollectionTransferId = connectCollectionTransferId,
+      connectCollectionTransferLivemode = connectCollectionTransferLivemode
+    }
+
+-- | Defines the oneOf schema located at @components.schemas.connect_collection_transfer.properties.destination.anyOf@ in the specification.
 --
 -- ID of the account that funds are being collected for.
 data ConnectCollectionTransferDestination'Variants
@@ -76,29 +97,6 @@ instance Data.Aeson.Types.ToJSON.ToJSON ConnectCollectionTransferDestination'Var
   toJSON (ConnectCollectionTransferDestination'Text a) = Data.Aeson.Types.ToJSON.toJSON a
 
 instance Data.Aeson.Types.FromJSON.FromJSON ConnectCollectionTransferDestination'Variants where
-  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
-    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ ConnectCollectionTransferDestination'Account a
-    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ ConnectCollectionTransferDestination'Text a
-      Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
-
--- | Defines the enum schema connect_collection_transferObject\'
---
--- String representing the object\'s type. Objects of the same type share the same value.
-data ConnectCollectionTransferObject'
-  = ConnectCollectionTransferObject'EnumOther Data.Aeson.Types.Internal.Value
-  | ConnectCollectionTransferObject'EnumTyped Data.Text.Internal.Text
-  | ConnectCollectionTransferObject'EnumStringConnectCollectionTransfer
-  deriving (GHC.Show.Show, GHC.Classes.Eq)
-
-instance Data.Aeson.Types.ToJSON.ToJSON ConnectCollectionTransferObject' where
-  toJSON (ConnectCollectionTransferObject'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (ConnectCollectionTransferObject'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (ConnectCollectionTransferObject'EnumStringConnectCollectionTransfer) = "connect_collection_transfer"
-
-instance Data.Aeson.Types.FromJSON.FromJSON ConnectCollectionTransferObject' where
-  parseJSON val =
-    GHC.Base.pure
-      ( if  | val GHC.Classes.== "connect_collection_transfer" -> ConnectCollectionTransferObject'EnumStringConnectCollectionTransfer
-            | GHC.Base.otherwise -> ConnectCollectionTransferObject'EnumOther val
-      )
+  parseJSON val = case (ConnectCollectionTransferDestination'Account Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((ConnectCollectionTransferDestination'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched") of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+    Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a

@@ -8,6 +8,7 @@ module StripeAPI.Types.ChargeFraudDetails where
 
 import qualified Control.Monad.Fail
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -30,7 +31,7 @@ import StripeAPI.TypeAlias
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
--- | Defines the data type for the schema charge_fraud_details
+-- | Defines the object schema located at @components.schemas.charge_fraud_details@ in the specification.
 data ChargeFraudDetails
   = ChargeFraudDetails
       { -- | stripe_report: Assessments from Stripe. If set, the value is \`fraudulent\`.
@@ -52,8 +53,16 @@ data ChargeFraudDetails
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON ChargeFraudDetails where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "stripe_report" (chargeFraudDetailsStripeReport obj) : (Data.Aeson..=) "user_report" (chargeFraudDetailsUserReport obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "stripe_report" (chargeFraudDetailsStripeReport obj) GHC.Base.<> (Data.Aeson..=) "user_report" (chargeFraudDetailsUserReport obj))
+  toJSON obj = Data.Aeson.Types.Internal.object ("stripe_report" Data.Aeson.Types.ToJSON..= chargeFraudDetailsStripeReport obj : "user_report" Data.Aeson.Types.ToJSON..= chargeFraudDetailsUserReport obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("stripe_report" Data.Aeson.Types.ToJSON..= chargeFraudDetailsStripeReport obj) GHC.Base.<> ("user_report" Data.Aeson.Types.ToJSON..= chargeFraudDetailsUserReport obj))
 
 instance Data.Aeson.Types.FromJSON.FromJSON ChargeFraudDetails where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "ChargeFraudDetails" (\obj -> (GHC.Base.pure ChargeFraudDetails GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "stripe_report")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "user_report"))
+
+-- | Create a new 'ChargeFraudDetails' with all required fields.
+mkChargeFraudDetails :: ChargeFraudDetails
+mkChargeFraudDetails =
+  ChargeFraudDetails
+    { chargeFraudDetailsStripeReport = GHC.Maybe.Nothing,
+      chargeFraudDetailsUserReport = GHC.Maybe.Nothing
+    }

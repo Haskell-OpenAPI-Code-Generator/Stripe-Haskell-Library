@@ -8,6 +8,7 @@ module StripeAPI.Types.DeletedCoupon where
 
 import qualified Control.Monad.Fail
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -30,19 +31,15 @@ import StripeAPI.TypeAlias
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
--- | Defines the data type for the schema deleted_coupon
+-- | Defines the object schema located at @components.schemas.deleted_coupon@ in the specification.
 data DeletedCoupon
   = DeletedCoupon
-      { -- | deleted: Always true for a deleted object
-        deletedCouponDeleted :: DeletedCouponDeleted',
-        -- | id: Unique identifier for the object.
+      { -- | id: Unique identifier for the object.
         --
         -- Constraints:
         --
         -- * Maximum length of 5000
-        deletedCouponId :: Data.Text.Internal.Text,
-        -- | object: String representing the object\'s type. Objects of the same type share the same value.
-        deletedCouponObject :: DeletedCouponObject'
+        deletedCouponId :: Data.Text.Internal.Text
       }
   deriving
     ( GHC.Show.Show,
@@ -50,50 +47,15 @@ data DeletedCoupon
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON DeletedCoupon where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "deleted" (deletedCouponDeleted obj) : (Data.Aeson..=) "id" (deletedCouponId obj) : (Data.Aeson..=) "object" (deletedCouponObject obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "deleted" (deletedCouponDeleted obj) GHC.Base.<> ((Data.Aeson..=) "id" (deletedCouponId obj) GHC.Base.<> (Data.Aeson..=) "object" (deletedCouponObject obj)))
+  toJSON obj = Data.Aeson.Types.Internal.object ("id" Data.Aeson.Types.ToJSON..= deletedCouponId obj : "deleted" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.Bool GHC.Types.True : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "coupon" : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("id" Data.Aeson.Types.ToJSON..= deletedCouponId obj) GHC.Base.<> (("deleted" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.Bool GHC.Types.True) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "coupon")))
 
 instance Data.Aeson.Types.FromJSON.FromJSON DeletedCoupon where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "DeletedCoupon" (\obj -> ((GHC.Base.pure DeletedCoupon GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "deleted")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "object"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "DeletedCoupon" (\obj -> GHC.Base.pure DeletedCoupon GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id"))
 
--- | Defines the enum schema deleted_couponDeleted\'
---
--- Always true for a deleted object
-data DeletedCouponDeleted'
-  = DeletedCouponDeleted'EnumOther Data.Aeson.Types.Internal.Value
-  | DeletedCouponDeleted'EnumTyped GHC.Types.Bool
-  | DeletedCouponDeleted'EnumBoolTrue
-  deriving (GHC.Show.Show, GHC.Classes.Eq)
-
-instance Data.Aeson.Types.ToJSON.ToJSON DeletedCouponDeleted' where
-  toJSON (DeletedCouponDeleted'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (DeletedCouponDeleted'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (DeletedCouponDeleted'EnumBoolTrue) = Data.Aeson.Types.Internal.Bool GHC.Types.True
-
-instance Data.Aeson.Types.FromJSON.FromJSON DeletedCouponDeleted' where
-  parseJSON val =
-    GHC.Base.pure
-      ( if  | val GHC.Classes.== Data.Aeson.Types.Internal.Bool GHC.Types.True -> DeletedCouponDeleted'EnumBoolTrue
-            | GHC.Base.otherwise -> DeletedCouponDeleted'EnumOther val
-      )
-
--- | Defines the enum schema deleted_couponObject\'
---
--- String representing the object\'s type. Objects of the same type share the same value.
-data DeletedCouponObject'
-  = DeletedCouponObject'EnumOther Data.Aeson.Types.Internal.Value
-  | DeletedCouponObject'EnumTyped Data.Text.Internal.Text
-  | DeletedCouponObject'EnumStringCoupon
-  deriving (GHC.Show.Show, GHC.Classes.Eq)
-
-instance Data.Aeson.Types.ToJSON.ToJSON DeletedCouponObject' where
-  toJSON (DeletedCouponObject'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (DeletedCouponObject'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (DeletedCouponObject'EnumStringCoupon) = "coupon"
-
-instance Data.Aeson.Types.FromJSON.FromJSON DeletedCouponObject' where
-  parseJSON val =
-    GHC.Base.pure
-      ( if  | val GHC.Classes.== "coupon" -> DeletedCouponObject'EnumStringCoupon
-            | GHC.Base.otherwise -> DeletedCouponObject'EnumOther val
-      )
+-- | Create a new 'DeletedCoupon' with all required fields.
+mkDeletedCoupon ::
+  -- | 'deletedCouponId'
+  Data.Text.Internal.Text ->
+  DeletedCoupon
+mkDeletedCoupon deletedCouponId = DeletedCoupon {deletedCouponId = deletedCouponId}

@@ -8,6 +8,7 @@ module StripeAPI.Types.AccountRequirementsError where
 
 import qualified Control.Monad.Fail
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -30,7 +31,7 @@ import StripeAPI.TypeAlias
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
--- | Defines the data type for the schema account_requirements_error
+-- | Defines the object schema located at @components.schemas.account_requirements_error@ in the specification.
 data AccountRequirementsError
   = AccountRequirementsError
       { -- | code: The code for the type of error.
@@ -54,140 +55,196 @@ data AccountRequirementsError
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON AccountRequirementsError where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "code" (accountRequirementsErrorCode obj) : (Data.Aeson..=) "reason" (accountRequirementsErrorReason obj) : (Data.Aeson..=) "requirement" (accountRequirementsErrorRequirement obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "code" (accountRequirementsErrorCode obj) GHC.Base.<> ((Data.Aeson..=) "reason" (accountRequirementsErrorReason obj) GHC.Base.<> (Data.Aeson..=) "requirement" (accountRequirementsErrorRequirement obj)))
+  toJSON obj = Data.Aeson.Types.Internal.object ("code" Data.Aeson.Types.ToJSON..= accountRequirementsErrorCode obj : "reason" Data.Aeson.Types.ToJSON..= accountRequirementsErrorReason obj : "requirement" Data.Aeson.Types.ToJSON..= accountRequirementsErrorRequirement obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("code" Data.Aeson.Types.ToJSON..= accountRequirementsErrorCode obj) GHC.Base.<> (("reason" Data.Aeson.Types.ToJSON..= accountRequirementsErrorReason obj) GHC.Base.<> ("requirement" Data.Aeson.Types.ToJSON..= accountRequirementsErrorRequirement obj)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON AccountRequirementsError where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "AccountRequirementsError" (\obj -> ((GHC.Base.pure AccountRequirementsError GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "code")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "reason")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "requirement"))
 
--- | Defines the enum schema account_requirements_errorCode\'
+-- | Create a new 'AccountRequirementsError' with all required fields.
+mkAccountRequirementsError ::
+  -- | 'accountRequirementsErrorCode'
+  AccountRequirementsErrorCode' ->
+  -- | 'accountRequirementsErrorReason'
+  Data.Text.Internal.Text ->
+  -- | 'accountRequirementsErrorRequirement'
+  Data.Text.Internal.Text ->
+  AccountRequirementsError
+mkAccountRequirementsError accountRequirementsErrorCode accountRequirementsErrorReason accountRequirementsErrorRequirement =
+  AccountRequirementsError
+    { accountRequirementsErrorCode = accountRequirementsErrorCode,
+      accountRequirementsErrorReason = accountRequirementsErrorReason,
+      accountRequirementsErrorRequirement = accountRequirementsErrorRequirement
+    }
+
+-- | Defines the enum schema located at @components.schemas.account_requirements_error.properties.code@ in the specification.
 --
 -- The code for the type of error.
 data AccountRequirementsErrorCode'
-  = AccountRequirementsErrorCode'EnumOther Data.Aeson.Types.Internal.Value
-  | AccountRequirementsErrorCode'EnumTyped Data.Text.Internal.Text
-  | AccountRequirementsErrorCode'EnumStringInvalidAddressCityStatePostalCode
-  | AccountRequirementsErrorCode'EnumStringInvalidStreetAddress
-  | AccountRequirementsErrorCode'EnumStringInvalidValueOther
-  | AccountRequirementsErrorCode'EnumStringVerificationDocumentAddressMismatch
-  | AccountRequirementsErrorCode'EnumStringVerificationDocumentAddressMissing
-  | AccountRequirementsErrorCode'EnumStringVerificationDocumentCorrupt
-  | AccountRequirementsErrorCode'EnumStringVerificationDocumentCountryNotSupported
-  | AccountRequirementsErrorCode'EnumStringVerificationDocumentDobMismatch
-  | AccountRequirementsErrorCode'EnumStringVerificationDocumentDuplicateType
-  | AccountRequirementsErrorCode'EnumStringVerificationDocumentExpired
-  | AccountRequirementsErrorCode'EnumStringVerificationDocumentFailedCopy
-  | AccountRequirementsErrorCode'EnumStringVerificationDocumentFailedGreyscale
-  | AccountRequirementsErrorCode'EnumStringVerificationDocumentFailedOther
-  | AccountRequirementsErrorCode'EnumStringVerificationDocumentFailedTestMode
-  | AccountRequirementsErrorCode'EnumStringVerificationDocumentFraudulent
-  | AccountRequirementsErrorCode'EnumStringVerificationDocumentIdNumberMismatch
-  | AccountRequirementsErrorCode'EnumStringVerificationDocumentIdNumberMissing
-  | AccountRequirementsErrorCode'EnumStringVerificationDocumentIncomplete
-  | AccountRequirementsErrorCode'EnumStringVerificationDocumentInvalid
-  | AccountRequirementsErrorCode'EnumStringVerificationDocumentManipulated
-  | AccountRequirementsErrorCode'EnumStringVerificationDocumentMissingBack
-  | AccountRequirementsErrorCode'EnumStringVerificationDocumentMissingFront
-  | AccountRequirementsErrorCode'EnumStringVerificationDocumentNameMismatch
-  | AccountRequirementsErrorCode'EnumStringVerificationDocumentNameMissing
-  | AccountRequirementsErrorCode'EnumStringVerificationDocumentNationalityMismatch
-  | AccountRequirementsErrorCode'EnumStringVerificationDocumentNotReadable
-  | AccountRequirementsErrorCode'EnumStringVerificationDocumentNotUploaded
-  | AccountRequirementsErrorCode'EnumStringVerificationDocumentPhotoMismatch
-  | AccountRequirementsErrorCode'EnumStringVerificationDocumentTooLarge
-  | AccountRequirementsErrorCode'EnumStringVerificationDocumentTypeNotSupported
-  | AccountRequirementsErrorCode'EnumStringVerificationFailedAddressMatch
-  | AccountRequirementsErrorCode'EnumStringVerificationFailedBusinessIecNumber
-  | AccountRequirementsErrorCode'EnumStringVerificationFailedDocumentMatch
-  | AccountRequirementsErrorCode'EnumStringVerificationFailedIdNumberMatch
-  | AccountRequirementsErrorCode'EnumStringVerificationFailedKeyedIdentity
-  | AccountRequirementsErrorCode'EnumStringVerificationFailedKeyedMatch
-  | AccountRequirementsErrorCode'EnumStringVerificationFailedNameMatch
-  | AccountRequirementsErrorCode'EnumStringVerificationFailedOther
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    AccountRequirementsErrorCode'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    AccountRequirementsErrorCode'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"invalid_address_city_state_postal_code"@
+    AccountRequirementsErrorCode'EnumInvalidAddressCityStatePostalCode
+  | -- | Represents the JSON value @"invalid_street_address"@
+    AccountRequirementsErrorCode'EnumInvalidStreetAddress
+  | -- | Represents the JSON value @"invalid_value_other"@
+    AccountRequirementsErrorCode'EnumInvalidValueOther
+  | -- | Represents the JSON value @"verification_document_address_mismatch"@
+    AccountRequirementsErrorCode'EnumVerificationDocumentAddressMismatch
+  | -- | Represents the JSON value @"verification_document_address_missing"@
+    AccountRequirementsErrorCode'EnumVerificationDocumentAddressMissing
+  | -- | Represents the JSON value @"verification_document_corrupt"@
+    AccountRequirementsErrorCode'EnumVerificationDocumentCorrupt
+  | -- | Represents the JSON value @"verification_document_country_not_supported"@
+    AccountRequirementsErrorCode'EnumVerificationDocumentCountryNotSupported
+  | -- | Represents the JSON value @"verification_document_dob_mismatch"@
+    AccountRequirementsErrorCode'EnumVerificationDocumentDobMismatch
+  | -- | Represents the JSON value @"verification_document_duplicate_type"@
+    AccountRequirementsErrorCode'EnumVerificationDocumentDuplicateType
+  | -- | Represents the JSON value @"verification_document_expired"@
+    AccountRequirementsErrorCode'EnumVerificationDocumentExpired
+  | -- | Represents the JSON value @"verification_document_failed_copy"@
+    AccountRequirementsErrorCode'EnumVerificationDocumentFailedCopy
+  | -- | Represents the JSON value @"verification_document_failed_greyscale"@
+    AccountRequirementsErrorCode'EnumVerificationDocumentFailedGreyscale
+  | -- | Represents the JSON value @"verification_document_failed_other"@
+    AccountRequirementsErrorCode'EnumVerificationDocumentFailedOther
+  | -- | Represents the JSON value @"verification_document_failed_test_mode"@
+    AccountRequirementsErrorCode'EnumVerificationDocumentFailedTestMode
+  | -- | Represents the JSON value @"verification_document_fraudulent"@
+    AccountRequirementsErrorCode'EnumVerificationDocumentFraudulent
+  | -- | Represents the JSON value @"verification_document_id_number_mismatch"@
+    AccountRequirementsErrorCode'EnumVerificationDocumentIdNumberMismatch
+  | -- | Represents the JSON value @"verification_document_id_number_missing"@
+    AccountRequirementsErrorCode'EnumVerificationDocumentIdNumberMissing
+  | -- | Represents the JSON value @"verification_document_incomplete"@
+    AccountRequirementsErrorCode'EnumVerificationDocumentIncomplete
+  | -- | Represents the JSON value @"verification_document_invalid"@
+    AccountRequirementsErrorCode'EnumVerificationDocumentInvalid
+  | -- | Represents the JSON value @"verification_document_manipulated"@
+    AccountRequirementsErrorCode'EnumVerificationDocumentManipulated
+  | -- | Represents the JSON value @"verification_document_missing_back"@
+    AccountRequirementsErrorCode'EnumVerificationDocumentMissingBack
+  | -- | Represents the JSON value @"verification_document_missing_front"@
+    AccountRequirementsErrorCode'EnumVerificationDocumentMissingFront
+  | -- | Represents the JSON value @"verification_document_name_mismatch"@
+    AccountRequirementsErrorCode'EnumVerificationDocumentNameMismatch
+  | -- | Represents the JSON value @"verification_document_name_missing"@
+    AccountRequirementsErrorCode'EnumVerificationDocumentNameMissing
+  | -- | Represents the JSON value @"verification_document_nationality_mismatch"@
+    AccountRequirementsErrorCode'EnumVerificationDocumentNationalityMismatch
+  | -- | Represents the JSON value @"verification_document_not_readable"@
+    AccountRequirementsErrorCode'EnumVerificationDocumentNotReadable
+  | -- | Represents the JSON value @"verification_document_not_uploaded"@
+    AccountRequirementsErrorCode'EnumVerificationDocumentNotUploaded
+  | -- | Represents the JSON value @"verification_document_photo_mismatch"@
+    AccountRequirementsErrorCode'EnumVerificationDocumentPhotoMismatch
+  | -- | Represents the JSON value @"verification_document_too_large"@
+    AccountRequirementsErrorCode'EnumVerificationDocumentTooLarge
+  | -- | Represents the JSON value @"verification_document_type_not_supported"@
+    AccountRequirementsErrorCode'EnumVerificationDocumentTypeNotSupported
+  | -- | Represents the JSON value @"verification_failed_address_match"@
+    AccountRequirementsErrorCode'EnumVerificationFailedAddressMatch
+  | -- | Represents the JSON value @"verification_failed_business_iec_number"@
+    AccountRequirementsErrorCode'EnumVerificationFailedBusinessIecNumber
+  | -- | Represents the JSON value @"verification_failed_document_match"@
+    AccountRequirementsErrorCode'EnumVerificationFailedDocumentMatch
+  | -- | Represents the JSON value @"verification_failed_id_number_match"@
+    AccountRequirementsErrorCode'EnumVerificationFailedIdNumberMatch
+  | -- | Represents the JSON value @"verification_failed_keyed_identity"@
+    AccountRequirementsErrorCode'EnumVerificationFailedKeyedIdentity
+  | -- | Represents the JSON value @"verification_failed_keyed_match"@
+    AccountRequirementsErrorCode'EnumVerificationFailedKeyedMatch
+  | -- | Represents the JSON value @"verification_failed_name_match"@
+    AccountRequirementsErrorCode'EnumVerificationFailedNameMatch
+  | -- | Represents the JSON value @"verification_failed_other"@
+    AccountRequirementsErrorCode'EnumVerificationFailedOther
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
 instance Data.Aeson.Types.ToJSON.ToJSON AccountRequirementsErrorCode' where
-  toJSON (AccountRequirementsErrorCode'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (AccountRequirementsErrorCode'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (AccountRequirementsErrorCode'EnumStringInvalidAddressCityStatePostalCode) = "invalid_address_city_state_postal_code"
-  toJSON (AccountRequirementsErrorCode'EnumStringInvalidStreetAddress) = "invalid_street_address"
-  toJSON (AccountRequirementsErrorCode'EnumStringInvalidValueOther) = "invalid_value_other"
-  toJSON (AccountRequirementsErrorCode'EnumStringVerificationDocumentAddressMismatch) = "verification_document_address_mismatch"
-  toJSON (AccountRequirementsErrorCode'EnumStringVerificationDocumentAddressMissing) = "verification_document_address_missing"
-  toJSON (AccountRequirementsErrorCode'EnumStringVerificationDocumentCorrupt) = "verification_document_corrupt"
-  toJSON (AccountRequirementsErrorCode'EnumStringVerificationDocumentCountryNotSupported) = "verification_document_country_not_supported"
-  toJSON (AccountRequirementsErrorCode'EnumStringVerificationDocumentDobMismatch) = "verification_document_dob_mismatch"
-  toJSON (AccountRequirementsErrorCode'EnumStringVerificationDocumentDuplicateType) = "verification_document_duplicate_type"
-  toJSON (AccountRequirementsErrorCode'EnumStringVerificationDocumentExpired) = "verification_document_expired"
-  toJSON (AccountRequirementsErrorCode'EnumStringVerificationDocumentFailedCopy) = "verification_document_failed_copy"
-  toJSON (AccountRequirementsErrorCode'EnumStringVerificationDocumentFailedGreyscale) = "verification_document_failed_greyscale"
-  toJSON (AccountRequirementsErrorCode'EnumStringVerificationDocumentFailedOther) = "verification_document_failed_other"
-  toJSON (AccountRequirementsErrorCode'EnumStringVerificationDocumentFailedTestMode) = "verification_document_failed_test_mode"
-  toJSON (AccountRequirementsErrorCode'EnumStringVerificationDocumentFraudulent) = "verification_document_fraudulent"
-  toJSON (AccountRequirementsErrorCode'EnumStringVerificationDocumentIdNumberMismatch) = "verification_document_id_number_mismatch"
-  toJSON (AccountRequirementsErrorCode'EnumStringVerificationDocumentIdNumberMissing) = "verification_document_id_number_missing"
-  toJSON (AccountRequirementsErrorCode'EnumStringVerificationDocumentIncomplete) = "verification_document_incomplete"
-  toJSON (AccountRequirementsErrorCode'EnumStringVerificationDocumentInvalid) = "verification_document_invalid"
-  toJSON (AccountRequirementsErrorCode'EnumStringVerificationDocumentManipulated) = "verification_document_manipulated"
-  toJSON (AccountRequirementsErrorCode'EnumStringVerificationDocumentMissingBack) = "verification_document_missing_back"
-  toJSON (AccountRequirementsErrorCode'EnumStringVerificationDocumentMissingFront) = "verification_document_missing_front"
-  toJSON (AccountRequirementsErrorCode'EnumStringVerificationDocumentNameMismatch) = "verification_document_name_mismatch"
-  toJSON (AccountRequirementsErrorCode'EnumStringVerificationDocumentNameMissing) = "verification_document_name_missing"
-  toJSON (AccountRequirementsErrorCode'EnumStringVerificationDocumentNationalityMismatch) = "verification_document_nationality_mismatch"
-  toJSON (AccountRequirementsErrorCode'EnumStringVerificationDocumentNotReadable) = "verification_document_not_readable"
-  toJSON (AccountRequirementsErrorCode'EnumStringVerificationDocumentNotUploaded) = "verification_document_not_uploaded"
-  toJSON (AccountRequirementsErrorCode'EnumStringVerificationDocumentPhotoMismatch) = "verification_document_photo_mismatch"
-  toJSON (AccountRequirementsErrorCode'EnumStringVerificationDocumentTooLarge) = "verification_document_too_large"
-  toJSON (AccountRequirementsErrorCode'EnumStringVerificationDocumentTypeNotSupported) = "verification_document_type_not_supported"
-  toJSON (AccountRequirementsErrorCode'EnumStringVerificationFailedAddressMatch) = "verification_failed_address_match"
-  toJSON (AccountRequirementsErrorCode'EnumStringVerificationFailedBusinessIecNumber) = "verification_failed_business_iec_number"
-  toJSON (AccountRequirementsErrorCode'EnumStringVerificationFailedDocumentMatch) = "verification_failed_document_match"
-  toJSON (AccountRequirementsErrorCode'EnumStringVerificationFailedIdNumberMatch) = "verification_failed_id_number_match"
-  toJSON (AccountRequirementsErrorCode'EnumStringVerificationFailedKeyedIdentity) = "verification_failed_keyed_identity"
-  toJSON (AccountRequirementsErrorCode'EnumStringVerificationFailedKeyedMatch) = "verification_failed_keyed_match"
-  toJSON (AccountRequirementsErrorCode'EnumStringVerificationFailedNameMatch) = "verification_failed_name_match"
-  toJSON (AccountRequirementsErrorCode'EnumStringVerificationFailedOther) = "verification_failed_other"
+  toJSON (AccountRequirementsErrorCode'Other val) = val
+  toJSON (AccountRequirementsErrorCode'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (AccountRequirementsErrorCode'EnumInvalidAddressCityStatePostalCode) = "invalid_address_city_state_postal_code"
+  toJSON (AccountRequirementsErrorCode'EnumInvalidStreetAddress) = "invalid_street_address"
+  toJSON (AccountRequirementsErrorCode'EnumInvalidValueOther) = "invalid_value_other"
+  toJSON (AccountRequirementsErrorCode'EnumVerificationDocumentAddressMismatch) = "verification_document_address_mismatch"
+  toJSON (AccountRequirementsErrorCode'EnumVerificationDocumentAddressMissing) = "verification_document_address_missing"
+  toJSON (AccountRequirementsErrorCode'EnumVerificationDocumentCorrupt) = "verification_document_corrupt"
+  toJSON (AccountRequirementsErrorCode'EnumVerificationDocumentCountryNotSupported) = "verification_document_country_not_supported"
+  toJSON (AccountRequirementsErrorCode'EnumVerificationDocumentDobMismatch) = "verification_document_dob_mismatch"
+  toJSON (AccountRequirementsErrorCode'EnumVerificationDocumentDuplicateType) = "verification_document_duplicate_type"
+  toJSON (AccountRequirementsErrorCode'EnumVerificationDocumentExpired) = "verification_document_expired"
+  toJSON (AccountRequirementsErrorCode'EnumVerificationDocumentFailedCopy) = "verification_document_failed_copy"
+  toJSON (AccountRequirementsErrorCode'EnumVerificationDocumentFailedGreyscale) = "verification_document_failed_greyscale"
+  toJSON (AccountRequirementsErrorCode'EnumVerificationDocumentFailedOther) = "verification_document_failed_other"
+  toJSON (AccountRequirementsErrorCode'EnumVerificationDocumentFailedTestMode) = "verification_document_failed_test_mode"
+  toJSON (AccountRequirementsErrorCode'EnumVerificationDocumentFraudulent) = "verification_document_fraudulent"
+  toJSON (AccountRequirementsErrorCode'EnumVerificationDocumentIdNumberMismatch) = "verification_document_id_number_mismatch"
+  toJSON (AccountRequirementsErrorCode'EnumVerificationDocumentIdNumberMissing) = "verification_document_id_number_missing"
+  toJSON (AccountRequirementsErrorCode'EnumVerificationDocumentIncomplete) = "verification_document_incomplete"
+  toJSON (AccountRequirementsErrorCode'EnumVerificationDocumentInvalid) = "verification_document_invalid"
+  toJSON (AccountRequirementsErrorCode'EnumVerificationDocumentManipulated) = "verification_document_manipulated"
+  toJSON (AccountRequirementsErrorCode'EnumVerificationDocumentMissingBack) = "verification_document_missing_back"
+  toJSON (AccountRequirementsErrorCode'EnumVerificationDocumentMissingFront) = "verification_document_missing_front"
+  toJSON (AccountRequirementsErrorCode'EnumVerificationDocumentNameMismatch) = "verification_document_name_mismatch"
+  toJSON (AccountRequirementsErrorCode'EnumVerificationDocumentNameMissing) = "verification_document_name_missing"
+  toJSON (AccountRequirementsErrorCode'EnumVerificationDocumentNationalityMismatch) = "verification_document_nationality_mismatch"
+  toJSON (AccountRequirementsErrorCode'EnumVerificationDocumentNotReadable) = "verification_document_not_readable"
+  toJSON (AccountRequirementsErrorCode'EnumVerificationDocumentNotUploaded) = "verification_document_not_uploaded"
+  toJSON (AccountRequirementsErrorCode'EnumVerificationDocumentPhotoMismatch) = "verification_document_photo_mismatch"
+  toJSON (AccountRequirementsErrorCode'EnumVerificationDocumentTooLarge) = "verification_document_too_large"
+  toJSON (AccountRequirementsErrorCode'EnumVerificationDocumentTypeNotSupported) = "verification_document_type_not_supported"
+  toJSON (AccountRequirementsErrorCode'EnumVerificationFailedAddressMatch) = "verification_failed_address_match"
+  toJSON (AccountRequirementsErrorCode'EnumVerificationFailedBusinessIecNumber) = "verification_failed_business_iec_number"
+  toJSON (AccountRequirementsErrorCode'EnumVerificationFailedDocumentMatch) = "verification_failed_document_match"
+  toJSON (AccountRequirementsErrorCode'EnumVerificationFailedIdNumberMatch) = "verification_failed_id_number_match"
+  toJSON (AccountRequirementsErrorCode'EnumVerificationFailedKeyedIdentity) = "verification_failed_keyed_identity"
+  toJSON (AccountRequirementsErrorCode'EnumVerificationFailedKeyedMatch) = "verification_failed_keyed_match"
+  toJSON (AccountRequirementsErrorCode'EnumVerificationFailedNameMatch) = "verification_failed_name_match"
+  toJSON (AccountRequirementsErrorCode'EnumVerificationFailedOther) = "verification_failed_other"
 
 instance Data.Aeson.Types.FromJSON.FromJSON AccountRequirementsErrorCode' where
   parseJSON val =
     GHC.Base.pure
-      ( if  | val GHC.Classes.== "invalid_address_city_state_postal_code" -> AccountRequirementsErrorCode'EnumStringInvalidAddressCityStatePostalCode
-            | val GHC.Classes.== "invalid_street_address" -> AccountRequirementsErrorCode'EnumStringInvalidStreetAddress
-            | val GHC.Classes.== "invalid_value_other" -> AccountRequirementsErrorCode'EnumStringInvalidValueOther
-            | val GHC.Classes.== "verification_document_address_mismatch" -> AccountRequirementsErrorCode'EnumStringVerificationDocumentAddressMismatch
-            | val GHC.Classes.== "verification_document_address_missing" -> AccountRequirementsErrorCode'EnumStringVerificationDocumentAddressMissing
-            | val GHC.Classes.== "verification_document_corrupt" -> AccountRequirementsErrorCode'EnumStringVerificationDocumentCorrupt
-            | val GHC.Classes.== "verification_document_country_not_supported" -> AccountRequirementsErrorCode'EnumStringVerificationDocumentCountryNotSupported
-            | val GHC.Classes.== "verification_document_dob_mismatch" -> AccountRequirementsErrorCode'EnumStringVerificationDocumentDobMismatch
-            | val GHC.Classes.== "verification_document_duplicate_type" -> AccountRequirementsErrorCode'EnumStringVerificationDocumentDuplicateType
-            | val GHC.Classes.== "verification_document_expired" -> AccountRequirementsErrorCode'EnumStringVerificationDocumentExpired
-            | val GHC.Classes.== "verification_document_failed_copy" -> AccountRequirementsErrorCode'EnumStringVerificationDocumentFailedCopy
-            | val GHC.Classes.== "verification_document_failed_greyscale" -> AccountRequirementsErrorCode'EnumStringVerificationDocumentFailedGreyscale
-            | val GHC.Classes.== "verification_document_failed_other" -> AccountRequirementsErrorCode'EnumStringVerificationDocumentFailedOther
-            | val GHC.Classes.== "verification_document_failed_test_mode" -> AccountRequirementsErrorCode'EnumStringVerificationDocumentFailedTestMode
-            | val GHC.Classes.== "verification_document_fraudulent" -> AccountRequirementsErrorCode'EnumStringVerificationDocumentFraudulent
-            | val GHC.Classes.== "verification_document_id_number_mismatch" -> AccountRequirementsErrorCode'EnumStringVerificationDocumentIdNumberMismatch
-            | val GHC.Classes.== "verification_document_id_number_missing" -> AccountRequirementsErrorCode'EnumStringVerificationDocumentIdNumberMissing
-            | val GHC.Classes.== "verification_document_incomplete" -> AccountRequirementsErrorCode'EnumStringVerificationDocumentIncomplete
-            | val GHC.Classes.== "verification_document_invalid" -> AccountRequirementsErrorCode'EnumStringVerificationDocumentInvalid
-            | val GHC.Classes.== "verification_document_manipulated" -> AccountRequirementsErrorCode'EnumStringVerificationDocumentManipulated
-            | val GHC.Classes.== "verification_document_missing_back" -> AccountRequirementsErrorCode'EnumStringVerificationDocumentMissingBack
-            | val GHC.Classes.== "verification_document_missing_front" -> AccountRequirementsErrorCode'EnumStringVerificationDocumentMissingFront
-            | val GHC.Classes.== "verification_document_name_mismatch" -> AccountRequirementsErrorCode'EnumStringVerificationDocumentNameMismatch
-            | val GHC.Classes.== "verification_document_name_missing" -> AccountRequirementsErrorCode'EnumStringVerificationDocumentNameMissing
-            | val GHC.Classes.== "verification_document_nationality_mismatch" -> AccountRequirementsErrorCode'EnumStringVerificationDocumentNationalityMismatch
-            | val GHC.Classes.== "verification_document_not_readable" -> AccountRequirementsErrorCode'EnumStringVerificationDocumentNotReadable
-            | val GHC.Classes.== "verification_document_not_uploaded" -> AccountRequirementsErrorCode'EnumStringVerificationDocumentNotUploaded
-            | val GHC.Classes.== "verification_document_photo_mismatch" -> AccountRequirementsErrorCode'EnumStringVerificationDocumentPhotoMismatch
-            | val GHC.Classes.== "verification_document_too_large" -> AccountRequirementsErrorCode'EnumStringVerificationDocumentTooLarge
-            | val GHC.Classes.== "verification_document_type_not_supported" -> AccountRequirementsErrorCode'EnumStringVerificationDocumentTypeNotSupported
-            | val GHC.Classes.== "verification_failed_address_match" -> AccountRequirementsErrorCode'EnumStringVerificationFailedAddressMatch
-            | val GHC.Classes.== "verification_failed_business_iec_number" -> AccountRequirementsErrorCode'EnumStringVerificationFailedBusinessIecNumber
-            | val GHC.Classes.== "verification_failed_document_match" -> AccountRequirementsErrorCode'EnumStringVerificationFailedDocumentMatch
-            | val GHC.Classes.== "verification_failed_id_number_match" -> AccountRequirementsErrorCode'EnumStringVerificationFailedIdNumberMatch
-            | val GHC.Classes.== "verification_failed_keyed_identity" -> AccountRequirementsErrorCode'EnumStringVerificationFailedKeyedIdentity
-            | val GHC.Classes.== "verification_failed_keyed_match" -> AccountRequirementsErrorCode'EnumStringVerificationFailedKeyedMatch
-            | val GHC.Classes.== "verification_failed_name_match" -> AccountRequirementsErrorCode'EnumStringVerificationFailedNameMatch
-            | val GHC.Classes.== "verification_failed_other" -> AccountRequirementsErrorCode'EnumStringVerificationFailedOther
-            | GHC.Base.otherwise -> AccountRequirementsErrorCode'EnumOther val
+      ( if  | val GHC.Classes.== "invalid_address_city_state_postal_code" -> AccountRequirementsErrorCode'EnumInvalidAddressCityStatePostalCode
+            | val GHC.Classes.== "invalid_street_address" -> AccountRequirementsErrorCode'EnumInvalidStreetAddress
+            | val GHC.Classes.== "invalid_value_other" -> AccountRequirementsErrorCode'EnumInvalidValueOther
+            | val GHC.Classes.== "verification_document_address_mismatch" -> AccountRequirementsErrorCode'EnumVerificationDocumentAddressMismatch
+            | val GHC.Classes.== "verification_document_address_missing" -> AccountRequirementsErrorCode'EnumVerificationDocumentAddressMissing
+            | val GHC.Classes.== "verification_document_corrupt" -> AccountRequirementsErrorCode'EnumVerificationDocumentCorrupt
+            | val GHC.Classes.== "verification_document_country_not_supported" -> AccountRequirementsErrorCode'EnumVerificationDocumentCountryNotSupported
+            | val GHC.Classes.== "verification_document_dob_mismatch" -> AccountRequirementsErrorCode'EnumVerificationDocumentDobMismatch
+            | val GHC.Classes.== "verification_document_duplicate_type" -> AccountRequirementsErrorCode'EnumVerificationDocumentDuplicateType
+            | val GHC.Classes.== "verification_document_expired" -> AccountRequirementsErrorCode'EnumVerificationDocumentExpired
+            | val GHC.Classes.== "verification_document_failed_copy" -> AccountRequirementsErrorCode'EnumVerificationDocumentFailedCopy
+            | val GHC.Classes.== "verification_document_failed_greyscale" -> AccountRequirementsErrorCode'EnumVerificationDocumentFailedGreyscale
+            | val GHC.Classes.== "verification_document_failed_other" -> AccountRequirementsErrorCode'EnumVerificationDocumentFailedOther
+            | val GHC.Classes.== "verification_document_failed_test_mode" -> AccountRequirementsErrorCode'EnumVerificationDocumentFailedTestMode
+            | val GHC.Classes.== "verification_document_fraudulent" -> AccountRequirementsErrorCode'EnumVerificationDocumentFraudulent
+            | val GHC.Classes.== "verification_document_id_number_mismatch" -> AccountRequirementsErrorCode'EnumVerificationDocumentIdNumberMismatch
+            | val GHC.Classes.== "verification_document_id_number_missing" -> AccountRequirementsErrorCode'EnumVerificationDocumentIdNumberMissing
+            | val GHC.Classes.== "verification_document_incomplete" -> AccountRequirementsErrorCode'EnumVerificationDocumentIncomplete
+            | val GHC.Classes.== "verification_document_invalid" -> AccountRequirementsErrorCode'EnumVerificationDocumentInvalid
+            | val GHC.Classes.== "verification_document_manipulated" -> AccountRequirementsErrorCode'EnumVerificationDocumentManipulated
+            | val GHC.Classes.== "verification_document_missing_back" -> AccountRequirementsErrorCode'EnumVerificationDocumentMissingBack
+            | val GHC.Classes.== "verification_document_missing_front" -> AccountRequirementsErrorCode'EnumVerificationDocumentMissingFront
+            | val GHC.Classes.== "verification_document_name_mismatch" -> AccountRequirementsErrorCode'EnumVerificationDocumentNameMismatch
+            | val GHC.Classes.== "verification_document_name_missing" -> AccountRequirementsErrorCode'EnumVerificationDocumentNameMissing
+            | val GHC.Classes.== "verification_document_nationality_mismatch" -> AccountRequirementsErrorCode'EnumVerificationDocumentNationalityMismatch
+            | val GHC.Classes.== "verification_document_not_readable" -> AccountRequirementsErrorCode'EnumVerificationDocumentNotReadable
+            | val GHC.Classes.== "verification_document_not_uploaded" -> AccountRequirementsErrorCode'EnumVerificationDocumentNotUploaded
+            | val GHC.Classes.== "verification_document_photo_mismatch" -> AccountRequirementsErrorCode'EnumVerificationDocumentPhotoMismatch
+            | val GHC.Classes.== "verification_document_too_large" -> AccountRequirementsErrorCode'EnumVerificationDocumentTooLarge
+            | val GHC.Classes.== "verification_document_type_not_supported" -> AccountRequirementsErrorCode'EnumVerificationDocumentTypeNotSupported
+            | val GHC.Classes.== "verification_failed_address_match" -> AccountRequirementsErrorCode'EnumVerificationFailedAddressMatch
+            | val GHC.Classes.== "verification_failed_business_iec_number" -> AccountRequirementsErrorCode'EnumVerificationFailedBusinessIecNumber
+            | val GHC.Classes.== "verification_failed_document_match" -> AccountRequirementsErrorCode'EnumVerificationFailedDocumentMatch
+            | val GHC.Classes.== "verification_failed_id_number_match" -> AccountRequirementsErrorCode'EnumVerificationFailedIdNumberMatch
+            | val GHC.Classes.== "verification_failed_keyed_identity" -> AccountRequirementsErrorCode'EnumVerificationFailedKeyedIdentity
+            | val GHC.Classes.== "verification_failed_keyed_match" -> AccountRequirementsErrorCode'EnumVerificationFailedKeyedMatch
+            | val GHC.Classes.== "verification_failed_name_match" -> AccountRequirementsErrorCode'EnumVerificationFailedNameMatch
+            | val GHC.Classes.== "verification_failed_other" -> AccountRequirementsErrorCode'EnumVerificationFailedOther
+            | GHC.Base.otherwise -> AccountRequirementsErrorCode'Other val
       )

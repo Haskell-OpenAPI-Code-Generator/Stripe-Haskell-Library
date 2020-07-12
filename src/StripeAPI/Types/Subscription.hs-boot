@@ -1,16 +1,16 @@
 module StripeAPI.Types.Subscription where
 import Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Types.Internal
-data Subscription 
-instance Show Subscription 
-instance Eq Subscription 
-instance FromJSON Subscription 
-instance ToJSON Subscription 
-data SubscriptionBillingThresholds' 
-instance Show SubscriptionBillingThresholds' 
-instance Eq SubscriptionBillingThresholds' 
-instance FromJSON SubscriptionBillingThresholds' 
-instance ToJSON SubscriptionBillingThresholds' 
+data Subscription
+instance Show Subscription
+instance Eq Subscription
+instance FromJSON Subscription
+instance ToJSON Subscription
+data SubscriptionBillingThresholds'
+instance Show SubscriptionBillingThresholds'
+instance Eq SubscriptionBillingThresholds'
+instance FromJSON SubscriptionBillingThresholds'
+instance ToJSON SubscriptionBillingThresholds'
 data SubscriptionCollectionMethod'
 instance Show SubscriptionCollectionMethod'
 instance Eq SubscriptionCollectionMethod'
@@ -31,46 +31,31 @@ instance Show SubscriptionDefaultSource'Variants
 instance Eq SubscriptionDefaultSource'Variants
 instance FromJSON SubscriptionDefaultSource'Variants
 instance ToJSON SubscriptionDefaultSource'Variants
-data SubscriptionDiscount' 
-instance Show SubscriptionDiscount' 
-instance Eq SubscriptionDiscount' 
-instance FromJSON SubscriptionDiscount' 
-instance ToJSON SubscriptionDiscount' 
+data SubscriptionDiscount'
+instance Show SubscriptionDiscount'
+instance Eq SubscriptionDiscount'
+instance FromJSON SubscriptionDiscount'
+instance ToJSON SubscriptionDiscount'
 data SubscriptionDiscount'Customer'Variants
 instance Show SubscriptionDiscount'Customer'Variants
 instance Eq SubscriptionDiscount'Customer'Variants
 instance FromJSON SubscriptionDiscount'Customer'Variants
 instance ToJSON SubscriptionDiscount'Customer'Variants
-data SubscriptionDiscount'Object'
-instance Show SubscriptionDiscount'Object'
-instance Eq SubscriptionDiscount'Object'
-instance FromJSON SubscriptionDiscount'Object'
-instance ToJSON SubscriptionDiscount'Object'
-data SubscriptionItems' 
-instance Show SubscriptionItems' 
-instance Eq SubscriptionItems' 
-instance FromJSON SubscriptionItems' 
-instance ToJSON SubscriptionItems' 
-data SubscriptionItems'Object'
-instance Show SubscriptionItems'Object'
-instance Eq SubscriptionItems'Object'
-instance FromJSON SubscriptionItems'Object'
-instance ToJSON SubscriptionItems'Object'
+data SubscriptionItems'
+instance Show SubscriptionItems'
+instance Eq SubscriptionItems'
+instance FromJSON SubscriptionItems'
+instance ToJSON SubscriptionItems'
 data SubscriptionLatestInvoice'Variants
 instance Show SubscriptionLatestInvoice'Variants
 instance Eq SubscriptionLatestInvoice'Variants
 instance FromJSON SubscriptionLatestInvoice'Variants
 instance ToJSON SubscriptionLatestInvoice'Variants
-data SubscriptionObject'
-instance Show SubscriptionObject'
-instance Eq SubscriptionObject'
-instance FromJSON SubscriptionObject'
-instance ToJSON SubscriptionObject'
-data SubscriptionPendingInvoiceItemInterval' 
-instance Show SubscriptionPendingInvoiceItemInterval' 
-instance Eq SubscriptionPendingInvoiceItemInterval' 
-instance FromJSON SubscriptionPendingInvoiceItemInterval' 
-instance ToJSON SubscriptionPendingInvoiceItemInterval' 
+data SubscriptionPendingInvoiceItemInterval'
+instance Show SubscriptionPendingInvoiceItemInterval'
+instance Eq SubscriptionPendingInvoiceItemInterval'
+instance FromJSON SubscriptionPendingInvoiceItemInterval'
+instance ToJSON SubscriptionPendingInvoiceItemInterval'
 data SubscriptionPendingInvoiceItemInterval'Interval'
 instance Show SubscriptionPendingInvoiceItemInterval'Interval'
 instance Eq SubscriptionPendingInvoiceItemInterval'Interval'
@@ -81,16 +66,16 @@ instance Show SubscriptionPendingSetupIntent'Variants
 instance Eq SubscriptionPendingSetupIntent'Variants
 instance FromJSON SubscriptionPendingSetupIntent'Variants
 instance ToJSON SubscriptionPendingSetupIntent'Variants
-data SubscriptionPendingUpdate' 
-instance Show SubscriptionPendingUpdate' 
-instance Eq SubscriptionPendingUpdate' 
-instance FromJSON SubscriptionPendingUpdate' 
-instance ToJSON SubscriptionPendingUpdate' 
-data SubscriptionPlan' 
-instance Show SubscriptionPlan' 
-instance Eq SubscriptionPlan' 
-instance FromJSON SubscriptionPlan' 
-instance ToJSON SubscriptionPlan' 
+data SubscriptionPendingUpdate'
+instance Show SubscriptionPendingUpdate'
+instance Eq SubscriptionPendingUpdate'
+instance FromJSON SubscriptionPendingUpdate'
+instance ToJSON SubscriptionPendingUpdate'
+data SubscriptionPlan'
+instance Show SubscriptionPlan'
+instance Eq SubscriptionPlan'
+instance FromJSON SubscriptionPlan'
+instance ToJSON SubscriptionPlan'
 data SubscriptionPlan'AggregateUsage'
 instance Show SubscriptionPlan'AggregateUsage'
 instance Eq SubscriptionPlan'AggregateUsage'
@@ -106,11 +91,6 @@ instance Show SubscriptionPlan'Interval'
 instance Eq SubscriptionPlan'Interval'
 instance FromJSON SubscriptionPlan'Interval'
 instance ToJSON SubscriptionPlan'Interval'
-data SubscriptionPlan'Object'
-instance Show SubscriptionPlan'Object'
-instance Eq SubscriptionPlan'Object'
-instance FromJSON SubscriptionPlan'Object'
-instance ToJSON SubscriptionPlan'Object'
 data SubscriptionPlan'Product'Variants
 instance Show SubscriptionPlan'Product'Variants
 instance Eq SubscriptionPlan'Product'Variants
@@ -121,11 +101,11 @@ instance Show SubscriptionPlan'TiersMode'
 instance Eq SubscriptionPlan'TiersMode'
 instance FromJSON SubscriptionPlan'TiersMode'
 instance ToJSON SubscriptionPlan'TiersMode'
-data SubscriptionPlan'TransformUsage' 
-instance Show SubscriptionPlan'TransformUsage' 
-instance Eq SubscriptionPlan'TransformUsage' 
-instance FromJSON SubscriptionPlan'TransformUsage' 
-instance ToJSON SubscriptionPlan'TransformUsage' 
+data SubscriptionPlan'TransformUsage'
+instance Show SubscriptionPlan'TransformUsage'
+instance Eq SubscriptionPlan'TransformUsage'
+instance FromJSON SubscriptionPlan'TransformUsage'
+instance ToJSON SubscriptionPlan'TransformUsage'
 data SubscriptionPlan'TransformUsage'Round'
 instance Show SubscriptionPlan'TransformUsage'Round'
 instance Eq SubscriptionPlan'TransformUsage'Round'

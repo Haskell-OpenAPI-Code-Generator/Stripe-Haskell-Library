@@ -8,6 +8,7 @@ module StripeAPI.Types.InvoiceThresholdReason where
 
 import qualified Control.Monad.Fail
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -31,7 +32,7 @@ import {-# SOURCE #-} StripeAPI.Types.InvoiceItemThresholdReason
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
--- | Defines the data type for the schema invoice_threshold_reason
+-- | Defines the object schema located at @components.schemas.invoice_threshold_reason@ in the specification.
 data InvoiceThresholdReason
   = InvoiceThresholdReason
       { -- | amount_gte: The total invoice amount threshold boundary if it triggered the threshold invoice.
@@ -45,8 +46,19 @@ data InvoiceThresholdReason
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON InvoiceThresholdReason where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "amount_gte" (invoiceThresholdReasonAmountGte obj) : (Data.Aeson..=) "item_reasons" (invoiceThresholdReasonItemReasons obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "amount_gte" (invoiceThresholdReasonAmountGte obj) GHC.Base.<> (Data.Aeson..=) "item_reasons" (invoiceThresholdReasonItemReasons obj))
+  toJSON obj = Data.Aeson.Types.Internal.object ("amount_gte" Data.Aeson.Types.ToJSON..= invoiceThresholdReasonAmountGte obj : "item_reasons" Data.Aeson.Types.ToJSON..= invoiceThresholdReasonItemReasons obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("amount_gte" Data.Aeson.Types.ToJSON..= invoiceThresholdReasonAmountGte obj) GHC.Base.<> ("item_reasons" Data.Aeson.Types.ToJSON..= invoiceThresholdReasonItemReasons obj))
 
 instance Data.Aeson.Types.FromJSON.FromJSON InvoiceThresholdReason where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "InvoiceThresholdReason" (\obj -> (GHC.Base.pure InvoiceThresholdReason GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "amount_gte")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "item_reasons"))
+
+-- | Create a new 'InvoiceThresholdReason' with all required fields.
+mkInvoiceThresholdReason ::
+  -- | 'invoiceThresholdReasonItemReasons'
+  [InvoiceItemThresholdReason] ->
+  InvoiceThresholdReason
+mkInvoiceThresholdReason invoiceThresholdReasonItemReasons =
+  InvoiceThresholdReason
+    { invoiceThresholdReasonAmountGte = GHC.Maybe.Nothing,
+      invoiceThresholdReasonItemReasons = invoiceThresholdReasonItemReasons
+    }

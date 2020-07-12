@@ -8,6 +8,7 @@ module StripeAPI.Types.PlanTier where
 
 import qualified Control.Monad.Fail
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -30,7 +31,7 @@ import StripeAPI.TypeAlias
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
--- | Defines the data type for the schema plan_tier
+-- | Defines the object schema located at @components.schemas.plan_tier@ in the specification.
 data PlanTier
   = PlanTier
       { -- | flat_amount: Price for the entire tier.
@@ -50,8 +51,19 @@ data PlanTier
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PlanTier where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "flat_amount" (planTierFlatAmount obj) : (Data.Aeson..=) "flat_amount_decimal" (planTierFlatAmountDecimal obj) : (Data.Aeson..=) "unit_amount" (planTierUnitAmount obj) : (Data.Aeson..=) "unit_amount_decimal" (planTierUnitAmountDecimal obj) : (Data.Aeson..=) "up_to" (planTierUpTo obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "flat_amount" (planTierFlatAmount obj) GHC.Base.<> ((Data.Aeson..=) "flat_amount_decimal" (planTierFlatAmountDecimal obj) GHC.Base.<> ((Data.Aeson..=) "unit_amount" (planTierUnitAmount obj) GHC.Base.<> ((Data.Aeson..=) "unit_amount_decimal" (planTierUnitAmountDecimal obj) GHC.Base.<> (Data.Aeson..=) "up_to" (planTierUpTo obj)))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("flat_amount" Data.Aeson.Types.ToJSON..= planTierFlatAmount obj : "flat_amount_decimal" Data.Aeson.Types.ToJSON..= planTierFlatAmountDecimal obj : "unit_amount" Data.Aeson.Types.ToJSON..= planTierUnitAmount obj : "unit_amount_decimal" Data.Aeson.Types.ToJSON..= planTierUnitAmountDecimal obj : "up_to" Data.Aeson.Types.ToJSON..= planTierUpTo obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("flat_amount" Data.Aeson.Types.ToJSON..= planTierFlatAmount obj) GHC.Base.<> (("flat_amount_decimal" Data.Aeson.Types.ToJSON..= planTierFlatAmountDecimal obj) GHC.Base.<> (("unit_amount" Data.Aeson.Types.ToJSON..= planTierUnitAmount obj) GHC.Base.<> (("unit_amount_decimal" Data.Aeson.Types.ToJSON..= planTierUnitAmountDecimal obj) GHC.Base.<> ("up_to" Data.Aeson.Types.ToJSON..= planTierUpTo obj)))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PlanTier where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PlanTier" (\obj -> ((((GHC.Base.pure PlanTier GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "flat_amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "flat_amount_decimal")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "unit_amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "unit_amount_decimal")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "up_to"))
+
+-- | Create a new 'PlanTier' with all required fields.
+mkPlanTier :: PlanTier
+mkPlanTier =
+  PlanTier
+    { planTierFlatAmount = GHC.Maybe.Nothing,
+      planTierFlatAmountDecimal = GHC.Maybe.Nothing,
+      planTierUnitAmount = GHC.Maybe.Nothing,
+      planTierUnitAmountDecimal = GHC.Maybe.Nothing,
+      planTierUpTo = GHC.Maybe.Nothing
+    }

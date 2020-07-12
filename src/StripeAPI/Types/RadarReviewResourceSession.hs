@@ -8,6 +8,7 @@ module StripeAPI.Types.RadarReviewResourceSession where
 
 import qualified Control.Monad.Fail
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -30,7 +31,7 @@ import StripeAPI.TypeAlias
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
--- | Defines the data type for the schema radar_review_resource_session
+-- | Defines the object schema located at @components.schemas.radar_review_resource_session@ in the specification.
 data RadarReviewResourceSession
   = RadarReviewResourceSession
       { -- | browser: The browser used in this browser session (e.g., \`Chrome\`).
@@ -64,8 +65,18 @@ data RadarReviewResourceSession
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON RadarReviewResourceSession where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "browser" (radarReviewResourceSessionBrowser obj) : (Data.Aeson..=) "device" (radarReviewResourceSessionDevice obj) : (Data.Aeson..=) "platform" (radarReviewResourceSessionPlatform obj) : (Data.Aeson..=) "version" (radarReviewResourceSessionVersion obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "browser" (radarReviewResourceSessionBrowser obj) GHC.Base.<> ((Data.Aeson..=) "device" (radarReviewResourceSessionDevice obj) GHC.Base.<> ((Data.Aeson..=) "platform" (radarReviewResourceSessionPlatform obj) GHC.Base.<> (Data.Aeson..=) "version" (radarReviewResourceSessionVersion obj))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("browser" Data.Aeson.Types.ToJSON..= radarReviewResourceSessionBrowser obj : "device" Data.Aeson.Types.ToJSON..= radarReviewResourceSessionDevice obj : "platform" Data.Aeson.Types.ToJSON..= radarReviewResourceSessionPlatform obj : "version" Data.Aeson.Types.ToJSON..= radarReviewResourceSessionVersion obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("browser" Data.Aeson.Types.ToJSON..= radarReviewResourceSessionBrowser obj) GHC.Base.<> (("device" Data.Aeson.Types.ToJSON..= radarReviewResourceSessionDevice obj) GHC.Base.<> (("platform" Data.Aeson.Types.ToJSON..= radarReviewResourceSessionPlatform obj) GHC.Base.<> ("version" Data.Aeson.Types.ToJSON..= radarReviewResourceSessionVersion obj))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON RadarReviewResourceSession where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "RadarReviewResourceSession" (\obj -> (((GHC.Base.pure RadarReviewResourceSession GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "browser")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "device")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "platform")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "version"))
+
+-- | Create a new 'RadarReviewResourceSession' with all required fields.
+mkRadarReviewResourceSession :: RadarReviewResourceSession
+mkRadarReviewResourceSession =
+  RadarReviewResourceSession
+    { radarReviewResourceSessionBrowser = GHC.Maybe.Nothing,
+      radarReviewResourceSessionDevice = GHC.Maybe.Nothing,
+      radarReviewResourceSessionPlatform = GHC.Maybe.Nothing,
+      radarReviewResourceSessionVersion = GHC.Maybe.Nothing
+    }

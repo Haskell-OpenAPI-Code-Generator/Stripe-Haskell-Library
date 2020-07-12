@@ -8,6 +8,7 @@ module StripeAPI.Types.DisputeEvidence where
 
 import qualified Control.Monad.Fail
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -31,7 +32,7 @@ import {-# SOURCE #-} StripeAPI.Types.File
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
--- | Defines the data type for the schema dispute_evidence
+-- | Defines the object schema located at @components.schemas.dispute_evidence@ in the specification.
 data DisputeEvidence
   = DisputeEvidence
       { -- | access_activity_log: Any server or activity logs showing proof that the customer accessed or downloaded the purchased digital product. This information should include IP addresses, corresponding timestamps, and any detailed recorded activity.
@@ -167,13 +168,46 @@ data DisputeEvidence
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON DisputeEvidence where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "access_activity_log" (disputeEvidenceAccessActivityLog obj) : (Data.Aeson..=) "billing_address" (disputeEvidenceBillingAddress obj) : (Data.Aeson..=) "cancellation_policy" (disputeEvidenceCancellationPolicy obj) : (Data.Aeson..=) "cancellation_policy_disclosure" (disputeEvidenceCancellationPolicyDisclosure obj) : (Data.Aeson..=) "cancellation_rebuttal" (disputeEvidenceCancellationRebuttal obj) : (Data.Aeson..=) "customer_communication" (disputeEvidenceCustomerCommunication obj) : (Data.Aeson..=) "customer_email_address" (disputeEvidenceCustomerEmailAddress obj) : (Data.Aeson..=) "customer_name" (disputeEvidenceCustomerName obj) : (Data.Aeson..=) "customer_purchase_ip" (disputeEvidenceCustomerPurchaseIp obj) : (Data.Aeson..=) "customer_signature" (disputeEvidenceCustomerSignature obj) : (Data.Aeson..=) "duplicate_charge_documentation" (disputeEvidenceDuplicateChargeDocumentation obj) : (Data.Aeson..=) "duplicate_charge_explanation" (disputeEvidenceDuplicateChargeExplanation obj) : (Data.Aeson..=) "duplicate_charge_id" (disputeEvidenceDuplicateChargeId obj) : (Data.Aeson..=) "product_description" (disputeEvidenceProductDescription obj) : (Data.Aeson..=) "receipt" (disputeEvidenceReceipt obj) : (Data.Aeson..=) "refund_policy" (disputeEvidenceRefundPolicy obj) : (Data.Aeson..=) "refund_policy_disclosure" (disputeEvidenceRefundPolicyDisclosure obj) : (Data.Aeson..=) "refund_refusal_explanation" (disputeEvidenceRefundRefusalExplanation obj) : (Data.Aeson..=) "service_date" (disputeEvidenceServiceDate obj) : (Data.Aeson..=) "service_documentation" (disputeEvidenceServiceDocumentation obj) : (Data.Aeson..=) "shipping_address" (disputeEvidenceShippingAddress obj) : (Data.Aeson..=) "shipping_carrier" (disputeEvidenceShippingCarrier obj) : (Data.Aeson..=) "shipping_date" (disputeEvidenceShippingDate obj) : (Data.Aeson..=) "shipping_documentation" (disputeEvidenceShippingDocumentation obj) : (Data.Aeson..=) "shipping_tracking_number" (disputeEvidenceShippingTrackingNumber obj) : (Data.Aeson..=) "uncategorized_file" (disputeEvidenceUncategorizedFile obj) : (Data.Aeson..=) "uncategorized_text" (disputeEvidenceUncategorizedText obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "access_activity_log" (disputeEvidenceAccessActivityLog obj) GHC.Base.<> ((Data.Aeson..=) "billing_address" (disputeEvidenceBillingAddress obj) GHC.Base.<> ((Data.Aeson..=) "cancellation_policy" (disputeEvidenceCancellationPolicy obj) GHC.Base.<> ((Data.Aeson..=) "cancellation_policy_disclosure" (disputeEvidenceCancellationPolicyDisclosure obj) GHC.Base.<> ((Data.Aeson..=) "cancellation_rebuttal" (disputeEvidenceCancellationRebuttal obj) GHC.Base.<> ((Data.Aeson..=) "customer_communication" (disputeEvidenceCustomerCommunication obj) GHC.Base.<> ((Data.Aeson..=) "customer_email_address" (disputeEvidenceCustomerEmailAddress obj) GHC.Base.<> ((Data.Aeson..=) "customer_name" (disputeEvidenceCustomerName obj) GHC.Base.<> ((Data.Aeson..=) "customer_purchase_ip" (disputeEvidenceCustomerPurchaseIp obj) GHC.Base.<> ((Data.Aeson..=) "customer_signature" (disputeEvidenceCustomerSignature obj) GHC.Base.<> ((Data.Aeson..=) "duplicate_charge_documentation" (disputeEvidenceDuplicateChargeDocumentation obj) GHC.Base.<> ((Data.Aeson..=) "duplicate_charge_explanation" (disputeEvidenceDuplicateChargeExplanation obj) GHC.Base.<> ((Data.Aeson..=) "duplicate_charge_id" (disputeEvidenceDuplicateChargeId obj) GHC.Base.<> ((Data.Aeson..=) "product_description" (disputeEvidenceProductDescription obj) GHC.Base.<> ((Data.Aeson..=) "receipt" (disputeEvidenceReceipt obj) GHC.Base.<> ((Data.Aeson..=) "refund_policy" (disputeEvidenceRefundPolicy obj) GHC.Base.<> ((Data.Aeson..=) "refund_policy_disclosure" (disputeEvidenceRefundPolicyDisclosure obj) GHC.Base.<> ((Data.Aeson..=) "refund_refusal_explanation" (disputeEvidenceRefundRefusalExplanation obj) GHC.Base.<> ((Data.Aeson..=) "service_date" (disputeEvidenceServiceDate obj) GHC.Base.<> ((Data.Aeson..=) "service_documentation" (disputeEvidenceServiceDocumentation obj) GHC.Base.<> ((Data.Aeson..=) "shipping_address" (disputeEvidenceShippingAddress obj) GHC.Base.<> ((Data.Aeson..=) "shipping_carrier" (disputeEvidenceShippingCarrier obj) GHC.Base.<> ((Data.Aeson..=) "shipping_date" (disputeEvidenceShippingDate obj) GHC.Base.<> ((Data.Aeson..=) "shipping_documentation" (disputeEvidenceShippingDocumentation obj) GHC.Base.<> ((Data.Aeson..=) "shipping_tracking_number" (disputeEvidenceShippingTrackingNumber obj) GHC.Base.<> ((Data.Aeson..=) "uncategorized_file" (disputeEvidenceUncategorizedFile obj) GHC.Base.<> (Data.Aeson..=) "uncategorized_text" (disputeEvidenceUncategorizedText obj)))))))))))))))))))))))))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("access_activity_log" Data.Aeson.Types.ToJSON..= disputeEvidenceAccessActivityLog obj : "billing_address" Data.Aeson.Types.ToJSON..= disputeEvidenceBillingAddress obj : "cancellation_policy" Data.Aeson.Types.ToJSON..= disputeEvidenceCancellationPolicy obj : "cancellation_policy_disclosure" Data.Aeson.Types.ToJSON..= disputeEvidenceCancellationPolicyDisclosure obj : "cancellation_rebuttal" Data.Aeson.Types.ToJSON..= disputeEvidenceCancellationRebuttal obj : "customer_communication" Data.Aeson.Types.ToJSON..= disputeEvidenceCustomerCommunication obj : "customer_email_address" Data.Aeson.Types.ToJSON..= disputeEvidenceCustomerEmailAddress obj : "customer_name" Data.Aeson.Types.ToJSON..= disputeEvidenceCustomerName obj : "customer_purchase_ip" Data.Aeson.Types.ToJSON..= disputeEvidenceCustomerPurchaseIp obj : "customer_signature" Data.Aeson.Types.ToJSON..= disputeEvidenceCustomerSignature obj : "duplicate_charge_documentation" Data.Aeson.Types.ToJSON..= disputeEvidenceDuplicateChargeDocumentation obj : "duplicate_charge_explanation" Data.Aeson.Types.ToJSON..= disputeEvidenceDuplicateChargeExplanation obj : "duplicate_charge_id" Data.Aeson.Types.ToJSON..= disputeEvidenceDuplicateChargeId obj : "product_description" Data.Aeson.Types.ToJSON..= disputeEvidenceProductDescription obj : "receipt" Data.Aeson.Types.ToJSON..= disputeEvidenceReceipt obj : "refund_policy" Data.Aeson.Types.ToJSON..= disputeEvidenceRefundPolicy obj : "refund_policy_disclosure" Data.Aeson.Types.ToJSON..= disputeEvidenceRefundPolicyDisclosure obj : "refund_refusal_explanation" Data.Aeson.Types.ToJSON..= disputeEvidenceRefundRefusalExplanation obj : "service_date" Data.Aeson.Types.ToJSON..= disputeEvidenceServiceDate obj : "service_documentation" Data.Aeson.Types.ToJSON..= disputeEvidenceServiceDocumentation obj : "shipping_address" Data.Aeson.Types.ToJSON..= disputeEvidenceShippingAddress obj : "shipping_carrier" Data.Aeson.Types.ToJSON..= disputeEvidenceShippingCarrier obj : "shipping_date" Data.Aeson.Types.ToJSON..= disputeEvidenceShippingDate obj : "shipping_documentation" Data.Aeson.Types.ToJSON..= disputeEvidenceShippingDocumentation obj : "shipping_tracking_number" Data.Aeson.Types.ToJSON..= disputeEvidenceShippingTrackingNumber obj : "uncategorized_file" Data.Aeson.Types.ToJSON..= disputeEvidenceUncategorizedFile obj : "uncategorized_text" Data.Aeson.Types.ToJSON..= disputeEvidenceUncategorizedText obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("access_activity_log" Data.Aeson.Types.ToJSON..= disputeEvidenceAccessActivityLog obj) GHC.Base.<> (("billing_address" Data.Aeson.Types.ToJSON..= disputeEvidenceBillingAddress obj) GHC.Base.<> (("cancellation_policy" Data.Aeson.Types.ToJSON..= disputeEvidenceCancellationPolicy obj) GHC.Base.<> (("cancellation_policy_disclosure" Data.Aeson.Types.ToJSON..= disputeEvidenceCancellationPolicyDisclosure obj) GHC.Base.<> (("cancellation_rebuttal" Data.Aeson.Types.ToJSON..= disputeEvidenceCancellationRebuttal obj) GHC.Base.<> (("customer_communication" Data.Aeson.Types.ToJSON..= disputeEvidenceCustomerCommunication obj) GHC.Base.<> (("customer_email_address" Data.Aeson.Types.ToJSON..= disputeEvidenceCustomerEmailAddress obj) GHC.Base.<> (("customer_name" Data.Aeson.Types.ToJSON..= disputeEvidenceCustomerName obj) GHC.Base.<> (("customer_purchase_ip" Data.Aeson.Types.ToJSON..= disputeEvidenceCustomerPurchaseIp obj) GHC.Base.<> (("customer_signature" Data.Aeson.Types.ToJSON..= disputeEvidenceCustomerSignature obj) GHC.Base.<> (("duplicate_charge_documentation" Data.Aeson.Types.ToJSON..= disputeEvidenceDuplicateChargeDocumentation obj) GHC.Base.<> (("duplicate_charge_explanation" Data.Aeson.Types.ToJSON..= disputeEvidenceDuplicateChargeExplanation obj) GHC.Base.<> (("duplicate_charge_id" Data.Aeson.Types.ToJSON..= disputeEvidenceDuplicateChargeId obj) GHC.Base.<> (("product_description" Data.Aeson.Types.ToJSON..= disputeEvidenceProductDescription obj) GHC.Base.<> (("receipt" Data.Aeson.Types.ToJSON..= disputeEvidenceReceipt obj) GHC.Base.<> (("refund_policy" Data.Aeson.Types.ToJSON..= disputeEvidenceRefundPolicy obj) GHC.Base.<> (("refund_policy_disclosure" Data.Aeson.Types.ToJSON..= disputeEvidenceRefundPolicyDisclosure obj) GHC.Base.<> (("refund_refusal_explanation" Data.Aeson.Types.ToJSON..= disputeEvidenceRefundRefusalExplanation obj) GHC.Base.<> (("service_date" Data.Aeson.Types.ToJSON..= disputeEvidenceServiceDate obj) GHC.Base.<> (("service_documentation" Data.Aeson.Types.ToJSON..= disputeEvidenceServiceDocumentation obj) GHC.Base.<> (("shipping_address" Data.Aeson.Types.ToJSON..= disputeEvidenceShippingAddress obj) GHC.Base.<> (("shipping_carrier" Data.Aeson.Types.ToJSON..= disputeEvidenceShippingCarrier obj) GHC.Base.<> (("shipping_date" Data.Aeson.Types.ToJSON..= disputeEvidenceShippingDate obj) GHC.Base.<> (("shipping_documentation" Data.Aeson.Types.ToJSON..= disputeEvidenceShippingDocumentation obj) GHC.Base.<> (("shipping_tracking_number" Data.Aeson.Types.ToJSON..= disputeEvidenceShippingTrackingNumber obj) GHC.Base.<> (("uncategorized_file" Data.Aeson.Types.ToJSON..= disputeEvidenceUncategorizedFile obj) GHC.Base.<> ("uncategorized_text" Data.Aeson.Types.ToJSON..= disputeEvidenceUncategorizedText obj)))))))))))))))))))))))))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON DisputeEvidence where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "DisputeEvidence" (\obj -> ((((((((((((((((((((((((((GHC.Base.pure DisputeEvidence GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "access_activity_log")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "billing_address")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "cancellation_policy")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "cancellation_policy_disclosure")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "cancellation_rebuttal")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "customer_communication")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "customer_email_address")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "customer_name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "customer_purchase_ip")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "customer_signature")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "duplicate_charge_documentation")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "duplicate_charge_explanation")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "duplicate_charge_id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "product_description")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "receipt")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "refund_policy")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "refund_policy_disclosure")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "refund_refusal_explanation")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "service_date")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "service_documentation")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "shipping_address")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "shipping_carrier")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "shipping_date")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "shipping_documentation")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "shipping_tracking_number")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "uncategorized_file")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "uncategorized_text"))
 
--- | Define the one-of schema dispute_evidenceCancellation_policy\'
+-- | Create a new 'DisputeEvidence' with all required fields.
+mkDisputeEvidence :: DisputeEvidence
+mkDisputeEvidence =
+  DisputeEvidence
+    { disputeEvidenceAccessActivityLog = GHC.Maybe.Nothing,
+      disputeEvidenceBillingAddress = GHC.Maybe.Nothing,
+      disputeEvidenceCancellationPolicy = GHC.Maybe.Nothing,
+      disputeEvidenceCancellationPolicyDisclosure = GHC.Maybe.Nothing,
+      disputeEvidenceCancellationRebuttal = GHC.Maybe.Nothing,
+      disputeEvidenceCustomerCommunication = GHC.Maybe.Nothing,
+      disputeEvidenceCustomerEmailAddress = GHC.Maybe.Nothing,
+      disputeEvidenceCustomerName = GHC.Maybe.Nothing,
+      disputeEvidenceCustomerPurchaseIp = GHC.Maybe.Nothing,
+      disputeEvidenceCustomerSignature = GHC.Maybe.Nothing,
+      disputeEvidenceDuplicateChargeDocumentation = GHC.Maybe.Nothing,
+      disputeEvidenceDuplicateChargeExplanation = GHC.Maybe.Nothing,
+      disputeEvidenceDuplicateChargeId = GHC.Maybe.Nothing,
+      disputeEvidenceProductDescription = GHC.Maybe.Nothing,
+      disputeEvidenceReceipt = GHC.Maybe.Nothing,
+      disputeEvidenceRefundPolicy = GHC.Maybe.Nothing,
+      disputeEvidenceRefundPolicyDisclosure = GHC.Maybe.Nothing,
+      disputeEvidenceRefundRefusalExplanation = GHC.Maybe.Nothing,
+      disputeEvidenceServiceDate = GHC.Maybe.Nothing,
+      disputeEvidenceServiceDocumentation = GHC.Maybe.Nothing,
+      disputeEvidenceShippingAddress = GHC.Maybe.Nothing,
+      disputeEvidenceShippingCarrier = GHC.Maybe.Nothing,
+      disputeEvidenceShippingDate = GHC.Maybe.Nothing,
+      disputeEvidenceShippingDocumentation = GHC.Maybe.Nothing,
+      disputeEvidenceShippingTrackingNumber = GHC.Maybe.Nothing,
+      disputeEvidenceUncategorizedFile = GHC.Maybe.Nothing,
+      disputeEvidenceUncategorizedText = GHC.Maybe.Nothing
+    }
+
+-- | Defines the oneOf schema located at @components.schemas.dispute_evidence.properties.cancellation_policy.anyOf@ in the specification.
 --
 -- (ID of a [file upload](https:\/\/stripe.com\/docs\/guides\/file-upload)) Your subscription cancellation policy, as shown to the customer.
 data DisputeEvidenceCancellationPolicy'Variants
@@ -186,13 +220,11 @@ instance Data.Aeson.Types.ToJSON.ToJSON DisputeEvidenceCancellationPolicy'Varian
   toJSON (DisputeEvidenceCancellationPolicy'Text a) = Data.Aeson.Types.ToJSON.toJSON a
 
 instance Data.Aeson.Types.FromJSON.FromJSON DisputeEvidenceCancellationPolicy'Variants where
-  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
-    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ DisputeEvidenceCancellationPolicy'File a
-    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ DisputeEvidenceCancellationPolicy'Text a
-      Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+  parseJSON val = case (DisputeEvidenceCancellationPolicy'File Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((DisputeEvidenceCancellationPolicy'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched") of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+    Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
--- | Define the one-of schema dispute_evidenceCustomer_communication\'
+-- | Defines the oneOf schema located at @components.schemas.dispute_evidence.properties.customer_communication.anyOf@ in the specification.
 --
 -- (ID of a [file upload](https:\/\/stripe.com\/docs\/guides\/file-upload)) Any communication with the customer that you feel is relevant to your case. Examples include emails proving that the customer received the product or service, or demonstrating their use of or satisfaction with the product or service.
 data DisputeEvidenceCustomerCommunication'Variants
@@ -205,13 +237,11 @@ instance Data.Aeson.Types.ToJSON.ToJSON DisputeEvidenceCustomerCommunication'Var
   toJSON (DisputeEvidenceCustomerCommunication'Text a) = Data.Aeson.Types.ToJSON.toJSON a
 
 instance Data.Aeson.Types.FromJSON.FromJSON DisputeEvidenceCustomerCommunication'Variants where
-  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
-    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ DisputeEvidenceCustomerCommunication'File a
-    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ DisputeEvidenceCustomerCommunication'Text a
-      Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+  parseJSON val = case (DisputeEvidenceCustomerCommunication'File Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((DisputeEvidenceCustomerCommunication'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched") of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+    Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
--- | Define the one-of schema dispute_evidenceCustomer_signature\'
+-- | Defines the oneOf schema located at @components.schemas.dispute_evidence.properties.customer_signature.anyOf@ in the specification.
 --
 -- (ID of a [file upload](https:\/\/stripe.com\/docs\/guides\/file-upload)) A relevant document or contract showing the customer\'s signature.
 data DisputeEvidenceCustomerSignature'Variants
@@ -224,13 +254,11 @@ instance Data.Aeson.Types.ToJSON.ToJSON DisputeEvidenceCustomerSignature'Variant
   toJSON (DisputeEvidenceCustomerSignature'Text a) = Data.Aeson.Types.ToJSON.toJSON a
 
 instance Data.Aeson.Types.FromJSON.FromJSON DisputeEvidenceCustomerSignature'Variants where
-  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
-    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ DisputeEvidenceCustomerSignature'File a
-    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ DisputeEvidenceCustomerSignature'Text a
-      Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+  parseJSON val = case (DisputeEvidenceCustomerSignature'File Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((DisputeEvidenceCustomerSignature'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched") of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+    Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
--- | Define the one-of schema dispute_evidenceDuplicate_charge_documentation\'
+-- | Defines the oneOf schema located at @components.schemas.dispute_evidence.properties.duplicate_charge_documentation.anyOf@ in the specification.
 --
 -- (ID of a [file upload](https:\/\/stripe.com\/docs\/guides\/file-upload)) Documentation for the prior charge that can uniquely identify the charge, such as a receipt, shipping label, work order, etc. This document should be paired with a similar document from the disputed payment that proves the two payments are separate.
 data DisputeEvidenceDuplicateChargeDocumentation'Variants
@@ -243,13 +271,11 @@ instance Data.Aeson.Types.ToJSON.ToJSON DisputeEvidenceDuplicateChargeDocumentat
   toJSON (DisputeEvidenceDuplicateChargeDocumentation'Text a) = Data.Aeson.Types.ToJSON.toJSON a
 
 instance Data.Aeson.Types.FromJSON.FromJSON DisputeEvidenceDuplicateChargeDocumentation'Variants where
-  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
-    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ DisputeEvidenceDuplicateChargeDocumentation'File a
-    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ DisputeEvidenceDuplicateChargeDocumentation'Text a
-      Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+  parseJSON val = case (DisputeEvidenceDuplicateChargeDocumentation'File Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((DisputeEvidenceDuplicateChargeDocumentation'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched") of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+    Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
--- | Define the one-of schema dispute_evidenceReceipt\'
+-- | Defines the oneOf schema located at @components.schemas.dispute_evidence.properties.receipt.anyOf@ in the specification.
 --
 -- (ID of a [file upload](https:\/\/stripe.com\/docs\/guides\/file-upload)) Any receipt or message sent to the customer notifying them of the charge.
 data DisputeEvidenceReceipt'Variants
@@ -262,13 +288,11 @@ instance Data.Aeson.Types.ToJSON.ToJSON DisputeEvidenceReceipt'Variants where
   toJSON (DisputeEvidenceReceipt'Text a) = Data.Aeson.Types.ToJSON.toJSON a
 
 instance Data.Aeson.Types.FromJSON.FromJSON DisputeEvidenceReceipt'Variants where
-  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
-    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ DisputeEvidenceReceipt'File a
-    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ DisputeEvidenceReceipt'Text a
-      Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+  parseJSON val = case (DisputeEvidenceReceipt'File Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((DisputeEvidenceReceipt'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched") of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+    Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
--- | Define the one-of schema dispute_evidenceRefund_policy\'
+-- | Defines the oneOf schema located at @components.schemas.dispute_evidence.properties.refund_policy.anyOf@ in the specification.
 --
 -- (ID of a [file upload](https:\/\/stripe.com\/docs\/guides\/file-upload)) Your refund policy, as shown to the customer.
 data DisputeEvidenceRefundPolicy'Variants
@@ -281,13 +305,11 @@ instance Data.Aeson.Types.ToJSON.ToJSON DisputeEvidenceRefundPolicy'Variants whe
   toJSON (DisputeEvidenceRefundPolicy'Text a) = Data.Aeson.Types.ToJSON.toJSON a
 
 instance Data.Aeson.Types.FromJSON.FromJSON DisputeEvidenceRefundPolicy'Variants where
-  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
-    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ DisputeEvidenceRefundPolicy'File a
-    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ DisputeEvidenceRefundPolicy'Text a
-      Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+  parseJSON val = case (DisputeEvidenceRefundPolicy'File Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((DisputeEvidenceRefundPolicy'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched") of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+    Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
--- | Define the one-of schema dispute_evidenceService_documentation\'
+-- | Defines the oneOf schema located at @components.schemas.dispute_evidence.properties.service_documentation.anyOf@ in the specification.
 --
 -- (ID of a [file upload](https:\/\/stripe.com\/docs\/guides\/file-upload)) Documentation showing proof that a service was provided to the customer. This could include a copy of a signed contract, work order, or other form of written agreement.
 data DisputeEvidenceServiceDocumentation'Variants
@@ -300,13 +322,11 @@ instance Data.Aeson.Types.ToJSON.ToJSON DisputeEvidenceServiceDocumentation'Vari
   toJSON (DisputeEvidenceServiceDocumentation'Text a) = Data.Aeson.Types.ToJSON.toJSON a
 
 instance Data.Aeson.Types.FromJSON.FromJSON DisputeEvidenceServiceDocumentation'Variants where
-  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
-    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ DisputeEvidenceServiceDocumentation'File a
-    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ DisputeEvidenceServiceDocumentation'Text a
-      Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+  parseJSON val = case (DisputeEvidenceServiceDocumentation'File Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((DisputeEvidenceServiceDocumentation'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched") of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+    Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
--- | Define the one-of schema dispute_evidenceShipping_documentation\'
+-- | Defines the oneOf schema located at @components.schemas.dispute_evidence.properties.shipping_documentation.anyOf@ in the specification.
 --
 -- (ID of a [file upload](https:\/\/stripe.com\/docs\/guides\/file-upload)) Documentation showing proof that a product was shipped to the customer at the same address the customer provided to you. This could include a copy of the shipment receipt, shipping label, etc. It should show the customer\'s full shipping address, if possible.
 data DisputeEvidenceShippingDocumentation'Variants
@@ -319,13 +339,11 @@ instance Data.Aeson.Types.ToJSON.ToJSON DisputeEvidenceShippingDocumentation'Var
   toJSON (DisputeEvidenceShippingDocumentation'Text a) = Data.Aeson.Types.ToJSON.toJSON a
 
 instance Data.Aeson.Types.FromJSON.FromJSON DisputeEvidenceShippingDocumentation'Variants where
-  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
-    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ DisputeEvidenceShippingDocumentation'File a
-    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ DisputeEvidenceShippingDocumentation'Text a
-      Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+  parseJSON val = case (DisputeEvidenceShippingDocumentation'File Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((DisputeEvidenceShippingDocumentation'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched") of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+    Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
--- | Define the one-of schema dispute_evidenceUncategorized_file\'
+-- | Defines the oneOf schema located at @components.schemas.dispute_evidence.properties.uncategorized_file.anyOf@ in the specification.
 --
 -- (ID of a [file upload](https:\/\/stripe.com\/docs\/guides\/file-upload)) Any additional evidence or statements.
 data DisputeEvidenceUncategorizedFile'Variants
@@ -338,8 +356,6 @@ instance Data.Aeson.Types.ToJSON.ToJSON DisputeEvidenceUncategorizedFile'Variant
   toJSON (DisputeEvidenceUncategorizedFile'Text a) = Data.Aeson.Types.ToJSON.toJSON a
 
 instance Data.Aeson.Types.FromJSON.FromJSON DisputeEvidenceUncategorizedFile'Variants where
-  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
-    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ DisputeEvidenceUncategorizedFile'File a
-    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ DisputeEvidenceUncategorizedFile'Text a
-      Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+  parseJSON val = case (DisputeEvidenceUncategorizedFile'File Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((DisputeEvidenceUncategorizedFile'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched") of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+    Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a

@@ -8,6 +8,7 @@ module StripeAPI.Types.Shipping where
 
 import qualified Control.Monad.Fail
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -31,7 +32,7 @@ import {-# SOURCE #-} StripeAPI.Types.Address
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
--- | Defines the data type for the schema shipping
+-- | Defines the object schema located at @components.schemas.shipping@ in the specification.
 data Shipping
   = Shipping
       { -- | address:
@@ -67,8 +68,19 @@ data Shipping
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON Shipping where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "address" (shippingAddress obj) : (Data.Aeson..=) "carrier" (shippingCarrier obj) : (Data.Aeson..=) "name" (shippingName obj) : (Data.Aeson..=) "phone" (shippingPhone obj) : (Data.Aeson..=) "tracking_number" (shippingTrackingNumber obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "address" (shippingAddress obj) GHC.Base.<> ((Data.Aeson..=) "carrier" (shippingCarrier obj) GHC.Base.<> ((Data.Aeson..=) "name" (shippingName obj) GHC.Base.<> ((Data.Aeson..=) "phone" (shippingPhone obj) GHC.Base.<> (Data.Aeson..=) "tracking_number" (shippingTrackingNumber obj)))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("address" Data.Aeson.Types.ToJSON..= shippingAddress obj : "carrier" Data.Aeson.Types.ToJSON..= shippingCarrier obj : "name" Data.Aeson.Types.ToJSON..= shippingName obj : "phone" Data.Aeson.Types.ToJSON..= shippingPhone obj : "tracking_number" Data.Aeson.Types.ToJSON..= shippingTrackingNumber obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("address" Data.Aeson.Types.ToJSON..= shippingAddress obj) GHC.Base.<> (("carrier" Data.Aeson.Types.ToJSON..= shippingCarrier obj) GHC.Base.<> (("name" Data.Aeson.Types.ToJSON..= shippingName obj) GHC.Base.<> (("phone" Data.Aeson.Types.ToJSON..= shippingPhone obj) GHC.Base.<> ("tracking_number" Data.Aeson.Types.ToJSON..= shippingTrackingNumber obj)))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON Shipping where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "Shipping" (\obj -> ((((GHC.Base.pure Shipping GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "address")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "carrier")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "phone")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "tracking_number"))
+
+-- | Create a new 'Shipping' with all required fields.
+mkShipping :: Shipping
+mkShipping =
+  Shipping
+    { shippingAddress = GHC.Maybe.Nothing,
+      shippingCarrier = GHC.Maybe.Nothing,
+      shippingName = GHC.Maybe.Nothing,
+      shippingPhone = GHC.Maybe.Nothing,
+      shippingTrackingNumber = GHC.Maybe.Nothing
+    }

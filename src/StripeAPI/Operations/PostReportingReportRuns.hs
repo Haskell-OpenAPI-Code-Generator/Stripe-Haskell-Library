@@ -10,6 +10,7 @@ module StripeAPI.Operations.PostReportingReportRuns where
 import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -77,7 +78,7 @@ postReportingReportRuns body =
     )
     (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack "/v1/reporting/report_runs") [] (GHC.Maybe.Just body) StripeAPI.Common.RequestBodyEncodingFormData)
 
--- | Defines the data type for the schema postReportingReportRunsRequestBody
+-- | Defines the object schema located at @paths.\/v1\/reporting\/report_runs.POST.requestBody.content.application\/x-www-form-urlencoded.schema@ in the specification.
 data PostReportingReportRunsRequestBody
   = PostReportingReportRunsRequestBody
       { -- | expand: Specifies which fields in the response should be expanded.
@@ -93,13 +94,25 @@ data PostReportingReportRunsRequestBody
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostReportingReportRunsRequestBody where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "expand" (postReportingReportRunsRequestBodyExpand obj) : (Data.Aeson..=) "parameters" (postReportingReportRunsRequestBodyParameters obj) : (Data.Aeson..=) "report_type" (postReportingReportRunsRequestBodyReportType obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "expand" (postReportingReportRunsRequestBodyExpand obj) GHC.Base.<> ((Data.Aeson..=) "parameters" (postReportingReportRunsRequestBodyParameters obj) GHC.Base.<> (Data.Aeson..=) "report_type" (postReportingReportRunsRequestBodyReportType obj)))
+  toJSON obj = Data.Aeson.Types.Internal.object ("expand" Data.Aeson.Types.ToJSON..= postReportingReportRunsRequestBodyExpand obj : "parameters" Data.Aeson.Types.ToJSON..= postReportingReportRunsRequestBodyParameters obj : "report_type" Data.Aeson.Types.ToJSON..= postReportingReportRunsRequestBodyReportType obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("expand" Data.Aeson.Types.ToJSON..= postReportingReportRunsRequestBodyExpand obj) GHC.Base.<> (("parameters" Data.Aeson.Types.ToJSON..= postReportingReportRunsRequestBodyParameters obj) GHC.Base.<> ("report_type" Data.Aeson.Types.ToJSON..= postReportingReportRunsRequestBodyReportType obj)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostReportingReportRunsRequestBody where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PostReportingReportRunsRequestBody" (\obj -> ((GHC.Base.pure PostReportingReportRunsRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "parameters")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "report_type"))
 
--- | Defines the data type for the schema postReportingReportRunsRequestBodyParameters\'
+-- | Create a new 'PostReportingReportRunsRequestBody' with all required fields.
+mkPostReportingReportRunsRequestBody ::
+  -- | 'postReportingReportRunsRequestBodyReportType'
+  Data.Text.Internal.Text ->
+  PostReportingReportRunsRequestBody
+mkPostReportingReportRunsRequestBody postReportingReportRunsRequestBodyReportType =
+  PostReportingReportRunsRequestBody
+    { postReportingReportRunsRequestBodyExpand = GHC.Maybe.Nothing,
+      postReportingReportRunsRequestBodyParameters = GHC.Maybe.Nothing,
+      postReportingReportRunsRequestBodyReportType = postReportingReportRunsRequestBodyReportType
+    }
+
+-- | Defines the object schema located at @paths.\/v1\/reporting\/report_runs.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.parameters@ in the specification.
 --
 -- Parameters specifying how the report should be run. Different Report Types have different required and optional parameters, listed in the [API Access to Reports](https:\/\/stripe.com\/docs\/reporting\/statements\/api) documentation.
 data PostReportingReportRunsRequestBodyParameters'
@@ -135,1917 +148,2560 @@ data PostReportingReportRunsRequestBodyParameters'
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostReportingReportRunsRequestBodyParameters' where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "columns" (postReportingReportRunsRequestBodyParameters'Columns obj) : (Data.Aeson..=) "connected_account" (postReportingReportRunsRequestBodyParameters'ConnectedAccount obj) : (Data.Aeson..=) "currency" (postReportingReportRunsRequestBodyParameters'Currency obj) : (Data.Aeson..=) "interval_end" (postReportingReportRunsRequestBodyParameters'IntervalEnd obj) : (Data.Aeson..=) "interval_start" (postReportingReportRunsRequestBodyParameters'IntervalStart obj) : (Data.Aeson..=) "payout" (postReportingReportRunsRequestBodyParameters'Payout obj) : (Data.Aeson..=) "reporting_category" (postReportingReportRunsRequestBodyParameters'ReportingCategory obj) : (Data.Aeson..=) "timezone" (postReportingReportRunsRequestBodyParameters'Timezone obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "columns" (postReportingReportRunsRequestBodyParameters'Columns obj) GHC.Base.<> ((Data.Aeson..=) "connected_account" (postReportingReportRunsRequestBodyParameters'ConnectedAccount obj) GHC.Base.<> ((Data.Aeson..=) "currency" (postReportingReportRunsRequestBodyParameters'Currency obj) GHC.Base.<> ((Data.Aeson..=) "interval_end" (postReportingReportRunsRequestBodyParameters'IntervalEnd obj) GHC.Base.<> ((Data.Aeson..=) "interval_start" (postReportingReportRunsRequestBodyParameters'IntervalStart obj) GHC.Base.<> ((Data.Aeson..=) "payout" (postReportingReportRunsRequestBodyParameters'Payout obj) GHC.Base.<> ((Data.Aeson..=) "reporting_category" (postReportingReportRunsRequestBodyParameters'ReportingCategory obj) GHC.Base.<> (Data.Aeson..=) "timezone" (postReportingReportRunsRequestBodyParameters'Timezone obj))))))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("columns" Data.Aeson.Types.ToJSON..= postReportingReportRunsRequestBodyParameters'Columns obj : "connected_account" Data.Aeson.Types.ToJSON..= postReportingReportRunsRequestBodyParameters'ConnectedAccount obj : "currency" Data.Aeson.Types.ToJSON..= postReportingReportRunsRequestBodyParameters'Currency obj : "interval_end" Data.Aeson.Types.ToJSON..= postReportingReportRunsRequestBodyParameters'IntervalEnd obj : "interval_start" Data.Aeson.Types.ToJSON..= postReportingReportRunsRequestBodyParameters'IntervalStart obj : "payout" Data.Aeson.Types.ToJSON..= postReportingReportRunsRequestBodyParameters'Payout obj : "reporting_category" Data.Aeson.Types.ToJSON..= postReportingReportRunsRequestBodyParameters'ReportingCategory obj : "timezone" Data.Aeson.Types.ToJSON..= postReportingReportRunsRequestBodyParameters'Timezone obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("columns" Data.Aeson.Types.ToJSON..= postReportingReportRunsRequestBodyParameters'Columns obj) GHC.Base.<> (("connected_account" Data.Aeson.Types.ToJSON..= postReportingReportRunsRequestBodyParameters'ConnectedAccount obj) GHC.Base.<> (("currency" Data.Aeson.Types.ToJSON..= postReportingReportRunsRequestBodyParameters'Currency obj) GHC.Base.<> (("interval_end" Data.Aeson.Types.ToJSON..= postReportingReportRunsRequestBodyParameters'IntervalEnd obj) GHC.Base.<> (("interval_start" Data.Aeson.Types.ToJSON..= postReportingReportRunsRequestBodyParameters'IntervalStart obj) GHC.Base.<> (("payout" Data.Aeson.Types.ToJSON..= postReportingReportRunsRequestBodyParameters'Payout obj) GHC.Base.<> (("reporting_category" Data.Aeson.Types.ToJSON..= postReportingReportRunsRequestBodyParameters'ReportingCategory obj) GHC.Base.<> ("timezone" Data.Aeson.Types.ToJSON..= postReportingReportRunsRequestBodyParameters'Timezone obj))))))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostReportingReportRunsRequestBodyParameters' where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PostReportingReportRunsRequestBodyParameters'" (\obj -> (((((((GHC.Base.pure PostReportingReportRunsRequestBodyParameters' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "columns")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "connected_account")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "interval_end")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "interval_start")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "payout")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "reporting_category")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "timezone"))
 
--- | Defines the enum schema postReportingReportRunsRequestBodyParameters\'Reporting_category\'
+-- | Create a new 'PostReportingReportRunsRequestBodyParameters'' with all required fields.
+mkPostReportingReportRunsRequestBodyParameters' :: PostReportingReportRunsRequestBodyParameters'
+mkPostReportingReportRunsRequestBodyParameters' =
+  PostReportingReportRunsRequestBodyParameters'
+    { postReportingReportRunsRequestBodyParameters'Columns = GHC.Maybe.Nothing,
+      postReportingReportRunsRequestBodyParameters'ConnectedAccount = GHC.Maybe.Nothing,
+      postReportingReportRunsRequestBodyParameters'Currency = GHC.Maybe.Nothing,
+      postReportingReportRunsRequestBodyParameters'IntervalEnd = GHC.Maybe.Nothing,
+      postReportingReportRunsRequestBodyParameters'IntervalStart = GHC.Maybe.Nothing,
+      postReportingReportRunsRequestBodyParameters'Payout = GHC.Maybe.Nothing,
+      postReportingReportRunsRequestBodyParameters'ReportingCategory = GHC.Maybe.Nothing,
+      postReportingReportRunsRequestBodyParameters'Timezone = GHC.Maybe.Nothing
+    }
+
+-- | Defines the enum schema located at @paths.\/v1\/reporting\/report_runs.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.parameters.properties.reporting_category@ in the specification.
 data PostReportingReportRunsRequestBodyParameters'ReportingCategory'
-  = PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumOther Data.Aeson.Types.Internal.Value
-  | PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumTyped Data.Text.Internal.Text
-  | PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumStringAdvance
-  | PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumStringAdvanceFunding
-  | PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumStringCharge
-  | PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumStringChargeFailure
-  | PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumStringConnectCollectionTransfer
-  | PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumStringConnectReservedFunds
-  | PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumStringDispute
-  | PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumStringDisputeReversal
-  | PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumStringFee
-  | PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumStringFinancingPaydown
-  | PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumStringFinancingPaydownReversal
-  | PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumStringFinancingPayout
-  | PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumStringFinancingPayoutReversal
-  | PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumStringIssuingAuthorizationHold
-  | PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumStringIssuingAuthorizationRelease
-  | PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumStringIssuingTransaction
-  | PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumStringNetworkCost
-  | PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumStringOtherAdjustment
-  | PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumStringPartialCaptureReversal
-  | PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumStringPayout
-  | PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumStringPayoutReversal
-  | PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumStringPlatformEarning
-  | PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumStringPlatformEarningRefund
-  | PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumStringRefund
-  | PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumStringRefundFailure
-  | PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumStringRiskReservedFunds
-  | PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumStringTax
-  | PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumStringTopup
-  | PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumStringTopupReversal
-  | PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumStringTransfer
-  | PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumStringTransferReversal
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    PostReportingReportRunsRequestBodyParameters'ReportingCategory'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    PostReportingReportRunsRequestBodyParameters'ReportingCategory'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"advance"@
+    PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumAdvance
+  | -- | Represents the JSON value @"advance_funding"@
+    PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumAdvanceFunding
+  | -- | Represents the JSON value @"charge"@
+    PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumCharge
+  | -- | Represents the JSON value @"charge_failure"@
+    PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumChargeFailure
+  | -- | Represents the JSON value @"connect_collection_transfer"@
+    PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumConnectCollectionTransfer
+  | -- | Represents the JSON value @"connect_reserved_funds"@
+    PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumConnectReservedFunds
+  | -- | Represents the JSON value @"dispute"@
+    PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumDispute
+  | -- | Represents the JSON value @"dispute_reversal"@
+    PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumDisputeReversal
+  | -- | Represents the JSON value @"fee"@
+    PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumFee
+  | -- | Represents the JSON value @"financing_paydown"@
+    PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumFinancingPaydown
+  | -- | Represents the JSON value @"financing_paydown_reversal"@
+    PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumFinancingPaydownReversal
+  | -- | Represents the JSON value @"financing_payout"@
+    PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumFinancingPayout
+  | -- | Represents the JSON value @"financing_payout_reversal"@
+    PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumFinancingPayoutReversal
+  | -- | Represents the JSON value @"issuing_authorization_hold"@
+    PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumIssuingAuthorizationHold
+  | -- | Represents the JSON value @"issuing_authorization_release"@
+    PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumIssuingAuthorizationRelease
+  | -- | Represents the JSON value @"issuing_transaction"@
+    PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumIssuingTransaction
+  | -- | Represents the JSON value @"network_cost"@
+    PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumNetworkCost
+  | -- | Represents the JSON value @"other_adjustment"@
+    PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumOtherAdjustment
+  | -- | Represents the JSON value @"partial_capture_reversal"@
+    PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumPartialCaptureReversal
+  | -- | Represents the JSON value @"payout"@
+    PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumPayout
+  | -- | Represents the JSON value @"payout_reversal"@
+    PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumPayoutReversal
+  | -- | Represents the JSON value @"platform_earning"@
+    PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumPlatformEarning
+  | -- | Represents the JSON value @"platform_earning_refund"@
+    PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumPlatformEarningRefund
+  | -- | Represents the JSON value @"refund"@
+    PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumRefund
+  | -- | Represents the JSON value @"refund_failure"@
+    PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumRefundFailure
+  | -- | Represents the JSON value @"risk_reserved_funds"@
+    PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumRiskReservedFunds
+  | -- | Represents the JSON value @"tax"@
+    PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumTax
+  | -- | Represents the JSON value @"topup"@
+    PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumTopup
+  | -- | Represents the JSON value @"topup_reversal"@
+    PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumTopupReversal
+  | -- | Represents the JSON value @"transfer"@
+    PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumTransfer
+  | -- | Represents the JSON value @"transfer_reversal"@
+    PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumTransferReversal
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostReportingReportRunsRequestBodyParameters'ReportingCategory' where
-  toJSON (PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumStringAdvance) = "advance"
-  toJSON (PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumStringAdvanceFunding) = "advance_funding"
-  toJSON (PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumStringCharge) = "charge"
-  toJSON (PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumStringChargeFailure) = "charge_failure"
-  toJSON (PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumStringConnectCollectionTransfer) = "connect_collection_transfer"
-  toJSON (PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumStringConnectReservedFunds) = "connect_reserved_funds"
-  toJSON (PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumStringDispute) = "dispute"
-  toJSON (PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumStringDisputeReversal) = "dispute_reversal"
-  toJSON (PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumStringFee) = "fee"
-  toJSON (PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumStringFinancingPaydown) = "financing_paydown"
-  toJSON (PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumStringFinancingPaydownReversal) = "financing_paydown_reversal"
-  toJSON (PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumStringFinancingPayout) = "financing_payout"
-  toJSON (PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumStringFinancingPayoutReversal) = "financing_payout_reversal"
-  toJSON (PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumStringIssuingAuthorizationHold) = "issuing_authorization_hold"
-  toJSON (PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumStringIssuingAuthorizationRelease) = "issuing_authorization_release"
-  toJSON (PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumStringIssuingTransaction) = "issuing_transaction"
-  toJSON (PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumStringNetworkCost) = "network_cost"
-  toJSON (PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumStringOtherAdjustment) = "other_adjustment"
-  toJSON (PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumStringPartialCaptureReversal) = "partial_capture_reversal"
-  toJSON (PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumStringPayout) = "payout"
-  toJSON (PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumStringPayoutReversal) = "payout_reversal"
-  toJSON (PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumStringPlatformEarning) = "platform_earning"
-  toJSON (PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumStringPlatformEarningRefund) = "platform_earning_refund"
-  toJSON (PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumStringRefund) = "refund"
-  toJSON (PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumStringRefundFailure) = "refund_failure"
-  toJSON (PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumStringRiskReservedFunds) = "risk_reserved_funds"
-  toJSON (PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumStringTax) = "tax"
-  toJSON (PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumStringTopup) = "topup"
-  toJSON (PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumStringTopupReversal) = "topup_reversal"
-  toJSON (PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumStringTransfer) = "transfer"
-  toJSON (PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumStringTransferReversal) = "transfer_reversal"
+  toJSON (PostReportingReportRunsRequestBodyParameters'ReportingCategory'Other val) = val
+  toJSON (PostReportingReportRunsRequestBodyParameters'ReportingCategory'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumAdvance) = "advance"
+  toJSON (PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumAdvanceFunding) = "advance_funding"
+  toJSON (PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumCharge) = "charge"
+  toJSON (PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumChargeFailure) = "charge_failure"
+  toJSON (PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumConnectCollectionTransfer) = "connect_collection_transfer"
+  toJSON (PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumConnectReservedFunds) = "connect_reserved_funds"
+  toJSON (PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumDispute) = "dispute"
+  toJSON (PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumDisputeReversal) = "dispute_reversal"
+  toJSON (PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumFee) = "fee"
+  toJSON (PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumFinancingPaydown) = "financing_paydown"
+  toJSON (PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumFinancingPaydownReversal) = "financing_paydown_reversal"
+  toJSON (PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumFinancingPayout) = "financing_payout"
+  toJSON (PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumFinancingPayoutReversal) = "financing_payout_reversal"
+  toJSON (PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumIssuingAuthorizationHold) = "issuing_authorization_hold"
+  toJSON (PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumIssuingAuthorizationRelease) = "issuing_authorization_release"
+  toJSON (PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumIssuingTransaction) = "issuing_transaction"
+  toJSON (PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumNetworkCost) = "network_cost"
+  toJSON (PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumOtherAdjustment) = "other_adjustment"
+  toJSON (PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumPartialCaptureReversal) = "partial_capture_reversal"
+  toJSON (PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumPayout) = "payout"
+  toJSON (PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumPayoutReversal) = "payout_reversal"
+  toJSON (PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumPlatformEarning) = "platform_earning"
+  toJSON (PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumPlatformEarningRefund) = "platform_earning_refund"
+  toJSON (PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumRefund) = "refund"
+  toJSON (PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumRefundFailure) = "refund_failure"
+  toJSON (PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumRiskReservedFunds) = "risk_reserved_funds"
+  toJSON (PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumTax) = "tax"
+  toJSON (PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumTopup) = "topup"
+  toJSON (PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumTopupReversal) = "topup_reversal"
+  toJSON (PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumTransfer) = "transfer"
+  toJSON (PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumTransferReversal) = "transfer_reversal"
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostReportingReportRunsRequestBodyParameters'ReportingCategory' where
   parseJSON val =
     GHC.Base.pure
-      ( if  | val GHC.Classes.== "advance" -> PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumStringAdvance
-            | val GHC.Classes.== "advance_funding" -> PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumStringAdvanceFunding
-            | val GHC.Classes.== "charge" -> PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumStringCharge
-            | val GHC.Classes.== "charge_failure" -> PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumStringChargeFailure
-            | val GHC.Classes.== "connect_collection_transfer" -> PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumStringConnectCollectionTransfer
-            | val GHC.Classes.== "connect_reserved_funds" -> PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumStringConnectReservedFunds
-            | val GHC.Classes.== "dispute" -> PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumStringDispute
-            | val GHC.Classes.== "dispute_reversal" -> PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumStringDisputeReversal
-            | val GHC.Classes.== "fee" -> PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumStringFee
-            | val GHC.Classes.== "financing_paydown" -> PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumStringFinancingPaydown
-            | val GHC.Classes.== "financing_paydown_reversal" -> PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumStringFinancingPaydownReversal
-            | val GHC.Classes.== "financing_payout" -> PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumStringFinancingPayout
-            | val GHC.Classes.== "financing_payout_reversal" -> PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumStringFinancingPayoutReversal
-            | val GHC.Classes.== "issuing_authorization_hold" -> PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumStringIssuingAuthorizationHold
-            | val GHC.Classes.== "issuing_authorization_release" -> PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumStringIssuingAuthorizationRelease
-            | val GHC.Classes.== "issuing_transaction" -> PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumStringIssuingTransaction
-            | val GHC.Classes.== "network_cost" -> PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumStringNetworkCost
-            | val GHC.Classes.== "other_adjustment" -> PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumStringOtherAdjustment
-            | val GHC.Classes.== "partial_capture_reversal" -> PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumStringPartialCaptureReversal
-            | val GHC.Classes.== "payout" -> PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumStringPayout
-            | val GHC.Classes.== "payout_reversal" -> PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumStringPayoutReversal
-            | val GHC.Classes.== "platform_earning" -> PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumStringPlatformEarning
-            | val GHC.Classes.== "platform_earning_refund" -> PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumStringPlatformEarningRefund
-            | val GHC.Classes.== "refund" -> PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumStringRefund
-            | val GHC.Classes.== "refund_failure" -> PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumStringRefundFailure
-            | val GHC.Classes.== "risk_reserved_funds" -> PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumStringRiskReservedFunds
-            | val GHC.Classes.== "tax" -> PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumStringTax
-            | val GHC.Classes.== "topup" -> PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumStringTopup
-            | val GHC.Classes.== "topup_reversal" -> PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumStringTopupReversal
-            | val GHC.Classes.== "transfer" -> PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumStringTransfer
-            | val GHC.Classes.== "transfer_reversal" -> PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumStringTransferReversal
-            | GHC.Base.otherwise -> PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumOther val
+      ( if  | val GHC.Classes.== "advance" -> PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumAdvance
+            | val GHC.Classes.== "advance_funding" -> PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumAdvanceFunding
+            | val GHC.Classes.== "charge" -> PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumCharge
+            | val GHC.Classes.== "charge_failure" -> PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumChargeFailure
+            | val GHC.Classes.== "connect_collection_transfer" -> PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumConnectCollectionTransfer
+            | val GHC.Classes.== "connect_reserved_funds" -> PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumConnectReservedFunds
+            | val GHC.Classes.== "dispute" -> PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumDispute
+            | val GHC.Classes.== "dispute_reversal" -> PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumDisputeReversal
+            | val GHC.Classes.== "fee" -> PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumFee
+            | val GHC.Classes.== "financing_paydown" -> PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumFinancingPaydown
+            | val GHC.Classes.== "financing_paydown_reversal" -> PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumFinancingPaydownReversal
+            | val GHC.Classes.== "financing_payout" -> PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumFinancingPayout
+            | val GHC.Classes.== "financing_payout_reversal" -> PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumFinancingPayoutReversal
+            | val GHC.Classes.== "issuing_authorization_hold" -> PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumIssuingAuthorizationHold
+            | val GHC.Classes.== "issuing_authorization_release" -> PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumIssuingAuthorizationRelease
+            | val GHC.Classes.== "issuing_transaction" -> PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumIssuingTransaction
+            | val GHC.Classes.== "network_cost" -> PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumNetworkCost
+            | val GHC.Classes.== "other_adjustment" -> PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumOtherAdjustment
+            | val GHC.Classes.== "partial_capture_reversal" -> PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumPartialCaptureReversal
+            | val GHC.Classes.== "payout" -> PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumPayout
+            | val GHC.Classes.== "payout_reversal" -> PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumPayoutReversal
+            | val GHC.Classes.== "platform_earning" -> PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumPlatformEarning
+            | val GHC.Classes.== "platform_earning_refund" -> PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumPlatformEarningRefund
+            | val GHC.Classes.== "refund" -> PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumRefund
+            | val GHC.Classes.== "refund_failure" -> PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumRefundFailure
+            | val GHC.Classes.== "risk_reserved_funds" -> PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumRiskReservedFunds
+            | val GHC.Classes.== "tax" -> PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumTax
+            | val GHC.Classes.== "topup" -> PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumTopup
+            | val GHC.Classes.== "topup_reversal" -> PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumTopupReversal
+            | val GHC.Classes.== "transfer" -> PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumTransfer
+            | val GHC.Classes.== "transfer_reversal" -> PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumTransferReversal
+            | GHC.Base.otherwise -> PostReportingReportRunsRequestBodyParameters'ReportingCategory'Other val
       )
 
--- | Defines the enum schema postReportingReportRunsRequestBodyParameters\'Timezone\'
+-- | Defines the enum schema located at @paths.\/v1\/reporting\/report_runs.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.parameters.properties.timezone@ in the specification.
 data PostReportingReportRunsRequestBodyParameters'Timezone'
-  = PostReportingReportRunsRequestBodyParameters'Timezone'EnumOther Data.Aeson.Types.Internal.Value
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumTyped Data.Text.Internal.Text
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAfricaAbidjan
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAfricaAccra
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAfricaAddisAbaba
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAfricaAlgiers
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAfricaAsmara
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAfricaAsmera
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAfricaBamako
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAfricaBangui
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAfricaBanjul
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAfricaBissau
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAfricaBlantyre
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAfricaBrazzaville
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAfricaBujumbura
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAfricaCairo
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAfricaCasablanca
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAfricaCeuta
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAfricaConakry
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAfricaDakar
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAfricaDarEsSalaam
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAfricaDjibouti
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAfricaDouala
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAfricaElAaiun
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAfricaFreetown
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAfricaGaborone
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAfricaHarare
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAfricaJohannesburg
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAfricaJuba
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAfricaKampala
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAfricaKhartoum
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAfricaKigali
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAfricaKinshasa
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAfricaLagos
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAfricaLibreville
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAfricaLome
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAfricaLuanda
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAfricaLubumbashi
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAfricaLusaka
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAfricaMalabo
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAfricaMaputo
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAfricaMaseru
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAfricaMbabane
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAfricaMogadishu
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAfricaMonrovia
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAfricaNairobi
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAfricaNdjamena
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAfricaNiamey
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAfricaNouakchott
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAfricaOuagadougou
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAfricaPortoNovo
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAfricaSaoTome
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAfricaTimbuktu
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAfricaTripoli
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAfricaTunis
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAfricaWindhoek
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaAdak
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaAnchorage
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaAnguilla
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaAntigua
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaAraguaina
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaArgentinaBuenosAires
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaArgentinaCatamarca
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaArgentinaComodRivadavia
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaArgentinaCordoba
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaArgentinaJujuy
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaArgentinaLaRioja
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaArgentinaMendoza
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaArgentinaRioGallegos
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaArgentinaSalta
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaArgentinaSanJuan
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaArgentinaSanLuis
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaArgentinaTucuman
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaArgentinaUshuaia
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaAruba
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaAsuncion
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaAtikokan
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaAtka
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaBahia
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaBahiaBanderas
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaBarbados
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaBelem
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaBelize
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaBlancSablon
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaBoaVista
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaBogota
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaBoise
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaBuenosAires
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaCambridgeBay
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaCampoGrande
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaCancun
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaCaracas
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaCatamarca
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaCayenne
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaCayman
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaChicago
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaChihuahua
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaCoralHarbour
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaCordoba
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaCostaRica
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaCreston
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaCuiaba
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaCuracao
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaDanmarkshavn
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaDawson
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaDawsonCreek
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaDenver
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaDetroit
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaDominica
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaEdmonton
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaEirunepe
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaElSalvador
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaEnsenada
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaFortNelson
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaFortWayne
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaFortaleza
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaGlaceBay
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaGodthab
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaGooseBay
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaGrandTurk
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaGrenada
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaGuadeloupe
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaGuatemala
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaGuayaquil
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaGuyana
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaHalifax
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaHavana
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaHermosillo
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaIndianaIndianapolis
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaIndianaKnox
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaIndianaMarengo
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaIndianaPetersburg
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaIndianaTellCity
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaIndianaVevay
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaIndianaVincennes
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaIndianaWinamac
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaIndianapolis
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaInuvik
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaIqaluit
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaJamaica
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaJujuy
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaJuneau
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaKentuckyLouisville
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaKentuckyMonticello
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaKnoxIN
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaKralendijk
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaLaPaz
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaLima
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaLosAngeles
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaLouisville
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaLowerPrinces
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaMaceio
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaManagua
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaManaus
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaMarigot
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaMartinique
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaMatamoros
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaMazatlan
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaMendoza
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaMenominee
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaMerida
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaMetlakatla
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaMexicoCity
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaMiquelon
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaMoncton
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaMonterrey
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaMontevideo
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaMontreal
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaMontserrat
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaNassau
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaNewYork
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaNipigon
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaNome
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaNoronha
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaNorthDakotaBeulah
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaNorthDakotaCenter
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaNorthDakotaNewSalem
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaOjinaga
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaPanama
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaPangnirtung
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaParamaribo
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaPhoenix
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaPortAuPrince
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaPortOfSpain
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaPortoAcre
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaPortoVelho
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaPuertoRico
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaPuntaArenas
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaRainyRiver
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaRankinInlet
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaRecife
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaRegina
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaResolute
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaRioBranco
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaRosario
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaSantaIsabel
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaSantarem
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaSantiago
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaSantoDomingo
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaSaoPaulo
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaScoresbysund
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaShiprock
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaSitka
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaStBarthelemy
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaStJohns
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaStKitts
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaStLucia
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaStThomas
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaStVincent
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaSwiftCurrent
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaTegucigalpa
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaThule
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaThunderBay
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaTijuana
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaToronto
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaTortola
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaVancouver
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaVirgin
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaWhitehorse
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaWinnipeg
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaYakutat
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaYellowknife
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAntarcticaCasey
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAntarcticaDavis
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAntarcticaDumontDUrville
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAntarcticaMacquarie
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAntarcticaMawson
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAntarcticaMcMurdo
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAntarcticaPalmer
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAntarcticaRothera
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAntarcticaSouthPole
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAntarcticaSyowa
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAntarcticaTroll
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAntarcticaVostok
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringArcticLongyearbyen
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaAden
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaAlmaty
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaAmman
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaAnadyr
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaAqtau
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaAqtobe
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaAshgabat
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaAshkhabad
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaAtyrau
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaBaghdad
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaBahrain
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaBaku
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaBangkok
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaBarnaul
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaBeirut
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaBishkek
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaBrunei
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaCalcutta
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaChita
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaChoibalsan
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaChongqing
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaChungking
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaColombo
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaDacca
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaDamascus
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaDhaka
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaDili
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaDubai
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaDushanbe
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaFamagusta
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaGaza
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaHarbin
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaHebron
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaHoChiMinh
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaHongKong
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaHovd
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaIrkutsk
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaIstanbul
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaJakarta
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaJayapura
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaJerusalem
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaKabul
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaKamchatka
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaKarachi
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaKashgar
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaKathmandu
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaKatmandu
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaKhandyga
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaKolkata
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaKrasnoyarsk
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaKualaLumpur
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaKuching
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaKuwait
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaMacao
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaMacau
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaMagadan
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaMakassar
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaManila
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaMuscat
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaNicosia
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaNovokuznetsk
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaNovosibirsk
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaOmsk
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaOral
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaPhnomPenh
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaPontianak
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaPyongyang
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaQatar
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaQostanay
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaQyzylorda
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaRangoon
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaRiyadh
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaSaigon
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaSakhalin
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaSamarkand
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaSeoul
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaShanghai
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaSingapore
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaSrednekolymsk
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaTaipei
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaTashkent
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaTbilisi
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaTehran
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaTelAviv
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaThimbu
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaThimphu
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaTokyo
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaTomsk
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaUjungPandang
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaUlaanbaatar
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaUlanBator
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaUrumqi
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaUstNera
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaVientiane
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaVladivostok
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaYakutsk
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaYangon
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaYekaterinburg
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaYerevan
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAtlanticAzores
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAtlanticBermuda
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAtlanticCanary
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAtlanticCapeVerde
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAtlanticFaeroe
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAtlanticFaroe
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAtlanticJanMayen
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAtlanticMadeira
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAtlanticReykjavik
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAtlanticSouthGeorgia
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAtlanticStHelena
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAtlanticStanley
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAustraliaACT
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAustraliaAdelaide
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAustraliaBrisbane
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAustraliaBrokenHill
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAustraliaCanberra
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAustraliaCurrie
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAustraliaDarwin
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAustraliaEucla
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAustraliaHobart
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAustraliaLHI
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAustraliaLindeman
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAustraliaLordHowe
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAustraliaMelbourne
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAustraliaNSW
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAustraliaNorth
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAustraliaPerth
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAustraliaQueensland
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAustraliaSouth
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAustraliaSydney
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAustraliaTasmania
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAustraliaVictoria
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAustraliaWest
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAustraliaYancowinna
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringBrazilAcre
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringBrazilDeNoronha
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringBrazilEast
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringBrazilWest
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringCET
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringCST6CDT
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringCanadaAtlantic
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringCanadaCentral
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringCanadaEastern
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringCanadaMountain
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringCanadaNewfoundland
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringCanadaPacific
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringCanadaSaskatchewan
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringCanadaYukon
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringChileContinental
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringChileEasterIsland
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringCuba
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEET
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEST
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEST5EDT
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEgypt
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEire
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEtcGMT
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEtcGMTPlus0
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEtcGMTPlus1
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEtcGMTPlus10
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEtcGMTPlus11
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEtcGMTPlus12
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEtcGMTPlus2
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEtcGMTPlus3
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEtcGMTPlus4
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEtcGMTPlus5
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEtcGMTPlus6
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEtcGMTPlus7
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEtcGMTPlus8
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEtcGMTPlus9
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEtcGMT_0
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEtcGMT_1
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEtcGMT_10
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEtcGMT_11
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEtcGMT_12
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEtcGMT_13
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEtcGMT_14
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEtcGMT_2
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEtcGMT_3
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEtcGMT_4
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEtcGMT_5
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEtcGMT_6
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEtcGMT_7
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEtcGMT_8
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEtcGMT_9
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEtcGMT0
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEtcGreenwich
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEtcUCT
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEtcUTC
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEtcUniversal
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEtcZulu
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEuropeAmsterdam
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEuropeAndorra
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEuropeAstrakhan
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEuropeAthens
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEuropeBelfast
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEuropeBelgrade
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEuropeBerlin
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEuropeBratislava
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEuropeBrussels
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEuropeBucharest
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEuropeBudapest
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEuropeBusingen
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEuropeChisinau
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEuropeCopenhagen
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEuropeDublin
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEuropeGibraltar
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEuropeGuernsey
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEuropeHelsinki
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEuropeIsleOfMan
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEuropeIstanbul
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEuropeJersey
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEuropeKaliningrad
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEuropeKiev
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEuropeKirov
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEuropeLisbon
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEuropeLjubljana
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEuropeLondon
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEuropeLuxembourg
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEuropeMadrid
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEuropeMalta
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEuropeMariehamn
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEuropeMinsk
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEuropeMonaco
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEuropeMoscow
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEuropeNicosia
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEuropeOslo
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEuropeParis
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEuropePodgorica
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEuropePrague
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEuropeRiga
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEuropeRome
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEuropeSamara
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEuropeSanMarino
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEuropeSarajevo
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEuropeSaratov
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEuropeSimferopol
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEuropeSkopje
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEuropeSofia
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEuropeStockholm
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEuropeTallinn
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEuropeTirane
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEuropeTiraspol
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEuropeUlyanovsk
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEuropeUzhgorod
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEuropeVaduz
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEuropeVatican
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEuropeVienna
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEuropeVilnius
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEuropeVolgograd
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEuropeWarsaw
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEuropeZagreb
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEuropeZaporozhye
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEuropeZurich
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringFactory
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringGB
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringGBEire
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringGMT
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringGMTPlus0
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringGMT_0
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringGMT0
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringGreenwich
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringHST
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringHongkong
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringIceland
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringIndianAntananarivo
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringIndianChagos
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringIndianChristmas
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringIndianCocos
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringIndianComoro
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringIndianKerguelen
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringIndianMahe
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringIndianMaldives
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringIndianMauritius
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringIndianMayotte
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringIndianReunion
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringIran
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringIsrael
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringJamaica
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringJapan
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringKwajalein
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringLibya
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringMET
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringMST
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringMST7MDT
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringMexicoBajaNorte
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringMexicoBajaSur
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringMexicoGeneral
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringNZ
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringNZCHAT
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringNavajo
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringPRC
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringPST8PDT
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringPacificApia
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringPacificAuckland
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringPacificBougainville
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringPacificChatham
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringPacificChuuk
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringPacificEaster
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringPacificEfate
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringPacificEnderbury
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringPacificFakaofo
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringPacificFiji
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringPacificFunafuti
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringPacificGalapagos
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringPacificGambier
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringPacificGuadalcanal
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringPacificGuam
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringPacificHonolulu
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringPacificJohnston
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringPacificKiritimati
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringPacificKosrae
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringPacificKwajalein
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringPacificMajuro
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringPacificMarquesas
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringPacificMidway
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringPacificNauru
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringPacificNiue
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringPacificNorfolk
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringPacificNoumea
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringPacificPagoPago
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringPacificPalau
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringPacificPitcairn
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringPacificPohnpei
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringPacificPonape
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringPacificPortMoresby
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringPacificRarotonga
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringPacificSaipan
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringPacificSamoa
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringPacificTahiti
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringPacificTarawa
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringPacificTongatapu
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringPacificTruk
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringPacificWake
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringPacificWallis
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringPacificYap
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringPoland
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringPortugal
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringROC
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringROK
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringSingapore
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringTurkey
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringUCT
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringUSAlaska
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringUSAleutian
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringUSArizona
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringUSCentral
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringUSEastIndiana
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringUSEastern
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringUSHawaii
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringUSIndianaStarke
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringUSMichigan
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringUSMountain
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringUSPacific
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringUSPacificNew
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringUSSamoa
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringUTC
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringUniversal
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringWSU
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringWET
-  | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringZulu
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    PostReportingReportRunsRequestBodyParameters'Timezone'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    PostReportingReportRunsRequestBodyParameters'Timezone'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"Africa/Abidjan"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAfricaAbidjan
+  | -- | Represents the JSON value @"Africa/Accra"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAfricaAccra
+  | -- | Represents the JSON value @"Africa/Addis_Ababa"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAfricaAddisAbaba
+  | -- | Represents the JSON value @"Africa/Algiers"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAfricaAlgiers
+  | -- | Represents the JSON value @"Africa/Asmara"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAfricaAsmara
+  | -- | Represents the JSON value @"Africa/Asmera"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAfricaAsmera
+  | -- | Represents the JSON value @"Africa/Bamako"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAfricaBamako
+  | -- | Represents the JSON value @"Africa/Bangui"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAfricaBangui
+  | -- | Represents the JSON value @"Africa/Banjul"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAfricaBanjul
+  | -- | Represents the JSON value @"Africa/Bissau"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAfricaBissau
+  | -- | Represents the JSON value @"Africa/Blantyre"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAfricaBlantyre
+  | -- | Represents the JSON value @"Africa/Brazzaville"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAfricaBrazzaville
+  | -- | Represents the JSON value @"Africa/Bujumbura"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAfricaBujumbura
+  | -- | Represents the JSON value @"Africa/Cairo"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAfricaCairo
+  | -- | Represents the JSON value @"Africa/Casablanca"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAfricaCasablanca
+  | -- | Represents the JSON value @"Africa/Ceuta"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAfricaCeuta
+  | -- | Represents the JSON value @"Africa/Conakry"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAfricaConakry
+  | -- | Represents the JSON value @"Africa/Dakar"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAfricaDakar
+  | -- | Represents the JSON value @"Africa/Dar_es_Salaam"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAfricaDarEsSalaam
+  | -- | Represents the JSON value @"Africa/Djibouti"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAfricaDjibouti
+  | -- | Represents the JSON value @"Africa/Douala"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAfricaDouala
+  | -- | Represents the JSON value @"Africa/El_Aaiun"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAfricaElAaiun
+  | -- | Represents the JSON value @"Africa/Freetown"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAfricaFreetown
+  | -- | Represents the JSON value @"Africa/Gaborone"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAfricaGaborone
+  | -- | Represents the JSON value @"Africa/Harare"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAfricaHarare
+  | -- | Represents the JSON value @"Africa/Johannesburg"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAfricaJohannesburg
+  | -- | Represents the JSON value @"Africa/Juba"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAfricaJuba
+  | -- | Represents the JSON value @"Africa/Kampala"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAfricaKampala
+  | -- | Represents the JSON value @"Africa/Khartoum"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAfricaKhartoum
+  | -- | Represents the JSON value @"Africa/Kigali"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAfricaKigali
+  | -- | Represents the JSON value @"Africa/Kinshasa"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAfricaKinshasa
+  | -- | Represents the JSON value @"Africa/Lagos"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAfricaLagos
+  | -- | Represents the JSON value @"Africa/Libreville"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAfricaLibreville
+  | -- | Represents the JSON value @"Africa/Lome"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAfricaLome
+  | -- | Represents the JSON value @"Africa/Luanda"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAfricaLuanda
+  | -- | Represents the JSON value @"Africa/Lubumbashi"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAfricaLubumbashi
+  | -- | Represents the JSON value @"Africa/Lusaka"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAfricaLusaka
+  | -- | Represents the JSON value @"Africa/Malabo"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAfricaMalabo
+  | -- | Represents the JSON value @"Africa/Maputo"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAfricaMaputo
+  | -- | Represents the JSON value @"Africa/Maseru"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAfricaMaseru
+  | -- | Represents the JSON value @"Africa/Mbabane"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAfricaMbabane
+  | -- | Represents the JSON value @"Africa/Mogadishu"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAfricaMogadishu
+  | -- | Represents the JSON value @"Africa/Monrovia"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAfricaMonrovia
+  | -- | Represents the JSON value @"Africa/Nairobi"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAfricaNairobi
+  | -- | Represents the JSON value @"Africa/Ndjamena"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAfricaNdjamena
+  | -- | Represents the JSON value @"Africa/Niamey"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAfricaNiamey
+  | -- | Represents the JSON value @"Africa/Nouakchott"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAfricaNouakchott
+  | -- | Represents the JSON value @"Africa/Ouagadougou"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAfricaOuagadougou
+  | -- | Represents the JSON value @"Africa/Porto-Novo"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAfricaPortoNovo
+  | -- | Represents the JSON value @"Africa/Sao_Tome"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAfricaSaoTome
+  | -- | Represents the JSON value @"Africa/Timbuktu"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAfricaTimbuktu
+  | -- | Represents the JSON value @"Africa/Tripoli"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAfricaTripoli
+  | -- | Represents the JSON value @"Africa/Tunis"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAfricaTunis
+  | -- | Represents the JSON value @"Africa/Windhoek"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAfricaWindhoek
+  | -- | Represents the JSON value @"America/Adak"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaAdak
+  | -- | Represents the JSON value @"America/Anchorage"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaAnchorage
+  | -- | Represents the JSON value @"America/Anguilla"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaAnguilla
+  | -- | Represents the JSON value @"America/Antigua"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaAntigua
+  | -- | Represents the JSON value @"America/Araguaina"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaAraguaina
+  | -- | Represents the JSON value @"America/Argentina/Buenos_Aires"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaArgentinaBuenosAires
+  | -- | Represents the JSON value @"America/Argentina/Catamarca"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaArgentinaCatamarca
+  | -- | Represents the JSON value @"America/Argentina/ComodRivadavia"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaArgentinaComodRivadavia
+  | -- | Represents the JSON value @"America/Argentina/Cordoba"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaArgentinaCordoba
+  | -- | Represents the JSON value @"America/Argentina/Jujuy"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaArgentinaJujuy
+  | -- | Represents the JSON value @"America/Argentina/La_Rioja"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaArgentinaLaRioja
+  | -- | Represents the JSON value @"America/Argentina/Mendoza"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaArgentinaMendoza
+  | -- | Represents the JSON value @"America/Argentina/Rio_Gallegos"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaArgentinaRioGallegos
+  | -- | Represents the JSON value @"America/Argentina/Salta"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaArgentinaSalta
+  | -- | Represents the JSON value @"America/Argentina/San_Juan"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaArgentinaSanJuan
+  | -- | Represents the JSON value @"America/Argentina/San_Luis"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaArgentinaSanLuis
+  | -- | Represents the JSON value @"America/Argentina/Tucuman"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaArgentinaTucuman
+  | -- | Represents the JSON value @"America/Argentina/Ushuaia"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaArgentinaUshuaia
+  | -- | Represents the JSON value @"America/Aruba"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaAruba
+  | -- | Represents the JSON value @"America/Asuncion"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaAsuncion
+  | -- | Represents the JSON value @"America/Atikokan"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaAtikokan
+  | -- | Represents the JSON value @"America/Atka"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaAtka
+  | -- | Represents the JSON value @"America/Bahia"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaBahia
+  | -- | Represents the JSON value @"America/Bahia_Banderas"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaBahiaBanderas
+  | -- | Represents the JSON value @"America/Barbados"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaBarbados
+  | -- | Represents the JSON value @"America/Belem"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaBelem
+  | -- | Represents the JSON value @"America/Belize"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaBelize
+  | -- | Represents the JSON value @"America/Blanc-Sablon"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaBlancSablon
+  | -- | Represents the JSON value @"America/Boa_Vista"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaBoaVista
+  | -- | Represents the JSON value @"America/Bogota"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaBogota
+  | -- | Represents the JSON value @"America/Boise"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaBoise
+  | -- | Represents the JSON value @"America/Buenos_Aires"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaBuenosAires
+  | -- | Represents the JSON value @"America/Cambridge_Bay"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaCambridgeBay
+  | -- | Represents the JSON value @"America/Campo_Grande"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaCampoGrande
+  | -- | Represents the JSON value @"America/Cancun"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaCancun
+  | -- | Represents the JSON value @"America/Caracas"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaCaracas
+  | -- | Represents the JSON value @"America/Catamarca"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaCatamarca
+  | -- | Represents the JSON value @"America/Cayenne"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaCayenne
+  | -- | Represents the JSON value @"America/Cayman"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaCayman
+  | -- | Represents the JSON value @"America/Chicago"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaChicago
+  | -- | Represents the JSON value @"America/Chihuahua"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaChihuahua
+  | -- | Represents the JSON value @"America/Coral_Harbour"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaCoralHarbour
+  | -- | Represents the JSON value @"America/Cordoba"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaCordoba
+  | -- | Represents the JSON value @"America/Costa_Rica"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaCostaRica
+  | -- | Represents the JSON value @"America/Creston"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaCreston
+  | -- | Represents the JSON value @"America/Cuiaba"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaCuiaba
+  | -- | Represents the JSON value @"America/Curacao"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaCuracao
+  | -- | Represents the JSON value @"America/Danmarkshavn"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaDanmarkshavn
+  | -- | Represents the JSON value @"America/Dawson"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaDawson
+  | -- | Represents the JSON value @"America/Dawson_Creek"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaDawsonCreek
+  | -- | Represents the JSON value @"America/Denver"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaDenver
+  | -- | Represents the JSON value @"America/Detroit"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaDetroit
+  | -- | Represents the JSON value @"America/Dominica"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaDominica
+  | -- | Represents the JSON value @"America/Edmonton"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaEdmonton
+  | -- | Represents the JSON value @"America/Eirunepe"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaEirunepe
+  | -- | Represents the JSON value @"America/El_Salvador"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaElSalvador
+  | -- | Represents the JSON value @"America/Ensenada"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaEnsenada
+  | -- | Represents the JSON value @"America/Fort_Nelson"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaFortNelson
+  | -- | Represents the JSON value @"America/Fort_Wayne"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaFortWayne
+  | -- | Represents the JSON value @"America/Fortaleza"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaFortaleza
+  | -- | Represents the JSON value @"America/Glace_Bay"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaGlaceBay
+  | -- | Represents the JSON value @"America/Godthab"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaGodthab
+  | -- | Represents the JSON value @"America/Goose_Bay"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaGooseBay
+  | -- | Represents the JSON value @"America/Grand_Turk"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaGrandTurk
+  | -- | Represents the JSON value @"America/Grenada"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaGrenada
+  | -- | Represents the JSON value @"America/Guadeloupe"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaGuadeloupe
+  | -- | Represents the JSON value @"America/Guatemala"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaGuatemala
+  | -- | Represents the JSON value @"America/Guayaquil"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaGuayaquil
+  | -- | Represents the JSON value @"America/Guyana"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaGuyana
+  | -- | Represents the JSON value @"America/Halifax"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaHalifax
+  | -- | Represents the JSON value @"America/Havana"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaHavana
+  | -- | Represents the JSON value @"America/Hermosillo"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaHermosillo
+  | -- | Represents the JSON value @"America/Indiana/Indianapolis"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaIndianaIndianapolis
+  | -- | Represents the JSON value @"America/Indiana/Knox"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaIndianaKnox
+  | -- | Represents the JSON value @"America/Indiana/Marengo"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaIndianaMarengo
+  | -- | Represents the JSON value @"America/Indiana/Petersburg"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaIndianaPetersburg
+  | -- | Represents the JSON value @"America/Indiana/Tell_City"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaIndianaTellCity
+  | -- | Represents the JSON value @"America/Indiana/Vevay"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaIndianaVevay
+  | -- | Represents the JSON value @"America/Indiana/Vincennes"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaIndianaVincennes
+  | -- | Represents the JSON value @"America/Indiana/Winamac"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaIndianaWinamac
+  | -- | Represents the JSON value @"America/Indianapolis"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaIndianapolis
+  | -- | Represents the JSON value @"America/Inuvik"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaInuvik
+  | -- | Represents the JSON value @"America/Iqaluit"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaIqaluit
+  | -- | Represents the JSON value @"America/Jamaica"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaJamaica
+  | -- | Represents the JSON value @"America/Jujuy"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaJujuy
+  | -- | Represents the JSON value @"America/Juneau"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaJuneau
+  | -- | Represents the JSON value @"America/Kentucky/Louisville"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaKentuckyLouisville
+  | -- | Represents the JSON value @"America/Kentucky/Monticello"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaKentuckyMonticello
+  | -- | Represents the JSON value @"America/Knox_IN"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaKnoxIN
+  | -- | Represents the JSON value @"America/Kralendijk"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaKralendijk
+  | -- | Represents the JSON value @"America/La_Paz"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaLaPaz
+  | -- | Represents the JSON value @"America/Lima"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaLima
+  | -- | Represents the JSON value @"America/Los_Angeles"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaLosAngeles
+  | -- | Represents the JSON value @"America/Louisville"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaLouisville
+  | -- | Represents the JSON value @"America/Lower_Princes"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaLowerPrinces
+  | -- | Represents the JSON value @"America/Maceio"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaMaceio
+  | -- | Represents the JSON value @"America/Managua"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaManagua
+  | -- | Represents the JSON value @"America/Manaus"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaManaus
+  | -- | Represents the JSON value @"America/Marigot"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaMarigot
+  | -- | Represents the JSON value @"America/Martinique"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaMartinique
+  | -- | Represents the JSON value @"America/Matamoros"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaMatamoros
+  | -- | Represents the JSON value @"America/Mazatlan"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaMazatlan
+  | -- | Represents the JSON value @"America/Mendoza"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaMendoza
+  | -- | Represents the JSON value @"America/Menominee"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaMenominee
+  | -- | Represents the JSON value @"America/Merida"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaMerida
+  | -- | Represents the JSON value @"America/Metlakatla"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaMetlakatla
+  | -- | Represents the JSON value @"America/Mexico_City"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaMexicoCity
+  | -- | Represents the JSON value @"America/Miquelon"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaMiquelon
+  | -- | Represents the JSON value @"America/Moncton"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaMoncton
+  | -- | Represents the JSON value @"America/Monterrey"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaMonterrey
+  | -- | Represents the JSON value @"America/Montevideo"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaMontevideo
+  | -- | Represents the JSON value @"America/Montreal"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaMontreal
+  | -- | Represents the JSON value @"America/Montserrat"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaMontserrat
+  | -- | Represents the JSON value @"America/Nassau"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaNassau
+  | -- | Represents the JSON value @"America/New_York"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaNewYork
+  | -- | Represents the JSON value @"America/Nipigon"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaNipigon
+  | -- | Represents the JSON value @"America/Nome"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaNome
+  | -- | Represents the JSON value @"America/Noronha"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaNoronha
+  | -- | Represents the JSON value @"America/North_Dakota/Beulah"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaNorthDakotaBeulah
+  | -- | Represents the JSON value @"America/North_Dakota/Center"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaNorthDakotaCenter
+  | -- | Represents the JSON value @"America/North_Dakota/New_Salem"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaNorthDakotaNewSalem
+  | -- | Represents the JSON value @"America/Ojinaga"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaOjinaga
+  | -- | Represents the JSON value @"America/Panama"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaPanama
+  | -- | Represents the JSON value @"America/Pangnirtung"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaPangnirtung
+  | -- | Represents the JSON value @"America/Paramaribo"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaParamaribo
+  | -- | Represents the JSON value @"America/Phoenix"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaPhoenix
+  | -- | Represents the JSON value @"America/Port-au-Prince"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaPortAuPrince
+  | -- | Represents the JSON value @"America/Port_of_Spain"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaPortOfSpain
+  | -- | Represents the JSON value @"America/Porto_Acre"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaPortoAcre
+  | -- | Represents the JSON value @"America/Porto_Velho"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaPortoVelho
+  | -- | Represents the JSON value @"America/Puerto_Rico"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaPuertoRico
+  | -- | Represents the JSON value @"America/Punta_Arenas"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaPuntaArenas
+  | -- | Represents the JSON value @"America/Rainy_River"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaRainyRiver
+  | -- | Represents the JSON value @"America/Rankin_Inlet"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaRankinInlet
+  | -- | Represents the JSON value @"America/Recife"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaRecife
+  | -- | Represents the JSON value @"America/Regina"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaRegina
+  | -- | Represents the JSON value @"America/Resolute"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaResolute
+  | -- | Represents the JSON value @"America/Rio_Branco"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaRioBranco
+  | -- | Represents the JSON value @"America/Rosario"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaRosario
+  | -- | Represents the JSON value @"America/Santa_Isabel"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaSantaIsabel
+  | -- | Represents the JSON value @"America/Santarem"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaSantarem
+  | -- | Represents the JSON value @"America/Santiago"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaSantiago
+  | -- | Represents the JSON value @"America/Santo_Domingo"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaSantoDomingo
+  | -- | Represents the JSON value @"America/Sao_Paulo"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaSaoPaulo
+  | -- | Represents the JSON value @"America/Scoresbysund"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaScoresbysund
+  | -- | Represents the JSON value @"America/Shiprock"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaShiprock
+  | -- | Represents the JSON value @"America/Sitka"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaSitka
+  | -- | Represents the JSON value @"America/St_Barthelemy"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaStBarthelemy
+  | -- | Represents the JSON value @"America/St_Johns"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaStJohns
+  | -- | Represents the JSON value @"America/St_Kitts"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaStKitts
+  | -- | Represents the JSON value @"America/St_Lucia"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaStLucia
+  | -- | Represents the JSON value @"America/St_Thomas"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaStThomas
+  | -- | Represents the JSON value @"America/St_Vincent"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaStVincent
+  | -- | Represents the JSON value @"America/Swift_Current"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaSwiftCurrent
+  | -- | Represents the JSON value @"America/Tegucigalpa"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaTegucigalpa
+  | -- | Represents the JSON value @"America/Thule"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaThule
+  | -- | Represents the JSON value @"America/Thunder_Bay"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaThunderBay
+  | -- | Represents the JSON value @"America/Tijuana"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaTijuana
+  | -- | Represents the JSON value @"America/Toronto"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaToronto
+  | -- | Represents the JSON value @"America/Tortola"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaTortola
+  | -- | Represents the JSON value @"America/Vancouver"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaVancouver
+  | -- | Represents the JSON value @"America/Virgin"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaVirgin
+  | -- | Represents the JSON value @"America/Whitehorse"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaWhitehorse
+  | -- | Represents the JSON value @"America/Winnipeg"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaWinnipeg
+  | -- | Represents the JSON value @"America/Yakutat"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaYakutat
+  | -- | Represents the JSON value @"America/Yellowknife"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaYellowknife
+  | -- | Represents the JSON value @"Antarctica/Casey"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAntarcticaCasey
+  | -- | Represents the JSON value @"Antarctica/Davis"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAntarcticaDavis
+  | -- | Represents the JSON value @"Antarctica/DumontDUrville"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAntarcticaDumontDUrville
+  | -- | Represents the JSON value @"Antarctica/Macquarie"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAntarcticaMacquarie
+  | -- | Represents the JSON value @"Antarctica/Mawson"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAntarcticaMawson
+  | -- | Represents the JSON value @"Antarctica/McMurdo"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAntarcticaMcMurdo
+  | -- | Represents the JSON value @"Antarctica/Palmer"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAntarcticaPalmer
+  | -- | Represents the JSON value @"Antarctica/Rothera"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAntarcticaRothera
+  | -- | Represents the JSON value @"Antarctica/South_Pole"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAntarcticaSouthPole
+  | -- | Represents the JSON value @"Antarctica/Syowa"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAntarcticaSyowa
+  | -- | Represents the JSON value @"Antarctica/Troll"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAntarcticaTroll
+  | -- | Represents the JSON value @"Antarctica/Vostok"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAntarcticaVostok
+  | -- | Represents the JSON value @"Arctic/Longyearbyen"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumArcticLongyearbyen
+  | -- | Represents the JSON value @"Asia/Aden"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaAden
+  | -- | Represents the JSON value @"Asia/Almaty"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaAlmaty
+  | -- | Represents the JSON value @"Asia/Amman"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaAmman
+  | -- | Represents the JSON value @"Asia/Anadyr"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaAnadyr
+  | -- | Represents the JSON value @"Asia/Aqtau"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaAqtau
+  | -- | Represents the JSON value @"Asia/Aqtobe"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaAqtobe
+  | -- | Represents the JSON value @"Asia/Ashgabat"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaAshgabat
+  | -- | Represents the JSON value @"Asia/Ashkhabad"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaAshkhabad
+  | -- | Represents the JSON value @"Asia/Atyrau"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaAtyrau
+  | -- | Represents the JSON value @"Asia/Baghdad"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaBaghdad
+  | -- | Represents the JSON value @"Asia/Bahrain"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaBahrain
+  | -- | Represents the JSON value @"Asia/Baku"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaBaku
+  | -- | Represents the JSON value @"Asia/Bangkok"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaBangkok
+  | -- | Represents the JSON value @"Asia/Barnaul"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaBarnaul
+  | -- | Represents the JSON value @"Asia/Beirut"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaBeirut
+  | -- | Represents the JSON value @"Asia/Bishkek"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaBishkek
+  | -- | Represents the JSON value @"Asia/Brunei"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaBrunei
+  | -- | Represents the JSON value @"Asia/Calcutta"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaCalcutta
+  | -- | Represents the JSON value @"Asia/Chita"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaChita
+  | -- | Represents the JSON value @"Asia/Choibalsan"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaChoibalsan
+  | -- | Represents the JSON value @"Asia/Chongqing"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaChongqing
+  | -- | Represents the JSON value @"Asia/Chungking"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaChungking
+  | -- | Represents the JSON value @"Asia/Colombo"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaColombo
+  | -- | Represents the JSON value @"Asia/Dacca"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaDacca
+  | -- | Represents the JSON value @"Asia/Damascus"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaDamascus
+  | -- | Represents the JSON value @"Asia/Dhaka"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaDhaka
+  | -- | Represents the JSON value @"Asia/Dili"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaDili
+  | -- | Represents the JSON value @"Asia/Dubai"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaDubai
+  | -- | Represents the JSON value @"Asia/Dushanbe"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaDushanbe
+  | -- | Represents the JSON value @"Asia/Famagusta"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaFamagusta
+  | -- | Represents the JSON value @"Asia/Gaza"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaGaza
+  | -- | Represents the JSON value @"Asia/Harbin"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaHarbin
+  | -- | Represents the JSON value @"Asia/Hebron"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaHebron
+  | -- | Represents the JSON value @"Asia/Ho_Chi_Minh"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaHoChiMinh
+  | -- | Represents the JSON value @"Asia/Hong_Kong"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaHongKong
+  | -- | Represents the JSON value @"Asia/Hovd"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaHovd
+  | -- | Represents the JSON value @"Asia/Irkutsk"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaIrkutsk
+  | -- | Represents the JSON value @"Asia/Istanbul"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaIstanbul
+  | -- | Represents the JSON value @"Asia/Jakarta"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaJakarta
+  | -- | Represents the JSON value @"Asia/Jayapura"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaJayapura
+  | -- | Represents the JSON value @"Asia/Jerusalem"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaJerusalem
+  | -- | Represents the JSON value @"Asia/Kabul"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaKabul
+  | -- | Represents the JSON value @"Asia/Kamchatka"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaKamchatka
+  | -- | Represents the JSON value @"Asia/Karachi"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaKarachi
+  | -- | Represents the JSON value @"Asia/Kashgar"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaKashgar
+  | -- | Represents the JSON value @"Asia/Kathmandu"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaKathmandu
+  | -- | Represents the JSON value @"Asia/Katmandu"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaKatmandu
+  | -- | Represents the JSON value @"Asia/Khandyga"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaKhandyga
+  | -- | Represents the JSON value @"Asia/Kolkata"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaKolkata
+  | -- | Represents the JSON value @"Asia/Krasnoyarsk"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaKrasnoyarsk
+  | -- | Represents the JSON value @"Asia/Kuala_Lumpur"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaKualaLumpur
+  | -- | Represents the JSON value @"Asia/Kuching"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaKuching
+  | -- | Represents the JSON value @"Asia/Kuwait"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaKuwait
+  | -- | Represents the JSON value @"Asia/Macao"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaMacao
+  | -- | Represents the JSON value @"Asia/Macau"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaMacau
+  | -- | Represents the JSON value @"Asia/Magadan"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaMagadan
+  | -- | Represents the JSON value @"Asia/Makassar"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaMakassar
+  | -- | Represents the JSON value @"Asia/Manila"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaManila
+  | -- | Represents the JSON value @"Asia/Muscat"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaMuscat
+  | -- | Represents the JSON value @"Asia/Nicosia"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaNicosia
+  | -- | Represents the JSON value @"Asia/Novokuznetsk"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaNovokuznetsk
+  | -- | Represents the JSON value @"Asia/Novosibirsk"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaNovosibirsk
+  | -- | Represents the JSON value @"Asia/Omsk"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaOmsk
+  | -- | Represents the JSON value @"Asia/Oral"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaOral
+  | -- | Represents the JSON value @"Asia/Phnom_Penh"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaPhnomPenh
+  | -- | Represents the JSON value @"Asia/Pontianak"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaPontianak
+  | -- | Represents the JSON value @"Asia/Pyongyang"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaPyongyang
+  | -- | Represents the JSON value @"Asia/Qatar"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaQatar
+  | -- | Represents the JSON value @"Asia/Qostanay"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaQostanay
+  | -- | Represents the JSON value @"Asia/Qyzylorda"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaQyzylorda
+  | -- | Represents the JSON value @"Asia/Rangoon"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaRangoon
+  | -- | Represents the JSON value @"Asia/Riyadh"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaRiyadh
+  | -- | Represents the JSON value @"Asia/Saigon"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaSaigon
+  | -- | Represents the JSON value @"Asia/Sakhalin"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaSakhalin
+  | -- | Represents the JSON value @"Asia/Samarkand"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaSamarkand
+  | -- | Represents the JSON value @"Asia/Seoul"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaSeoul
+  | -- | Represents the JSON value @"Asia/Shanghai"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaShanghai
+  | -- | Represents the JSON value @"Asia/Singapore"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaSingapore
+  | -- | Represents the JSON value @"Asia/Srednekolymsk"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaSrednekolymsk
+  | -- | Represents the JSON value @"Asia/Taipei"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaTaipei
+  | -- | Represents the JSON value @"Asia/Tashkent"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaTashkent
+  | -- | Represents the JSON value @"Asia/Tbilisi"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaTbilisi
+  | -- | Represents the JSON value @"Asia/Tehran"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaTehran
+  | -- | Represents the JSON value @"Asia/Tel_Aviv"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaTelAviv
+  | -- | Represents the JSON value @"Asia/Thimbu"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaThimbu
+  | -- | Represents the JSON value @"Asia/Thimphu"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaThimphu
+  | -- | Represents the JSON value @"Asia/Tokyo"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaTokyo
+  | -- | Represents the JSON value @"Asia/Tomsk"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaTomsk
+  | -- | Represents the JSON value @"Asia/Ujung_Pandang"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaUjungPandang
+  | -- | Represents the JSON value @"Asia/Ulaanbaatar"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaUlaanbaatar
+  | -- | Represents the JSON value @"Asia/Ulan_Bator"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaUlanBator
+  | -- | Represents the JSON value @"Asia/Urumqi"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaUrumqi
+  | -- | Represents the JSON value @"Asia/Ust-Nera"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaUstNera
+  | -- | Represents the JSON value @"Asia/Vientiane"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaVientiane
+  | -- | Represents the JSON value @"Asia/Vladivostok"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaVladivostok
+  | -- | Represents the JSON value @"Asia/Yakutsk"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaYakutsk
+  | -- | Represents the JSON value @"Asia/Yangon"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaYangon
+  | -- | Represents the JSON value @"Asia/Yekaterinburg"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaYekaterinburg
+  | -- | Represents the JSON value @"Asia/Yerevan"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaYerevan
+  | -- | Represents the JSON value @"Atlantic/Azores"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAtlanticAzores
+  | -- | Represents the JSON value @"Atlantic/Bermuda"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAtlanticBermuda
+  | -- | Represents the JSON value @"Atlantic/Canary"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAtlanticCanary
+  | -- | Represents the JSON value @"Atlantic/Cape_Verde"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAtlanticCapeVerde
+  | -- | Represents the JSON value @"Atlantic/Faeroe"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAtlanticFaeroe
+  | -- | Represents the JSON value @"Atlantic/Faroe"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAtlanticFaroe
+  | -- | Represents the JSON value @"Atlantic/Jan_Mayen"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAtlanticJanMayen
+  | -- | Represents the JSON value @"Atlantic/Madeira"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAtlanticMadeira
+  | -- | Represents the JSON value @"Atlantic/Reykjavik"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAtlanticReykjavik
+  | -- | Represents the JSON value @"Atlantic/South_Georgia"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAtlanticSouthGeorgia
+  | -- | Represents the JSON value @"Atlantic/St_Helena"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAtlanticStHelena
+  | -- | Represents the JSON value @"Atlantic/Stanley"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAtlanticStanley
+  | -- | Represents the JSON value @"Australia/ACT"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAustraliaACT
+  | -- | Represents the JSON value @"Australia/Adelaide"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAustraliaAdelaide
+  | -- | Represents the JSON value @"Australia/Brisbane"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAustraliaBrisbane
+  | -- | Represents the JSON value @"Australia/Broken_Hill"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAustraliaBrokenHill
+  | -- | Represents the JSON value @"Australia/Canberra"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAustraliaCanberra
+  | -- | Represents the JSON value @"Australia/Currie"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAustraliaCurrie
+  | -- | Represents the JSON value @"Australia/Darwin"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAustraliaDarwin
+  | -- | Represents the JSON value @"Australia/Eucla"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAustraliaEucla
+  | -- | Represents the JSON value @"Australia/Hobart"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAustraliaHobart
+  | -- | Represents the JSON value @"Australia/LHI"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAustraliaLHI
+  | -- | Represents the JSON value @"Australia/Lindeman"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAustraliaLindeman
+  | -- | Represents the JSON value @"Australia/Lord_Howe"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAustraliaLordHowe
+  | -- | Represents the JSON value @"Australia/Melbourne"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAustraliaMelbourne
+  | -- | Represents the JSON value @"Australia/NSW"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAustraliaNSW
+  | -- | Represents the JSON value @"Australia/North"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAustraliaNorth
+  | -- | Represents the JSON value @"Australia/Perth"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAustraliaPerth
+  | -- | Represents the JSON value @"Australia/Queensland"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAustraliaQueensland
+  | -- | Represents the JSON value @"Australia/South"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAustraliaSouth
+  | -- | Represents the JSON value @"Australia/Sydney"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAustraliaSydney
+  | -- | Represents the JSON value @"Australia/Tasmania"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAustraliaTasmania
+  | -- | Represents the JSON value @"Australia/Victoria"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAustraliaVictoria
+  | -- | Represents the JSON value @"Australia/West"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAustraliaWest
+  | -- | Represents the JSON value @"Australia/Yancowinna"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAustraliaYancowinna
+  | -- | Represents the JSON value @"Brazil/Acre"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumBrazilAcre
+  | -- | Represents the JSON value @"Brazil/DeNoronha"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumBrazilDeNoronha
+  | -- | Represents the JSON value @"Brazil/East"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumBrazilEast
+  | -- | Represents the JSON value @"Brazil/West"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumBrazilWest
+  | -- | Represents the JSON value @"CET"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumCET
+  | -- | Represents the JSON value @"CST6CDT"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumCST6CDT
+  | -- | Represents the JSON value @"Canada/Atlantic"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumCanadaAtlantic
+  | -- | Represents the JSON value @"Canada/Central"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumCanadaCentral
+  | -- | Represents the JSON value @"Canada/Eastern"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumCanadaEastern
+  | -- | Represents the JSON value @"Canada/Mountain"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumCanadaMountain
+  | -- | Represents the JSON value @"Canada/Newfoundland"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumCanadaNewfoundland
+  | -- | Represents the JSON value @"Canada/Pacific"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumCanadaPacific
+  | -- | Represents the JSON value @"Canada/Saskatchewan"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumCanadaSaskatchewan
+  | -- | Represents the JSON value @"Canada/Yukon"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumCanadaYukon
+  | -- | Represents the JSON value @"Chile/Continental"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumChileContinental
+  | -- | Represents the JSON value @"Chile/EasterIsland"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumChileEasterIsland
+  | -- | Represents the JSON value @"Cuba"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumCuba
+  | -- | Represents the JSON value @"EET"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumEET
+  | -- | Represents the JSON value @"EST"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumEST
+  | -- | Represents the JSON value @"EST5EDT"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumEST5EDT
+  | -- | Represents the JSON value @"Egypt"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumEgypt
+  | -- | Represents the JSON value @"Eire"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumEire
+  | -- | Represents the JSON value @"Etc/GMT"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumEtcGMT
+  | -- | Represents the JSON value @"Etc/GMT+0"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumEtcGMTPlus0
+  | -- | Represents the JSON value @"Etc/GMT+1"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumEtcGMTPlus1
+  | -- | Represents the JSON value @"Etc/GMT+10"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumEtcGMTPlus10
+  | -- | Represents the JSON value @"Etc/GMT+11"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumEtcGMTPlus11
+  | -- | Represents the JSON value @"Etc/GMT+12"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumEtcGMTPlus12
+  | -- | Represents the JSON value @"Etc/GMT+2"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumEtcGMTPlus2
+  | -- | Represents the JSON value @"Etc/GMT+3"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumEtcGMTPlus3
+  | -- | Represents the JSON value @"Etc/GMT+4"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumEtcGMTPlus4
+  | -- | Represents the JSON value @"Etc/GMT+5"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumEtcGMTPlus5
+  | -- | Represents the JSON value @"Etc/GMT+6"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumEtcGMTPlus6
+  | -- | Represents the JSON value @"Etc/GMT+7"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumEtcGMTPlus7
+  | -- | Represents the JSON value @"Etc/GMT+8"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumEtcGMTPlus8
+  | -- | Represents the JSON value @"Etc/GMT+9"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumEtcGMTPlus9
+  | -- | Represents the JSON value @"Etc/GMT-0"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumEtcGMT_0
+  | -- | Represents the JSON value @"Etc/GMT-1"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumEtcGMT_1
+  | -- | Represents the JSON value @"Etc/GMT-10"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumEtcGMT_10
+  | -- | Represents the JSON value @"Etc/GMT-11"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumEtcGMT_11
+  | -- | Represents the JSON value @"Etc/GMT-12"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumEtcGMT_12
+  | -- | Represents the JSON value @"Etc/GMT-13"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumEtcGMT_13
+  | -- | Represents the JSON value @"Etc/GMT-14"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumEtcGMT_14
+  | -- | Represents the JSON value @"Etc/GMT-2"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumEtcGMT_2
+  | -- | Represents the JSON value @"Etc/GMT-3"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumEtcGMT_3
+  | -- | Represents the JSON value @"Etc/GMT-4"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumEtcGMT_4
+  | -- | Represents the JSON value @"Etc/GMT-5"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumEtcGMT_5
+  | -- | Represents the JSON value @"Etc/GMT-6"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumEtcGMT_6
+  | -- | Represents the JSON value @"Etc/GMT-7"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumEtcGMT_7
+  | -- | Represents the JSON value @"Etc/GMT-8"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumEtcGMT_8
+  | -- | Represents the JSON value @"Etc/GMT-9"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumEtcGMT_9
+  | -- | Represents the JSON value @"Etc/GMT0"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumEtcGMT0
+  | -- | Represents the JSON value @"Etc/Greenwich"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumEtcGreenwich
+  | -- | Represents the JSON value @"Etc/UCT"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumEtcUCT
+  | -- | Represents the JSON value @"Etc/UTC"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumEtcUTC
+  | -- | Represents the JSON value @"Etc/Universal"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumEtcUniversal
+  | -- | Represents the JSON value @"Etc/Zulu"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumEtcZulu
+  | -- | Represents the JSON value @"Europe/Amsterdam"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumEuropeAmsterdam
+  | -- | Represents the JSON value @"Europe/Andorra"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumEuropeAndorra
+  | -- | Represents the JSON value @"Europe/Astrakhan"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumEuropeAstrakhan
+  | -- | Represents the JSON value @"Europe/Athens"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumEuropeAthens
+  | -- | Represents the JSON value @"Europe/Belfast"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumEuropeBelfast
+  | -- | Represents the JSON value @"Europe/Belgrade"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumEuropeBelgrade
+  | -- | Represents the JSON value @"Europe/Berlin"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumEuropeBerlin
+  | -- | Represents the JSON value @"Europe/Bratislava"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumEuropeBratislava
+  | -- | Represents the JSON value @"Europe/Brussels"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumEuropeBrussels
+  | -- | Represents the JSON value @"Europe/Bucharest"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumEuropeBucharest
+  | -- | Represents the JSON value @"Europe/Budapest"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumEuropeBudapest
+  | -- | Represents the JSON value @"Europe/Busingen"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumEuropeBusingen
+  | -- | Represents the JSON value @"Europe/Chisinau"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumEuropeChisinau
+  | -- | Represents the JSON value @"Europe/Copenhagen"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumEuropeCopenhagen
+  | -- | Represents the JSON value @"Europe/Dublin"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumEuropeDublin
+  | -- | Represents the JSON value @"Europe/Gibraltar"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumEuropeGibraltar
+  | -- | Represents the JSON value @"Europe/Guernsey"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumEuropeGuernsey
+  | -- | Represents the JSON value @"Europe/Helsinki"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumEuropeHelsinki
+  | -- | Represents the JSON value @"Europe/Isle_of_Man"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumEuropeIsleOfMan
+  | -- | Represents the JSON value @"Europe/Istanbul"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumEuropeIstanbul
+  | -- | Represents the JSON value @"Europe/Jersey"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumEuropeJersey
+  | -- | Represents the JSON value @"Europe/Kaliningrad"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumEuropeKaliningrad
+  | -- | Represents the JSON value @"Europe/Kiev"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumEuropeKiev
+  | -- | Represents the JSON value @"Europe/Kirov"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumEuropeKirov
+  | -- | Represents the JSON value @"Europe/Lisbon"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumEuropeLisbon
+  | -- | Represents the JSON value @"Europe/Ljubljana"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumEuropeLjubljana
+  | -- | Represents the JSON value @"Europe/London"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumEuropeLondon
+  | -- | Represents the JSON value @"Europe/Luxembourg"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumEuropeLuxembourg
+  | -- | Represents the JSON value @"Europe/Madrid"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumEuropeMadrid
+  | -- | Represents the JSON value @"Europe/Malta"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumEuropeMalta
+  | -- | Represents the JSON value @"Europe/Mariehamn"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumEuropeMariehamn
+  | -- | Represents the JSON value @"Europe/Minsk"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumEuropeMinsk
+  | -- | Represents the JSON value @"Europe/Monaco"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumEuropeMonaco
+  | -- | Represents the JSON value @"Europe/Moscow"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumEuropeMoscow
+  | -- | Represents the JSON value @"Europe/Nicosia"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumEuropeNicosia
+  | -- | Represents the JSON value @"Europe/Oslo"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumEuropeOslo
+  | -- | Represents the JSON value @"Europe/Paris"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumEuropeParis
+  | -- | Represents the JSON value @"Europe/Podgorica"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumEuropePodgorica
+  | -- | Represents the JSON value @"Europe/Prague"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumEuropePrague
+  | -- | Represents the JSON value @"Europe/Riga"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumEuropeRiga
+  | -- | Represents the JSON value @"Europe/Rome"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumEuropeRome
+  | -- | Represents the JSON value @"Europe/Samara"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumEuropeSamara
+  | -- | Represents the JSON value @"Europe/San_Marino"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumEuropeSanMarino
+  | -- | Represents the JSON value @"Europe/Sarajevo"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumEuropeSarajevo
+  | -- | Represents the JSON value @"Europe/Saratov"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumEuropeSaratov
+  | -- | Represents the JSON value @"Europe/Simferopol"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumEuropeSimferopol
+  | -- | Represents the JSON value @"Europe/Skopje"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumEuropeSkopje
+  | -- | Represents the JSON value @"Europe/Sofia"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumEuropeSofia
+  | -- | Represents the JSON value @"Europe/Stockholm"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumEuropeStockholm
+  | -- | Represents the JSON value @"Europe/Tallinn"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumEuropeTallinn
+  | -- | Represents the JSON value @"Europe/Tirane"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumEuropeTirane
+  | -- | Represents the JSON value @"Europe/Tiraspol"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumEuropeTiraspol
+  | -- | Represents the JSON value @"Europe/Ulyanovsk"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumEuropeUlyanovsk
+  | -- | Represents the JSON value @"Europe/Uzhgorod"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumEuropeUzhgorod
+  | -- | Represents the JSON value @"Europe/Vaduz"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumEuropeVaduz
+  | -- | Represents the JSON value @"Europe/Vatican"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumEuropeVatican
+  | -- | Represents the JSON value @"Europe/Vienna"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumEuropeVienna
+  | -- | Represents the JSON value @"Europe/Vilnius"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumEuropeVilnius
+  | -- | Represents the JSON value @"Europe/Volgograd"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumEuropeVolgograd
+  | -- | Represents the JSON value @"Europe/Warsaw"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumEuropeWarsaw
+  | -- | Represents the JSON value @"Europe/Zagreb"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumEuropeZagreb
+  | -- | Represents the JSON value @"Europe/Zaporozhye"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumEuropeZaporozhye
+  | -- | Represents the JSON value @"Europe/Zurich"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumEuropeZurich
+  | -- | Represents the JSON value @"Factory"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumFactory
+  | -- | Represents the JSON value @"GB"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumGB
+  | -- | Represents the JSON value @"GB-Eire"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumGBEire
+  | -- | Represents the JSON value @"GMT"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumGMT
+  | -- | Represents the JSON value @"GMT+0"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumGMTPlus0
+  | -- | Represents the JSON value @"GMT-0"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumGMT_0
+  | -- | Represents the JSON value @"GMT0"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumGMT0
+  | -- | Represents the JSON value @"Greenwich"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumGreenwich
+  | -- | Represents the JSON value @"HST"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumHST
+  | -- | Represents the JSON value @"Hongkong"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumHongkong
+  | -- | Represents the JSON value @"Iceland"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumIceland
+  | -- | Represents the JSON value @"Indian/Antananarivo"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumIndianAntananarivo
+  | -- | Represents the JSON value @"Indian/Chagos"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumIndianChagos
+  | -- | Represents the JSON value @"Indian/Christmas"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumIndianChristmas
+  | -- | Represents the JSON value @"Indian/Cocos"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumIndianCocos
+  | -- | Represents the JSON value @"Indian/Comoro"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumIndianComoro
+  | -- | Represents the JSON value @"Indian/Kerguelen"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumIndianKerguelen
+  | -- | Represents the JSON value @"Indian/Mahe"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumIndianMahe
+  | -- | Represents the JSON value @"Indian/Maldives"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumIndianMaldives
+  | -- | Represents the JSON value @"Indian/Mauritius"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumIndianMauritius
+  | -- | Represents the JSON value @"Indian/Mayotte"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumIndianMayotte
+  | -- | Represents the JSON value @"Indian/Reunion"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumIndianReunion
+  | -- | Represents the JSON value @"Iran"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumIran
+  | -- | Represents the JSON value @"Israel"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumIsrael
+  | -- | Represents the JSON value @"Jamaica"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumJamaica
+  | -- | Represents the JSON value @"Japan"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumJapan
+  | -- | Represents the JSON value @"Kwajalein"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumKwajalein
+  | -- | Represents the JSON value @"Libya"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumLibya
+  | -- | Represents the JSON value @"MET"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumMET
+  | -- | Represents the JSON value @"MST"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumMST
+  | -- | Represents the JSON value @"MST7MDT"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumMST7MDT
+  | -- | Represents the JSON value @"Mexico/BajaNorte"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumMexicoBajaNorte
+  | -- | Represents the JSON value @"Mexico/BajaSur"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumMexicoBajaSur
+  | -- | Represents the JSON value @"Mexico/General"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumMexicoGeneral
+  | -- | Represents the JSON value @"NZ"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumNZ
+  | -- | Represents the JSON value @"NZ-CHAT"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumNZCHAT
+  | -- | Represents the JSON value @"Navajo"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumNavajo
+  | -- | Represents the JSON value @"PRC"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumPRC
+  | -- | Represents the JSON value @"PST8PDT"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumPST8PDT
+  | -- | Represents the JSON value @"Pacific/Apia"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumPacificApia
+  | -- | Represents the JSON value @"Pacific/Auckland"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumPacificAuckland
+  | -- | Represents the JSON value @"Pacific/Bougainville"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumPacificBougainville
+  | -- | Represents the JSON value @"Pacific/Chatham"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumPacificChatham
+  | -- | Represents the JSON value @"Pacific/Chuuk"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumPacificChuuk
+  | -- | Represents the JSON value @"Pacific/Easter"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumPacificEaster
+  | -- | Represents the JSON value @"Pacific/Efate"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumPacificEfate
+  | -- | Represents the JSON value @"Pacific/Enderbury"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumPacificEnderbury
+  | -- | Represents the JSON value @"Pacific/Fakaofo"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumPacificFakaofo
+  | -- | Represents the JSON value @"Pacific/Fiji"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumPacificFiji
+  | -- | Represents the JSON value @"Pacific/Funafuti"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumPacificFunafuti
+  | -- | Represents the JSON value @"Pacific/Galapagos"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumPacificGalapagos
+  | -- | Represents the JSON value @"Pacific/Gambier"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumPacificGambier
+  | -- | Represents the JSON value @"Pacific/Guadalcanal"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumPacificGuadalcanal
+  | -- | Represents the JSON value @"Pacific/Guam"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumPacificGuam
+  | -- | Represents the JSON value @"Pacific/Honolulu"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumPacificHonolulu
+  | -- | Represents the JSON value @"Pacific/Johnston"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumPacificJohnston
+  | -- | Represents the JSON value @"Pacific/Kiritimati"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumPacificKiritimati
+  | -- | Represents the JSON value @"Pacific/Kosrae"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumPacificKosrae
+  | -- | Represents the JSON value @"Pacific/Kwajalein"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumPacificKwajalein
+  | -- | Represents the JSON value @"Pacific/Majuro"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumPacificMajuro
+  | -- | Represents the JSON value @"Pacific/Marquesas"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumPacificMarquesas
+  | -- | Represents the JSON value @"Pacific/Midway"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumPacificMidway
+  | -- | Represents the JSON value @"Pacific/Nauru"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumPacificNauru
+  | -- | Represents the JSON value @"Pacific/Niue"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumPacificNiue
+  | -- | Represents the JSON value @"Pacific/Norfolk"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumPacificNorfolk
+  | -- | Represents the JSON value @"Pacific/Noumea"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumPacificNoumea
+  | -- | Represents the JSON value @"Pacific/Pago_Pago"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumPacificPagoPago
+  | -- | Represents the JSON value @"Pacific/Palau"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumPacificPalau
+  | -- | Represents the JSON value @"Pacific/Pitcairn"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumPacificPitcairn
+  | -- | Represents the JSON value @"Pacific/Pohnpei"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumPacificPohnpei
+  | -- | Represents the JSON value @"Pacific/Ponape"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumPacificPonape
+  | -- | Represents the JSON value @"Pacific/Port_Moresby"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumPacificPortMoresby
+  | -- | Represents the JSON value @"Pacific/Rarotonga"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumPacificRarotonga
+  | -- | Represents the JSON value @"Pacific/Saipan"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumPacificSaipan
+  | -- | Represents the JSON value @"Pacific/Samoa"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumPacificSamoa
+  | -- | Represents the JSON value @"Pacific/Tahiti"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumPacificTahiti
+  | -- | Represents the JSON value @"Pacific/Tarawa"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumPacificTarawa
+  | -- | Represents the JSON value @"Pacific/Tongatapu"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumPacificTongatapu
+  | -- | Represents the JSON value @"Pacific/Truk"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumPacificTruk
+  | -- | Represents the JSON value @"Pacific/Wake"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumPacificWake
+  | -- | Represents the JSON value @"Pacific/Wallis"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumPacificWallis
+  | -- | Represents the JSON value @"Pacific/Yap"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumPacificYap
+  | -- | Represents the JSON value @"Poland"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumPoland
+  | -- | Represents the JSON value @"Portugal"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumPortugal
+  | -- | Represents the JSON value @"ROC"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumROC
+  | -- | Represents the JSON value @"ROK"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumROK
+  | -- | Represents the JSON value @"Singapore"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumSingapore
+  | -- | Represents the JSON value @"Turkey"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumTurkey
+  | -- | Represents the JSON value @"UCT"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumUCT
+  | -- | Represents the JSON value @"US/Alaska"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumUSAlaska
+  | -- | Represents the JSON value @"US/Aleutian"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumUSAleutian
+  | -- | Represents the JSON value @"US/Arizona"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumUSArizona
+  | -- | Represents the JSON value @"US/Central"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumUSCentral
+  | -- | Represents the JSON value @"US/East-Indiana"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumUSEastIndiana
+  | -- | Represents the JSON value @"US/Eastern"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumUSEastern
+  | -- | Represents the JSON value @"US/Hawaii"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumUSHawaii
+  | -- | Represents the JSON value @"US/Indiana-Starke"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumUSIndianaStarke
+  | -- | Represents the JSON value @"US/Michigan"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumUSMichigan
+  | -- | Represents the JSON value @"US/Mountain"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumUSMountain
+  | -- | Represents the JSON value @"US/Pacific"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumUSPacific
+  | -- | Represents the JSON value @"US/Pacific-New"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumUSPacificNew
+  | -- | Represents the JSON value @"US/Samoa"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumUSSamoa
+  | -- | Represents the JSON value @"UTC"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumUTC
+  | -- | Represents the JSON value @"Universal"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumUniversal
+  | -- | Represents the JSON value @"W-SU"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumWSU
+  | -- | Represents the JSON value @"WET"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumWET
+  | -- | Represents the JSON value @"Zulu"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumZulu
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostReportingReportRunsRequestBodyParameters'Timezone' where
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAfricaAbidjan) = "Africa/Abidjan"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAfricaAccra) = "Africa/Accra"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAfricaAddisAbaba) = "Africa/Addis_Ababa"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAfricaAlgiers) = "Africa/Algiers"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAfricaAsmara) = "Africa/Asmara"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAfricaAsmera) = "Africa/Asmera"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAfricaBamako) = "Africa/Bamako"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAfricaBangui) = "Africa/Bangui"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAfricaBanjul) = "Africa/Banjul"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAfricaBissau) = "Africa/Bissau"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAfricaBlantyre) = "Africa/Blantyre"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAfricaBrazzaville) = "Africa/Brazzaville"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAfricaBujumbura) = "Africa/Bujumbura"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAfricaCairo) = "Africa/Cairo"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAfricaCasablanca) = "Africa/Casablanca"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAfricaCeuta) = "Africa/Ceuta"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAfricaConakry) = "Africa/Conakry"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAfricaDakar) = "Africa/Dakar"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAfricaDarEsSalaam) = "Africa/Dar_es_Salaam"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAfricaDjibouti) = "Africa/Djibouti"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAfricaDouala) = "Africa/Douala"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAfricaElAaiun) = "Africa/El_Aaiun"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAfricaFreetown) = "Africa/Freetown"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAfricaGaborone) = "Africa/Gaborone"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAfricaHarare) = "Africa/Harare"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAfricaJohannesburg) = "Africa/Johannesburg"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAfricaJuba) = "Africa/Juba"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAfricaKampala) = "Africa/Kampala"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAfricaKhartoum) = "Africa/Khartoum"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAfricaKigali) = "Africa/Kigali"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAfricaKinshasa) = "Africa/Kinshasa"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAfricaLagos) = "Africa/Lagos"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAfricaLibreville) = "Africa/Libreville"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAfricaLome) = "Africa/Lome"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAfricaLuanda) = "Africa/Luanda"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAfricaLubumbashi) = "Africa/Lubumbashi"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAfricaLusaka) = "Africa/Lusaka"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAfricaMalabo) = "Africa/Malabo"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAfricaMaputo) = "Africa/Maputo"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAfricaMaseru) = "Africa/Maseru"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAfricaMbabane) = "Africa/Mbabane"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAfricaMogadishu) = "Africa/Mogadishu"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAfricaMonrovia) = "Africa/Monrovia"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAfricaNairobi) = "Africa/Nairobi"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAfricaNdjamena) = "Africa/Ndjamena"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAfricaNiamey) = "Africa/Niamey"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAfricaNouakchott) = "Africa/Nouakchott"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAfricaOuagadougou) = "Africa/Ouagadougou"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAfricaPortoNovo) = "Africa/Porto-Novo"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAfricaSaoTome) = "Africa/Sao_Tome"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAfricaTimbuktu) = "Africa/Timbuktu"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAfricaTripoli) = "Africa/Tripoli"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAfricaTunis) = "Africa/Tunis"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAfricaWindhoek) = "Africa/Windhoek"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaAdak) = "America/Adak"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaAnchorage) = "America/Anchorage"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaAnguilla) = "America/Anguilla"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaAntigua) = "America/Antigua"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaAraguaina) = "America/Araguaina"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaArgentinaBuenosAires) = "America/Argentina/Buenos_Aires"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaArgentinaCatamarca) = "America/Argentina/Catamarca"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaArgentinaComodRivadavia) = "America/Argentina/ComodRivadavia"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaArgentinaCordoba) = "America/Argentina/Cordoba"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaArgentinaJujuy) = "America/Argentina/Jujuy"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaArgentinaLaRioja) = "America/Argentina/La_Rioja"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaArgentinaMendoza) = "America/Argentina/Mendoza"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaArgentinaRioGallegos) = "America/Argentina/Rio_Gallegos"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaArgentinaSalta) = "America/Argentina/Salta"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaArgentinaSanJuan) = "America/Argentina/San_Juan"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaArgentinaSanLuis) = "America/Argentina/San_Luis"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaArgentinaTucuman) = "America/Argentina/Tucuman"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaArgentinaUshuaia) = "America/Argentina/Ushuaia"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaAruba) = "America/Aruba"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaAsuncion) = "America/Asuncion"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaAtikokan) = "America/Atikokan"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaAtka) = "America/Atka"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaBahia) = "America/Bahia"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaBahiaBanderas) = "America/Bahia_Banderas"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaBarbados) = "America/Barbados"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaBelem) = "America/Belem"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaBelize) = "America/Belize"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaBlancSablon) = "America/Blanc-Sablon"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaBoaVista) = "America/Boa_Vista"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaBogota) = "America/Bogota"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaBoise) = "America/Boise"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaBuenosAires) = "America/Buenos_Aires"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaCambridgeBay) = "America/Cambridge_Bay"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaCampoGrande) = "America/Campo_Grande"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaCancun) = "America/Cancun"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaCaracas) = "America/Caracas"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaCatamarca) = "America/Catamarca"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaCayenne) = "America/Cayenne"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaCayman) = "America/Cayman"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaChicago) = "America/Chicago"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaChihuahua) = "America/Chihuahua"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaCoralHarbour) = "America/Coral_Harbour"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaCordoba) = "America/Cordoba"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaCostaRica) = "America/Costa_Rica"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaCreston) = "America/Creston"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaCuiaba) = "America/Cuiaba"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaCuracao) = "America/Curacao"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaDanmarkshavn) = "America/Danmarkshavn"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaDawson) = "America/Dawson"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaDawsonCreek) = "America/Dawson_Creek"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaDenver) = "America/Denver"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaDetroit) = "America/Detroit"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaDominica) = "America/Dominica"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaEdmonton) = "America/Edmonton"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaEirunepe) = "America/Eirunepe"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaElSalvador) = "America/El_Salvador"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaEnsenada) = "America/Ensenada"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaFortNelson) = "America/Fort_Nelson"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaFortWayne) = "America/Fort_Wayne"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaFortaleza) = "America/Fortaleza"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaGlaceBay) = "America/Glace_Bay"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaGodthab) = "America/Godthab"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaGooseBay) = "America/Goose_Bay"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaGrandTurk) = "America/Grand_Turk"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaGrenada) = "America/Grenada"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaGuadeloupe) = "America/Guadeloupe"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaGuatemala) = "America/Guatemala"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaGuayaquil) = "America/Guayaquil"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaGuyana) = "America/Guyana"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaHalifax) = "America/Halifax"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaHavana) = "America/Havana"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaHermosillo) = "America/Hermosillo"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaIndianaIndianapolis) = "America/Indiana/Indianapolis"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaIndianaKnox) = "America/Indiana/Knox"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaIndianaMarengo) = "America/Indiana/Marengo"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaIndianaPetersburg) = "America/Indiana/Petersburg"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaIndianaTellCity) = "America/Indiana/Tell_City"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaIndianaVevay) = "America/Indiana/Vevay"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaIndianaVincennes) = "America/Indiana/Vincennes"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaIndianaWinamac) = "America/Indiana/Winamac"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaIndianapolis) = "America/Indianapolis"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaInuvik) = "America/Inuvik"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaIqaluit) = "America/Iqaluit"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaJamaica) = "America/Jamaica"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaJujuy) = "America/Jujuy"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaJuneau) = "America/Juneau"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaKentuckyLouisville) = "America/Kentucky/Louisville"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaKentuckyMonticello) = "America/Kentucky/Monticello"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaKnoxIN) = "America/Knox_IN"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaKralendijk) = "America/Kralendijk"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaLaPaz) = "America/La_Paz"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaLima) = "America/Lima"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaLosAngeles) = "America/Los_Angeles"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaLouisville) = "America/Louisville"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaLowerPrinces) = "America/Lower_Princes"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaMaceio) = "America/Maceio"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaManagua) = "America/Managua"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaManaus) = "America/Manaus"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaMarigot) = "America/Marigot"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaMartinique) = "America/Martinique"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaMatamoros) = "America/Matamoros"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaMazatlan) = "America/Mazatlan"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaMendoza) = "America/Mendoza"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaMenominee) = "America/Menominee"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaMerida) = "America/Merida"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaMetlakatla) = "America/Metlakatla"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaMexicoCity) = "America/Mexico_City"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaMiquelon) = "America/Miquelon"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaMoncton) = "America/Moncton"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaMonterrey) = "America/Monterrey"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaMontevideo) = "America/Montevideo"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaMontreal) = "America/Montreal"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaMontserrat) = "America/Montserrat"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaNassau) = "America/Nassau"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaNewYork) = "America/New_York"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaNipigon) = "America/Nipigon"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaNome) = "America/Nome"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaNoronha) = "America/Noronha"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaNorthDakotaBeulah) = "America/North_Dakota/Beulah"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaNorthDakotaCenter) = "America/North_Dakota/Center"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaNorthDakotaNewSalem) = "America/North_Dakota/New_Salem"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaOjinaga) = "America/Ojinaga"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaPanama) = "America/Panama"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaPangnirtung) = "America/Pangnirtung"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaParamaribo) = "America/Paramaribo"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaPhoenix) = "America/Phoenix"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaPortAuPrince) = "America/Port-au-Prince"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaPortOfSpain) = "America/Port_of_Spain"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaPortoAcre) = "America/Porto_Acre"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaPortoVelho) = "America/Porto_Velho"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaPuertoRico) = "America/Puerto_Rico"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaPuntaArenas) = "America/Punta_Arenas"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaRainyRiver) = "America/Rainy_River"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaRankinInlet) = "America/Rankin_Inlet"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaRecife) = "America/Recife"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaRegina) = "America/Regina"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaResolute) = "America/Resolute"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaRioBranco) = "America/Rio_Branco"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaRosario) = "America/Rosario"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaSantaIsabel) = "America/Santa_Isabel"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaSantarem) = "America/Santarem"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaSantiago) = "America/Santiago"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaSantoDomingo) = "America/Santo_Domingo"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaSaoPaulo) = "America/Sao_Paulo"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaScoresbysund) = "America/Scoresbysund"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaShiprock) = "America/Shiprock"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaSitka) = "America/Sitka"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaStBarthelemy) = "America/St_Barthelemy"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaStJohns) = "America/St_Johns"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaStKitts) = "America/St_Kitts"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaStLucia) = "America/St_Lucia"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaStThomas) = "America/St_Thomas"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaStVincent) = "America/St_Vincent"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaSwiftCurrent) = "America/Swift_Current"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaTegucigalpa) = "America/Tegucigalpa"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaThule) = "America/Thule"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaThunderBay) = "America/Thunder_Bay"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaTijuana) = "America/Tijuana"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaToronto) = "America/Toronto"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaTortola) = "America/Tortola"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaVancouver) = "America/Vancouver"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaVirgin) = "America/Virgin"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaWhitehorse) = "America/Whitehorse"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaWinnipeg) = "America/Winnipeg"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaYakutat) = "America/Yakutat"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaYellowknife) = "America/Yellowknife"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAntarcticaCasey) = "Antarctica/Casey"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAntarcticaDavis) = "Antarctica/Davis"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAntarcticaDumontDUrville) = "Antarctica/DumontDUrville"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAntarcticaMacquarie) = "Antarctica/Macquarie"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAntarcticaMawson) = "Antarctica/Mawson"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAntarcticaMcMurdo) = "Antarctica/McMurdo"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAntarcticaPalmer) = "Antarctica/Palmer"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAntarcticaRothera) = "Antarctica/Rothera"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAntarcticaSouthPole) = "Antarctica/South_Pole"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAntarcticaSyowa) = "Antarctica/Syowa"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAntarcticaTroll) = "Antarctica/Troll"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAntarcticaVostok) = "Antarctica/Vostok"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringArcticLongyearbyen) = "Arctic/Longyearbyen"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaAden) = "Asia/Aden"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaAlmaty) = "Asia/Almaty"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaAmman) = "Asia/Amman"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaAnadyr) = "Asia/Anadyr"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaAqtau) = "Asia/Aqtau"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaAqtobe) = "Asia/Aqtobe"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaAshgabat) = "Asia/Ashgabat"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaAshkhabad) = "Asia/Ashkhabad"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaAtyrau) = "Asia/Atyrau"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaBaghdad) = "Asia/Baghdad"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaBahrain) = "Asia/Bahrain"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaBaku) = "Asia/Baku"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaBangkok) = "Asia/Bangkok"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaBarnaul) = "Asia/Barnaul"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaBeirut) = "Asia/Beirut"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaBishkek) = "Asia/Bishkek"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaBrunei) = "Asia/Brunei"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaCalcutta) = "Asia/Calcutta"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaChita) = "Asia/Chita"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaChoibalsan) = "Asia/Choibalsan"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaChongqing) = "Asia/Chongqing"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaChungking) = "Asia/Chungking"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaColombo) = "Asia/Colombo"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaDacca) = "Asia/Dacca"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaDamascus) = "Asia/Damascus"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaDhaka) = "Asia/Dhaka"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaDili) = "Asia/Dili"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaDubai) = "Asia/Dubai"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaDushanbe) = "Asia/Dushanbe"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaFamagusta) = "Asia/Famagusta"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaGaza) = "Asia/Gaza"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaHarbin) = "Asia/Harbin"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaHebron) = "Asia/Hebron"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaHoChiMinh) = "Asia/Ho_Chi_Minh"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaHongKong) = "Asia/Hong_Kong"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaHovd) = "Asia/Hovd"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaIrkutsk) = "Asia/Irkutsk"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaIstanbul) = "Asia/Istanbul"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaJakarta) = "Asia/Jakarta"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaJayapura) = "Asia/Jayapura"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaJerusalem) = "Asia/Jerusalem"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaKabul) = "Asia/Kabul"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaKamchatka) = "Asia/Kamchatka"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaKarachi) = "Asia/Karachi"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaKashgar) = "Asia/Kashgar"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaKathmandu) = "Asia/Kathmandu"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaKatmandu) = "Asia/Katmandu"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaKhandyga) = "Asia/Khandyga"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaKolkata) = "Asia/Kolkata"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaKrasnoyarsk) = "Asia/Krasnoyarsk"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaKualaLumpur) = "Asia/Kuala_Lumpur"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaKuching) = "Asia/Kuching"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaKuwait) = "Asia/Kuwait"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaMacao) = "Asia/Macao"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaMacau) = "Asia/Macau"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaMagadan) = "Asia/Magadan"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaMakassar) = "Asia/Makassar"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaManila) = "Asia/Manila"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaMuscat) = "Asia/Muscat"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaNicosia) = "Asia/Nicosia"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaNovokuznetsk) = "Asia/Novokuznetsk"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaNovosibirsk) = "Asia/Novosibirsk"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaOmsk) = "Asia/Omsk"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaOral) = "Asia/Oral"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaPhnomPenh) = "Asia/Phnom_Penh"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaPontianak) = "Asia/Pontianak"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaPyongyang) = "Asia/Pyongyang"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaQatar) = "Asia/Qatar"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaQostanay) = "Asia/Qostanay"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaQyzylorda) = "Asia/Qyzylorda"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaRangoon) = "Asia/Rangoon"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaRiyadh) = "Asia/Riyadh"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaSaigon) = "Asia/Saigon"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaSakhalin) = "Asia/Sakhalin"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaSamarkand) = "Asia/Samarkand"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaSeoul) = "Asia/Seoul"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaShanghai) = "Asia/Shanghai"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaSingapore) = "Asia/Singapore"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaSrednekolymsk) = "Asia/Srednekolymsk"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaTaipei) = "Asia/Taipei"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaTashkent) = "Asia/Tashkent"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaTbilisi) = "Asia/Tbilisi"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaTehran) = "Asia/Tehran"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaTelAviv) = "Asia/Tel_Aviv"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaThimbu) = "Asia/Thimbu"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaThimphu) = "Asia/Thimphu"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaTokyo) = "Asia/Tokyo"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaTomsk) = "Asia/Tomsk"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaUjungPandang) = "Asia/Ujung_Pandang"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaUlaanbaatar) = "Asia/Ulaanbaatar"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaUlanBator) = "Asia/Ulan_Bator"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaUrumqi) = "Asia/Urumqi"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaUstNera) = "Asia/Ust-Nera"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaVientiane) = "Asia/Vientiane"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaVladivostok) = "Asia/Vladivostok"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaYakutsk) = "Asia/Yakutsk"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaYangon) = "Asia/Yangon"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaYekaterinburg) = "Asia/Yekaterinburg"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaYerevan) = "Asia/Yerevan"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAtlanticAzores) = "Atlantic/Azores"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAtlanticBermuda) = "Atlantic/Bermuda"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAtlanticCanary) = "Atlantic/Canary"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAtlanticCapeVerde) = "Atlantic/Cape_Verde"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAtlanticFaeroe) = "Atlantic/Faeroe"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAtlanticFaroe) = "Atlantic/Faroe"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAtlanticJanMayen) = "Atlantic/Jan_Mayen"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAtlanticMadeira) = "Atlantic/Madeira"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAtlanticReykjavik) = "Atlantic/Reykjavik"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAtlanticSouthGeorgia) = "Atlantic/South_Georgia"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAtlanticStHelena) = "Atlantic/St_Helena"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAtlanticStanley) = "Atlantic/Stanley"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAustraliaACT) = "Australia/ACT"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAustraliaAdelaide) = "Australia/Adelaide"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAustraliaBrisbane) = "Australia/Brisbane"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAustraliaBrokenHill) = "Australia/Broken_Hill"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAustraliaCanberra) = "Australia/Canberra"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAustraliaCurrie) = "Australia/Currie"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAustraliaDarwin) = "Australia/Darwin"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAustraliaEucla) = "Australia/Eucla"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAustraliaHobart) = "Australia/Hobart"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAustraliaLHI) = "Australia/LHI"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAustraliaLindeman) = "Australia/Lindeman"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAustraliaLordHowe) = "Australia/Lord_Howe"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAustraliaMelbourne) = "Australia/Melbourne"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAustraliaNSW) = "Australia/NSW"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAustraliaNorth) = "Australia/North"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAustraliaPerth) = "Australia/Perth"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAustraliaQueensland) = "Australia/Queensland"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAustraliaSouth) = "Australia/South"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAustraliaSydney) = "Australia/Sydney"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAustraliaTasmania) = "Australia/Tasmania"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAustraliaVictoria) = "Australia/Victoria"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAustraliaWest) = "Australia/West"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAustraliaYancowinna) = "Australia/Yancowinna"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringBrazilAcre) = "Brazil/Acre"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringBrazilDeNoronha) = "Brazil/DeNoronha"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringBrazilEast) = "Brazil/East"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringBrazilWest) = "Brazil/West"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringCET) = "CET"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringCST6CDT) = "CST6CDT"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringCanadaAtlantic) = "Canada/Atlantic"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringCanadaCentral) = "Canada/Central"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringCanadaEastern) = "Canada/Eastern"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringCanadaMountain) = "Canada/Mountain"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringCanadaNewfoundland) = "Canada/Newfoundland"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringCanadaPacific) = "Canada/Pacific"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringCanadaSaskatchewan) = "Canada/Saskatchewan"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringCanadaYukon) = "Canada/Yukon"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringChileContinental) = "Chile/Continental"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringChileEasterIsland) = "Chile/EasterIsland"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringCuba) = "Cuba"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEET) = "EET"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEST) = "EST"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEST5EDT) = "EST5EDT"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEgypt) = "Egypt"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEire) = "Eire"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEtcGMT) = "Etc/GMT"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEtcGMTPlus0) = "Etc/GMT+0"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEtcGMTPlus1) = "Etc/GMT+1"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEtcGMTPlus10) = "Etc/GMT+10"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEtcGMTPlus11) = "Etc/GMT+11"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEtcGMTPlus12) = "Etc/GMT+12"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEtcGMTPlus2) = "Etc/GMT+2"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEtcGMTPlus3) = "Etc/GMT+3"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEtcGMTPlus4) = "Etc/GMT+4"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEtcGMTPlus5) = "Etc/GMT+5"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEtcGMTPlus6) = "Etc/GMT+6"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEtcGMTPlus7) = "Etc/GMT+7"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEtcGMTPlus8) = "Etc/GMT+8"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEtcGMTPlus9) = "Etc/GMT+9"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEtcGMT_0) = "Etc/GMT-0"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEtcGMT_1) = "Etc/GMT-1"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEtcGMT_10) = "Etc/GMT-10"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEtcGMT_11) = "Etc/GMT-11"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEtcGMT_12) = "Etc/GMT-12"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEtcGMT_13) = "Etc/GMT-13"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEtcGMT_14) = "Etc/GMT-14"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEtcGMT_2) = "Etc/GMT-2"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEtcGMT_3) = "Etc/GMT-3"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEtcGMT_4) = "Etc/GMT-4"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEtcGMT_5) = "Etc/GMT-5"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEtcGMT_6) = "Etc/GMT-6"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEtcGMT_7) = "Etc/GMT-7"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEtcGMT_8) = "Etc/GMT-8"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEtcGMT_9) = "Etc/GMT-9"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEtcGMT0) = "Etc/GMT0"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEtcGreenwich) = "Etc/Greenwich"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEtcUCT) = "Etc/UCT"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEtcUTC) = "Etc/UTC"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEtcUniversal) = "Etc/Universal"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEtcZulu) = "Etc/Zulu"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEuropeAmsterdam) = "Europe/Amsterdam"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEuropeAndorra) = "Europe/Andorra"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEuropeAstrakhan) = "Europe/Astrakhan"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEuropeAthens) = "Europe/Athens"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEuropeBelfast) = "Europe/Belfast"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEuropeBelgrade) = "Europe/Belgrade"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEuropeBerlin) = "Europe/Berlin"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEuropeBratislava) = "Europe/Bratislava"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEuropeBrussels) = "Europe/Brussels"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEuropeBucharest) = "Europe/Bucharest"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEuropeBudapest) = "Europe/Budapest"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEuropeBusingen) = "Europe/Busingen"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEuropeChisinau) = "Europe/Chisinau"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEuropeCopenhagen) = "Europe/Copenhagen"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEuropeDublin) = "Europe/Dublin"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEuropeGibraltar) = "Europe/Gibraltar"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEuropeGuernsey) = "Europe/Guernsey"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEuropeHelsinki) = "Europe/Helsinki"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEuropeIsleOfMan) = "Europe/Isle_of_Man"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEuropeIstanbul) = "Europe/Istanbul"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEuropeJersey) = "Europe/Jersey"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEuropeKaliningrad) = "Europe/Kaliningrad"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEuropeKiev) = "Europe/Kiev"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEuropeKirov) = "Europe/Kirov"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEuropeLisbon) = "Europe/Lisbon"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEuropeLjubljana) = "Europe/Ljubljana"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEuropeLondon) = "Europe/London"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEuropeLuxembourg) = "Europe/Luxembourg"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEuropeMadrid) = "Europe/Madrid"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEuropeMalta) = "Europe/Malta"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEuropeMariehamn) = "Europe/Mariehamn"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEuropeMinsk) = "Europe/Minsk"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEuropeMonaco) = "Europe/Monaco"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEuropeMoscow) = "Europe/Moscow"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEuropeNicosia) = "Europe/Nicosia"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEuropeOslo) = "Europe/Oslo"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEuropeParis) = "Europe/Paris"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEuropePodgorica) = "Europe/Podgorica"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEuropePrague) = "Europe/Prague"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEuropeRiga) = "Europe/Riga"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEuropeRome) = "Europe/Rome"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEuropeSamara) = "Europe/Samara"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEuropeSanMarino) = "Europe/San_Marino"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEuropeSarajevo) = "Europe/Sarajevo"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEuropeSaratov) = "Europe/Saratov"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEuropeSimferopol) = "Europe/Simferopol"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEuropeSkopje) = "Europe/Skopje"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEuropeSofia) = "Europe/Sofia"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEuropeStockholm) = "Europe/Stockholm"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEuropeTallinn) = "Europe/Tallinn"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEuropeTirane) = "Europe/Tirane"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEuropeTiraspol) = "Europe/Tiraspol"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEuropeUlyanovsk) = "Europe/Ulyanovsk"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEuropeUzhgorod) = "Europe/Uzhgorod"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEuropeVaduz) = "Europe/Vaduz"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEuropeVatican) = "Europe/Vatican"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEuropeVienna) = "Europe/Vienna"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEuropeVilnius) = "Europe/Vilnius"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEuropeVolgograd) = "Europe/Volgograd"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEuropeWarsaw) = "Europe/Warsaw"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEuropeZagreb) = "Europe/Zagreb"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEuropeZaporozhye) = "Europe/Zaporozhye"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEuropeZurich) = "Europe/Zurich"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringFactory) = "Factory"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringGB) = "GB"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringGBEire) = "GB-Eire"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringGMT) = "GMT"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringGMTPlus0) = "GMT+0"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringGMT_0) = "GMT-0"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringGMT0) = "GMT0"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringGreenwich) = "Greenwich"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringHST) = "HST"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringHongkong) = "Hongkong"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringIceland) = "Iceland"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringIndianAntananarivo) = "Indian/Antananarivo"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringIndianChagos) = "Indian/Chagos"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringIndianChristmas) = "Indian/Christmas"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringIndianCocos) = "Indian/Cocos"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringIndianComoro) = "Indian/Comoro"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringIndianKerguelen) = "Indian/Kerguelen"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringIndianMahe) = "Indian/Mahe"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringIndianMaldives) = "Indian/Maldives"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringIndianMauritius) = "Indian/Mauritius"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringIndianMayotte) = "Indian/Mayotte"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringIndianReunion) = "Indian/Reunion"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringIran) = "Iran"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringIsrael) = "Israel"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringJamaica) = "Jamaica"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringJapan) = "Japan"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringKwajalein) = "Kwajalein"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringLibya) = "Libya"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringMET) = "MET"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringMST) = "MST"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringMST7MDT) = "MST7MDT"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringMexicoBajaNorte) = "Mexico/BajaNorte"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringMexicoBajaSur) = "Mexico/BajaSur"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringMexicoGeneral) = "Mexico/General"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringNZ) = "NZ"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringNZCHAT) = "NZ-CHAT"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringNavajo) = "Navajo"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringPRC) = "PRC"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringPST8PDT) = "PST8PDT"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringPacificApia) = "Pacific/Apia"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringPacificAuckland) = "Pacific/Auckland"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringPacificBougainville) = "Pacific/Bougainville"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringPacificChatham) = "Pacific/Chatham"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringPacificChuuk) = "Pacific/Chuuk"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringPacificEaster) = "Pacific/Easter"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringPacificEfate) = "Pacific/Efate"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringPacificEnderbury) = "Pacific/Enderbury"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringPacificFakaofo) = "Pacific/Fakaofo"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringPacificFiji) = "Pacific/Fiji"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringPacificFunafuti) = "Pacific/Funafuti"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringPacificGalapagos) = "Pacific/Galapagos"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringPacificGambier) = "Pacific/Gambier"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringPacificGuadalcanal) = "Pacific/Guadalcanal"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringPacificGuam) = "Pacific/Guam"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringPacificHonolulu) = "Pacific/Honolulu"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringPacificJohnston) = "Pacific/Johnston"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringPacificKiritimati) = "Pacific/Kiritimati"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringPacificKosrae) = "Pacific/Kosrae"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringPacificKwajalein) = "Pacific/Kwajalein"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringPacificMajuro) = "Pacific/Majuro"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringPacificMarquesas) = "Pacific/Marquesas"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringPacificMidway) = "Pacific/Midway"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringPacificNauru) = "Pacific/Nauru"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringPacificNiue) = "Pacific/Niue"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringPacificNorfolk) = "Pacific/Norfolk"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringPacificNoumea) = "Pacific/Noumea"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringPacificPagoPago) = "Pacific/Pago_Pago"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringPacificPalau) = "Pacific/Palau"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringPacificPitcairn) = "Pacific/Pitcairn"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringPacificPohnpei) = "Pacific/Pohnpei"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringPacificPonape) = "Pacific/Ponape"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringPacificPortMoresby) = "Pacific/Port_Moresby"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringPacificRarotonga) = "Pacific/Rarotonga"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringPacificSaipan) = "Pacific/Saipan"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringPacificSamoa) = "Pacific/Samoa"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringPacificTahiti) = "Pacific/Tahiti"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringPacificTarawa) = "Pacific/Tarawa"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringPacificTongatapu) = "Pacific/Tongatapu"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringPacificTruk) = "Pacific/Truk"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringPacificWake) = "Pacific/Wake"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringPacificWallis) = "Pacific/Wallis"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringPacificYap) = "Pacific/Yap"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringPoland) = "Poland"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringPortugal) = "Portugal"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringROC) = "ROC"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringROK) = "ROK"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringSingapore) = "Singapore"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringTurkey) = "Turkey"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringUCT) = "UCT"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringUSAlaska) = "US/Alaska"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringUSAleutian) = "US/Aleutian"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringUSArizona) = "US/Arizona"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringUSCentral) = "US/Central"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringUSEastIndiana) = "US/East-Indiana"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringUSEastern) = "US/Eastern"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringUSHawaii) = "US/Hawaii"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringUSIndianaStarke) = "US/Indiana-Starke"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringUSMichigan) = "US/Michigan"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringUSMountain) = "US/Mountain"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringUSPacific) = "US/Pacific"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringUSPacificNew) = "US/Pacific-New"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringUSSamoa) = "US/Samoa"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringUTC) = "UTC"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringUniversal) = "Universal"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringWSU) = "W-SU"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringWET) = "WET"
-  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringZulu) = "Zulu"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'Other val) = val
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAfricaAbidjan) = "Africa/Abidjan"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAfricaAccra) = "Africa/Accra"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAfricaAddisAbaba) = "Africa/Addis_Ababa"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAfricaAlgiers) = "Africa/Algiers"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAfricaAsmara) = "Africa/Asmara"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAfricaAsmera) = "Africa/Asmera"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAfricaBamako) = "Africa/Bamako"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAfricaBangui) = "Africa/Bangui"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAfricaBanjul) = "Africa/Banjul"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAfricaBissau) = "Africa/Bissau"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAfricaBlantyre) = "Africa/Blantyre"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAfricaBrazzaville) = "Africa/Brazzaville"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAfricaBujumbura) = "Africa/Bujumbura"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAfricaCairo) = "Africa/Cairo"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAfricaCasablanca) = "Africa/Casablanca"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAfricaCeuta) = "Africa/Ceuta"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAfricaConakry) = "Africa/Conakry"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAfricaDakar) = "Africa/Dakar"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAfricaDarEsSalaam) = "Africa/Dar_es_Salaam"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAfricaDjibouti) = "Africa/Djibouti"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAfricaDouala) = "Africa/Douala"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAfricaElAaiun) = "Africa/El_Aaiun"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAfricaFreetown) = "Africa/Freetown"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAfricaGaborone) = "Africa/Gaborone"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAfricaHarare) = "Africa/Harare"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAfricaJohannesburg) = "Africa/Johannesburg"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAfricaJuba) = "Africa/Juba"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAfricaKampala) = "Africa/Kampala"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAfricaKhartoum) = "Africa/Khartoum"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAfricaKigali) = "Africa/Kigali"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAfricaKinshasa) = "Africa/Kinshasa"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAfricaLagos) = "Africa/Lagos"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAfricaLibreville) = "Africa/Libreville"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAfricaLome) = "Africa/Lome"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAfricaLuanda) = "Africa/Luanda"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAfricaLubumbashi) = "Africa/Lubumbashi"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAfricaLusaka) = "Africa/Lusaka"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAfricaMalabo) = "Africa/Malabo"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAfricaMaputo) = "Africa/Maputo"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAfricaMaseru) = "Africa/Maseru"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAfricaMbabane) = "Africa/Mbabane"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAfricaMogadishu) = "Africa/Mogadishu"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAfricaMonrovia) = "Africa/Monrovia"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAfricaNairobi) = "Africa/Nairobi"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAfricaNdjamena) = "Africa/Ndjamena"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAfricaNiamey) = "Africa/Niamey"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAfricaNouakchott) = "Africa/Nouakchott"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAfricaOuagadougou) = "Africa/Ouagadougou"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAfricaPortoNovo) = "Africa/Porto-Novo"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAfricaSaoTome) = "Africa/Sao_Tome"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAfricaTimbuktu) = "Africa/Timbuktu"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAfricaTripoli) = "Africa/Tripoli"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAfricaTunis) = "Africa/Tunis"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAfricaWindhoek) = "Africa/Windhoek"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaAdak) = "America/Adak"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaAnchorage) = "America/Anchorage"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaAnguilla) = "America/Anguilla"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaAntigua) = "America/Antigua"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaAraguaina) = "America/Araguaina"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaArgentinaBuenosAires) = "America/Argentina/Buenos_Aires"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaArgentinaCatamarca) = "America/Argentina/Catamarca"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaArgentinaComodRivadavia) = "America/Argentina/ComodRivadavia"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaArgentinaCordoba) = "America/Argentina/Cordoba"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaArgentinaJujuy) = "America/Argentina/Jujuy"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaArgentinaLaRioja) = "America/Argentina/La_Rioja"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaArgentinaMendoza) = "America/Argentina/Mendoza"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaArgentinaRioGallegos) = "America/Argentina/Rio_Gallegos"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaArgentinaSalta) = "America/Argentina/Salta"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaArgentinaSanJuan) = "America/Argentina/San_Juan"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaArgentinaSanLuis) = "America/Argentina/San_Luis"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaArgentinaTucuman) = "America/Argentina/Tucuman"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaArgentinaUshuaia) = "America/Argentina/Ushuaia"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaAruba) = "America/Aruba"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaAsuncion) = "America/Asuncion"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaAtikokan) = "America/Atikokan"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaAtka) = "America/Atka"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaBahia) = "America/Bahia"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaBahiaBanderas) = "America/Bahia_Banderas"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaBarbados) = "America/Barbados"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaBelem) = "America/Belem"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaBelize) = "America/Belize"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaBlancSablon) = "America/Blanc-Sablon"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaBoaVista) = "America/Boa_Vista"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaBogota) = "America/Bogota"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaBoise) = "America/Boise"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaBuenosAires) = "America/Buenos_Aires"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaCambridgeBay) = "America/Cambridge_Bay"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaCampoGrande) = "America/Campo_Grande"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaCancun) = "America/Cancun"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaCaracas) = "America/Caracas"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaCatamarca) = "America/Catamarca"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaCayenne) = "America/Cayenne"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaCayman) = "America/Cayman"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaChicago) = "America/Chicago"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaChihuahua) = "America/Chihuahua"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaCoralHarbour) = "America/Coral_Harbour"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaCordoba) = "America/Cordoba"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaCostaRica) = "America/Costa_Rica"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaCreston) = "America/Creston"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaCuiaba) = "America/Cuiaba"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaCuracao) = "America/Curacao"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaDanmarkshavn) = "America/Danmarkshavn"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaDawson) = "America/Dawson"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaDawsonCreek) = "America/Dawson_Creek"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaDenver) = "America/Denver"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaDetroit) = "America/Detroit"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaDominica) = "America/Dominica"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaEdmonton) = "America/Edmonton"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaEirunepe) = "America/Eirunepe"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaElSalvador) = "America/El_Salvador"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaEnsenada) = "America/Ensenada"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaFortNelson) = "America/Fort_Nelson"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaFortWayne) = "America/Fort_Wayne"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaFortaleza) = "America/Fortaleza"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaGlaceBay) = "America/Glace_Bay"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaGodthab) = "America/Godthab"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaGooseBay) = "America/Goose_Bay"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaGrandTurk) = "America/Grand_Turk"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaGrenada) = "America/Grenada"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaGuadeloupe) = "America/Guadeloupe"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaGuatemala) = "America/Guatemala"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaGuayaquil) = "America/Guayaquil"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaGuyana) = "America/Guyana"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaHalifax) = "America/Halifax"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaHavana) = "America/Havana"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaHermosillo) = "America/Hermosillo"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaIndianaIndianapolis) = "America/Indiana/Indianapolis"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaIndianaKnox) = "America/Indiana/Knox"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaIndianaMarengo) = "America/Indiana/Marengo"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaIndianaPetersburg) = "America/Indiana/Petersburg"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaIndianaTellCity) = "America/Indiana/Tell_City"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaIndianaVevay) = "America/Indiana/Vevay"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaIndianaVincennes) = "America/Indiana/Vincennes"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaIndianaWinamac) = "America/Indiana/Winamac"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaIndianapolis) = "America/Indianapolis"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaInuvik) = "America/Inuvik"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaIqaluit) = "America/Iqaluit"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaJamaica) = "America/Jamaica"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaJujuy) = "America/Jujuy"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaJuneau) = "America/Juneau"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaKentuckyLouisville) = "America/Kentucky/Louisville"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaKentuckyMonticello) = "America/Kentucky/Monticello"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaKnoxIN) = "America/Knox_IN"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaKralendijk) = "America/Kralendijk"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaLaPaz) = "America/La_Paz"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaLima) = "America/Lima"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaLosAngeles) = "America/Los_Angeles"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaLouisville) = "America/Louisville"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaLowerPrinces) = "America/Lower_Princes"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaMaceio) = "America/Maceio"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaManagua) = "America/Managua"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaManaus) = "America/Manaus"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaMarigot) = "America/Marigot"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaMartinique) = "America/Martinique"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaMatamoros) = "America/Matamoros"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaMazatlan) = "America/Mazatlan"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaMendoza) = "America/Mendoza"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaMenominee) = "America/Menominee"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaMerida) = "America/Merida"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaMetlakatla) = "America/Metlakatla"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaMexicoCity) = "America/Mexico_City"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaMiquelon) = "America/Miquelon"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaMoncton) = "America/Moncton"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaMonterrey) = "America/Monterrey"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaMontevideo) = "America/Montevideo"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaMontreal) = "America/Montreal"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaMontserrat) = "America/Montserrat"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaNassau) = "America/Nassau"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaNewYork) = "America/New_York"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaNipigon) = "America/Nipigon"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaNome) = "America/Nome"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaNoronha) = "America/Noronha"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaNorthDakotaBeulah) = "America/North_Dakota/Beulah"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaNorthDakotaCenter) = "America/North_Dakota/Center"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaNorthDakotaNewSalem) = "America/North_Dakota/New_Salem"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaOjinaga) = "America/Ojinaga"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaPanama) = "America/Panama"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaPangnirtung) = "America/Pangnirtung"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaParamaribo) = "America/Paramaribo"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaPhoenix) = "America/Phoenix"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaPortAuPrince) = "America/Port-au-Prince"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaPortOfSpain) = "America/Port_of_Spain"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaPortoAcre) = "America/Porto_Acre"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaPortoVelho) = "America/Porto_Velho"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaPuertoRico) = "America/Puerto_Rico"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaPuntaArenas) = "America/Punta_Arenas"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaRainyRiver) = "America/Rainy_River"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaRankinInlet) = "America/Rankin_Inlet"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaRecife) = "America/Recife"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaRegina) = "America/Regina"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaResolute) = "America/Resolute"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaRioBranco) = "America/Rio_Branco"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaRosario) = "America/Rosario"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaSantaIsabel) = "America/Santa_Isabel"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaSantarem) = "America/Santarem"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaSantiago) = "America/Santiago"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaSantoDomingo) = "America/Santo_Domingo"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaSaoPaulo) = "America/Sao_Paulo"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaScoresbysund) = "America/Scoresbysund"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaShiprock) = "America/Shiprock"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaSitka) = "America/Sitka"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaStBarthelemy) = "America/St_Barthelemy"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaStJohns) = "America/St_Johns"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaStKitts) = "America/St_Kitts"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaStLucia) = "America/St_Lucia"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaStThomas) = "America/St_Thomas"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaStVincent) = "America/St_Vincent"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaSwiftCurrent) = "America/Swift_Current"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaTegucigalpa) = "America/Tegucigalpa"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaThule) = "America/Thule"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaThunderBay) = "America/Thunder_Bay"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaTijuana) = "America/Tijuana"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaToronto) = "America/Toronto"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaTortola) = "America/Tortola"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaVancouver) = "America/Vancouver"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaVirgin) = "America/Virgin"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaWhitehorse) = "America/Whitehorse"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaWinnipeg) = "America/Winnipeg"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaYakutat) = "America/Yakutat"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaYellowknife) = "America/Yellowknife"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAntarcticaCasey) = "Antarctica/Casey"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAntarcticaDavis) = "Antarctica/Davis"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAntarcticaDumontDUrville) = "Antarctica/DumontDUrville"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAntarcticaMacquarie) = "Antarctica/Macquarie"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAntarcticaMawson) = "Antarctica/Mawson"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAntarcticaMcMurdo) = "Antarctica/McMurdo"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAntarcticaPalmer) = "Antarctica/Palmer"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAntarcticaRothera) = "Antarctica/Rothera"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAntarcticaSouthPole) = "Antarctica/South_Pole"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAntarcticaSyowa) = "Antarctica/Syowa"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAntarcticaTroll) = "Antarctica/Troll"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAntarcticaVostok) = "Antarctica/Vostok"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumArcticLongyearbyen) = "Arctic/Longyearbyen"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaAden) = "Asia/Aden"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaAlmaty) = "Asia/Almaty"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaAmman) = "Asia/Amman"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaAnadyr) = "Asia/Anadyr"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaAqtau) = "Asia/Aqtau"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaAqtobe) = "Asia/Aqtobe"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaAshgabat) = "Asia/Ashgabat"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaAshkhabad) = "Asia/Ashkhabad"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaAtyrau) = "Asia/Atyrau"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaBaghdad) = "Asia/Baghdad"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaBahrain) = "Asia/Bahrain"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaBaku) = "Asia/Baku"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaBangkok) = "Asia/Bangkok"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaBarnaul) = "Asia/Barnaul"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaBeirut) = "Asia/Beirut"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaBishkek) = "Asia/Bishkek"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaBrunei) = "Asia/Brunei"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaCalcutta) = "Asia/Calcutta"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaChita) = "Asia/Chita"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaChoibalsan) = "Asia/Choibalsan"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaChongqing) = "Asia/Chongqing"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaChungking) = "Asia/Chungking"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaColombo) = "Asia/Colombo"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaDacca) = "Asia/Dacca"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaDamascus) = "Asia/Damascus"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaDhaka) = "Asia/Dhaka"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaDili) = "Asia/Dili"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaDubai) = "Asia/Dubai"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaDushanbe) = "Asia/Dushanbe"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaFamagusta) = "Asia/Famagusta"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaGaza) = "Asia/Gaza"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaHarbin) = "Asia/Harbin"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaHebron) = "Asia/Hebron"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaHoChiMinh) = "Asia/Ho_Chi_Minh"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaHongKong) = "Asia/Hong_Kong"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaHovd) = "Asia/Hovd"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaIrkutsk) = "Asia/Irkutsk"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaIstanbul) = "Asia/Istanbul"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaJakarta) = "Asia/Jakarta"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaJayapura) = "Asia/Jayapura"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaJerusalem) = "Asia/Jerusalem"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaKabul) = "Asia/Kabul"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaKamchatka) = "Asia/Kamchatka"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaKarachi) = "Asia/Karachi"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaKashgar) = "Asia/Kashgar"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaKathmandu) = "Asia/Kathmandu"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaKatmandu) = "Asia/Katmandu"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaKhandyga) = "Asia/Khandyga"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaKolkata) = "Asia/Kolkata"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaKrasnoyarsk) = "Asia/Krasnoyarsk"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaKualaLumpur) = "Asia/Kuala_Lumpur"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaKuching) = "Asia/Kuching"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaKuwait) = "Asia/Kuwait"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaMacao) = "Asia/Macao"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaMacau) = "Asia/Macau"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaMagadan) = "Asia/Magadan"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaMakassar) = "Asia/Makassar"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaManila) = "Asia/Manila"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaMuscat) = "Asia/Muscat"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaNicosia) = "Asia/Nicosia"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaNovokuznetsk) = "Asia/Novokuznetsk"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaNovosibirsk) = "Asia/Novosibirsk"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaOmsk) = "Asia/Omsk"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaOral) = "Asia/Oral"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaPhnomPenh) = "Asia/Phnom_Penh"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaPontianak) = "Asia/Pontianak"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaPyongyang) = "Asia/Pyongyang"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaQatar) = "Asia/Qatar"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaQostanay) = "Asia/Qostanay"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaQyzylorda) = "Asia/Qyzylorda"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaRangoon) = "Asia/Rangoon"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaRiyadh) = "Asia/Riyadh"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaSaigon) = "Asia/Saigon"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaSakhalin) = "Asia/Sakhalin"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaSamarkand) = "Asia/Samarkand"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaSeoul) = "Asia/Seoul"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaShanghai) = "Asia/Shanghai"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaSingapore) = "Asia/Singapore"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaSrednekolymsk) = "Asia/Srednekolymsk"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaTaipei) = "Asia/Taipei"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaTashkent) = "Asia/Tashkent"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaTbilisi) = "Asia/Tbilisi"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaTehran) = "Asia/Tehran"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaTelAviv) = "Asia/Tel_Aviv"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaThimbu) = "Asia/Thimbu"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaThimphu) = "Asia/Thimphu"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaTokyo) = "Asia/Tokyo"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaTomsk) = "Asia/Tomsk"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaUjungPandang) = "Asia/Ujung_Pandang"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaUlaanbaatar) = "Asia/Ulaanbaatar"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaUlanBator) = "Asia/Ulan_Bator"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaUrumqi) = "Asia/Urumqi"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaUstNera) = "Asia/Ust-Nera"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaVientiane) = "Asia/Vientiane"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaVladivostok) = "Asia/Vladivostok"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaYakutsk) = "Asia/Yakutsk"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaYangon) = "Asia/Yangon"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaYekaterinburg) = "Asia/Yekaterinburg"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaYerevan) = "Asia/Yerevan"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAtlanticAzores) = "Atlantic/Azores"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAtlanticBermuda) = "Atlantic/Bermuda"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAtlanticCanary) = "Atlantic/Canary"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAtlanticCapeVerde) = "Atlantic/Cape_Verde"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAtlanticFaeroe) = "Atlantic/Faeroe"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAtlanticFaroe) = "Atlantic/Faroe"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAtlanticJanMayen) = "Atlantic/Jan_Mayen"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAtlanticMadeira) = "Atlantic/Madeira"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAtlanticReykjavik) = "Atlantic/Reykjavik"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAtlanticSouthGeorgia) = "Atlantic/South_Georgia"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAtlanticStHelena) = "Atlantic/St_Helena"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAtlanticStanley) = "Atlantic/Stanley"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAustraliaACT) = "Australia/ACT"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAustraliaAdelaide) = "Australia/Adelaide"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAustraliaBrisbane) = "Australia/Brisbane"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAustraliaBrokenHill) = "Australia/Broken_Hill"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAustraliaCanberra) = "Australia/Canberra"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAustraliaCurrie) = "Australia/Currie"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAustraliaDarwin) = "Australia/Darwin"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAustraliaEucla) = "Australia/Eucla"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAustraliaHobart) = "Australia/Hobart"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAustraliaLHI) = "Australia/LHI"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAustraliaLindeman) = "Australia/Lindeman"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAustraliaLordHowe) = "Australia/Lord_Howe"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAustraliaMelbourne) = "Australia/Melbourne"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAustraliaNSW) = "Australia/NSW"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAustraliaNorth) = "Australia/North"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAustraliaPerth) = "Australia/Perth"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAustraliaQueensland) = "Australia/Queensland"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAustraliaSouth) = "Australia/South"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAustraliaSydney) = "Australia/Sydney"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAustraliaTasmania) = "Australia/Tasmania"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAustraliaVictoria) = "Australia/Victoria"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAustraliaWest) = "Australia/West"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAustraliaYancowinna) = "Australia/Yancowinna"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumBrazilAcre) = "Brazil/Acre"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumBrazilDeNoronha) = "Brazil/DeNoronha"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumBrazilEast) = "Brazil/East"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumBrazilWest) = "Brazil/West"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumCET) = "CET"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumCST6CDT) = "CST6CDT"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumCanadaAtlantic) = "Canada/Atlantic"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumCanadaCentral) = "Canada/Central"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumCanadaEastern) = "Canada/Eastern"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumCanadaMountain) = "Canada/Mountain"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumCanadaNewfoundland) = "Canada/Newfoundland"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumCanadaPacific) = "Canada/Pacific"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumCanadaSaskatchewan) = "Canada/Saskatchewan"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumCanadaYukon) = "Canada/Yukon"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumChileContinental) = "Chile/Continental"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumChileEasterIsland) = "Chile/EasterIsland"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumCuba) = "Cuba"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumEET) = "EET"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumEST) = "EST"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumEST5EDT) = "EST5EDT"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumEgypt) = "Egypt"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumEire) = "Eire"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumEtcGMT) = "Etc/GMT"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumEtcGMTPlus0) = "Etc/GMT+0"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumEtcGMTPlus1) = "Etc/GMT+1"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumEtcGMTPlus10) = "Etc/GMT+10"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumEtcGMTPlus11) = "Etc/GMT+11"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumEtcGMTPlus12) = "Etc/GMT+12"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumEtcGMTPlus2) = "Etc/GMT+2"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumEtcGMTPlus3) = "Etc/GMT+3"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumEtcGMTPlus4) = "Etc/GMT+4"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumEtcGMTPlus5) = "Etc/GMT+5"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumEtcGMTPlus6) = "Etc/GMT+6"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumEtcGMTPlus7) = "Etc/GMT+7"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumEtcGMTPlus8) = "Etc/GMT+8"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumEtcGMTPlus9) = "Etc/GMT+9"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumEtcGMT_0) = "Etc/GMT-0"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumEtcGMT_1) = "Etc/GMT-1"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumEtcGMT_10) = "Etc/GMT-10"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumEtcGMT_11) = "Etc/GMT-11"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumEtcGMT_12) = "Etc/GMT-12"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumEtcGMT_13) = "Etc/GMT-13"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumEtcGMT_14) = "Etc/GMT-14"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumEtcGMT_2) = "Etc/GMT-2"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumEtcGMT_3) = "Etc/GMT-3"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumEtcGMT_4) = "Etc/GMT-4"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumEtcGMT_5) = "Etc/GMT-5"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumEtcGMT_6) = "Etc/GMT-6"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumEtcGMT_7) = "Etc/GMT-7"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumEtcGMT_8) = "Etc/GMT-8"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumEtcGMT_9) = "Etc/GMT-9"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumEtcGMT0) = "Etc/GMT0"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumEtcGreenwich) = "Etc/Greenwich"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumEtcUCT) = "Etc/UCT"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumEtcUTC) = "Etc/UTC"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumEtcUniversal) = "Etc/Universal"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumEtcZulu) = "Etc/Zulu"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumEuropeAmsterdam) = "Europe/Amsterdam"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumEuropeAndorra) = "Europe/Andorra"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumEuropeAstrakhan) = "Europe/Astrakhan"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumEuropeAthens) = "Europe/Athens"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumEuropeBelfast) = "Europe/Belfast"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumEuropeBelgrade) = "Europe/Belgrade"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumEuropeBerlin) = "Europe/Berlin"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumEuropeBratislava) = "Europe/Bratislava"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumEuropeBrussels) = "Europe/Brussels"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumEuropeBucharest) = "Europe/Bucharest"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumEuropeBudapest) = "Europe/Budapest"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumEuropeBusingen) = "Europe/Busingen"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumEuropeChisinau) = "Europe/Chisinau"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumEuropeCopenhagen) = "Europe/Copenhagen"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumEuropeDublin) = "Europe/Dublin"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumEuropeGibraltar) = "Europe/Gibraltar"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumEuropeGuernsey) = "Europe/Guernsey"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumEuropeHelsinki) = "Europe/Helsinki"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumEuropeIsleOfMan) = "Europe/Isle_of_Man"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumEuropeIstanbul) = "Europe/Istanbul"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumEuropeJersey) = "Europe/Jersey"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumEuropeKaliningrad) = "Europe/Kaliningrad"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumEuropeKiev) = "Europe/Kiev"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumEuropeKirov) = "Europe/Kirov"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumEuropeLisbon) = "Europe/Lisbon"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumEuropeLjubljana) = "Europe/Ljubljana"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumEuropeLondon) = "Europe/London"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumEuropeLuxembourg) = "Europe/Luxembourg"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumEuropeMadrid) = "Europe/Madrid"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumEuropeMalta) = "Europe/Malta"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumEuropeMariehamn) = "Europe/Mariehamn"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumEuropeMinsk) = "Europe/Minsk"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumEuropeMonaco) = "Europe/Monaco"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumEuropeMoscow) = "Europe/Moscow"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumEuropeNicosia) = "Europe/Nicosia"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumEuropeOslo) = "Europe/Oslo"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumEuropeParis) = "Europe/Paris"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumEuropePodgorica) = "Europe/Podgorica"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumEuropePrague) = "Europe/Prague"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumEuropeRiga) = "Europe/Riga"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumEuropeRome) = "Europe/Rome"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumEuropeSamara) = "Europe/Samara"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumEuropeSanMarino) = "Europe/San_Marino"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumEuropeSarajevo) = "Europe/Sarajevo"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumEuropeSaratov) = "Europe/Saratov"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumEuropeSimferopol) = "Europe/Simferopol"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumEuropeSkopje) = "Europe/Skopje"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumEuropeSofia) = "Europe/Sofia"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumEuropeStockholm) = "Europe/Stockholm"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumEuropeTallinn) = "Europe/Tallinn"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumEuropeTirane) = "Europe/Tirane"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumEuropeTiraspol) = "Europe/Tiraspol"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumEuropeUlyanovsk) = "Europe/Ulyanovsk"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumEuropeUzhgorod) = "Europe/Uzhgorod"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumEuropeVaduz) = "Europe/Vaduz"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumEuropeVatican) = "Europe/Vatican"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumEuropeVienna) = "Europe/Vienna"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumEuropeVilnius) = "Europe/Vilnius"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumEuropeVolgograd) = "Europe/Volgograd"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumEuropeWarsaw) = "Europe/Warsaw"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumEuropeZagreb) = "Europe/Zagreb"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumEuropeZaporozhye) = "Europe/Zaporozhye"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumEuropeZurich) = "Europe/Zurich"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumFactory) = "Factory"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumGB) = "GB"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumGBEire) = "GB-Eire"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumGMT) = "GMT"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumGMTPlus0) = "GMT+0"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumGMT_0) = "GMT-0"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumGMT0) = "GMT0"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumGreenwich) = "Greenwich"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumHST) = "HST"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumHongkong) = "Hongkong"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumIceland) = "Iceland"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumIndianAntananarivo) = "Indian/Antananarivo"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumIndianChagos) = "Indian/Chagos"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumIndianChristmas) = "Indian/Christmas"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumIndianCocos) = "Indian/Cocos"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumIndianComoro) = "Indian/Comoro"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumIndianKerguelen) = "Indian/Kerguelen"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumIndianMahe) = "Indian/Mahe"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumIndianMaldives) = "Indian/Maldives"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumIndianMauritius) = "Indian/Mauritius"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumIndianMayotte) = "Indian/Mayotte"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumIndianReunion) = "Indian/Reunion"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumIran) = "Iran"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumIsrael) = "Israel"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumJamaica) = "Jamaica"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumJapan) = "Japan"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumKwajalein) = "Kwajalein"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumLibya) = "Libya"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumMET) = "MET"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumMST) = "MST"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumMST7MDT) = "MST7MDT"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumMexicoBajaNorte) = "Mexico/BajaNorte"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumMexicoBajaSur) = "Mexico/BajaSur"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumMexicoGeneral) = "Mexico/General"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumNZ) = "NZ"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumNZCHAT) = "NZ-CHAT"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumNavajo) = "Navajo"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumPRC) = "PRC"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumPST8PDT) = "PST8PDT"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumPacificApia) = "Pacific/Apia"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumPacificAuckland) = "Pacific/Auckland"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumPacificBougainville) = "Pacific/Bougainville"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumPacificChatham) = "Pacific/Chatham"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumPacificChuuk) = "Pacific/Chuuk"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumPacificEaster) = "Pacific/Easter"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumPacificEfate) = "Pacific/Efate"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumPacificEnderbury) = "Pacific/Enderbury"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumPacificFakaofo) = "Pacific/Fakaofo"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumPacificFiji) = "Pacific/Fiji"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumPacificFunafuti) = "Pacific/Funafuti"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumPacificGalapagos) = "Pacific/Galapagos"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumPacificGambier) = "Pacific/Gambier"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumPacificGuadalcanal) = "Pacific/Guadalcanal"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumPacificGuam) = "Pacific/Guam"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumPacificHonolulu) = "Pacific/Honolulu"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumPacificJohnston) = "Pacific/Johnston"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumPacificKiritimati) = "Pacific/Kiritimati"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumPacificKosrae) = "Pacific/Kosrae"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumPacificKwajalein) = "Pacific/Kwajalein"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumPacificMajuro) = "Pacific/Majuro"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumPacificMarquesas) = "Pacific/Marquesas"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumPacificMidway) = "Pacific/Midway"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumPacificNauru) = "Pacific/Nauru"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumPacificNiue) = "Pacific/Niue"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumPacificNorfolk) = "Pacific/Norfolk"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumPacificNoumea) = "Pacific/Noumea"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumPacificPagoPago) = "Pacific/Pago_Pago"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumPacificPalau) = "Pacific/Palau"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumPacificPitcairn) = "Pacific/Pitcairn"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumPacificPohnpei) = "Pacific/Pohnpei"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumPacificPonape) = "Pacific/Ponape"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumPacificPortMoresby) = "Pacific/Port_Moresby"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumPacificRarotonga) = "Pacific/Rarotonga"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumPacificSaipan) = "Pacific/Saipan"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumPacificSamoa) = "Pacific/Samoa"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumPacificTahiti) = "Pacific/Tahiti"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumPacificTarawa) = "Pacific/Tarawa"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumPacificTongatapu) = "Pacific/Tongatapu"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumPacificTruk) = "Pacific/Truk"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumPacificWake) = "Pacific/Wake"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumPacificWallis) = "Pacific/Wallis"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumPacificYap) = "Pacific/Yap"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumPoland) = "Poland"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumPortugal) = "Portugal"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumROC) = "ROC"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumROK) = "ROK"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumSingapore) = "Singapore"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumTurkey) = "Turkey"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumUCT) = "UCT"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumUSAlaska) = "US/Alaska"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumUSAleutian) = "US/Aleutian"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumUSArizona) = "US/Arizona"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumUSCentral) = "US/Central"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumUSEastIndiana) = "US/East-Indiana"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumUSEastern) = "US/Eastern"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumUSHawaii) = "US/Hawaii"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumUSIndianaStarke) = "US/Indiana-Starke"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumUSMichigan) = "US/Michigan"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumUSMountain) = "US/Mountain"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumUSPacific) = "US/Pacific"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumUSPacificNew) = "US/Pacific-New"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumUSSamoa) = "US/Samoa"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumUTC) = "UTC"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumUniversal) = "Universal"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumWSU) = "W-SU"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumWET) = "WET"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumZulu) = "Zulu"
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostReportingReportRunsRequestBodyParameters'Timezone' where
   parseJSON val =
     GHC.Base.pure
-      ( if  | val GHC.Classes.== "Africa/Abidjan" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAfricaAbidjan
-            | val GHC.Classes.== "Africa/Accra" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAfricaAccra
-            | val GHC.Classes.== "Africa/Addis_Ababa" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAfricaAddisAbaba
-            | val GHC.Classes.== "Africa/Algiers" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAfricaAlgiers
-            | val GHC.Classes.== "Africa/Asmara" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAfricaAsmara
-            | val GHC.Classes.== "Africa/Asmera" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAfricaAsmera
-            | val GHC.Classes.== "Africa/Bamako" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAfricaBamako
-            | val GHC.Classes.== "Africa/Bangui" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAfricaBangui
-            | val GHC.Classes.== "Africa/Banjul" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAfricaBanjul
-            | val GHC.Classes.== "Africa/Bissau" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAfricaBissau
-            | val GHC.Classes.== "Africa/Blantyre" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAfricaBlantyre
-            | val GHC.Classes.== "Africa/Brazzaville" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAfricaBrazzaville
-            | val GHC.Classes.== "Africa/Bujumbura" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAfricaBujumbura
-            | val GHC.Classes.== "Africa/Cairo" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAfricaCairo
-            | val GHC.Classes.== "Africa/Casablanca" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAfricaCasablanca
-            | val GHC.Classes.== "Africa/Ceuta" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAfricaCeuta
-            | val GHC.Classes.== "Africa/Conakry" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAfricaConakry
-            | val GHC.Classes.== "Africa/Dakar" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAfricaDakar
-            | val GHC.Classes.== "Africa/Dar_es_Salaam" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAfricaDarEsSalaam
-            | val GHC.Classes.== "Africa/Djibouti" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAfricaDjibouti
-            | val GHC.Classes.== "Africa/Douala" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAfricaDouala
-            | val GHC.Classes.== "Africa/El_Aaiun" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAfricaElAaiun
-            | val GHC.Classes.== "Africa/Freetown" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAfricaFreetown
-            | val GHC.Classes.== "Africa/Gaborone" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAfricaGaborone
-            | val GHC.Classes.== "Africa/Harare" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAfricaHarare
-            | val GHC.Classes.== "Africa/Johannesburg" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAfricaJohannesburg
-            | val GHC.Classes.== "Africa/Juba" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAfricaJuba
-            | val GHC.Classes.== "Africa/Kampala" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAfricaKampala
-            | val GHC.Classes.== "Africa/Khartoum" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAfricaKhartoum
-            | val GHC.Classes.== "Africa/Kigali" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAfricaKigali
-            | val GHC.Classes.== "Africa/Kinshasa" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAfricaKinshasa
-            | val GHC.Classes.== "Africa/Lagos" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAfricaLagos
-            | val GHC.Classes.== "Africa/Libreville" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAfricaLibreville
-            | val GHC.Classes.== "Africa/Lome" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAfricaLome
-            | val GHC.Classes.== "Africa/Luanda" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAfricaLuanda
-            | val GHC.Classes.== "Africa/Lubumbashi" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAfricaLubumbashi
-            | val GHC.Classes.== "Africa/Lusaka" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAfricaLusaka
-            | val GHC.Classes.== "Africa/Malabo" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAfricaMalabo
-            | val GHC.Classes.== "Africa/Maputo" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAfricaMaputo
-            | val GHC.Classes.== "Africa/Maseru" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAfricaMaseru
-            | val GHC.Classes.== "Africa/Mbabane" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAfricaMbabane
-            | val GHC.Classes.== "Africa/Mogadishu" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAfricaMogadishu
-            | val GHC.Classes.== "Africa/Monrovia" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAfricaMonrovia
-            | val GHC.Classes.== "Africa/Nairobi" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAfricaNairobi
-            | val GHC.Classes.== "Africa/Ndjamena" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAfricaNdjamena
-            | val GHC.Classes.== "Africa/Niamey" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAfricaNiamey
-            | val GHC.Classes.== "Africa/Nouakchott" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAfricaNouakchott
-            | val GHC.Classes.== "Africa/Ouagadougou" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAfricaOuagadougou
-            | val GHC.Classes.== "Africa/Porto-Novo" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAfricaPortoNovo
-            | val GHC.Classes.== "Africa/Sao_Tome" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAfricaSaoTome
-            | val GHC.Classes.== "Africa/Timbuktu" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAfricaTimbuktu
-            | val GHC.Classes.== "Africa/Tripoli" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAfricaTripoli
-            | val GHC.Classes.== "Africa/Tunis" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAfricaTunis
-            | val GHC.Classes.== "Africa/Windhoek" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAfricaWindhoek
-            | val GHC.Classes.== "America/Adak" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaAdak
-            | val GHC.Classes.== "America/Anchorage" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaAnchorage
-            | val GHC.Classes.== "America/Anguilla" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaAnguilla
-            | val GHC.Classes.== "America/Antigua" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaAntigua
-            | val GHC.Classes.== "America/Araguaina" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaAraguaina
-            | val GHC.Classes.== "America/Argentina/Buenos_Aires" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaArgentinaBuenosAires
-            | val GHC.Classes.== "America/Argentina/Catamarca" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaArgentinaCatamarca
-            | val GHC.Classes.== "America/Argentina/ComodRivadavia" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaArgentinaComodRivadavia
-            | val GHC.Classes.== "America/Argentina/Cordoba" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaArgentinaCordoba
-            | val GHC.Classes.== "America/Argentina/Jujuy" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaArgentinaJujuy
-            | val GHC.Classes.== "America/Argentina/La_Rioja" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaArgentinaLaRioja
-            | val GHC.Classes.== "America/Argentina/Mendoza" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaArgentinaMendoza
-            | val GHC.Classes.== "America/Argentina/Rio_Gallegos" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaArgentinaRioGallegos
-            | val GHC.Classes.== "America/Argentina/Salta" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaArgentinaSalta
-            | val GHC.Classes.== "America/Argentina/San_Juan" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaArgentinaSanJuan
-            | val GHC.Classes.== "America/Argentina/San_Luis" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaArgentinaSanLuis
-            | val GHC.Classes.== "America/Argentina/Tucuman" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaArgentinaTucuman
-            | val GHC.Classes.== "America/Argentina/Ushuaia" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaArgentinaUshuaia
-            | val GHC.Classes.== "America/Aruba" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaAruba
-            | val GHC.Classes.== "America/Asuncion" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaAsuncion
-            | val GHC.Classes.== "America/Atikokan" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaAtikokan
-            | val GHC.Classes.== "America/Atka" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaAtka
-            | val GHC.Classes.== "America/Bahia" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaBahia
-            | val GHC.Classes.== "America/Bahia_Banderas" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaBahiaBanderas
-            | val GHC.Classes.== "America/Barbados" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaBarbados
-            | val GHC.Classes.== "America/Belem" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaBelem
-            | val GHC.Classes.== "America/Belize" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaBelize
-            | val GHC.Classes.== "America/Blanc-Sablon" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaBlancSablon
-            | val GHC.Classes.== "America/Boa_Vista" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaBoaVista
-            | val GHC.Classes.== "America/Bogota" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaBogota
-            | val GHC.Classes.== "America/Boise" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaBoise
-            | val GHC.Classes.== "America/Buenos_Aires" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaBuenosAires
-            | val GHC.Classes.== "America/Cambridge_Bay" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaCambridgeBay
-            | val GHC.Classes.== "America/Campo_Grande" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaCampoGrande
-            | val GHC.Classes.== "America/Cancun" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaCancun
-            | val GHC.Classes.== "America/Caracas" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaCaracas
-            | val GHC.Classes.== "America/Catamarca" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaCatamarca
-            | val GHC.Classes.== "America/Cayenne" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaCayenne
-            | val GHC.Classes.== "America/Cayman" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaCayman
-            | val GHC.Classes.== "America/Chicago" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaChicago
-            | val GHC.Classes.== "America/Chihuahua" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaChihuahua
-            | val GHC.Classes.== "America/Coral_Harbour" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaCoralHarbour
-            | val GHC.Classes.== "America/Cordoba" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaCordoba
-            | val GHC.Classes.== "America/Costa_Rica" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaCostaRica
-            | val GHC.Classes.== "America/Creston" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaCreston
-            | val GHC.Classes.== "America/Cuiaba" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaCuiaba
-            | val GHC.Classes.== "America/Curacao" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaCuracao
-            | val GHC.Classes.== "America/Danmarkshavn" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaDanmarkshavn
-            | val GHC.Classes.== "America/Dawson" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaDawson
-            | val GHC.Classes.== "America/Dawson_Creek" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaDawsonCreek
-            | val GHC.Classes.== "America/Denver" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaDenver
-            | val GHC.Classes.== "America/Detroit" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaDetroit
-            | val GHC.Classes.== "America/Dominica" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaDominica
-            | val GHC.Classes.== "America/Edmonton" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaEdmonton
-            | val GHC.Classes.== "America/Eirunepe" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaEirunepe
-            | val GHC.Classes.== "America/El_Salvador" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaElSalvador
-            | val GHC.Classes.== "America/Ensenada" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaEnsenada
-            | val GHC.Classes.== "America/Fort_Nelson" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaFortNelson
-            | val GHC.Classes.== "America/Fort_Wayne" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaFortWayne
-            | val GHC.Classes.== "America/Fortaleza" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaFortaleza
-            | val GHC.Classes.== "America/Glace_Bay" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaGlaceBay
-            | val GHC.Classes.== "America/Godthab" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaGodthab
-            | val GHC.Classes.== "America/Goose_Bay" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaGooseBay
-            | val GHC.Classes.== "America/Grand_Turk" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaGrandTurk
-            | val GHC.Classes.== "America/Grenada" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaGrenada
-            | val GHC.Classes.== "America/Guadeloupe" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaGuadeloupe
-            | val GHC.Classes.== "America/Guatemala" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaGuatemala
-            | val GHC.Classes.== "America/Guayaquil" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaGuayaquil
-            | val GHC.Classes.== "America/Guyana" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaGuyana
-            | val GHC.Classes.== "America/Halifax" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaHalifax
-            | val GHC.Classes.== "America/Havana" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaHavana
-            | val GHC.Classes.== "America/Hermosillo" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaHermosillo
-            | val GHC.Classes.== "America/Indiana/Indianapolis" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaIndianaIndianapolis
-            | val GHC.Classes.== "America/Indiana/Knox" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaIndianaKnox
-            | val GHC.Classes.== "America/Indiana/Marengo" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaIndianaMarengo
-            | val GHC.Classes.== "America/Indiana/Petersburg" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaIndianaPetersburg
-            | val GHC.Classes.== "America/Indiana/Tell_City" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaIndianaTellCity
-            | val GHC.Classes.== "America/Indiana/Vevay" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaIndianaVevay
-            | val GHC.Classes.== "America/Indiana/Vincennes" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaIndianaVincennes
-            | val GHC.Classes.== "America/Indiana/Winamac" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaIndianaWinamac
-            | val GHC.Classes.== "America/Indianapolis" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaIndianapolis
-            | val GHC.Classes.== "America/Inuvik" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaInuvik
-            | val GHC.Classes.== "America/Iqaluit" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaIqaluit
-            | val GHC.Classes.== "America/Jamaica" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaJamaica
-            | val GHC.Classes.== "America/Jujuy" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaJujuy
-            | val GHC.Classes.== "America/Juneau" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaJuneau
-            | val GHC.Classes.== "America/Kentucky/Louisville" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaKentuckyLouisville
-            | val GHC.Classes.== "America/Kentucky/Monticello" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaKentuckyMonticello
-            | val GHC.Classes.== "America/Knox_IN" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaKnoxIN
-            | val GHC.Classes.== "America/Kralendijk" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaKralendijk
-            | val GHC.Classes.== "America/La_Paz" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaLaPaz
-            | val GHC.Classes.== "America/Lima" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaLima
-            | val GHC.Classes.== "America/Los_Angeles" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaLosAngeles
-            | val GHC.Classes.== "America/Louisville" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaLouisville
-            | val GHC.Classes.== "America/Lower_Princes" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaLowerPrinces
-            | val GHC.Classes.== "America/Maceio" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaMaceio
-            | val GHC.Classes.== "America/Managua" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaManagua
-            | val GHC.Classes.== "America/Manaus" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaManaus
-            | val GHC.Classes.== "America/Marigot" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaMarigot
-            | val GHC.Classes.== "America/Martinique" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaMartinique
-            | val GHC.Classes.== "America/Matamoros" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaMatamoros
-            | val GHC.Classes.== "America/Mazatlan" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaMazatlan
-            | val GHC.Classes.== "America/Mendoza" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaMendoza
-            | val GHC.Classes.== "America/Menominee" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaMenominee
-            | val GHC.Classes.== "America/Merida" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaMerida
-            | val GHC.Classes.== "America/Metlakatla" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaMetlakatla
-            | val GHC.Classes.== "America/Mexico_City" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaMexicoCity
-            | val GHC.Classes.== "America/Miquelon" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaMiquelon
-            | val GHC.Classes.== "America/Moncton" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaMoncton
-            | val GHC.Classes.== "America/Monterrey" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaMonterrey
-            | val GHC.Classes.== "America/Montevideo" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaMontevideo
-            | val GHC.Classes.== "America/Montreal" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaMontreal
-            | val GHC.Classes.== "America/Montserrat" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaMontserrat
-            | val GHC.Classes.== "America/Nassau" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaNassau
-            | val GHC.Classes.== "America/New_York" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaNewYork
-            | val GHC.Classes.== "America/Nipigon" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaNipigon
-            | val GHC.Classes.== "America/Nome" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaNome
-            | val GHC.Classes.== "America/Noronha" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaNoronha
-            | val GHC.Classes.== "America/North_Dakota/Beulah" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaNorthDakotaBeulah
-            | val GHC.Classes.== "America/North_Dakota/Center" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaNorthDakotaCenter
-            | val GHC.Classes.== "America/North_Dakota/New_Salem" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaNorthDakotaNewSalem
-            | val GHC.Classes.== "America/Ojinaga" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaOjinaga
-            | val GHC.Classes.== "America/Panama" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaPanama
-            | val GHC.Classes.== "America/Pangnirtung" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaPangnirtung
-            | val GHC.Classes.== "America/Paramaribo" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaParamaribo
-            | val GHC.Classes.== "America/Phoenix" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaPhoenix
-            | val GHC.Classes.== "America/Port-au-Prince" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaPortAuPrince
-            | val GHC.Classes.== "America/Port_of_Spain" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaPortOfSpain
-            | val GHC.Classes.== "America/Porto_Acre" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaPortoAcre
-            | val GHC.Classes.== "America/Porto_Velho" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaPortoVelho
-            | val GHC.Classes.== "America/Puerto_Rico" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaPuertoRico
-            | val GHC.Classes.== "America/Punta_Arenas" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaPuntaArenas
-            | val GHC.Classes.== "America/Rainy_River" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaRainyRiver
-            | val GHC.Classes.== "America/Rankin_Inlet" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaRankinInlet
-            | val GHC.Classes.== "America/Recife" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaRecife
-            | val GHC.Classes.== "America/Regina" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaRegina
-            | val GHC.Classes.== "America/Resolute" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaResolute
-            | val GHC.Classes.== "America/Rio_Branco" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaRioBranco
-            | val GHC.Classes.== "America/Rosario" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaRosario
-            | val GHC.Classes.== "America/Santa_Isabel" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaSantaIsabel
-            | val GHC.Classes.== "America/Santarem" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaSantarem
-            | val GHC.Classes.== "America/Santiago" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaSantiago
-            | val GHC.Classes.== "America/Santo_Domingo" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaSantoDomingo
-            | val GHC.Classes.== "America/Sao_Paulo" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaSaoPaulo
-            | val GHC.Classes.== "America/Scoresbysund" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaScoresbysund
-            | val GHC.Classes.== "America/Shiprock" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaShiprock
-            | val GHC.Classes.== "America/Sitka" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaSitka
-            | val GHC.Classes.== "America/St_Barthelemy" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaStBarthelemy
-            | val GHC.Classes.== "America/St_Johns" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaStJohns
-            | val GHC.Classes.== "America/St_Kitts" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaStKitts
-            | val GHC.Classes.== "America/St_Lucia" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaStLucia
-            | val GHC.Classes.== "America/St_Thomas" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaStThomas
-            | val GHC.Classes.== "America/St_Vincent" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaStVincent
-            | val GHC.Classes.== "America/Swift_Current" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaSwiftCurrent
-            | val GHC.Classes.== "America/Tegucigalpa" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaTegucigalpa
-            | val GHC.Classes.== "America/Thule" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaThule
-            | val GHC.Classes.== "America/Thunder_Bay" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaThunderBay
-            | val GHC.Classes.== "America/Tijuana" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaTijuana
-            | val GHC.Classes.== "America/Toronto" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaToronto
-            | val GHC.Classes.== "America/Tortola" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaTortola
-            | val GHC.Classes.== "America/Vancouver" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaVancouver
-            | val GHC.Classes.== "America/Virgin" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaVirgin
-            | val GHC.Classes.== "America/Whitehorse" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaWhitehorse
-            | val GHC.Classes.== "America/Winnipeg" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaWinnipeg
-            | val GHC.Classes.== "America/Yakutat" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaYakutat
-            | val GHC.Classes.== "America/Yellowknife" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAmericaYellowknife
-            | val GHC.Classes.== "Antarctica/Casey" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAntarcticaCasey
-            | val GHC.Classes.== "Antarctica/Davis" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAntarcticaDavis
-            | val GHC.Classes.== "Antarctica/DumontDUrville" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAntarcticaDumontDUrville
-            | val GHC.Classes.== "Antarctica/Macquarie" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAntarcticaMacquarie
-            | val GHC.Classes.== "Antarctica/Mawson" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAntarcticaMawson
-            | val GHC.Classes.== "Antarctica/McMurdo" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAntarcticaMcMurdo
-            | val GHC.Classes.== "Antarctica/Palmer" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAntarcticaPalmer
-            | val GHC.Classes.== "Antarctica/Rothera" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAntarcticaRothera
-            | val GHC.Classes.== "Antarctica/South_Pole" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAntarcticaSouthPole
-            | val GHC.Classes.== "Antarctica/Syowa" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAntarcticaSyowa
-            | val GHC.Classes.== "Antarctica/Troll" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAntarcticaTroll
-            | val GHC.Classes.== "Antarctica/Vostok" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAntarcticaVostok
-            | val GHC.Classes.== "Arctic/Longyearbyen" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringArcticLongyearbyen
-            | val GHC.Classes.== "Asia/Aden" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaAden
-            | val GHC.Classes.== "Asia/Almaty" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaAlmaty
-            | val GHC.Classes.== "Asia/Amman" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaAmman
-            | val GHC.Classes.== "Asia/Anadyr" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaAnadyr
-            | val GHC.Classes.== "Asia/Aqtau" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaAqtau
-            | val GHC.Classes.== "Asia/Aqtobe" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaAqtobe
-            | val GHC.Classes.== "Asia/Ashgabat" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaAshgabat
-            | val GHC.Classes.== "Asia/Ashkhabad" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaAshkhabad
-            | val GHC.Classes.== "Asia/Atyrau" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaAtyrau
-            | val GHC.Classes.== "Asia/Baghdad" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaBaghdad
-            | val GHC.Classes.== "Asia/Bahrain" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaBahrain
-            | val GHC.Classes.== "Asia/Baku" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaBaku
-            | val GHC.Classes.== "Asia/Bangkok" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaBangkok
-            | val GHC.Classes.== "Asia/Barnaul" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaBarnaul
-            | val GHC.Classes.== "Asia/Beirut" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaBeirut
-            | val GHC.Classes.== "Asia/Bishkek" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaBishkek
-            | val GHC.Classes.== "Asia/Brunei" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaBrunei
-            | val GHC.Classes.== "Asia/Calcutta" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaCalcutta
-            | val GHC.Classes.== "Asia/Chita" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaChita
-            | val GHC.Classes.== "Asia/Choibalsan" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaChoibalsan
-            | val GHC.Classes.== "Asia/Chongqing" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaChongqing
-            | val GHC.Classes.== "Asia/Chungking" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaChungking
-            | val GHC.Classes.== "Asia/Colombo" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaColombo
-            | val GHC.Classes.== "Asia/Dacca" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaDacca
-            | val GHC.Classes.== "Asia/Damascus" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaDamascus
-            | val GHC.Classes.== "Asia/Dhaka" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaDhaka
-            | val GHC.Classes.== "Asia/Dili" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaDili
-            | val GHC.Classes.== "Asia/Dubai" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaDubai
-            | val GHC.Classes.== "Asia/Dushanbe" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaDushanbe
-            | val GHC.Classes.== "Asia/Famagusta" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaFamagusta
-            | val GHC.Classes.== "Asia/Gaza" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaGaza
-            | val GHC.Classes.== "Asia/Harbin" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaHarbin
-            | val GHC.Classes.== "Asia/Hebron" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaHebron
-            | val GHC.Classes.== "Asia/Ho_Chi_Minh" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaHoChiMinh
-            | val GHC.Classes.== "Asia/Hong_Kong" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaHongKong
-            | val GHC.Classes.== "Asia/Hovd" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaHovd
-            | val GHC.Classes.== "Asia/Irkutsk" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaIrkutsk
-            | val GHC.Classes.== "Asia/Istanbul" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaIstanbul
-            | val GHC.Classes.== "Asia/Jakarta" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaJakarta
-            | val GHC.Classes.== "Asia/Jayapura" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaJayapura
-            | val GHC.Classes.== "Asia/Jerusalem" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaJerusalem
-            | val GHC.Classes.== "Asia/Kabul" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaKabul
-            | val GHC.Classes.== "Asia/Kamchatka" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaKamchatka
-            | val GHC.Classes.== "Asia/Karachi" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaKarachi
-            | val GHC.Classes.== "Asia/Kashgar" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaKashgar
-            | val GHC.Classes.== "Asia/Kathmandu" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaKathmandu
-            | val GHC.Classes.== "Asia/Katmandu" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaKatmandu
-            | val GHC.Classes.== "Asia/Khandyga" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaKhandyga
-            | val GHC.Classes.== "Asia/Kolkata" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaKolkata
-            | val GHC.Classes.== "Asia/Krasnoyarsk" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaKrasnoyarsk
-            | val GHC.Classes.== "Asia/Kuala_Lumpur" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaKualaLumpur
-            | val GHC.Classes.== "Asia/Kuching" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaKuching
-            | val GHC.Classes.== "Asia/Kuwait" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaKuwait
-            | val GHC.Classes.== "Asia/Macao" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaMacao
-            | val GHC.Classes.== "Asia/Macau" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaMacau
-            | val GHC.Classes.== "Asia/Magadan" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaMagadan
-            | val GHC.Classes.== "Asia/Makassar" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaMakassar
-            | val GHC.Classes.== "Asia/Manila" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaManila
-            | val GHC.Classes.== "Asia/Muscat" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaMuscat
-            | val GHC.Classes.== "Asia/Nicosia" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaNicosia
-            | val GHC.Classes.== "Asia/Novokuznetsk" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaNovokuznetsk
-            | val GHC.Classes.== "Asia/Novosibirsk" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaNovosibirsk
-            | val GHC.Classes.== "Asia/Omsk" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaOmsk
-            | val GHC.Classes.== "Asia/Oral" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaOral
-            | val GHC.Classes.== "Asia/Phnom_Penh" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaPhnomPenh
-            | val GHC.Classes.== "Asia/Pontianak" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaPontianak
-            | val GHC.Classes.== "Asia/Pyongyang" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaPyongyang
-            | val GHC.Classes.== "Asia/Qatar" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaQatar
-            | val GHC.Classes.== "Asia/Qostanay" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaQostanay
-            | val GHC.Classes.== "Asia/Qyzylorda" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaQyzylorda
-            | val GHC.Classes.== "Asia/Rangoon" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaRangoon
-            | val GHC.Classes.== "Asia/Riyadh" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaRiyadh
-            | val GHC.Classes.== "Asia/Saigon" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaSaigon
-            | val GHC.Classes.== "Asia/Sakhalin" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaSakhalin
-            | val GHC.Classes.== "Asia/Samarkand" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaSamarkand
-            | val GHC.Classes.== "Asia/Seoul" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaSeoul
-            | val GHC.Classes.== "Asia/Shanghai" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaShanghai
-            | val GHC.Classes.== "Asia/Singapore" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaSingapore
-            | val GHC.Classes.== "Asia/Srednekolymsk" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaSrednekolymsk
-            | val GHC.Classes.== "Asia/Taipei" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaTaipei
-            | val GHC.Classes.== "Asia/Tashkent" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaTashkent
-            | val GHC.Classes.== "Asia/Tbilisi" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaTbilisi
-            | val GHC.Classes.== "Asia/Tehran" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaTehran
-            | val GHC.Classes.== "Asia/Tel_Aviv" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaTelAviv
-            | val GHC.Classes.== "Asia/Thimbu" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaThimbu
-            | val GHC.Classes.== "Asia/Thimphu" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaThimphu
-            | val GHC.Classes.== "Asia/Tokyo" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaTokyo
-            | val GHC.Classes.== "Asia/Tomsk" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaTomsk
-            | val GHC.Classes.== "Asia/Ujung_Pandang" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaUjungPandang
-            | val GHC.Classes.== "Asia/Ulaanbaatar" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaUlaanbaatar
-            | val GHC.Classes.== "Asia/Ulan_Bator" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaUlanBator
-            | val GHC.Classes.== "Asia/Urumqi" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaUrumqi
-            | val GHC.Classes.== "Asia/Ust-Nera" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaUstNera
-            | val GHC.Classes.== "Asia/Vientiane" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaVientiane
-            | val GHC.Classes.== "Asia/Vladivostok" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaVladivostok
-            | val GHC.Classes.== "Asia/Yakutsk" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaYakutsk
-            | val GHC.Classes.== "Asia/Yangon" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaYangon
-            | val GHC.Classes.== "Asia/Yekaterinburg" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaYekaterinburg
-            | val GHC.Classes.== "Asia/Yerevan" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAsiaYerevan
-            | val GHC.Classes.== "Atlantic/Azores" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAtlanticAzores
-            | val GHC.Classes.== "Atlantic/Bermuda" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAtlanticBermuda
-            | val GHC.Classes.== "Atlantic/Canary" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAtlanticCanary
-            | val GHC.Classes.== "Atlantic/Cape_Verde" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAtlanticCapeVerde
-            | val GHC.Classes.== "Atlantic/Faeroe" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAtlanticFaeroe
-            | val GHC.Classes.== "Atlantic/Faroe" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAtlanticFaroe
-            | val GHC.Classes.== "Atlantic/Jan_Mayen" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAtlanticJanMayen
-            | val GHC.Classes.== "Atlantic/Madeira" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAtlanticMadeira
-            | val GHC.Classes.== "Atlantic/Reykjavik" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAtlanticReykjavik
-            | val GHC.Classes.== "Atlantic/South_Georgia" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAtlanticSouthGeorgia
-            | val GHC.Classes.== "Atlantic/St_Helena" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAtlanticStHelena
-            | val GHC.Classes.== "Atlantic/Stanley" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAtlanticStanley
-            | val GHC.Classes.== "Australia/ACT" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAustraliaACT
-            | val GHC.Classes.== "Australia/Adelaide" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAustraliaAdelaide
-            | val GHC.Classes.== "Australia/Brisbane" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAustraliaBrisbane
-            | val GHC.Classes.== "Australia/Broken_Hill" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAustraliaBrokenHill
-            | val GHC.Classes.== "Australia/Canberra" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAustraliaCanberra
-            | val GHC.Classes.== "Australia/Currie" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAustraliaCurrie
-            | val GHC.Classes.== "Australia/Darwin" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAustraliaDarwin
-            | val GHC.Classes.== "Australia/Eucla" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAustraliaEucla
-            | val GHC.Classes.== "Australia/Hobart" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAustraliaHobart
-            | val GHC.Classes.== "Australia/LHI" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAustraliaLHI
-            | val GHC.Classes.== "Australia/Lindeman" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAustraliaLindeman
-            | val GHC.Classes.== "Australia/Lord_Howe" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAustraliaLordHowe
-            | val GHC.Classes.== "Australia/Melbourne" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAustraliaMelbourne
-            | val GHC.Classes.== "Australia/NSW" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAustraliaNSW
-            | val GHC.Classes.== "Australia/North" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAustraliaNorth
-            | val GHC.Classes.== "Australia/Perth" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAustraliaPerth
-            | val GHC.Classes.== "Australia/Queensland" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAustraliaQueensland
-            | val GHC.Classes.== "Australia/South" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAustraliaSouth
-            | val GHC.Classes.== "Australia/Sydney" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAustraliaSydney
-            | val GHC.Classes.== "Australia/Tasmania" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAustraliaTasmania
-            | val GHC.Classes.== "Australia/Victoria" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAustraliaVictoria
-            | val GHC.Classes.== "Australia/West" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAustraliaWest
-            | val GHC.Classes.== "Australia/Yancowinna" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAustraliaYancowinna
-            | val GHC.Classes.== "Brazil/Acre" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringBrazilAcre
-            | val GHC.Classes.== "Brazil/DeNoronha" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringBrazilDeNoronha
-            | val GHC.Classes.== "Brazil/East" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringBrazilEast
-            | val GHC.Classes.== "Brazil/West" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringBrazilWest
-            | val GHC.Classes.== "CET" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringCET
-            | val GHC.Classes.== "CST6CDT" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringCST6CDT
-            | val GHC.Classes.== "Canada/Atlantic" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringCanadaAtlantic
-            | val GHC.Classes.== "Canada/Central" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringCanadaCentral
-            | val GHC.Classes.== "Canada/Eastern" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringCanadaEastern
-            | val GHC.Classes.== "Canada/Mountain" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringCanadaMountain
-            | val GHC.Classes.== "Canada/Newfoundland" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringCanadaNewfoundland
-            | val GHC.Classes.== "Canada/Pacific" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringCanadaPacific
-            | val GHC.Classes.== "Canada/Saskatchewan" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringCanadaSaskatchewan
-            | val GHC.Classes.== "Canada/Yukon" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringCanadaYukon
-            | val GHC.Classes.== "Chile/Continental" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringChileContinental
-            | val GHC.Classes.== "Chile/EasterIsland" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringChileEasterIsland
-            | val GHC.Classes.== "Cuba" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringCuba
-            | val GHC.Classes.== "EET" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEET
-            | val GHC.Classes.== "EST" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEST
-            | val GHC.Classes.== "EST5EDT" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEST5EDT
-            | val GHC.Classes.== "Egypt" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEgypt
-            | val GHC.Classes.== "Eire" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEire
-            | val GHC.Classes.== "Etc/GMT" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEtcGMT
-            | val GHC.Classes.== "Etc/GMT+0" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEtcGMTPlus0
-            | val GHC.Classes.== "Etc/GMT+1" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEtcGMTPlus1
-            | val GHC.Classes.== "Etc/GMT+10" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEtcGMTPlus10
-            | val GHC.Classes.== "Etc/GMT+11" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEtcGMTPlus11
-            | val GHC.Classes.== "Etc/GMT+12" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEtcGMTPlus12
-            | val GHC.Classes.== "Etc/GMT+2" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEtcGMTPlus2
-            | val GHC.Classes.== "Etc/GMT+3" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEtcGMTPlus3
-            | val GHC.Classes.== "Etc/GMT+4" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEtcGMTPlus4
-            | val GHC.Classes.== "Etc/GMT+5" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEtcGMTPlus5
-            | val GHC.Classes.== "Etc/GMT+6" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEtcGMTPlus6
-            | val GHC.Classes.== "Etc/GMT+7" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEtcGMTPlus7
-            | val GHC.Classes.== "Etc/GMT+8" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEtcGMTPlus8
-            | val GHC.Classes.== "Etc/GMT+9" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEtcGMTPlus9
-            | val GHC.Classes.== "Etc/GMT-0" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEtcGMT_0
-            | val GHC.Classes.== "Etc/GMT-1" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEtcGMT_1
-            | val GHC.Classes.== "Etc/GMT-10" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEtcGMT_10
-            | val GHC.Classes.== "Etc/GMT-11" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEtcGMT_11
-            | val GHC.Classes.== "Etc/GMT-12" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEtcGMT_12
-            | val GHC.Classes.== "Etc/GMT-13" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEtcGMT_13
-            | val GHC.Classes.== "Etc/GMT-14" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEtcGMT_14
-            | val GHC.Classes.== "Etc/GMT-2" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEtcGMT_2
-            | val GHC.Classes.== "Etc/GMT-3" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEtcGMT_3
-            | val GHC.Classes.== "Etc/GMT-4" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEtcGMT_4
-            | val GHC.Classes.== "Etc/GMT-5" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEtcGMT_5
-            | val GHC.Classes.== "Etc/GMT-6" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEtcGMT_6
-            | val GHC.Classes.== "Etc/GMT-7" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEtcGMT_7
-            | val GHC.Classes.== "Etc/GMT-8" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEtcGMT_8
-            | val GHC.Classes.== "Etc/GMT-9" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEtcGMT_9
-            | val GHC.Classes.== "Etc/GMT0" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEtcGMT0
-            | val GHC.Classes.== "Etc/Greenwich" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEtcGreenwich
-            | val GHC.Classes.== "Etc/UCT" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEtcUCT
-            | val GHC.Classes.== "Etc/UTC" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEtcUTC
-            | val GHC.Classes.== "Etc/Universal" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEtcUniversal
-            | val GHC.Classes.== "Etc/Zulu" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEtcZulu
-            | val GHC.Classes.== "Europe/Amsterdam" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEuropeAmsterdam
-            | val GHC.Classes.== "Europe/Andorra" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEuropeAndorra
-            | val GHC.Classes.== "Europe/Astrakhan" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEuropeAstrakhan
-            | val GHC.Classes.== "Europe/Athens" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEuropeAthens
-            | val GHC.Classes.== "Europe/Belfast" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEuropeBelfast
-            | val GHC.Classes.== "Europe/Belgrade" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEuropeBelgrade
-            | val GHC.Classes.== "Europe/Berlin" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEuropeBerlin
-            | val GHC.Classes.== "Europe/Bratislava" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEuropeBratislava
-            | val GHC.Classes.== "Europe/Brussels" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEuropeBrussels
-            | val GHC.Classes.== "Europe/Bucharest" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEuropeBucharest
-            | val GHC.Classes.== "Europe/Budapest" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEuropeBudapest
-            | val GHC.Classes.== "Europe/Busingen" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEuropeBusingen
-            | val GHC.Classes.== "Europe/Chisinau" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEuropeChisinau
-            | val GHC.Classes.== "Europe/Copenhagen" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEuropeCopenhagen
-            | val GHC.Classes.== "Europe/Dublin" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEuropeDublin
-            | val GHC.Classes.== "Europe/Gibraltar" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEuropeGibraltar
-            | val GHC.Classes.== "Europe/Guernsey" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEuropeGuernsey
-            | val GHC.Classes.== "Europe/Helsinki" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEuropeHelsinki
-            | val GHC.Classes.== "Europe/Isle_of_Man" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEuropeIsleOfMan
-            | val GHC.Classes.== "Europe/Istanbul" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEuropeIstanbul
-            | val GHC.Classes.== "Europe/Jersey" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEuropeJersey
-            | val GHC.Classes.== "Europe/Kaliningrad" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEuropeKaliningrad
-            | val GHC.Classes.== "Europe/Kiev" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEuropeKiev
-            | val GHC.Classes.== "Europe/Kirov" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEuropeKirov
-            | val GHC.Classes.== "Europe/Lisbon" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEuropeLisbon
-            | val GHC.Classes.== "Europe/Ljubljana" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEuropeLjubljana
-            | val GHC.Classes.== "Europe/London" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEuropeLondon
-            | val GHC.Classes.== "Europe/Luxembourg" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEuropeLuxembourg
-            | val GHC.Classes.== "Europe/Madrid" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEuropeMadrid
-            | val GHC.Classes.== "Europe/Malta" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEuropeMalta
-            | val GHC.Classes.== "Europe/Mariehamn" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEuropeMariehamn
-            | val GHC.Classes.== "Europe/Minsk" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEuropeMinsk
-            | val GHC.Classes.== "Europe/Monaco" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEuropeMonaco
-            | val GHC.Classes.== "Europe/Moscow" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEuropeMoscow
-            | val GHC.Classes.== "Europe/Nicosia" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEuropeNicosia
-            | val GHC.Classes.== "Europe/Oslo" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEuropeOslo
-            | val GHC.Classes.== "Europe/Paris" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEuropeParis
-            | val GHC.Classes.== "Europe/Podgorica" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEuropePodgorica
-            | val GHC.Classes.== "Europe/Prague" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEuropePrague
-            | val GHC.Classes.== "Europe/Riga" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEuropeRiga
-            | val GHC.Classes.== "Europe/Rome" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEuropeRome
-            | val GHC.Classes.== "Europe/Samara" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEuropeSamara
-            | val GHC.Classes.== "Europe/San_Marino" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEuropeSanMarino
-            | val GHC.Classes.== "Europe/Sarajevo" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEuropeSarajevo
-            | val GHC.Classes.== "Europe/Saratov" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEuropeSaratov
-            | val GHC.Classes.== "Europe/Simferopol" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEuropeSimferopol
-            | val GHC.Classes.== "Europe/Skopje" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEuropeSkopje
-            | val GHC.Classes.== "Europe/Sofia" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEuropeSofia
-            | val GHC.Classes.== "Europe/Stockholm" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEuropeStockholm
-            | val GHC.Classes.== "Europe/Tallinn" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEuropeTallinn
-            | val GHC.Classes.== "Europe/Tirane" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEuropeTirane
-            | val GHC.Classes.== "Europe/Tiraspol" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEuropeTiraspol
-            | val GHC.Classes.== "Europe/Ulyanovsk" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEuropeUlyanovsk
-            | val GHC.Classes.== "Europe/Uzhgorod" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEuropeUzhgorod
-            | val GHC.Classes.== "Europe/Vaduz" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEuropeVaduz
-            | val GHC.Classes.== "Europe/Vatican" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEuropeVatican
-            | val GHC.Classes.== "Europe/Vienna" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEuropeVienna
-            | val GHC.Classes.== "Europe/Vilnius" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEuropeVilnius
-            | val GHC.Classes.== "Europe/Volgograd" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEuropeVolgograd
-            | val GHC.Classes.== "Europe/Warsaw" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEuropeWarsaw
-            | val GHC.Classes.== "Europe/Zagreb" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEuropeZagreb
-            | val GHC.Classes.== "Europe/Zaporozhye" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEuropeZaporozhye
-            | val GHC.Classes.== "Europe/Zurich" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringEuropeZurich
-            | val GHC.Classes.== "Factory" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringFactory
-            | val GHC.Classes.== "GB" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringGB
-            | val GHC.Classes.== "GB-Eire" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringGBEire
-            | val GHC.Classes.== "GMT" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringGMT
-            | val GHC.Classes.== "GMT+0" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringGMTPlus0
-            | val GHC.Classes.== "GMT-0" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringGMT_0
-            | val GHC.Classes.== "GMT0" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringGMT0
-            | val GHC.Classes.== "Greenwich" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringGreenwich
-            | val GHC.Classes.== "HST" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringHST
-            | val GHC.Classes.== "Hongkong" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringHongkong
-            | val GHC.Classes.== "Iceland" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringIceland
-            | val GHC.Classes.== "Indian/Antananarivo" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringIndianAntananarivo
-            | val GHC.Classes.== "Indian/Chagos" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringIndianChagos
-            | val GHC.Classes.== "Indian/Christmas" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringIndianChristmas
-            | val GHC.Classes.== "Indian/Cocos" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringIndianCocos
-            | val GHC.Classes.== "Indian/Comoro" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringIndianComoro
-            | val GHC.Classes.== "Indian/Kerguelen" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringIndianKerguelen
-            | val GHC.Classes.== "Indian/Mahe" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringIndianMahe
-            | val GHC.Classes.== "Indian/Maldives" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringIndianMaldives
-            | val GHC.Classes.== "Indian/Mauritius" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringIndianMauritius
-            | val GHC.Classes.== "Indian/Mayotte" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringIndianMayotte
-            | val GHC.Classes.== "Indian/Reunion" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringIndianReunion
-            | val GHC.Classes.== "Iran" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringIran
-            | val GHC.Classes.== "Israel" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringIsrael
-            | val GHC.Classes.== "Jamaica" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringJamaica
-            | val GHC.Classes.== "Japan" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringJapan
-            | val GHC.Classes.== "Kwajalein" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringKwajalein
-            | val GHC.Classes.== "Libya" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringLibya
-            | val GHC.Classes.== "MET" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringMET
-            | val GHC.Classes.== "MST" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringMST
-            | val GHC.Classes.== "MST7MDT" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringMST7MDT
-            | val GHC.Classes.== "Mexico/BajaNorte" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringMexicoBajaNorte
-            | val GHC.Classes.== "Mexico/BajaSur" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringMexicoBajaSur
-            | val GHC.Classes.== "Mexico/General" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringMexicoGeneral
-            | val GHC.Classes.== "NZ" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringNZ
-            | val GHC.Classes.== "NZ-CHAT" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringNZCHAT
-            | val GHC.Classes.== "Navajo" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringNavajo
-            | val GHC.Classes.== "PRC" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringPRC
-            | val GHC.Classes.== "PST8PDT" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringPST8PDT
-            | val GHC.Classes.== "Pacific/Apia" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringPacificApia
-            | val GHC.Classes.== "Pacific/Auckland" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringPacificAuckland
-            | val GHC.Classes.== "Pacific/Bougainville" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringPacificBougainville
-            | val GHC.Classes.== "Pacific/Chatham" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringPacificChatham
-            | val GHC.Classes.== "Pacific/Chuuk" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringPacificChuuk
-            | val GHC.Classes.== "Pacific/Easter" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringPacificEaster
-            | val GHC.Classes.== "Pacific/Efate" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringPacificEfate
-            | val GHC.Classes.== "Pacific/Enderbury" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringPacificEnderbury
-            | val GHC.Classes.== "Pacific/Fakaofo" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringPacificFakaofo
-            | val GHC.Classes.== "Pacific/Fiji" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringPacificFiji
-            | val GHC.Classes.== "Pacific/Funafuti" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringPacificFunafuti
-            | val GHC.Classes.== "Pacific/Galapagos" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringPacificGalapagos
-            | val GHC.Classes.== "Pacific/Gambier" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringPacificGambier
-            | val GHC.Classes.== "Pacific/Guadalcanal" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringPacificGuadalcanal
-            | val GHC.Classes.== "Pacific/Guam" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringPacificGuam
-            | val GHC.Classes.== "Pacific/Honolulu" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringPacificHonolulu
-            | val GHC.Classes.== "Pacific/Johnston" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringPacificJohnston
-            | val GHC.Classes.== "Pacific/Kiritimati" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringPacificKiritimati
-            | val GHC.Classes.== "Pacific/Kosrae" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringPacificKosrae
-            | val GHC.Classes.== "Pacific/Kwajalein" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringPacificKwajalein
-            | val GHC.Classes.== "Pacific/Majuro" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringPacificMajuro
-            | val GHC.Classes.== "Pacific/Marquesas" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringPacificMarquesas
-            | val GHC.Classes.== "Pacific/Midway" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringPacificMidway
-            | val GHC.Classes.== "Pacific/Nauru" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringPacificNauru
-            | val GHC.Classes.== "Pacific/Niue" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringPacificNiue
-            | val GHC.Classes.== "Pacific/Norfolk" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringPacificNorfolk
-            | val GHC.Classes.== "Pacific/Noumea" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringPacificNoumea
-            | val GHC.Classes.== "Pacific/Pago_Pago" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringPacificPagoPago
-            | val GHC.Classes.== "Pacific/Palau" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringPacificPalau
-            | val GHC.Classes.== "Pacific/Pitcairn" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringPacificPitcairn
-            | val GHC.Classes.== "Pacific/Pohnpei" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringPacificPohnpei
-            | val GHC.Classes.== "Pacific/Ponape" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringPacificPonape
-            | val GHC.Classes.== "Pacific/Port_Moresby" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringPacificPortMoresby
-            | val GHC.Classes.== "Pacific/Rarotonga" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringPacificRarotonga
-            | val GHC.Classes.== "Pacific/Saipan" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringPacificSaipan
-            | val GHC.Classes.== "Pacific/Samoa" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringPacificSamoa
-            | val GHC.Classes.== "Pacific/Tahiti" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringPacificTahiti
-            | val GHC.Classes.== "Pacific/Tarawa" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringPacificTarawa
-            | val GHC.Classes.== "Pacific/Tongatapu" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringPacificTongatapu
-            | val GHC.Classes.== "Pacific/Truk" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringPacificTruk
-            | val GHC.Classes.== "Pacific/Wake" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringPacificWake
-            | val GHC.Classes.== "Pacific/Wallis" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringPacificWallis
-            | val GHC.Classes.== "Pacific/Yap" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringPacificYap
-            | val GHC.Classes.== "Poland" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringPoland
-            | val GHC.Classes.== "Portugal" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringPortugal
-            | val GHC.Classes.== "ROC" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringROC
-            | val GHC.Classes.== "ROK" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringROK
-            | val GHC.Classes.== "Singapore" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringSingapore
-            | val GHC.Classes.== "Turkey" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringTurkey
-            | val GHC.Classes.== "UCT" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringUCT
-            | val GHC.Classes.== "US/Alaska" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringUSAlaska
-            | val GHC.Classes.== "US/Aleutian" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringUSAleutian
-            | val GHC.Classes.== "US/Arizona" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringUSArizona
-            | val GHC.Classes.== "US/Central" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringUSCentral
-            | val GHC.Classes.== "US/East-Indiana" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringUSEastIndiana
-            | val GHC.Classes.== "US/Eastern" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringUSEastern
-            | val GHC.Classes.== "US/Hawaii" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringUSHawaii
-            | val GHC.Classes.== "US/Indiana-Starke" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringUSIndianaStarke
-            | val GHC.Classes.== "US/Michigan" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringUSMichigan
-            | val GHC.Classes.== "US/Mountain" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringUSMountain
-            | val GHC.Classes.== "US/Pacific" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringUSPacific
-            | val GHC.Classes.== "US/Pacific-New" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringUSPacificNew
-            | val GHC.Classes.== "US/Samoa" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringUSSamoa
-            | val GHC.Classes.== "UTC" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringUTC
-            | val GHC.Classes.== "Universal" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringUniversal
-            | val GHC.Classes.== "W-SU" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringWSU
-            | val GHC.Classes.== "WET" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringWET
-            | val GHC.Classes.== "Zulu" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringZulu
-            | GHC.Base.otherwise -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumOther val
+      ( if  | val GHC.Classes.== "Africa/Abidjan" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAfricaAbidjan
+            | val GHC.Classes.== "Africa/Accra" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAfricaAccra
+            | val GHC.Classes.== "Africa/Addis_Ababa" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAfricaAddisAbaba
+            | val GHC.Classes.== "Africa/Algiers" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAfricaAlgiers
+            | val GHC.Classes.== "Africa/Asmara" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAfricaAsmara
+            | val GHC.Classes.== "Africa/Asmera" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAfricaAsmera
+            | val GHC.Classes.== "Africa/Bamako" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAfricaBamako
+            | val GHC.Classes.== "Africa/Bangui" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAfricaBangui
+            | val GHC.Classes.== "Africa/Banjul" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAfricaBanjul
+            | val GHC.Classes.== "Africa/Bissau" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAfricaBissau
+            | val GHC.Classes.== "Africa/Blantyre" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAfricaBlantyre
+            | val GHC.Classes.== "Africa/Brazzaville" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAfricaBrazzaville
+            | val GHC.Classes.== "Africa/Bujumbura" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAfricaBujumbura
+            | val GHC.Classes.== "Africa/Cairo" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAfricaCairo
+            | val GHC.Classes.== "Africa/Casablanca" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAfricaCasablanca
+            | val GHC.Classes.== "Africa/Ceuta" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAfricaCeuta
+            | val GHC.Classes.== "Africa/Conakry" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAfricaConakry
+            | val GHC.Classes.== "Africa/Dakar" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAfricaDakar
+            | val GHC.Classes.== "Africa/Dar_es_Salaam" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAfricaDarEsSalaam
+            | val GHC.Classes.== "Africa/Djibouti" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAfricaDjibouti
+            | val GHC.Classes.== "Africa/Douala" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAfricaDouala
+            | val GHC.Classes.== "Africa/El_Aaiun" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAfricaElAaiun
+            | val GHC.Classes.== "Africa/Freetown" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAfricaFreetown
+            | val GHC.Classes.== "Africa/Gaborone" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAfricaGaborone
+            | val GHC.Classes.== "Africa/Harare" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAfricaHarare
+            | val GHC.Classes.== "Africa/Johannesburg" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAfricaJohannesburg
+            | val GHC.Classes.== "Africa/Juba" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAfricaJuba
+            | val GHC.Classes.== "Africa/Kampala" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAfricaKampala
+            | val GHC.Classes.== "Africa/Khartoum" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAfricaKhartoum
+            | val GHC.Classes.== "Africa/Kigali" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAfricaKigali
+            | val GHC.Classes.== "Africa/Kinshasa" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAfricaKinshasa
+            | val GHC.Classes.== "Africa/Lagos" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAfricaLagos
+            | val GHC.Classes.== "Africa/Libreville" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAfricaLibreville
+            | val GHC.Classes.== "Africa/Lome" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAfricaLome
+            | val GHC.Classes.== "Africa/Luanda" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAfricaLuanda
+            | val GHC.Classes.== "Africa/Lubumbashi" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAfricaLubumbashi
+            | val GHC.Classes.== "Africa/Lusaka" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAfricaLusaka
+            | val GHC.Classes.== "Africa/Malabo" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAfricaMalabo
+            | val GHC.Classes.== "Africa/Maputo" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAfricaMaputo
+            | val GHC.Classes.== "Africa/Maseru" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAfricaMaseru
+            | val GHC.Classes.== "Africa/Mbabane" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAfricaMbabane
+            | val GHC.Classes.== "Africa/Mogadishu" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAfricaMogadishu
+            | val GHC.Classes.== "Africa/Monrovia" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAfricaMonrovia
+            | val GHC.Classes.== "Africa/Nairobi" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAfricaNairobi
+            | val GHC.Classes.== "Africa/Ndjamena" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAfricaNdjamena
+            | val GHC.Classes.== "Africa/Niamey" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAfricaNiamey
+            | val GHC.Classes.== "Africa/Nouakchott" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAfricaNouakchott
+            | val GHC.Classes.== "Africa/Ouagadougou" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAfricaOuagadougou
+            | val GHC.Classes.== "Africa/Porto-Novo" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAfricaPortoNovo
+            | val GHC.Classes.== "Africa/Sao_Tome" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAfricaSaoTome
+            | val GHC.Classes.== "Africa/Timbuktu" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAfricaTimbuktu
+            | val GHC.Classes.== "Africa/Tripoli" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAfricaTripoli
+            | val GHC.Classes.== "Africa/Tunis" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAfricaTunis
+            | val GHC.Classes.== "Africa/Windhoek" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAfricaWindhoek
+            | val GHC.Classes.== "America/Adak" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaAdak
+            | val GHC.Classes.== "America/Anchorage" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaAnchorage
+            | val GHC.Classes.== "America/Anguilla" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaAnguilla
+            | val GHC.Classes.== "America/Antigua" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaAntigua
+            | val GHC.Classes.== "America/Araguaina" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaAraguaina
+            | val GHC.Classes.== "America/Argentina/Buenos_Aires" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaArgentinaBuenosAires
+            | val GHC.Classes.== "America/Argentina/Catamarca" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaArgentinaCatamarca
+            | val GHC.Classes.== "America/Argentina/ComodRivadavia" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaArgentinaComodRivadavia
+            | val GHC.Classes.== "America/Argentina/Cordoba" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaArgentinaCordoba
+            | val GHC.Classes.== "America/Argentina/Jujuy" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaArgentinaJujuy
+            | val GHC.Classes.== "America/Argentina/La_Rioja" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaArgentinaLaRioja
+            | val GHC.Classes.== "America/Argentina/Mendoza" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaArgentinaMendoza
+            | val GHC.Classes.== "America/Argentina/Rio_Gallegos" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaArgentinaRioGallegos
+            | val GHC.Classes.== "America/Argentina/Salta" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaArgentinaSalta
+            | val GHC.Classes.== "America/Argentina/San_Juan" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaArgentinaSanJuan
+            | val GHC.Classes.== "America/Argentina/San_Luis" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaArgentinaSanLuis
+            | val GHC.Classes.== "America/Argentina/Tucuman" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaArgentinaTucuman
+            | val GHC.Classes.== "America/Argentina/Ushuaia" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaArgentinaUshuaia
+            | val GHC.Classes.== "America/Aruba" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaAruba
+            | val GHC.Classes.== "America/Asuncion" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaAsuncion
+            | val GHC.Classes.== "America/Atikokan" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaAtikokan
+            | val GHC.Classes.== "America/Atka" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaAtka
+            | val GHC.Classes.== "America/Bahia" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaBahia
+            | val GHC.Classes.== "America/Bahia_Banderas" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaBahiaBanderas
+            | val GHC.Classes.== "America/Barbados" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaBarbados
+            | val GHC.Classes.== "America/Belem" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaBelem
+            | val GHC.Classes.== "America/Belize" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaBelize
+            | val GHC.Classes.== "America/Blanc-Sablon" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaBlancSablon
+            | val GHC.Classes.== "America/Boa_Vista" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaBoaVista
+            | val GHC.Classes.== "America/Bogota" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaBogota
+            | val GHC.Classes.== "America/Boise" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaBoise
+            | val GHC.Classes.== "America/Buenos_Aires" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaBuenosAires
+            | val GHC.Classes.== "America/Cambridge_Bay" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaCambridgeBay
+            | val GHC.Classes.== "America/Campo_Grande" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaCampoGrande
+            | val GHC.Classes.== "America/Cancun" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaCancun
+            | val GHC.Classes.== "America/Caracas" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaCaracas
+            | val GHC.Classes.== "America/Catamarca" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaCatamarca
+            | val GHC.Classes.== "America/Cayenne" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaCayenne
+            | val GHC.Classes.== "America/Cayman" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaCayman
+            | val GHC.Classes.== "America/Chicago" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaChicago
+            | val GHC.Classes.== "America/Chihuahua" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaChihuahua
+            | val GHC.Classes.== "America/Coral_Harbour" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaCoralHarbour
+            | val GHC.Classes.== "America/Cordoba" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaCordoba
+            | val GHC.Classes.== "America/Costa_Rica" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaCostaRica
+            | val GHC.Classes.== "America/Creston" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaCreston
+            | val GHC.Classes.== "America/Cuiaba" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaCuiaba
+            | val GHC.Classes.== "America/Curacao" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaCuracao
+            | val GHC.Classes.== "America/Danmarkshavn" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaDanmarkshavn
+            | val GHC.Classes.== "America/Dawson" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaDawson
+            | val GHC.Classes.== "America/Dawson_Creek" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaDawsonCreek
+            | val GHC.Classes.== "America/Denver" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaDenver
+            | val GHC.Classes.== "America/Detroit" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaDetroit
+            | val GHC.Classes.== "America/Dominica" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaDominica
+            | val GHC.Classes.== "America/Edmonton" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaEdmonton
+            | val GHC.Classes.== "America/Eirunepe" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaEirunepe
+            | val GHC.Classes.== "America/El_Salvador" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaElSalvador
+            | val GHC.Classes.== "America/Ensenada" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaEnsenada
+            | val GHC.Classes.== "America/Fort_Nelson" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaFortNelson
+            | val GHC.Classes.== "America/Fort_Wayne" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaFortWayne
+            | val GHC.Classes.== "America/Fortaleza" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaFortaleza
+            | val GHC.Classes.== "America/Glace_Bay" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaGlaceBay
+            | val GHC.Classes.== "America/Godthab" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaGodthab
+            | val GHC.Classes.== "America/Goose_Bay" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaGooseBay
+            | val GHC.Classes.== "America/Grand_Turk" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaGrandTurk
+            | val GHC.Classes.== "America/Grenada" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaGrenada
+            | val GHC.Classes.== "America/Guadeloupe" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaGuadeloupe
+            | val GHC.Classes.== "America/Guatemala" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaGuatemala
+            | val GHC.Classes.== "America/Guayaquil" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaGuayaquil
+            | val GHC.Classes.== "America/Guyana" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaGuyana
+            | val GHC.Classes.== "America/Halifax" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaHalifax
+            | val GHC.Classes.== "America/Havana" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaHavana
+            | val GHC.Classes.== "America/Hermosillo" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaHermosillo
+            | val GHC.Classes.== "America/Indiana/Indianapolis" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaIndianaIndianapolis
+            | val GHC.Classes.== "America/Indiana/Knox" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaIndianaKnox
+            | val GHC.Classes.== "America/Indiana/Marengo" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaIndianaMarengo
+            | val GHC.Classes.== "America/Indiana/Petersburg" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaIndianaPetersburg
+            | val GHC.Classes.== "America/Indiana/Tell_City" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaIndianaTellCity
+            | val GHC.Classes.== "America/Indiana/Vevay" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaIndianaVevay
+            | val GHC.Classes.== "America/Indiana/Vincennes" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaIndianaVincennes
+            | val GHC.Classes.== "America/Indiana/Winamac" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaIndianaWinamac
+            | val GHC.Classes.== "America/Indianapolis" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaIndianapolis
+            | val GHC.Classes.== "America/Inuvik" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaInuvik
+            | val GHC.Classes.== "America/Iqaluit" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaIqaluit
+            | val GHC.Classes.== "America/Jamaica" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaJamaica
+            | val GHC.Classes.== "America/Jujuy" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaJujuy
+            | val GHC.Classes.== "America/Juneau" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaJuneau
+            | val GHC.Classes.== "America/Kentucky/Louisville" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaKentuckyLouisville
+            | val GHC.Classes.== "America/Kentucky/Monticello" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaKentuckyMonticello
+            | val GHC.Classes.== "America/Knox_IN" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaKnoxIN
+            | val GHC.Classes.== "America/Kralendijk" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaKralendijk
+            | val GHC.Classes.== "America/La_Paz" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaLaPaz
+            | val GHC.Classes.== "America/Lima" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaLima
+            | val GHC.Classes.== "America/Los_Angeles" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaLosAngeles
+            | val GHC.Classes.== "America/Louisville" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaLouisville
+            | val GHC.Classes.== "America/Lower_Princes" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaLowerPrinces
+            | val GHC.Classes.== "America/Maceio" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaMaceio
+            | val GHC.Classes.== "America/Managua" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaManagua
+            | val GHC.Classes.== "America/Manaus" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaManaus
+            | val GHC.Classes.== "America/Marigot" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaMarigot
+            | val GHC.Classes.== "America/Martinique" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaMartinique
+            | val GHC.Classes.== "America/Matamoros" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaMatamoros
+            | val GHC.Classes.== "America/Mazatlan" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaMazatlan
+            | val GHC.Classes.== "America/Mendoza" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaMendoza
+            | val GHC.Classes.== "America/Menominee" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaMenominee
+            | val GHC.Classes.== "America/Merida" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaMerida
+            | val GHC.Classes.== "America/Metlakatla" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaMetlakatla
+            | val GHC.Classes.== "America/Mexico_City" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaMexicoCity
+            | val GHC.Classes.== "America/Miquelon" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaMiquelon
+            | val GHC.Classes.== "America/Moncton" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaMoncton
+            | val GHC.Classes.== "America/Monterrey" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaMonterrey
+            | val GHC.Classes.== "America/Montevideo" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaMontevideo
+            | val GHC.Classes.== "America/Montreal" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaMontreal
+            | val GHC.Classes.== "America/Montserrat" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaMontserrat
+            | val GHC.Classes.== "America/Nassau" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaNassau
+            | val GHC.Classes.== "America/New_York" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaNewYork
+            | val GHC.Classes.== "America/Nipigon" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaNipigon
+            | val GHC.Classes.== "America/Nome" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaNome
+            | val GHC.Classes.== "America/Noronha" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaNoronha
+            | val GHC.Classes.== "America/North_Dakota/Beulah" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaNorthDakotaBeulah
+            | val GHC.Classes.== "America/North_Dakota/Center" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaNorthDakotaCenter
+            | val GHC.Classes.== "America/North_Dakota/New_Salem" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaNorthDakotaNewSalem
+            | val GHC.Classes.== "America/Ojinaga" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaOjinaga
+            | val GHC.Classes.== "America/Panama" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaPanama
+            | val GHC.Classes.== "America/Pangnirtung" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaPangnirtung
+            | val GHC.Classes.== "America/Paramaribo" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaParamaribo
+            | val GHC.Classes.== "America/Phoenix" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaPhoenix
+            | val GHC.Classes.== "America/Port-au-Prince" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaPortAuPrince
+            | val GHC.Classes.== "America/Port_of_Spain" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaPortOfSpain
+            | val GHC.Classes.== "America/Porto_Acre" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaPortoAcre
+            | val GHC.Classes.== "America/Porto_Velho" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaPortoVelho
+            | val GHC.Classes.== "America/Puerto_Rico" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaPuertoRico
+            | val GHC.Classes.== "America/Punta_Arenas" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaPuntaArenas
+            | val GHC.Classes.== "America/Rainy_River" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaRainyRiver
+            | val GHC.Classes.== "America/Rankin_Inlet" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaRankinInlet
+            | val GHC.Classes.== "America/Recife" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaRecife
+            | val GHC.Classes.== "America/Regina" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaRegina
+            | val GHC.Classes.== "America/Resolute" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaResolute
+            | val GHC.Classes.== "America/Rio_Branco" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaRioBranco
+            | val GHC.Classes.== "America/Rosario" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaRosario
+            | val GHC.Classes.== "America/Santa_Isabel" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaSantaIsabel
+            | val GHC.Classes.== "America/Santarem" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaSantarem
+            | val GHC.Classes.== "America/Santiago" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaSantiago
+            | val GHC.Classes.== "America/Santo_Domingo" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaSantoDomingo
+            | val GHC.Classes.== "America/Sao_Paulo" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaSaoPaulo
+            | val GHC.Classes.== "America/Scoresbysund" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaScoresbysund
+            | val GHC.Classes.== "America/Shiprock" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaShiprock
+            | val GHC.Classes.== "America/Sitka" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaSitka
+            | val GHC.Classes.== "America/St_Barthelemy" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaStBarthelemy
+            | val GHC.Classes.== "America/St_Johns" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaStJohns
+            | val GHC.Classes.== "America/St_Kitts" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaStKitts
+            | val GHC.Classes.== "America/St_Lucia" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaStLucia
+            | val GHC.Classes.== "America/St_Thomas" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaStThomas
+            | val GHC.Classes.== "America/St_Vincent" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaStVincent
+            | val GHC.Classes.== "America/Swift_Current" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaSwiftCurrent
+            | val GHC.Classes.== "America/Tegucigalpa" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaTegucigalpa
+            | val GHC.Classes.== "America/Thule" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaThule
+            | val GHC.Classes.== "America/Thunder_Bay" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaThunderBay
+            | val GHC.Classes.== "America/Tijuana" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaTijuana
+            | val GHC.Classes.== "America/Toronto" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaToronto
+            | val GHC.Classes.== "America/Tortola" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaTortola
+            | val GHC.Classes.== "America/Vancouver" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaVancouver
+            | val GHC.Classes.== "America/Virgin" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaVirgin
+            | val GHC.Classes.== "America/Whitehorse" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaWhitehorse
+            | val GHC.Classes.== "America/Winnipeg" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaWinnipeg
+            | val GHC.Classes.== "America/Yakutat" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaYakutat
+            | val GHC.Classes.== "America/Yellowknife" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaYellowknife
+            | val GHC.Classes.== "Antarctica/Casey" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAntarcticaCasey
+            | val GHC.Classes.== "Antarctica/Davis" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAntarcticaDavis
+            | val GHC.Classes.== "Antarctica/DumontDUrville" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAntarcticaDumontDUrville
+            | val GHC.Classes.== "Antarctica/Macquarie" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAntarcticaMacquarie
+            | val GHC.Classes.== "Antarctica/Mawson" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAntarcticaMawson
+            | val GHC.Classes.== "Antarctica/McMurdo" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAntarcticaMcMurdo
+            | val GHC.Classes.== "Antarctica/Palmer" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAntarcticaPalmer
+            | val GHC.Classes.== "Antarctica/Rothera" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAntarcticaRothera
+            | val GHC.Classes.== "Antarctica/South_Pole" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAntarcticaSouthPole
+            | val GHC.Classes.== "Antarctica/Syowa" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAntarcticaSyowa
+            | val GHC.Classes.== "Antarctica/Troll" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAntarcticaTroll
+            | val GHC.Classes.== "Antarctica/Vostok" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAntarcticaVostok
+            | val GHC.Classes.== "Arctic/Longyearbyen" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumArcticLongyearbyen
+            | val GHC.Classes.== "Asia/Aden" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaAden
+            | val GHC.Classes.== "Asia/Almaty" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaAlmaty
+            | val GHC.Classes.== "Asia/Amman" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaAmman
+            | val GHC.Classes.== "Asia/Anadyr" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaAnadyr
+            | val GHC.Classes.== "Asia/Aqtau" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaAqtau
+            | val GHC.Classes.== "Asia/Aqtobe" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaAqtobe
+            | val GHC.Classes.== "Asia/Ashgabat" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaAshgabat
+            | val GHC.Classes.== "Asia/Ashkhabad" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaAshkhabad
+            | val GHC.Classes.== "Asia/Atyrau" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaAtyrau
+            | val GHC.Classes.== "Asia/Baghdad" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaBaghdad
+            | val GHC.Classes.== "Asia/Bahrain" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaBahrain
+            | val GHC.Classes.== "Asia/Baku" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaBaku
+            | val GHC.Classes.== "Asia/Bangkok" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaBangkok
+            | val GHC.Classes.== "Asia/Barnaul" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaBarnaul
+            | val GHC.Classes.== "Asia/Beirut" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaBeirut
+            | val GHC.Classes.== "Asia/Bishkek" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaBishkek
+            | val GHC.Classes.== "Asia/Brunei" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaBrunei
+            | val GHC.Classes.== "Asia/Calcutta" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaCalcutta
+            | val GHC.Classes.== "Asia/Chita" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaChita
+            | val GHC.Classes.== "Asia/Choibalsan" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaChoibalsan
+            | val GHC.Classes.== "Asia/Chongqing" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaChongqing
+            | val GHC.Classes.== "Asia/Chungking" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaChungking
+            | val GHC.Classes.== "Asia/Colombo" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaColombo
+            | val GHC.Classes.== "Asia/Dacca" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaDacca
+            | val GHC.Classes.== "Asia/Damascus" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaDamascus
+            | val GHC.Classes.== "Asia/Dhaka" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaDhaka
+            | val GHC.Classes.== "Asia/Dili" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaDili
+            | val GHC.Classes.== "Asia/Dubai" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaDubai
+            | val GHC.Classes.== "Asia/Dushanbe" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaDushanbe
+            | val GHC.Classes.== "Asia/Famagusta" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaFamagusta
+            | val GHC.Classes.== "Asia/Gaza" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaGaza
+            | val GHC.Classes.== "Asia/Harbin" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaHarbin
+            | val GHC.Classes.== "Asia/Hebron" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaHebron
+            | val GHC.Classes.== "Asia/Ho_Chi_Minh" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaHoChiMinh
+            | val GHC.Classes.== "Asia/Hong_Kong" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaHongKong
+            | val GHC.Classes.== "Asia/Hovd" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaHovd
+            | val GHC.Classes.== "Asia/Irkutsk" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaIrkutsk
+            | val GHC.Classes.== "Asia/Istanbul" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaIstanbul
+            | val GHC.Classes.== "Asia/Jakarta" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaJakarta
+            | val GHC.Classes.== "Asia/Jayapura" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaJayapura
+            | val GHC.Classes.== "Asia/Jerusalem" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaJerusalem
+            | val GHC.Classes.== "Asia/Kabul" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaKabul
+            | val GHC.Classes.== "Asia/Kamchatka" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaKamchatka
+            | val GHC.Classes.== "Asia/Karachi" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaKarachi
+            | val GHC.Classes.== "Asia/Kashgar" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaKashgar
+            | val GHC.Classes.== "Asia/Kathmandu" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaKathmandu
+            | val GHC.Classes.== "Asia/Katmandu" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaKatmandu
+            | val GHC.Classes.== "Asia/Khandyga" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaKhandyga
+            | val GHC.Classes.== "Asia/Kolkata" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaKolkata
+            | val GHC.Classes.== "Asia/Krasnoyarsk" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaKrasnoyarsk
+            | val GHC.Classes.== "Asia/Kuala_Lumpur" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaKualaLumpur
+            | val GHC.Classes.== "Asia/Kuching" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaKuching
+            | val GHC.Classes.== "Asia/Kuwait" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaKuwait
+            | val GHC.Classes.== "Asia/Macao" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaMacao
+            | val GHC.Classes.== "Asia/Macau" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaMacau
+            | val GHC.Classes.== "Asia/Magadan" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaMagadan
+            | val GHC.Classes.== "Asia/Makassar" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaMakassar
+            | val GHC.Classes.== "Asia/Manila" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaManila
+            | val GHC.Classes.== "Asia/Muscat" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaMuscat
+            | val GHC.Classes.== "Asia/Nicosia" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaNicosia
+            | val GHC.Classes.== "Asia/Novokuznetsk" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaNovokuznetsk
+            | val GHC.Classes.== "Asia/Novosibirsk" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaNovosibirsk
+            | val GHC.Classes.== "Asia/Omsk" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaOmsk
+            | val GHC.Classes.== "Asia/Oral" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaOral
+            | val GHC.Classes.== "Asia/Phnom_Penh" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaPhnomPenh
+            | val GHC.Classes.== "Asia/Pontianak" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaPontianak
+            | val GHC.Classes.== "Asia/Pyongyang" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaPyongyang
+            | val GHC.Classes.== "Asia/Qatar" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaQatar
+            | val GHC.Classes.== "Asia/Qostanay" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaQostanay
+            | val GHC.Classes.== "Asia/Qyzylorda" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaQyzylorda
+            | val GHC.Classes.== "Asia/Rangoon" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaRangoon
+            | val GHC.Classes.== "Asia/Riyadh" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaRiyadh
+            | val GHC.Classes.== "Asia/Saigon" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaSaigon
+            | val GHC.Classes.== "Asia/Sakhalin" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaSakhalin
+            | val GHC.Classes.== "Asia/Samarkand" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaSamarkand
+            | val GHC.Classes.== "Asia/Seoul" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaSeoul
+            | val GHC.Classes.== "Asia/Shanghai" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaShanghai
+            | val GHC.Classes.== "Asia/Singapore" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaSingapore
+            | val GHC.Classes.== "Asia/Srednekolymsk" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaSrednekolymsk
+            | val GHC.Classes.== "Asia/Taipei" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaTaipei
+            | val GHC.Classes.== "Asia/Tashkent" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaTashkent
+            | val GHC.Classes.== "Asia/Tbilisi" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaTbilisi
+            | val GHC.Classes.== "Asia/Tehran" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaTehran
+            | val GHC.Classes.== "Asia/Tel_Aviv" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaTelAviv
+            | val GHC.Classes.== "Asia/Thimbu" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaThimbu
+            | val GHC.Classes.== "Asia/Thimphu" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaThimphu
+            | val GHC.Classes.== "Asia/Tokyo" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaTokyo
+            | val GHC.Classes.== "Asia/Tomsk" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaTomsk
+            | val GHC.Classes.== "Asia/Ujung_Pandang" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaUjungPandang
+            | val GHC.Classes.== "Asia/Ulaanbaatar" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaUlaanbaatar
+            | val GHC.Classes.== "Asia/Ulan_Bator" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaUlanBator
+            | val GHC.Classes.== "Asia/Urumqi" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaUrumqi
+            | val GHC.Classes.== "Asia/Ust-Nera" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaUstNera
+            | val GHC.Classes.== "Asia/Vientiane" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaVientiane
+            | val GHC.Classes.== "Asia/Vladivostok" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaVladivostok
+            | val GHC.Classes.== "Asia/Yakutsk" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaYakutsk
+            | val GHC.Classes.== "Asia/Yangon" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaYangon
+            | val GHC.Classes.== "Asia/Yekaterinburg" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaYekaterinburg
+            | val GHC.Classes.== "Asia/Yerevan" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAsiaYerevan
+            | val GHC.Classes.== "Atlantic/Azores" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAtlanticAzores
+            | val GHC.Classes.== "Atlantic/Bermuda" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAtlanticBermuda
+            | val GHC.Classes.== "Atlantic/Canary" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAtlanticCanary
+            | val GHC.Classes.== "Atlantic/Cape_Verde" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAtlanticCapeVerde
+            | val GHC.Classes.== "Atlantic/Faeroe" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAtlanticFaeroe
+            | val GHC.Classes.== "Atlantic/Faroe" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAtlanticFaroe
+            | val GHC.Classes.== "Atlantic/Jan_Mayen" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAtlanticJanMayen
+            | val GHC.Classes.== "Atlantic/Madeira" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAtlanticMadeira
+            | val GHC.Classes.== "Atlantic/Reykjavik" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAtlanticReykjavik
+            | val GHC.Classes.== "Atlantic/South_Georgia" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAtlanticSouthGeorgia
+            | val GHC.Classes.== "Atlantic/St_Helena" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAtlanticStHelena
+            | val GHC.Classes.== "Atlantic/Stanley" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAtlanticStanley
+            | val GHC.Classes.== "Australia/ACT" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAustraliaACT
+            | val GHC.Classes.== "Australia/Adelaide" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAustraliaAdelaide
+            | val GHC.Classes.== "Australia/Brisbane" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAustraliaBrisbane
+            | val GHC.Classes.== "Australia/Broken_Hill" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAustraliaBrokenHill
+            | val GHC.Classes.== "Australia/Canberra" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAustraliaCanberra
+            | val GHC.Classes.== "Australia/Currie" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAustraliaCurrie
+            | val GHC.Classes.== "Australia/Darwin" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAustraliaDarwin
+            | val GHC.Classes.== "Australia/Eucla" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAustraliaEucla
+            | val GHC.Classes.== "Australia/Hobart" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAustraliaHobart
+            | val GHC.Classes.== "Australia/LHI" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAustraliaLHI
+            | val GHC.Classes.== "Australia/Lindeman" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAustraliaLindeman
+            | val GHC.Classes.== "Australia/Lord_Howe" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAustraliaLordHowe
+            | val GHC.Classes.== "Australia/Melbourne" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAustraliaMelbourne
+            | val GHC.Classes.== "Australia/NSW" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAustraliaNSW
+            | val GHC.Classes.== "Australia/North" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAustraliaNorth
+            | val GHC.Classes.== "Australia/Perth" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAustraliaPerth
+            | val GHC.Classes.== "Australia/Queensland" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAustraliaQueensland
+            | val GHC.Classes.== "Australia/South" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAustraliaSouth
+            | val GHC.Classes.== "Australia/Sydney" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAustraliaSydney
+            | val GHC.Classes.== "Australia/Tasmania" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAustraliaTasmania
+            | val GHC.Classes.== "Australia/Victoria" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAustraliaVictoria
+            | val GHC.Classes.== "Australia/West" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAustraliaWest
+            | val GHC.Classes.== "Australia/Yancowinna" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAustraliaYancowinna
+            | val GHC.Classes.== "Brazil/Acre" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumBrazilAcre
+            | val GHC.Classes.== "Brazil/DeNoronha" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumBrazilDeNoronha
+            | val GHC.Classes.== "Brazil/East" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumBrazilEast
+            | val GHC.Classes.== "Brazil/West" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumBrazilWest
+            | val GHC.Classes.== "CET" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumCET
+            | val GHC.Classes.== "CST6CDT" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumCST6CDT
+            | val GHC.Classes.== "Canada/Atlantic" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumCanadaAtlantic
+            | val GHC.Classes.== "Canada/Central" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumCanadaCentral
+            | val GHC.Classes.== "Canada/Eastern" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumCanadaEastern
+            | val GHC.Classes.== "Canada/Mountain" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumCanadaMountain
+            | val GHC.Classes.== "Canada/Newfoundland" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumCanadaNewfoundland
+            | val GHC.Classes.== "Canada/Pacific" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumCanadaPacific
+            | val GHC.Classes.== "Canada/Saskatchewan" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumCanadaSaskatchewan
+            | val GHC.Classes.== "Canada/Yukon" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumCanadaYukon
+            | val GHC.Classes.== "Chile/Continental" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumChileContinental
+            | val GHC.Classes.== "Chile/EasterIsland" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumChileEasterIsland
+            | val GHC.Classes.== "Cuba" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumCuba
+            | val GHC.Classes.== "EET" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumEET
+            | val GHC.Classes.== "EST" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumEST
+            | val GHC.Classes.== "EST5EDT" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumEST5EDT
+            | val GHC.Classes.== "Egypt" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumEgypt
+            | val GHC.Classes.== "Eire" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumEire
+            | val GHC.Classes.== "Etc/GMT" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumEtcGMT
+            | val GHC.Classes.== "Etc/GMT+0" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumEtcGMTPlus0
+            | val GHC.Classes.== "Etc/GMT+1" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumEtcGMTPlus1
+            | val GHC.Classes.== "Etc/GMT+10" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumEtcGMTPlus10
+            | val GHC.Classes.== "Etc/GMT+11" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumEtcGMTPlus11
+            | val GHC.Classes.== "Etc/GMT+12" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumEtcGMTPlus12
+            | val GHC.Classes.== "Etc/GMT+2" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumEtcGMTPlus2
+            | val GHC.Classes.== "Etc/GMT+3" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumEtcGMTPlus3
+            | val GHC.Classes.== "Etc/GMT+4" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumEtcGMTPlus4
+            | val GHC.Classes.== "Etc/GMT+5" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumEtcGMTPlus5
+            | val GHC.Classes.== "Etc/GMT+6" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumEtcGMTPlus6
+            | val GHC.Classes.== "Etc/GMT+7" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumEtcGMTPlus7
+            | val GHC.Classes.== "Etc/GMT+8" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumEtcGMTPlus8
+            | val GHC.Classes.== "Etc/GMT+9" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumEtcGMTPlus9
+            | val GHC.Classes.== "Etc/GMT-0" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumEtcGMT_0
+            | val GHC.Classes.== "Etc/GMT-1" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumEtcGMT_1
+            | val GHC.Classes.== "Etc/GMT-10" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumEtcGMT_10
+            | val GHC.Classes.== "Etc/GMT-11" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumEtcGMT_11
+            | val GHC.Classes.== "Etc/GMT-12" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumEtcGMT_12
+            | val GHC.Classes.== "Etc/GMT-13" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumEtcGMT_13
+            | val GHC.Classes.== "Etc/GMT-14" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumEtcGMT_14
+            | val GHC.Classes.== "Etc/GMT-2" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumEtcGMT_2
+            | val GHC.Classes.== "Etc/GMT-3" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumEtcGMT_3
+            | val GHC.Classes.== "Etc/GMT-4" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumEtcGMT_4
+            | val GHC.Classes.== "Etc/GMT-5" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumEtcGMT_5
+            | val GHC.Classes.== "Etc/GMT-6" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumEtcGMT_6
+            | val GHC.Classes.== "Etc/GMT-7" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumEtcGMT_7
+            | val GHC.Classes.== "Etc/GMT-8" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumEtcGMT_8
+            | val GHC.Classes.== "Etc/GMT-9" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumEtcGMT_9
+            | val GHC.Classes.== "Etc/GMT0" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumEtcGMT0
+            | val GHC.Classes.== "Etc/Greenwich" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumEtcGreenwich
+            | val GHC.Classes.== "Etc/UCT" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumEtcUCT
+            | val GHC.Classes.== "Etc/UTC" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumEtcUTC
+            | val GHC.Classes.== "Etc/Universal" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumEtcUniversal
+            | val GHC.Classes.== "Etc/Zulu" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumEtcZulu
+            | val GHC.Classes.== "Europe/Amsterdam" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumEuropeAmsterdam
+            | val GHC.Classes.== "Europe/Andorra" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumEuropeAndorra
+            | val GHC.Classes.== "Europe/Astrakhan" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumEuropeAstrakhan
+            | val GHC.Classes.== "Europe/Athens" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumEuropeAthens
+            | val GHC.Classes.== "Europe/Belfast" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumEuropeBelfast
+            | val GHC.Classes.== "Europe/Belgrade" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumEuropeBelgrade
+            | val GHC.Classes.== "Europe/Berlin" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumEuropeBerlin
+            | val GHC.Classes.== "Europe/Bratislava" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumEuropeBratislava
+            | val GHC.Classes.== "Europe/Brussels" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumEuropeBrussels
+            | val GHC.Classes.== "Europe/Bucharest" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumEuropeBucharest
+            | val GHC.Classes.== "Europe/Budapest" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumEuropeBudapest
+            | val GHC.Classes.== "Europe/Busingen" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumEuropeBusingen
+            | val GHC.Classes.== "Europe/Chisinau" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumEuropeChisinau
+            | val GHC.Classes.== "Europe/Copenhagen" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumEuropeCopenhagen
+            | val GHC.Classes.== "Europe/Dublin" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumEuropeDublin
+            | val GHC.Classes.== "Europe/Gibraltar" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumEuropeGibraltar
+            | val GHC.Classes.== "Europe/Guernsey" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumEuropeGuernsey
+            | val GHC.Classes.== "Europe/Helsinki" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumEuropeHelsinki
+            | val GHC.Classes.== "Europe/Isle_of_Man" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumEuropeIsleOfMan
+            | val GHC.Classes.== "Europe/Istanbul" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumEuropeIstanbul
+            | val GHC.Classes.== "Europe/Jersey" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumEuropeJersey
+            | val GHC.Classes.== "Europe/Kaliningrad" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumEuropeKaliningrad
+            | val GHC.Classes.== "Europe/Kiev" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumEuropeKiev
+            | val GHC.Classes.== "Europe/Kirov" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumEuropeKirov
+            | val GHC.Classes.== "Europe/Lisbon" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumEuropeLisbon
+            | val GHC.Classes.== "Europe/Ljubljana" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumEuropeLjubljana
+            | val GHC.Classes.== "Europe/London" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumEuropeLondon
+            | val GHC.Classes.== "Europe/Luxembourg" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumEuropeLuxembourg
+            | val GHC.Classes.== "Europe/Madrid" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumEuropeMadrid
+            | val GHC.Classes.== "Europe/Malta" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumEuropeMalta
+            | val GHC.Classes.== "Europe/Mariehamn" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumEuropeMariehamn
+            | val GHC.Classes.== "Europe/Minsk" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumEuropeMinsk
+            | val GHC.Classes.== "Europe/Monaco" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumEuropeMonaco
+            | val GHC.Classes.== "Europe/Moscow" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumEuropeMoscow
+            | val GHC.Classes.== "Europe/Nicosia" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumEuropeNicosia
+            | val GHC.Classes.== "Europe/Oslo" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumEuropeOslo
+            | val GHC.Classes.== "Europe/Paris" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumEuropeParis
+            | val GHC.Classes.== "Europe/Podgorica" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumEuropePodgorica
+            | val GHC.Classes.== "Europe/Prague" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumEuropePrague
+            | val GHC.Classes.== "Europe/Riga" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumEuropeRiga
+            | val GHC.Classes.== "Europe/Rome" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumEuropeRome
+            | val GHC.Classes.== "Europe/Samara" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumEuropeSamara
+            | val GHC.Classes.== "Europe/San_Marino" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumEuropeSanMarino
+            | val GHC.Classes.== "Europe/Sarajevo" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumEuropeSarajevo
+            | val GHC.Classes.== "Europe/Saratov" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumEuropeSaratov
+            | val GHC.Classes.== "Europe/Simferopol" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumEuropeSimferopol
+            | val GHC.Classes.== "Europe/Skopje" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumEuropeSkopje
+            | val GHC.Classes.== "Europe/Sofia" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumEuropeSofia
+            | val GHC.Classes.== "Europe/Stockholm" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumEuropeStockholm
+            | val GHC.Classes.== "Europe/Tallinn" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumEuropeTallinn
+            | val GHC.Classes.== "Europe/Tirane" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumEuropeTirane
+            | val GHC.Classes.== "Europe/Tiraspol" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumEuropeTiraspol
+            | val GHC.Classes.== "Europe/Ulyanovsk" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumEuropeUlyanovsk
+            | val GHC.Classes.== "Europe/Uzhgorod" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumEuropeUzhgorod
+            | val GHC.Classes.== "Europe/Vaduz" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumEuropeVaduz
+            | val GHC.Classes.== "Europe/Vatican" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumEuropeVatican
+            | val GHC.Classes.== "Europe/Vienna" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumEuropeVienna
+            | val GHC.Classes.== "Europe/Vilnius" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumEuropeVilnius
+            | val GHC.Classes.== "Europe/Volgograd" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumEuropeVolgograd
+            | val GHC.Classes.== "Europe/Warsaw" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumEuropeWarsaw
+            | val GHC.Classes.== "Europe/Zagreb" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumEuropeZagreb
+            | val GHC.Classes.== "Europe/Zaporozhye" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumEuropeZaporozhye
+            | val GHC.Classes.== "Europe/Zurich" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumEuropeZurich
+            | val GHC.Classes.== "Factory" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumFactory
+            | val GHC.Classes.== "GB" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumGB
+            | val GHC.Classes.== "GB-Eire" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumGBEire
+            | val GHC.Classes.== "GMT" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumGMT
+            | val GHC.Classes.== "GMT+0" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumGMTPlus0
+            | val GHC.Classes.== "GMT-0" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumGMT_0
+            | val GHC.Classes.== "GMT0" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumGMT0
+            | val GHC.Classes.== "Greenwich" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumGreenwich
+            | val GHC.Classes.== "HST" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumHST
+            | val GHC.Classes.== "Hongkong" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumHongkong
+            | val GHC.Classes.== "Iceland" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumIceland
+            | val GHC.Classes.== "Indian/Antananarivo" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumIndianAntananarivo
+            | val GHC.Classes.== "Indian/Chagos" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumIndianChagos
+            | val GHC.Classes.== "Indian/Christmas" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumIndianChristmas
+            | val GHC.Classes.== "Indian/Cocos" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumIndianCocos
+            | val GHC.Classes.== "Indian/Comoro" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumIndianComoro
+            | val GHC.Classes.== "Indian/Kerguelen" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumIndianKerguelen
+            | val GHC.Classes.== "Indian/Mahe" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumIndianMahe
+            | val GHC.Classes.== "Indian/Maldives" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumIndianMaldives
+            | val GHC.Classes.== "Indian/Mauritius" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumIndianMauritius
+            | val GHC.Classes.== "Indian/Mayotte" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumIndianMayotte
+            | val GHC.Classes.== "Indian/Reunion" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumIndianReunion
+            | val GHC.Classes.== "Iran" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumIran
+            | val GHC.Classes.== "Israel" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumIsrael
+            | val GHC.Classes.== "Jamaica" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumJamaica
+            | val GHC.Classes.== "Japan" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumJapan
+            | val GHC.Classes.== "Kwajalein" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumKwajalein
+            | val GHC.Classes.== "Libya" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumLibya
+            | val GHC.Classes.== "MET" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumMET
+            | val GHC.Classes.== "MST" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumMST
+            | val GHC.Classes.== "MST7MDT" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumMST7MDT
+            | val GHC.Classes.== "Mexico/BajaNorte" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumMexicoBajaNorte
+            | val GHC.Classes.== "Mexico/BajaSur" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumMexicoBajaSur
+            | val GHC.Classes.== "Mexico/General" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumMexicoGeneral
+            | val GHC.Classes.== "NZ" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumNZ
+            | val GHC.Classes.== "NZ-CHAT" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumNZCHAT
+            | val GHC.Classes.== "Navajo" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumNavajo
+            | val GHC.Classes.== "PRC" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumPRC
+            | val GHC.Classes.== "PST8PDT" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumPST8PDT
+            | val GHC.Classes.== "Pacific/Apia" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumPacificApia
+            | val GHC.Classes.== "Pacific/Auckland" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumPacificAuckland
+            | val GHC.Classes.== "Pacific/Bougainville" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumPacificBougainville
+            | val GHC.Classes.== "Pacific/Chatham" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumPacificChatham
+            | val GHC.Classes.== "Pacific/Chuuk" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumPacificChuuk
+            | val GHC.Classes.== "Pacific/Easter" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumPacificEaster
+            | val GHC.Classes.== "Pacific/Efate" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumPacificEfate
+            | val GHC.Classes.== "Pacific/Enderbury" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumPacificEnderbury
+            | val GHC.Classes.== "Pacific/Fakaofo" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumPacificFakaofo
+            | val GHC.Classes.== "Pacific/Fiji" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumPacificFiji
+            | val GHC.Classes.== "Pacific/Funafuti" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumPacificFunafuti
+            | val GHC.Classes.== "Pacific/Galapagos" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumPacificGalapagos
+            | val GHC.Classes.== "Pacific/Gambier" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumPacificGambier
+            | val GHC.Classes.== "Pacific/Guadalcanal" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumPacificGuadalcanal
+            | val GHC.Classes.== "Pacific/Guam" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumPacificGuam
+            | val GHC.Classes.== "Pacific/Honolulu" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumPacificHonolulu
+            | val GHC.Classes.== "Pacific/Johnston" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumPacificJohnston
+            | val GHC.Classes.== "Pacific/Kiritimati" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumPacificKiritimati
+            | val GHC.Classes.== "Pacific/Kosrae" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumPacificKosrae
+            | val GHC.Classes.== "Pacific/Kwajalein" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumPacificKwajalein
+            | val GHC.Classes.== "Pacific/Majuro" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumPacificMajuro
+            | val GHC.Classes.== "Pacific/Marquesas" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumPacificMarquesas
+            | val GHC.Classes.== "Pacific/Midway" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumPacificMidway
+            | val GHC.Classes.== "Pacific/Nauru" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumPacificNauru
+            | val GHC.Classes.== "Pacific/Niue" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumPacificNiue
+            | val GHC.Classes.== "Pacific/Norfolk" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumPacificNorfolk
+            | val GHC.Classes.== "Pacific/Noumea" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumPacificNoumea
+            | val GHC.Classes.== "Pacific/Pago_Pago" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumPacificPagoPago
+            | val GHC.Classes.== "Pacific/Palau" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumPacificPalau
+            | val GHC.Classes.== "Pacific/Pitcairn" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumPacificPitcairn
+            | val GHC.Classes.== "Pacific/Pohnpei" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumPacificPohnpei
+            | val GHC.Classes.== "Pacific/Ponape" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumPacificPonape
+            | val GHC.Classes.== "Pacific/Port_Moresby" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumPacificPortMoresby
+            | val GHC.Classes.== "Pacific/Rarotonga" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumPacificRarotonga
+            | val GHC.Classes.== "Pacific/Saipan" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumPacificSaipan
+            | val GHC.Classes.== "Pacific/Samoa" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumPacificSamoa
+            | val GHC.Classes.== "Pacific/Tahiti" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumPacificTahiti
+            | val GHC.Classes.== "Pacific/Tarawa" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumPacificTarawa
+            | val GHC.Classes.== "Pacific/Tongatapu" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumPacificTongatapu
+            | val GHC.Classes.== "Pacific/Truk" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumPacificTruk
+            | val GHC.Classes.== "Pacific/Wake" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumPacificWake
+            | val GHC.Classes.== "Pacific/Wallis" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumPacificWallis
+            | val GHC.Classes.== "Pacific/Yap" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumPacificYap
+            | val GHC.Classes.== "Poland" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumPoland
+            | val GHC.Classes.== "Portugal" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumPortugal
+            | val GHC.Classes.== "ROC" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumROC
+            | val GHC.Classes.== "ROK" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumROK
+            | val GHC.Classes.== "Singapore" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumSingapore
+            | val GHC.Classes.== "Turkey" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumTurkey
+            | val GHC.Classes.== "UCT" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumUCT
+            | val GHC.Classes.== "US/Alaska" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumUSAlaska
+            | val GHC.Classes.== "US/Aleutian" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumUSAleutian
+            | val GHC.Classes.== "US/Arizona" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumUSArizona
+            | val GHC.Classes.== "US/Central" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumUSCentral
+            | val GHC.Classes.== "US/East-Indiana" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumUSEastIndiana
+            | val GHC.Classes.== "US/Eastern" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumUSEastern
+            | val GHC.Classes.== "US/Hawaii" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumUSHawaii
+            | val GHC.Classes.== "US/Indiana-Starke" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumUSIndianaStarke
+            | val GHC.Classes.== "US/Michigan" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumUSMichigan
+            | val GHC.Classes.== "US/Mountain" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumUSMountain
+            | val GHC.Classes.== "US/Pacific" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumUSPacific
+            | val GHC.Classes.== "US/Pacific-New" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumUSPacificNew
+            | val GHC.Classes.== "US/Samoa" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumUSSamoa
+            | val GHC.Classes.== "UTC" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumUTC
+            | val GHC.Classes.== "Universal" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumUniversal
+            | val GHC.Classes.== "W-SU" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumWSU
+            | val GHC.Classes.== "WET" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumWET
+            | val GHC.Classes.== "Zulu" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumZulu
+            | GHC.Base.otherwise -> PostReportingReportRunsRequestBodyParameters'Timezone'Other val
       )
 
 -- | Represents a response of the operation 'postReportingReportRuns'.

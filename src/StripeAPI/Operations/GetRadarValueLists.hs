@@ -10,6 +10,7 @@ module StripeAPI.Operations.GetRadarValueLists where
 import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -88,7 +89,7 @@ getRadarValueLists parameters =
         ]
     )
 
--- | Defines the data type for the schema getRadarValueListsParameters
+-- | Defines the object schema located at @paths.\/v1\/radar\/value_lists.GET.parameters@ in the specification.
 data GetRadarValueListsParameters
   = GetRadarValueListsParameters
       { -- | queryAlias: Represents the parameter named \'alias\'
@@ -140,13 +141,26 @@ data GetRadarValueListsParameters
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetRadarValueListsParameters where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "queryAlias" (getRadarValueListsParametersQueryAlias obj) : (Data.Aeson..=) "queryContains" (getRadarValueListsParametersQueryContains obj) : (Data.Aeson..=) "queryCreated" (getRadarValueListsParametersQueryCreated obj) : (Data.Aeson..=) "queryEnding_before" (getRadarValueListsParametersQueryEndingBefore obj) : (Data.Aeson..=) "queryExpand" (getRadarValueListsParametersQueryExpand obj) : (Data.Aeson..=) "queryLimit" (getRadarValueListsParametersQueryLimit obj) : (Data.Aeson..=) "queryStarting_after" (getRadarValueListsParametersQueryStartingAfter obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "queryAlias" (getRadarValueListsParametersQueryAlias obj) GHC.Base.<> ((Data.Aeson..=) "queryContains" (getRadarValueListsParametersQueryContains obj) GHC.Base.<> ((Data.Aeson..=) "queryCreated" (getRadarValueListsParametersQueryCreated obj) GHC.Base.<> ((Data.Aeson..=) "queryEnding_before" (getRadarValueListsParametersQueryEndingBefore obj) GHC.Base.<> ((Data.Aeson..=) "queryExpand" (getRadarValueListsParametersQueryExpand obj) GHC.Base.<> ((Data.Aeson..=) "queryLimit" (getRadarValueListsParametersQueryLimit obj) GHC.Base.<> (Data.Aeson..=) "queryStarting_after" (getRadarValueListsParametersQueryStartingAfter obj)))))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("queryAlias" Data.Aeson.Types.ToJSON..= getRadarValueListsParametersQueryAlias obj : "queryContains" Data.Aeson.Types.ToJSON..= getRadarValueListsParametersQueryContains obj : "queryCreated" Data.Aeson.Types.ToJSON..= getRadarValueListsParametersQueryCreated obj : "queryEnding_before" Data.Aeson.Types.ToJSON..= getRadarValueListsParametersQueryEndingBefore obj : "queryExpand" Data.Aeson.Types.ToJSON..= getRadarValueListsParametersQueryExpand obj : "queryLimit" Data.Aeson.Types.ToJSON..= getRadarValueListsParametersQueryLimit obj : "queryStarting_after" Data.Aeson.Types.ToJSON..= getRadarValueListsParametersQueryStartingAfter obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("queryAlias" Data.Aeson.Types.ToJSON..= getRadarValueListsParametersQueryAlias obj) GHC.Base.<> (("queryContains" Data.Aeson.Types.ToJSON..= getRadarValueListsParametersQueryContains obj) GHC.Base.<> (("queryCreated" Data.Aeson.Types.ToJSON..= getRadarValueListsParametersQueryCreated obj) GHC.Base.<> (("queryEnding_before" Data.Aeson.Types.ToJSON..= getRadarValueListsParametersQueryEndingBefore obj) GHC.Base.<> (("queryExpand" Data.Aeson.Types.ToJSON..= getRadarValueListsParametersQueryExpand obj) GHC.Base.<> (("queryLimit" Data.Aeson.Types.ToJSON..= getRadarValueListsParametersQueryLimit obj) GHC.Base.<> ("queryStarting_after" Data.Aeson.Types.ToJSON..= getRadarValueListsParametersQueryStartingAfter obj)))))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetRadarValueListsParameters where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "GetRadarValueListsParameters" (\obj -> ((((((GHC.Base.pure GetRadarValueListsParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryAlias")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryContains")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryCreated")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryEnding_before")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryExpand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryLimit")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryStarting_after"))
 
--- | Defines the data type for the schema getRadarValueListsParametersQueryCreated\'OneOf2
+-- | Create a new 'GetRadarValueListsParameters' with all required fields.
+mkGetRadarValueListsParameters :: GetRadarValueListsParameters
+mkGetRadarValueListsParameters =
+  GetRadarValueListsParameters
+    { getRadarValueListsParametersQueryAlias = GHC.Maybe.Nothing,
+      getRadarValueListsParametersQueryContains = GHC.Maybe.Nothing,
+      getRadarValueListsParametersQueryCreated = GHC.Maybe.Nothing,
+      getRadarValueListsParametersQueryEndingBefore = GHC.Maybe.Nothing,
+      getRadarValueListsParametersQueryExpand = GHC.Maybe.Nothing,
+      getRadarValueListsParametersQueryLimit = GHC.Maybe.Nothing,
+      getRadarValueListsParametersQueryStartingAfter = GHC.Maybe.Nothing
+    }
+
+-- | Defines the object schema located at @paths.\/v1\/radar\/value_lists.GET.parameters.properties.queryCreated.anyOf@ in the specification.
 data GetRadarValueListsParametersQueryCreated'OneOf2
   = GetRadarValueListsParametersQueryCreated'OneOf2
       { -- | gt
@@ -164,13 +178,23 @@ data GetRadarValueListsParametersQueryCreated'OneOf2
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetRadarValueListsParametersQueryCreated'OneOf2 where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "gt" (getRadarValueListsParametersQueryCreated'OneOf2Gt obj) : (Data.Aeson..=) "gte" (getRadarValueListsParametersQueryCreated'OneOf2Gte obj) : (Data.Aeson..=) "lt" (getRadarValueListsParametersQueryCreated'OneOf2Lt obj) : (Data.Aeson..=) "lte" (getRadarValueListsParametersQueryCreated'OneOf2Lte obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "gt" (getRadarValueListsParametersQueryCreated'OneOf2Gt obj) GHC.Base.<> ((Data.Aeson..=) "gte" (getRadarValueListsParametersQueryCreated'OneOf2Gte obj) GHC.Base.<> ((Data.Aeson..=) "lt" (getRadarValueListsParametersQueryCreated'OneOf2Lt obj) GHC.Base.<> (Data.Aeson..=) "lte" (getRadarValueListsParametersQueryCreated'OneOf2Lte obj))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("gt" Data.Aeson.Types.ToJSON..= getRadarValueListsParametersQueryCreated'OneOf2Gt obj : "gte" Data.Aeson.Types.ToJSON..= getRadarValueListsParametersQueryCreated'OneOf2Gte obj : "lt" Data.Aeson.Types.ToJSON..= getRadarValueListsParametersQueryCreated'OneOf2Lt obj : "lte" Data.Aeson.Types.ToJSON..= getRadarValueListsParametersQueryCreated'OneOf2Lte obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("gt" Data.Aeson.Types.ToJSON..= getRadarValueListsParametersQueryCreated'OneOf2Gt obj) GHC.Base.<> (("gte" Data.Aeson.Types.ToJSON..= getRadarValueListsParametersQueryCreated'OneOf2Gte obj) GHC.Base.<> (("lt" Data.Aeson.Types.ToJSON..= getRadarValueListsParametersQueryCreated'OneOf2Lt obj) GHC.Base.<> ("lte" Data.Aeson.Types.ToJSON..= getRadarValueListsParametersQueryCreated'OneOf2Lte obj))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetRadarValueListsParametersQueryCreated'OneOf2 where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "GetRadarValueListsParametersQueryCreated'OneOf2" (\obj -> (((GHC.Base.pure GetRadarValueListsParametersQueryCreated'OneOf2 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "gt")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "gte")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "lt")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "lte"))
 
--- | Define the one-of schema getRadarValueListsParametersQueryCreated\'
+-- | Create a new 'GetRadarValueListsParametersQueryCreated'OneOf2' with all required fields.
+mkGetRadarValueListsParametersQueryCreated'OneOf2 :: GetRadarValueListsParametersQueryCreated'OneOf2
+mkGetRadarValueListsParametersQueryCreated'OneOf2 =
+  GetRadarValueListsParametersQueryCreated'OneOf2
+    { getRadarValueListsParametersQueryCreated'OneOf2Gt = GHC.Maybe.Nothing,
+      getRadarValueListsParametersQueryCreated'OneOf2Gte = GHC.Maybe.Nothing,
+      getRadarValueListsParametersQueryCreated'OneOf2Lt = GHC.Maybe.Nothing,
+      getRadarValueListsParametersQueryCreated'OneOf2Lte = GHC.Maybe.Nothing
+    }
+
+-- | Defines the oneOf schema located at @paths.\/v1\/radar\/value_lists.GET.parameters.properties.queryCreated.anyOf@ in the specification.
 --
 -- Represents the parameter named \'created\'
 data GetRadarValueListsParametersQueryCreated'Variants
@@ -183,11 +207,9 @@ instance Data.Aeson.Types.ToJSON.ToJSON GetRadarValueListsParametersQueryCreated
   toJSON (GetRadarValueListsParametersQueryCreated'GetRadarValueListsParametersQueryCreated'OneOf2 a) = Data.Aeson.Types.ToJSON.toJSON a
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetRadarValueListsParametersQueryCreated'Variants where
-  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
-    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ GetRadarValueListsParametersQueryCreated'Int a
-    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ GetRadarValueListsParametersQueryCreated'GetRadarValueListsParametersQueryCreated'OneOf2 a
-      Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+  parseJSON val = case (GetRadarValueListsParametersQueryCreated'Int Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((GetRadarValueListsParametersQueryCreated'GetRadarValueListsParametersQueryCreated'OneOf2 Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched") of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+    Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
 -- | Represents a response of the operation 'getRadarValueLists'.
 --
@@ -201,15 +223,13 @@ data GetRadarValueListsResponse
     GetRadarValueListsResponseDefault Error
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
--- | Defines the data type for the schema GetRadarValueListsResponseBody200
+-- | Defines the object schema located at @paths.\/v1\/radar\/value_lists.GET.responses.200.content.application\/json.schema@ in the specification.
 data GetRadarValueListsResponseBody200
   = GetRadarValueListsResponseBody200
       { -- | data
         getRadarValueListsResponseBody200Data :: ([Radar'valueList]),
         -- | has_more: True if this list has another page of items after this one that can be fetched.
         getRadarValueListsResponseBody200HasMore :: GHC.Types.Bool,
-        -- | object: String representing the object\'s type. Objects of the same type share the same value. Always has the value \`list\`.
-        getRadarValueListsResponseBody200Object :: GetRadarValueListsResponseBody200Object',
         -- | url: The URL where this list can be accessed.
         --
         -- Constraints:
@@ -224,29 +244,24 @@ data GetRadarValueListsResponseBody200
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetRadarValueListsResponseBody200 where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "data" (getRadarValueListsResponseBody200Data obj) : (Data.Aeson..=) "has_more" (getRadarValueListsResponseBody200HasMore obj) : (Data.Aeson..=) "object" (getRadarValueListsResponseBody200Object obj) : (Data.Aeson..=) "url" (getRadarValueListsResponseBody200Url obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "data" (getRadarValueListsResponseBody200Data obj) GHC.Base.<> ((Data.Aeson..=) "has_more" (getRadarValueListsResponseBody200HasMore obj) GHC.Base.<> ((Data.Aeson..=) "object" (getRadarValueListsResponseBody200Object obj) GHC.Base.<> (Data.Aeson..=) "url" (getRadarValueListsResponseBody200Url obj))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("data" Data.Aeson.Types.ToJSON..= getRadarValueListsResponseBody200Data obj : "has_more" Data.Aeson.Types.ToJSON..= getRadarValueListsResponseBody200HasMore obj : "url" Data.Aeson.Types.ToJSON..= getRadarValueListsResponseBody200Url obj : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "list" : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("data" Data.Aeson.Types.ToJSON..= getRadarValueListsResponseBody200Data obj) GHC.Base.<> (("has_more" Data.Aeson.Types.ToJSON..= getRadarValueListsResponseBody200HasMore obj) GHC.Base.<> (("url" Data.Aeson.Types.ToJSON..= getRadarValueListsResponseBody200Url obj) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "list"))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetRadarValueListsResponseBody200 where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetRadarValueListsResponseBody200" (\obj -> (((GHC.Base.pure GetRadarValueListsResponseBody200 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "has_more")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "object")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "url"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetRadarValueListsResponseBody200" (\obj -> ((GHC.Base.pure GetRadarValueListsResponseBody200 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "has_more")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "url"))
 
--- | Defines the enum schema GetRadarValueListsResponseBody200Object\'
---
--- String representing the object\'s type. Objects of the same type share the same value. Always has the value \`list\`.
-data GetRadarValueListsResponseBody200Object'
-  = GetRadarValueListsResponseBody200Object'EnumOther Data.Aeson.Types.Internal.Value
-  | GetRadarValueListsResponseBody200Object'EnumTyped Data.Text.Internal.Text
-  | GetRadarValueListsResponseBody200Object'EnumStringList
-  deriving (GHC.Show.Show, GHC.Classes.Eq)
-
-instance Data.Aeson.Types.ToJSON.ToJSON GetRadarValueListsResponseBody200Object' where
-  toJSON (GetRadarValueListsResponseBody200Object'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (GetRadarValueListsResponseBody200Object'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (GetRadarValueListsResponseBody200Object'EnumStringList) = "list"
-
-instance Data.Aeson.Types.FromJSON.FromJSON GetRadarValueListsResponseBody200Object' where
-  parseJSON val =
-    GHC.Base.pure
-      ( if  | val GHC.Classes.== "list" -> GetRadarValueListsResponseBody200Object'EnumStringList
-            | GHC.Base.otherwise -> GetRadarValueListsResponseBody200Object'EnumOther val
-      )
+-- | Create a new 'GetRadarValueListsResponseBody200' with all required fields.
+mkGetRadarValueListsResponseBody200 ::
+  -- | 'getRadarValueListsResponseBody200Data'
+  [Radar'valueList] ->
+  -- | 'getRadarValueListsResponseBody200HasMore'
+  GHC.Types.Bool ->
+  -- | 'getRadarValueListsResponseBody200Url'
+  Data.Text.Internal.Text ->
+  GetRadarValueListsResponseBody200
+mkGetRadarValueListsResponseBody200 getRadarValueListsResponseBody200Data getRadarValueListsResponseBody200HasMore getRadarValueListsResponseBody200Url =
+  GetRadarValueListsResponseBody200
+    { getRadarValueListsResponseBody200Data = getRadarValueListsResponseBody200Data,
+      getRadarValueListsResponseBody200HasMore = getRadarValueListsResponseBody200HasMore,
+      getRadarValueListsResponseBody200Url = getRadarValueListsResponseBody200Url
+    }

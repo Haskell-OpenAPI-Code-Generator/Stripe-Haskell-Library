@@ -8,6 +8,7 @@ module StripeAPI.Types.SourceTransactionChfCreditTransferData where
 
 import qualified Control.Monad.Fail
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -30,7 +31,7 @@ import StripeAPI.TypeAlias
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
--- | Defines the data type for the schema source_transaction_chf_credit_transfer_data
+-- | Defines the object schema located at @components.schemas.source_transaction_chf_credit_transfer_data@ in the specification.
 data SourceTransactionChfCreditTransferData
   = SourceTransactionChfCreditTransferData
       { -- | reference: Reference associated with the transfer.
@@ -70,8 +71,19 @@ data SourceTransactionChfCreditTransferData
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON SourceTransactionChfCreditTransferData where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "reference" (sourceTransactionChfCreditTransferDataReference obj) : (Data.Aeson..=) "sender_address_country" (sourceTransactionChfCreditTransferDataSenderAddressCountry obj) : (Data.Aeson..=) "sender_address_line1" (sourceTransactionChfCreditTransferDataSenderAddressLine1 obj) : (Data.Aeson..=) "sender_iban" (sourceTransactionChfCreditTransferDataSenderIban obj) : (Data.Aeson..=) "sender_name" (sourceTransactionChfCreditTransferDataSenderName obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "reference" (sourceTransactionChfCreditTransferDataReference obj) GHC.Base.<> ((Data.Aeson..=) "sender_address_country" (sourceTransactionChfCreditTransferDataSenderAddressCountry obj) GHC.Base.<> ((Data.Aeson..=) "sender_address_line1" (sourceTransactionChfCreditTransferDataSenderAddressLine1 obj) GHC.Base.<> ((Data.Aeson..=) "sender_iban" (sourceTransactionChfCreditTransferDataSenderIban obj) GHC.Base.<> (Data.Aeson..=) "sender_name" (sourceTransactionChfCreditTransferDataSenderName obj)))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("reference" Data.Aeson.Types.ToJSON..= sourceTransactionChfCreditTransferDataReference obj : "sender_address_country" Data.Aeson.Types.ToJSON..= sourceTransactionChfCreditTransferDataSenderAddressCountry obj : "sender_address_line1" Data.Aeson.Types.ToJSON..= sourceTransactionChfCreditTransferDataSenderAddressLine1 obj : "sender_iban" Data.Aeson.Types.ToJSON..= sourceTransactionChfCreditTransferDataSenderIban obj : "sender_name" Data.Aeson.Types.ToJSON..= sourceTransactionChfCreditTransferDataSenderName obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("reference" Data.Aeson.Types.ToJSON..= sourceTransactionChfCreditTransferDataReference obj) GHC.Base.<> (("sender_address_country" Data.Aeson.Types.ToJSON..= sourceTransactionChfCreditTransferDataSenderAddressCountry obj) GHC.Base.<> (("sender_address_line1" Data.Aeson.Types.ToJSON..= sourceTransactionChfCreditTransferDataSenderAddressLine1 obj) GHC.Base.<> (("sender_iban" Data.Aeson.Types.ToJSON..= sourceTransactionChfCreditTransferDataSenderIban obj) GHC.Base.<> ("sender_name" Data.Aeson.Types.ToJSON..= sourceTransactionChfCreditTransferDataSenderName obj)))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON SourceTransactionChfCreditTransferData where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "SourceTransactionChfCreditTransferData" (\obj -> ((((GHC.Base.pure SourceTransactionChfCreditTransferData GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "reference")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "sender_address_country")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "sender_address_line1")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "sender_iban")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "sender_name"))
+
+-- | Create a new 'SourceTransactionChfCreditTransferData' with all required fields.
+mkSourceTransactionChfCreditTransferData :: SourceTransactionChfCreditTransferData
+mkSourceTransactionChfCreditTransferData =
+  SourceTransactionChfCreditTransferData
+    { sourceTransactionChfCreditTransferDataReference = GHC.Maybe.Nothing,
+      sourceTransactionChfCreditTransferDataSenderAddressCountry = GHC.Maybe.Nothing,
+      sourceTransactionChfCreditTransferDataSenderAddressLine1 = GHC.Maybe.Nothing,
+      sourceTransactionChfCreditTransferDataSenderIban = GHC.Maybe.Nothing,
+      sourceTransactionChfCreditTransferDataSenderName = GHC.Maybe.Nothing
+    }

@@ -10,6 +10,7 @@ module StripeAPI.Operations.PostTerminalReadersReader where
 import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -81,7 +82,7 @@ postTerminalReadersReader
       )
       (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack ("/v1/terminal/readers/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel reader)) GHC.Base.++ ""))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
 
--- | Defines the data type for the schema postTerminalReadersReaderRequestBody
+-- | Defines the object schema located at @paths.\/v1\/terminal\/readers\/{reader}.POST.requestBody.content.application\/x-www-form-urlencoded.schema@ in the specification.
 data PostTerminalReadersReaderRequestBody
   = PostTerminalReadersReaderRequestBody
       { -- | expand: Specifies which fields in the response should be expanded.
@@ -101,11 +102,20 @@ data PostTerminalReadersReaderRequestBody
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostTerminalReadersReaderRequestBody where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "expand" (postTerminalReadersReaderRequestBodyExpand obj) : (Data.Aeson..=) "label" (postTerminalReadersReaderRequestBodyLabel obj) : (Data.Aeson..=) "metadata" (postTerminalReadersReaderRequestBodyMetadata obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "expand" (postTerminalReadersReaderRequestBodyExpand obj) GHC.Base.<> ((Data.Aeson..=) "label" (postTerminalReadersReaderRequestBodyLabel obj) GHC.Base.<> (Data.Aeson..=) "metadata" (postTerminalReadersReaderRequestBodyMetadata obj)))
+  toJSON obj = Data.Aeson.Types.Internal.object ("expand" Data.Aeson.Types.ToJSON..= postTerminalReadersReaderRequestBodyExpand obj : "label" Data.Aeson.Types.ToJSON..= postTerminalReadersReaderRequestBodyLabel obj : "metadata" Data.Aeson.Types.ToJSON..= postTerminalReadersReaderRequestBodyMetadata obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("expand" Data.Aeson.Types.ToJSON..= postTerminalReadersReaderRequestBodyExpand obj) GHC.Base.<> (("label" Data.Aeson.Types.ToJSON..= postTerminalReadersReaderRequestBodyLabel obj) GHC.Base.<> ("metadata" Data.Aeson.Types.ToJSON..= postTerminalReadersReaderRequestBodyMetadata obj)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostTerminalReadersReaderRequestBody where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PostTerminalReadersReaderRequestBody" (\obj -> ((GHC.Base.pure PostTerminalReadersReaderRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "label")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "metadata"))
+
+-- | Create a new 'PostTerminalReadersReaderRequestBody' with all required fields.
+mkPostTerminalReadersReaderRequestBody :: PostTerminalReadersReaderRequestBody
+mkPostTerminalReadersReaderRequestBody =
+  PostTerminalReadersReaderRequestBody
+    { postTerminalReadersReaderRequestBodyExpand = GHC.Maybe.Nothing,
+      postTerminalReadersReaderRequestBodyLabel = GHC.Maybe.Nothing,
+      postTerminalReadersReaderRequestBodyMetadata = GHC.Maybe.Nothing
+    }
 
 -- | Represents a response of the operation 'postTerminalReadersReader'.
 --

@@ -8,6 +8,7 @@ module StripeAPI.Types.SourceTypeSepaDebit where
 
 import qualified Control.Monad.Fail
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -30,7 +31,7 @@ import StripeAPI.TypeAlias
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
--- | Defines the data type for the schema source_type_sepa_debit
+-- | Defines the object schema located at @components.schemas.source_type_sepa_debit@ in the specification.
 data SourceTypeSepaDebit
   = SourceTypeSepaDebit
       { -- | bank_code
@@ -54,8 +55,21 @@ data SourceTypeSepaDebit
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON SourceTypeSepaDebit where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "bank_code" (sourceTypeSepaDebitBankCode obj) : (Data.Aeson..=) "branch_code" (sourceTypeSepaDebitBranchCode obj) : (Data.Aeson..=) "country" (sourceTypeSepaDebitCountry obj) : (Data.Aeson..=) "fingerprint" (sourceTypeSepaDebitFingerprint obj) : (Data.Aeson..=) "last4" (sourceTypeSepaDebitLast4 obj) : (Data.Aeson..=) "mandate_reference" (sourceTypeSepaDebitMandateReference obj) : (Data.Aeson..=) "mandate_url" (sourceTypeSepaDebitMandateUrl obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "bank_code" (sourceTypeSepaDebitBankCode obj) GHC.Base.<> ((Data.Aeson..=) "branch_code" (sourceTypeSepaDebitBranchCode obj) GHC.Base.<> ((Data.Aeson..=) "country" (sourceTypeSepaDebitCountry obj) GHC.Base.<> ((Data.Aeson..=) "fingerprint" (sourceTypeSepaDebitFingerprint obj) GHC.Base.<> ((Data.Aeson..=) "last4" (sourceTypeSepaDebitLast4 obj) GHC.Base.<> ((Data.Aeson..=) "mandate_reference" (sourceTypeSepaDebitMandateReference obj) GHC.Base.<> (Data.Aeson..=) "mandate_url" (sourceTypeSepaDebitMandateUrl obj)))))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("bank_code" Data.Aeson.Types.ToJSON..= sourceTypeSepaDebitBankCode obj : "branch_code" Data.Aeson.Types.ToJSON..= sourceTypeSepaDebitBranchCode obj : "country" Data.Aeson.Types.ToJSON..= sourceTypeSepaDebitCountry obj : "fingerprint" Data.Aeson.Types.ToJSON..= sourceTypeSepaDebitFingerprint obj : "last4" Data.Aeson.Types.ToJSON..= sourceTypeSepaDebitLast4 obj : "mandate_reference" Data.Aeson.Types.ToJSON..= sourceTypeSepaDebitMandateReference obj : "mandate_url" Data.Aeson.Types.ToJSON..= sourceTypeSepaDebitMandateUrl obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("bank_code" Data.Aeson.Types.ToJSON..= sourceTypeSepaDebitBankCode obj) GHC.Base.<> (("branch_code" Data.Aeson.Types.ToJSON..= sourceTypeSepaDebitBranchCode obj) GHC.Base.<> (("country" Data.Aeson.Types.ToJSON..= sourceTypeSepaDebitCountry obj) GHC.Base.<> (("fingerprint" Data.Aeson.Types.ToJSON..= sourceTypeSepaDebitFingerprint obj) GHC.Base.<> (("last4" Data.Aeson.Types.ToJSON..= sourceTypeSepaDebitLast4 obj) GHC.Base.<> (("mandate_reference" Data.Aeson.Types.ToJSON..= sourceTypeSepaDebitMandateReference obj) GHC.Base.<> ("mandate_url" Data.Aeson.Types.ToJSON..= sourceTypeSepaDebitMandateUrl obj)))))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON SourceTypeSepaDebit where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "SourceTypeSepaDebit" (\obj -> ((((((GHC.Base.pure SourceTypeSepaDebit GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "bank_code")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "branch_code")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "country")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "fingerprint")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "last4")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "mandate_reference")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "mandate_url"))
+
+-- | Create a new 'SourceTypeSepaDebit' with all required fields.
+mkSourceTypeSepaDebit :: SourceTypeSepaDebit
+mkSourceTypeSepaDebit =
+  SourceTypeSepaDebit
+    { sourceTypeSepaDebitBankCode = GHC.Maybe.Nothing,
+      sourceTypeSepaDebitBranchCode = GHC.Maybe.Nothing,
+      sourceTypeSepaDebitCountry = GHC.Maybe.Nothing,
+      sourceTypeSepaDebitFingerprint = GHC.Maybe.Nothing,
+      sourceTypeSepaDebitLast4 = GHC.Maybe.Nothing,
+      sourceTypeSepaDebitMandateReference = GHC.Maybe.Nothing,
+      sourceTypeSepaDebitMandateUrl = GHC.Maybe.Nothing
+    }

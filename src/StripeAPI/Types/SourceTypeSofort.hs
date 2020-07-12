@@ -8,6 +8,7 @@ module StripeAPI.Types.SourceTypeSofort where
 
 import qualified Control.Monad.Fail
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -30,7 +31,7 @@ import StripeAPI.TypeAlias
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
--- | Defines the data type for the schema source_type_sofort
+-- | Defines the object schema located at @components.schemas.source_type_sofort@ in the specification.
 data SourceTypeSofort
   = SourceTypeSofort
       { -- | bank_code
@@ -54,8 +55,21 @@ data SourceTypeSofort
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON SourceTypeSofort where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "bank_code" (sourceTypeSofortBankCode obj) : (Data.Aeson..=) "bank_name" (sourceTypeSofortBankName obj) : (Data.Aeson..=) "bic" (sourceTypeSofortBic obj) : (Data.Aeson..=) "country" (sourceTypeSofortCountry obj) : (Data.Aeson..=) "iban_last4" (sourceTypeSofortIbanLast4 obj) : (Data.Aeson..=) "preferred_language" (sourceTypeSofortPreferredLanguage obj) : (Data.Aeson..=) "statement_descriptor" (sourceTypeSofortStatementDescriptor obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "bank_code" (sourceTypeSofortBankCode obj) GHC.Base.<> ((Data.Aeson..=) "bank_name" (sourceTypeSofortBankName obj) GHC.Base.<> ((Data.Aeson..=) "bic" (sourceTypeSofortBic obj) GHC.Base.<> ((Data.Aeson..=) "country" (sourceTypeSofortCountry obj) GHC.Base.<> ((Data.Aeson..=) "iban_last4" (sourceTypeSofortIbanLast4 obj) GHC.Base.<> ((Data.Aeson..=) "preferred_language" (sourceTypeSofortPreferredLanguage obj) GHC.Base.<> (Data.Aeson..=) "statement_descriptor" (sourceTypeSofortStatementDescriptor obj)))))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("bank_code" Data.Aeson.Types.ToJSON..= sourceTypeSofortBankCode obj : "bank_name" Data.Aeson.Types.ToJSON..= sourceTypeSofortBankName obj : "bic" Data.Aeson.Types.ToJSON..= sourceTypeSofortBic obj : "country" Data.Aeson.Types.ToJSON..= sourceTypeSofortCountry obj : "iban_last4" Data.Aeson.Types.ToJSON..= sourceTypeSofortIbanLast4 obj : "preferred_language" Data.Aeson.Types.ToJSON..= sourceTypeSofortPreferredLanguage obj : "statement_descriptor" Data.Aeson.Types.ToJSON..= sourceTypeSofortStatementDescriptor obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("bank_code" Data.Aeson.Types.ToJSON..= sourceTypeSofortBankCode obj) GHC.Base.<> (("bank_name" Data.Aeson.Types.ToJSON..= sourceTypeSofortBankName obj) GHC.Base.<> (("bic" Data.Aeson.Types.ToJSON..= sourceTypeSofortBic obj) GHC.Base.<> (("country" Data.Aeson.Types.ToJSON..= sourceTypeSofortCountry obj) GHC.Base.<> (("iban_last4" Data.Aeson.Types.ToJSON..= sourceTypeSofortIbanLast4 obj) GHC.Base.<> (("preferred_language" Data.Aeson.Types.ToJSON..= sourceTypeSofortPreferredLanguage obj) GHC.Base.<> ("statement_descriptor" Data.Aeson.Types.ToJSON..= sourceTypeSofortStatementDescriptor obj)))))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON SourceTypeSofort where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "SourceTypeSofort" (\obj -> ((((((GHC.Base.pure SourceTypeSofort GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "bank_code")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "bank_name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "bic")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "country")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "iban_last4")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "preferred_language")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "statement_descriptor"))
+
+-- | Create a new 'SourceTypeSofort' with all required fields.
+mkSourceTypeSofort :: SourceTypeSofort
+mkSourceTypeSofort =
+  SourceTypeSofort
+    { sourceTypeSofortBankCode = GHC.Maybe.Nothing,
+      sourceTypeSofortBankName = GHC.Maybe.Nothing,
+      sourceTypeSofortBic = GHC.Maybe.Nothing,
+      sourceTypeSofortCountry = GHC.Maybe.Nothing,
+      sourceTypeSofortIbanLast4 = GHC.Maybe.Nothing,
+      sourceTypeSofortPreferredLanguage = GHC.Maybe.Nothing,
+      sourceTypeSofortStatementDescriptor = GHC.Maybe.Nothing
+    }

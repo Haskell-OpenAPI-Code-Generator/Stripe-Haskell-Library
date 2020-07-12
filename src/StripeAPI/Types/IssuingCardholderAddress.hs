@@ -8,6 +8,7 @@ module StripeAPI.Types.IssuingCardholderAddress where
 
 import qualified Control.Monad.Fail
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -31,7 +32,7 @@ import {-# SOURCE #-} StripeAPI.Types.Address
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
--- | Defines the data type for the schema issuing_cardholder_address
+-- | Defines the object schema located at @components.schemas.issuing_cardholder_address@ in the specification.
 data IssuingCardholderAddress
   = IssuingCardholderAddress
       { -- | address:
@@ -49,8 +50,19 @@ data IssuingCardholderAddress
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON IssuingCardholderAddress where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "address" (issuingCardholderAddressAddress obj) : (Data.Aeson..=) "name" (issuingCardholderAddressName obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "address" (issuingCardholderAddressAddress obj) GHC.Base.<> (Data.Aeson..=) "name" (issuingCardholderAddressName obj))
+  toJSON obj = Data.Aeson.Types.Internal.object ("address" Data.Aeson.Types.ToJSON..= issuingCardholderAddressAddress obj : "name" Data.Aeson.Types.ToJSON..= issuingCardholderAddressName obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("address" Data.Aeson.Types.ToJSON..= issuingCardholderAddressAddress obj) GHC.Base.<> ("name" Data.Aeson.Types.ToJSON..= issuingCardholderAddressName obj))
 
 instance Data.Aeson.Types.FromJSON.FromJSON IssuingCardholderAddress where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "IssuingCardholderAddress" (\obj -> (GHC.Base.pure IssuingCardholderAddress GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "address")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "name"))
+
+-- | Create a new 'IssuingCardholderAddress' with all required fields.
+mkIssuingCardholderAddress ::
+  -- | 'issuingCardholderAddressAddress'
+  Address ->
+  IssuingCardholderAddress
+mkIssuingCardholderAddress issuingCardholderAddressAddress =
+  IssuingCardholderAddress
+    { issuingCardholderAddressAddress = issuingCardholderAddressAddress,
+      issuingCardholderAddressName = GHC.Maybe.Nothing
+    }

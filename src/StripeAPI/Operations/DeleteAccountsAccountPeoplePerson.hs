@@ -10,6 +10,7 @@ module StripeAPI.Operations.DeleteAccountsAccountPeoplePerson where
 import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -77,7 +78,7 @@ deleteAccountsAccountPeoplePerson parameters =
     )
     (StripeAPI.Common.doCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "DELETE") (Data.Text.pack ("/v1/accounts/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel (deleteAccountsAccountPeoplePersonParametersPathAccount parameters))) GHC.Base.++ ("/people/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel (deleteAccountsAccountPeoplePersonParametersPathPerson parameters))) GHC.Base.++ ""))))) [])
 
--- | Defines the data type for the schema deleteAccountsAccountPeoplePersonParameters
+-- | Defines the object schema located at @paths.\/v1\/accounts\/{account}\/people\/{person}.DELETE.parameters@ in the specification.
 data DeleteAccountsAccountPeoplePersonParameters
   = DeleteAccountsAccountPeoplePersonParameters
       { -- | pathAccount: Represents the parameter named \'account\'
@@ -99,11 +100,24 @@ data DeleteAccountsAccountPeoplePersonParameters
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON DeleteAccountsAccountPeoplePersonParameters where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "pathAccount" (deleteAccountsAccountPeoplePersonParametersPathAccount obj) : (Data.Aeson..=) "pathPerson" (deleteAccountsAccountPeoplePersonParametersPathPerson obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "pathAccount" (deleteAccountsAccountPeoplePersonParametersPathAccount obj) GHC.Base.<> (Data.Aeson..=) "pathPerson" (deleteAccountsAccountPeoplePersonParametersPathPerson obj))
+  toJSON obj = Data.Aeson.Types.Internal.object ("pathAccount" Data.Aeson.Types.ToJSON..= deleteAccountsAccountPeoplePersonParametersPathAccount obj : "pathPerson" Data.Aeson.Types.ToJSON..= deleteAccountsAccountPeoplePersonParametersPathPerson obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("pathAccount" Data.Aeson.Types.ToJSON..= deleteAccountsAccountPeoplePersonParametersPathAccount obj) GHC.Base.<> ("pathPerson" Data.Aeson.Types.ToJSON..= deleteAccountsAccountPeoplePersonParametersPathPerson obj))
 
 instance Data.Aeson.Types.FromJSON.FromJSON DeleteAccountsAccountPeoplePersonParameters where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "DeleteAccountsAccountPeoplePersonParameters" (\obj -> (GHC.Base.pure DeleteAccountsAccountPeoplePersonParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathAccount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathPerson"))
+
+-- | Create a new 'DeleteAccountsAccountPeoplePersonParameters' with all required fields.
+mkDeleteAccountsAccountPeoplePersonParameters ::
+  -- | 'deleteAccountsAccountPeoplePersonParametersPathAccount'
+  Data.Text.Internal.Text ->
+  -- | 'deleteAccountsAccountPeoplePersonParametersPathPerson'
+  Data.Text.Internal.Text ->
+  DeleteAccountsAccountPeoplePersonParameters
+mkDeleteAccountsAccountPeoplePersonParameters deleteAccountsAccountPeoplePersonParametersPathAccount deleteAccountsAccountPeoplePersonParametersPathPerson =
+  DeleteAccountsAccountPeoplePersonParameters
+    { deleteAccountsAccountPeoplePersonParametersPathAccount = deleteAccountsAccountPeoplePersonParametersPathAccount,
+      deleteAccountsAccountPeoplePersonParametersPathPerson = deleteAccountsAccountPeoplePersonParametersPathPerson
+    }
 
 -- | Represents a response of the operation 'deleteAccountsAccountPeoplePerson'.
 --

@@ -8,6 +8,7 @@ module StripeAPI.Types.Coupon where
 
 import qualified Control.Monad.Fail
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -30,7 +31,7 @@ import StripeAPI.TypeAlias
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
--- | Defines the data type for the schema coupon
+-- | Defines the object schema located at @components.schemas.coupon@ in the specification.
 --
 -- A coupon contains information about a percent-off or amount-off discount you
 -- might want to apply to a customer. Coupons may be applied to [invoices](https:\/\/stripe.com\/docs\/api\#invoices) or
@@ -65,8 +66,6 @@ data Coupon
         --
         -- * Maximum length of 5000
         couponName :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
-        -- | object: String representing the object\'s type. Objects of the same type share the same value.
-        couponObject :: CouponObject',
         -- | percent_off: Percent that will be taken off the subtotal of any invoices for this customer for the duration of the coupon. For example, a coupon with percent_off of 50 will make a %s100 invoice %s50 instead.
         couponPercentOff :: (GHC.Maybe.Maybe GHC.Types.Double),
         -- | redeem_by: Date after which the coupon can no longer be redeemed.
@@ -82,56 +81,75 @@ data Coupon
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON Coupon where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "amount_off" (couponAmountOff obj) : (Data.Aeson..=) "created" (couponCreated obj) : (Data.Aeson..=) "currency" (couponCurrency obj) : (Data.Aeson..=) "duration" (couponDuration obj) : (Data.Aeson..=) "duration_in_months" (couponDurationInMonths obj) : (Data.Aeson..=) "id" (couponId obj) : (Data.Aeson..=) "livemode" (couponLivemode obj) : (Data.Aeson..=) "max_redemptions" (couponMaxRedemptions obj) : (Data.Aeson..=) "metadata" (couponMetadata obj) : (Data.Aeson..=) "name" (couponName obj) : (Data.Aeson..=) "object" (couponObject obj) : (Data.Aeson..=) "percent_off" (couponPercentOff obj) : (Data.Aeson..=) "redeem_by" (couponRedeemBy obj) : (Data.Aeson..=) "times_redeemed" (couponTimesRedeemed obj) : (Data.Aeson..=) "valid" (couponValid obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "amount_off" (couponAmountOff obj) GHC.Base.<> ((Data.Aeson..=) "created" (couponCreated obj) GHC.Base.<> ((Data.Aeson..=) "currency" (couponCurrency obj) GHC.Base.<> ((Data.Aeson..=) "duration" (couponDuration obj) GHC.Base.<> ((Data.Aeson..=) "duration_in_months" (couponDurationInMonths obj) GHC.Base.<> ((Data.Aeson..=) "id" (couponId obj) GHC.Base.<> ((Data.Aeson..=) "livemode" (couponLivemode obj) GHC.Base.<> ((Data.Aeson..=) "max_redemptions" (couponMaxRedemptions obj) GHC.Base.<> ((Data.Aeson..=) "metadata" (couponMetadata obj) GHC.Base.<> ((Data.Aeson..=) "name" (couponName obj) GHC.Base.<> ((Data.Aeson..=) "object" (couponObject obj) GHC.Base.<> ((Data.Aeson..=) "percent_off" (couponPercentOff obj) GHC.Base.<> ((Data.Aeson..=) "redeem_by" (couponRedeemBy obj) GHC.Base.<> ((Data.Aeson..=) "times_redeemed" (couponTimesRedeemed obj) GHC.Base.<> (Data.Aeson..=) "valid" (couponValid obj)))))))))))))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("amount_off" Data.Aeson.Types.ToJSON..= couponAmountOff obj : "created" Data.Aeson.Types.ToJSON..= couponCreated obj : "currency" Data.Aeson.Types.ToJSON..= couponCurrency obj : "duration" Data.Aeson.Types.ToJSON..= couponDuration obj : "duration_in_months" Data.Aeson.Types.ToJSON..= couponDurationInMonths obj : "id" Data.Aeson.Types.ToJSON..= couponId obj : "livemode" Data.Aeson.Types.ToJSON..= couponLivemode obj : "max_redemptions" Data.Aeson.Types.ToJSON..= couponMaxRedemptions obj : "metadata" Data.Aeson.Types.ToJSON..= couponMetadata obj : "name" Data.Aeson.Types.ToJSON..= couponName obj : "percent_off" Data.Aeson.Types.ToJSON..= couponPercentOff obj : "redeem_by" Data.Aeson.Types.ToJSON..= couponRedeemBy obj : "times_redeemed" Data.Aeson.Types.ToJSON..= couponTimesRedeemed obj : "valid" Data.Aeson.Types.ToJSON..= couponValid obj : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "coupon" : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("amount_off" Data.Aeson.Types.ToJSON..= couponAmountOff obj) GHC.Base.<> (("created" Data.Aeson.Types.ToJSON..= couponCreated obj) GHC.Base.<> (("currency" Data.Aeson.Types.ToJSON..= couponCurrency obj) GHC.Base.<> (("duration" Data.Aeson.Types.ToJSON..= couponDuration obj) GHC.Base.<> (("duration_in_months" Data.Aeson.Types.ToJSON..= couponDurationInMonths obj) GHC.Base.<> (("id" Data.Aeson.Types.ToJSON..= couponId obj) GHC.Base.<> (("livemode" Data.Aeson.Types.ToJSON..= couponLivemode obj) GHC.Base.<> (("max_redemptions" Data.Aeson.Types.ToJSON..= couponMaxRedemptions obj) GHC.Base.<> (("metadata" Data.Aeson.Types.ToJSON..= couponMetadata obj) GHC.Base.<> (("name" Data.Aeson.Types.ToJSON..= couponName obj) GHC.Base.<> (("percent_off" Data.Aeson.Types.ToJSON..= couponPercentOff obj) GHC.Base.<> (("redeem_by" Data.Aeson.Types.ToJSON..= couponRedeemBy obj) GHC.Base.<> (("times_redeemed" Data.Aeson.Types.ToJSON..= couponTimesRedeemed obj) GHC.Base.<> (("valid" Data.Aeson.Types.ToJSON..= couponValid obj) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "coupon")))))))))))))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON Coupon where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "Coupon" (\obj -> ((((((((((((((GHC.Base.pure Coupon GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "amount_off")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "created")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "duration")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "duration_in_months")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "livemode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "max_redemptions")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "object")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "percent_off")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "redeem_by")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "times_redeemed")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "valid"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "Coupon" (\obj -> (((((((((((((GHC.Base.pure Coupon GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "amount_off")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "created")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "duration")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "duration_in_months")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "livemode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "max_redemptions")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "percent_off")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "redeem_by")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "times_redeemed")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "valid"))
 
--- | Defines the enum schema couponDuration\'
+-- | Create a new 'Coupon' with all required fields.
+mkCoupon ::
+  -- | 'couponCreated'
+  GHC.Types.Int ->
+  -- | 'couponDuration'
+  CouponDuration' ->
+  -- | 'couponId'
+  Data.Text.Internal.Text ->
+  -- | 'couponLivemode'
+  GHC.Types.Bool ->
+  -- | 'couponMetadata'
+  Data.Aeson.Types.Internal.Object ->
+  -- | 'couponTimesRedeemed'
+  GHC.Types.Int ->
+  -- | 'couponValid'
+  GHC.Types.Bool ->
+  Coupon
+mkCoupon couponCreated couponDuration couponId couponLivemode couponMetadata couponTimesRedeemed couponValid =
+  Coupon
+    { couponAmountOff = GHC.Maybe.Nothing,
+      couponCreated = couponCreated,
+      couponCurrency = GHC.Maybe.Nothing,
+      couponDuration = couponDuration,
+      couponDurationInMonths = GHC.Maybe.Nothing,
+      couponId = couponId,
+      couponLivemode = couponLivemode,
+      couponMaxRedemptions = GHC.Maybe.Nothing,
+      couponMetadata = couponMetadata,
+      couponName = GHC.Maybe.Nothing,
+      couponPercentOff = GHC.Maybe.Nothing,
+      couponRedeemBy = GHC.Maybe.Nothing,
+      couponTimesRedeemed = couponTimesRedeemed,
+      couponValid = couponValid
+    }
+
+-- | Defines the enum schema located at @components.schemas.coupon.properties.duration@ in the specification.
 --
 -- One of \`forever\`, \`once\`, and \`repeating\`. Describes how long a customer who applies this coupon will get the discount.
 data CouponDuration'
-  = CouponDuration'EnumOther Data.Aeson.Types.Internal.Value
-  | CouponDuration'EnumTyped Data.Text.Internal.Text
-  | CouponDuration'EnumStringForever
-  | CouponDuration'EnumStringOnce
-  | CouponDuration'EnumStringRepeating
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    CouponDuration'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    CouponDuration'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"forever"@
+    CouponDuration'EnumForever
+  | -- | Represents the JSON value @"once"@
+    CouponDuration'EnumOnce
+  | -- | Represents the JSON value @"repeating"@
+    CouponDuration'EnumRepeating
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
 instance Data.Aeson.Types.ToJSON.ToJSON CouponDuration' where
-  toJSON (CouponDuration'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (CouponDuration'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (CouponDuration'EnumStringForever) = "forever"
-  toJSON (CouponDuration'EnumStringOnce) = "once"
-  toJSON (CouponDuration'EnumStringRepeating) = "repeating"
+  toJSON (CouponDuration'Other val) = val
+  toJSON (CouponDuration'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (CouponDuration'EnumForever) = "forever"
+  toJSON (CouponDuration'EnumOnce) = "once"
+  toJSON (CouponDuration'EnumRepeating) = "repeating"
 
 instance Data.Aeson.Types.FromJSON.FromJSON CouponDuration' where
   parseJSON val =
     GHC.Base.pure
-      ( if  | val GHC.Classes.== "forever" -> CouponDuration'EnumStringForever
-            | val GHC.Classes.== "once" -> CouponDuration'EnumStringOnce
-            | val GHC.Classes.== "repeating" -> CouponDuration'EnumStringRepeating
-            | GHC.Base.otherwise -> CouponDuration'EnumOther val
-      )
-
--- | Defines the enum schema couponObject\'
---
--- String representing the object\'s type. Objects of the same type share the same value.
-data CouponObject'
-  = CouponObject'EnumOther Data.Aeson.Types.Internal.Value
-  | CouponObject'EnumTyped Data.Text.Internal.Text
-  | CouponObject'EnumStringCoupon
-  deriving (GHC.Show.Show, GHC.Classes.Eq)
-
-instance Data.Aeson.Types.ToJSON.ToJSON CouponObject' where
-  toJSON (CouponObject'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (CouponObject'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (CouponObject'EnumStringCoupon) = "coupon"
-
-instance Data.Aeson.Types.FromJSON.FromJSON CouponObject' where
-  parseJSON val =
-    GHC.Base.pure
-      ( if  | val GHC.Classes.== "coupon" -> CouponObject'EnumStringCoupon
-            | GHC.Base.otherwise -> CouponObject'EnumOther val
+      ( if  | val GHC.Classes.== "forever" -> CouponDuration'EnumForever
+            | val GHC.Classes.== "once" -> CouponDuration'EnumOnce
+            | val GHC.Classes.== "repeating" -> CouponDuration'EnumRepeating
+            | GHC.Base.otherwise -> CouponDuration'Other val
       )

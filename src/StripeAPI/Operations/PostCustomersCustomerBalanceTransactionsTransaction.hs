@@ -10,6 +10,7 @@ module StripeAPI.Operations.PostCustomersCustomerBalanceTransactionsTransaction 
 import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -81,7 +82,7 @@ postCustomersCustomerBalanceTransactionsTransaction
       )
       (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack ("/v1/customers/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel (postCustomersCustomerBalanceTransactionsTransactionParametersPathCustomer parameters))) GHC.Base.++ ("/balance_transactions/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel (postCustomersCustomerBalanceTransactionsTransactionParametersPathTransaction parameters))) GHC.Base.++ ""))))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
 
--- | Defines the data type for the schema postCustomersCustomerBalanceTransactionsTransactionParameters
+-- | Defines the object schema located at @paths.\/v1\/customers\/{customer}\/balance_transactions\/{transaction}.POST.parameters@ in the specification.
 data PostCustomersCustomerBalanceTransactionsTransactionParameters
   = PostCustomersCustomerBalanceTransactionsTransactionParameters
       { -- | pathCustomer: Represents the parameter named \'customer\'
@@ -103,13 +104,26 @@ data PostCustomersCustomerBalanceTransactionsTransactionParameters
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostCustomersCustomerBalanceTransactionsTransactionParameters where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "pathCustomer" (postCustomersCustomerBalanceTransactionsTransactionParametersPathCustomer obj) : (Data.Aeson..=) "pathTransaction" (postCustomersCustomerBalanceTransactionsTransactionParametersPathTransaction obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "pathCustomer" (postCustomersCustomerBalanceTransactionsTransactionParametersPathCustomer obj) GHC.Base.<> (Data.Aeson..=) "pathTransaction" (postCustomersCustomerBalanceTransactionsTransactionParametersPathTransaction obj))
+  toJSON obj = Data.Aeson.Types.Internal.object ("pathCustomer" Data.Aeson.Types.ToJSON..= postCustomersCustomerBalanceTransactionsTransactionParametersPathCustomer obj : "pathTransaction" Data.Aeson.Types.ToJSON..= postCustomersCustomerBalanceTransactionsTransactionParametersPathTransaction obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("pathCustomer" Data.Aeson.Types.ToJSON..= postCustomersCustomerBalanceTransactionsTransactionParametersPathCustomer obj) GHC.Base.<> ("pathTransaction" Data.Aeson.Types.ToJSON..= postCustomersCustomerBalanceTransactionsTransactionParametersPathTransaction obj))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostCustomersCustomerBalanceTransactionsTransactionParameters where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PostCustomersCustomerBalanceTransactionsTransactionParameters" (\obj -> (GHC.Base.pure PostCustomersCustomerBalanceTransactionsTransactionParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathCustomer")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathTransaction"))
 
--- | Defines the data type for the schema postCustomersCustomerBalanceTransactionsTransactionRequestBody
+-- | Create a new 'PostCustomersCustomerBalanceTransactionsTransactionParameters' with all required fields.
+mkPostCustomersCustomerBalanceTransactionsTransactionParameters ::
+  -- | 'postCustomersCustomerBalanceTransactionsTransactionParametersPathCustomer'
+  Data.Text.Internal.Text ->
+  -- | 'postCustomersCustomerBalanceTransactionsTransactionParametersPathTransaction'
+  Data.Text.Internal.Text ->
+  PostCustomersCustomerBalanceTransactionsTransactionParameters
+mkPostCustomersCustomerBalanceTransactionsTransactionParameters postCustomersCustomerBalanceTransactionsTransactionParametersPathCustomer postCustomersCustomerBalanceTransactionsTransactionParametersPathTransaction =
+  PostCustomersCustomerBalanceTransactionsTransactionParameters
+    { postCustomersCustomerBalanceTransactionsTransactionParametersPathCustomer = postCustomersCustomerBalanceTransactionsTransactionParametersPathCustomer,
+      postCustomersCustomerBalanceTransactionsTransactionParametersPathTransaction = postCustomersCustomerBalanceTransactionsTransactionParametersPathTransaction
+    }
+
+-- | Defines the object schema located at @paths.\/v1\/customers\/{customer}\/balance_transactions\/{transaction}.POST.requestBody.content.application\/x-www-form-urlencoded.schema@ in the specification.
 data PostCustomersCustomerBalanceTransactionsTransactionRequestBody
   = PostCustomersCustomerBalanceTransactionsTransactionRequestBody
       { -- | description: An arbitrary string attached to the object. Often useful for displaying to users.
@@ -129,11 +143,20 @@ data PostCustomersCustomerBalanceTransactionsTransactionRequestBody
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostCustomersCustomerBalanceTransactionsTransactionRequestBody where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "description" (postCustomersCustomerBalanceTransactionsTransactionRequestBodyDescription obj) : (Data.Aeson..=) "expand" (postCustomersCustomerBalanceTransactionsTransactionRequestBodyExpand obj) : (Data.Aeson..=) "metadata" (postCustomersCustomerBalanceTransactionsTransactionRequestBodyMetadata obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "description" (postCustomersCustomerBalanceTransactionsTransactionRequestBodyDescription obj) GHC.Base.<> ((Data.Aeson..=) "expand" (postCustomersCustomerBalanceTransactionsTransactionRequestBodyExpand obj) GHC.Base.<> (Data.Aeson..=) "metadata" (postCustomersCustomerBalanceTransactionsTransactionRequestBodyMetadata obj)))
+  toJSON obj = Data.Aeson.Types.Internal.object ("description" Data.Aeson.Types.ToJSON..= postCustomersCustomerBalanceTransactionsTransactionRequestBodyDescription obj : "expand" Data.Aeson.Types.ToJSON..= postCustomersCustomerBalanceTransactionsTransactionRequestBodyExpand obj : "metadata" Data.Aeson.Types.ToJSON..= postCustomersCustomerBalanceTransactionsTransactionRequestBodyMetadata obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("description" Data.Aeson.Types.ToJSON..= postCustomersCustomerBalanceTransactionsTransactionRequestBodyDescription obj) GHC.Base.<> (("expand" Data.Aeson.Types.ToJSON..= postCustomersCustomerBalanceTransactionsTransactionRequestBodyExpand obj) GHC.Base.<> ("metadata" Data.Aeson.Types.ToJSON..= postCustomersCustomerBalanceTransactionsTransactionRequestBodyMetadata obj)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostCustomersCustomerBalanceTransactionsTransactionRequestBody where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PostCustomersCustomerBalanceTransactionsTransactionRequestBody" (\obj -> ((GHC.Base.pure PostCustomersCustomerBalanceTransactionsTransactionRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "description")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "metadata"))
+
+-- | Create a new 'PostCustomersCustomerBalanceTransactionsTransactionRequestBody' with all required fields.
+mkPostCustomersCustomerBalanceTransactionsTransactionRequestBody :: PostCustomersCustomerBalanceTransactionsTransactionRequestBody
+mkPostCustomersCustomerBalanceTransactionsTransactionRequestBody =
+  PostCustomersCustomerBalanceTransactionsTransactionRequestBody
+    { postCustomersCustomerBalanceTransactionsTransactionRequestBodyDescription = GHC.Maybe.Nothing,
+      postCustomersCustomerBalanceTransactionsTransactionRequestBodyExpand = GHC.Maybe.Nothing,
+      postCustomersCustomerBalanceTransactionsTransactionRequestBodyMetadata = GHC.Maybe.Nothing
+    }
 
 -- | Represents a response of the operation 'postCustomersCustomerBalanceTransactionsTransaction'.
 --

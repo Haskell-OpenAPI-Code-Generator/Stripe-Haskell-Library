@@ -10,6 +10,7 @@ module StripeAPI.Operations.GetCountrySpecsCountry where
 import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -77,7 +78,7 @@ getCountrySpecsCountry parameters =
     )
     (StripeAPI.Common.doCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET") (Data.Text.pack ("/v1/country_specs/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel (getCountrySpecsCountryParametersPathCountry parameters))) GHC.Base.++ ""))) [StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getCountrySpecsCountryParametersQueryExpand parameters) (Data.Text.pack "deepObject") GHC.Types.True])
 
--- | Defines the data type for the schema getCountrySpecsCountryParameters
+-- | Defines the object schema located at @paths.\/v1\/country_specs\/{country}.GET.parameters@ in the specification.
 data GetCountrySpecsCountryParameters
   = GetCountrySpecsCountryParameters
       { -- | pathCountry: Represents the parameter named \'country\'
@@ -97,11 +98,22 @@ data GetCountrySpecsCountryParameters
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetCountrySpecsCountryParameters where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "pathCountry" (getCountrySpecsCountryParametersPathCountry obj) : (Data.Aeson..=) "queryExpand" (getCountrySpecsCountryParametersQueryExpand obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "pathCountry" (getCountrySpecsCountryParametersPathCountry obj) GHC.Base.<> (Data.Aeson..=) "queryExpand" (getCountrySpecsCountryParametersQueryExpand obj))
+  toJSON obj = Data.Aeson.Types.Internal.object ("pathCountry" Data.Aeson.Types.ToJSON..= getCountrySpecsCountryParametersPathCountry obj : "queryExpand" Data.Aeson.Types.ToJSON..= getCountrySpecsCountryParametersQueryExpand obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("pathCountry" Data.Aeson.Types.ToJSON..= getCountrySpecsCountryParametersPathCountry obj) GHC.Base.<> ("queryExpand" Data.Aeson.Types.ToJSON..= getCountrySpecsCountryParametersQueryExpand obj))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetCountrySpecsCountryParameters where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "GetCountrySpecsCountryParameters" (\obj -> (GHC.Base.pure GetCountrySpecsCountryParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathCountry")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryExpand"))
+
+-- | Create a new 'GetCountrySpecsCountryParameters' with all required fields.
+mkGetCountrySpecsCountryParameters ::
+  -- | 'getCountrySpecsCountryParametersPathCountry'
+  Data.Text.Internal.Text ->
+  GetCountrySpecsCountryParameters
+mkGetCountrySpecsCountryParameters getCountrySpecsCountryParametersPathCountry =
+  GetCountrySpecsCountryParameters
+    { getCountrySpecsCountryParametersPathCountry = getCountrySpecsCountryParametersPathCountry,
+      getCountrySpecsCountryParametersQueryExpand = GHC.Maybe.Nothing
+    }
 
 -- | Represents a response of the operation 'getCountrySpecsCountry'.
 --

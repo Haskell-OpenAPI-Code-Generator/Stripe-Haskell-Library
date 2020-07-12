@@ -10,6 +10,7 @@ module StripeAPI.Operations.PostCreditNotesIdVoid where
 import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -81,7 +82,7 @@ postCreditNotesIdVoid
       )
       (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack ("/v1/credit_notes/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel id)) GHC.Base.++ "/void"))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
 
--- | Defines the data type for the schema postCreditNotesIdVoidRequestBody
+-- | Defines the object schema located at @paths.\/v1\/credit_notes\/{id}\/void.POST.requestBody.content.application\/x-www-form-urlencoded.schema@ in the specification.
 data PostCreditNotesIdVoidRequestBody
   = PostCreditNotesIdVoidRequestBody
       { -- | expand: Specifies which fields in the response should be expanded.
@@ -93,11 +94,15 @@ data PostCreditNotesIdVoidRequestBody
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostCreditNotesIdVoidRequestBody where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "expand" (postCreditNotesIdVoidRequestBodyExpand obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "expand" (postCreditNotesIdVoidRequestBodyExpand obj))
+  toJSON obj = Data.Aeson.Types.Internal.object ("expand" Data.Aeson.Types.ToJSON..= postCreditNotesIdVoidRequestBodyExpand obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs ("expand" Data.Aeson.Types.ToJSON..= postCreditNotesIdVoidRequestBodyExpand obj)
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostCreditNotesIdVoidRequestBody where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PostCreditNotesIdVoidRequestBody" (\obj -> GHC.Base.pure PostCreditNotesIdVoidRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "expand"))
+
+-- | Create a new 'PostCreditNotesIdVoidRequestBody' with all required fields.
+mkPostCreditNotesIdVoidRequestBody :: PostCreditNotesIdVoidRequestBody
+mkPostCreditNotesIdVoidRequestBody = PostCreditNotesIdVoidRequestBody {postCreditNotesIdVoidRequestBodyExpand = GHC.Maybe.Nothing}
 
 -- | Represents a response of the operation 'postCreditNotesIdVoid'.
 --

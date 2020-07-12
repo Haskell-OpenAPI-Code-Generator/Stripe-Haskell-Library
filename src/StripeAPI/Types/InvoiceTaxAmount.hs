@@ -8,6 +8,7 @@ module StripeAPI.Types.InvoiceTaxAmount where
 
 import qualified Control.Monad.Fail
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -31,7 +32,7 @@ import {-# SOURCE #-} StripeAPI.Types.TaxRate
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
--- | Defines the data type for the schema invoice_tax_amount
+-- | Defines the object schema located at @components.schemas.invoice_tax_amount@ in the specification.
 data InvoiceTaxAmount
   = InvoiceTaxAmount
       { -- | amount: The amount, in %s, of the tax.
@@ -47,13 +48,29 @@ data InvoiceTaxAmount
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON InvoiceTaxAmount where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "amount" (invoiceTaxAmountAmount obj) : (Data.Aeson..=) "inclusive" (invoiceTaxAmountInclusive obj) : (Data.Aeson..=) "tax_rate" (invoiceTaxAmountTaxRate obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "amount" (invoiceTaxAmountAmount obj) GHC.Base.<> ((Data.Aeson..=) "inclusive" (invoiceTaxAmountInclusive obj) GHC.Base.<> (Data.Aeson..=) "tax_rate" (invoiceTaxAmountTaxRate obj)))
+  toJSON obj = Data.Aeson.Types.Internal.object ("amount" Data.Aeson.Types.ToJSON..= invoiceTaxAmountAmount obj : "inclusive" Data.Aeson.Types.ToJSON..= invoiceTaxAmountInclusive obj : "tax_rate" Data.Aeson.Types.ToJSON..= invoiceTaxAmountTaxRate obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("amount" Data.Aeson.Types.ToJSON..= invoiceTaxAmountAmount obj) GHC.Base.<> (("inclusive" Data.Aeson.Types.ToJSON..= invoiceTaxAmountInclusive obj) GHC.Base.<> ("tax_rate" Data.Aeson.Types.ToJSON..= invoiceTaxAmountTaxRate obj)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON InvoiceTaxAmount where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "InvoiceTaxAmount" (\obj -> ((GHC.Base.pure InvoiceTaxAmount GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "inclusive")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "tax_rate"))
 
--- | Define the one-of schema invoice_tax_amountTax_rate\'
+-- | Create a new 'InvoiceTaxAmount' with all required fields.
+mkInvoiceTaxAmount ::
+  -- | 'invoiceTaxAmountAmount'
+  GHC.Types.Int ->
+  -- | 'invoiceTaxAmountInclusive'
+  GHC.Types.Bool ->
+  -- | 'invoiceTaxAmountTaxRate'
+  InvoiceTaxAmountTaxRate'Variants ->
+  InvoiceTaxAmount
+mkInvoiceTaxAmount invoiceTaxAmountAmount invoiceTaxAmountInclusive invoiceTaxAmountTaxRate =
+  InvoiceTaxAmount
+    { invoiceTaxAmountAmount = invoiceTaxAmountAmount,
+      invoiceTaxAmountInclusive = invoiceTaxAmountInclusive,
+      invoiceTaxAmountTaxRate = invoiceTaxAmountTaxRate
+    }
+
+-- | Defines the oneOf schema located at @components.schemas.invoice_tax_amount.properties.tax_rate.anyOf@ in the specification.
 --
 -- The tax rate that was applied to get this tax amount.
 data InvoiceTaxAmountTaxRate'Variants
@@ -66,8 +83,6 @@ instance Data.Aeson.Types.ToJSON.ToJSON InvoiceTaxAmountTaxRate'Variants where
   toJSON (InvoiceTaxAmountTaxRate'Text a) = Data.Aeson.Types.ToJSON.toJSON a
 
 instance Data.Aeson.Types.FromJSON.FromJSON InvoiceTaxAmountTaxRate'Variants where
-  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
-    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ InvoiceTaxAmountTaxRate'TaxRate a
-    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ InvoiceTaxAmountTaxRate'Text a
-      Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+  parseJSON val = case (InvoiceTaxAmountTaxRate'TaxRate Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((InvoiceTaxAmountTaxRate'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched") of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+    Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a

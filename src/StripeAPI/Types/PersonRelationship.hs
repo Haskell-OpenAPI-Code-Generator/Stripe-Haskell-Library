@@ -8,6 +8,7 @@ module StripeAPI.Types.PersonRelationship where
 
 import qualified Control.Monad.Fail
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -30,7 +31,7 @@ import StripeAPI.TypeAlias
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
--- | Defines the data type for the schema person_relationship
+-- | Defines the object schema located at @components.schemas.person_relationship@ in the specification.
 data PersonRelationship
   = PersonRelationship
       { -- | director: Whether the person is a director of the account\'s legal entity. Currently only required for accounts in the EU. Directors are typically members of the governing board of the company, or responsible for ensuring the company meets its regulatory obligations.
@@ -56,8 +57,20 @@ data PersonRelationship
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PersonRelationship where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "director" (personRelationshipDirector obj) : (Data.Aeson..=) "executive" (personRelationshipExecutive obj) : (Data.Aeson..=) "owner" (personRelationshipOwner obj) : (Data.Aeson..=) "percent_ownership" (personRelationshipPercentOwnership obj) : (Data.Aeson..=) "representative" (personRelationshipRepresentative obj) : (Data.Aeson..=) "title" (personRelationshipTitle obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "director" (personRelationshipDirector obj) GHC.Base.<> ((Data.Aeson..=) "executive" (personRelationshipExecutive obj) GHC.Base.<> ((Data.Aeson..=) "owner" (personRelationshipOwner obj) GHC.Base.<> ((Data.Aeson..=) "percent_ownership" (personRelationshipPercentOwnership obj) GHC.Base.<> ((Data.Aeson..=) "representative" (personRelationshipRepresentative obj) GHC.Base.<> (Data.Aeson..=) "title" (personRelationshipTitle obj))))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("director" Data.Aeson.Types.ToJSON..= personRelationshipDirector obj : "executive" Data.Aeson.Types.ToJSON..= personRelationshipExecutive obj : "owner" Data.Aeson.Types.ToJSON..= personRelationshipOwner obj : "percent_ownership" Data.Aeson.Types.ToJSON..= personRelationshipPercentOwnership obj : "representative" Data.Aeson.Types.ToJSON..= personRelationshipRepresentative obj : "title" Data.Aeson.Types.ToJSON..= personRelationshipTitle obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("director" Data.Aeson.Types.ToJSON..= personRelationshipDirector obj) GHC.Base.<> (("executive" Data.Aeson.Types.ToJSON..= personRelationshipExecutive obj) GHC.Base.<> (("owner" Data.Aeson.Types.ToJSON..= personRelationshipOwner obj) GHC.Base.<> (("percent_ownership" Data.Aeson.Types.ToJSON..= personRelationshipPercentOwnership obj) GHC.Base.<> (("representative" Data.Aeson.Types.ToJSON..= personRelationshipRepresentative obj) GHC.Base.<> ("title" Data.Aeson.Types.ToJSON..= personRelationshipTitle obj))))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PersonRelationship where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PersonRelationship" (\obj -> (((((GHC.Base.pure PersonRelationship GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "director")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "executive")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "owner")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "percent_ownership")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "representative")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "title"))
+
+-- | Create a new 'PersonRelationship' with all required fields.
+mkPersonRelationship :: PersonRelationship
+mkPersonRelationship =
+  PersonRelationship
+    { personRelationshipDirector = GHC.Maybe.Nothing,
+      personRelationshipExecutive = GHC.Maybe.Nothing,
+      personRelationshipOwner = GHC.Maybe.Nothing,
+      personRelationshipPercentOwnership = GHC.Maybe.Nothing,
+      personRelationshipRepresentative = GHC.Maybe.Nothing,
+      personRelationshipTitle = GHC.Maybe.Nothing
+    }

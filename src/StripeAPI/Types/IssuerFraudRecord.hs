@@ -8,6 +8,7 @@ module StripeAPI.Types.IssuerFraudRecord where
 
 import qualified Control.Monad.Fail
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -31,7 +32,7 @@ import {-# SOURCE #-} StripeAPI.Types.Charge
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
--- | Defines the data type for the schema issuer_fraud_record
+-- | Defines the object schema located at @components.schemas.issuer_fraud_record@ in the specification.
 --
 -- This resource has been renamed to [Early Fraud
 -- Warning](\#early_fraud_warning_object) and will be removed in a future API
@@ -60,8 +61,6 @@ data IssuerFraudRecord
         issuerFraudRecordId :: Data.Text.Internal.Text,
         -- | livemode: Has the value \`true\` if the object exists in live mode or the value \`false\` if the object exists in test mode.
         issuerFraudRecordLivemode :: GHC.Types.Bool,
-        -- | object: String representing the object\'s type. Objects of the same type share the same value.
-        issuerFraudRecordObject :: IssuerFraudRecordObject',
         -- | post_date: The timestamp at which the card issuer posted the issuer fraud record.
         issuerFraudRecordPostDate :: GHC.Types.Int
       }
@@ -71,13 +70,44 @@ data IssuerFraudRecord
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON IssuerFraudRecord where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "actionable" (issuerFraudRecordActionable obj) : (Data.Aeson..=) "charge" (issuerFraudRecordCharge obj) : (Data.Aeson..=) "created" (issuerFraudRecordCreated obj) : (Data.Aeson..=) "fraud_type" (issuerFraudRecordFraudType obj) : (Data.Aeson..=) "has_liability_shift" (issuerFraudRecordHasLiabilityShift obj) : (Data.Aeson..=) "id" (issuerFraudRecordId obj) : (Data.Aeson..=) "livemode" (issuerFraudRecordLivemode obj) : (Data.Aeson..=) "object" (issuerFraudRecordObject obj) : (Data.Aeson..=) "post_date" (issuerFraudRecordPostDate obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "actionable" (issuerFraudRecordActionable obj) GHC.Base.<> ((Data.Aeson..=) "charge" (issuerFraudRecordCharge obj) GHC.Base.<> ((Data.Aeson..=) "created" (issuerFraudRecordCreated obj) GHC.Base.<> ((Data.Aeson..=) "fraud_type" (issuerFraudRecordFraudType obj) GHC.Base.<> ((Data.Aeson..=) "has_liability_shift" (issuerFraudRecordHasLiabilityShift obj) GHC.Base.<> ((Data.Aeson..=) "id" (issuerFraudRecordId obj) GHC.Base.<> ((Data.Aeson..=) "livemode" (issuerFraudRecordLivemode obj) GHC.Base.<> ((Data.Aeson..=) "object" (issuerFraudRecordObject obj) GHC.Base.<> (Data.Aeson..=) "post_date" (issuerFraudRecordPostDate obj)))))))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("actionable" Data.Aeson.Types.ToJSON..= issuerFraudRecordActionable obj : "charge" Data.Aeson.Types.ToJSON..= issuerFraudRecordCharge obj : "created" Data.Aeson.Types.ToJSON..= issuerFraudRecordCreated obj : "fraud_type" Data.Aeson.Types.ToJSON..= issuerFraudRecordFraudType obj : "has_liability_shift" Data.Aeson.Types.ToJSON..= issuerFraudRecordHasLiabilityShift obj : "id" Data.Aeson.Types.ToJSON..= issuerFraudRecordId obj : "livemode" Data.Aeson.Types.ToJSON..= issuerFraudRecordLivemode obj : "post_date" Data.Aeson.Types.ToJSON..= issuerFraudRecordPostDate obj : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "issuer_fraud_record" : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("actionable" Data.Aeson.Types.ToJSON..= issuerFraudRecordActionable obj) GHC.Base.<> (("charge" Data.Aeson.Types.ToJSON..= issuerFraudRecordCharge obj) GHC.Base.<> (("created" Data.Aeson.Types.ToJSON..= issuerFraudRecordCreated obj) GHC.Base.<> (("fraud_type" Data.Aeson.Types.ToJSON..= issuerFraudRecordFraudType obj) GHC.Base.<> (("has_liability_shift" Data.Aeson.Types.ToJSON..= issuerFraudRecordHasLiabilityShift obj) GHC.Base.<> (("id" Data.Aeson.Types.ToJSON..= issuerFraudRecordId obj) GHC.Base.<> (("livemode" Data.Aeson.Types.ToJSON..= issuerFraudRecordLivemode obj) GHC.Base.<> (("post_date" Data.Aeson.Types.ToJSON..= issuerFraudRecordPostDate obj) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "issuer_fraud_record")))))))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON IssuerFraudRecord where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "IssuerFraudRecord" (\obj -> ((((((((GHC.Base.pure IssuerFraudRecord GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "actionable")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "charge")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "created")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "fraud_type")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "has_liability_shift")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "livemode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "object")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "post_date"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "IssuerFraudRecord" (\obj -> (((((((GHC.Base.pure IssuerFraudRecord GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "actionable")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "charge")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "created")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "fraud_type")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "has_liability_shift")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "livemode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "post_date"))
 
--- | Define the one-of schema issuer_fraud_recordCharge\'
+-- | Create a new 'IssuerFraudRecord' with all required fields.
+mkIssuerFraudRecord ::
+  -- | 'issuerFraudRecordActionable'
+  GHC.Types.Bool ->
+  -- | 'issuerFraudRecordCharge'
+  IssuerFraudRecordCharge'Variants ->
+  -- | 'issuerFraudRecordCreated'
+  GHC.Types.Int ->
+  -- | 'issuerFraudRecordFraudType'
+  Data.Text.Internal.Text ->
+  -- | 'issuerFraudRecordHasLiabilityShift'
+  GHC.Types.Bool ->
+  -- | 'issuerFraudRecordId'
+  Data.Text.Internal.Text ->
+  -- | 'issuerFraudRecordLivemode'
+  GHC.Types.Bool ->
+  -- | 'issuerFraudRecordPostDate'
+  GHC.Types.Int ->
+  IssuerFraudRecord
+mkIssuerFraudRecord issuerFraudRecordActionable issuerFraudRecordCharge issuerFraudRecordCreated issuerFraudRecordFraudType issuerFraudRecordHasLiabilityShift issuerFraudRecordId issuerFraudRecordLivemode issuerFraudRecordPostDate =
+  IssuerFraudRecord
+    { issuerFraudRecordActionable = issuerFraudRecordActionable,
+      issuerFraudRecordCharge = issuerFraudRecordCharge,
+      issuerFraudRecordCreated = issuerFraudRecordCreated,
+      issuerFraudRecordFraudType = issuerFraudRecordFraudType,
+      issuerFraudRecordHasLiabilityShift = issuerFraudRecordHasLiabilityShift,
+      issuerFraudRecordId = issuerFraudRecordId,
+      issuerFraudRecordLivemode = issuerFraudRecordLivemode,
+      issuerFraudRecordPostDate = issuerFraudRecordPostDate
+    }
+
+-- | Defines the oneOf schema located at @components.schemas.issuer_fraud_record.properties.charge.anyOf@ in the specification.
 --
 -- ID of the charge this issuer fraud record is for, optionally expanded.
 data IssuerFraudRecordCharge'Variants
@@ -90,29 +120,6 @@ instance Data.Aeson.Types.ToJSON.ToJSON IssuerFraudRecordCharge'Variants where
   toJSON (IssuerFraudRecordCharge'Text a) = Data.Aeson.Types.ToJSON.toJSON a
 
 instance Data.Aeson.Types.FromJSON.FromJSON IssuerFraudRecordCharge'Variants where
-  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
-    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ IssuerFraudRecordCharge'Charge a
-    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ IssuerFraudRecordCharge'Text a
-      Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
-
--- | Defines the enum schema issuer_fraud_recordObject\'
---
--- String representing the object\'s type. Objects of the same type share the same value.
-data IssuerFraudRecordObject'
-  = IssuerFraudRecordObject'EnumOther Data.Aeson.Types.Internal.Value
-  | IssuerFraudRecordObject'EnumTyped Data.Text.Internal.Text
-  | IssuerFraudRecordObject'EnumStringIssuerFraudRecord
-  deriving (GHC.Show.Show, GHC.Classes.Eq)
-
-instance Data.Aeson.Types.ToJSON.ToJSON IssuerFraudRecordObject' where
-  toJSON (IssuerFraudRecordObject'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (IssuerFraudRecordObject'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (IssuerFraudRecordObject'EnumStringIssuerFraudRecord) = "issuer_fraud_record"
-
-instance Data.Aeson.Types.FromJSON.FromJSON IssuerFraudRecordObject' where
-  parseJSON val =
-    GHC.Base.pure
-      ( if  | val GHC.Classes.== "issuer_fraud_record" -> IssuerFraudRecordObject'EnumStringIssuerFraudRecord
-            | GHC.Base.otherwise -> IssuerFraudRecordObject'EnumOther val
-      )
+  parseJSON val = case (IssuerFraudRecordCharge'Charge Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((IssuerFraudRecordCharge'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched") of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+    Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a

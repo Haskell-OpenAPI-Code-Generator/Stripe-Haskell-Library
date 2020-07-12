@@ -1,16 +1,11 @@
 module StripeAPI.Types.OrderReturn where
 import Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Types.Internal
-data OrderReturn 
-instance Show OrderReturn 
-instance Eq OrderReturn 
-instance FromJSON OrderReturn 
-instance ToJSON OrderReturn 
-data OrderReturnObject'
-instance Show OrderReturnObject'
-instance Eq OrderReturnObject'
-instance FromJSON OrderReturnObject'
-instance ToJSON OrderReturnObject'
+data OrderReturn
+instance Show OrderReturn
+instance Eq OrderReturn
+instance FromJSON OrderReturn
+instance ToJSON OrderReturn
 data OrderReturnOrder'Variants
 instance Show OrderReturnOrder'Variants
 instance Eq OrderReturnOrder'Variants

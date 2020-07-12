@@ -8,6 +8,7 @@ module StripeAPI.Types.Recipient where
 
 import qualified Control.Monad.Fail
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -35,7 +36,7 @@ import {-# SOURCE #-} StripeAPI.Types.DeletedCustomer
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
--- | Defines the data type for the schema recipient
+-- | Defines the object schema located at @components.schemas.recipient@ in the specification.
 --
 -- With \`Recipient\` objects, you can transfer money from your Stripe account to a
 -- third-party bank account or debit card. The API allows you to create, delete,
@@ -88,8 +89,6 @@ data Recipient
         --
         -- * Maximum length of 5000
         recipientName :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
-        -- | object: String representing the object\'s type. Objects of the same type share the same value.
-        recipientObject :: RecipientObject',
         -- | rolled_back_from
         recipientRolledBackFrom :: (GHC.Maybe.Maybe RecipientRolledBackFrom'Variants),
         -- | type: Type of the recipient, one of \`individual\` or \`corporation\`.
@@ -105,13 +104,43 @@ data Recipient
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON Recipient where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "active_account" (recipientActiveAccount obj) : (Data.Aeson..=) "cards" (recipientCards obj) : (Data.Aeson..=) "created" (recipientCreated obj) : (Data.Aeson..=) "default_card" (recipientDefaultCard obj) : (Data.Aeson..=) "description" (recipientDescription obj) : (Data.Aeson..=) "email" (recipientEmail obj) : (Data.Aeson..=) "id" (recipientId obj) : (Data.Aeson..=) "livemode" (recipientLivemode obj) : (Data.Aeson..=) "metadata" (recipientMetadata obj) : (Data.Aeson..=) "migrated_to" (recipientMigratedTo obj) : (Data.Aeson..=) "name" (recipientName obj) : (Data.Aeson..=) "object" (recipientObject obj) : (Data.Aeson..=) "rolled_back_from" (recipientRolledBackFrom obj) : (Data.Aeson..=) "type" (recipientType obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "active_account" (recipientActiveAccount obj) GHC.Base.<> ((Data.Aeson..=) "cards" (recipientCards obj) GHC.Base.<> ((Data.Aeson..=) "created" (recipientCreated obj) GHC.Base.<> ((Data.Aeson..=) "default_card" (recipientDefaultCard obj) GHC.Base.<> ((Data.Aeson..=) "description" (recipientDescription obj) GHC.Base.<> ((Data.Aeson..=) "email" (recipientEmail obj) GHC.Base.<> ((Data.Aeson..=) "id" (recipientId obj) GHC.Base.<> ((Data.Aeson..=) "livemode" (recipientLivemode obj) GHC.Base.<> ((Data.Aeson..=) "metadata" (recipientMetadata obj) GHC.Base.<> ((Data.Aeson..=) "migrated_to" (recipientMigratedTo obj) GHC.Base.<> ((Data.Aeson..=) "name" (recipientName obj) GHC.Base.<> ((Data.Aeson..=) "object" (recipientObject obj) GHC.Base.<> ((Data.Aeson..=) "rolled_back_from" (recipientRolledBackFrom obj) GHC.Base.<> (Data.Aeson..=) "type" (recipientType obj))))))))))))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("active_account" Data.Aeson.Types.ToJSON..= recipientActiveAccount obj : "cards" Data.Aeson.Types.ToJSON..= recipientCards obj : "created" Data.Aeson.Types.ToJSON..= recipientCreated obj : "default_card" Data.Aeson.Types.ToJSON..= recipientDefaultCard obj : "description" Data.Aeson.Types.ToJSON..= recipientDescription obj : "email" Data.Aeson.Types.ToJSON..= recipientEmail obj : "id" Data.Aeson.Types.ToJSON..= recipientId obj : "livemode" Data.Aeson.Types.ToJSON..= recipientLivemode obj : "metadata" Data.Aeson.Types.ToJSON..= recipientMetadata obj : "migrated_to" Data.Aeson.Types.ToJSON..= recipientMigratedTo obj : "name" Data.Aeson.Types.ToJSON..= recipientName obj : "rolled_back_from" Data.Aeson.Types.ToJSON..= recipientRolledBackFrom obj : "type" Data.Aeson.Types.ToJSON..= recipientType obj : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "recipient" : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("active_account" Data.Aeson.Types.ToJSON..= recipientActiveAccount obj) GHC.Base.<> (("cards" Data.Aeson.Types.ToJSON..= recipientCards obj) GHC.Base.<> (("created" Data.Aeson.Types.ToJSON..= recipientCreated obj) GHC.Base.<> (("default_card" Data.Aeson.Types.ToJSON..= recipientDefaultCard obj) GHC.Base.<> (("description" Data.Aeson.Types.ToJSON..= recipientDescription obj) GHC.Base.<> (("email" Data.Aeson.Types.ToJSON..= recipientEmail obj) GHC.Base.<> (("id" Data.Aeson.Types.ToJSON..= recipientId obj) GHC.Base.<> (("livemode" Data.Aeson.Types.ToJSON..= recipientLivemode obj) GHC.Base.<> (("metadata" Data.Aeson.Types.ToJSON..= recipientMetadata obj) GHC.Base.<> (("migrated_to" Data.Aeson.Types.ToJSON..= recipientMigratedTo obj) GHC.Base.<> (("name" Data.Aeson.Types.ToJSON..= recipientName obj) GHC.Base.<> (("rolled_back_from" Data.Aeson.Types.ToJSON..= recipientRolledBackFrom obj) GHC.Base.<> (("type" Data.Aeson.Types.ToJSON..= recipientType obj) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "recipient"))))))))))))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON Recipient where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "Recipient" (\obj -> (((((((((((((GHC.Base.pure Recipient GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "active_account")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "cards")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "created")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "default_card")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "description")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "email")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "livemode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "migrated_to")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "object")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "rolled_back_from")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "type"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "Recipient" (\obj -> ((((((((((((GHC.Base.pure Recipient GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "active_account")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "cards")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "created")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "default_card")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "description")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "email")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "livemode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "migrated_to")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "rolled_back_from")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "type"))
 
--- | Defines the data type for the schema recipientActive_account\'
+-- | Create a new 'Recipient' with all required fields.
+mkRecipient ::
+  -- | 'recipientCreated'
+  GHC.Types.Int ->
+  -- | 'recipientId'
+  Data.Text.Internal.Text ->
+  -- | 'recipientLivemode'
+  GHC.Types.Bool ->
+  -- | 'recipientMetadata'
+  Data.Aeson.Types.Internal.Object ->
+  -- | 'recipientType'
+  Data.Text.Internal.Text ->
+  Recipient
+mkRecipient recipientCreated recipientId recipientLivemode recipientMetadata recipientType =
+  Recipient
+    { recipientActiveAccount = GHC.Maybe.Nothing,
+      recipientCards = GHC.Maybe.Nothing,
+      recipientCreated = recipientCreated,
+      recipientDefaultCard = GHC.Maybe.Nothing,
+      recipientDescription = GHC.Maybe.Nothing,
+      recipientEmail = GHC.Maybe.Nothing,
+      recipientId = recipientId,
+      recipientLivemode = recipientLivemode,
+      recipientMetadata = recipientMetadata,
+      recipientMigratedTo = GHC.Maybe.Nothing,
+      recipientName = GHC.Maybe.Nothing,
+      recipientRolledBackFrom = GHC.Maybe.Nothing,
+      recipientType = recipientType
+    }
+
+-- | Defines the object schema located at @components.schemas.recipient.properties.active_account.anyOf@ in the specification.
 --
 -- Hash describing the current account on the recipient, if there is one.
 data RecipientActiveAccount'
@@ -168,8 +197,6 @@ data RecipientActiveAccount'
         recipientActiveAccount'Last4 :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
         -- | metadata: Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
         recipientActiveAccount'Metadata :: (GHC.Maybe.Maybe Data.Aeson.Types.Internal.Object),
-        -- | object: String representing the object\'s type. Objects of the same type share the same value.
-        recipientActiveAccount'Object :: (GHC.Maybe.Maybe RecipientActiveAccount'Object'),
         -- | routing_number: The routing transit number for the bank account.
         --
         -- Constraints:
@@ -191,13 +218,33 @@ data RecipientActiveAccount'
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON RecipientActiveAccount' where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "account" (recipientActiveAccount'Account obj) : (Data.Aeson..=) "account_holder_name" (recipientActiveAccount'AccountHolderName obj) : (Data.Aeson..=) "account_holder_type" (recipientActiveAccount'AccountHolderType obj) : (Data.Aeson..=) "bank_name" (recipientActiveAccount'BankName obj) : (Data.Aeson..=) "country" (recipientActiveAccount'Country obj) : (Data.Aeson..=) "currency" (recipientActiveAccount'Currency obj) : (Data.Aeson..=) "customer" (recipientActiveAccount'Customer obj) : (Data.Aeson..=) "default_for_currency" (recipientActiveAccount'DefaultForCurrency obj) : (Data.Aeson..=) "fingerprint" (recipientActiveAccount'Fingerprint obj) : (Data.Aeson..=) "id" (recipientActiveAccount'Id obj) : (Data.Aeson..=) "last4" (recipientActiveAccount'Last4 obj) : (Data.Aeson..=) "metadata" (recipientActiveAccount'Metadata obj) : (Data.Aeson..=) "object" (recipientActiveAccount'Object obj) : (Data.Aeson..=) "routing_number" (recipientActiveAccount'RoutingNumber obj) : (Data.Aeson..=) "status" (recipientActiveAccount'Status obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "account" (recipientActiveAccount'Account obj) GHC.Base.<> ((Data.Aeson..=) "account_holder_name" (recipientActiveAccount'AccountHolderName obj) GHC.Base.<> ((Data.Aeson..=) "account_holder_type" (recipientActiveAccount'AccountHolderType obj) GHC.Base.<> ((Data.Aeson..=) "bank_name" (recipientActiveAccount'BankName obj) GHC.Base.<> ((Data.Aeson..=) "country" (recipientActiveAccount'Country obj) GHC.Base.<> ((Data.Aeson..=) "currency" (recipientActiveAccount'Currency obj) GHC.Base.<> ((Data.Aeson..=) "customer" (recipientActiveAccount'Customer obj) GHC.Base.<> ((Data.Aeson..=) "default_for_currency" (recipientActiveAccount'DefaultForCurrency obj) GHC.Base.<> ((Data.Aeson..=) "fingerprint" (recipientActiveAccount'Fingerprint obj) GHC.Base.<> ((Data.Aeson..=) "id" (recipientActiveAccount'Id obj) GHC.Base.<> ((Data.Aeson..=) "last4" (recipientActiveAccount'Last4 obj) GHC.Base.<> ((Data.Aeson..=) "metadata" (recipientActiveAccount'Metadata obj) GHC.Base.<> ((Data.Aeson..=) "object" (recipientActiveAccount'Object obj) GHC.Base.<> ((Data.Aeson..=) "routing_number" (recipientActiveAccount'RoutingNumber obj) GHC.Base.<> (Data.Aeson..=) "status" (recipientActiveAccount'Status obj)))))))))))))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("account" Data.Aeson.Types.ToJSON..= recipientActiveAccount'Account obj : "account_holder_name" Data.Aeson.Types.ToJSON..= recipientActiveAccount'AccountHolderName obj : "account_holder_type" Data.Aeson.Types.ToJSON..= recipientActiveAccount'AccountHolderType obj : "bank_name" Data.Aeson.Types.ToJSON..= recipientActiveAccount'BankName obj : "country" Data.Aeson.Types.ToJSON..= recipientActiveAccount'Country obj : "currency" Data.Aeson.Types.ToJSON..= recipientActiveAccount'Currency obj : "customer" Data.Aeson.Types.ToJSON..= recipientActiveAccount'Customer obj : "default_for_currency" Data.Aeson.Types.ToJSON..= recipientActiveAccount'DefaultForCurrency obj : "fingerprint" Data.Aeson.Types.ToJSON..= recipientActiveAccount'Fingerprint obj : "id" Data.Aeson.Types.ToJSON..= recipientActiveAccount'Id obj : "last4" Data.Aeson.Types.ToJSON..= recipientActiveAccount'Last4 obj : "metadata" Data.Aeson.Types.ToJSON..= recipientActiveAccount'Metadata obj : "routing_number" Data.Aeson.Types.ToJSON..= recipientActiveAccount'RoutingNumber obj : "status" Data.Aeson.Types.ToJSON..= recipientActiveAccount'Status obj : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "bank_account" : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("account" Data.Aeson.Types.ToJSON..= recipientActiveAccount'Account obj) GHC.Base.<> (("account_holder_name" Data.Aeson.Types.ToJSON..= recipientActiveAccount'AccountHolderName obj) GHC.Base.<> (("account_holder_type" Data.Aeson.Types.ToJSON..= recipientActiveAccount'AccountHolderType obj) GHC.Base.<> (("bank_name" Data.Aeson.Types.ToJSON..= recipientActiveAccount'BankName obj) GHC.Base.<> (("country" Data.Aeson.Types.ToJSON..= recipientActiveAccount'Country obj) GHC.Base.<> (("currency" Data.Aeson.Types.ToJSON..= recipientActiveAccount'Currency obj) GHC.Base.<> (("customer" Data.Aeson.Types.ToJSON..= recipientActiveAccount'Customer obj) GHC.Base.<> (("default_for_currency" Data.Aeson.Types.ToJSON..= recipientActiveAccount'DefaultForCurrency obj) GHC.Base.<> (("fingerprint" Data.Aeson.Types.ToJSON..= recipientActiveAccount'Fingerprint obj) GHC.Base.<> (("id" Data.Aeson.Types.ToJSON..= recipientActiveAccount'Id obj) GHC.Base.<> (("last4" Data.Aeson.Types.ToJSON..= recipientActiveAccount'Last4 obj) GHC.Base.<> (("metadata" Data.Aeson.Types.ToJSON..= recipientActiveAccount'Metadata obj) GHC.Base.<> (("routing_number" Data.Aeson.Types.ToJSON..= recipientActiveAccount'RoutingNumber obj) GHC.Base.<> (("status" Data.Aeson.Types.ToJSON..= recipientActiveAccount'Status obj) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "bank_account")))))))))))))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON RecipientActiveAccount' where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "RecipientActiveAccount'" (\obj -> ((((((((((((((GHC.Base.pure RecipientActiveAccount' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "account")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "account_holder_name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "account_holder_type")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "bank_name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "country")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "customer")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "default_for_currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "fingerprint")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "last4")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "object")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "routing_number")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "status"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "RecipientActiveAccount'" (\obj -> (((((((((((((GHC.Base.pure RecipientActiveAccount' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "account")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "account_holder_name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "account_holder_type")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "bank_name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "country")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "customer")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "default_for_currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "fingerprint")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "last4")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "routing_number")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "status"))
 
--- | Define the one-of schema recipientActive_account\'Account\'
+-- | Create a new 'RecipientActiveAccount'' with all required fields.
+mkRecipientActiveAccount' :: RecipientActiveAccount'
+mkRecipientActiveAccount' =
+  RecipientActiveAccount'
+    { recipientActiveAccount'Account = GHC.Maybe.Nothing,
+      recipientActiveAccount'AccountHolderName = GHC.Maybe.Nothing,
+      recipientActiveAccount'AccountHolderType = GHC.Maybe.Nothing,
+      recipientActiveAccount'BankName = GHC.Maybe.Nothing,
+      recipientActiveAccount'Country = GHC.Maybe.Nothing,
+      recipientActiveAccount'Currency = GHC.Maybe.Nothing,
+      recipientActiveAccount'Customer = GHC.Maybe.Nothing,
+      recipientActiveAccount'DefaultForCurrency = GHC.Maybe.Nothing,
+      recipientActiveAccount'Fingerprint = GHC.Maybe.Nothing,
+      recipientActiveAccount'Id = GHC.Maybe.Nothing,
+      recipientActiveAccount'Last4 = GHC.Maybe.Nothing,
+      recipientActiveAccount'Metadata = GHC.Maybe.Nothing,
+      recipientActiveAccount'RoutingNumber = GHC.Maybe.Nothing,
+      recipientActiveAccount'Status = GHC.Maybe.Nothing
+    }
+
+-- | Defines the oneOf schema located at @components.schemas.recipient.properties.active_account.anyOf.properties.account.anyOf@ in the specification.
 --
 -- The ID of the account that the bank account is associated with.
 data RecipientActiveAccount'Account'Variants
@@ -210,13 +257,11 @@ instance Data.Aeson.Types.ToJSON.ToJSON RecipientActiveAccount'Account'Variants 
   toJSON (RecipientActiveAccount'Account'Text a) = Data.Aeson.Types.ToJSON.toJSON a
 
 instance Data.Aeson.Types.FromJSON.FromJSON RecipientActiveAccount'Account'Variants where
-  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
-    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ RecipientActiveAccount'Account'Account a
-    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ RecipientActiveAccount'Account'Text a
-      Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+  parseJSON val = case (RecipientActiveAccount'Account'Account Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((RecipientActiveAccount'Account'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched") of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+    Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
--- | Define the one-of schema recipientActive_account\'Customer\'
+-- | Defines the oneOf schema located at @components.schemas.recipient.properties.active_account.anyOf.properties.customer.anyOf@ in the specification.
 --
 -- The ID of the customer that the bank account is associated with.
 data RecipientActiveAccount'Customer'Variants
@@ -231,44 +276,17 @@ instance Data.Aeson.Types.ToJSON.ToJSON RecipientActiveAccount'Customer'Variants
   toJSON (RecipientActiveAccount'Customer'Text a) = Data.Aeson.Types.ToJSON.toJSON a
 
 instance Data.Aeson.Types.FromJSON.FromJSON RecipientActiveAccount'Customer'Variants where
-  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
-    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ RecipientActiveAccount'Customer'Customer a
-    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ RecipientActiveAccount'Customer'DeletedCustomer a
-      Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-        Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ RecipientActiveAccount'Customer'Text a
-        Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+  parseJSON val = case (RecipientActiveAccount'Customer'Customer Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((RecipientActiveAccount'Customer'DeletedCustomer Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((RecipientActiveAccount'Customer'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched")) of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+    Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
--- | Defines the enum schema recipientActive_account\'Object\'
---
--- String representing the object\'s type. Objects of the same type share the same value.
-data RecipientActiveAccount'Object'
-  = RecipientActiveAccount'Object'EnumOther Data.Aeson.Types.Internal.Value
-  | RecipientActiveAccount'Object'EnumTyped Data.Text.Internal.Text
-  | RecipientActiveAccount'Object'EnumStringBankAccount
-  deriving (GHC.Show.Show, GHC.Classes.Eq)
-
-instance Data.Aeson.Types.ToJSON.ToJSON RecipientActiveAccount'Object' where
-  toJSON (RecipientActiveAccount'Object'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (RecipientActiveAccount'Object'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (RecipientActiveAccount'Object'EnumStringBankAccount) = "bank_account"
-
-instance Data.Aeson.Types.FromJSON.FromJSON RecipientActiveAccount'Object' where
-  parseJSON val =
-    GHC.Base.pure
-      ( if  | val GHC.Classes.== "bank_account" -> RecipientActiveAccount'Object'EnumStringBankAccount
-            | GHC.Base.otherwise -> RecipientActiveAccount'Object'EnumOther val
-      )
-
--- | Defines the data type for the schema recipientCards\'
+-- | Defines the object schema located at @components.schemas.recipient.properties.cards@ in the specification.
 data RecipientCards'
   = RecipientCards'
       { -- | data
         recipientCards'Data :: ([Card]),
         -- | has_more: True if this list has another page of items after this one that can be fetched.
         recipientCards'HasMore :: GHC.Types.Bool,
-        -- | object: String representing the object\'s type. Objects of the same type share the same value. Always has the value \`list\`.
-        recipientCards'Object :: RecipientCards'Object',
         -- | url: The URL where this list can be accessed.
         --
         -- Constraints:
@@ -282,34 +300,29 @@ data RecipientCards'
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON RecipientCards' where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "data" (recipientCards'Data obj) : (Data.Aeson..=) "has_more" (recipientCards'HasMore obj) : (Data.Aeson..=) "object" (recipientCards'Object obj) : (Data.Aeson..=) "url" (recipientCards'Url obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "data" (recipientCards'Data obj) GHC.Base.<> ((Data.Aeson..=) "has_more" (recipientCards'HasMore obj) GHC.Base.<> ((Data.Aeson..=) "object" (recipientCards'Object obj) GHC.Base.<> (Data.Aeson..=) "url" (recipientCards'Url obj))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("data" Data.Aeson.Types.ToJSON..= recipientCards'Data obj : "has_more" Data.Aeson.Types.ToJSON..= recipientCards'HasMore obj : "url" Data.Aeson.Types.ToJSON..= recipientCards'Url obj : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "list" : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("data" Data.Aeson.Types.ToJSON..= recipientCards'Data obj) GHC.Base.<> (("has_more" Data.Aeson.Types.ToJSON..= recipientCards'HasMore obj) GHC.Base.<> (("url" Data.Aeson.Types.ToJSON..= recipientCards'Url obj) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "list"))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON RecipientCards' where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "RecipientCards'" (\obj -> (((GHC.Base.pure RecipientCards' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "has_more")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "object")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "url"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "RecipientCards'" (\obj -> ((GHC.Base.pure RecipientCards' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "has_more")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "url"))
 
--- | Defines the enum schema recipientCards\'Object\'
---
--- String representing the object\'s type. Objects of the same type share the same value. Always has the value \`list\`.
-data RecipientCards'Object'
-  = RecipientCards'Object'EnumOther Data.Aeson.Types.Internal.Value
-  | RecipientCards'Object'EnumTyped Data.Text.Internal.Text
-  | RecipientCards'Object'EnumStringList
-  deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Create a new 'RecipientCards'' with all required fields.
+mkRecipientCards' ::
+  -- | 'recipientCards'Data'
+  [Card] ->
+  -- | 'recipientCards'HasMore'
+  GHC.Types.Bool ->
+  -- | 'recipientCards'Url'
+  Data.Text.Internal.Text ->
+  RecipientCards'
+mkRecipientCards' recipientCards'Data recipientCards'HasMore recipientCards'Url =
+  RecipientCards'
+    { recipientCards'Data = recipientCards'Data,
+      recipientCards'HasMore = recipientCards'HasMore,
+      recipientCards'Url = recipientCards'Url
+    }
 
-instance Data.Aeson.Types.ToJSON.ToJSON RecipientCards'Object' where
-  toJSON (RecipientCards'Object'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (RecipientCards'Object'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (RecipientCards'Object'EnumStringList) = "list"
-
-instance Data.Aeson.Types.FromJSON.FromJSON RecipientCards'Object' where
-  parseJSON val =
-    GHC.Base.pure
-      ( if  | val GHC.Classes.== "list" -> RecipientCards'Object'EnumStringList
-            | GHC.Base.otherwise -> RecipientCards'Object'EnumOther val
-      )
-
--- | Define the one-of schema recipientDefault_card\'
+-- | Defines the oneOf schema located at @components.schemas.recipient.properties.default_card.anyOf@ in the specification.
 --
 -- The default card to use for creating transfers to this recipient.
 data RecipientDefaultCard'Variants
@@ -322,13 +335,11 @@ instance Data.Aeson.Types.ToJSON.ToJSON RecipientDefaultCard'Variants where
   toJSON (RecipientDefaultCard'Text a) = Data.Aeson.Types.ToJSON.toJSON a
 
 instance Data.Aeson.Types.FromJSON.FromJSON RecipientDefaultCard'Variants where
-  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
-    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ RecipientDefaultCard'Card a
-    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ RecipientDefaultCard'Text a
-      Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+  parseJSON val = case (RecipientDefaultCard'Card Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((RecipientDefaultCard'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched") of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+    Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
--- | Define the one-of schema recipientMigrated_to\'
+-- | Defines the oneOf schema located at @components.schemas.recipient.properties.migrated_to.anyOf@ in the specification.
 --
 -- The ID of the [Custom account](https:\/\/stripe.com\/docs\/connect\/custom-accounts) this recipient was migrated to. If set, the recipient can no longer be updated, nor can transfers be made to it: use the Custom account instead.
 data RecipientMigratedTo'Variants
@@ -341,34 +352,11 @@ instance Data.Aeson.Types.ToJSON.ToJSON RecipientMigratedTo'Variants where
   toJSON (RecipientMigratedTo'Text a) = Data.Aeson.Types.ToJSON.toJSON a
 
 instance Data.Aeson.Types.FromJSON.FromJSON RecipientMigratedTo'Variants where
-  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
-    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ RecipientMigratedTo'Account a
-    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ RecipientMigratedTo'Text a
-      Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+  parseJSON val = case (RecipientMigratedTo'Account Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((RecipientMigratedTo'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched") of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+    Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
--- | Defines the enum schema recipientObject\'
---
--- String representing the object\'s type. Objects of the same type share the same value.
-data RecipientObject'
-  = RecipientObject'EnumOther Data.Aeson.Types.Internal.Value
-  | RecipientObject'EnumTyped Data.Text.Internal.Text
-  | RecipientObject'EnumStringRecipient
-  deriving (GHC.Show.Show, GHC.Classes.Eq)
-
-instance Data.Aeson.Types.ToJSON.ToJSON RecipientObject' where
-  toJSON (RecipientObject'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (RecipientObject'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (RecipientObject'EnumStringRecipient) = "recipient"
-
-instance Data.Aeson.Types.FromJSON.FromJSON RecipientObject' where
-  parseJSON val =
-    GHC.Base.pure
-      ( if  | val GHC.Classes.== "recipient" -> RecipientObject'EnumStringRecipient
-            | GHC.Base.otherwise -> RecipientObject'EnumOther val
-      )
-
--- | Define the one-of schema recipientRolled_back_from\'
+-- | Defines the oneOf schema located at @components.schemas.recipient.properties.rolled_back_from.anyOf@ in the specification.
 data RecipientRolledBackFrom'Variants
   = RecipientRolledBackFrom'Account Account
   | RecipientRolledBackFrom'Text Data.Text.Internal.Text
@@ -379,8 +367,6 @@ instance Data.Aeson.Types.ToJSON.ToJSON RecipientRolledBackFrom'Variants where
   toJSON (RecipientRolledBackFrom'Text a) = Data.Aeson.Types.ToJSON.toJSON a
 
 instance Data.Aeson.Types.FromJSON.FromJSON RecipientRolledBackFrom'Variants where
-  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
-    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ RecipientRolledBackFrom'Account a
-    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ RecipientRolledBackFrom'Text a
-      Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+  parseJSON val = case (RecipientRolledBackFrom'Account Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((RecipientRolledBackFrom'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched") of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+    Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a

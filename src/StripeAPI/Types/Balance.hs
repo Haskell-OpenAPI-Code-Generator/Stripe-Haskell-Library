@@ -8,6 +8,7 @@ module StripeAPI.Types.Balance where
 
 import qualified Control.Monad.Fail
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -31,7 +32,7 @@ import {-# SOURCE #-} StripeAPI.Types.BalanceAmount
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
--- | Defines the data type for the schema balance
+-- | Defines the object schema located at @components.schemas.balance@ in the specification.
 --
 -- This is an object representing your Stripe balance. You can retrieve it to see
 -- the balance currently on your Stripe account.
@@ -52,8 +53,6 @@ data Balance
         balanceConnectReserved :: (GHC.Maybe.Maybe ([BalanceAmount])),
         -- | livemode: Has the value \`true\` if the object exists in live mode or the value \`false\` if the object exists in test mode.
         balanceLivemode :: GHC.Types.Bool,
-        -- | object: String representing the object\'s type. Objects of the same type share the same value.
-        balanceObject :: BalanceObject',
         -- | pending: Funds that are not yet available in the balance, due to the 7-day rolling pay cycle. The pending balance for each currency, and for each payment type, can be found in the \`source_types\` property.
         balancePending :: ([BalanceAmount])
       }
@@ -63,29 +62,25 @@ data Balance
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON Balance where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "available" (balanceAvailable obj) : (Data.Aeson..=) "connect_reserved" (balanceConnectReserved obj) : (Data.Aeson..=) "livemode" (balanceLivemode obj) : (Data.Aeson..=) "object" (balanceObject obj) : (Data.Aeson..=) "pending" (balancePending obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "available" (balanceAvailable obj) GHC.Base.<> ((Data.Aeson..=) "connect_reserved" (balanceConnectReserved obj) GHC.Base.<> ((Data.Aeson..=) "livemode" (balanceLivemode obj) GHC.Base.<> ((Data.Aeson..=) "object" (balanceObject obj) GHC.Base.<> (Data.Aeson..=) "pending" (balancePending obj)))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("available" Data.Aeson.Types.ToJSON..= balanceAvailable obj : "connect_reserved" Data.Aeson.Types.ToJSON..= balanceConnectReserved obj : "livemode" Data.Aeson.Types.ToJSON..= balanceLivemode obj : "pending" Data.Aeson.Types.ToJSON..= balancePending obj : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "balance" : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("available" Data.Aeson.Types.ToJSON..= balanceAvailable obj) GHC.Base.<> (("connect_reserved" Data.Aeson.Types.ToJSON..= balanceConnectReserved obj) GHC.Base.<> (("livemode" Data.Aeson.Types.ToJSON..= balanceLivemode obj) GHC.Base.<> (("pending" Data.Aeson.Types.ToJSON..= balancePending obj) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "balance")))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON Balance where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "Balance" (\obj -> ((((GHC.Base.pure Balance GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "available")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "connect_reserved")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "livemode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "object")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pending"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "Balance" (\obj -> (((GHC.Base.pure Balance GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "available")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "connect_reserved")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "livemode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pending"))
 
--- | Defines the enum schema balanceObject\'
---
--- String representing the object\'s type. Objects of the same type share the same value.
-data BalanceObject'
-  = BalanceObject'EnumOther Data.Aeson.Types.Internal.Value
-  | BalanceObject'EnumTyped Data.Text.Internal.Text
-  | BalanceObject'EnumStringBalance
-  deriving (GHC.Show.Show, GHC.Classes.Eq)
-
-instance Data.Aeson.Types.ToJSON.ToJSON BalanceObject' where
-  toJSON (BalanceObject'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (BalanceObject'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (BalanceObject'EnumStringBalance) = "balance"
-
-instance Data.Aeson.Types.FromJSON.FromJSON BalanceObject' where
-  parseJSON val =
-    GHC.Base.pure
-      ( if  | val GHC.Classes.== "balance" -> BalanceObject'EnumStringBalance
-            | GHC.Base.otherwise -> BalanceObject'EnumOther val
-      )
+-- | Create a new 'Balance' with all required fields.
+mkBalance ::
+  -- | 'balanceAvailable'
+  [BalanceAmount] ->
+  -- | 'balanceLivemode'
+  GHC.Types.Bool ->
+  -- | 'balancePending'
+  [BalanceAmount] ->
+  Balance
+mkBalance balanceAvailable balanceLivemode balancePending =
+  Balance
+    { balanceAvailable = balanceAvailable,
+      balanceConnectReserved = GHC.Maybe.Nothing,
+      balanceLivemode = balanceLivemode,
+      balancePending = balancePending
+    }

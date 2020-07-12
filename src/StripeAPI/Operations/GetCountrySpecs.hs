@@ -10,6 +10,7 @@ module StripeAPI.Operations.GetCountrySpecs where
 import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -85,7 +86,7 @@ getCountrySpecs parameters =
         ]
     )
 
--- | Defines the data type for the schema getCountrySpecsParameters
+-- | Defines the object schema located at @paths.\/v1\/country_specs.GET.parameters@ in the specification.
 data GetCountrySpecsParameters
   = GetCountrySpecsParameters
       { -- | queryEnding_before: Represents the parameter named \'ending_before\'
@@ -119,11 +120,21 @@ data GetCountrySpecsParameters
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetCountrySpecsParameters where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "queryEnding_before" (getCountrySpecsParametersQueryEndingBefore obj) : (Data.Aeson..=) "queryExpand" (getCountrySpecsParametersQueryExpand obj) : (Data.Aeson..=) "queryLimit" (getCountrySpecsParametersQueryLimit obj) : (Data.Aeson..=) "queryStarting_after" (getCountrySpecsParametersQueryStartingAfter obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "queryEnding_before" (getCountrySpecsParametersQueryEndingBefore obj) GHC.Base.<> ((Data.Aeson..=) "queryExpand" (getCountrySpecsParametersQueryExpand obj) GHC.Base.<> ((Data.Aeson..=) "queryLimit" (getCountrySpecsParametersQueryLimit obj) GHC.Base.<> (Data.Aeson..=) "queryStarting_after" (getCountrySpecsParametersQueryStartingAfter obj))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("queryEnding_before" Data.Aeson.Types.ToJSON..= getCountrySpecsParametersQueryEndingBefore obj : "queryExpand" Data.Aeson.Types.ToJSON..= getCountrySpecsParametersQueryExpand obj : "queryLimit" Data.Aeson.Types.ToJSON..= getCountrySpecsParametersQueryLimit obj : "queryStarting_after" Data.Aeson.Types.ToJSON..= getCountrySpecsParametersQueryStartingAfter obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("queryEnding_before" Data.Aeson.Types.ToJSON..= getCountrySpecsParametersQueryEndingBefore obj) GHC.Base.<> (("queryExpand" Data.Aeson.Types.ToJSON..= getCountrySpecsParametersQueryExpand obj) GHC.Base.<> (("queryLimit" Data.Aeson.Types.ToJSON..= getCountrySpecsParametersQueryLimit obj) GHC.Base.<> ("queryStarting_after" Data.Aeson.Types.ToJSON..= getCountrySpecsParametersQueryStartingAfter obj))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetCountrySpecsParameters where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "GetCountrySpecsParameters" (\obj -> (((GHC.Base.pure GetCountrySpecsParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryEnding_before")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryExpand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryLimit")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryStarting_after"))
+
+-- | Create a new 'GetCountrySpecsParameters' with all required fields.
+mkGetCountrySpecsParameters :: GetCountrySpecsParameters
+mkGetCountrySpecsParameters =
+  GetCountrySpecsParameters
+    { getCountrySpecsParametersQueryEndingBefore = GHC.Maybe.Nothing,
+      getCountrySpecsParametersQueryExpand = GHC.Maybe.Nothing,
+      getCountrySpecsParametersQueryLimit = GHC.Maybe.Nothing,
+      getCountrySpecsParametersQueryStartingAfter = GHC.Maybe.Nothing
+    }
 
 -- | Represents a response of the operation 'getCountrySpecs'.
 --
@@ -137,15 +148,13 @@ data GetCountrySpecsResponse
     GetCountrySpecsResponseDefault Error
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
--- | Defines the data type for the schema GetCountrySpecsResponseBody200
+-- | Defines the object schema located at @paths.\/v1\/country_specs.GET.responses.200.content.application\/json.schema@ in the specification.
 data GetCountrySpecsResponseBody200
   = GetCountrySpecsResponseBody200
       { -- | data
         getCountrySpecsResponseBody200Data :: ([CountrySpec]),
         -- | has_more: True if this list has another page of items after this one that can be fetched.
         getCountrySpecsResponseBody200HasMore :: GHC.Types.Bool,
-        -- | object: String representing the object\'s type. Objects of the same type share the same value. Always has the value \`list\`.
-        getCountrySpecsResponseBody200Object :: GetCountrySpecsResponseBody200Object',
         -- | url: The URL where this list can be accessed.
         --
         -- Constraints:
@@ -160,29 +169,24 @@ data GetCountrySpecsResponseBody200
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetCountrySpecsResponseBody200 where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "data" (getCountrySpecsResponseBody200Data obj) : (Data.Aeson..=) "has_more" (getCountrySpecsResponseBody200HasMore obj) : (Data.Aeson..=) "object" (getCountrySpecsResponseBody200Object obj) : (Data.Aeson..=) "url" (getCountrySpecsResponseBody200Url obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "data" (getCountrySpecsResponseBody200Data obj) GHC.Base.<> ((Data.Aeson..=) "has_more" (getCountrySpecsResponseBody200HasMore obj) GHC.Base.<> ((Data.Aeson..=) "object" (getCountrySpecsResponseBody200Object obj) GHC.Base.<> (Data.Aeson..=) "url" (getCountrySpecsResponseBody200Url obj))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("data" Data.Aeson.Types.ToJSON..= getCountrySpecsResponseBody200Data obj : "has_more" Data.Aeson.Types.ToJSON..= getCountrySpecsResponseBody200HasMore obj : "url" Data.Aeson.Types.ToJSON..= getCountrySpecsResponseBody200Url obj : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "list" : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("data" Data.Aeson.Types.ToJSON..= getCountrySpecsResponseBody200Data obj) GHC.Base.<> (("has_more" Data.Aeson.Types.ToJSON..= getCountrySpecsResponseBody200HasMore obj) GHC.Base.<> (("url" Data.Aeson.Types.ToJSON..= getCountrySpecsResponseBody200Url obj) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "list"))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetCountrySpecsResponseBody200 where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetCountrySpecsResponseBody200" (\obj -> (((GHC.Base.pure GetCountrySpecsResponseBody200 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "has_more")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "object")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "url"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetCountrySpecsResponseBody200" (\obj -> ((GHC.Base.pure GetCountrySpecsResponseBody200 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "has_more")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "url"))
 
--- | Defines the enum schema GetCountrySpecsResponseBody200Object\'
---
--- String representing the object\'s type. Objects of the same type share the same value. Always has the value \`list\`.
-data GetCountrySpecsResponseBody200Object'
-  = GetCountrySpecsResponseBody200Object'EnumOther Data.Aeson.Types.Internal.Value
-  | GetCountrySpecsResponseBody200Object'EnumTyped Data.Text.Internal.Text
-  | GetCountrySpecsResponseBody200Object'EnumStringList
-  deriving (GHC.Show.Show, GHC.Classes.Eq)
-
-instance Data.Aeson.Types.ToJSON.ToJSON GetCountrySpecsResponseBody200Object' where
-  toJSON (GetCountrySpecsResponseBody200Object'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (GetCountrySpecsResponseBody200Object'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (GetCountrySpecsResponseBody200Object'EnumStringList) = "list"
-
-instance Data.Aeson.Types.FromJSON.FromJSON GetCountrySpecsResponseBody200Object' where
-  parseJSON val =
-    GHC.Base.pure
-      ( if  | val GHC.Classes.== "list" -> GetCountrySpecsResponseBody200Object'EnumStringList
-            | GHC.Base.otherwise -> GetCountrySpecsResponseBody200Object'EnumOther val
-      )
+-- | Create a new 'GetCountrySpecsResponseBody200' with all required fields.
+mkGetCountrySpecsResponseBody200 ::
+  -- | 'getCountrySpecsResponseBody200Data'
+  [CountrySpec] ->
+  -- | 'getCountrySpecsResponseBody200HasMore'
+  GHC.Types.Bool ->
+  -- | 'getCountrySpecsResponseBody200Url'
+  Data.Text.Internal.Text ->
+  GetCountrySpecsResponseBody200
+mkGetCountrySpecsResponseBody200 getCountrySpecsResponseBody200Data getCountrySpecsResponseBody200HasMore getCountrySpecsResponseBody200Url =
+  GetCountrySpecsResponseBody200
+    { getCountrySpecsResponseBody200Data = getCountrySpecsResponseBody200Data,
+      getCountrySpecsResponseBody200HasMore = getCountrySpecsResponseBody200HasMore,
+      getCountrySpecsResponseBody200Url = getCountrySpecsResponseBody200Url
+    }

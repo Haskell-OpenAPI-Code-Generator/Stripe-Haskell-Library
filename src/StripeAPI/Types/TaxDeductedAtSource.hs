@@ -8,6 +8,7 @@ module StripeAPI.Types.TaxDeductedAtSource where
 
 import qualified Control.Monad.Fail
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -30,7 +31,7 @@ import StripeAPI.TypeAlias
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
--- | Defines the data type for the schema tax_deducted_at_source
+-- | Defines the object schema located at @components.schemas.tax_deducted_at_source@ in the specification.
 data TaxDeductedAtSource
   = TaxDeductedAtSource
       { -- | id: Unique identifier for the object.
@@ -39,8 +40,6 @@ data TaxDeductedAtSource
         --
         -- * Maximum length of 5000
         taxDeductedAtSourceId :: Data.Text.Internal.Text,
-        -- | object: String representing the object\'s type. Objects of the same type share the same value.
-        taxDeductedAtSourceObject :: TaxDeductedAtSourceObject',
         -- | period_end: The end of the invoicing period. This TDS applies to Stripe fees collected during this invoicing period.
         taxDeductedAtSourcePeriodEnd :: GHC.Types.Int,
         -- | period_start: The start of the invoicing period. This TDS applies to Stripe fees collected during this invoicing period.
@@ -58,29 +57,27 @@ data TaxDeductedAtSource
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON TaxDeductedAtSource where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "id" (taxDeductedAtSourceId obj) : (Data.Aeson..=) "object" (taxDeductedAtSourceObject obj) : (Data.Aeson..=) "period_end" (taxDeductedAtSourcePeriodEnd obj) : (Data.Aeson..=) "period_start" (taxDeductedAtSourcePeriodStart obj) : (Data.Aeson..=) "tax_deduction_account_number" (taxDeductedAtSourceTaxDeductionAccountNumber obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "id" (taxDeductedAtSourceId obj) GHC.Base.<> ((Data.Aeson..=) "object" (taxDeductedAtSourceObject obj) GHC.Base.<> ((Data.Aeson..=) "period_end" (taxDeductedAtSourcePeriodEnd obj) GHC.Base.<> ((Data.Aeson..=) "period_start" (taxDeductedAtSourcePeriodStart obj) GHC.Base.<> (Data.Aeson..=) "tax_deduction_account_number" (taxDeductedAtSourceTaxDeductionAccountNumber obj)))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("id" Data.Aeson.Types.ToJSON..= taxDeductedAtSourceId obj : "period_end" Data.Aeson.Types.ToJSON..= taxDeductedAtSourcePeriodEnd obj : "period_start" Data.Aeson.Types.ToJSON..= taxDeductedAtSourcePeriodStart obj : "tax_deduction_account_number" Data.Aeson.Types.ToJSON..= taxDeductedAtSourceTaxDeductionAccountNumber obj : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "tax_deducted_at_source" : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("id" Data.Aeson.Types.ToJSON..= taxDeductedAtSourceId obj) GHC.Base.<> (("period_end" Data.Aeson.Types.ToJSON..= taxDeductedAtSourcePeriodEnd obj) GHC.Base.<> (("period_start" Data.Aeson.Types.ToJSON..= taxDeductedAtSourcePeriodStart obj) GHC.Base.<> (("tax_deduction_account_number" Data.Aeson.Types.ToJSON..= taxDeductedAtSourceTaxDeductionAccountNumber obj) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "tax_deducted_at_source")))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON TaxDeductedAtSource where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "TaxDeductedAtSource" (\obj -> ((((GHC.Base.pure TaxDeductedAtSource GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "object")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "period_end")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "period_start")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "tax_deduction_account_number"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "TaxDeductedAtSource" (\obj -> (((GHC.Base.pure TaxDeductedAtSource GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "period_end")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "period_start")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "tax_deduction_account_number"))
 
--- | Defines the enum schema tax_deducted_at_sourceObject\'
---
--- String representing the object\'s type. Objects of the same type share the same value.
-data TaxDeductedAtSourceObject'
-  = TaxDeductedAtSourceObject'EnumOther Data.Aeson.Types.Internal.Value
-  | TaxDeductedAtSourceObject'EnumTyped Data.Text.Internal.Text
-  | TaxDeductedAtSourceObject'EnumStringTaxDeductedAtSource
-  deriving (GHC.Show.Show, GHC.Classes.Eq)
-
-instance Data.Aeson.Types.ToJSON.ToJSON TaxDeductedAtSourceObject' where
-  toJSON (TaxDeductedAtSourceObject'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (TaxDeductedAtSourceObject'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (TaxDeductedAtSourceObject'EnumStringTaxDeductedAtSource) = "tax_deducted_at_source"
-
-instance Data.Aeson.Types.FromJSON.FromJSON TaxDeductedAtSourceObject' where
-  parseJSON val =
-    GHC.Base.pure
-      ( if  | val GHC.Classes.== "tax_deducted_at_source" -> TaxDeductedAtSourceObject'EnumStringTaxDeductedAtSource
-            | GHC.Base.otherwise -> TaxDeductedAtSourceObject'EnumOther val
-      )
+-- | Create a new 'TaxDeductedAtSource' with all required fields.
+mkTaxDeductedAtSource ::
+  -- | 'taxDeductedAtSourceId'
+  Data.Text.Internal.Text ->
+  -- | 'taxDeductedAtSourcePeriodEnd'
+  GHC.Types.Int ->
+  -- | 'taxDeductedAtSourcePeriodStart'
+  GHC.Types.Int ->
+  -- | 'taxDeductedAtSourceTaxDeductionAccountNumber'
+  Data.Text.Internal.Text ->
+  TaxDeductedAtSource
+mkTaxDeductedAtSource taxDeductedAtSourceId taxDeductedAtSourcePeriodEnd taxDeductedAtSourcePeriodStart taxDeductedAtSourceTaxDeductionAccountNumber =
+  TaxDeductedAtSource
+    { taxDeductedAtSourceId = taxDeductedAtSourceId,
+      taxDeductedAtSourcePeriodEnd = taxDeductedAtSourcePeriodEnd,
+      taxDeductedAtSourcePeriodStart = taxDeductedAtSourcePeriodStart,
+      taxDeductedAtSourceTaxDeductionAccountNumber = taxDeductedAtSourceTaxDeductionAccountNumber
+    }

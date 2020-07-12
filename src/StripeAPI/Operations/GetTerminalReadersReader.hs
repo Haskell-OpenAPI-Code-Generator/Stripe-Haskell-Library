@@ -10,6 +10,7 @@ module StripeAPI.Operations.GetTerminalReadersReader where
 import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -77,7 +78,7 @@ getTerminalReadersReader parameters =
     )
     (StripeAPI.Common.doCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET") (Data.Text.pack ("/v1/terminal/readers/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel (getTerminalReadersReaderParametersPathReader parameters))) GHC.Base.++ ""))) [StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getTerminalReadersReaderParametersQueryExpand parameters) (Data.Text.pack "deepObject") GHC.Types.True])
 
--- | Defines the data type for the schema getTerminalReadersReaderParameters
+-- | Defines the object schema located at @paths.\/v1\/terminal\/readers\/{reader}.GET.parameters@ in the specification.
 data GetTerminalReadersReaderParameters
   = GetTerminalReadersReaderParameters
       { -- | pathReader: Represents the parameter named \'reader\'
@@ -97,11 +98,22 @@ data GetTerminalReadersReaderParameters
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetTerminalReadersReaderParameters where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "pathReader" (getTerminalReadersReaderParametersPathReader obj) : (Data.Aeson..=) "queryExpand" (getTerminalReadersReaderParametersQueryExpand obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "pathReader" (getTerminalReadersReaderParametersPathReader obj) GHC.Base.<> (Data.Aeson..=) "queryExpand" (getTerminalReadersReaderParametersQueryExpand obj))
+  toJSON obj = Data.Aeson.Types.Internal.object ("pathReader" Data.Aeson.Types.ToJSON..= getTerminalReadersReaderParametersPathReader obj : "queryExpand" Data.Aeson.Types.ToJSON..= getTerminalReadersReaderParametersQueryExpand obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("pathReader" Data.Aeson.Types.ToJSON..= getTerminalReadersReaderParametersPathReader obj) GHC.Base.<> ("queryExpand" Data.Aeson.Types.ToJSON..= getTerminalReadersReaderParametersQueryExpand obj))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetTerminalReadersReaderParameters where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "GetTerminalReadersReaderParameters" (\obj -> (GHC.Base.pure GetTerminalReadersReaderParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathReader")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryExpand"))
+
+-- | Create a new 'GetTerminalReadersReaderParameters' with all required fields.
+mkGetTerminalReadersReaderParameters ::
+  -- | 'getTerminalReadersReaderParametersPathReader'
+  Data.Text.Internal.Text ->
+  GetTerminalReadersReaderParameters
+mkGetTerminalReadersReaderParameters getTerminalReadersReaderParametersPathReader =
+  GetTerminalReadersReaderParameters
+    { getTerminalReadersReaderParametersPathReader = getTerminalReadersReaderParametersPathReader,
+      getTerminalReadersReaderParametersQueryExpand = GHC.Maybe.Nothing
+    }
 
 -- | Represents a response of the operation 'getTerminalReadersReader'.
 --

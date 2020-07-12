@@ -10,6 +10,7 @@ module StripeAPI.Operations.PostCreditNotes where
 import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -90,7 +91,7 @@ postCreditNotes body =
     )
     (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack "/v1/credit_notes") [] (GHC.Maybe.Just body) StripeAPI.Common.RequestBodyEncodingFormData)
 
--- | Defines the data type for the schema postCreditNotesRequestBody
+-- | Defines the object schema located at @paths.\/v1\/credit_notes.POST.requestBody.content.application\/x-www-form-urlencoded.schema@ in the specification.
 data PostCreditNotesRequestBody
   = PostCreditNotesRequestBody
       { -- | amount: The integer amount in **%s** representing the total amount of the credit note.
@@ -130,13 +131,33 @@ data PostCreditNotesRequestBody
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostCreditNotesRequestBody where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "amount" (postCreditNotesRequestBodyAmount obj) : (Data.Aeson..=) "credit_amount" (postCreditNotesRequestBodyCreditAmount obj) : (Data.Aeson..=) "expand" (postCreditNotesRequestBodyExpand obj) : (Data.Aeson..=) "invoice" (postCreditNotesRequestBodyInvoice obj) : (Data.Aeson..=) "lines" (postCreditNotesRequestBodyLines obj) : (Data.Aeson..=) "memo" (postCreditNotesRequestBodyMemo obj) : (Data.Aeson..=) "metadata" (postCreditNotesRequestBodyMetadata obj) : (Data.Aeson..=) "out_of_band_amount" (postCreditNotesRequestBodyOutOfBandAmount obj) : (Data.Aeson..=) "reason" (postCreditNotesRequestBodyReason obj) : (Data.Aeson..=) "refund" (postCreditNotesRequestBodyRefund obj) : (Data.Aeson..=) "refund_amount" (postCreditNotesRequestBodyRefundAmount obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "amount" (postCreditNotesRequestBodyAmount obj) GHC.Base.<> ((Data.Aeson..=) "credit_amount" (postCreditNotesRequestBodyCreditAmount obj) GHC.Base.<> ((Data.Aeson..=) "expand" (postCreditNotesRequestBodyExpand obj) GHC.Base.<> ((Data.Aeson..=) "invoice" (postCreditNotesRequestBodyInvoice obj) GHC.Base.<> ((Data.Aeson..=) "lines" (postCreditNotesRequestBodyLines obj) GHC.Base.<> ((Data.Aeson..=) "memo" (postCreditNotesRequestBodyMemo obj) GHC.Base.<> ((Data.Aeson..=) "metadata" (postCreditNotesRequestBodyMetadata obj) GHC.Base.<> ((Data.Aeson..=) "out_of_band_amount" (postCreditNotesRequestBodyOutOfBandAmount obj) GHC.Base.<> ((Data.Aeson..=) "reason" (postCreditNotesRequestBodyReason obj) GHC.Base.<> ((Data.Aeson..=) "refund" (postCreditNotesRequestBodyRefund obj) GHC.Base.<> (Data.Aeson..=) "refund_amount" (postCreditNotesRequestBodyRefundAmount obj)))))))))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("amount" Data.Aeson.Types.ToJSON..= postCreditNotesRequestBodyAmount obj : "credit_amount" Data.Aeson.Types.ToJSON..= postCreditNotesRequestBodyCreditAmount obj : "expand" Data.Aeson.Types.ToJSON..= postCreditNotesRequestBodyExpand obj : "invoice" Data.Aeson.Types.ToJSON..= postCreditNotesRequestBodyInvoice obj : "lines" Data.Aeson.Types.ToJSON..= postCreditNotesRequestBodyLines obj : "memo" Data.Aeson.Types.ToJSON..= postCreditNotesRequestBodyMemo obj : "metadata" Data.Aeson.Types.ToJSON..= postCreditNotesRequestBodyMetadata obj : "out_of_band_amount" Data.Aeson.Types.ToJSON..= postCreditNotesRequestBodyOutOfBandAmount obj : "reason" Data.Aeson.Types.ToJSON..= postCreditNotesRequestBodyReason obj : "refund" Data.Aeson.Types.ToJSON..= postCreditNotesRequestBodyRefund obj : "refund_amount" Data.Aeson.Types.ToJSON..= postCreditNotesRequestBodyRefundAmount obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("amount" Data.Aeson.Types.ToJSON..= postCreditNotesRequestBodyAmount obj) GHC.Base.<> (("credit_amount" Data.Aeson.Types.ToJSON..= postCreditNotesRequestBodyCreditAmount obj) GHC.Base.<> (("expand" Data.Aeson.Types.ToJSON..= postCreditNotesRequestBodyExpand obj) GHC.Base.<> (("invoice" Data.Aeson.Types.ToJSON..= postCreditNotesRequestBodyInvoice obj) GHC.Base.<> (("lines" Data.Aeson.Types.ToJSON..= postCreditNotesRequestBodyLines obj) GHC.Base.<> (("memo" Data.Aeson.Types.ToJSON..= postCreditNotesRequestBodyMemo obj) GHC.Base.<> (("metadata" Data.Aeson.Types.ToJSON..= postCreditNotesRequestBodyMetadata obj) GHC.Base.<> (("out_of_band_amount" Data.Aeson.Types.ToJSON..= postCreditNotesRequestBodyOutOfBandAmount obj) GHC.Base.<> (("reason" Data.Aeson.Types.ToJSON..= postCreditNotesRequestBodyReason obj) GHC.Base.<> (("refund" Data.Aeson.Types.ToJSON..= postCreditNotesRequestBodyRefund obj) GHC.Base.<> ("refund_amount" Data.Aeson.Types.ToJSON..= postCreditNotesRequestBodyRefundAmount obj)))))))))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostCreditNotesRequestBody where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PostCreditNotesRequestBody" (\obj -> ((((((((((GHC.Base.pure PostCreditNotesRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "credit_amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "invoice")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "lines")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "memo")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "out_of_band_amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "reason")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "refund")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "refund_amount"))
 
--- | Defines the data type for the schema postCreditNotesRequestBodyLines\'
+-- | Create a new 'PostCreditNotesRequestBody' with all required fields.
+mkPostCreditNotesRequestBody ::
+  -- | 'postCreditNotesRequestBodyInvoice'
+  Data.Text.Internal.Text ->
+  PostCreditNotesRequestBody
+mkPostCreditNotesRequestBody postCreditNotesRequestBodyInvoice =
+  PostCreditNotesRequestBody
+    { postCreditNotesRequestBodyAmount = GHC.Maybe.Nothing,
+      postCreditNotesRequestBodyCreditAmount = GHC.Maybe.Nothing,
+      postCreditNotesRequestBodyExpand = GHC.Maybe.Nothing,
+      postCreditNotesRequestBodyInvoice = postCreditNotesRequestBodyInvoice,
+      postCreditNotesRequestBodyLines = GHC.Maybe.Nothing,
+      postCreditNotesRequestBodyMemo = GHC.Maybe.Nothing,
+      postCreditNotesRequestBodyMetadata = GHC.Maybe.Nothing,
+      postCreditNotesRequestBodyOutOfBandAmount = GHC.Maybe.Nothing,
+      postCreditNotesRequestBodyReason = GHC.Maybe.Nothing,
+      postCreditNotesRequestBodyRefund = GHC.Maybe.Nothing,
+      postCreditNotesRequestBodyRefundAmount = GHC.Maybe.Nothing
+    }
+
+-- | Defines the object schema located at @paths.\/v1\/credit_notes.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.lines.items@ in the specification.
 data PostCreditNotesRequestBodyLines'
   = PostCreditNotesRequestBodyLines'
       { -- | amount
@@ -170,98 +191,107 @@ data PostCreditNotesRequestBodyLines'
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostCreditNotesRequestBodyLines' where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "amount" (postCreditNotesRequestBodyLines'Amount obj) : (Data.Aeson..=) "description" (postCreditNotesRequestBodyLines'Description obj) : (Data.Aeson..=) "invoice_line_item" (postCreditNotesRequestBodyLines'InvoiceLineItem obj) : (Data.Aeson..=) "quantity" (postCreditNotesRequestBodyLines'Quantity obj) : (Data.Aeson..=) "tax_rates" (postCreditNotesRequestBodyLines'TaxRates obj) : (Data.Aeson..=) "type" (postCreditNotesRequestBodyLines'Type obj) : (Data.Aeson..=) "unit_amount" (postCreditNotesRequestBodyLines'UnitAmount obj) : (Data.Aeson..=) "unit_amount_decimal" (postCreditNotesRequestBodyLines'UnitAmountDecimal obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "amount" (postCreditNotesRequestBodyLines'Amount obj) GHC.Base.<> ((Data.Aeson..=) "description" (postCreditNotesRequestBodyLines'Description obj) GHC.Base.<> ((Data.Aeson..=) "invoice_line_item" (postCreditNotesRequestBodyLines'InvoiceLineItem obj) GHC.Base.<> ((Data.Aeson..=) "quantity" (postCreditNotesRequestBodyLines'Quantity obj) GHC.Base.<> ((Data.Aeson..=) "tax_rates" (postCreditNotesRequestBodyLines'TaxRates obj) GHC.Base.<> ((Data.Aeson..=) "type" (postCreditNotesRequestBodyLines'Type obj) GHC.Base.<> ((Data.Aeson..=) "unit_amount" (postCreditNotesRequestBodyLines'UnitAmount obj) GHC.Base.<> (Data.Aeson..=) "unit_amount_decimal" (postCreditNotesRequestBodyLines'UnitAmountDecimal obj))))))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("amount" Data.Aeson.Types.ToJSON..= postCreditNotesRequestBodyLines'Amount obj : "description" Data.Aeson.Types.ToJSON..= postCreditNotesRequestBodyLines'Description obj : "invoice_line_item" Data.Aeson.Types.ToJSON..= postCreditNotesRequestBodyLines'InvoiceLineItem obj : "quantity" Data.Aeson.Types.ToJSON..= postCreditNotesRequestBodyLines'Quantity obj : "tax_rates" Data.Aeson.Types.ToJSON..= postCreditNotesRequestBodyLines'TaxRates obj : "type" Data.Aeson.Types.ToJSON..= postCreditNotesRequestBodyLines'Type obj : "unit_amount" Data.Aeson.Types.ToJSON..= postCreditNotesRequestBodyLines'UnitAmount obj : "unit_amount_decimal" Data.Aeson.Types.ToJSON..= postCreditNotesRequestBodyLines'UnitAmountDecimal obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("amount" Data.Aeson.Types.ToJSON..= postCreditNotesRequestBodyLines'Amount obj) GHC.Base.<> (("description" Data.Aeson.Types.ToJSON..= postCreditNotesRequestBodyLines'Description obj) GHC.Base.<> (("invoice_line_item" Data.Aeson.Types.ToJSON..= postCreditNotesRequestBodyLines'InvoiceLineItem obj) GHC.Base.<> (("quantity" Data.Aeson.Types.ToJSON..= postCreditNotesRequestBodyLines'Quantity obj) GHC.Base.<> (("tax_rates" Data.Aeson.Types.ToJSON..= postCreditNotesRequestBodyLines'TaxRates obj) GHC.Base.<> (("type" Data.Aeson.Types.ToJSON..= postCreditNotesRequestBodyLines'Type obj) GHC.Base.<> (("unit_amount" Data.Aeson.Types.ToJSON..= postCreditNotesRequestBodyLines'UnitAmount obj) GHC.Base.<> ("unit_amount_decimal" Data.Aeson.Types.ToJSON..= postCreditNotesRequestBodyLines'UnitAmountDecimal obj))))))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostCreditNotesRequestBodyLines' where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PostCreditNotesRequestBodyLines'" (\obj -> (((((((GHC.Base.pure PostCreditNotesRequestBodyLines' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "description")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "invoice_line_item")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "quantity")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "tax_rates")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "type")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "unit_amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "unit_amount_decimal"))
 
--- | Defines the enum schema postCreditNotesRequestBodyLines\'Tax_rates\'OneOf1
-data PostCreditNotesRequestBodyLines'TaxRates'OneOf1
-  = PostCreditNotesRequestBodyLines'TaxRates'OneOf1EnumOther Data.Aeson.Types.Internal.Value
-  | PostCreditNotesRequestBodyLines'TaxRates'OneOf1EnumTyped Data.Text.Internal.Text
-  | PostCreditNotesRequestBodyLines'TaxRates'OneOf1EnumString_
-  deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Create a new 'PostCreditNotesRequestBodyLines'' with all required fields.
+mkPostCreditNotesRequestBodyLines' ::
+  -- | 'postCreditNotesRequestBodyLines'Type'
+  PostCreditNotesRequestBodyLines'Type' ->
+  PostCreditNotesRequestBodyLines'
+mkPostCreditNotesRequestBodyLines' postCreditNotesRequestBodyLines'Type =
+  PostCreditNotesRequestBodyLines'
+    { postCreditNotesRequestBodyLines'Amount = GHC.Maybe.Nothing,
+      postCreditNotesRequestBodyLines'Description = GHC.Maybe.Nothing,
+      postCreditNotesRequestBodyLines'InvoiceLineItem = GHC.Maybe.Nothing,
+      postCreditNotesRequestBodyLines'Quantity = GHC.Maybe.Nothing,
+      postCreditNotesRequestBodyLines'TaxRates = GHC.Maybe.Nothing,
+      postCreditNotesRequestBodyLines'Type = postCreditNotesRequestBodyLines'Type,
+      postCreditNotesRequestBodyLines'UnitAmount = GHC.Maybe.Nothing,
+      postCreditNotesRequestBodyLines'UnitAmountDecimal = GHC.Maybe.Nothing
+    }
 
-instance Data.Aeson.Types.ToJSON.ToJSON PostCreditNotesRequestBodyLines'TaxRates'OneOf1 where
-  toJSON (PostCreditNotesRequestBodyLines'TaxRates'OneOf1EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostCreditNotesRequestBodyLines'TaxRates'OneOf1EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostCreditNotesRequestBodyLines'TaxRates'OneOf1EnumString_) = ""
-
-instance Data.Aeson.Types.FromJSON.FromJSON PostCreditNotesRequestBodyLines'TaxRates'OneOf1 where
-  parseJSON val =
-    GHC.Base.pure
-      ( if  | val GHC.Classes.== "" -> PostCreditNotesRequestBodyLines'TaxRates'OneOf1EnumString_
-            | GHC.Base.otherwise -> PostCreditNotesRequestBodyLines'TaxRates'OneOf1EnumOther val
-      )
-
--- | Define the one-of schema postCreditNotesRequestBodyLines\'Tax_rates\'
+-- | Defines the oneOf schema located at @paths.\/v1\/credit_notes.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.lines.items.properties.tax_rates.anyOf@ in the specification.
 data PostCreditNotesRequestBodyLines'TaxRates'Variants
-  = PostCreditNotesRequestBodyLines'TaxRates'PostCreditNotesRequestBodyLines'TaxRates'OneOf1 PostCreditNotesRequestBodyLines'TaxRates'OneOf1
+  = -- | Represents the JSON value @""@
+    PostCreditNotesRequestBodyLines'TaxRates'EmptyString
   | PostCreditNotesRequestBodyLines'TaxRates'ListTText ([Data.Text.Internal.Text])
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostCreditNotesRequestBodyLines'TaxRates'Variants where
-  toJSON (PostCreditNotesRequestBodyLines'TaxRates'PostCreditNotesRequestBodyLines'TaxRates'OneOf1 a) = Data.Aeson.Types.ToJSON.toJSON a
   toJSON (PostCreditNotesRequestBodyLines'TaxRates'ListTText a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (PostCreditNotesRequestBodyLines'TaxRates'EmptyString) = ""
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostCreditNotesRequestBodyLines'TaxRates'Variants where
-  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
-    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ PostCreditNotesRequestBodyLines'TaxRates'PostCreditNotesRequestBodyLines'TaxRates'OneOf1 a
-    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ PostCreditNotesRequestBodyLines'TaxRates'ListTText a
-      Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+  parseJSON val =
+    if  | val GHC.Classes.== "" -> GHC.Base.pure PostCreditNotesRequestBodyLines'TaxRates'EmptyString
+        | GHC.Base.otherwise -> case (PostCreditNotesRequestBodyLines'TaxRates'ListTText Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched" of
+          Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+          Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
--- | Defines the enum schema postCreditNotesRequestBodyLines\'Type\'
+-- | Defines the enum schema located at @paths.\/v1\/credit_notes.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.lines.items.properties.type@ in the specification.
 data PostCreditNotesRequestBodyLines'Type'
-  = PostCreditNotesRequestBodyLines'Type'EnumOther Data.Aeson.Types.Internal.Value
-  | PostCreditNotesRequestBodyLines'Type'EnumTyped Data.Text.Internal.Text
-  | PostCreditNotesRequestBodyLines'Type'EnumStringCustomLineItem
-  | PostCreditNotesRequestBodyLines'Type'EnumStringInvoiceLineItem
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    PostCreditNotesRequestBodyLines'Type'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    PostCreditNotesRequestBodyLines'Type'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"custom_line_item"@
+    PostCreditNotesRequestBodyLines'Type'EnumCustomLineItem
+  | -- | Represents the JSON value @"invoice_line_item"@
+    PostCreditNotesRequestBodyLines'Type'EnumInvoiceLineItem
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostCreditNotesRequestBodyLines'Type' where
-  toJSON (PostCreditNotesRequestBodyLines'Type'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostCreditNotesRequestBodyLines'Type'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostCreditNotesRequestBodyLines'Type'EnumStringCustomLineItem) = "custom_line_item"
-  toJSON (PostCreditNotesRequestBodyLines'Type'EnumStringInvoiceLineItem) = "invoice_line_item"
+  toJSON (PostCreditNotesRequestBodyLines'Type'Other val) = val
+  toJSON (PostCreditNotesRequestBodyLines'Type'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PostCreditNotesRequestBodyLines'Type'EnumCustomLineItem) = "custom_line_item"
+  toJSON (PostCreditNotesRequestBodyLines'Type'EnumInvoiceLineItem) = "invoice_line_item"
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostCreditNotesRequestBodyLines'Type' where
   parseJSON val =
     GHC.Base.pure
-      ( if  | val GHC.Classes.== "custom_line_item" -> PostCreditNotesRequestBodyLines'Type'EnumStringCustomLineItem
-            | val GHC.Classes.== "invoice_line_item" -> PostCreditNotesRequestBodyLines'Type'EnumStringInvoiceLineItem
-            | GHC.Base.otherwise -> PostCreditNotesRequestBodyLines'Type'EnumOther val
+      ( if  | val GHC.Classes.== "custom_line_item" -> PostCreditNotesRequestBodyLines'Type'EnumCustomLineItem
+            | val GHC.Classes.== "invoice_line_item" -> PostCreditNotesRequestBodyLines'Type'EnumInvoiceLineItem
+            | GHC.Base.otherwise -> PostCreditNotesRequestBodyLines'Type'Other val
       )
 
--- | Defines the enum schema postCreditNotesRequestBodyReason\'
+-- | Defines the enum schema located at @paths.\/v1\/credit_notes.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.reason@ in the specification.
 --
 -- Reason for issuing this credit note, one of \`duplicate\`, \`fraudulent\`, \`order_change\`, or \`product_unsatisfactory\`
 data PostCreditNotesRequestBodyReason'
-  = PostCreditNotesRequestBodyReason'EnumOther Data.Aeson.Types.Internal.Value
-  | PostCreditNotesRequestBodyReason'EnumTyped Data.Text.Internal.Text
-  | PostCreditNotesRequestBodyReason'EnumStringDuplicate
-  | PostCreditNotesRequestBodyReason'EnumStringFraudulent
-  | PostCreditNotesRequestBodyReason'EnumStringOrderChange
-  | PostCreditNotesRequestBodyReason'EnumStringProductUnsatisfactory
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    PostCreditNotesRequestBodyReason'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    PostCreditNotesRequestBodyReason'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"duplicate"@
+    PostCreditNotesRequestBodyReason'EnumDuplicate
+  | -- | Represents the JSON value @"fraudulent"@
+    PostCreditNotesRequestBodyReason'EnumFraudulent
+  | -- | Represents the JSON value @"order_change"@
+    PostCreditNotesRequestBodyReason'EnumOrderChange
+  | -- | Represents the JSON value @"product_unsatisfactory"@
+    PostCreditNotesRequestBodyReason'EnumProductUnsatisfactory
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostCreditNotesRequestBodyReason' where
-  toJSON (PostCreditNotesRequestBodyReason'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostCreditNotesRequestBodyReason'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostCreditNotesRequestBodyReason'EnumStringDuplicate) = "duplicate"
-  toJSON (PostCreditNotesRequestBodyReason'EnumStringFraudulent) = "fraudulent"
-  toJSON (PostCreditNotesRequestBodyReason'EnumStringOrderChange) = "order_change"
-  toJSON (PostCreditNotesRequestBodyReason'EnumStringProductUnsatisfactory) = "product_unsatisfactory"
+  toJSON (PostCreditNotesRequestBodyReason'Other val) = val
+  toJSON (PostCreditNotesRequestBodyReason'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PostCreditNotesRequestBodyReason'EnumDuplicate) = "duplicate"
+  toJSON (PostCreditNotesRequestBodyReason'EnumFraudulent) = "fraudulent"
+  toJSON (PostCreditNotesRequestBodyReason'EnumOrderChange) = "order_change"
+  toJSON (PostCreditNotesRequestBodyReason'EnumProductUnsatisfactory) = "product_unsatisfactory"
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostCreditNotesRequestBodyReason' where
   parseJSON val =
     GHC.Base.pure
-      ( if  | val GHC.Classes.== "duplicate" -> PostCreditNotesRequestBodyReason'EnumStringDuplicate
-            | val GHC.Classes.== "fraudulent" -> PostCreditNotesRequestBodyReason'EnumStringFraudulent
-            | val GHC.Classes.== "order_change" -> PostCreditNotesRequestBodyReason'EnumStringOrderChange
-            | val GHC.Classes.== "product_unsatisfactory" -> PostCreditNotesRequestBodyReason'EnumStringProductUnsatisfactory
-            | GHC.Base.otherwise -> PostCreditNotesRequestBodyReason'EnumOther val
+      ( if  | val GHC.Classes.== "duplicate" -> PostCreditNotesRequestBodyReason'EnumDuplicate
+            | val GHC.Classes.== "fraudulent" -> PostCreditNotesRequestBodyReason'EnumFraudulent
+            | val GHC.Classes.== "order_change" -> PostCreditNotesRequestBodyReason'EnumOrderChange
+            | val GHC.Classes.== "product_unsatisfactory" -> PostCreditNotesRequestBodyReason'EnumProductUnsatisfactory
+            | GHC.Base.otherwise -> PostCreditNotesRequestBodyReason'Other val
       )
 
 -- | Represents a response of the operation 'postCreditNotes'.

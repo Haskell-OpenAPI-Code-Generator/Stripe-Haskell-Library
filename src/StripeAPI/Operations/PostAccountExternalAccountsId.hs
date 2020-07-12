@@ -10,6 +10,7 @@ module StripeAPI.Operations.PostAccountExternalAccountsId where
 import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -82,7 +83,7 @@ postAccountExternalAccountsId
       )
       (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack ("/v1/account/external_accounts/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel id)) GHC.Base.++ ""))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
 
--- | Defines the data type for the schema postAccountExternalAccountsIdRequestBody
+-- | Defines the object schema located at @paths.\/v1\/account\/external_accounts\/{id}.POST.requestBody.content.application\/x-www-form-urlencoded.schema@ in the specification.
 data PostAccountExternalAccountsIdRequestBody
   = PostAccountExternalAccountsIdRequestBody
       { -- | account_holder_name: The name of the person or business that owns the bank account.
@@ -164,37 +165,62 @@ data PostAccountExternalAccountsIdRequestBody
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostAccountExternalAccountsIdRequestBody where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "account_holder_name" (postAccountExternalAccountsIdRequestBodyAccountHolderName obj) : (Data.Aeson..=) "account_holder_type" (postAccountExternalAccountsIdRequestBodyAccountHolderType obj) : (Data.Aeson..=) "address_city" (postAccountExternalAccountsIdRequestBodyAddressCity obj) : (Data.Aeson..=) "address_country" (postAccountExternalAccountsIdRequestBodyAddressCountry obj) : (Data.Aeson..=) "address_line1" (postAccountExternalAccountsIdRequestBodyAddressLine1 obj) : (Data.Aeson..=) "address_line2" (postAccountExternalAccountsIdRequestBodyAddressLine2 obj) : (Data.Aeson..=) "address_state" (postAccountExternalAccountsIdRequestBodyAddressState obj) : (Data.Aeson..=) "address_zip" (postAccountExternalAccountsIdRequestBodyAddressZip obj) : (Data.Aeson..=) "default_for_currency" (postAccountExternalAccountsIdRequestBodyDefaultForCurrency obj) : (Data.Aeson..=) "exp_month" (postAccountExternalAccountsIdRequestBodyExpMonth obj) : (Data.Aeson..=) "exp_year" (postAccountExternalAccountsIdRequestBodyExpYear obj) : (Data.Aeson..=) "expand" (postAccountExternalAccountsIdRequestBodyExpand obj) : (Data.Aeson..=) "metadata" (postAccountExternalAccountsIdRequestBodyMetadata obj) : (Data.Aeson..=) "name" (postAccountExternalAccountsIdRequestBodyName obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "account_holder_name" (postAccountExternalAccountsIdRequestBodyAccountHolderName obj) GHC.Base.<> ((Data.Aeson..=) "account_holder_type" (postAccountExternalAccountsIdRequestBodyAccountHolderType obj) GHC.Base.<> ((Data.Aeson..=) "address_city" (postAccountExternalAccountsIdRequestBodyAddressCity obj) GHC.Base.<> ((Data.Aeson..=) "address_country" (postAccountExternalAccountsIdRequestBodyAddressCountry obj) GHC.Base.<> ((Data.Aeson..=) "address_line1" (postAccountExternalAccountsIdRequestBodyAddressLine1 obj) GHC.Base.<> ((Data.Aeson..=) "address_line2" (postAccountExternalAccountsIdRequestBodyAddressLine2 obj) GHC.Base.<> ((Data.Aeson..=) "address_state" (postAccountExternalAccountsIdRequestBodyAddressState obj) GHC.Base.<> ((Data.Aeson..=) "address_zip" (postAccountExternalAccountsIdRequestBodyAddressZip obj) GHC.Base.<> ((Data.Aeson..=) "default_for_currency" (postAccountExternalAccountsIdRequestBodyDefaultForCurrency obj) GHC.Base.<> ((Data.Aeson..=) "exp_month" (postAccountExternalAccountsIdRequestBodyExpMonth obj) GHC.Base.<> ((Data.Aeson..=) "exp_year" (postAccountExternalAccountsIdRequestBodyExpYear obj) GHC.Base.<> ((Data.Aeson..=) "expand" (postAccountExternalAccountsIdRequestBodyExpand obj) GHC.Base.<> ((Data.Aeson..=) "metadata" (postAccountExternalAccountsIdRequestBodyMetadata obj) GHC.Base.<> (Data.Aeson..=) "name" (postAccountExternalAccountsIdRequestBodyName obj))))))))))))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("account_holder_name" Data.Aeson.Types.ToJSON..= postAccountExternalAccountsIdRequestBodyAccountHolderName obj : "account_holder_type" Data.Aeson.Types.ToJSON..= postAccountExternalAccountsIdRequestBodyAccountHolderType obj : "address_city" Data.Aeson.Types.ToJSON..= postAccountExternalAccountsIdRequestBodyAddressCity obj : "address_country" Data.Aeson.Types.ToJSON..= postAccountExternalAccountsIdRequestBodyAddressCountry obj : "address_line1" Data.Aeson.Types.ToJSON..= postAccountExternalAccountsIdRequestBodyAddressLine1 obj : "address_line2" Data.Aeson.Types.ToJSON..= postAccountExternalAccountsIdRequestBodyAddressLine2 obj : "address_state" Data.Aeson.Types.ToJSON..= postAccountExternalAccountsIdRequestBodyAddressState obj : "address_zip" Data.Aeson.Types.ToJSON..= postAccountExternalAccountsIdRequestBodyAddressZip obj : "default_for_currency" Data.Aeson.Types.ToJSON..= postAccountExternalAccountsIdRequestBodyDefaultForCurrency obj : "exp_month" Data.Aeson.Types.ToJSON..= postAccountExternalAccountsIdRequestBodyExpMonth obj : "exp_year" Data.Aeson.Types.ToJSON..= postAccountExternalAccountsIdRequestBodyExpYear obj : "expand" Data.Aeson.Types.ToJSON..= postAccountExternalAccountsIdRequestBodyExpand obj : "metadata" Data.Aeson.Types.ToJSON..= postAccountExternalAccountsIdRequestBodyMetadata obj : "name" Data.Aeson.Types.ToJSON..= postAccountExternalAccountsIdRequestBodyName obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("account_holder_name" Data.Aeson.Types.ToJSON..= postAccountExternalAccountsIdRequestBodyAccountHolderName obj) GHC.Base.<> (("account_holder_type" Data.Aeson.Types.ToJSON..= postAccountExternalAccountsIdRequestBodyAccountHolderType obj) GHC.Base.<> (("address_city" Data.Aeson.Types.ToJSON..= postAccountExternalAccountsIdRequestBodyAddressCity obj) GHC.Base.<> (("address_country" Data.Aeson.Types.ToJSON..= postAccountExternalAccountsIdRequestBodyAddressCountry obj) GHC.Base.<> (("address_line1" Data.Aeson.Types.ToJSON..= postAccountExternalAccountsIdRequestBodyAddressLine1 obj) GHC.Base.<> (("address_line2" Data.Aeson.Types.ToJSON..= postAccountExternalAccountsIdRequestBodyAddressLine2 obj) GHC.Base.<> (("address_state" Data.Aeson.Types.ToJSON..= postAccountExternalAccountsIdRequestBodyAddressState obj) GHC.Base.<> (("address_zip" Data.Aeson.Types.ToJSON..= postAccountExternalAccountsIdRequestBodyAddressZip obj) GHC.Base.<> (("default_for_currency" Data.Aeson.Types.ToJSON..= postAccountExternalAccountsIdRequestBodyDefaultForCurrency obj) GHC.Base.<> (("exp_month" Data.Aeson.Types.ToJSON..= postAccountExternalAccountsIdRequestBodyExpMonth obj) GHC.Base.<> (("exp_year" Data.Aeson.Types.ToJSON..= postAccountExternalAccountsIdRequestBodyExpYear obj) GHC.Base.<> (("expand" Data.Aeson.Types.ToJSON..= postAccountExternalAccountsIdRequestBodyExpand obj) GHC.Base.<> (("metadata" Data.Aeson.Types.ToJSON..= postAccountExternalAccountsIdRequestBodyMetadata obj) GHC.Base.<> ("name" Data.Aeson.Types.ToJSON..= postAccountExternalAccountsIdRequestBodyName obj))))))))))))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostAccountExternalAccountsIdRequestBody where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PostAccountExternalAccountsIdRequestBody" (\obj -> (((((((((((((GHC.Base.pure PostAccountExternalAccountsIdRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "account_holder_name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "account_holder_type")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "address_city")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "address_country")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "address_line1")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "address_line2")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "address_state")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "address_zip")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "default_for_currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "exp_month")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "exp_year")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "name"))
 
--- | Defines the enum schema postAccountExternalAccountsIdRequestBodyAccount_holder_type\'
+-- | Create a new 'PostAccountExternalAccountsIdRequestBody' with all required fields.
+mkPostAccountExternalAccountsIdRequestBody :: PostAccountExternalAccountsIdRequestBody
+mkPostAccountExternalAccountsIdRequestBody =
+  PostAccountExternalAccountsIdRequestBody
+    { postAccountExternalAccountsIdRequestBodyAccountHolderName = GHC.Maybe.Nothing,
+      postAccountExternalAccountsIdRequestBodyAccountHolderType = GHC.Maybe.Nothing,
+      postAccountExternalAccountsIdRequestBodyAddressCity = GHC.Maybe.Nothing,
+      postAccountExternalAccountsIdRequestBodyAddressCountry = GHC.Maybe.Nothing,
+      postAccountExternalAccountsIdRequestBodyAddressLine1 = GHC.Maybe.Nothing,
+      postAccountExternalAccountsIdRequestBodyAddressLine2 = GHC.Maybe.Nothing,
+      postAccountExternalAccountsIdRequestBodyAddressState = GHC.Maybe.Nothing,
+      postAccountExternalAccountsIdRequestBodyAddressZip = GHC.Maybe.Nothing,
+      postAccountExternalAccountsIdRequestBodyDefaultForCurrency = GHC.Maybe.Nothing,
+      postAccountExternalAccountsIdRequestBodyExpMonth = GHC.Maybe.Nothing,
+      postAccountExternalAccountsIdRequestBodyExpYear = GHC.Maybe.Nothing,
+      postAccountExternalAccountsIdRequestBodyExpand = GHC.Maybe.Nothing,
+      postAccountExternalAccountsIdRequestBodyMetadata = GHC.Maybe.Nothing,
+      postAccountExternalAccountsIdRequestBodyName = GHC.Maybe.Nothing
+    }
+
+-- | Defines the enum schema located at @paths.\/v1\/account\/external_accounts\/{id}.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.account_holder_type@ in the specification.
 --
 -- The type of entity that holds the account. This can be either \`individual\` or \`company\`.
 data PostAccountExternalAccountsIdRequestBodyAccountHolderType'
-  = PostAccountExternalAccountsIdRequestBodyAccountHolderType'EnumOther Data.Aeson.Types.Internal.Value
-  | PostAccountExternalAccountsIdRequestBodyAccountHolderType'EnumTyped Data.Text.Internal.Text
-  | PostAccountExternalAccountsIdRequestBodyAccountHolderType'EnumString_
-  | PostAccountExternalAccountsIdRequestBodyAccountHolderType'EnumStringCompany
-  | PostAccountExternalAccountsIdRequestBodyAccountHolderType'EnumStringIndividual
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    PostAccountExternalAccountsIdRequestBodyAccountHolderType'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    PostAccountExternalAccountsIdRequestBodyAccountHolderType'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @""@
+    PostAccountExternalAccountsIdRequestBodyAccountHolderType'EnumEmptyString
+  | -- | Represents the JSON value @"company"@
+    PostAccountExternalAccountsIdRequestBodyAccountHolderType'EnumCompany
+  | -- | Represents the JSON value @"individual"@
+    PostAccountExternalAccountsIdRequestBodyAccountHolderType'EnumIndividual
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostAccountExternalAccountsIdRequestBodyAccountHolderType' where
-  toJSON (PostAccountExternalAccountsIdRequestBodyAccountHolderType'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostAccountExternalAccountsIdRequestBodyAccountHolderType'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostAccountExternalAccountsIdRequestBodyAccountHolderType'EnumString_) = ""
-  toJSON (PostAccountExternalAccountsIdRequestBodyAccountHolderType'EnumStringCompany) = "company"
-  toJSON (PostAccountExternalAccountsIdRequestBodyAccountHolderType'EnumStringIndividual) = "individual"
+  toJSON (PostAccountExternalAccountsIdRequestBodyAccountHolderType'Other val) = val
+  toJSON (PostAccountExternalAccountsIdRequestBodyAccountHolderType'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PostAccountExternalAccountsIdRequestBodyAccountHolderType'EnumEmptyString) = ""
+  toJSON (PostAccountExternalAccountsIdRequestBodyAccountHolderType'EnumCompany) = "company"
+  toJSON (PostAccountExternalAccountsIdRequestBodyAccountHolderType'EnumIndividual) = "individual"
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostAccountExternalAccountsIdRequestBodyAccountHolderType' where
   parseJSON val =
     GHC.Base.pure
-      ( if  | val GHC.Classes.== "" -> PostAccountExternalAccountsIdRequestBodyAccountHolderType'EnumString_
-            | val GHC.Classes.== "company" -> PostAccountExternalAccountsIdRequestBodyAccountHolderType'EnumStringCompany
-            | val GHC.Classes.== "individual" -> PostAccountExternalAccountsIdRequestBodyAccountHolderType'EnumStringIndividual
-            | GHC.Base.otherwise -> PostAccountExternalAccountsIdRequestBodyAccountHolderType'EnumOther val
+      ( if  | val GHC.Classes.== "" -> PostAccountExternalAccountsIdRequestBodyAccountHolderType'EnumEmptyString
+            | val GHC.Classes.== "company" -> PostAccountExternalAccountsIdRequestBodyAccountHolderType'EnumCompany
+            | val GHC.Classes.== "individual" -> PostAccountExternalAccountsIdRequestBodyAccountHolderType'EnumIndividual
+            | GHC.Base.otherwise -> PostAccountExternalAccountsIdRequestBodyAccountHolderType'Other val
       )
 
 -- | Represents a response of the operation 'postAccountExternalAccountsId'.

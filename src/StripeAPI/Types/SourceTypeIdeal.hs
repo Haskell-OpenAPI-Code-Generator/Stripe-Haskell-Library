@@ -8,6 +8,7 @@ module StripeAPI.Types.SourceTypeIdeal where
 
 import qualified Control.Monad.Fail
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -30,7 +31,7 @@ import StripeAPI.TypeAlias
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
--- | Defines the data type for the schema source_type_ideal
+-- | Defines the object schema located at @components.schemas.source_type_ideal@ in the specification.
 data SourceTypeIdeal
   = SourceTypeIdeal
       { -- | bank
@@ -48,8 +49,18 @@ data SourceTypeIdeal
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON SourceTypeIdeal where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "bank" (sourceTypeIdealBank obj) : (Data.Aeson..=) "bic" (sourceTypeIdealBic obj) : (Data.Aeson..=) "iban_last4" (sourceTypeIdealIbanLast4 obj) : (Data.Aeson..=) "statement_descriptor" (sourceTypeIdealStatementDescriptor obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "bank" (sourceTypeIdealBank obj) GHC.Base.<> ((Data.Aeson..=) "bic" (sourceTypeIdealBic obj) GHC.Base.<> ((Data.Aeson..=) "iban_last4" (sourceTypeIdealIbanLast4 obj) GHC.Base.<> (Data.Aeson..=) "statement_descriptor" (sourceTypeIdealStatementDescriptor obj))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("bank" Data.Aeson.Types.ToJSON..= sourceTypeIdealBank obj : "bic" Data.Aeson.Types.ToJSON..= sourceTypeIdealBic obj : "iban_last4" Data.Aeson.Types.ToJSON..= sourceTypeIdealIbanLast4 obj : "statement_descriptor" Data.Aeson.Types.ToJSON..= sourceTypeIdealStatementDescriptor obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("bank" Data.Aeson.Types.ToJSON..= sourceTypeIdealBank obj) GHC.Base.<> (("bic" Data.Aeson.Types.ToJSON..= sourceTypeIdealBic obj) GHC.Base.<> (("iban_last4" Data.Aeson.Types.ToJSON..= sourceTypeIdealIbanLast4 obj) GHC.Base.<> ("statement_descriptor" Data.Aeson.Types.ToJSON..= sourceTypeIdealStatementDescriptor obj))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON SourceTypeIdeal where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "SourceTypeIdeal" (\obj -> (((GHC.Base.pure SourceTypeIdeal GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "bank")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "bic")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "iban_last4")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "statement_descriptor"))
+
+-- | Create a new 'SourceTypeIdeal' with all required fields.
+mkSourceTypeIdeal :: SourceTypeIdeal
+mkSourceTypeIdeal =
+  SourceTypeIdeal
+    { sourceTypeIdealBank = GHC.Maybe.Nothing,
+      sourceTypeIdealBic = GHC.Maybe.Nothing,
+      sourceTypeIdealIbanLast4 = GHC.Maybe.Nothing,
+      sourceTypeIdealStatementDescriptor = GHC.Maybe.Nothing
+    }

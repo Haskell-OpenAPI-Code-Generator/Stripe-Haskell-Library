@@ -8,6 +8,7 @@ module StripeAPI.Types.AccountLink where
 
 import qualified Control.Monad.Fail
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -30,7 +31,7 @@ import StripeAPI.TypeAlias
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
--- | Defines the data type for the schema account_link
+-- | Defines the object schema located at @components.schemas.account_link@ in the specification.
 --
 -- Account Links are the means by which a Connect platform grants a connected account permission to access
 -- Stripe-hosted applications, such as Connect Onboarding.
@@ -42,8 +43,6 @@ data AccountLink
         accountLinkCreated :: GHC.Types.Int,
         -- | expires_at: The timestamp at which this account link will expire.
         accountLinkExpiresAt :: GHC.Types.Int,
-        -- | object: String representing the object\'s type. Objects of the same type share the same value.
-        accountLinkObject :: AccountLinkObject',
         -- | url: The URL for the account link.
         --
         -- Constraints:
@@ -57,29 +56,24 @@ data AccountLink
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON AccountLink where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "created" (accountLinkCreated obj) : (Data.Aeson..=) "expires_at" (accountLinkExpiresAt obj) : (Data.Aeson..=) "object" (accountLinkObject obj) : (Data.Aeson..=) "url" (accountLinkUrl obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "created" (accountLinkCreated obj) GHC.Base.<> ((Data.Aeson..=) "expires_at" (accountLinkExpiresAt obj) GHC.Base.<> ((Data.Aeson..=) "object" (accountLinkObject obj) GHC.Base.<> (Data.Aeson..=) "url" (accountLinkUrl obj))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("created" Data.Aeson.Types.ToJSON..= accountLinkCreated obj : "expires_at" Data.Aeson.Types.ToJSON..= accountLinkExpiresAt obj : "url" Data.Aeson.Types.ToJSON..= accountLinkUrl obj : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "account_link" : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("created" Data.Aeson.Types.ToJSON..= accountLinkCreated obj) GHC.Base.<> (("expires_at" Data.Aeson.Types.ToJSON..= accountLinkExpiresAt obj) GHC.Base.<> (("url" Data.Aeson.Types.ToJSON..= accountLinkUrl obj) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "account_link"))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON AccountLink where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "AccountLink" (\obj -> (((GHC.Base.pure AccountLink GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "created")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "expires_at")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "object")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "url"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "AccountLink" (\obj -> ((GHC.Base.pure AccountLink GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "created")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "expires_at")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "url"))
 
--- | Defines the enum schema account_linkObject\'
---
--- String representing the object\'s type. Objects of the same type share the same value.
-data AccountLinkObject'
-  = AccountLinkObject'EnumOther Data.Aeson.Types.Internal.Value
-  | AccountLinkObject'EnumTyped Data.Text.Internal.Text
-  | AccountLinkObject'EnumStringAccountLink
-  deriving (GHC.Show.Show, GHC.Classes.Eq)
-
-instance Data.Aeson.Types.ToJSON.ToJSON AccountLinkObject' where
-  toJSON (AccountLinkObject'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (AccountLinkObject'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (AccountLinkObject'EnumStringAccountLink) = "account_link"
-
-instance Data.Aeson.Types.FromJSON.FromJSON AccountLinkObject' where
-  parseJSON val =
-    GHC.Base.pure
-      ( if  | val GHC.Classes.== "account_link" -> AccountLinkObject'EnumStringAccountLink
-            | GHC.Base.otherwise -> AccountLinkObject'EnumOther val
-      )
+-- | Create a new 'AccountLink' with all required fields.
+mkAccountLink ::
+  -- | 'accountLinkCreated'
+  GHC.Types.Int ->
+  -- | 'accountLinkExpiresAt'
+  GHC.Types.Int ->
+  -- | 'accountLinkUrl'
+  Data.Text.Internal.Text ->
+  AccountLink
+mkAccountLink accountLinkCreated accountLinkExpiresAt accountLinkUrl =
+  AccountLink
+    { accountLinkCreated = accountLinkCreated,
+      accountLinkExpiresAt = accountLinkExpiresAt,
+      accountLinkUrl = accountLinkUrl
+    }

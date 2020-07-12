@@ -8,6 +8,7 @@ module StripeAPI.Types.AccountCapabilities where
 
 import qualified Control.Monad.Fail
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -30,7 +31,7 @@ import StripeAPI.TypeAlias
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
--- | Defines the data type for the schema account_capabilities
+-- | Defines the object schema located at @components.schemas.account_capabilities@ in the specification.
 data AccountCapabilities
   = AccountCapabilities
       { -- | card_issuing: The status of the card issuing capability of the account, or whether you can use Issuing to distribute funds on cards
@@ -48,116 +49,146 @@ data AccountCapabilities
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON AccountCapabilities where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "card_issuing" (accountCapabilitiesCardIssuing obj) : (Data.Aeson..=) "card_payments" (accountCapabilitiesCardPayments obj) : (Data.Aeson..=) "legacy_payments" (accountCapabilitiesLegacyPayments obj) : (Data.Aeson..=) "transfers" (accountCapabilitiesTransfers obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "card_issuing" (accountCapabilitiesCardIssuing obj) GHC.Base.<> ((Data.Aeson..=) "card_payments" (accountCapabilitiesCardPayments obj) GHC.Base.<> ((Data.Aeson..=) "legacy_payments" (accountCapabilitiesLegacyPayments obj) GHC.Base.<> (Data.Aeson..=) "transfers" (accountCapabilitiesTransfers obj))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("card_issuing" Data.Aeson.Types.ToJSON..= accountCapabilitiesCardIssuing obj : "card_payments" Data.Aeson.Types.ToJSON..= accountCapabilitiesCardPayments obj : "legacy_payments" Data.Aeson.Types.ToJSON..= accountCapabilitiesLegacyPayments obj : "transfers" Data.Aeson.Types.ToJSON..= accountCapabilitiesTransfers obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("card_issuing" Data.Aeson.Types.ToJSON..= accountCapabilitiesCardIssuing obj) GHC.Base.<> (("card_payments" Data.Aeson.Types.ToJSON..= accountCapabilitiesCardPayments obj) GHC.Base.<> (("legacy_payments" Data.Aeson.Types.ToJSON..= accountCapabilitiesLegacyPayments obj) GHC.Base.<> ("transfers" Data.Aeson.Types.ToJSON..= accountCapabilitiesTransfers obj))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON AccountCapabilities where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "AccountCapabilities" (\obj -> (((GHC.Base.pure AccountCapabilities GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "card_issuing")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "card_payments")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "legacy_payments")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "transfers"))
 
--- | Defines the enum schema account_capabilitiesCard_issuing\'
+-- | Create a new 'AccountCapabilities' with all required fields.
+mkAccountCapabilities :: AccountCapabilities
+mkAccountCapabilities =
+  AccountCapabilities
+    { accountCapabilitiesCardIssuing = GHC.Maybe.Nothing,
+      accountCapabilitiesCardPayments = GHC.Maybe.Nothing,
+      accountCapabilitiesLegacyPayments = GHC.Maybe.Nothing,
+      accountCapabilitiesTransfers = GHC.Maybe.Nothing
+    }
+
+-- | Defines the enum schema located at @components.schemas.account_capabilities.properties.card_issuing@ in the specification.
 --
 -- The status of the card issuing capability of the account, or whether you can use Issuing to distribute funds on cards
 data AccountCapabilitiesCardIssuing'
-  = AccountCapabilitiesCardIssuing'EnumOther Data.Aeson.Types.Internal.Value
-  | AccountCapabilitiesCardIssuing'EnumTyped Data.Text.Internal.Text
-  | AccountCapabilitiesCardIssuing'EnumStringActive
-  | AccountCapabilitiesCardIssuing'EnumStringInactive
-  | AccountCapabilitiesCardIssuing'EnumStringPending
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    AccountCapabilitiesCardIssuing'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    AccountCapabilitiesCardIssuing'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"active"@
+    AccountCapabilitiesCardIssuing'EnumActive
+  | -- | Represents the JSON value @"inactive"@
+    AccountCapabilitiesCardIssuing'EnumInactive
+  | -- | Represents the JSON value @"pending"@
+    AccountCapabilitiesCardIssuing'EnumPending
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
 instance Data.Aeson.Types.ToJSON.ToJSON AccountCapabilitiesCardIssuing' where
-  toJSON (AccountCapabilitiesCardIssuing'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (AccountCapabilitiesCardIssuing'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (AccountCapabilitiesCardIssuing'EnumStringActive) = "active"
-  toJSON (AccountCapabilitiesCardIssuing'EnumStringInactive) = "inactive"
-  toJSON (AccountCapabilitiesCardIssuing'EnumStringPending) = "pending"
+  toJSON (AccountCapabilitiesCardIssuing'Other val) = val
+  toJSON (AccountCapabilitiesCardIssuing'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (AccountCapabilitiesCardIssuing'EnumActive) = "active"
+  toJSON (AccountCapabilitiesCardIssuing'EnumInactive) = "inactive"
+  toJSON (AccountCapabilitiesCardIssuing'EnumPending) = "pending"
 
 instance Data.Aeson.Types.FromJSON.FromJSON AccountCapabilitiesCardIssuing' where
   parseJSON val =
     GHC.Base.pure
-      ( if  | val GHC.Classes.== "active" -> AccountCapabilitiesCardIssuing'EnumStringActive
-            | val GHC.Classes.== "inactive" -> AccountCapabilitiesCardIssuing'EnumStringInactive
-            | val GHC.Classes.== "pending" -> AccountCapabilitiesCardIssuing'EnumStringPending
-            | GHC.Base.otherwise -> AccountCapabilitiesCardIssuing'EnumOther val
+      ( if  | val GHC.Classes.== "active" -> AccountCapabilitiesCardIssuing'EnumActive
+            | val GHC.Classes.== "inactive" -> AccountCapabilitiesCardIssuing'EnumInactive
+            | val GHC.Classes.== "pending" -> AccountCapabilitiesCardIssuing'EnumPending
+            | GHC.Base.otherwise -> AccountCapabilitiesCardIssuing'Other val
       )
 
--- | Defines the enum schema account_capabilitiesCard_payments\'
+-- | Defines the enum schema located at @components.schemas.account_capabilities.properties.card_payments@ in the specification.
 --
 -- The status of the card payments capability of the account, or whether the account can directly process credit and debit card charges.
 data AccountCapabilitiesCardPayments'
-  = AccountCapabilitiesCardPayments'EnumOther Data.Aeson.Types.Internal.Value
-  | AccountCapabilitiesCardPayments'EnumTyped Data.Text.Internal.Text
-  | AccountCapabilitiesCardPayments'EnumStringActive
-  | AccountCapabilitiesCardPayments'EnumStringInactive
-  | AccountCapabilitiesCardPayments'EnumStringPending
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    AccountCapabilitiesCardPayments'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    AccountCapabilitiesCardPayments'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"active"@
+    AccountCapabilitiesCardPayments'EnumActive
+  | -- | Represents the JSON value @"inactive"@
+    AccountCapabilitiesCardPayments'EnumInactive
+  | -- | Represents the JSON value @"pending"@
+    AccountCapabilitiesCardPayments'EnumPending
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
 instance Data.Aeson.Types.ToJSON.ToJSON AccountCapabilitiesCardPayments' where
-  toJSON (AccountCapabilitiesCardPayments'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (AccountCapabilitiesCardPayments'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (AccountCapabilitiesCardPayments'EnumStringActive) = "active"
-  toJSON (AccountCapabilitiesCardPayments'EnumStringInactive) = "inactive"
-  toJSON (AccountCapabilitiesCardPayments'EnumStringPending) = "pending"
+  toJSON (AccountCapabilitiesCardPayments'Other val) = val
+  toJSON (AccountCapabilitiesCardPayments'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (AccountCapabilitiesCardPayments'EnumActive) = "active"
+  toJSON (AccountCapabilitiesCardPayments'EnumInactive) = "inactive"
+  toJSON (AccountCapabilitiesCardPayments'EnumPending) = "pending"
 
 instance Data.Aeson.Types.FromJSON.FromJSON AccountCapabilitiesCardPayments' where
   parseJSON val =
     GHC.Base.pure
-      ( if  | val GHC.Classes.== "active" -> AccountCapabilitiesCardPayments'EnumStringActive
-            | val GHC.Classes.== "inactive" -> AccountCapabilitiesCardPayments'EnumStringInactive
-            | val GHC.Classes.== "pending" -> AccountCapabilitiesCardPayments'EnumStringPending
-            | GHC.Base.otherwise -> AccountCapabilitiesCardPayments'EnumOther val
+      ( if  | val GHC.Classes.== "active" -> AccountCapabilitiesCardPayments'EnumActive
+            | val GHC.Classes.== "inactive" -> AccountCapabilitiesCardPayments'EnumInactive
+            | val GHC.Classes.== "pending" -> AccountCapabilitiesCardPayments'EnumPending
+            | GHC.Base.otherwise -> AccountCapabilitiesCardPayments'Other val
       )
 
--- | Defines the enum schema account_capabilitiesLegacy_payments\'
+-- | Defines the enum schema located at @components.schemas.account_capabilities.properties.legacy_payments@ in the specification.
 --
 -- The status of the legacy payments capability of the account.
 data AccountCapabilitiesLegacyPayments'
-  = AccountCapabilitiesLegacyPayments'EnumOther Data.Aeson.Types.Internal.Value
-  | AccountCapabilitiesLegacyPayments'EnumTyped Data.Text.Internal.Text
-  | AccountCapabilitiesLegacyPayments'EnumStringActive
-  | AccountCapabilitiesLegacyPayments'EnumStringInactive
-  | AccountCapabilitiesLegacyPayments'EnumStringPending
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    AccountCapabilitiesLegacyPayments'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    AccountCapabilitiesLegacyPayments'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"active"@
+    AccountCapabilitiesLegacyPayments'EnumActive
+  | -- | Represents the JSON value @"inactive"@
+    AccountCapabilitiesLegacyPayments'EnumInactive
+  | -- | Represents the JSON value @"pending"@
+    AccountCapabilitiesLegacyPayments'EnumPending
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
 instance Data.Aeson.Types.ToJSON.ToJSON AccountCapabilitiesLegacyPayments' where
-  toJSON (AccountCapabilitiesLegacyPayments'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (AccountCapabilitiesLegacyPayments'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (AccountCapabilitiesLegacyPayments'EnumStringActive) = "active"
-  toJSON (AccountCapabilitiesLegacyPayments'EnumStringInactive) = "inactive"
-  toJSON (AccountCapabilitiesLegacyPayments'EnumStringPending) = "pending"
+  toJSON (AccountCapabilitiesLegacyPayments'Other val) = val
+  toJSON (AccountCapabilitiesLegacyPayments'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (AccountCapabilitiesLegacyPayments'EnumActive) = "active"
+  toJSON (AccountCapabilitiesLegacyPayments'EnumInactive) = "inactive"
+  toJSON (AccountCapabilitiesLegacyPayments'EnumPending) = "pending"
 
 instance Data.Aeson.Types.FromJSON.FromJSON AccountCapabilitiesLegacyPayments' where
   parseJSON val =
     GHC.Base.pure
-      ( if  | val GHC.Classes.== "active" -> AccountCapabilitiesLegacyPayments'EnumStringActive
-            | val GHC.Classes.== "inactive" -> AccountCapabilitiesLegacyPayments'EnumStringInactive
-            | val GHC.Classes.== "pending" -> AccountCapabilitiesLegacyPayments'EnumStringPending
-            | GHC.Base.otherwise -> AccountCapabilitiesLegacyPayments'EnumOther val
+      ( if  | val GHC.Classes.== "active" -> AccountCapabilitiesLegacyPayments'EnumActive
+            | val GHC.Classes.== "inactive" -> AccountCapabilitiesLegacyPayments'EnumInactive
+            | val GHC.Classes.== "pending" -> AccountCapabilitiesLegacyPayments'EnumPending
+            | GHC.Base.otherwise -> AccountCapabilitiesLegacyPayments'Other val
       )
 
--- | Defines the enum schema account_capabilitiesTransfers\'
+-- | Defines the enum schema located at @components.schemas.account_capabilities.properties.transfers@ in the specification.
 --
 -- The status of the transfers capability of the account, or whether your platform can transfer funds to the account.
 data AccountCapabilitiesTransfers'
-  = AccountCapabilitiesTransfers'EnumOther Data.Aeson.Types.Internal.Value
-  | AccountCapabilitiesTransfers'EnumTyped Data.Text.Internal.Text
-  | AccountCapabilitiesTransfers'EnumStringActive
-  | AccountCapabilitiesTransfers'EnumStringInactive
-  | AccountCapabilitiesTransfers'EnumStringPending
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    AccountCapabilitiesTransfers'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    AccountCapabilitiesTransfers'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"active"@
+    AccountCapabilitiesTransfers'EnumActive
+  | -- | Represents the JSON value @"inactive"@
+    AccountCapabilitiesTransfers'EnumInactive
+  | -- | Represents the JSON value @"pending"@
+    AccountCapabilitiesTransfers'EnumPending
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
 instance Data.Aeson.Types.ToJSON.ToJSON AccountCapabilitiesTransfers' where
-  toJSON (AccountCapabilitiesTransfers'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (AccountCapabilitiesTransfers'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (AccountCapabilitiesTransfers'EnumStringActive) = "active"
-  toJSON (AccountCapabilitiesTransfers'EnumStringInactive) = "inactive"
-  toJSON (AccountCapabilitiesTransfers'EnumStringPending) = "pending"
+  toJSON (AccountCapabilitiesTransfers'Other val) = val
+  toJSON (AccountCapabilitiesTransfers'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (AccountCapabilitiesTransfers'EnumActive) = "active"
+  toJSON (AccountCapabilitiesTransfers'EnumInactive) = "inactive"
+  toJSON (AccountCapabilitiesTransfers'EnumPending) = "pending"
 
 instance Data.Aeson.Types.FromJSON.FromJSON AccountCapabilitiesTransfers' where
   parseJSON val =
     GHC.Base.pure
-      ( if  | val GHC.Classes.== "active" -> AccountCapabilitiesTransfers'EnumStringActive
-            | val GHC.Classes.== "inactive" -> AccountCapabilitiesTransfers'EnumStringInactive
-            | val GHC.Classes.== "pending" -> AccountCapabilitiesTransfers'EnumStringPending
-            | GHC.Base.otherwise -> AccountCapabilitiesTransfers'EnumOther val
+      ( if  | val GHC.Classes.== "active" -> AccountCapabilitiesTransfers'EnumActive
+            | val GHC.Classes.== "inactive" -> AccountCapabilitiesTransfers'EnumInactive
+            | val GHC.Classes.== "pending" -> AccountCapabilitiesTransfers'EnumPending
+            | GHC.Base.otherwise -> AccountCapabilitiesTransfers'Other val
       )

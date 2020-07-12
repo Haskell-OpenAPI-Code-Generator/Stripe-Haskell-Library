@@ -8,6 +8,7 @@ module StripeAPI.Types.MandatePaymentMethodDetails where
 
 import qualified Control.Monad.Fail
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -31,7 +32,7 @@ import {-# SOURCE #-} StripeAPI.Types.MandateSepaDebit
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
--- | Defines the data type for the schema mandate_payment_method_details
+-- | Defines the object schema located at @components.schemas.mandate_payment_method_details@ in the specification.
 data MandatePaymentMethodDetails
   = MandatePaymentMethodDetails
       { -- | card:
@@ -51,8 +52,20 @@ data MandatePaymentMethodDetails
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON MandatePaymentMethodDetails where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "card" (mandatePaymentMethodDetailsCard obj) : (Data.Aeson..=) "sepa_debit" (mandatePaymentMethodDetailsSepaDebit obj) : (Data.Aeson..=) "type" (mandatePaymentMethodDetailsType obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "card" (mandatePaymentMethodDetailsCard obj) GHC.Base.<> ((Data.Aeson..=) "sepa_debit" (mandatePaymentMethodDetailsSepaDebit obj) GHC.Base.<> (Data.Aeson..=) "type" (mandatePaymentMethodDetailsType obj)))
+  toJSON obj = Data.Aeson.Types.Internal.object ("card" Data.Aeson.Types.ToJSON..= mandatePaymentMethodDetailsCard obj : "sepa_debit" Data.Aeson.Types.ToJSON..= mandatePaymentMethodDetailsSepaDebit obj : "type" Data.Aeson.Types.ToJSON..= mandatePaymentMethodDetailsType obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("card" Data.Aeson.Types.ToJSON..= mandatePaymentMethodDetailsCard obj) GHC.Base.<> (("sepa_debit" Data.Aeson.Types.ToJSON..= mandatePaymentMethodDetailsSepaDebit obj) GHC.Base.<> ("type" Data.Aeson.Types.ToJSON..= mandatePaymentMethodDetailsType obj)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON MandatePaymentMethodDetails where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "MandatePaymentMethodDetails" (\obj -> ((GHC.Base.pure MandatePaymentMethodDetails GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "card")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "sepa_debit")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "type"))
+
+-- | Create a new 'MandatePaymentMethodDetails' with all required fields.
+mkMandatePaymentMethodDetails ::
+  -- | 'mandatePaymentMethodDetailsType'
+  Data.Text.Internal.Text ->
+  MandatePaymentMethodDetails
+mkMandatePaymentMethodDetails mandatePaymentMethodDetailsType =
+  MandatePaymentMethodDetails
+    { mandatePaymentMethodDetailsCard = GHC.Maybe.Nothing,
+      mandatePaymentMethodDetailsSepaDebit = GHC.Maybe.Nothing,
+      mandatePaymentMethodDetailsType = mandatePaymentMethodDetailsType
+    }

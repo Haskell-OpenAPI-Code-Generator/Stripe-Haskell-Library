@@ -10,6 +10,7 @@ module StripeAPI.Operations.GetAccountsAccountPeople where
 import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -86,7 +87,7 @@ getAccountsAccountPeople parameters =
         ]
     )
 
--- | Defines the data type for the schema getAccountsAccountPeopleParameters
+-- | Defines the object schema located at @paths.\/v1\/accounts\/{account}\/people.GET.parameters@ in the specification.
 data GetAccountsAccountPeopleParameters
   = GetAccountsAccountPeopleParameters
       { -- | pathAccount: Represents the parameter named \'account\'
@@ -130,13 +131,28 @@ data GetAccountsAccountPeopleParameters
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetAccountsAccountPeopleParameters where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "pathAccount" (getAccountsAccountPeopleParametersPathAccount obj) : (Data.Aeson..=) "queryEnding_before" (getAccountsAccountPeopleParametersQueryEndingBefore obj) : (Data.Aeson..=) "queryExpand" (getAccountsAccountPeopleParametersQueryExpand obj) : (Data.Aeson..=) "queryLimit" (getAccountsAccountPeopleParametersQueryLimit obj) : (Data.Aeson..=) "queryRelationship" (getAccountsAccountPeopleParametersQueryRelationship obj) : (Data.Aeson..=) "queryStarting_after" (getAccountsAccountPeopleParametersQueryStartingAfter obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "pathAccount" (getAccountsAccountPeopleParametersPathAccount obj) GHC.Base.<> ((Data.Aeson..=) "queryEnding_before" (getAccountsAccountPeopleParametersQueryEndingBefore obj) GHC.Base.<> ((Data.Aeson..=) "queryExpand" (getAccountsAccountPeopleParametersQueryExpand obj) GHC.Base.<> ((Data.Aeson..=) "queryLimit" (getAccountsAccountPeopleParametersQueryLimit obj) GHC.Base.<> ((Data.Aeson..=) "queryRelationship" (getAccountsAccountPeopleParametersQueryRelationship obj) GHC.Base.<> (Data.Aeson..=) "queryStarting_after" (getAccountsAccountPeopleParametersQueryStartingAfter obj))))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("pathAccount" Data.Aeson.Types.ToJSON..= getAccountsAccountPeopleParametersPathAccount obj : "queryEnding_before" Data.Aeson.Types.ToJSON..= getAccountsAccountPeopleParametersQueryEndingBefore obj : "queryExpand" Data.Aeson.Types.ToJSON..= getAccountsAccountPeopleParametersQueryExpand obj : "queryLimit" Data.Aeson.Types.ToJSON..= getAccountsAccountPeopleParametersQueryLimit obj : "queryRelationship" Data.Aeson.Types.ToJSON..= getAccountsAccountPeopleParametersQueryRelationship obj : "queryStarting_after" Data.Aeson.Types.ToJSON..= getAccountsAccountPeopleParametersQueryStartingAfter obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("pathAccount" Data.Aeson.Types.ToJSON..= getAccountsAccountPeopleParametersPathAccount obj) GHC.Base.<> (("queryEnding_before" Data.Aeson.Types.ToJSON..= getAccountsAccountPeopleParametersQueryEndingBefore obj) GHC.Base.<> (("queryExpand" Data.Aeson.Types.ToJSON..= getAccountsAccountPeopleParametersQueryExpand obj) GHC.Base.<> (("queryLimit" Data.Aeson.Types.ToJSON..= getAccountsAccountPeopleParametersQueryLimit obj) GHC.Base.<> (("queryRelationship" Data.Aeson.Types.ToJSON..= getAccountsAccountPeopleParametersQueryRelationship obj) GHC.Base.<> ("queryStarting_after" Data.Aeson.Types.ToJSON..= getAccountsAccountPeopleParametersQueryStartingAfter obj))))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetAccountsAccountPeopleParameters where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "GetAccountsAccountPeopleParameters" (\obj -> (((((GHC.Base.pure GetAccountsAccountPeopleParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathAccount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryEnding_before")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryExpand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryLimit")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryRelationship")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryStarting_after"))
 
--- | Defines the data type for the schema getAccountsAccountPeopleParametersQueryRelationship\'
+-- | Create a new 'GetAccountsAccountPeopleParameters' with all required fields.
+mkGetAccountsAccountPeopleParameters ::
+  -- | 'getAccountsAccountPeopleParametersPathAccount'
+  Data.Text.Internal.Text ->
+  GetAccountsAccountPeopleParameters
+mkGetAccountsAccountPeopleParameters getAccountsAccountPeopleParametersPathAccount =
+  GetAccountsAccountPeopleParameters
+    { getAccountsAccountPeopleParametersPathAccount = getAccountsAccountPeopleParametersPathAccount,
+      getAccountsAccountPeopleParametersQueryEndingBefore = GHC.Maybe.Nothing,
+      getAccountsAccountPeopleParametersQueryExpand = GHC.Maybe.Nothing,
+      getAccountsAccountPeopleParametersQueryLimit = GHC.Maybe.Nothing,
+      getAccountsAccountPeopleParametersQueryRelationship = GHC.Maybe.Nothing,
+      getAccountsAccountPeopleParametersQueryStartingAfter = GHC.Maybe.Nothing
+    }
+
+-- | Defines the object schema located at @paths.\/v1\/accounts\/{account}\/people.GET.parameters.properties.queryRelationship@ in the specification.
 --
 -- Represents the parameter named \'relationship\'
 --
@@ -158,11 +174,21 @@ data GetAccountsAccountPeopleParametersQueryRelationship'
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetAccountsAccountPeopleParametersQueryRelationship' where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "director" (getAccountsAccountPeopleParametersQueryRelationship'Director obj) : (Data.Aeson..=) "executive" (getAccountsAccountPeopleParametersQueryRelationship'Executive obj) : (Data.Aeson..=) "owner" (getAccountsAccountPeopleParametersQueryRelationship'Owner obj) : (Data.Aeson..=) "representative" (getAccountsAccountPeopleParametersQueryRelationship'Representative obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "director" (getAccountsAccountPeopleParametersQueryRelationship'Director obj) GHC.Base.<> ((Data.Aeson..=) "executive" (getAccountsAccountPeopleParametersQueryRelationship'Executive obj) GHC.Base.<> ((Data.Aeson..=) "owner" (getAccountsAccountPeopleParametersQueryRelationship'Owner obj) GHC.Base.<> (Data.Aeson..=) "representative" (getAccountsAccountPeopleParametersQueryRelationship'Representative obj))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("director" Data.Aeson.Types.ToJSON..= getAccountsAccountPeopleParametersQueryRelationship'Director obj : "executive" Data.Aeson.Types.ToJSON..= getAccountsAccountPeopleParametersQueryRelationship'Executive obj : "owner" Data.Aeson.Types.ToJSON..= getAccountsAccountPeopleParametersQueryRelationship'Owner obj : "representative" Data.Aeson.Types.ToJSON..= getAccountsAccountPeopleParametersQueryRelationship'Representative obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("director" Data.Aeson.Types.ToJSON..= getAccountsAccountPeopleParametersQueryRelationship'Director obj) GHC.Base.<> (("executive" Data.Aeson.Types.ToJSON..= getAccountsAccountPeopleParametersQueryRelationship'Executive obj) GHC.Base.<> (("owner" Data.Aeson.Types.ToJSON..= getAccountsAccountPeopleParametersQueryRelationship'Owner obj) GHC.Base.<> ("representative" Data.Aeson.Types.ToJSON..= getAccountsAccountPeopleParametersQueryRelationship'Representative obj))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetAccountsAccountPeopleParametersQueryRelationship' where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "GetAccountsAccountPeopleParametersQueryRelationship'" (\obj -> (((GHC.Base.pure GetAccountsAccountPeopleParametersQueryRelationship' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "director")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "executive")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "owner")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "representative"))
+
+-- | Create a new 'GetAccountsAccountPeopleParametersQueryRelationship'' with all required fields.
+mkGetAccountsAccountPeopleParametersQueryRelationship' :: GetAccountsAccountPeopleParametersQueryRelationship'
+mkGetAccountsAccountPeopleParametersQueryRelationship' =
+  GetAccountsAccountPeopleParametersQueryRelationship'
+    { getAccountsAccountPeopleParametersQueryRelationship'Director = GHC.Maybe.Nothing,
+      getAccountsAccountPeopleParametersQueryRelationship'Executive = GHC.Maybe.Nothing,
+      getAccountsAccountPeopleParametersQueryRelationship'Owner = GHC.Maybe.Nothing,
+      getAccountsAccountPeopleParametersQueryRelationship'Representative = GHC.Maybe.Nothing
+    }
 
 -- | Represents a response of the operation 'getAccountsAccountPeople'.
 --
@@ -176,15 +202,13 @@ data GetAccountsAccountPeopleResponse
     GetAccountsAccountPeopleResponseDefault Error
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
--- | Defines the data type for the schema GetAccountsAccountPeopleResponseBody200
+-- | Defines the object schema located at @paths.\/v1\/accounts\/{account}\/people.GET.responses.200.content.application\/json.schema@ in the specification.
 data GetAccountsAccountPeopleResponseBody200
   = GetAccountsAccountPeopleResponseBody200
       { -- | data
         getAccountsAccountPeopleResponseBody200Data :: ([Person]),
         -- | has_more: True if this list has another page of items after this one that can be fetched.
         getAccountsAccountPeopleResponseBody200HasMore :: GHC.Types.Bool,
-        -- | object: String representing the object\'s type. Objects of the same type share the same value. Always has the value \`list\`.
-        getAccountsAccountPeopleResponseBody200Object :: GetAccountsAccountPeopleResponseBody200Object',
         -- | url: The URL where this list can be accessed.
         --
         -- Constraints:
@@ -198,29 +222,24 @@ data GetAccountsAccountPeopleResponseBody200
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetAccountsAccountPeopleResponseBody200 where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "data" (getAccountsAccountPeopleResponseBody200Data obj) : (Data.Aeson..=) "has_more" (getAccountsAccountPeopleResponseBody200HasMore obj) : (Data.Aeson..=) "object" (getAccountsAccountPeopleResponseBody200Object obj) : (Data.Aeson..=) "url" (getAccountsAccountPeopleResponseBody200Url obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "data" (getAccountsAccountPeopleResponseBody200Data obj) GHC.Base.<> ((Data.Aeson..=) "has_more" (getAccountsAccountPeopleResponseBody200HasMore obj) GHC.Base.<> ((Data.Aeson..=) "object" (getAccountsAccountPeopleResponseBody200Object obj) GHC.Base.<> (Data.Aeson..=) "url" (getAccountsAccountPeopleResponseBody200Url obj))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("data" Data.Aeson.Types.ToJSON..= getAccountsAccountPeopleResponseBody200Data obj : "has_more" Data.Aeson.Types.ToJSON..= getAccountsAccountPeopleResponseBody200HasMore obj : "url" Data.Aeson.Types.ToJSON..= getAccountsAccountPeopleResponseBody200Url obj : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "list" : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("data" Data.Aeson.Types.ToJSON..= getAccountsAccountPeopleResponseBody200Data obj) GHC.Base.<> (("has_more" Data.Aeson.Types.ToJSON..= getAccountsAccountPeopleResponseBody200HasMore obj) GHC.Base.<> (("url" Data.Aeson.Types.ToJSON..= getAccountsAccountPeopleResponseBody200Url obj) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "list"))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetAccountsAccountPeopleResponseBody200 where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetAccountsAccountPeopleResponseBody200" (\obj -> (((GHC.Base.pure GetAccountsAccountPeopleResponseBody200 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "has_more")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "object")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "url"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetAccountsAccountPeopleResponseBody200" (\obj -> ((GHC.Base.pure GetAccountsAccountPeopleResponseBody200 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "has_more")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "url"))
 
--- | Defines the enum schema GetAccountsAccountPeopleResponseBody200Object\'
---
--- String representing the object\'s type. Objects of the same type share the same value. Always has the value \`list\`.
-data GetAccountsAccountPeopleResponseBody200Object'
-  = GetAccountsAccountPeopleResponseBody200Object'EnumOther Data.Aeson.Types.Internal.Value
-  | GetAccountsAccountPeopleResponseBody200Object'EnumTyped Data.Text.Internal.Text
-  | GetAccountsAccountPeopleResponseBody200Object'EnumStringList
-  deriving (GHC.Show.Show, GHC.Classes.Eq)
-
-instance Data.Aeson.Types.ToJSON.ToJSON GetAccountsAccountPeopleResponseBody200Object' where
-  toJSON (GetAccountsAccountPeopleResponseBody200Object'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (GetAccountsAccountPeopleResponseBody200Object'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (GetAccountsAccountPeopleResponseBody200Object'EnumStringList) = "list"
-
-instance Data.Aeson.Types.FromJSON.FromJSON GetAccountsAccountPeopleResponseBody200Object' where
-  parseJSON val =
-    GHC.Base.pure
-      ( if  | val GHC.Classes.== "list" -> GetAccountsAccountPeopleResponseBody200Object'EnumStringList
-            | GHC.Base.otherwise -> GetAccountsAccountPeopleResponseBody200Object'EnumOther val
-      )
+-- | Create a new 'GetAccountsAccountPeopleResponseBody200' with all required fields.
+mkGetAccountsAccountPeopleResponseBody200 ::
+  -- | 'getAccountsAccountPeopleResponseBody200Data'
+  [Person] ->
+  -- | 'getAccountsAccountPeopleResponseBody200HasMore'
+  GHC.Types.Bool ->
+  -- | 'getAccountsAccountPeopleResponseBody200Url'
+  Data.Text.Internal.Text ->
+  GetAccountsAccountPeopleResponseBody200
+mkGetAccountsAccountPeopleResponseBody200 getAccountsAccountPeopleResponseBody200Data getAccountsAccountPeopleResponseBody200HasMore getAccountsAccountPeopleResponseBody200Url =
+  GetAccountsAccountPeopleResponseBody200
+    { getAccountsAccountPeopleResponseBody200Data = getAccountsAccountPeopleResponseBody200Data,
+      getAccountsAccountPeopleResponseBody200HasMore = getAccountsAccountPeopleResponseBody200HasMore,
+      getAccountsAccountPeopleResponseBody200Url = getAccountsAccountPeopleResponseBody200Url
+    }

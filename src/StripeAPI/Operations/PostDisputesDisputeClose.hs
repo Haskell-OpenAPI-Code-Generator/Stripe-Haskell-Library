@@ -10,6 +10,7 @@ module StripeAPI.Operations.PostDisputesDisputeClose where
 import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -83,7 +84,7 @@ postDisputesDisputeClose
       )
       (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack ("/v1/disputes/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel dispute)) GHC.Base.++ "/close"))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
 
--- | Defines the data type for the schema postDisputesDisputeCloseRequestBody
+-- | Defines the object schema located at @paths.\/v1\/disputes\/{dispute}\/close.POST.requestBody.content.application\/x-www-form-urlencoded.schema@ in the specification.
 data PostDisputesDisputeCloseRequestBody
   = PostDisputesDisputeCloseRequestBody
       { -- | expand: Specifies which fields in the response should be expanded.
@@ -95,11 +96,15 @@ data PostDisputesDisputeCloseRequestBody
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostDisputesDisputeCloseRequestBody where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "expand" (postDisputesDisputeCloseRequestBodyExpand obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "expand" (postDisputesDisputeCloseRequestBodyExpand obj))
+  toJSON obj = Data.Aeson.Types.Internal.object ("expand" Data.Aeson.Types.ToJSON..= postDisputesDisputeCloseRequestBodyExpand obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs ("expand" Data.Aeson.Types.ToJSON..= postDisputesDisputeCloseRequestBodyExpand obj)
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostDisputesDisputeCloseRequestBody where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PostDisputesDisputeCloseRequestBody" (\obj -> GHC.Base.pure PostDisputesDisputeCloseRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "expand"))
+
+-- | Create a new 'PostDisputesDisputeCloseRequestBody' with all required fields.
+mkPostDisputesDisputeCloseRequestBody :: PostDisputesDisputeCloseRequestBody
+mkPostDisputesDisputeCloseRequestBody = PostDisputesDisputeCloseRequestBody {postDisputesDisputeCloseRequestBodyExpand = GHC.Maybe.Nothing}
 
 -- | Represents a response of the operation 'postDisputesDisputeClose'.
 --

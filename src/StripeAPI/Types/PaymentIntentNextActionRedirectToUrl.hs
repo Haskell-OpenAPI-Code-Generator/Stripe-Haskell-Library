@@ -8,6 +8,7 @@ module StripeAPI.Types.PaymentIntentNextActionRedirectToUrl where
 
 import qualified Control.Monad.Fail
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -30,7 +31,7 @@ import StripeAPI.TypeAlias
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
--- | Defines the data type for the schema payment_intent_next_action_redirect_to_url
+-- | Defines the object schema located at @components.schemas.payment_intent_next_action_redirect_to_url@ in the specification.
 data PaymentIntentNextActionRedirectToUrl
   = PaymentIntentNextActionRedirectToUrl
       { -- | return_url: If the customer does not exit their browser while authenticating, they will be redirected to this specified URL after completion.
@@ -52,8 +53,16 @@ data PaymentIntentNextActionRedirectToUrl
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PaymentIntentNextActionRedirectToUrl where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "return_url" (paymentIntentNextActionRedirectToUrlReturnUrl obj) : (Data.Aeson..=) "url" (paymentIntentNextActionRedirectToUrlUrl obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "return_url" (paymentIntentNextActionRedirectToUrlReturnUrl obj) GHC.Base.<> (Data.Aeson..=) "url" (paymentIntentNextActionRedirectToUrlUrl obj))
+  toJSON obj = Data.Aeson.Types.Internal.object ("return_url" Data.Aeson.Types.ToJSON..= paymentIntentNextActionRedirectToUrlReturnUrl obj : "url" Data.Aeson.Types.ToJSON..= paymentIntentNextActionRedirectToUrlUrl obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("return_url" Data.Aeson.Types.ToJSON..= paymentIntentNextActionRedirectToUrlReturnUrl obj) GHC.Base.<> ("url" Data.Aeson.Types.ToJSON..= paymentIntentNextActionRedirectToUrlUrl obj))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PaymentIntentNextActionRedirectToUrl where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PaymentIntentNextActionRedirectToUrl" (\obj -> (GHC.Base.pure PaymentIntentNextActionRedirectToUrl GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "return_url")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "url"))
+
+-- | Create a new 'PaymentIntentNextActionRedirectToUrl' with all required fields.
+mkPaymentIntentNextActionRedirectToUrl :: PaymentIntentNextActionRedirectToUrl
+mkPaymentIntentNextActionRedirectToUrl =
+  PaymentIntentNextActionRedirectToUrl
+    { paymentIntentNextActionRedirectToUrlReturnUrl = GHC.Maybe.Nothing,
+      paymentIntentNextActionRedirectToUrlUrl = GHC.Maybe.Nothing
+    }

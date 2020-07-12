@@ -10,6 +10,7 @@ module StripeAPI.Operations.GetCoupons where
 import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -86,7 +87,7 @@ getCoupons parameters =
         ]
     )
 
--- | Defines the data type for the schema getCouponsParameters
+-- | Defines the object schema located at @paths.\/v1\/coupons.GET.parameters@ in the specification.
 data GetCouponsParameters
   = GetCouponsParameters
       { -- | queryCreated: Represents the parameter named \'created\'
@@ -124,13 +125,24 @@ data GetCouponsParameters
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetCouponsParameters where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "queryCreated" (getCouponsParametersQueryCreated obj) : (Data.Aeson..=) "queryEnding_before" (getCouponsParametersQueryEndingBefore obj) : (Data.Aeson..=) "queryExpand" (getCouponsParametersQueryExpand obj) : (Data.Aeson..=) "queryLimit" (getCouponsParametersQueryLimit obj) : (Data.Aeson..=) "queryStarting_after" (getCouponsParametersQueryStartingAfter obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "queryCreated" (getCouponsParametersQueryCreated obj) GHC.Base.<> ((Data.Aeson..=) "queryEnding_before" (getCouponsParametersQueryEndingBefore obj) GHC.Base.<> ((Data.Aeson..=) "queryExpand" (getCouponsParametersQueryExpand obj) GHC.Base.<> ((Data.Aeson..=) "queryLimit" (getCouponsParametersQueryLimit obj) GHC.Base.<> (Data.Aeson..=) "queryStarting_after" (getCouponsParametersQueryStartingAfter obj)))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("queryCreated" Data.Aeson.Types.ToJSON..= getCouponsParametersQueryCreated obj : "queryEnding_before" Data.Aeson.Types.ToJSON..= getCouponsParametersQueryEndingBefore obj : "queryExpand" Data.Aeson.Types.ToJSON..= getCouponsParametersQueryExpand obj : "queryLimit" Data.Aeson.Types.ToJSON..= getCouponsParametersQueryLimit obj : "queryStarting_after" Data.Aeson.Types.ToJSON..= getCouponsParametersQueryStartingAfter obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("queryCreated" Data.Aeson.Types.ToJSON..= getCouponsParametersQueryCreated obj) GHC.Base.<> (("queryEnding_before" Data.Aeson.Types.ToJSON..= getCouponsParametersQueryEndingBefore obj) GHC.Base.<> (("queryExpand" Data.Aeson.Types.ToJSON..= getCouponsParametersQueryExpand obj) GHC.Base.<> (("queryLimit" Data.Aeson.Types.ToJSON..= getCouponsParametersQueryLimit obj) GHC.Base.<> ("queryStarting_after" Data.Aeson.Types.ToJSON..= getCouponsParametersQueryStartingAfter obj)))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetCouponsParameters where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "GetCouponsParameters" (\obj -> ((((GHC.Base.pure GetCouponsParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryCreated")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryEnding_before")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryExpand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryLimit")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryStarting_after"))
 
--- | Defines the data type for the schema getCouponsParametersQueryCreated\'OneOf2
+-- | Create a new 'GetCouponsParameters' with all required fields.
+mkGetCouponsParameters :: GetCouponsParameters
+mkGetCouponsParameters =
+  GetCouponsParameters
+    { getCouponsParametersQueryCreated = GHC.Maybe.Nothing,
+      getCouponsParametersQueryEndingBefore = GHC.Maybe.Nothing,
+      getCouponsParametersQueryExpand = GHC.Maybe.Nothing,
+      getCouponsParametersQueryLimit = GHC.Maybe.Nothing,
+      getCouponsParametersQueryStartingAfter = GHC.Maybe.Nothing
+    }
+
+-- | Defines the object schema located at @paths.\/v1\/coupons.GET.parameters.properties.queryCreated.anyOf@ in the specification.
 data GetCouponsParametersQueryCreated'OneOf2
   = GetCouponsParametersQueryCreated'OneOf2
       { -- | gt
@@ -148,13 +160,23 @@ data GetCouponsParametersQueryCreated'OneOf2
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetCouponsParametersQueryCreated'OneOf2 where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "gt" (getCouponsParametersQueryCreated'OneOf2Gt obj) : (Data.Aeson..=) "gte" (getCouponsParametersQueryCreated'OneOf2Gte obj) : (Data.Aeson..=) "lt" (getCouponsParametersQueryCreated'OneOf2Lt obj) : (Data.Aeson..=) "lte" (getCouponsParametersQueryCreated'OneOf2Lte obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "gt" (getCouponsParametersQueryCreated'OneOf2Gt obj) GHC.Base.<> ((Data.Aeson..=) "gte" (getCouponsParametersQueryCreated'OneOf2Gte obj) GHC.Base.<> ((Data.Aeson..=) "lt" (getCouponsParametersQueryCreated'OneOf2Lt obj) GHC.Base.<> (Data.Aeson..=) "lte" (getCouponsParametersQueryCreated'OneOf2Lte obj))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("gt" Data.Aeson.Types.ToJSON..= getCouponsParametersQueryCreated'OneOf2Gt obj : "gte" Data.Aeson.Types.ToJSON..= getCouponsParametersQueryCreated'OneOf2Gte obj : "lt" Data.Aeson.Types.ToJSON..= getCouponsParametersQueryCreated'OneOf2Lt obj : "lte" Data.Aeson.Types.ToJSON..= getCouponsParametersQueryCreated'OneOf2Lte obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("gt" Data.Aeson.Types.ToJSON..= getCouponsParametersQueryCreated'OneOf2Gt obj) GHC.Base.<> (("gte" Data.Aeson.Types.ToJSON..= getCouponsParametersQueryCreated'OneOf2Gte obj) GHC.Base.<> (("lt" Data.Aeson.Types.ToJSON..= getCouponsParametersQueryCreated'OneOf2Lt obj) GHC.Base.<> ("lte" Data.Aeson.Types.ToJSON..= getCouponsParametersQueryCreated'OneOf2Lte obj))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetCouponsParametersQueryCreated'OneOf2 where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "GetCouponsParametersQueryCreated'OneOf2" (\obj -> (((GHC.Base.pure GetCouponsParametersQueryCreated'OneOf2 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "gt")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "gte")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "lt")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "lte"))
 
--- | Define the one-of schema getCouponsParametersQueryCreated\'
+-- | Create a new 'GetCouponsParametersQueryCreated'OneOf2' with all required fields.
+mkGetCouponsParametersQueryCreated'OneOf2 :: GetCouponsParametersQueryCreated'OneOf2
+mkGetCouponsParametersQueryCreated'OneOf2 =
+  GetCouponsParametersQueryCreated'OneOf2
+    { getCouponsParametersQueryCreated'OneOf2Gt = GHC.Maybe.Nothing,
+      getCouponsParametersQueryCreated'OneOf2Gte = GHC.Maybe.Nothing,
+      getCouponsParametersQueryCreated'OneOf2Lt = GHC.Maybe.Nothing,
+      getCouponsParametersQueryCreated'OneOf2Lte = GHC.Maybe.Nothing
+    }
+
+-- | Defines the oneOf schema located at @paths.\/v1\/coupons.GET.parameters.properties.queryCreated.anyOf@ in the specification.
 --
 -- Represents the parameter named \'created\'
 --
@@ -169,11 +191,9 @@ instance Data.Aeson.Types.ToJSON.ToJSON GetCouponsParametersQueryCreated'Variant
   toJSON (GetCouponsParametersQueryCreated'GetCouponsParametersQueryCreated'OneOf2 a) = Data.Aeson.Types.ToJSON.toJSON a
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetCouponsParametersQueryCreated'Variants where
-  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
-    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ GetCouponsParametersQueryCreated'Int a
-    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ GetCouponsParametersQueryCreated'GetCouponsParametersQueryCreated'OneOf2 a
-      Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+  parseJSON val = case (GetCouponsParametersQueryCreated'Int Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((GetCouponsParametersQueryCreated'GetCouponsParametersQueryCreated'OneOf2 Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched") of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+    Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
 -- | Represents a response of the operation 'getCoupons'.
 --
@@ -187,15 +207,13 @@ data GetCouponsResponse
     GetCouponsResponseDefault Error
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
--- | Defines the data type for the schema GetCouponsResponseBody200
+-- | Defines the object schema located at @paths.\/v1\/coupons.GET.responses.200.content.application\/json.schema@ in the specification.
 data GetCouponsResponseBody200
   = GetCouponsResponseBody200
       { -- | data
         getCouponsResponseBody200Data :: ([Coupon]),
         -- | has_more: True if this list has another page of items after this one that can be fetched.
         getCouponsResponseBody200HasMore :: GHC.Types.Bool,
-        -- | object: String representing the object\'s type. Objects of the same type share the same value. Always has the value \`list\`.
-        getCouponsResponseBody200Object :: GetCouponsResponseBody200Object',
         -- | url: The URL where this list can be accessed.
         --
         -- Constraints:
@@ -210,29 +228,24 @@ data GetCouponsResponseBody200
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetCouponsResponseBody200 where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "data" (getCouponsResponseBody200Data obj) : (Data.Aeson..=) "has_more" (getCouponsResponseBody200HasMore obj) : (Data.Aeson..=) "object" (getCouponsResponseBody200Object obj) : (Data.Aeson..=) "url" (getCouponsResponseBody200Url obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "data" (getCouponsResponseBody200Data obj) GHC.Base.<> ((Data.Aeson..=) "has_more" (getCouponsResponseBody200HasMore obj) GHC.Base.<> ((Data.Aeson..=) "object" (getCouponsResponseBody200Object obj) GHC.Base.<> (Data.Aeson..=) "url" (getCouponsResponseBody200Url obj))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("data" Data.Aeson.Types.ToJSON..= getCouponsResponseBody200Data obj : "has_more" Data.Aeson.Types.ToJSON..= getCouponsResponseBody200HasMore obj : "url" Data.Aeson.Types.ToJSON..= getCouponsResponseBody200Url obj : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "list" : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("data" Data.Aeson.Types.ToJSON..= getCouponsResponseBody200Data obj) GHC.Base.<> (("has_more" Data.Aeson.Types.ToJSON..= getCouponsResponseBody200HasMore obj) GHC.Base.<> (("url" Data.Aeson.Types.ToJSON..= getCouponsResponseBody200Url obj) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "list"))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetCouponsResponseBody200 where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetCouponsResponseBody200" (\obj -> (((GHC.Base.pure GetCouponsResponseBody200 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "has_more")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "object")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "url"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetCouponsResponseBody200" (\obj -> ((GHC.Base.pure GetCouponsResponseBody200 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "has_more")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "url"))
 
--- | Defines the enum schema GetCouponsResponseBody200Object\'
---
--- String representing the object\'s type. Objects of the same type share the same value. Always has the value \`list\`.
-data GetCouponsResponseBody200Object'
-  = GetCouponsResponseBody200Object'EnumOther Data.Aeson.Types.Internal.Value
-  | GetCouponsResponseBody200Object'EnumTyped Data.Text.Internal.Text
-  | GetCouponsResponseBody200Object'EnumStringList
-  deriving (GHC.Show.Show, GHC.Classes.Eq)
-
-instance Data.Aeson.Types.ToJSON.ToJSON GetCouponsResponseBody200Object' where
-  toJSON (GetCouponsResponseBody200Object'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (GetCouponsResponseBody200Object'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (GetCouponsResponseBody200Object'EnumStringList) = "list"
-
-instance Data.Aeson.Types.FromJSON.FromJSON GetCouponsResponseBody200Object' where
-  parseJSON val =
-    GHC.Base.pure
-      ( if  | val GHC.Classes.== "list" -> GetCouponsResponseBody200Object'EnumStringList
-            | GHC.Base.otherwise -> GetCouponsResponseBody200Object'EnumOther val
-      )
+-- | Create a new 'GetCouponsResponseBody200' with all required fields.
+mkGetCouponsResponseBody200 ::
+  -- | 'getCouponsResponseBody200Data'
+  [Coupon] ->
+  -- | 'getCouponsResponseBody200HasMore'
+  GHC.Types.Bool ->
+  -- | 'getCouponsResponseBody200Url'
+  Data.Text.Internal.Text ->
+  GetCouponsResponseBody200
+mkGetCouponsResponseBody200 getCouponsResponseBody200Data getCouponsResponseBody200HasMore getCouponsResponseBody200Url =
+  GetCouponsResponseBody200
+    { getCouponsResponseBody200Data = getCouponsResponseBody200Data,
+      getCouponsResponseBody200HasMore = getCouponsResponseBody200HasMore,
+      getCouponsResponseBody200Url = getCouponsResponseBody200Url
+    }

@@ -10,6 +10,7 @@ module StripeAPI.Operations.PostApplicationFeesIdRefunds where
 import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -89,7 +90,7 @@ postApplicationFeesIdRefunds
       )
       (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack ("/v1/application_fees/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel id)) GHC.Base.++ "/refunds"))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
 
--- | Defines the data type for the schema postApplicationFeesIdRefundsRequestBody
+-- | Defines the object schema located at @paths.\/v1\/application_fees\/{id}\/refunds.POST.requestBody.content.application\/x-www-form-urlencoded.schema@ in the specification.
 data PostApplicationFeesIdRefundsRequestBody
   = PostApplicationFeesIdRefundsRequestBody
       { -- | amount: A positive integer, in _%s_, representing how much of this fee to refund. Can refund only up to the remaining unrefunded amount of the fee.
@@ -105,11 +106,20 @@ data PostApplicationFeesIdRefundsRequestBody
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostApplicationFeesIdRefundsRequestBody where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "amount" (postApplicationFeesIdRefundsRequestBodyAmount obj) : (Data.Aeson..=) "expand" (postApplicationFeesIdRefundsRequestBodyExpand obj) : (Data.Aeson..=) "metadata" (postApplicationFeesIdRefundsRequestBodyMetadata obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "amount" (postApplicationFeesIdRefundsRequestBodyAmount obj) GHC.Base.<> ((Data.Aeson..=) "expand" (postApplicationFeesIdRefundsRequestBodyExpand obj) GHC.Base.<> (Data.Aeson..=) "metadata" (postApplicationFeesIdRefundsRequestBodyMetadata obj)))
+  toJSON obj = Data.Aeson.Types.Internal.object ("amount" Data.Aeson.Types.ToJSON..= postApplicationFeesIdRefundsRequestBodyAmount obj : "expand" Data.Aeson.Types.ToJSON..= postApplicationFeesIdRefundsRequestBodyExpand obj : "metadata" Data.Aeson.Types.ToJSON..= postApplicationFeesIdRefundsRequestBodyMetadata obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("amount" Data.Aeson.Types.ToJSON..= postApplicationFeesIdRefundsRequestBodyAmount obj) GHC.Base.<> (("expand" Data.Aeson.Types.ToJSON..= postApplicationFeesIdRefundsRequestBodyExpand obj) GHC.Base.<> ("metadata" Data.Aeson.Types.ToJSON..= postApplicationFeesIdRefundsRequestBodyMetadata obj)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostApplicationFeesIdRefundsRequestBody where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PostApplicationFeesIdRefundsRequestBody" (\obj -> ((GHC.Base.pure PostApplicationFeesIdRefundsRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "metadata"))
+
+-- | Create a new 'PostApplicationFeesIdRefundsRequestBody' with all required fields.
+mkPostApplicationFeesIdRefundsRequestBody :: PostApplicationFeesIdRefundsRequestBody
+mkPostApplicationFeesIdRefundsRequestBody =
+  PostApplicationFeesIdRefundsRequestBody
+    { postApplicationFeesIdRefundsRequestBodyAmount = GHC.Maybe.Nothing,
+      postApplicationFeesIdRefundsRequestBodyExpand = GHC.Maybe.Nothing,
+      postApplicationFeesIdRefundsRequestBodyMetadata = GHC.Maybe.Nothing
+    }
 
 -- | Represents a response of the operation 'postApplicationFeesIdRefunds'.
 --

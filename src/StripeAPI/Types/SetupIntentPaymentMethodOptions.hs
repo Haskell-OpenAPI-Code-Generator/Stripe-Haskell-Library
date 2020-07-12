@@ -8,6 +8,7 @@ module StripeAPI.Types.SetupIntentPaymentMethodOptions where
 
 import qualified Control.Monad.Fail
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -31,7 +32,7 @@ import {-# SOURCE #-} StripeAPI.Types.SetupIntentPaymentMethodOptionsCard
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
--- | Defines the data type for the schema setup_intent_payment_method_options
+-- | Defines the object schema located at @components.schemas.setup_intent_payment_method_options@ in the specification.
 data SetupIntentPaymentMethodOptions
   = SetupIntentPaymentMethodOptions
       { -- | card:
@@ -43,8 +44,12 @@ data SetupIntentPaymentMethodOptions
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON SetupIntentPaymentMethodOptions where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "card" (setupIntentPaymentMethodOptionsCard obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "card" (setupIntentPaymentMethodOptionsCard obj))
+  toJSON obj = Data.Aeson.Types.Internal.object ("card" Data.Aeson.Types.ToJSON..= setupIntentPaymentMethodOptionsCard obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs ("card" Data.Aeson.Types.ToJSON..= setupIntentPaymentMethodOptionsCard obj)
 
 instance Data.Aeson.Types.FromJSON.FromJSON SetupIntentPaymentMethodOptions where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "SetupIntentPaymentMethodOptions" (\obj -> GHC.Base.pure SetupIntentPaymentMethodOptions GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "card"))
+
+-- | Create a new 'SetupIntentPaymentMethodOptions' with all required fields.
+mkSetupIntentPaymentMethodOptions :: SetupIntentPaymentMethodOptions
+mkSetupIntentPaymentMethodOptions = SetupIntentPaymentMethodOptions {setupIntentPaymentMethodOptionsCard = GHC.Maybe.Nothing}

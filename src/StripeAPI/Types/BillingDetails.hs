@@ -8,6 +8,7 @@ module StripeAPI.Types.BillingDetails where
 
 import qualified Control.Monad.Fail
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -31,7 +32,7 @@ import {-# SOURCE #-} StripeAPI.Types.Address
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
--- | Defines the data type for the schema billing_details
+-- | Defines the object schema located at @components.schemas.billing_details@ in the specification.
 data BillingDetails
   = BillingDetails
       { -- | address: Billing address.
@@ -61,13 +62,23 @@ data BillingDetails
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON BillingDetails where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "address" (billingDetailsAddress obj) : (Data.Aeson..=) "email" (billingDetailsEmail obj) : (Data.Aeson..=) "name" (billingDetailsName obj) : (Data.Aeson..=) "phone" (billingDetailsPhone obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "address" (billingDetailsAddress obj) GHC.Base.<> ((Data.Aeson..=) "email" (billingDetailsEmail obj) GHC.Base.<> ((Data.Aeson..=) "name" (billingDetailsName obj) GHC.Base.<> (Data.Aeson..=) "phone" (billingDetailsPhone obj))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("address" Data.Aeson.Types.ToJSON..= billingDetailsAddress obj : "email" Data.Aeson.Types.ToJSON..= billingDetailsEmail obj : "name" Data.Aeson.Types.ToJSON..= billingDetailsName obj : "phone" Data.Aeson.Types.ToJSON..= billingDetailsPhone obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("address" Data.Aeson.Types.ToJSON..= billingDetailsAddress obj) GHC.Base.<> (("email" Data.Aeson.Types.ToJSON..= billingDetailsEmail obj) GHC.Base.<> (("name" Data.Aeson.Types.ToJSON..= billingDetailsName obj) GHC.Base.<> ("phone" Data.Aeson.Types.ToJSON..= billingDetailsPhone obj))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON BillingDetails where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "BillingDetails" (\obj -> (((GHC.Base.pure BillingDetails GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "address")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "email")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "phone"))
 
--- | Defines the data type for the schema billing_detailsAddress\'
+-- | Create a new 'BillingDetails' with all required fields.
+mkBillingDetails :: BillingDetails
+mkBillingDetails =
+  BillingDetails
+    { billingDetailsAddress = GHC.Maybe.Nothing,
+      billingDetailsEmail = GHC.Maybe.Nothing,
+      billingDetailsName = GHC.Maybe.Nothing,
+      billingDetailsPhone = GHC.Maybe.Nothing
+    }
+
+-- | Defines the object schema located at @components.schemas.billing_details.properties.address.anyOf@ in the specification.
 --
 -- Billing address.
 data BillingDetailsAddress'
@@ -115,8 +126,20 @@ data BillingDetailsAddress'
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON BillingDetailsAddress' where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "city" (billingDetailsAddress'City obj) : (Data.Aeson..=) "country" (billingDetailsAddress'Country obj) : (Data.Aeson..=) "line1" (billingDetailsAddress'Line1 obj) : (Data.Aeson..=) "line2" (billingDetailsAddress'Line2 obj) : (Data.Aeson..=) "postal_code" (billingDetailsAddress'PostalCode obj) : (Data.Aeson..=) "state" (billingDetailsAddress'State obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "city" (billingDetailsAddress'City obj) GHC.Base.<> ((Data.Aeson..=) "country" (billingDetailsAddress'Country obj) GHC.Base.<> ((Data.Aeson..=) "line1" (billingDetailsAddress'Line1 obj) GHC.Base.<> ((Data.Aeson..=) "line2" (billingDetailsAddress'Line2 obj) GHC.Base.<> ((Data.Aeson..=) "postal_code" (billingDetailsAddress'PostalCode obj) GHC.Base.<> (Data.Aeson..=) "state" (billingDetailsAddress'State obj))))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("city" Data.Aeson.Types.ToJSON..= billingDetailsAddress'City obj : "country" Data.Aeson.Types.ToJSON..= billingDetailsAddress'Country obj : "line1" Data.Aeson.Types.ToJSON..= billingDetailsAddress'Line1 obj : "line2" Data.Aeson.Types.ToJSON..= billingDetailsAddress'Line2 obj : "postal_code" Data.Aeson.Types.ToJSON..= billingDetailsAddress'PostalCode obj : "state" Data.Aeson.Types.ToJSON..= billingDetailsAddress'State obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("city" Data.Aeson.Types.ToJSON..= billingDetailsAddress'City obj) GHC.Base.<> (("country" Data.Aeson.Types.ToJSON..= billingDetailsAddress'Country obj) GHC.Base.<> (("line1" Data.Aeson.Types.ToJSON..= billingDetailsAddress'Line1 obj) GHC.Base.<> (("line2" Data.Aeson.Types.ToJSON..= billingDetailsAddress'Line2 obj) GHC.Base.<> (("postal_code" Data.Aeson.Types.ToJSON..= billingDetailsAddress'PostalCode obj) GHC.Base.<> ("state" Data.Aeson.Types.ToJSON..= billingDetailsAddress'State obj))))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON BillingDetailsAddress' where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "BillingDetailsAddress'" (\obj -> (((((GHC.Base.pure BillingDetailsAddress' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "city")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "country")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "line1")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "line2")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "postal_code")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "state"))
+
+-- | Create a new 'BillingDetailsAddress'' with all required fields.
+mkBillingDetailsAddress' :: BillingDetailsAddress'
+mkBillingDetailsAddress' =
+  BillingDetailsAddress'
+    { billingDetailsAddress'City = GHC.Maybe.Nothing,
+      billingDetailsAddress'Country = GHC.Maybe.Nothing,
+      billingDetailsAddress'Line1 = GHC.Maybe.Nothing,
+      billingDetailsAddress'Line2 = GHC.Maybe.Nothing,
+      billingDetailsAddress'PostalCode = GHC.Maybe.Nothing,
+      billingDetailsAddress'State = GHC.Maybe.Nothing
+    }

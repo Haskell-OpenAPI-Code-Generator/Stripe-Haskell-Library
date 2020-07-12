@@ -10,6 +10,7 @@ module StripeAPI.Operations.PostPaymentIntentsIntentCapture where
 import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -85,7 +86,7 @@ postPaymentIntentsIntentCapture
       )
       (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack ("/v1/payment_intents/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel intent)) GHC.Base.++ "/capture"))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
 
--- | Defines the data type for the schema postPaymentIntentsIntentCaptureRequestBody
+-- | Defines the object schema located at @paths.\/v1\/payment_intents\/{intent}\/capture.POST.requestBody.content.application\/x-www-form-urlencoded.schema@ in the specification.
 data PostPaymentIntentsIntentCaptureRequestBody
   = PostPaymentIntentsIntentCaptureRequestBody
       { -- | amount_to_capture: The amount to capture from the PaymentIntent, which must be less than or equal to the original amount. Any additional amount will be automatically refunded. Defaults to the full \`amount_capturable\` if not provided.
@@ -118,13 +119,25 @@ data PostPaymentIntentsIntentCaptureRequestBody
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostPaymentIntentsIntentCaptureRequestBody where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "amount_to_capture" (postPaymentIntentsIntentCaptureRequestBodyAmountToCapture obj) : (Data.Aeson..=) "application_fee_amount" (postPaymentIntentsIntentCaptureRequestBodyApplicationFeeAmount obj) : (Data.Aeson..=) "expand" (postPaymentIntentsIntentCaptureRequestBodyExpand obj) : (Data.Aeson..=) "statement_descriptor" (postPaymentIntentsIntentCaptureRequestBodyStatementDescriptor obj) : (Data.Aeson..=) "statement_descriptor_suffix" (postPaymentIntentsIntentCaptureRequestBodyStatementDescriptorSuffix obj) : (Data.Aeson..=) "transfer_data" (postPaymentIntentsIntentCaptureRequestBodyTransferData obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "amount_to_capture" (postPaymentIntentsIntentCaptureRequestBodyAmountToCapture obj) GHC.Base.<> ((Data.Aeson..=) "application_fee_amount" (postPaymentIntentsIntentCaptureRequestBodyApplicationFeeAmount obj) GHC.Base.<> ((Data.Aeson..=) "expand" (postPaymentIntentsIntentCaptureRequestBodyExpand obj) GHC.Base.<> ((Data.Aeson..=) "statement_descriptor" (postPaymentIntentsIntentCaptureRequestBodyStatementDescriptor obj) GHC.Base.<> ((Data.Aeson..=) "statement_descriptor_suffix" (postPaymentIntentsIntentCaptureRequestBodyStatementDescriptorSuffix obj) GHC.Base.<> (Data.Aeson..=) "transfer_data" (postPaymentIntentsIntentCaptureRequestBodyTransferData obj))))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("amount_to_capture" Data.Aeson.Types.ToJSON..= postPaymentIntentsIntentCaptureRequestBodyAmountToCapture obj : "application_fee_amount" Data.Aeson.Types.ToJSON..= postPaymentIntentsIntentCaptureRequestBodyApplicationFeeAmount obj : "expand" Data.Aeson.Types.ToJSON..= postPaymentIntentsIntentCaptureRequestBodyExpand obj : "statement_descriptor" Data.Aeson.Types.ToJSON..= postPaymentIntentsIntentCaptureRequestBodyStatementDescriptor obj : "statement_descriptor_suffix" Data.Aeson.Types.ToJSON..= postPaymentIntentsIntentCaptureRequestBodyStatementDescriptorSuffix obj : "transfer_data" Data.Aeson.Types.ToJSON..= postPaymentIntentsIntentCaptureRequestBodyTransferData obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("amount_to_capture" Data.Aeson.Types.ToJSON..= postPaymentIntentsIntentCaptureRequestBodyAmountToCapture obj) GHC.Base.<> (("application_fee_amount" Data.Aeson.Types.ToJSON..= postPaymentIntentsIntentCaptureRequestBodyApplicationFeeAmount obj) GHC.Base.<> (("expand" Data.Aeson.Types.ToJSON..= postPaymentIntentsIntentCaptureRequestBodyExpand obj) GHC.Base.<> (("statement_descriptor" Data.Aeson.Types.ToJSON..= postPaymentIntentsIntentCaptureRequestBodyStatementDescriptor obj) GHC.Base.<> (("statement_descriptor_suffix" Data.Aeson.Types.ToJSON..= postPaymentIntentsIntentCaptureRequestBodyStatementDescriptorSuffix obj) GHC.Base.<> ("transfer_data" Data.Aeson.Types.ToJSON..= postPaymentIntentsIntentCaptureRequestBodyTransferData obj))))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostPaymentIntentsIntentCaptureRequestBody where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PostPaymentIntentsIntentCaptureRequestBody" (\obj -> (((((GHC.Base.pure PostPaymentIntentsIntentCaptureRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "amount_to_capture")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "application_fee_amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "statement_descriptor")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "statement_descriptor_suffix")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "transfer_data"))
 
--- | Defines the data type for the schema postPaymentIntentsIntentCaptureRequestBodyTransfer_data\'
+-- | Create a new 'PostPaymentIntentsIntentCaptureRequestBody' with all required fields.
+mkPostPaymentIntentsIntentCaptureRequestBody :: PostPaymentIntentsIntentCaptureRequestBody
+mkPostPaymentIntentsIntentCaptureRequestBody =
+  PostPaymentIntentsIntentCaptureRequestBody
+    { postPaymentIntentsIntentCaptureRequestBodyAmountToCapture = GHC.Maybe.Nothing,
+      postPaymentIntentsIntentCaptureRequestBodyApplicationFeeAmount = GHC.Maybe.Nothing,
+      postPaymentIntentsIntentCaptureRequestBodyExpand = GHC.Maybe.Nothing,
+      postPaymentIntentsIntentCaptureRequestBodyStatementDescriptor = GHC.Maybe.Nothing,
+      postPaymentIntentsIntentCaptureRequestBodyStatementDescriptorSuffix = GHC.Maybe.Nothing,
+      postPaymentIntentsIntentCaptureRequestBodyTransferData = GHC.Maybe.Nothing
+    }
+
+-- | Defines the object schema located at @paths.\/v1\/payment_intents\/{intent}\/capture.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.transfer_data@ in the specification.
 --
 -- The parameters used to automatically create a Transfer when the payment
 -- is captured. For more information, see the PaymentIntents [use case for connected accounts](https:\/\/stripe.com\/docs\/payments\/connected-accounts).
@@ -139,11 +152,15 @@ data PostPaymentIntentsIntentCaptureRequestBodyTransferData'
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostPaymentIntentsIntentCaptureRequestBodyTransferData' where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "amount" (postPaymentIntentsIntentCaptureRequestBodyTransferData'Amount obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "amount" (postPaymentIntentsIntentCaptureRequestBodyTransferData'Amount obj))
+  toJSON obj = Data.Aeson.Types.Internal.object ("amount" Data.Aeson.Types.ToJSON..= postPaymentIntentsIntentCaptureRequestBodyTransferData'Amount obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs ("amount" Data.Aeson.Types.ToJSON..= postPaymentIntentsIntentCaptureRequestBodyTransferData'Amount obj)
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostPaymentIntentsIntentCaptureRequestBodyTransferData' where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PostPaymentIntentsIntentCaptureRequestBodyTransferData'" (\obj -> GHC.Base.pure PostPaymentIntentsIntentCaptureRequestBodyTransferData' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "amount"))
+
+-- | Create a new 'PostPaymentIntentsIntentCaptureRequestBodyTransferData'' with all required fields.
+mkPostPaymentIntentsIntentCaptureRequestBodyTransferData' :: PostPaymentIntentsIntentCaptureRequestBodyTransferData'
+mkPostPaymentIntentsIntentCaptureRequestBodyTransferData' = PostPaymentIntentsIntentCaptureRequestBodyTransferData' {postPaymentIntentsIntentCaptureRequestBodyTransferData'Amount = GHC.Maybe.Nothing}
 
 -- | Represents a response of the operation 'postPaymentIntentsIntentCapture'.
 --

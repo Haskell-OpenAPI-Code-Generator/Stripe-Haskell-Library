@@ -10,6 +10,7 @@ module StripeAPI.Operations.GetTerminalLocations where
 import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -85,7 +86,7 @@ getTerminalLocations parameters =
         ]
     )
 
--- | Defines the data type for the schema getTerminalLocationsParameters
+-- | Defines the object schema located at @paths.\/v1\/terminal\/locations.GET.parameters@ in the specification.
 data GetTerminalLocationsParameters
   = GetTerminalLocationsParameters
       { -- | queryEnding_before: Represents the parameter named \'ending_before\'
@@ -119,11 +120,21 @@ data GetTerminalLocationsParameters
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetTerminalLocationsParameters where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "queryEnding_before" (getTerminalLocationsParametersQueryEndingBefore obj) : (Data.Aeson..=) "queryExpand" (getTerminalLocationsParametersQueryExpand obj) : (Data.Aeson..=) "queryLimit" (getTerminalLocationsParametersQueryLimit obj) : (Data.Aeson..=) "queryStarting_after" (getTerminalLocationsParametersQueryStartingAfter obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "queryEnding_before" (getTerminalLocationsParametersQueryEndingBefore obj) GHC.Base.<> ((Data.Aeson..=) "queryExpand" (getTerminalLocationsParametersQueryExpand obj) GHC.Base.<> ((Data.Aeson..=) "queryLimit" (getTerminalLocationsParametersQueryLimit obj) GHC.Base.<> (Data.Aeson..=) "queryStarting_after" (getTerminalLocationsParametersQueryStartingAfter obj))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("queryEnding_before" Data.Aeson.Types.ToJSON..= getTerminalLocationsParametersQueryEndingBefore obj : "queryExpand" Data.Aeson.Types.ToJSON..= getTerminalLocationsParametersQueryExpand obj : "queryLimit" Data.Aeson.Types.ToJSON..= getTerminalLocationsParametersQueryLimit obj : "queryStarting_after" Data.Aeson.Types.ToJSON..= getTerminalLocationsParametersQueryStartingAfter obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("queryEnding_before" Data.Aeson.Types.ToJSON..= getTerminalLocationsParametersQueryEndingBefore obj) GHC.Base.<> (("queryExpand" Data.Aeson.Types.ToJSON..= getTerminalLocationsParametersQueryExpand obj) GHC.Base.<> (("queryLimit" Data.Aeson.Types.ToJSON..= getTerminalLocationsParametersQueryLimit obj) GHC.Base.<> ("queryStarting_after" Data.Aeson.Types.ToJSON..= getTerminalLocationsParametersQueryStartingAfter obj))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetTerminalLocationsParameters where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "GetTerminalLocationsParameters" (\obj -> (((GHC.Base.pure GetTerminalLocationsParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryEnding_before")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryExpand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryLimit")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryStarting_after"))
+
+-- | Create a new 'GetTerminalLocationsParameters' with all required fields.
+mkGetTerminalLocationsParameters :: GetTerminalLocationsParameters
+mkGetTerminalLocationsParameters =
+  GetTerminalLocationsParameters
+    { getTerminalLocationsParametersQueryEndingBefore = GHC.Maybe.Nothing,
+      getTerminalLocationsParametersQueryExpand = GHC.Maybe.Nothing,
+      getTerminalLocationsParametersQueryLimit = GHC.Maybe.Nothing,
+      getTerminalLocationsParametersQueryStartingAfter = GHC.Maybe.Nothing
+    }
 
 -- | Represents a response of the operation 'getTerminalLocations'.
 --
@@ -137,15 +148,13 @@ data GetTerminalLocationsResponse
     GetTerminalLocationsResponseDefault Error
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
--- | Defines the data type for the schema GetTerminalLocationsResponseBody200
+-- | Defines the object schema located at @paths.\/v1\/terminal\/locations.GET.responses.200.content.application\/json.schema@ in the specification.
 data GetTerminalLocationsResponseBody200
   = GetTerminalLocationsResponseBody200
       { -- | data
         getTerminalLocationsResponseBody200Data :: ([Terminal'location]),
         -- | has_more: True if this list has another page of items after this one that can be fetched.
         getTerminalLocationsResponseBody200HasMore :: GHC.Types.Bool,
-        -- | object: String representing the object\'s type. Objects of the same type share the same value. Always has the value \`list\`.
-        getTerminalLocationsResponseBody200Object :: GetTerminalLocationsResponseBody200Object',
         -- | url: The URL where this list can be accessed.
         --
         -- Constraints:
@@ -160,29 +169,24 @@ data GetTerminalLocationsResponseBody200
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetTerminalLocationsResponseBody200 where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "data" (getTerminalLocationsResponseBody200Data obj) : (Data.Aeson..=) "has_more" (getTerminalLocationsResponseBody200HasMore obj) : (Data.Aeson..=) "object" (getTerminalLocationsResponseBody200Object obj) : (Data.Aeson..=) "url" (getTerminalLocationsResponseBody200Url obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "data" (getTerminalLocationsResponseBody200Data obj) GHC.Base.<> ((Data.Aeson..=) "has_more" (getTerminalLocationsResponseBody200HasMore obj) GHC.Base.<> ((Data.Aeson..=) "object" (getTerminalLocationsResponseBody200Object obj) GHC.Base.<> (Data.Aeson..=) "url" (getTerminalLocationsResponseBody200Url obj))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("data" Data.Aeson.Types.ToJSON..= getTerminalLocationsResponseBody200Data obj : "has_more" Data.Aeson.Types.ToJSON..= getTerminalLocationsResponseBody200HasMore obj : "url" Data.Aeson.Types.ToJSON..= getTerminalLocationsResponseBody200Url obj : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "list" : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("data" Data.Aeson.Types.ToJSON..= getTerminalLocationsResponseBody200Data obj) GHC.Base.<> (("has_more" Data.Aeson.Types.ToJSON..= getTerminalLocationsResponseBody200HasMore obj) GHC.Base.<> (("url" Data.Aeson.Types.ToJSON..= getTerminalLocationsResponseBody200Url obj) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "list"))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetTerminalLocationsResponseBody200 where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetTerminalLocationsResponseBody200" (\obj -> (((GHC.Base.pure GetTerminalLocationsResponseBody200 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "has_more")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "object")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "url"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetTerminalLocationsResponseBody200" (\obj -> ((GHC.Base.pure GetTerminalLocationsResponseBody200 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "has_more")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "url"))
 
--- | Defines the enum schema GetTerminalLocationsResponseBody200Object\'
---
--- String representing the object\'s type. Objects of the same type share the same value. Always has the value \`list\`.
-data GetTerminalLocationsResponseBody200Object'
-  = GetTerminalLocationsResponseBody200Object'EnumOther Data.Aeson.Types.Internal.Value
-  | GetTerminalLocationsResponseBody200Object'EnumTyped Data.Text.Internal.Text
-  | GetTerminalLocationsResponseBody200Object'EnumStringList
-  deriving (GHC.Show.Show, GHC.Classes.Eq)
-
-instance Data.Aeson.Types.ToJSON.ToJSON GetTerminalLocationsResponseBody200Object' where
-  toJSON (GetTerminalLocationsResponseBody200Object'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (GetTerminalLocationsResponseBody200Object'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (GetTerminalLocationsResponseBody200Object'EnumStringList) = "list"
-
-instance Data.Aeson.Types.FromJSON.FromJSON GetTerminalLocationsResponseBody200Object' where
-  parseJSON val =
-    GHC.Base.pure
-      ( if  | val GHC.Classes.== "list" -> GetTerminalLocationsResponseBody200Object'EnumStringList
-            | GHC.Base.otherwise -> GetTerminalLocationsResponseBody200Object'EnumOther val
-      )
+-- | Create a new 'GetTerminalLocationsResponseBody200' with all required fields.
+mkGetTerminalLocationsResponseBody200 ::
+  -- | 'getTerminalLocationsResponseBody200Data'
+  [Terminal'location] ->
+  -- | 'getTerminalLocationsResponseBody200HasMore'
+  GHC.Types.Bool ->
+  -- | 'getTerminalLocationsResponseBody200Url'
+  Data.Text.Internal.Text ->
+  GetTerminalLocationsResponseBody200
+mkGetTerminalLocationsResponseBody200 getTerminalLocationsResponseBody200Data getTerminalLocationsResponseBody200HasMore getTerminalLocationsResponseBody200Url =
+  GetTerminalLocationsResponseBody200
+    { getTerminalLocationsResponseBody200Data = getTerminalLocationsResponseBody200Data,
+      getTerminalLocationsResponseBody200HasMore = getTerminalLocationsResponseBody200HasMore,
+      getTerminalLocationsResponseBody200Url = getTerminalLocationsResponseBody200Url
+    }

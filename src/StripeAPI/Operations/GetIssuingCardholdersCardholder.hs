@@ -10,6 +10,7 @@ module StripeAPI.Operations.GetIssuingCardholdersCardholder where
 import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -77,7 +78,7 @@ getIssuingCardholdersCardholder parameters =
     )
     (StripeAPI.Common.doCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET") (Data.Text.pack ("/v1/issuing/cardholders/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel (getIssuingCardholdersCardholderParametersPathCardholder parameters))) GHC.Base.++ ""))) [StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getIssuingCardholdersCardholderParametersQueryExpand parameters) (Data.Text.pack "deepObject") GHC.Types.True])
 
--- | Defines the data type for the schema getIssuingCardholdersCardholderParameters
+-- | Defines the object schema located at @paths.\/v1\/issuing\/cardholders\/{cardholder}.GET.parameters@ in the specification.
 data GetIssuingCardholdersCardholderParameters
   = GetIssuingCardholdersCardholderParameters
       { -- | pathCardholder: Represents the parameter named \'cardholder\'
@@ -97,11 +98,22 @@ data GetIssuingCardholdersCardholderParameters
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetIssuingCardholdersCardholderParameters where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "pathCardholder" (getIssuingCardholdersCardholderParametersPathCardholder obj) : (Data.Aeson..=) "queryExpand" (getIssuingCardholdersCardholderParametersQueryExpand obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "pathCardholder" (getIssuingCardholdersCardholderParametersPathCardholder obj) GHC.Base.<> (Data.Aeson..=) "queryExpand" (getIssuingCardholdersCardholderParametersQueryExpand obj))
+  toJSON obj = Data.Aeson.Types.Internal.object ("pathCardholder" Data.Aeson.Types.ToJSON..= getIssuingCardholdersCardholderParametersPathCardholder obj : "queryExpand" Data.Aeson.Types.ToJSON..= getIssuingCardholdersCardholderParametersQueryExpand obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("pathCardholder" Data.Aeson.Types.ToJSON..= getIssuingCardholdersCardholderParametersPathCardholder obj) GHC.Base.<> ("queryExpand" Data.Aeson.Types.ToJSON..= getIssuingCardholdersCardholderParametersQueryExpand obj))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetIssuingCardholdersCardholderParameters where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "GetIssuingCardholdersCardholderParameters" (\obj -> (GHC.Base.pure GetIssuingCardholdersCardholderParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathCardholder")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryExpand"))
+
+-- | Create a new 'GetIssuingCardholdersCardholderParameters' with all required fields.
+mkGetIssuingCardholdersCardholderParameters ::
+  -- | 'getIssuingCardholdersCardholderParametersPathCardholder'
+  Data.Text.Internal.Text ->
+  GetIssuingCardholdersCardholderParameters
+mkGetIssuingCardholdersCardholderParameters getIssuingCardholdersCardholderParametersPathCardholder =
+  GetIssuingCardholdersCardholderParameters
+    { getIssuingCardholdersCardholderParametersPathCardholder = getIssuingCardholdersCardholderParametersPathCardholder,
+      getIssuingCardholdersCardholderParametersQueryExpand = GHC.Maybe.Nothing
+    }
 
 -- | Represents a response of the operation 'getIssuingCardholdersCardholder'.
 --

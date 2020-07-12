@@ -8,6 +8,7 @@ module StripeAPI.Types.SetupIntent where
 
 import qualified Control.Monad.Fail
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -68,7 +69,7 @@ import {-# SOURCE #-} StripeAPI.Types.SourceTypeWechat
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
--- | Defines the data type for the schema setup_intent
+-- | Defines the object schema located at @components.schemas.setup_intent@ in the specification.
 --
 -- A SetupIntent guides you through the process of setting up a customer\'s payment credentials for future payments.
 -- For example, you could use a SetupIntent to set up your customer\'s card without immediately collecting a payment.
@@ -128,8 +129,6 @@ data SetupIntent
         setupIntentMetadata :: (GHC.Maybe.Maybe Data.Aeson.Types.Internal.Object),
         -- | next_action: If present, this property tells you what actions you need to take in order for your customer to continue payment setup.
         setupIntentNextAction :: (GHC.Maybe.Maybe SetupIntentNextAction'),
-        -- | object: String representing the object\'s type. Objects of the same type share the same value.
-        setupIntentObject :: SetupIntentObject',
         -- | on_behalf_of: The account (if any) for which the setup is intended.
         setupIntentOnBehalfOf :: (GHC.Maybe.Maybe SetupIntentOnBehalfOf'Variants),
         -- | payment_method: ID of the payment method used with this SetupIntent.
@@ -157,13 +156,51 @@ data SetupIntent
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON SetupIntent where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "application" (setupIntentApplication obj) : (Data.Aeson..=) "cancellation_reason" (setupIntentCancellationReason obj) : (Data.Aeson..=) "client_secret" (setupIntentClientSecret obj) : (Data.Aeson..=) "created" (setupIntentCreated obj) : (Data.Aeson..=) "customer" (setupIntentCustomer obj) : (Data.Aeson..=) "description" (setupIntentDescription obj) : (Data.Aeson..=) "id" (setupIntentId obj) : (Data.Aeson..=) "last_setup_error" (setupIntentLastSetupError obj) : (Data.Aeson..=) "livemode" (setupIntentLivemode obj) : (Data.Aeson..=) "mandate" (setupIntentMandate obj) : (Data.Aeson..=) "metadata" (setupIntentMetadata obj) : (Data.Aeson..=) "next_action" (setupIntentNextAction obj) : (Data.Aeson..=) "object" (setupIntentObject obj) : (Data.Aeson..=) "on_behalf_of" (setupIntentOnBehalfOf obj) : (Data.Aeson..=) "payment_method" (setupIntentPaymentMethod obj) : (Data.Aeson..=) "payment_method_options" (setupIntentPaymentMethodOptions obj) : (Data.Aeson..=) "payment_method_types" (setupIntentPaymentMethodTypes obj) : (Data.Aeson..=) "single_use_mandate" (setupIntentSingleUseMandate obj) : (Data.Aeson..=) "status" (setupIntentStatus obj) : (Data.Aeson..=) "usage" (setupIntentUsage obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "application" (setupIntentApplication obj) GHC.Base.<> ((Data.Aeson..=) "cancellation_reason" (setupIntentCancellationReason obj) GHC.Base.<> ((Data.Aeson..=) "client_secret" (setupIntentClientSecret obj) GHC.Base.<> ((Data.Aeson..=) "created" (setupIntentCreated obj) GHC.Base.<> ((Data.Aeson..=) "customer" (setupIntentCustomer obj) GHC.Base.<> ((Data.Aeson..=) "description" (setupIntentDescription obj) GHC.Base.<> ((Data.Aeson..=) "id" (setupIntentId obj) GHC.Base.<> ((Data.Aeson..=) "last_setup_error" (setupIntentLastSetupError obj) GHC.Base.<> ((Data.Aeson..=) "livemode" (setupIntentLivemode obj) GHC.Base.<> ((Data.Aeson..=) "mandate" (setupIntentMandate obj) GHC.Base.<> ((Data.Aeson..=) "metadata" (setupIntentMetadata obj) GHC.Base.<> ((Data.Aeson..=) "next_action" (setupIntentNextAction obj) GHC.Base.<> ((Data.Aeson..=) "object" (setupIntentObject obj) GHC.Base.<> ((Data.Aeson..=) "on_behalf_of" (setupIntentOnBehalfOf obj) GHC.Base.<> ((Data.Aeson..=) "payment_method" (setupIntentPaymentMethod obj) GHC.Base.<> ((Data.Aeson..=) "payment_method_options" (setupIntentPaymentMethodOptions obj) GHC.Base.<> ((Data.Aeson..=) "payment_method_types" (setupIntentPaymentMethodTypes obj) GHC.Base.<> ((Data.Aeson..=) "single_use_mandate" (setupIntentSingleUseMandate obj) GHC.Base.<> ((Data.Aeson..=) "status" (setupIntentStatus obj) GHC.Base.<> (Data.Aeson..=) "usage" (setupIntentUsage obj))))))))))))))))))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("application" Data.Aeson.Types.ToJSON..= setupIntentApplication obj : "cancellation_reason" Data.Aeson.Types.ToJSON..= setupIntentCancellationReason obj : "client_secret" Data.Aeson.Types.ToJSON..= setupIntentClientSecret obj : "created" Data.Aeson.Types.ToJSON..= setupIntentCreated obj : "customer" Data.Aeson.Types.ToJSON..= setupIntentCustomer obj : "description" Data.Aeson.Types.ToJSON..= setupIntentDescription obj : "id" Data.Aeson.Types.ToJSON..= setupIntentId obj : "last_setup_error" Data.Aeson.Types.ToJSON..= setupIntentLastSetupError obj : "livemode" Data.Aeson.Types.ToJSON..= setupIntentLivemode obj : "mandate" Data.Aeson.Types.ToJSON..= setupIntentMandate obj : "metadata" Data.Aeson.Types.ToJSON..= setupIntentMetadata obj : "next_action" Data.Aeson.Types.ToJSON..= setupIntentNextAction obj : "on_behalf_of" Data.Aeson.Types.ToJSON..= setupIntentOnBehalfOf obj : "payment_method" Data.Aeson.Types.ToJSON..= setupIntentPaymentMethod obj : "payment_method_options" Data.Aeson.Types.ToJSON..= setupIntentPaymentMethodOptions obj : "payment_method_types" Data.Aeson.Types.ToJSON..= setupIntentPaymentMethodTypes obj : "single_use_mandate" Data.Aeson.Types.ToJSON..= setupIntentSingleUseMandate obj : "status" Data.Aeson.Types.ToJSON..= setupIntentStatus obj : "usage" Data.Aeson.Types.ToJSON..= setupIntentUsage obj : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "setup_intent" : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("application" Data.Aeson.Types.ToJSON..= setupIntentApplication obj) GHC.Base.<> (("cancellation_reason" Data.Aeson.Types.ToJSON..= setupIntentCancellationReason obj) GHC.Base.<> (("client_secret" Data.Aeson.Types.ToJSON..= setupIntentClientSecret obj) GHC.Base.<> (("created" Data.Aeson.Types.ToJSON..= setupIntentCreated obj) GHC.Base.<> (("customer" Data.Aeson.Types.ToJSON..= setupIntentCustomer obj) GHC.Base.<> (("description" Data.Aeson.Types.ToJSON..= setupIntentDescription obj) GHC.Base.<> (("id" Data.Aeson.Types.ToJSON..= setupIntentId obj) GHC.Base.<> (("last_setup_error" Data.Aeson.Types.ToJSON..= setupIntentLastSetupError obj) GHC.Base.<> (("livemode" Data.Aeson.Types.ToJSON..= setupIntentLivemode obj) GHC.Base.<> (("mandate" Data.Aeson.Types.ToJSON..= setupIntentMandate obj) GHC.Base.<> (("metadata" Data.Aeson.Types.ToJSON..= setupIntentMetadata obj) GHC.Base.<> (("next_action" Data.Aeson.Types.ToJSON..= setupIntentNextAction obj) GHC.Base.<> (("on_behalf_of" Data.Aeson.Types.ToJSON..= setupIntentOnBehalfOf obj) GHC.Base.<> (("payment_method" Data.Aeson.Types.ToJSON..= setupIntentPaymentMethod obj) GHC.Base.<> (("payment_method_options" Data.Aeson.Types.ToJSON..= setupIntentPaymentMethodOptions obj) GHC.Base.<> (("payment_method_types" Data.Aeson.Types.ToJSON..= setupIntentPaymentMethodTypes obj) GHC.Base.<> (("single_use_mandate" Data.Aeson.Types.ToJSON..= setupIntentSingleUseMandate obj) GHC.Base.<> (("status" Data.Aeson.Types.ToJSON..= setupIntentStatus obj) GHC.Base.<> (("usage" Data.Aeson.Types.ToJSON..= setupIntentUsage obj) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "setup_intent"))))))))))))))))))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON SetupIntent where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "SetupIntent" (\obj -> (((((((((((((((((((GHC.Base.pure SetupIntent GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "application")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "cancellation_reason")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "client_secret")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "created")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "customer")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "description")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "last_setup_error")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "livemode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "mandate")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "next_action")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "object")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "on_behalf_of")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "payment_method")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "payment_method_options")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "payment_method_types")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "single_use_mandate")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "status")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "usage"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "SetupIntent" (\obj -> ((((((((((((((((((GHC.Base.pure SetupIntent GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "application")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "cancellation_reason")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "client_secret")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "created")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "customer")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "description")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "last_setup_error")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "livemode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "mandate")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "next_action")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "on_behalf_of")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "payment_method")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "payment_method_options")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "payment_method_types")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "single_use_mandate")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "status")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "usage"))
 
--- | Define the one-of schema setup_intentApplication\'
+-- | Create a new 'SetupIntent' with all required fields.
+mkSetupIntent ::
+  -- | 'setupIntentCreated'
+  GHC.Types.Int ->
+  -- | 'setupIntentId'
+  Data.Text.Internal.Text ->
+  -- | 'setupIntentLivemode'
+  GHC.Types.Bool ->
+  -- | 'setupIntentPaymentMethodTypes'
+  [Data.Text.Internal.Text] ->
+  -- | 'setupIntentStatus'
+  SetupIntentStatus' ->
+  -- | 'setupIntentUsage'
+  Data.Text.Internal.Text ->
+  SetupIntent
+mkSetupIntent setupIntentCreated setupIntentId setupIntentLivemode setupIntentPaymentMethodTypes setupIntentStatus setupIntentUsage =
+  SetupIntent
+    { setupIntentApplication = GHC.Maybe.Nothing,
+      setupIntentCancellationReason = GHC.Maybe.Nothing,
+      setupIntentClientSecret = GHC.Maybe.Nothing,
+      setupIntentCreated = setupIntentCreated,
+      setupIntentCustomer = GHC.Maybe.Nothing,
+      setupIntentDescription = GHC.Maybe.Nothing,
+      setupIntentId = setupIntentId,
+      setupIntentLastSetupError = GHC.Maybe.Nothing,
+      setupIntentLivemode = setupIntentLivemode,
+      setupIntentMandate = GHC.Maybe.Nothing,
+      setupIntentMetadata = GHC.Maybe.Nothing,
+      setupIntentNextAction = GHC.Maybe.Nothing,
+      setupIntentOnBehalfOf = GHC.Maybe.Nothing,
+      setupIntentPaymentMethod = GHC.Maybe.Nothing,
+      setupIntentPaymentMethodOptions = GHC.Maybe.Nothing,
+      setupIntentPaymentMethodTypes = setupIntentPaymentMethodTypes,
+      setupIntentSingleUseMandate = GHC.Maybe.Nothing,
+      setupIntentStatus = setupIntentStatus,
+      setupIntentUsage = setupIntentUsage
+    }
+
+-- | Defines the oneOf schema located at @components.schemas.setup_intent.properties.application.anyOf@ in the specification.
 --
 -- ID of the Connect application that created the SetupIntent.
 data SetupIntentApplication'Variants
@@ -176,40 +213,43 @@ instance Data.Aeson.Types.ToJSON.ToJSON SetupIntentApplication'Variants where
   toJSON (SetupIntentApplication'Text a) = Data.Aeson.Types.ToJSON.toJSON a
 
 instance Data.Aeson.Types.FromJSON.FromJSON SetupIntentApplication'Variants where
-  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
-    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ SetupIntentApplication'Application a
-    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ SetupIntentApplication'Text a
-      Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+  parseJSON val = case (SetupIntentApplication'Application Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((SetupIntentApplication'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched") of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+    Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
--- | Defines the enum schema setup_intentCancellation_reason\'
+-- | Defines the enum schema located at @components.schemas.setup_intent.properties.cancellation_reason@ in the specification.
 --
 -- Reason for cancellation of this SetupIntent, one of \`abandoned\`, \`requested_by_customer\`, or \`duplicate\`.
 data SetupIntentCancellationReason'
-  = SetupIntentCancellationReason'EnumOther Data.Aeson.Types.Internal.Value
-  | SetupIntentCancellationReason'EnumTyped Data.Text.Internal.Text
-  | SetupIntentCancellationReason'EnumStringAbandoned
-  | SetupIntentCancellationReason'EnumStringDuplicate
-  | SetupIntentCancellationReason'EnumStringRequestedByCustomer
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    SetupIntentCancellationReason'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    SetupIntentCancellationReason'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"abandoned"@
+    SetupIntentCancellationReason'EnumAbandoned
+  | -- | Represents the JSON value @"duplicate"@
+    SetupIntentCancellationReason'EnumDuplicate
+  | -- | Represents the JSON value @"requested_by_customer"@
+    SetupIntentCancellationReason'EnumRequestedByCustomer
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
 instance Data.Aeson.Types.ToJSON.ToJSON SetupIntentCancellationReason' where
-  toJSON (SetupIntentCancellationReason'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (SetupIntentCancellationReason'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (SetupIntentCancellationReason'EnumStringAbandoned) = "abandoned"
-  toJSON (SetupIntentCancellationReason'EnumStringDuplicate) = "duplicate"
-  toJSON (SetupIntentCancellationReason'EnumStringRequestedByCustomer) = "requested_by_customer"
+  toJSON (SetupIntentCancellationReason'Other val) = val
+  toJSON (SetupIntentCancellationReason'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (SetupIntentCancellationReason'EnumAbandoned) = "abandoned"
+  toJSON (SetupIntentCancellationReason'EnumDuplicate) = "duplicate"
+  toJSON (SetupIntentCancellationReason'EnumRequestedByCustomer) = "requested_by_customer"
 
 instance Data.Aeson.Types.FromJSON.FromJSON SetupIntentCancellationReason' where
   parseJSON val =
     GHC.Base.pure
-      ( if  | val GHC.Classes.== "abandoned" -> SetupIntentCancellationReason'EnumStringAbandoned
-            | val GHC.Classes.== "duplicate" -> SetupIntentCancellationReason'EnumStringDuplicate
-            | val GHC.Classes.== "requested_by_customer" -> SetupIntentCancellationReason'EnumStringRequestedByCustomer
-            | GHC.Base.otherwise -> SetupIntentCancellationReason'EnumOther val
+      ( if  | val GHC.Classes.== "abandoned" -> SetupIntentCancellationReason'EnumAbandoned
+            | val GHC.Classes.== "duplicate" -> SetupIntentCancellationReason'EnumDuplicate
+            | val GHC.Classes.== "requested_by_customer" -> SetupIntentCancellationReason'EnumRequestedByCustomer
+            | GHC.Base.otherwise -> SetupIntentCancellationReason'Other val
       )
 
--- | Define the one-of schema setup_intentCustomer\'
+-- | Defines the oneOf schema located at @components.schemas.setup_intent.properties.customer.anyOf@ in the specification.
 --
 -- ID of the Customer this SetupIntent belongs to, if one exists.
 --
@@ -226,15 +266,11 @@ instance Data.Aeson.Types.ToJSON.ToJSON SetupIntentCustomer'Variants where
   toJSON (SetupIntentCustomer'Text a) = Data.Aeson.Types.ToJSON.toJSON a
 
 instance Data.Aeson.Types.FromJSON.FromJSON SetupIntentCustomer'Variants where
-  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
-    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ SetupIntentCustomer'Customer a
-    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ SetupIntentCustomer'DeletedCustomer a
-      Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-        Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ SetupIntentCustomer'Text a
-        Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+  parseJSON val = case (SetupIntentCustomer'Customer Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((SetupIntentCustomer'DeletedCustomer Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((SetupIntentCustomer'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched")) of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+    Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
--- | Defines the data type for the schema setup_intentLast_setup_error\'
+-- | Defines the object schema located at @components.schemas.setup_intent.properties.last_setup_error.anyOf@ in the specification.
 --
 -- The error encountered in the previous SetupIntent confirmation.
 data SetupIntentLastSetupError'
@@ -321,13 +357,30 @@ data SetupIntentLastSetupError'
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON SetupIntentLastSetupError' where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "charge" (setupIntentLastSetupError'Charge obj) : (Data.Aeson..=) "code" (setupIntentLastSetupError'Code obj) : (Data.Aeson..=) "decline_code" (setupIntentLastSetupError'DeclineCode obj) : (Data.Aeson..=) "doc_url" (setupIntentLastSetupError'DocUrl obj) : (Data.Aeson..=) "message" (setupIntentLastSetupError'Message obj) : (Data.Aeson..=) "param" (setupIntentLastSetupError'Param obj) : (Data.Aeson..=) "payment_intent" (setupIntentLastSetupError'PaymentIntent obj) : (Data.Aeson..=) "payment_method" (setupIntentLastSetupError'PaymentMethod obj) : (Data.Aeson..=) "setup_intent" (setupIntentLastSetupError'SetupIntent obj) : (Data.Aeson..=) "source" (setupIntentLastSetupError'Source obj) : (Data.Aeson..=) "type" (setupIntentLastSetupError'Type obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "charge" (setupIntentLastSetupError'Charge obj) GHC.Base.<> ((Data.Aeson..=) "code" (setupIntentLastSetupError'Code obj) GHC.Base.<> ((Data.Aeson..=) "decline_code" (setupIntentLastSetupError'DeclineCode obj) GHC.Base.<> ((Data.Aeson..=) "doc_url" (setupIntentLastSetupError'DocUrl obj) GHC.Base.<> ((Data.Aeson..=) "message" (setupIntentLastSetupError'Message obj) GHC.Base.<> ((Data.Aeson..=) "param" (setupIntentLastSetupError'Param obj) GHC.Base.<> ((Data.Aeson..=) "payment_intent" (setupIntentLastSetupError'PaymentIntent obj) GHC.Base.<> ((Data.Aeson..=) "payment_method" (setupIntentLastSetupError'PaymentMethod obj) GHC.Base.<> ((Data.Aeson..=) "setup_intent" (setupIntentLastSetupError'SetupIntent obj) GHC.Base.<> ((Data.Aeson..=) "source" (setupIntentLastSetupError'Source obj) GHC.Base.<> (Data.Aeson..=) "type" (setupIntentLastSetupError'Type obj)))))))))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("charge" Data.Aeson.Types.ToJSON..= setupIntentLastSetupError'Charge obj : "code" Data.Aeson.Types.ToJSON..= setupIntentLastSetupError'Code obj : "decline_code" Data.Aeson.Types.ToJSON..= setupIntentLastSetupError'DeclineCode obj : "doc_url" Data.Aeson.Types.ToJSON..= setupIntentLastSetupError'DocUrl obj : "message" Data.Aeson.Types.ToJSON..= setupIntentLastSetupError'Message obj : "param" Data.Aeson.Types.ToJSON..= setupIntentLastSetupError'Param obj : "payment_intent" Data.Aeson.Types.ToJSON..= setupIntentLastSetupError'PaymentIntent obj : "payment_method" Data.Aeson.Types.ToJSON..= setupIntentLastSetupError'PaymentMethod obj : "setup_intent" Data.Aeson.Types.ToJSON..= setupIntentLastSetupError'SetupIntent obj : "source" Data.Aeson.Types.ToJSON..= setupIntentLastSetupError'Source obj : "type" Data.Aeson.Types.ToJSON..= setupIntentLastSetupError'Type obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("charge" Data.Aeson.Types.ToJSON..= setupIntentLastSetupError'Charge obj) GHC.Base.<> (("code" Data.Aeson.Types.ToJSON..= setupIntentLastSetupError'Code obj) GHC.Base.<> (("decline_code" Data.Aeson.Types.ToJSON..= setupIntentLastSetupError'DeclineCode obj) GHC.Base.<> (("doc_url" Data.Aeson.Types.ToJSON..= setupIntentLastSetupError'DocUrl obj) GHC.Base.<> (("message" Data.Aeson.Types.ToJSON..= setupIntentLastSetupError'Message obj) GHC.Base.<> (("param" Data.Aeson.Types.ToJSON..= setupIntentLastSetupError'Param obj) GHC.Base.<> (("payment_intent" Data.Aeson.Types.ToJSON..= setupIntentLastSetupError'PaymentIntent obj) GHC.Base.<> (("payment_method" Data.Aeson.Types.ToJSON..= setupIntentLastSetupError'PaymentMethod obj) GHC.Base.<> (("setup_intent" Data.Aeson.Types.ToJSON..= setupIntentLastSetupError'SetupIntent obj) GHC.Base.<> (("source" Data.Aeson.Types.ToJSON..= setupIntentLastSetupError'Source obj) GHC.Base.<> ("type" Data.Aeson.Types.ToJSON..= setupIntentLastSetupError'Type obj)))))))))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON SetupIntentLastSetupError' where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "SetupIntentLastSetupError'" (\obj -> ((((((((((GHC.Base.pure SetupIntentLastSetupError' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "charge")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "code")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "decline_code")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "doc_url")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "message")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "param")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "payment_intent")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "payment_method")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "setup_intent")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "source")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "type"))
 
--- | Defines the data type for the schema setup_intentLast_setup_error\'Source\'
+-- | Create a new 'SetupIntentLastSetupError'' with all required fields.
+mkSetupIntentLastSetupError' :: SetupIntentLastSetupError'
+mkSetupIntentLastSetupError' =
+  SetupIntentLastSetupError'
+    { setupIntentLastSetupError'Charge = GHC.Maybe.Nothing,
+      setupIntentLastSetupError'Code = GHC.Maybe.Nothing,
+      setupIntentLastSetupError'DeclineCode = GHC.Maybe.Nothing,
+      setupIntentLastSetupError'DocUrl = GHC.Maybe.Nothing,
+      setupIntentLastSetupError'Message = GHC.Maybe.Nothing,
+      setupIntentLastSetupError'Param = GHC.Maybe.Nothing,
+      setupIntentLastSetupError'PaymentIntent = GHC.Maybe.Nothing,
+      setupIntentLastSetupError'PaymentMethod = GHC.Maybe.Nothing,
+      setupIntentLastSetupError'SetupIntent = GHC.Maybe.Nothing,
+      setupIntentLastSetupError'Source = GHC.Maybe.Nothing,
+      setupIntentLastSetupError'Type = GHC.Maybe.Nothing
+    }
+
+-- | Defines the object schema located at @components.schemas.setup_intent.properties.last_setup_error.anyOf.properties.source.anyOf@ in the specification.
 --
 -- The source object for errors returned on a request involving a source.
 data SetupIntentLastSetupError'Source'
@@ -510,8 +563,6 @@ data SetupIntentLastSetupError'Source'
         --
         -- * Maximum length of 5000
         setupIntentLastSetupError'Source'Name :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
-        -- | object: String representing the object\'s type. Objects of the same type share the same value.
-        setupIntentLastSetupError'Source'Object :: (GHC.Maybe.Maybe SetupIntentLastSetupError'Source'Object'),
         -- | owner: Information about the owner of the payment instrument that may be used or required by particular source types.
         setupIntentLastSetupError'Source'Owner :: (GHC.Maybe.Maybe SetupIntentLastSetupError'Source'Owner'),
         -- | p24
@@ -573,13 +624,80 @@ data SetupIntentLastSetupError'Source'
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON SetupIntentLastSetupError'Source' where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "account" (setupIntentLastSetupError'Source'Account obj) : (Data.Aeson..=) "account_holder_name" (setupIntentLastSetupError'Source'AccountHolderName obj) : (Data.Aeson..=) "account_holder_type" (setupIntentLastSetupError'Source'AccountHolderType obj) : (Data.Aeson..=) "ach_credit_transfer" (setupIntentLastSetupError'Source'AchCreditTransfer obj) : (Data.Aeson..=) "ach_debit" (setupIntentLastSetupError'Source'AchDebit obj) : (Data.Aeson..=) "address_city" (setupIntentLastSetupError'Source'AddressCity obj) : (Data.Aeson..=) "address_country" (setupIntentLastSetupError'Source'AddressCountry obj) : (Data.Aeson..=) "address_line1" (setupIntentLastSetupError'Source'AddressLine1 obj) : (Data.Aeson..=) "address_line1_check" (setupIntentLastSetupError'Source'AddressLine1Check obj) : (Data.Aeson..=) "address_line2" (setupIntentLastSetupError'Source'AddressLine2 obj) : (Data.Aeson..=) "address_state" (setupIntentLastSetupError'Source'AddressState obj) : (Data.Aeson..=) "address_zip" (setupIntentLastSetupError'Source'AddressZip obj) : (Data.Aeson..=) "address_zip_check" (setupIntentLastSetupError'Source'AddressZipCheck obj) : (Data.Aeson..=) "alipay" (setupIntentLastSetupError'Source'Alipay obj) : (Data.Aeson..=) "amount" (setupIntentLastSetupError'Source'Amount obj) : (Data.Aeson..=) "available_payout_methods" (setupIntentLastSetupError'Source'AvailablePayoutMethods obj) : (Data.Aeson..=) "bancontact" (setupIntentLastSetupError'Source'Bancontact obj) : (Data.Aeson..=) "bank_name" (setupIntentLastSetupError'Source'BankName obj) : (Data.Aeson..=) "brand" (setupIntentLastSetupError'Source'Brand obj) : (Data.Aeson..=) "card" (setupIntentLastSetupError'Source'Card obj) : (Data.Aeson..=) "card_present" (setupIntentLastSetupError'Source'CardPresent obj) : (Data.Aeson..=) "client_secret" (setupIntentLastSetupError'Source'ClientSecret obj) : (Data.Aeson..=) "code_verification" (setupIntentLastSetupError'Source'CodeVerification obj) : (Data.Aeson..=) "country" (setupIntentLastSetupError'Source'Country obj) : (Data.Aeson..=) "created" (setupIntentLastSetupError'Source'Created obj) : (Data.Aeson..=) "currency" (setupIntentLastSetupError'Source'Currency obj) : (Data.Aeson..=) "customer" (setupIntentLastSetupError'Source'Customer obj) : (Data.Aeson..=) "cvc_check" (setupIntentLastSetupError'Source'CvcCheck obj) : (Data.Aeson..=) "default_for_currency" (setupIntentLastSetupError'Source'DefaultForCurrency obj) : (Data.Aeson..=) "dynamic_last4" (setupIntentLastSetupError'Source'DynamicLast4 obj) : (Data.Aeson..=) "eps" (setupIntentLastSetupError'Source'Eps obj) : (Data.Aeson..=) "exp_month" (setupIntentLastSetupError'Source'ExpMonth obj) : (Data.Aeson..=) "exp_year" (setupIntentLastSetupError'Source'ExpYear obj) : (Data.Aeson..=) "fingerprint" (setupIntentLastSetupError'Source'Fingerprint obj) : (Data.Aeson..=) "flow" (setupIntentLastSetupError'Source'Flow obj) : (Data.Aeson..=) "funding" (setupIntentLastSetupError'Source'Funding obj) : (Data.Aeson..=) "giropay" (setupIntentLastSetupError'Source'Giropay obj) : (Data.Aeson..=) "id" (setupIntentLastSetupError'Source'Id obj) : (Data.Aeson..=) "ideal" (setupIntentLastSetupError'Source'Ideal obj) : (Data.Aeson..=) "klarna" (setupIntentLastSetupError'Source'Klarna obj) : (Data.Aeson..=) "last4" (setupIntentLastSetupError'Source'Last4 obj) : (Data.Aeson..=) "livemode" (setupIntentLastSetupError'Source'Livemode obj) : (Data.Aeson..=) "metadata" (setupIntentLastSetupError'Source'Metadata obj) : (Data.Aeson..=) "multibanco" (setupIntentLastSetupError'Source'Multibanco obj) : (Data.Aeson..=) "name" (setupIntentLastSetupError'Source'Name obj) : (Data.Aeson..=) "object" (setupIntentLastSetupError'Source'Object obj) : (Data.Aeson..=) "owner" (setupIntentLastSetupError'Source'Owner obj) : (Data.Aeson..=) "p24" (setupIntentLastSetupError'Source'P24 obj) : (Data.Aeson..=) "receiver" (setupIntentLastSetupError'Source'Receiver obj) : (Data.Aeson..=) "recipient" (setupIntentLastSetupError'Source'Recipient obj) : (Data.Aeson..=) "redirect" (setupIntentLastSetupError'Source'Redirect obj) : (Data.Aeson..=) "routing_number" (setupIntentLastSetupError'Source'RoutingNumber obj) : (Data.Aeson..=) "sepa_debit" (setupIntentLastSetupError'Source'SepaDebit obj) : (Data.Aeson..=) "sofort" (setupIntentLastSetupError'Source'Sofort obj) : (Data.Aeson..=) "source_order" (setupIntentLastSetupError'Source'SourceOrder obj) : (Data.Aeson..=) "statement_descriptor" (setupIntentLastSetupError'Source'StatementDescriptor obj) : (Data.Aeson..=) "status" (setupIntentLastSetupError'Source'Status obj) : (Data.Aeson..=) "three_d_secure" (setupIntentLastSetupError'Source'ThreeDSecure obj) : (Data.Aeson..=) "tokenization_method" (setupIntentLastSetupError'Source'TokenizationMethod obj) : (Data.Aeson..=) "type" (setupIntentLastSetupError'Source'Type obj) : (Data.Aeson..=) "usage" (setupIntentLastSetupError'Source'Usage obj) : (Data.Aeson..=) "wechat" (setupIntentLastSetupError'Source'Wechat obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "account" (setupIntentLastSetupError'Source'Account obj) GHC.Base.<> ((Data.Aeson..=) "account_holder_name" (setupIntentLastSetupError'Source'AccountHolderName obj) GHC.Base.<> ((Data.Aeson..=) "account_holder_type" (setupIntentLastSetupError'Source'AccountHolderType obj) GHC.Base.<> ((Data.Aeson..=) "ach_credit_transfer" (setupIntentLastSetupError'Source'AchCreditTransfer obj) GHC.Base.<> ((Data.Aeson..=) "ach_debit" (setupIntentLastSetupError'Source'AchDebit obj) GHC.Base.<> ((Data.Aeson..=) "address_city" (setupIntentLastSetupError'Source'AddressCity obj) GHC.Base.<> ((Data.Aeson..=) "address_country" (setupIntentLastSetupError'Source'AddressCountry obj) GHC.Base.<> ((Data.Aeson..=) "address_line1" (setupIntentLastSetupError'Source'AddressLine1 obj) GHC.Base.<> ((Data.Aeson..=) "address_line1_check" (setupIntentLastSetupError'Source'AddressLine1Check obj) GHC.Base.<> ((Data.Aeson..=) "address_line2" (setupIntentLastSetupError'Source'AddressLine2 obj) GHC.Base.<> ((Data.Aeson..=) "address_state" (setupIntentLastSetupError'Source'AddressState obj) GHC.Base.<> ((Data.Aeson..=) "address_zip" (setupIntentLastSetupError'Source'AddressZip obj) GHC.Base.<> ((Data.Aeson..=) "address_zip_check" (setupIntentLastSetupError'Source'AddressZipCheck obj) GHC.Base.<> ((Data.Aeson..=) "alipay" (setupIntentLastSetupError'Source'Alipay obj) GHC.Base.<> ((Data.Aeson..=) "amount" (setupIntentLastSetupError'Source'Amount obj) GHC.Base.<> ((Data.Aeson..=) "available_payout_methods" (setupIntentLastSetupError'Source'AvailablePayoutMethods obj) GHC.Base.<> ((Data.Aeson..=) "bancontact" (setupIntentLastSetupError'Source'Bancontact obj) GHC.Base.<> ((Data.Aeson..=) "bank_name" (setupIntentLastSetupError'Source'BankName obj) GHC.Base.<> ((Data.Aeson..=) "brand" (setupIntentLastSetupError'Source'Brand obj) GHC.Base.<> ((Data.Aeson..=) "card" (setupIntentLastSetupError'Source'Card obj) GHC.Base.<> ((Data.Aeson..=) "card_present" (setupIntentLastSetupError'Source'CardPresent obj) GHC.Base.<> ((Data.Aeson..=) "client_secret" (setupIntentLastSetupError'Source'ClientSecret obj) GHC.Base.<> ((Data.Aeson..=) "code_verification" (setupIntentLastSetupError'Source'CodeVerification obj) GHC.Base.<> ((Data.Aeson..=) "country" (setupIntentLastSetupError'Source'Country obj) GHC.Base.<> ((Data.Aeson..=) "created" (setupIntentLastSetupError'Source'Created obj) GHC.Base.<> ((Data.Aeson..=) "currency" (setupIntentLastSetupError'Source'Currency obj) GHC.Base.<> ((Data.Aeson..=) "customer" (setupIntentLastSetupError'Source'Customer obj) GHC.Base.<> ((Data.Aeson..=) "cvc_check" (setupIntentLastSetupError'Source'CvcCheck obj) GHC.Base.<> ((Data.Aeson..=) "default_for_currency" (setupIntentLastSetupError'Source'DefaultForCurrency obj) GHC.Base.<> ((Data.Aeson..=) "dynamic_last4" (setupIntentLastSetupError'Source'DynamicLast4 obj) GHC.Base.<> ((Data.Aeson..=) "eps" (setupIntentLastSetupError'Source'Eps obj) GHC.Base.<> ((Data.Aeson..=) "exp_month" (setupIntentLastSetupError'Source'ExpMonth obj) GHC.Base.<> ((Data.Aeson..=) "exp_year" (setupIntentLastSetupError'Source'ExpYear obj) GHC.Base.<> ((Data.Aeson..=) "fingerprint" (setupIntentLastSetupError'Source'Fingerprint obj) GHC.Base.<> ((Data.Aeson..=) "flow" (setupIntentLastSetupError'Source'Flow obj) GHC.Base.<> ((Data.Aeson..=) "funding" (setupIntentLastSetupError'Source'Funding obj) GHC.Base.<> ((Data.Aeson..=) "giropay" (setupIntentLastSetupError'Source'Giropay obj) GHC.Base.<> ((Data.Aeson..=) "id" (setupIntentLastSetupError'Source'Id obj) GHC.Base.<> ((Data.Aeson..=) "ideal" (setupIntentLastSetupError'Source'Ideal obj) GHC.Base.<> ((Data.Aeson..=) "klarna" (setupIntentLastSetupError'Source'Klarna obj) GHC.Base.<> ((Data.Aeson..=) "last4" (setupIntentLastSetupError'Source'Last4 obj) GHC.Base.<> ((Data.Aeson..=) "livemode" (setupIntentLastSetupError'Source'Livemode obj) GHC.Base.<> ((Data.Aeson..=) "metadata" (setupIntentLastSetupError'Source'Metadata obj) GHC.Base.<> ((Data.Aeson..=) "multibanco" (setupIntentLastSetupError'Source'Multibanco obj) GHC.Base.<> ((Data.Aeson..=) "name" (setupIntentLastSetupError'Source'Name obj) GHC.Base.<> ((Data.Aeson..=) "object" (setupIntentLastSetupError'Source'Object obj) GHC.Base.<> ((Data.Aeson..=) "owner" (setupIntentLastSetupError'Source'Owner obj) GHC.Base.<> ((Data.Aeson..=) "p24" (setupIntentLastSetupError'Source'P24 obj) GHC.Base.<> ((Data.Aeson..=) "receiver" (setupIntentLastSetupError'Source'Receiver obj) GHC.Base.<> ((Data.Aeson..=) "recipient" (setupIntentLastSetupError'Source'Recipient obj) GHC.Base.<> ((Data.Aeson..=) "redirect" (setupIntentLastSetupError'Source'Redirect obj) GHC.Base.<> ((Data.Aeson..=) "routing_number" (setupIntentLastSetupError'Source'RoutingNumber obj) GHC.Base.<> ((Data.Aeson..=) "sepa_debit" (setupIntentLastSetupError'Source'SepaDebit obj) GHC.Base.<> ((Data.Aeson..=) "sofort" (setupIntentLastSetupError'Source'Sofort obj) GHC.Base.<> ((Data.Aeson..=) "source_order" (setupIntentLastSetupError'Source'SourceOrder obj) GHC.Base.<> ((Data.Aeson..=) "statement_descriptor" (setupIntentLastSetupError'Source'StatementDescriptor obj) GHC.Base.<> ((Data.Aeson..=) "status" (setupIntentLastSetupError'Source'Status obj) GHC.Base.<> ((Data.Aeson..=) "three_d_secure" (setupIntentLastSetupError'Source'ThreeDSecure obj) GHC.Base.<> ((Data.Aeson..=) "tokenization_method" (setupIntentLastSetupError'Source'TokenizationMethod obj) GHC.Base.<> ((Data.Aeson..=) "type" (setupIntentLastSetupError'Source'Type obj) GHC.Base.<> ((Data.Aeson..=) "usage" (setupIntentLastSetupError'Source'Usage obj) GHC.Base.<> (Data.Aeson..=) "wechat" (setupIntentLastSetupError'Source'Wechat obj))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("account" Data.Aeson.Types.ToJSON..= setupIntentLastSetupError'Source'Account obj : "account_holder_name" Data.Aeson.Types.ToJSON..= setupIntentLastSetupError'Source'AccountHolderName obj : "account_holder_type" Data.Aeson.Types.ToJSON..= setupIntentLastSetupError'Source'AccountHolderType obj : "ach_credit_transfer" Data.Aeson.Types.ToJSON..= setupIntentLastSetupError'Source'AchCreditTransfer obj : "ach_debit" Data.Aeson.Types.ToJSON..= setupIntentLastSetupError'Source'AchDebit obj : "address_city" Data.Aeson.Types.ToJSON..= setupIntentLastSetupError'Source'AddressCity obj : "address_country" Data.Aeson.Types.ToJSON..= setupIntentLastSetupError'Source'AddressCountry obj : "address_line1" Data.Aeson.Types.ToJSON..= setupIntentLastSetupError'Source'AddressLine1 obj : "address_line1_check" Data.Aeson.Types.ToJSON..= setupIntentLastSetupError'Source'AddressLine1Check obj : "address_line2" Data.Aeson.Types.ToJSON..= setupIntentLastSetupError'Source'AddressLine2 obj : "address_state" Data.Aeson.Types.ToJSON..= setupIntentLastSetupError'Source'AddressState obj : "address_zip" Data.Aeson.Types.ToJSON..= setupIntentLastSetupError'Source'AddressZip obj : "address_zip_check" Data.Aeson.Types.ToJSON..= setupIntentLastSetupError'Source'AddressZipCheck obj : "alipay" Data.Aeson.Types.ToJSON..= setupIntentLastSetupError'Source'Alipay obj : "amount" Data.Aeson.Types.ToJSON..= setupIntentLastSetupError'Source'Amount obj : "available_payout_methods" Data.Aeson.Types.ToJSON..= setupIntentLastSetupError'Source'AvailablePayoutMethods obj : "bancontact" Data.Aeson.Types.ToJSON..= setupIntentLastSetupError'Source'Bancontact obj : "bank_name" Data.Aeson.Types.ToJSON..= setupIntentLastSetupError'Source'BankName obj : "brand" Data.Aeson.Types.ToJSON..= setupIntentLastSetupError'Source'Brand obj : "card" Data.Aeson.Types.ToJSON..= setupIntentLastSetupError'Source'Card obj : "card_present" Data.Aeson.Types.ToJSON..= setupIntentLastSetupError'Source'CardPresent obj : "client_secret" Data.Aeson.Types.ToJSON..= setupIntentLastSetupError'Source'ClientSecret obj : "code_verification" Data.Aeson.Types.ToJSON..= setupIntentLastSetupError'Source'CodeVerification obj : "country" Data.Aeson.Types.ToJSON..= setupIntentLastSetupError'Source'Country obj : "created" Data.Aeson.Types.ToJSON..= setupIntentLastSetupError'Source'Created obj : "currency" Data.Aeson.Types.ToJSON..= setupIntentLastSetupError'Source'Currency obj : "customer" Data.Aeson.Types.ToJSON..= setupIntentLastSetupError'Source'Customer obj : "cvc_check" Data.Aeson.Types.ToJSON..= setupIntentLastSetupError'Source'CvcCheck obj : "default_for_currency" Data.Aeson.Types.ToJSON..= setupIntentLastSetupError'Source'DefaultForCurrency obj : "dynamic_last4" Data.Aeson.Types.ToJSON..= setupIntentLastSetupError'Source'DynamicLast4 obj : "eps" Data.Aeson.Types.ToJSON..= setupIntentLastSetupError'Source'Eps obj : "exp_month" Data.Aeson.Types.ToJSON..= setupIntentLastSetupError'Source'ExpMonth obj : "exp_year" Data.Aeson.Types.ToJSON..= setupIntentLastSetupError'Source'ExpYear obj : "fingerprint" Data.Aeson.Types.ToJSON..= setupIntentLastSetupError'Source'Fingerprint obj : "flow" Data.Aeson.Types.ToJSON..= setupIntentLastSetupError'Source'Flow obj : "funding" Data.Aeson.Types.ToJSON..= setupIntentLastSetupError'Source'Funding obj : "giropay" Data.Aeson.Types.ToJSON..= setupIntentLastSetupError'Source'Giropay obj : "id" Data.Aeson.Types.ToJSON..= setupIntentLastSetupError'Source'Id obj : "ideal" Data.Aeson.Types.ToJSON..= setupIntentLastSetupError'Source'Ideal obj : "klarna" Data.Aeson.Types.ToJSON..= setupIntentLastSetupError'Source'Klarna obj : "last4" Data.Aeson.Types.ToJSON..= setupIntentLastSetupError'Source'Last4 obj : "livemode" Data.Aeson.Types.ToJSON..= setupIntentLastSetupError'Source'Livemode obj : "metadata" Data.Aeson.Types.ToJSON..= setupIntentLastSetupError'Source'Metadata obj : "multibanco" Data.Aeson.Types.ToJSON..= setupIntentLastSetupError'Source'Multibanco obj : "name" Data.Aeson.Types.ToJSON..= setupIntentLastSetupError'Source'Name obj : "owner" Data.Aeson.Types.ToJSON..= setupIntentLastSetupError'Source'Owner obj : "p24" Data.Aeson.Types.ToJSON..= setupIntentLastSetupError'Source'P24 obj : "receiver" Data.Aeson.Types.ToJSON..= setupIntentLastSetupError'Source'Receiver obj : "recipient" Data.Aeson.Types.ToJSON..= setupIntentLastSetupError'Source'Recipient obj : "redirect" Data.Aeson.Types.ToJSON..= setupIntentLastSetupError'Source'Redirect obj : "routing_number" Data.Aeson.Types.ToJSON..= setupIntentLastSetupError'Source'RoutingNumber obj : "sepa_debit" Data.Aeson.Types.ToJSON..= setupIntentLastSetupError'Source'SepaDebit obj : "sofort" Data.Aeson.Types.ToJSON..= setupIntentLastSetupError'Source'Sofort obj : "source_order" Data.Aeson.Types.ToJSON..= setupIntentLastSetupError'Source'SourceOrder obj : "statement_descriptor" Data.Aeson.Types.ToJSON..= setupIntentLastSetupError'Source'StatementDescriptor obj : "status" Data.Aeson.Types.ToJSON..= setupIntentLastSetupError'Source'Status obj : "three_d_secure" Data.Aeson.Types.ToJSON..= setupIntentLastSetupError'Source'ThreeDSecure obj : "tokenization_method" Data.Aeson.Types.ToJSON..= setupIntentLastSetupError'Source'TokenizationMethod obj : "type" Data.Aeson.Types.ToJSON..= setupIntentLastSetupError'Source'Type obj : "usage" Data.Aeson.Types.ToJSON..= setupIntentLastSetupError'Source'Usage obj : "wechat" Data.Aeson.Types.ToJSON..= setupIntentLastSetupError'Source'Wechat obj : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "bank_account" : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("account" Data.Aeson.Types.ToJSON..= setupIntentLastSetupError'Source'Account obj) GHC.Base.<> (("account_holder_name" Data.Aeson.Types.ToJSON..= setupIntentLastSetupError'Source'AccountHolderName obj) GHC.Base.<> (("account_holder_type" Data.Aeson.Types.ToJSON..= setupIntentLastSetupError'Source'AccountHolderType obj) GHC.Base.<> (("ach_credit_transfer" Data.Aeson.Types.ToJSON..= setupIntentLastSetupError'Source'AchCreditTransfer obj) GHC.Base.<> (("ach_debit" Data.Aeson.Types.ToJSON..= setupIntentLastSetupError'Source'AchDebit obj) GHC.Base.<> (("address_city" Data.Aeson.Types.ToJSON..= setupIntentLastSetupError'Source'AddressCity obj) GHC.Base.<> (("address_country" Data.Aeson.Types.ToJSON..= setupIntentLastSetupError'Source'AddressCountry obj) GHC.Base.<> (("address_line1" Data.Aeson.Types.ToJSON..= setupIntentLastSetupError'Source'AddressLine1 obj) GHC.Base.<> (("address_line1_check" Data.Aeson.Types.ToJSON..= setupIntentLastSetupError'Source'AddressLine1Check obj) GHC.Base.<> (("address_line2" Data.Aeson.Types.ToJSON..= setupIntentLastSetupError'Source'AddressLine2 obj) GHC.Base.<> (("address_state" Data.Aeson.Types.ToJSON..= setupIntentLastSetupError'Source'AddressState obj) GHC.Base.<> (("address_zip" Data.Aeson.Types.ToJSON..= setupIntentLastSetupError'Source'AddressZip obj) GHC.Base.<> (("address_zip_check" Data.Aeson.Types.ToJSON..= setupIntentLastSetupError'Source'AddressZipCheck obj) GHC.Base.<> (("alipay" Data.Aeson.Types.ToJSON..= setupIntentLastSetupError'Source'Alipay obj) GHC.Base.<> (("amount" Data.Aeson.Types.ToJSON..= setupIntentLastSetupError'Source'Amount obj) GHC.Base.<> (("available_payout_methods" Data.Aeson.Types.ToJSON..= setupIntentLastSetupError'Source'AvailablePayoutMethods obj) GHC.Base.<> (("bancontact" Data.Aeson.Types.ToJSON..= setupIntentLastSetupError'Source'Bancontact obj) GHC.Base.<> (("bank_name" Data.Aeson.Types.ToJSON..= setupIntentLastSetupError'Source'BankName obj) GHC.Base.<> (("brand" Data.Aeson.Types.ToJSON..= setupIntentLastSetupError'Source'Brand obj) GHC.Base.<> (("card" Data.Aeson.Types.ToJSON..= setupIntentLastSetupError'Source'Card obj) GHC.Base.<> (("card_present" Data.Aeson.Types.ToJSON..= setupIntentLastSetupError'Source'CardPresent obj) GHC.Base.<> (("client_secret" Data.Aeson.Types.ToJSON..= setupIntentLastSetupError'Source'ClientSecret obj) GHC.Base.<> (("code_verification" Data.Aeson.Types.ToJSON..= setupIntentLastSetupError'Source'CodeVerification obj) GHC.Base.<> (("country" Data.Aeson.Types.ToJSON..= setupIntentLastSetupError'Source'Country obj) GHC.Base.<> (("created" Data.Aeson.Types.ToJSON..= setupIntentLastSetupError'Source'Created obj) GHC.Base.<> (("currency" Data.Aeson.Types.ToJSON..= setupIntentLastSetupError'Source'Currency obj) GHC.Base.<> (("customer" Data.Aeson.Types.ToJSON..= setupIntentLastSetupError'Source'Customer obj) GHC.Base.<> (("cvc_check" Data.Aeson.Types.ToJSON..= setupIntentLastSetupError'Source'CvcCheck obj) GHC.Base.<> (("default_for_currency" Data.Aeson.Types.ToJSON..= setupIntentLastSetupError'Source'DefaultForCurrency obj) GHC.Base.<> (("dynamic_last4" Data.Aeson.Types.ToJSON..= setupIntentLastSetupError'Source'DynamicLast4 obj) GHC.Base.<> (("eps" Data.Aeson.Types.ToJSON..= setupIntentLastSetupError'Source'Eps obj) GHC.Base.<> (("exp_month" Data.Aeson.Types.ToJSON..= setupIntentLastSetupError'Source'ExpMonth obj) GHC.Base.<> (("exp_year" Data.Aeson.Types.ToJSON..= setupIntentLastSetupError'Source'ExpYear obj) GHC.Base.<> (("fingerprint" Data.Aeson.Types.ToJSON..= setupIntentLastSetupError'Source'Fingerprint obj) GHC.Base.<> (("flow" Data.Aeson.Types.ToJSON..= setupIntentLastSetupError'Source'Flow obj) GHC.Base.<> (("funding" Data.Aeson.Types.ToJSON..= setupIntentLastSetupError'Source'Funding obj) GHC.Base.<> (("giropay" Data.Aeson.Types.ToJSON..= setupIntentLastSetupError'Source'Giropay obj) GHC.Base.<> (("id" Data.Aeson.Types.ToJSON..= setupIntentLastSetupError'Source'Id obj) GHC.Base.<> (("ideal" Data.Aeson.Types.ToJSON..= setupIntentLastSetupError'Source'Ideal obj) GHC.Base.<> (("klarna" Data.Aeson.Types.ToJSON..= setupIntentLastSetupError'Source'Klarna obj) GHC.Base.<> (("last4" Data.Aeson.Types.ToJSON..= setupIntentLastSetupError'Source'Last4 obj) GHC.Base.<> (("livemode" Data.Aeson.Types.ToJSON..= setupIntentLastSetupError'Source'Livemode obj) GHC.Base.<> (("metadata" Data.Aeson.Types.ToJSON..= setupIntentLastSetupError'Source'Metadata obj) GHC.Base.<> (("multibanco" Data.Aeson.Types.ToJSON..= setupIntentLastSetupError'Source'Multibanco obj) GHC.Base.<> (("name" Data.Aeson.Types.ToJSON..= setupIntentLastSetupError'Source'Name obj) GHC.Base.<> (("owner" Data.Aeson.Types.ToJSON..= setupIntentLastSetupError'Source'Owner obj) GHC.Base.<> (("p24" Data.Aeson.Types.ToJSON..= setupIntentLastSetupError'Source'P24 obj) GHC.Base.<> (("receiver" Data.Aeson.Types.ToJSON..= setupIntentLastSetupError'Source'Receiver obj) GHC.Base.<> (("recipient" Data.Aeson.Types.ToJSON..= setupIntentLastSetupError'Source'Recipient obj) GHC.Base.<> (("redirect" Data.Aeson.Types.ToJSON..= setupIntentLastSetupError'Source'Redirect obj) GHC.Base.<> (("routing_number" Data.Aeson.Types.ToJSON..= setupIntentLastSetupError'Source'RoutingNumber obj) GHC.Base.<> (("sepa_debit" Data.Aeson.Types.ToJSON..= setupIntentLastSetupError'Source'SepaDebit obj) GHC.Base.<> (("sofort" Data.Aeson.Types.ToJSON..= setupIntentLastSetupError'Source'Sofort obj) GHC.Base.<> (("source_order" Data.Aeson.Types.ToJSON..= setupIntentLastSetupError'Source'SourceOrder obj) GHC.Base.<> (("statement_descriptor" Data.Aeson.Types.ToJSON..= setupIntentLastSetupError'Source'StatementDescriptor obj) GHC.Base.<> (("status" Data.Aeson.Types.ToJSON..= setupIntentLastSetupError'Source'Status obj) GHC.Base.<> (("three_d_secure" Data.Aeson.Types.ToJSON..= setupIntentLastSetupError'Source'ThreeDSecure obj) GHC.Base.<> (("tokenization_method" Data.Aeson.Types.ToJSON..= setupIntentLastSetupError'Source'TokenizationMethod obj) GHC.Base.<> (("type" Data.Aeson.Types.ToJSON..= setupIntentLastSetupError'Source'Type obj) GHC.Base.<> (("usage" Data.Aeson.Types.ToJSON..= setupIntentLastSetupError'Source'Usage obj) GHC.Base.<> (("wechat" Data.Aeson.Types.ToJSON..= setupIntentLastSetupError'Source'Wechat obj) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "bank_account"))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON SetupIntentLastSetupError'Source' where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "SetupIntentLastSetupError'Source'" (\obj -> (((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((GHC.Base.pure SetupIntentLastSetupError'Source' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "account")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "account_holder_name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "account_holder_type")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "ach_credit_transfer")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "ach_debit")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "address_city")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "address_country")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "address_line1")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "address_line1_check")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "address_line2")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "address_state")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "address_zip")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "address_zip_check")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "alipay")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "available_payout_methods")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "bancontact")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "bank_name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "brand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "card")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "card_present")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "client_secret")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "code_verification")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "country")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "created")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "customer")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "cvc_check")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "default_for_currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "dynamic_last4")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "eps")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "exp_month")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "exp_year")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "fingerprint")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "flow")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "funding")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "giropay")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "ideal")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "klarna")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "last4")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "livemode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "multibanco")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "object")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "owner")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "p24")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "receiver")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "recipient")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "redirect")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "routing_number")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "sepa_debit")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "sofort")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "source_order")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "statement_descriptor")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "status")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "three_d_secure")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "tokenization_method")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "type")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "usage")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "wechat"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "SetupIntentLastSetupError'Source'" (\obj -> ((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((GHC.Base.pure SetupIntentLastSetupError'Source' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "account")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "account_holder_name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "account_holder_type")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "ach_credit_transfer")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "ach_debit")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "address_city")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "address_country")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "address_line1")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "address_line1_check")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "address_line2")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "address_state")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "address_zip")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "address_zip_check")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "alipay")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "available_payout_methods")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "bancontact")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "bank_name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "brand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "card")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "card_present")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "client_secret")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "code_verification")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "country")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "created")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "customer")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "cvc_check")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "default_for_currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "dynamic_last4")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "eps")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "exp_month")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "exp_year")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "fingerprint")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "flow")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "funding")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "giropay")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "ideal")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "klarna")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "last4")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "livemode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "multibanco")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "owner")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "p24")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "receiver")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "recipient")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "redirect")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "routing_number")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "sepa_debit")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "sofort")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "source_order")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "statement_descriptor")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "status")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "three_d_secure")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "tokenization_method")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "type")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "usage")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "wechat"))
 
--- | Define the one-of schema setup_intentLast_setup_error\'Source\'Account\'
+-- | Create a new 'SetupIntentLastSetupError'Source'' with all required fields.
+mkSetupIntentLastSetupError'Source' :: SetupIntentLastSetupError'Source'
+mkSetupIntentLastSetupError'Source' =
+  SetupIntentLastSetupError'Source'
+    { setupIntentLastSetupError'Source'Account = GHC.Maybe.Nothing,
+      setupIntentLastSetupError'Source'AccountHolderName = GHC.Maybe.Nothing,
+      setupIntentLastSetupError'Source'AccountHolderType = GHC.Maybe.Nothing,
+      setupIntentLastSetupError'Source'AchCreditTransfer = GHC.Maybe.Nothing,
+      setupIntentLastSetupError'Source'AchDebit = GHC.Maybe.Nothing,
+      setupIntentLastSetupError'Source'AddressCity = GHC.Maybe.Nothing,
+      setupIntentLastSetupError'Source'AddressCountry = GHC.Maybe.Nothing,
+      setupIntentLastSetupError'Source'AddressLine1 = GHC.Maybe.Nothing,
+      setupIntentLastSetupError'Source'AddressLine1Check = GHC.Maybe.Nothing,
+      setupIntentLastSetupError'Source'AddressLine2 = GHC.Maybe.Nothing,
+      setupIntentLastSetupError'Source'AddressState = GHC.Maybe.Nothing,
+      setupIntentLastSetupError'Source'AddressZip = GHC.Maybe.Nothing,
+      setupIntentLastSetupError'Source'AddressZipCheck = GHC.Maybe.Nothing,
+      setupIntentLastSetupError'Source'Alipay = GHC.Maybe.Nothing,
+      setupIntentLastSetupError'Source'Amount = GHC.Maybe.Nothing,
+      setupIntentLastSetupError'Source'AvailablePayoutMethods = GHC.Maybe.Nothing,
+      setupIntentLastSetupError'Source'Bancontact = GHC.Maybe.Nothing,
+      setupIntentLastSetupError'Source'BankName = GHC.Maybe.Nothing,
+      setupIntentLastSetupError'Source'Brand = GHC.Maybe.Nothing,
+      setupIntentLastSetupError'Source'Card = GHC.Maybe.Nothing,
+      setupIntentLastSetupError'Source'CardPresent = GHC.Maybe.Nothing,
+      setupIntentLastSetupError'Source'ClientSecret = GHC.Maybe.Nothing,
+      setupIntentLastSetupError'Source'CodeVerification = GHC.Maybe.Nothing,
+      setupIntentLastSetupError'Source'Country = GHC.Maybe.Nothing,
+      setupIntentLastSetupError'Source'Created = GHC.Maybe.Nothing,
+      setupIntentLastSetupError'Source'Currency = GHC.Maybe.Nothing,
+      setupIntentLastSetupError'Source'Customer = GHC.Maybe.Nothing,
+      setupIntentLastSetupError'Source'CvcCheck = GHC.Maybe.Nothing,
+      setupIntentLastSetupError'Source'DefaultForCurrency = GHC.Maybe.Nothing,
+      setupIntentLastSetupError'Source'DynamicLast4 = GHC.Maybe.Nothing,
+      setupIntentLastSetupError'Source'Eps = GHC.Maybe.Nothing,
+      setupIntentLastSetupError'Source'ExpMonth = GHC.Maybe.Nothing,
+      setupIntentLastSetupError'Source'ExpYear = GHC.Maybe.Nothing,
+      setupIntentLastSetupError'Source'Fingerprint = GHC.Maybe.Nothing,
+      setupIntentLastSetupError'Source'Flow = GHC.Maybe.Nothing,
+      setupIntentLastSetupError'Source'Funding = GHC.Maybe.Nothing,
+      setupIntentLastSetupError'Source'Giropay = GHC.Maybe.Nothing,
+      setupIntentLastSetupError'Source'Id = GHC.Maybe.Nothing,
+      setupIntentLastSetupError'Source'Ideal = GHC.Maybe.Nothing,
+      setupIntentLastSetupError'Source'Klarna = GHC.Maybe.Nothing,
+      setupIntentLastSetupError'Source'Last4 = GHC.Maybe.Nothing,
+      setupIntentLastSetupError'Source'Livemode = GHC.Maybe.Nothing,
+      setupIntentLastSetupError'Source'Metadata = GHC.Maybe.Nothing,
+      setupIntentLastSetupError'Source'Multibanco = GHC.Maybe.Nothing,
+      setupIntentLastSetupError'Source'Name = GHC.Maybe.Nothing,
+      setupIntentLastSetupError'Source'Owner = GHC.Maybe.Nothing,
+      setupIntentLastSetupError'Source'P24 = GHC.Maybe.Nothing,
+      setupIntentLastSetupError'Source'Receiver = GHC.Maybe.Nothing,
+      setupIntentLastSetupError'Source'Recipient = GHC.Maybe.Nothing,
+      setupIntentLastSetupError'Source'Redirect = GHC.Maybe.Nothing,
+      setupIntentLastSetupError'Source'RoutingNumber = GHC.Maybe.Nothing,
+      setupIntentLastSetupError'Source'SepaDebit = GHC.Maybe.Nothing,
+      setupIntentLastSetupError'Source'Sofort = GHC.Maybe.Nothing,
+      setupIntentLastSetupError'Source'SourceOrder = GHC.Maybe.Nothing,
+      setupIntentLastSetupError'Source'StatementDescriptor = GHC.Maybe.Nothing,
+      setupIntentLastSetupError'Source'Status = GHC.Maybe.Nothing,
+      setupIntentLastSetupError'Source'ThreeDSecure = GHC.Maybe.Nothing,
+      setupIntentLastSetupError'Source'TokenizationMethod = GHC.Maybe.Nothing,
+      setupIntentLastSetupError'Source'Type = GHC.Maybe.Nothing,
+      setupIntentLastSetupError'Source'Usage = GHC.Maybe.Nothing,
+      setupIntentLastSetupError'Source'Wechat = GHC.Maybe.Nothing
+    }
+
+-- | Defines the oneOf schema located at @components.schemas.setup_intent.properties.last_setup_error.anyOf.properties.source.anyOf.properties.account.anyOf@ in the specification.
 --
 -- The ID of the account that the bank account is associated with.
 data SetupIntentLastSetupError'Source'Account'Variants
@@ -592,35 +710,37 @@ instance Data.Aeson.Types.ToJSON.ToJSON SetupIntentLastSetupError'Source'Account
   toJSON (SetupIntentLastSetupError'Source'Account'Text a) = Data.Aeson.Types.ToJSON.toJSON a
 
 instance Data.Aeson.Types.FromJSON.FromJSON SetupIntentLastSetupError'Source'Account'Variants where
-  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
-    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ SetupIntentLastSetupError'Source'Account'Account a
-    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ SetupIntentLastSetupError'Source'Account'Text a
-      Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+  parseJSON val = case (SetupIntentLastSetupError'Source'Account'Account Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((SetupIntentLastSetupError'Source'Account'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched") of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+    Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
--- | Defines the enum schema setup_intentLast_setup_error\'Source\'Available_payout_methods\'
+-- | Defines the enum schema located at @components.schemas.setup_intent.properties.last_setup_error.anyOf.properties.source.anyOf.properties.available_payout_methods.items@ in the specification.
 data SetupIntentLastSetupError'Source'AvailablePayoutMethods'
-  = SetupIntentLastSetupError'Source'AvailablePayoutMethods'EnumOther Data.Aeson.Types.Internal.Value
-  | SetupIntentLastSetupError'Source'AvailablePayoutMethods'EnumTyped Data.Text.Internal.Text
-  | SetupIntentLastSetupError'Source'AvailablePayoutMethods'EnumStringInstant
-  | SetupIntentLastSetupError'Source'AvailablePayoutMethods'EnumStringStandard
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    SetupIntentLastSetupError'Source'AvailablePayoutMethods'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    SetupIntentLastSetupError'Source'AvailablePayoutMethods'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"instant"@
+    SetupIntentLastSetupError'Source'AvailablePayoutMethods'EnumInstant
+  | -- | Represents the JSON value @"standard"@
+    SetupIntentLastSetupError'Source'AvailablePayoutMethods'EnumStandard
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
 instance Data.Aeson.Types.ToJSON.ToJSON SetupIntentLastSetupError'Source'AvailablePayoutMethods' where
-  toJSON (SetupIntentLastSetupError'Source'AvailablePayoutMethods'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (SetupIntentLastSetupError'Source'AvailablePayoutMethods'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (SetupIntentLastSetupError'Source'AvailablePayoutMethods'EnumStringInstant) = "instant"
-  toJSON (SetupIntentLastSetupError'Source'AvailablePayoutMethods'EnumStringStandard) = "standard"
+  toJSON (SetupIntentLastSetupError'Source'AvailablePayoutMethods'Other val) = val
+  toJSON (SetupIntentLastSetupError'Source'AvailablePayoutMethods'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (SetupIntentLastSetupError'Source'AvailablePayoutMethods'EnumInstant) = "instant"
+  toJSON (SetupIntentLastSetupError'Source'AvailablePayoutMethods'EnumStandard) = "standard"
 
 instance Data.Aeson.Types.FromJSON.FromJSON SetupIntentLastSetupError'Source'AvailablePayoutMethods' where
   parseJSON val =
     GHC.Base.pure
-      ( if  | val GHC.Classes.== "instant" -> SetupIntentLastSetupError'Source'AvailablePayoutMethods'EnumStringInstant
-            | val GHC.Classes.== "standard" -> SetupIntentLastSetupError'Source'AvailablePayoutMethods'EnumStringStandard
-            | GHC.Base.otherwise -> SetupIntentLastSetupError'Source'AvailablePayoutMethods'EnumOther val
+      ( if  | val GHC.Classes.== "instant" -> SetupIntentLastSetupError'Source'AvailablePayoutMethods'EnumInstant
+            | val GHC.Classes.== "standard" -> SetupIntentLastSetupError'Source'AvailablePayoutMethods'EnumStandard
+            | GHC.Base.otherwise -> SetupIntentLastSetupError'Source'AvailablePayoutMethods'Other val
       )
 
--- | Define the one-of schema setup_intentLast_setup_error\'Source\'Customer\'
+-- | Defines the oneOf schema located at @components.schemas.setup_intent.properties.last_setup_error.anyOf.properties.source.anyOf.properties.customer.anyOf@ in the specification.
 --
 -- The ID of the customer that the bank account is associated with.
 data SetupIntentLastSetupError'Source'Customer'Variants
@@ -635,36 +755,11 @@ instance Data.Aeson.Types.ToJSON.ToJSON SetupIntentLastSetupError'Source'Custome
   toJSON (SetupIntentLastSetupError'Source'Customer'Text a) = Data.Aeson.Types.ToJSON.toJSON a
 
 instance Data.Aeson.Types.FromJSON.FromJSON SetupIntentLastSetupError'Source'Customer'Variants where
-  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
-    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ SetupIntentLastSetupError'Source'Customer'Customer a
-    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ SetupIntentLastSetupError'Source'Customer'DeletedCustomer a
-      Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-        Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ SetupIntentLastSetupError'Source'Customer'Text a
-        Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+  parseJSON val = case (SetupIntentLastSetupError'Source'Customer'Customer Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((SetupIntentLastSetupError'Source'Customer'DeletedCustomer Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((SetupIntentLastSetupError'Source'Customer'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched")) of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+    Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
--- | Defines the enum schema setup_intentLast_setup_error\'Source\'Object\'
---
--- String representing the object\'s type. Objects of the same type share the same value.
-data SetupIntentLastSetupError'Source'Object'
-  = SetupIntentLastSetupError'Source'Object'EnumOther Data.Aeson.Types.Internal.Value
-  | SetupIntentLastSetupError'Source'Object'EnumTyped Data.Text.Internal.Text
-  | SetupIntentLastSetupError'Source'Object'EnumStringBankAccount
-  deriving (GHC.Show.Show, GHC.Classes.Eq)
-
-instance Data.Aeson.Types.ToJSON.ToJSON SetupIntentLastSetupError'Source'Object' where
-  toJSON (SetupIntentLastSetupError'Source'Object'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (SetupIntentLastSetupError'Source'Object'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (SetupIntentLastSetupError'Source'Object'EnumStringBankAccount) = "bank_account"
-
-instance Data.Aeson.Types.FromJSON.FromJSON SetupIntentLastSetupError'Source'Object' where
-  parseJSON val =
-    GHC.Base.pure
-      ( if  | val GHC.Classes.== "bank_account" -> SetupIntentLastSetupError'Source'Object'EnumStringBankAccount
-            | GHC.Base.otherwise -> SetupIntentLastSetupError'Source'Object'EnumOther val
-      )
-
--- | Defines the data type for the schema setup_intentLast_setup_error\'Source\'Owner\'
+-- | Defines the object schema located at @components.schemas.setup_intent.properties.last_setup_error.anyOf.properties.source.anyOf.properties.owner.anyOf@ in the specification.
 --
 -- Information about the owner of the payment instrument that may be used or required by particular source types.
 data SetupIntentLastSetupError'Source'Owner'
@@ -716,13 +811,27 @@ data SetupIntentLastSetupError'Source'Owner'
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON SetupIntentLastSetupError'Source'Owner' where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "address" (setupIntentLastSetupError'Source'Owner'Address obj) : (Data.Aeson..=) "email" (setupIntentLastSetupError'Source'Owner'Email obj) : (Data.Aeson..=) "name" (setupIntentLastSetupError'Source'Owner'Name obj) : (Data.Aeson..=) "phone" (setupIntentLastSetupError'Source'Owner'Phone obj) : (Data.Aeson..=) "verified_address" (setupIntentLastSetupError'Source'Owner'VerifiedAddress obj) : (Data.Aeson..=) "verified_email" (setupIntentLastSetupError'Source'Owner'VerifiedEmail obj) : (Data.Aeson..=) "verified_name" (setupIntentLastSetupError'Source'Owner'VerifiedName obj) : (Data.Aeson..=) "verified_phone" (setupIntentLastSetupError'Source'Owner'VerifiedPhone obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "address" (setupIntentLastSetupError'Source'Owner'Address obj) GHC.Base.<> ((Data.Aeson..=) "email" (setupIntentLastSetupError'Source'Owner'Email obj) GHC.Base.<> ((Data.Aeson..=) "name" (setupIntentLastSetupError'Source'Owner'Name obj) GHC.Base.<> ((Data.Aeson..=) "phone" (setupIntentLastSetupError'Source'Owner'Phone obj) GHC.Base.<> ((Data.Aeson..=) "verified_address" (setupIntentLastSetupError'Source'Owner'VerifiedAddress obj) GHC.Base.<> ((Data.Aeson..=) "verified_email" (setupIntentLastSetupError'Source'Owner'VerifiedEmail obj) GHC.Base.<> ((Data.Aeson..=) "verified_name" (setupIntentLastSetupError'Source'Owner'VerifiedName obj) GHC.Base.<> (Data.Aeson..=) "verified_phone" (setupIntentLastSetupError'Source'Owner'VerifiedPhone obj))))))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("address" Data.Aeson.Types.ToJSON..= setupIntentLastSetupError'Source'Owner'Address obj : "email" Data.Aeson.Types.ToJSON..= setupIntentLastSetupError'Source'Owner'Email obj : "name" Data.Aeson.Types.ToJSON..= setupIntentLastSetupError'Source'Owner'Name obj : "phone" Data.Aeson.Types.ToJSON..= setupIntentLastSetupError'Source'Owner'Phone obj : "verified_address" Data.Aeson.Types.ToJSON..= setupIntentLastSetupError'Source'Owner'VerifiedAddress obj : "verified_email" Data.Aeson.Types.ToJSON..= setupIntentLastSetupError'Source'Owner'VerifiedEmail obj : "verified_name" Data.Aeson.Types.ToJSON..= setupIntentLastSetupError'Source'Owner'VerifiedName obj : "verified_phone" Data.Aeson.Types.ToJSON..= setupIntentLastSetupError'Source'Owner'VerifiedPhone obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("address" Data.Aeson.Types.ToJSON..= setupIntentLastSetupError'Source'Owner'Address obj) GHC.Base.<> (("email" Data.Aeson.Types.ToJSON..= setupIntentLastSetupError'Source'Owner'Email obj) GHC.Base.<> (("name" Data.Aeson.Types.ToJSON..= setupIntentLastSetupError'Source'Owner'Name obj) GHC.Base.<> (("phone" Data.Aeson.Types.ToJSON..= setupIntentLastSetupError'Source'Owner'Phone obj) GHC.Base.<> (("verified_address" Data.Aeson.Types.ToJSON..= setupIntentLastSetupError'Source'Owner'VerifiedAddress obj) GHC.Base.<> (("verified_email" Data.Aeson.Types.ToJSON..= setupIntentLastSetupError'Source'Owner'VerifiedEmail obj) GHC.Base.<> (("verified_name" Data.Aeson.Types.ToJSON..= setupIntentLastSetupError'Source'Owner'VerifiedName obj) GHC.Base.<> ("verified_phone" Data.Aeson.Types.ToJSON..= setupIntentLastSetupError'Source'Owner'VerifiedPhone obj))))))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON SetupIntentLastSetupError'Source'Owner' where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "SetupIntentLastSetupError'Source'Owner'" (\obj -> (((((((GHC.Base.pure SetupIntentLastSetupError'Source'Owner' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "address")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "email")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "phone")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "verified_address")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "verified_email")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "verified_name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "verified_phone"))
 
--- | Defines the data type for the schema setup_intentLast_setup_error\'Source\'Owner\'Address\'
+-- | Create a new 'SetupIntentLastSetupError'Source'Owner'' with all required fields.
+mkSetupIntentLastSetupError'Source'Owner' :: SetupIntentLastSetupError'Source'Owner'
+mkSetupIntentLastSetupError'Source'Owner' =
+  SetupIntentLastSetupError'Source'Owner'
+    { setupIntentLastSetupError'Source'Owner'Address = GHC.Maybe.Nothing,
+      setupIntentLastSetupError'Source'Owner'Email = GHC.Maybe.Nothing,
+      setupIntentLastSetupError'Source'Owner'Name = GHC.Maybe.Nothing,
+      setupIntentLastSetupError'Source'Owner'Phone = GHC.Maybe.Nothing,
+      setupIntentLastSetupError'Source'Owner'VerifiedAddress = GHC.Maybe.Nothing,
+      setupIntentLastSetupError'Source'Owner'VerifiedEmail = GHC.Maybe.Nothing,
+      setupIntentLastSetupError'Source'Owner'VerifiedName = GHC.Maybe.Nothing,
+      setupIntentLastSetupError'Source'Owner'VerifiedPhone = GHC.Maybe.Nothing
+    }
+
+-- | Defines the object schema located at @components.schemas.setup_intent.properties.last_setup_error.anyOf.properties.source.anyOf.properties.owner.anyOf.properties.address.anyOf@ in the specification.
 --
 -- Owner\\\'s address.
 data SetupIntentLastSetupError'Source'Owner'Address'
@@ -770,13 +879,25 @@ data SetupIntentLastSetupError'Source'Owner'Address'
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON SetupIntentLastSetupError'Source'Owner'Address' where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "city" (setupIntentLastSetupError'Source'Owner'Address'City obj) : (Data.Aeson..=) "country" (setupIntentLastSetupError'Source'Owner'Address'Country obj) : (Data.Aeson..=) "line1" (setupIntentLastSetupError'Source'Owner'Address'Line1 obj) : (Data.Aeson..=) "line2" (setupIntentLastSetupError'Source'Owner'Address'Line2 obj) : (Data.Aeson..=) "postal_code" (setupIntentLastSetupError'Source'Owner'Address'PostalCode obj) : (Data.Aeson..=) "state" (setupIntentLastSetupError'Source'Owner'Address'State obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "city" (setupIntentLastSetupError'Source'Owner'Address'City obj) GHC.Base.<> ((Data.Aeson..=) "country" (setupIntentLastSetupError'Source'Owner'Address'Country obj) GHC.Base.<> ((Data.Aeson..=) "line1" (setupIntentLastSetupError'Source'Owner'Address'Line1 obj) GHC.Base.<> ((Data.Aeson..=) "line2" (setupIntentLastSetupError'Source'Owner'Address'Line2 obj) GHC.Base.<> ((Data.Aeson..=) "postal_code" (setupIntentLastSetupError'Source'Owner'Address'PostalCode obj) GHC.Base.<> (Data.Aeson..=) "state" (setupIntentLastSetupError'Source'Owner'Address'State obj))))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("city" Data.Aeson.Types.ToJSON..= setupIntentLastSetupError'Source'Owner'Address'City obj : "country" Data.Aeson.Types.ToJSON..= setupIntentLastSetupError'Source'Owner'Address'Country obj : "line1" Data.Aeson.Types.ToJSON..= setupIntentLastSetupError'Source'Owner'Address'Line1 obj : "line2" Data.Aeson.Types.ToJSON..= setupIntentLastSetupError'Source'Owner'Address'Line2 obj : "postal_code" Data.Aeson.Types.ToJSON..= setupIntentLastSetupError'Source'Owner'Address'PostalCode obj : "state" Data.Aeson.Types.ToJSON..= setupIntentLastSetupError'Source'Owner'Address'State obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("city" Data.Aeson.Types.ToJSON..= setupIntentLastSetupError'Source'Owner'Address'City obj) GHC.Base.<> (("country" Data.Aeson.Types.ToJSON..= setupIntentLastSetupError'Source'Owner'Address'Country obj) GHC.Base.<> (("line1" Data.Aeson.Types.ToJSON..= setupIntentLastSetupError'Source'Owner'Address'Line1 obj) GHC.Base.<> (("line2" Data.Aeson.Types.ToJSON..= setupIntentLastSetupError'Source'Owner'Address'Line2 obj) GHC.Base.<> (("postal_code" Data.Aeson.Types.ToJSON..= setupIntentLastSetupError'Source'Owner'Address'PostalCode obj) GHC.Base.<> ("state" Data.Aeson.Types.ToJSON..= setupIntentLastSetupError'Source'Owner'Address'State obj))))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON SetupIntentLastSetupError'Source'Owner'Address' where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "SetupIntentLastSetupError'Source'Owner'Address'" (\obj -> (((((GHC.Base.pure SetupIntentLastSetupError'Source'Owner'Address' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "city")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "country")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "line1")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "line2")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "postal_code")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "state"))
 
--- | Defines the data type for the schema setup_intentLast_setup_error\'Source\'Owner\'Verified_address\'
+-- | Create a new 'SetupIntentLastSetupError'Source'Owner'Address'' with all required fields.
+mkSetupIntentLastSetupError'Source'Owner'Address' :: SetupIntentLastSetupError'Source'Owner'Address'
+mkSetupIntentLastSetupError'Source'Owner'Address' =
+  SetupIntentLastSetupError'Source'Owner'Address'
+    { setupIntentLastSetupError'Source'Owner'Address'City = GHC.Maybe.Nothing,
+      setupIntentLastSetupError'Source'Owner'Address'Country = GHC.Maybe.Nothing,
+      setupIntentLastSetupError'Source'Owner'Address'Line1 = GHC.Maybe.Nothing,
+      setupIntentLastSetupError'Source'Owner'Address'Line2 = GHC.Maybe.Nothing,
+      setupIntentLastSetupError'Source'Owner'Address'PostalCode = GHC.Maybe.Nothing,
+      setupIntentLastSetupError'Source'Owner'Address'State = GHC.Maybe.Nothing
+    }
+
+-- | Defines the object schema located at @components.schemas.setup_intent.properties.last_setup_error.anyOf.properties.source.anyOf.properties.owner.anyOf.properties.verified_address.anyOf@ in the specification.
 --
 -- Verified owner\\\'s address. Verified values are verified or provided by the payment method directly (and if supported) at the time of authorization or settlement. They cannot be set or mutated.
 data SetupIntentLastSetupError'Source'Owner'VerifiedAddress'
@@ -824,13 +945,25 @@ data SetupIntentLastSetupError'Source'Owner'VerifiedAddress'
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON SetupIntentLastSetupError'Source'Owner'VerifiedAddress' where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "city" (setupIntentLastSetupError'Source'Owner'VerifiedAddress'City obj) : (Data.Aeson..=) "country" (setupIntentLastSetupError'Source'Owner'VerifiedAddress'Country obj) : (Data.Aeson..=) "line1" (setupIntentLastSetupError'Source'Owner'VerifiedAddress'Line1 obj) : (Data.Aeson..=) "line2" (setupIntentLastSetupError'Source'Owner'VerifiedAddress'Line2 obj) : (Data.Aeson..=) "postal_code" (setupIntentLastSetupError'Source'Owner'VerifiedAddress'PostalCode obj) : (Data.Aeson..=) "state" (setupIntentLastSetupError'Source'Owner'VerifiedAddress'State obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "city" (setupIntentLastSetupError'Source'Owner'VerifiedAddress'City obj) GHC.Base.<> ((Data.Aeson..=) "country" (setupIntentLastSetupError'Source'Owner'VerifiedAddress'Country obj) GHC.Base.<> ((Data.Aeson..=) "line1" (setupIntentLastSetupError'Source'Owner'VerifiedAddress'Line1 obj) GHC.Base.<> ((Data.Aeson..=) "line2" (setupIntentLastSetupError'Source'Owner'VerifiedAddress'Line2 obj) GHC.Base.<> ((Data.Aeson..=) "postal_code" (setupIntentLastSetupError'Source'Owner'VerifiedAddress'PostalCode obj) GHC.Base.<> (Data.Aeson..=) "state" (setupIntentLastSetupError'Source'Owner'VerifiedAddress'State obj))))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("city" Data.Aeson.Types.ToJSON..= setupIntentLastSetupError'Source'Owner'VerifiedAddress'City obj : "country" Data.Aeson.Types.ToJSON..= setupIntentLastSetupError'Source'Owner'VerifiedAddress'Country obj : "line1" Data.Aeson.Types.ToJSON..= setupIntentLastSetupError'Source'Owner'VerifiedAddress'Line1 obj : "line2" Data.Aeson.Types.ToJSON..= setupIntentLastSetupError'Source'Owner'VerifiedAddress'Line2 obj : "postal_code" Data.Aeson.Types.ToJSON..= setupIntentLastSetupError'Source'Owner'VerifiedAddress'PostalCode obj : "state" Data.Aeson.Types.ToJSON..= setupIntentLastSetupError'Source'Owner'VerifiedAddress'State obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("city" Data.Aeson.Types.ToJSON..= setupIntentLastSetupError'Source'Owner'VerifiedAddress'City obj) GHC.Base.<> (("country" Data.Aeson.Types.ToJSON..= setupIntentLastSetupError'Source'Owner'VerifiedAddress'Country obj) GHC.Base.<> (("line1" Data.Aeson.Types.ToJSON..= setupIntentLastSetupError'Source'Owner'VerifiedAddress'Line1 obj) GHC.Base.<> (("line2" Data.Aeson.Types.ToJSON..= setupIntentLastSetupError'Source'Owner'VerifiedAddress'Line2 obj) GHC.Base.<> (("postal_code" Data.Aeson.Types.ToJSON..= setupIntentLastSetupError'Source'Owner'VerifiedAddress'PostalCode obj) GHC.Base.<> ("state" Data.Aeson.Types.ToJSON..= setupIntentLastSetupError'Source'Owner'VerifiedAddress'State obj))))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON SetupIntentLastSetupError'Source'Owner'VerifiedAddress' where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "SetupIntentLastSetupError'Source'Owner'VerifiedAddress'" (\obj -> (((((GHC.Base.pure SetupIntentLastSetupError'Source'Owner'VerifiedAddress' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "city")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "country")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "line1")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "line2")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "postal_code")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "state"))
 
--- | Define the one-of schema setup_intentLast_setup_error\'Source\'Recipient\'
+-- | Create a new 'SetupIntentLastSetupError'Source'Owner'VerifiedAddress'' with all required fields.
+mkSetupIntentLastSetupError'Source'Owner'VerifiedAddress' :: SetupIntentLastSetupError'Source'Owner'VerifiedAddress'
+mkSetupIntentLastSetupError'Source'Owner'VerifiedAddress' =
+  SetupIntentLastSetupError'Source'Owner'VerifiedAddress'
+    { setupIntentLastSetupError'Source'Owner'VerifiedAddress'City = GHC.Maybe.Nothing,
+      setupIntentLastSetupError'Source'Owner'VerifiedAddress'Country = GHC.Maybe.Nothing,
+      setupIntentLastSetupError'Source'Owner'VerifiedAddress'Line1 = GHC.Maybe.Nothing,
+      setupIntentLastSetupError'Source'Owner'VerifiedAddress'Line2 = GHC.Maybe.Nothing,
+      setupIntentLastSetupError'Source'Owner'VerifiedAddress'PostalCode = GHC.Maybe.Nothing,
+      setupIntentLastSetupError'Source'Owner'VerifiedAddress'State = GHC.Maybe.Nothing
+    }
+
+-- | Defines the oneOf schema located at @components.schemas.setup_intent.properties.last_setup_error.anyOf.properties.source.anyOf.properties.recipient.anyOf@ in the specification.
 --
 -- The recipient that this card belongs to. This attribute will not be in the card object if the card belongs to a customer or account instead.
 data SetupIntentLastSetupError'Source'Recipient'Variants
@@ -843,118 +976,143 @@ instance Data.Aeson.Types.ToJSON.ToJSON SetupIntentLastSetupError'Source'Recipie
   toJSON (SetupIntentLastSetupError'Source'Recipient'Text a) = Data.Aeson.Types.ToJSON.toJSON a
 
 instance Data.Aeson.Types.FromJSON.FromJSON SetupIntentLastSetupError'Source'Recipient'Variants where
-  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
-    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ SetupIntentLastSetupError'Source'Recipient'Recipient a
-    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ SetupIntentLastSetupError'Source'Recipient'Text a
-      Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+  parseJSON val = case (SetupIntentLastSetupError'Source'Recipient'Recipient Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((SetupIntentLastSetupError'Source'Recipient'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched") of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+    Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
--- | Defines the enum schema setup_intentLast_setup_error\'Source\'Type\'
+-- | Defines the enum schema located at @components.schemas.setup_intent.properties.last_setup_error.anyOf.properties.source.anyOf.properties.type@ in the specification.
 --
 -- The \`type\` of the source. The \`type\` is a payment method, one of \`ach_credit_transfer\`, \`ach_debit\`, \`alipay\`, \`bancontact\`, \`card\`, \`card_present\`, \`eps\`, \`giropay\`, \`ideal\`, \`multibanco\`, \`klarna\`, \`p24\`, \`sepa_debit\`, \`sofort\`, \`three_d_secure\`, or \`wechat\`. An additional hash is included on the source with a name matching this value. It contains additional information specific to the [payment method](https:\/\/stripe.com\/docs\/sources) used.
 data SetupIntentLastSetupError'Source'Type'
-  = SetupIntentLastSetupError'Source'Type'EnumOther Data.Aeson.Types.Internal.Value
-  | SetupIntentLastSetupError'Source'Type'EnumTyped Data.Text.Internal.Text
-  | SetupIntentLastSetupError'Source'Type'EnumStringAchCreditTransfer
-  | SetupIntentLastSetupError'Source'Type'EnumStringAchDebit
-  | SetupIntentLastSetupError'Source'Type'EnumStringAlipay
-  | SetupIntentLastSetupError'Source'Type'EnumStringBancontact
-  | SetupIntentLastSetupError'Source'Type'EnumStringCard
-  | SetupIntentLastSetupError'Source'Type'EnumStringCardPresent
-  | SetupIntentLastSetupError'Source'Type'EnumStringEps
-  | SetupIntentLastSetupError'Source'Type'EnumStringGiropay
-  | SetupIntentLastSetupError'Source'Type'EnumStringIdeal
-  | SetupIntentLastSetupError'Source'Type'EnumStringKlarna
-  | SetupIntentLastSetupError'Source'Type'EnumStringMultibanco
-  | SetupIntentLastSetupError'Source'Type'EnumStringP24
-  | SetupIntentLastSetupError'Source'Type'EnumStringSepaDebit
-  | SetupIntentLastSetupError'Source'Type'EnumStringSofort
-  | SetupIntentLastSetupError'Source'Type'EnumStringThreeDSecure
-  | SetupIntentLastSetupError'Source'Type'EnumStringWechat
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    SetupIntentLastSetupError'Source'Type'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    SetupIntentLastSetupError'Source'Type'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"ach_credit_transfer"@
+    SetupIntentLastSetupError'Source'Type'EnumAchCreditTransfer
+  | -- | Represents the JSON value @"ach_debit"@
+    SetupIntentLastSetupError'Source'Type'EnumAchDebit
+  | -- | Represents the JSON value @"alipay"@
+    SetupIntentLastSetupError'Source'Type'EnumAlipay
+  | -- | Represents the JSON value @"bancontact"@
+    SetupIntentLastSetupError'Source'Type'EnumBancontact
+  | -- | Represents the JSON value @"card"@
+    SetupIntentLastSetupError'Source'Type'EnumCard
+  | -- | Represents the JSON value @"card_present"@
+    SetupIntentLastSetupError'Source'Type'EnumCardPresent
+  | -- | Represents the JSON value @"eps"@
+    SetupIntentLastSetupError'Source'Type'EnumEps
+  | -- | Represents the JSON value @"giropay"@
+    SetupIntentLastSetupError'Source'Type'EnumGiropay
+  | -- | Represents the JSON value @"ideal"@
+    SetupIntentLastSetupError'Source'Type'EnumIdeal
+  | -- | Represents the JSON value @"klarna"@
+    SetupIntentLastSetupError'Source'Type'EnumKlarna
+  | -- | Represents the JSON value @"multibanco"@
+    SetupIntentLastSetupError'Source'Type'EnumMultibanco
+  | -- | Represents the JSON value @"p24"@
+    SetupIntentLastSetupError'Source'Type'EnumP24
+  | -- | Represents the JSON value @"sepa_debit"@
+    SetupIntentLastSetupError'Source'Type'EnumSepaDebit
+  | -- | Represents the JSON value @"sofort"@
+    SetupIntentLastSetupError'Source'Type'EnumSofort
+  | -- | Represents the JSON value @"three_d_secure"@
+    SetupIntentLastSetupError'Source'Type'EnumThreeDSecure
+  | -- | Represents the JSON value @"wechat"@
+    SetupIntentLastSetupError'Source'Type'EnumWechat
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
 instance Data.Aeson.Types.ToJSON.ToJSON SetupIntentLastSetupError'Source'Type' where
-  toJSON (SetupIntentLastSetupError'Source'Type'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (SetupIntentLastSetupError'Source'Type'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (SetupIntentLastSetupError'Source'Type'EnumStringAchCreditTransfer) = "ach_credit_transfer"
-  toJSON (SetupIntentLastSetupError'Source'Type'EnumStringAchDebit) = "ach_debit"
-  toJSON (SetupIntentLastSetupError'Source'Type'EnumStringAlipay) = "alipay"
-  toJSON (SetupIntentLastSetupError'Source'Type'EnumStringBancontact) = "bancontact"
-  toJSON (SetupIntentLastSetupError'Source'Type'EnumStringCard) = "card"
-  toJSON (SetupIntentLastSetupError'Source'Type'EnumStringCardPresent) = "card_present"
-  toJSON (SetupIntentLastSetupError'Source'Type'EnumStringEps) = "eps"
-  toJSON (SetupIntentLastSetupError'Source'Type'EnumStringGiropay) = "giropay"
-  toJSON (SetupIntentLastSetupError'Source'Type'EnumStringIdeal) = "ideal"
-  toJSON (SetupIntentLastSetupError'Source'Type'EnumStringKlarna) = "klarna"
-  toJSON (SetupIntentLastSetupError'Source'Type'EnumStringMultibanco) = "multibanco"
-  toJSON (SetupIntentLastSetupError'Source'Type'EnumStringP24) = "p24"
-  toJSON (SetupIntentLastSetupError'Source'Type'EnumStringSepaDebit) = "sepa_debit"
-  toJSON (SetupIntentLastSetupError'Source'Type'EnumStringSofort) = "sofort"
-  toJSON (SetupIntentLastSetupError'Source'Type'EnumStringThreeDSecure) = "three_d_secure"
-  toJSON (SetupIntentLastSetupError'Source'Type'EnumStringWechat) = "wechat"
+  toJSON (SetupIntentLastSetupError'Source'Type'Other val) = val
+  toJSON (SetupIntentLastSetupError'Source'Type'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (SetupIntentLastSetupError'Source'Type'EnumAchCreditTransfer) = "ach_credit_transfer"
+  toJSON (SetupIntentLastSetupError'Source'Type'EnumAchDebit) = "ach_debit"
+  toJSON (SetupIntentLastSetupError'Source'Type'EnumAlipay) = "alipay"
+  toJSON (SetupIntentLastSetupError'Source'Type'EnumBancontact) = "bancontact"
+  toJSON (SetupIntentLastSetupError'Source'Type'EnumCard) = "card"
+  toJSON (SetupIntentLastSetupError'Source'Type'EnumCardPresent) = "card_present"
+  toJSON (SetupIntentLastSetupError'Source'Type'EnumEps) = "eps"
+  toJSON (SetupIntentLastSetupError'Source'Type'EnumGiropay) = "giropay"
+  toJSON (SetupIntentLastSetupError'Source'Type'EnumIdeal) = "ideal"
+  toJSON (SetupIntentLastSetupError'Source'Type'EnumKlarna) = "klarna"
+  toJSON (SetupIntentLastSetupError'Source'Type'EnumMultibanco) = "multibanco"
+  toJSON (SetupIntentLastSetupError'Source'Type'EnumP24) = "p24"
+  toJSON (SetupIntentLastSetupError'Source'Type'EnumSepaDebit) = "sepa_debit"
+  toJSON (SetupIntentLastSetupError'Source'Type'EnumSofort) = "sofort"
+  toJSON (SetupIntentLastSetupError'Source'Type'EnumThreeDSecure) = "three_d_secure"
+  toJSON (SetupIntentLastSetupError'Source'Type'EnumWechat) = "wechat"
 
 instance Data.Aeson.Types.FromJSON.FromJSON SetupIntentLastSetupError'Source'Type' where
   parseJSON val =
     GHC.Base.pure
-      ( if  | val GHC.Classes.== "ach_credit_transfer" -> SetupIntentLastSetupError'Source'Type'EnumStringAchCreditTransfer
-            | val GHC.Classes.== "ach_debit" -> SetupIntentLastSetupError'Source'Type'EnumStringAchDebit
-            | val GHC.Classes.== "alipay" -> SetupIntentLastSetupError'Source'Type'EnumStringAlipay
-            | val GHC.Classes.== "bancontact" -> SetupIntentLastSetupError'Source'Type'EnumStringBancontact
-            | val GHC.Classes.== "card" -> SetupIntentLastSetupError'Source'Type'EnumStringCard
-            | val GHC.Classes.== "card_present" -> SetupIntentLastSetupError'Source'Type'EnumStringCardPresent
-            | val GHC.Classes.== "eps" -> SetupIntentLastSetupError'Source'Type'EnumStringEps
-            | val GHC.Classes.== "giropay" -> SetupIntentLastSetupError'Source'Type'EnumStringGiropay
-            | val GHC.Classes.== "ideal" -> SetupIntentLastSetupError'Source'Type'EnumStringIdeal
-            | val GHC.Classes.== "klarna" -> SetupIntentLastSetupError'Source'Type'EnumStringKlarna
-            | val GHC.Classes.== "multibanco" -> SetupIntentLastSetupError'Source'Type'EnumStringMultibanco
-            | val GHC.Classes.== "p24" -> SetupIntentLastSetupError'Source'Type'EnumStringP24
-            | val GHC.Classes.== "sepa_debit" -> SetupIntentLastSetupError'Source'Type'EnumStringSepaDebit
-            | val GHC.Classes.== "sofort" -> SetupIntentLastSetupError'Source'Type'EnumStringSofort
-            | val GHC.Classes.== "three_d_secure" -> SetupIntentLastSetupError'Source'Type'EnumStringThreeDSecure
-            | val GHC.Classes.== "wechat" -> SetupIntentLastSetupError'Source'Type'EnumStringWechat
-            | GHC.Base.otherwise -> SetupIntentLastSetupError'Source'Type'EnumOther val
+      ( if  | val GHC.Classes.== "ach_credit_transfer" -> SetupIntentLastSetupError'Source'Type'EnumAchCreditTransfer
+            | val GHC.Classes.== "ach_debit" -> SetupIntentLastSetupError'Source'Type'EnumAchDebit
+            | val GHC.Classes.== "alipay" -> SetupIntentLastSetupError'Source'Type'EnumAlipay
+            | val GHC.Classes.== "bancontact" -> SetupIntentLastSetupError'Source'Type'EnumBancontact
+            | val GHC.Classes.== "card" -> SetupIntentLastSetupError'Source'Type'EnumCard
+            | val GHC.Classes.== "card_present" -> SetupIntentLastSetupError'Source'Type'EnumCardPresent
+            | val GHC.Classes.== "eps" -> SetupIntentLastSetupError'Source'Type'EnumEps
+            | val GHC.Classes.== "giropay" -> SetupIntentLastSetupError'Source'Type'EnumGiropay
+            | val GHC.Classes.== "ideal" -> SetupIntentLastSetupError'Source'Type'EnumIdeal
+            | val GHC.Classes.== "klarna" -> SetupIntentLastSetupError'Source'Type'EnumKlarna
+            | val GHC.Classes.== "multibanco" -> SetupIntentLastSetupError'Source'Type'EnumMultibanco
+            | val GHC.Classes.== "p24" -> SetupIntentLastSetupError'Source'Type'EnumP24
+            | val GHC.Classes.== "sepa_debit" -> SetupIntentLastSetupError'Source'Type'EnumSepaDebit
+            | val GHC.Classes.== "sofort" -> SetupIntentLastSetupError'Source'Type'EnumSofort
+            | val GHC.Classes.== "three_d_secure" -> SetupIntentLastSetupError'Source'Type'EnumThreeDSecure
+            | val GHC.Classes.== "wechat" -> SetupIntentLastSetupError'Source'Type'EnumWechat
+            | GHC.Base.otherwise -> SetupIntentLastSetupError'Source'Type'Other val
       )
 
--- | Defines the enum schema setup_intentLast_setup_error\'Type\'
+-- | Defines the enum schema located at @components.schemas.setup_intent.properties.last_setup_error.anyOf.properties.type@ in the specification.
 --
 -- The type of error returned. One of \`api_connection_error\`, \`api_error\`, \`authentication_error\`, \`card_error\`, \`idempotency_error\`, \`invalid_request_error\`, or \`rate_limit_error\`
 data SetupIntentLastSetupError'Type'
-  = SetupIntentLastSetupError'Type'EnumOther Data.Aeson.Types.Internal.Value
-  | SetupIntentLastSetupError'Type'EnumTyped Data.Text.Internal.Text
-  | SetupIntentLastSetupError'Type'EnumStringApiConnectionError
-  | SetupIntentLastSetupError'Type'EnumStringApiError
-  | SetupIntentLastSetupError'Type'EnumStringAuthenticationError
-  | SetupIntentLastSetupError'Type'EnumStringCardError
-  | SetupIntentLastSetupError'Type'EnumStringIdempotencyError
-  | SetupIntentLastSetupError'Type'EnumStringInvalidRequestError
-  | SetupIntentLastSetupError'Type'EnumStringRateLimitError
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    SetupIntentLastSetupError'Type'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    SetupIntentLastSetupError'Type'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"api_connection_error"@
+    SetupIntentLastSetupError'Type'EnumApiConnectionError
+  | -- | Represents the JSON value @"api_error"@
+    SetupIntentLastSetupError'Type'EnumApiError
+  | -- | Represents the JSON value @"authentication_error"@
+    SetupIntentLastSetupError'Type'EnumAuthenticationError
+  | -- | Represents the JSON value @"card_error"@
+    SetupIntentLastSetupError'Type'EnumCardError
+  | -- | Represents the JSON value @"idempotency_error"@
+    SetupIntentLastSetupError'Type'EnumIdempotencyError
+  | -- | Represents the JSON value @"invalid_request_error"@
+    SetupIntentLastSetupError'Type'EnumInvalidRequestError
+  | -- | Represents the JSON value @"rate_limit_error"@
+    SetupIntentLastSetupError'Type'EnumRateLimitError
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
 instance Data.Aeson.Types.ToJSON.ToJSON SetupIntentLastSetupError'Type' where
-  toJSON (SetupIntentLastSetupError'Type'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (SetupIntentLastSetupError'Type'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (SetupIntentLastSetupError'Type'EnumStringApiConnectionError) = "api_connection_error"
-  toJSON (SetupIntentLastSetupError'Type'EnumStringApiError) = "api_error"
-  toJSON (SetupIntentLastSetupError'Type'EnumStringAuthenticationError) = "authentication_error"
-  toJSON (SetupIntentLastSetupError'Type'EnumStringCardError) = "card_error"
-  toJSON (SetupIntentLastSetupError'Type'EnumStringIdempotencyError) = "idempotency_error"
-  toJSON (SetupIntentLastSetupError'Type'EnumStringInvalidRequestError) = "invalid_request_error"
-  toJSON (SetupIntentLastSetupError'Type'EnumStringRateLimitError) = "rate_limit_error"
+  toJSON (SetupIntentLastSetupError'Type'Other val) = val
+  toJSON (SetupIntentLastSetupError'Type'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (SetupIntentLastSetupError'Type'EnumApiConnectionError) = "api_connection_error"
+  toJSON (SetupIntentLastSetupError'Type'EnumApiError) = "api_error"
+  toJSON (SetupIntentLastSetupError'Type'EnumAuthenticationError) = "authentication_error"
+  toJSON (SetupIntentLastSetupError'Type'EnumCardError) = "card_error"
+  toJSON (SetupIntentLastSetupError'Type'EnumIdempotencyError) = "idempotency_error"
+  toJSON (SetupIntentLastSetupError'Type'EnumInvalidRequestError) = "invalid_request_error"
+  toJSON (SetupIntentLastSetupError'Type'EnumRateLimitError) = "rate_limit_error"
 
 instance Data.Aeson.Types.FromJSON.FromJSON SetupIntentLastSetupError'Type' where
   parseJSON val =
     GHC.Base.pure
-      ( if  | val GHC.Classes.== "api_connection_error" -> SetupIntentLastSetupError'Type'EnumStringApiConnectionError
-            | val GHC.Classes.== "api_error" -> SetupIntentLastSetupError'Type'EnumStringApiError
-            | val GHC.Classes.== "authentication_error" -> SetupIntentLastSetupError'Type'EnumStringAuthenticationError
-            | val GHC.Classes.== "card_error" -> SetupIntentLastSetupError'Type'EnumStringCardError
-            | val GHC.Classes.== "idempotency_error" -> SetupIntentLastSetupError'Type'EnumStringIdempotencyError
-            | val GHC.Classes.== "invalid_request_error" -> SetupIntentLastSetupError'Type'EnumStringInvalidRequestError
-            | val GHC.Classes.== "rate_limit_error" -> SetupIntentLastSetupError'Type'EnumStringRateLimitError
-            | GHC.Base.otherwise -> SetupIntentLastSetupError'Type'EnumOther val
+      ( if  | val GHC.Classes.== "api_connection_error" -> SetupIntentLastSetupError'Type'EnumApiConnectionError
+            | val GHC.Classes.== "api_error" -> SetupIntentLastSetupError'Type'EnumApiError
+            | val GHC.Classes.== "authentication_error" -> SetupIntentLastSetupError'Type'EnumAuthenticationError
+            | val GHC.Classes.== "card_error" -> SetupIntentLastSetupError'Type'EnumCardError
+            | val GHC.Classes.== "idempotency_error" -> SetupIntentLastSetupError'Type'EnumIdempotencyError
+            | val GHC.Classes.== "invalid_request_error" -> SetupIntentLastSetupError'Type'EnumInvalidRequestError
+            | val GHC.Classes.== "rate_limit_error" -> SetupIntentLastSetupError'Type'EnumRateLimitError
+            | GHC.Base.otherwise -> SetupIntentLastSetupError'Type'Other val
       )
 
--- | Define the one-of schema setup_intentMandate\'
+-- | Defines the oneOf schema located at @components.schemas.setup_intent.properties.mandate.anyOf@ in the specification.
 --
 -- ID of the multi use Mandate generated by the SetupIntent.
 data SetupIntentMandate'Variants
@@ -967,13 +1125,11 @@ instance Data.Aeson.Types.ToJSON.ToJSON SetupIntentMandate'Variants where
   toJSON (SetupIntentMandate'Text a) = Data.Aeson.Types.ToJSON.toJSON a
 
 instance Data.Aeson.Types.FromJSON.FromJSON SetupIntentMandate'Variants where
-  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
-    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ SetupIntentMandate'Mandate a
-    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ SetupIntentMandate'Text a
-      Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+  parseJSON val = case (SetupIntentMandate'Mandate Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((SetupIntentMandate'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched") of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+    Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
--- | Defines the data type for the schema setup_intentNext_action\'
+-- | Defines the object schema located at @components.schemas.setup_intent.properties.next_action.anyOf@ in the specification.
 --
 -- If present, this property tells you what actions you need to take in order for your customer to continue payment setup.
 data SetupIntentNextAction'
@@ -995,34 +1151,22 @@ data SetupIntentNextAction'
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON SetupIntentNextAction' where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "redirect_to_url" (setupIntentNextAction'RedirectToUrl obj) : (Data.Aeson..=) "type" (setupIntentNextAction'Type obj) : (Data.Aeson..=) "use_stripe_sdk" (setupIntentNextAction'UseStripeSdk obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "redirect_to_url" (setupIntentNextAction'RedirectToUrl obj) GHC.Base.<> ((Data.Aeson..=) "type" (setupIntentNextAction'Type obj) GHC.Base.<> (Data.Aeson..=) "use_stripe_sdk" (setupIntentNextAction'UseStripeSdk obj)))
+  toJSON obj = Data.Aeson.Types.Internal.object ("redirect_to_url" Data.Aeson.Types.ToJSON..= setupIntentNextAction'RedirectToUrl obj : "type" Data.Aeson.Types.ToJSON..= setupIntentNextAction'Type obj : "use_stripe_sdk" Data.Aeson.Types.ToJSON..= setupIntentNextAction'UseStripeSdk obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("redirect_to_url" Data.Aeson.Types.ToJSON..= setupIntentNextAction'RedirectToUrl obj) GHC.Base.<> (("type" Data.Aeson.Types.ToJSON..= setupIntentNextAction'Type obj) GHC.Base.<> ("use_stripe_sdk" Data.Aeson.Types.ToJSON..= setupIntentNextAction'UseStripeSdk obj)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON SetupIntentNextAction' where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "SetupIntentNextAction'" (\obj -> ((GHC.Base.pure SetupIntentNextAction' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "redirect_to_url")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "type")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "use_stripe_sdk"))
 
--- | Defines the enum schema setup_intentObject\'
---
--- String representing the object\'s type. Objects of the same type share the same value.
-data SetupIntentObject'
-  = SetupIntentObject'EnumOther Data.Aeson.Types.Internal.Value
-  | SetupIntentObject'EnumTyped Data.Text.Internal.Text
-  | SetupIntentObject'EnumStringSetupIntent
-  deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Create a new 'SetupIntentNextAction'' with all required fields.
+mkSetupIntentNextAction' :: SetupIntentNextAction'
+mkSetupIntentNextAction' =
+  SetupIntentNextAction'
+    { setupIntentNextAction'RedirectToUrl = GHC.Maybe.Nothing,
+      setupIntentNextAction'Type = GHC.Maybe.Nothing,
+      setupIntentNextAction'UseStripeSdk = GHC.Maybe.Nothing
+    }
 
-instance Data.Aeson.Types.ToJSON.ToJSON SetupIntentObject' where
-  toJSON (SetupIntentObject'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (SetupIntentObject'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (SetupIntentObject'EnumStringSetupIntent) = "setup_intent"
-
-instance Data.Aeson.Types.FromJSON.FromJSON SetupIntentObject' where
-  parseJSON val =
-    GHC.Base.pure
-      ( if  | val GHC.Classes.== "setup_intent" -> SetupIntentObject'EnumStringSetupIntent
-            | GHC.Base.otherwise -> SetupIntentObject'EnumOther val
-      )
-
--- | Define the one-of schema setup_intentOn_behalf_of\'
+-- | Defines the oneOf schema located at @components.schemas.setup_intent.properties.on_behalf_of.anyOf@ in the specification.
 --
 -- The account (if any) for which the setup is intended.
 data SetupIntentOnBehalfOf'Variants
@@ -1035,13 +1179,11 @@ instance Data.Aeson.Types.ToJSON.ToJSON SetupIntentOnBehalfOf'Variants where
   toJSON (SetupIntentOnBehalfOf'Text a) = Data.Aeson.Types.ToJSON.toJSON a
 
 instance Data.Aeson.Types.FromJSON.FromJSON SetupIntentOnBehalfOf'Variants where
-  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
-    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ SetupIntentOnBehalfOf'Account a
-    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ SetupIntentOnBehalfOf'Text a
-      Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+  parseJSON val = case (SetupIntentOnBehalfOf'Account Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((SetupIntentOnBehalfOf'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched") of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+    Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
--- | Define the one-of schema setup_intentPayment_method\'
+-- | Defines the oneOf schema located at @components.schemas.setup_intent.properties.payment_method.anyOf@ in the specification.
 --
 -- ID of the payment method used with this SetupIntent.
 data SetupIntentPaymentMethod'Variants
@@ -1054,13 +1196,11 @@ instance Data.Aeson.Types.ToJSON.ToJSON SetupIntentPaymentMethod'Variants where
   toJSON (SetupIntentPaymentMethod'Text a) = Data.Aeson.Types.ToJSON.toJSON a
 
 instance Data.Aeson.Types.FromJSON.FromJSON SetupIntentPaymentMethod'Variants where
-  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
-    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ SetupIntentPaymentMethod'PaymentMethod a
-    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ SetupIntentPaymentMethod'Text a
-      Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+  parseJSON val = case (SetupIntentPaymentMethod'PaymentMethod Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((SetupIntentPaymentMethod'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched") of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+    Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
--- | Defines the data type for the schema setup_intentPayment_method_options\'
+-- | Defines the object schema located at @components.schemas.setup_intent.properties.payment_method_options.anyOf@ in the specification.
 --
 -- Payment-method-specific configuration for this SetupIntent.
 data SetupIntentPaymentMethodOptions'
@@ -1074,13 +1214,17 @@ data SetupIntentPaymentMethodOptions'
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON SetupIntentPaymentMethodOptions' where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "card" (setupIntentPaymentMethodOptions'Card obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "card" (setupIntentPaymentMethodOptions'Card obj))
+  toJSON obj = Data.Aeson.Types.Internal.object ("card" Data.Aeson.Types.ToJSON..= setupIntentPaymentMethodOptions'Card obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs ("card" Data.Aeson.Types.ToJSON..= setupIntentPaymentMethodOptions'Card obj)
 
 instance Data.Aeson.Types.FromJSON.FromJSON SetupIntentPaymentMethodOptions' where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "SetupIntentPaymentMethodOptions'" (\obj -> GHC.Base.pure SetupIntentPaymentMethodOptions' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "card"))
 
--- | Define the one-of schema setup_intentSingle_use_mandate\'
+-- | Create a new 'SetupIntentPaymentMethodOptions'' with all required fields.
+mkSetupIntentPaymentMethodOptions' :: SetupIntentPaymentMethodOptions'
+mkSetupIntentPaymentMethodOptions' = SetupIntentPaymentMethodOptions' {setupIntentPaymentMethodOptions'Card = GHC.Maybe.Nothing}
+
+-- | Defines the oneOf schema located at @components.schemas.setup_intent.properties.single_use_mandate.anyOf@ in the specification.
 --
 -- ID of the single_use Mandate generated by the SetupIntent.
 data SetupIntentSingleUseMandate'Variants
@@ -1093,44 +1237,50 @@ instance Data.Aeson.Types.ToJSON.ToJSON SetupIntentSingleUseMandate'Variants whe
   toJSON (SetupIntentSingleUseMandate'Text a) = Data.Aeson.Types.ToJSON.toJSON a
 
 instance Data.Aeson.Types.FromJSON.FromJSON SetupIntentSingleUseMandate'Variants where
-  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
-    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ SetupIntentSingleUseMandate'Mandate a
-    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ SetupIntentSingleUseMandate'Text a
-      Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+  parseJSON val = case (SetupIntentSingleUseMandate'Mandate Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((SetupIntentSingleUseMandate'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched") of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+    Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
--- | Defines the enum schema setup_intentStatus\'
+-- | Defines the enum schema located at @components.schemas.setup_intent.properties.status@ in the specification.
 --
 -- [Status](https:\/\/stripe.com\/docs\/payments\/intents\#intent-statuses) of this SetupIntent, one of \`requires_payment_method\`, \`requires_confirmation\`, \`requires_action\`, \`processing\`, \`canceled\`, or \`succeeded\`.
 data SetupIntentStatus'
-  = SetupIntentStatus'EnumOther Data.Aeson.Types.Internal.Value
-  | SetupIntentStatus'EnumTyped Data.Text.Internal.Text
-  | SetupIntentStatus'EnumStringCanceled
-  | SetupIntentStatus'EnumStringProcessing
-  | SetupIntentStatus'EnumStringRequiresAction
-  | SetupIntentStatus'EnumStringRequiresConfirmation
-  | SetupIntentStatus'EnumStringRequiresPaymentMethod
-  | SetupIntentStatus'EnumStringSucceeded
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    SetupIntentStatus'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    SetupIntentStatus'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"canceled"@
+    SetupIntentStatus'EnumCanceled
+  | -- | Represents the JSON value @"processing"@
+    SetupIntentStatus'EnumProcessing
+  | -- | Represents the JSON value @"requires_action"@
+    SetupIntentStatus'EnumRequiresAction
+  | -- | Represents the JSON value @"requires_confirmation"@
+    SetupIntentStatus'EnumRequiresConfirmation
+  | -- | Represents the JSON value @"requires_payment_method"@
+    SetupIntentStatus'EnumRequiresPaymentMethod
+  | -- | Represents the JSON value @"succeeded"@
+    SetupIntentStatus'EnumSucceeded
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
 instance Data.Aeson.Types.ToJSON.ToJSON SetupIntentStatus' where
-  toJSON (SetupIntentStatus'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (SetupIntentStatus'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (SetupIntentStatus'EnumStringCanceled) = "canceled"
-  toJSON (SetupIntentStatus'EnumStringProcessing) = "processing"
-  toJSON (SetupIntentStatus'EnumStringRequiresAction) = "requires_action"
-  toJSON (SetupIntentStatus'EnumStringRequiresConfirmation) = "requires_confirmation"
-  toJSON (SetupIntentStatus'EnumStringRequiresPaymentMethod) = "requires_payment_method"
-  toJSON (SetupIntentStatus'EnumStringSucceeded) = "succeeded"
+  toJSON (SetupIntentStatus'Other val) = val
+  toJSON (SetupIntentStatus'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (SetupIntentStatus'EnumCanceled) = "canceled"
+  toJSON (SetupIntentStatus'EnumProcessing) = "processing"
+  toJSON (SetupIntentStatus'EnumRequiresAction) = "requires_action"
+  toJSON (SetupIntentStatus'EnumRequiresConfirmation) = "requires_confirmation"
+  toJSON (SetupIntentStatus'EnumRequiresPaymentMethod) = "requires_payment_method"
+  toJSON (SetupIntentStatus'EnumSucceeded) = "succeeded"
 
 instance Data.Aeson.Types.FromJSON.FromJSON SetupIntentStatus' where
   parseJSON val =
     GHC.Base.pure
-      ( if  | val GHC.Classes.== "canceled" -> SetupIntentStatus'EnumStringCanceled
-            | val GHC.Classes.== "processing" -> SetupIntentStatus'EnumStringProcessing
-            | val GHC.Classes.== "requires_action" -> SetupIntentStatus'EnumStringRequiresAction
-            | val GHC.Classes.== "requires_confirmation" -> SetupIntentStatus'EnumStringRequiresConfirmation
-            | val GHC.Classes.== "requires_payment_method" -> SetupIntentStatus'EnumStringRequiresPaymentMethod
-            | val GHC.Classes.== "succeeded" -> SetupIntentStatus'EnumStringSucceeded
-            | GHC.Base.otherwise -> SetupIntentStatus'EnumOther val
+      ( if  | val GHC.Classes.== "canceled" -> SetupIntentStatus'EnumCanceled
+            | val GHC.Classes.== "processing" -> SetupIntentStatus'EnumProcessing
+            | val GHC.Classes.== "requires_action" -> SetupIntentStatus'EnumRequiresAction
+            | val GHC.Classes.== "requires_confirmation" -> SetupIntentStatus'EnumRequiresConfirmation
+            | val GHC.Classes.== "requires_payment_method" -> SetupIntentStatus'EnumRequiresPaymentMethod
+            | val GHC.Classes.== "succeeded" -> SetupIntentStatus'EnumSucceeded
+            | GHC.Base.otherwise -> SetupIntentStatus'Other val
       )

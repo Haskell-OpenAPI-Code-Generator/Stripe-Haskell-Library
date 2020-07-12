@@ -8,6 +8,7 @@ module StripeAPI.Types.IssuingCardholderSpendingLimit where
 
 import qualified Control.Monad.Fail
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -30,7 +31,7 @@ import StripeAPI.TypeAlias
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
--- | Defines the data type for the schema issuing_cardholder_spending_limit
+-- | Defines the object schema located at @components.schemas.issuing_cardholder_spending_limit@ in the specification.
 data IssuingCardholderSpendingLimit
   = IssuingCardholderSpendingLimit
       { -- | amount: Maximum amount allowed to spend per time interval.
@@ -46,924 +47,1236 @@ data IssuingCardholderSpendingLimit
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON IssuingCardholderSpendingLimit where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "amount" (issuingCardholderSpendingLimitAmount obj) : (Data.Aeson..=) "categories" (issuingCardholderSpendingLimitCategories obj) : (Data.Aeson..=) "interval" (issuingCardholderSpendingLimitInterval obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "amount" (issuingCardholderSpendingLimitAmount obj) GHC.Base.<> ((Data.Aeson..=) "categories" (issuingCardholderSpendingLimitCategories obj) GHC.Base.<> (Data.Aeson..=) "interval" (issuingCardholderSpendingLimitInterval obj)))
+  toJSON obj = Data.Aeson.Types.Internal.object ("amount" Data.Aeson.Types.ToJSON..= issuingCardholderSpendingLimitAmount obj : "categories" Data.Aeson.Types.ToJSON..= issuingCardholderSpendingLimitCategories obj : "interval" Data.Aeson.Types.ToJSON..= issuingCardholderSpendingLimitInterval obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("amount" Data.Aeson.Types.ToJSON..= issuingCardholderSpendingLimitAmount obj) GHC.Base.<> (("categories" Data.Aeson.Types.ToJSON..= issuingCardholderSpendingLimitCategories obj) GHC.Base.<> ("interval" Data.Aeson.Types.ToJSON..= issuingCardholderSpendingLimitInterval obj)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON IssuingCardholderSpendingLimit where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "IssuingCardholderSpendingLimit" (\obj -> ((GHC.Base.pure IssuingCardholderSpendingLimit GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "categories")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "interval"))
 
--- | Defines the enum schema issuing_cardholder_spending_limitCategories\'
+-- | Create a new 'IssuingCardholderSpendingLimit' with all required fields.
+mkIssuingCardholderSpendingLimit ::
+  -- | 'issuingCardholderSpendingLimitAmount'
+  GHC.Types.Int ->
+  -- | 'issuingCardholderSpendingLimitInterval'
+  IssuingCardholderSpendingLimitInterval' ->
+  IssuingCardholderSpendingLimit
+mkIssuingCardholderSpendingLimit issuingCardholderSpendingLimitAmount issuingCardholderSpendingLimitInterval =
+  IssuingCardholderSpendingLimit
+    { issuingCardholderSpendingLimitAmount = issuingCardholderSpendingLimitAmount,
+      issuingCardholderSpendingLimitCategories = GHC.Maybe.Nothing,
+      issuingCardholderSpendingLimitInterval = issuingCardholderSpendingLimitInterval
+    }
+
+-- | Defines the enum schema located at @components.schemas.issuing_cardholder_spending_limit.properties.categories.items@ in the specification.
 data IssuingCardholderSpendingLimitCategories'
-  = IssuingCardholderSpendingLimitCategories'EnumOther Data.Aeson.Types.Internal.Value
-  | IssuingCardholderSpendingLimitCategories'EnumTyped Data.Text.Internal.Text
-  | IssuingCardholderSpendingLimitCategories'EnumStringAcRefrigerationRepair
-  | IssuingCardholderSpendingLimitCategories'EnumStringAccountingBookkeepingServices
-  | IssuingCardholderSpendingLimitCategories'EnumStringAdvertisingServices
-  | IssuingCardholderSpendingLimitCategories'EnumStringAgriculturalCooperative
-  | IssuingCardholderSpendingLimitCategories'EnumStringAirlinesAirCarriers
-  | IssuingCardholderSpendingLimitCategories'EnumStringAirportsFlyingFields
-  | IssuingCardholderSpendingLimitCategories'EnumStringAmbulanceServices
-  | IssuingCardholderSpendingLimitCategories'EnumStringAmusementParksCarnivals
-  | IssuingCardholderSpendingLimitCategories'EnumStringAntiqueReproductions
-  | IssuingCardholderSpendingLimitCategories'EnumStringAntiqueShops
-  | IssuingCardholderSpendingLimitCategories'EnumStringAquariums
-  | IssuingCardholderSpendingLimitCategories'EnumStringArchitecturalSurveyingServices
-  | IssuingCardholderSpendingLimitCategories'EnumStringArtDealersAndGalleries
-  | IssuingCardholderSpendingLimitCategories'EnumStringArtistsSupplyAndCraftShops
-  | IssuingCardholderSpendingLimitCategories'EnumStringAutoAndHomeSupplyStores
-  | IssuingCardholderSpendingLimitCategories'EnumStringAutoBodyRepairShops
-  | IssuingCardholderSpendingLimitCategories'EnumStringAutoPaintShops
-  | IssuingCardholderSpendingLimitCategories'EnumStringAutoServiceShops
-  | IssuingCardholderSpendingLimitCategories'EnumStringAutomatedCashDisburse
-  | IssuingCardholderSpendingLimitCategories'EnumStringAutomatedFuelDispensers
-  | IssuingCardholderSpendingLimitCategories'EnumStringAutomobileAssociations
-  | IssuingCardholderSpendingLimitCategories'EnumStringAutomotivePartsAndAccessoriesStores
-  | IssuingCardholderSpendingLimitCategories'EnumStringAutomotiveTireStores
-  | IssuingCardholderSpendingLimitCategories'EnumStringBailAndBondPayments
-  | IssuingCardholderSpendingLimitCategories'EnumStringBakeries
-  | IssuingCardholderSpendingLimitCategories'EnumStringBandsOrchestras
-  | IssuingCardholderSpendingLimitCategories'EnumStringBarberAndBeautyShops
-  | IssuingCardholderSpendingLimitCategories'EnumStringBettingCasinoGambling
-  | IssuingCardholderSpendingLimitCategories'EnumStringBicycleShops
-  | IssuingCardholderSpendingLimitCategories'EnumStringBilliardPoolEstablishments
-  | IssuingCardholderSpendingLimitCategories'EnumStringBoatDealers
-  | IssuingCardholderSpendingLimitCategories'EnumStringBoatRentalsAndLeases
-  | IssuingCardholderSpendingLimitCategories'EnumStringBookStores
-  | IssuingCardholderSpendingLimitCategories'EnumStringBooksPeriodicalsAndNewspapers
-  | IssuingCardholderSpendingLimitCategories'EnumStringBowlingAlleys
-  | IssuingCardholderSpendingLimitCategories'EnumStringBusLines
-  | IssuingCardholderSpendingLimitCategories'EnumStringBusinessSecretarialSchools
-  | IssuingCardholderSpendingLimitCategories'EnumStringBuyingShoppingServices
-  | IssuingCardholderSpendingLimitCategories'EnumStringCableSatelliteAndOtherPayTelevisionAndRadio
-  | IssuingCardholderSpendingLimitCategories'EnumStringCameraAndPhotographicSupplyStores
-  | IssuingCardholderSpendingLimitCategories'EnumStringCandyNutAndConfectioneryStores
-  | IssuingCardholderSpendingLimitCategories'EnumStringCarAndTruckDealersNewUsed
-  | IssuingCardholderSpendingLimitCategories'EnumStringCarAndTruckDealersUsedOnly
-  | IssuingCardholderSpendingLimitCategories'EnumStringCarRentalAgencies
-  | IssuingCardholderSpendingLimitCategories'EnumStringCarWashes
-  | IssuingCardholderSpendingLimitCategories'EnumStringCarpentryServices
-  | IssuingCardholderSpendingLimitCategories'EnumStringCarpetUpholsteryCleaning
-  | IssuingCardholderSpendingLimitCategories'EnumStringCaterers
-  | IssuingCardholderSpendingLimitCategories'EnumStringCharitableAndSocialServiceOrganizationsFundraising
-  | IssuingCardholderSpendingLimitCategories'EnumStringChemicalsAndAlliedProducts
-  | IssuingCardholderSpendingLimitCategories'EnumStringChildCareServices
-  | IssuingCardholderSpendingLimitCategories'EnumStringChildrensAndInfantsWearStores
-  | IssuingCardholderSpendingLimitCategories'EnumStringChiropodistsPodiatrists
-  | IssuingCardholderSpendingLimitCategories'EnumStringChiropractors
-  | IssuingCardholderSpendingLimitCategories'EnumStringCigarStoresAndStands
-  | IssuingCardholderSpendingLimitCategories'EnumStringCivicSocialFraternalAssociations
-  | IssuingCardholderSpendingLimitCategories'EnumStringCleaningAndMaintenance
-  | IssuingCardholderSpendingLimitCategories'EnumStringClothingRental
-  | IssuingCardholderSpendingLimitCategories'EnumStringCollegesUniversities
-  | IssuingCardholderSpendingLimitCategories'EnumStringCommercialEquipment
-  | IssuingCardholderSpendingLimitCategories'EnumStringCommercialFootwear
-  | IssuingCardholderSpendingLimitCategories'EnumStringCommercialPhotographyArtAndGraphics
-  | IssuingCardholderSpendingLimitCategories'EnumStringCommuterTransportAndFerries
-  | IssuingCardholderSpendingLimitCategories'EnumStringComputerNetworkServices
-  | IssuingCardholderSpendingLimitCategories'EnumStringComputerProgramming
-  | IssuingCardholderSpendingLimitCategories'EnumStringComputerRepair
-  | IssuingCardholderSpendingLimitCategories'EnumStringComputerSoftwareStores
-  | IssuingCardholderSpendingLimitCategories'EnumStringComputersPeripheralsAndSoftware
-  | IssuingCardholderSpendingLimitCategories'EnumStringConcreteWorkServices
-  | IssuingCardholderSpendingLimitCategories'EnumStringConstructionMaterials
-  | IssuingCardholderSpendingLimitCategories'EnumStringConsultingPublicRelations
-  | IssuingCardholderSpendingLimitCategories'EnumStringCorrespondenceSchools
-  | IssuingCardholderSpendingLimitCategories'EnumStringCosmeticStores
-  | IssuingCardholderSpendingLimitCategories'EnumStringCounselingServices
-  | IssuingCardholderSpendingLimitCategories'EnumStringCountryClubs
-  | IssuingCardholderSpendingLimitCategories'EnumStringCourierServices
-  | IssuingCardholderSpendingLimitCategories'EnumStringCourtCosts
-  | IssuingCardholderSpendingLimitCategories'EnumStringCreditReportingAgencies
-  | IssuingCardholderSpendingLimitCategories'EnumStringCruiseLines
-  | IssuingCardholderSpendingLimitCategories'EnumStringDairyProductsStores
-  | IssuingCardholderSpendingLimitCategories'EnumStringDanceHallStudiosSchools
-  | IssuingCardholderSpendingLimitCategories'EnumStringDatingEscortServices
-  | IssuingCardholderSpendingLimitCategories'EnumStringDentistsOrthodontists
-  | IssuingCardholderSpendingLimitCategories'EnumStringDepartmentStores
-  | IssuingCardholderSpendingLimitCategories'EnumStringDetectiveAgencies
-  | IssuingCardholderSpendingLimitCategories'EnumStringDigitalGoodsApplications
-  | IssuingCardholderSpendingLimitCategories'EnumStringDigitalGoodsGames
-  | IssuingCardholderSpendingLimitCategories'EnumStringDigitalGoodsLargeVolume
-  | IssuingCardholderSpendingLimitCategories'EnumStringDigitalGoodsMedia
-  | IssuingCardholderSpendingLimitCategories'EnumStringDirectMarketingCatalogMerchant
-  | IssuingCardholderSpendingLimitCategories'EnumStringDirectMarketingCombinationCatalogAndRetailMerchant
-  | IssuingCardholderSpendingLimitCategories'EnumStringDirectMarketingInboundTelemarketing
-  | IssuingCardholderSpendingLimitCategories'EnumStringDirectMarketingInsuranceServices
-  | IssuingCardholderSpendingLimitCategories'EnumStringDirectMarketingOther
-  | IssuingCardholderSpendingLimitCategories'EnumStringDirectMarketingOutboundTelemarketing
-  | IssuingCardholderSpendingLimitCategories'EnumStringDirectMarketingSubscription
-  | IssuingCardholderSpendingLimitCategories'EnumStringDirectMarketingTravel
-  | IssuingCardholderSpendingLimitCategories'EnumStringDiscountStores
-  | IssuingCardholderSpendingLimitCategories'EnumStringDoctors
-  | IssuingCardholderSpendingLimitCategories'EnumStringDoorToDoorSales
-  | IssuingCardholderSpendingLimitCategories'EnumStringDraperyWindowCoveringAndUpholsteryStores
-  | IssuingCardholderSpendingLimitCategories'EnumStringDrinkingPlaces
-  | IssuingCardholderSpendingLimitCategories'EnumStringDrugStoresAndPharmacies
-  | IssuingCardholderSpendingLimitCategories'EnumStringDrugsDrugProprietariesAndDruggistSundries
-  | IssuingCardholderSpendingLimitCategories'EnumStringDryCleaners
-  | IssuingCardholderSpendingLimitCategories'EnumStringDurableGoods
-  | IssuingCardholderSpendingLimitCategories'EnumStringDutyFreeStores
-  | IssuingCardholderSpendingLimitCategories'EnumStringEatingPlacesRestaurants
-  | IssuingCardholderSpendingLimitCategories'EnumStringEducationalServices
-  | IssuingCardholderSpendingLimitCategories'EnumStringElectricRazorStores
-  | IssuingCardholderSpendingLimitCategories'EnumStringElectricalPartsAndEquipment
-  | IssuingCardholderSpendingLimitCategories'EnumStringElectricalServices
-  | IssuingCardholderSpendingLimitCategories'EnumStringElectronicsRepairShops
-  | IssuingCardholderSpendingLimitCategories'EnumStringElectronicsStores
-  | IssuingCardholderSpendingLimitCategories'EnumStringElementarySecondarySchools
-  | IssuingCardholderSpendingLimitCategories'EnumStringEmploymentTempAgencies
-  | IssuingCardholderSpendingLimitCategories'EnumStringEquipmentRental
-  | IssuingCardholderSpendingLimitCategories'EnumStringExterminatingServices
-  | IssuingCardholderSpendingLimitCategories'EnumStringFamilyClothingStores
-  | IssuingCardholderSpendingLimitCategories'EnumStringFastFoodRestaurants
-  | IssuingCardholderSpendingLimitCategories'EnumStringFinancialInstitutions
-  | IssuingCardholderSpendingLimitCategories'EnumStringFinesGovernmentAdministrativeEntities
-  | IssuingCardholderSpendingLimitCategories'EnumStringFireplaceFireplaceScreensAndAccessoriesStores
-  | IssuingCardholderSpendingLimitCategories'EnumStringFloorCoveringStores
-  | IssuingCardholderSpendingLimitCategories'EnumStringFlorists
-  | IssuingCardholderSpendingLimitCategories'EnumStringFloristsSuppliesNurseryStockAndFlowers
-  | IssuingCardholderSpendingLimitCategories'EnumStringFreezerAndLockerMeatProvisioners
-  | IssuingCardholderSpendingLimitCategories'EnumStringFuelDealersNonAutomotive
-  | IssuingCardholderSpendingLimitCategories'EnumStringFuneralServicesCrematories
-  | IssuingCardholderSpendingLimitCategories'EnumStringFurnitureHomeFurnishingsAndEquipmentStoresExceptAppliances
-  | IssuingCardholderSpendingLimitCategories'EnumStringFurnitureRepairRefinishing
-  | IssuingCardholderSpendingLimitCategories'EnumStringFurriersAndFurShops
-  | IssuingCardholderSpendingLimitCategories'EnumStringGeneralServices
-  | IssuingCardholderSpendingLimitCategories'EnumStringGiftCardNoveltyAndSouvenirShops
-  | IssuingCardholderSpendingLimitCategories'EnumStringGlassPaintAndWallpaperStores
-  | IssuingCardholderSpendingLimitCategories'EnumStringGlasswareCrystalStores
-  | IssuingCardholderSpendingLimitCategories'EnumStringGolfCoursesPublic
-  | IssuingCardholderSpendingLimitCategories'EnumStringGovernmentServices
-  | IssuingCardholderSpendingLimitCategories'EnumStringGroceryStoresSupermarkets
-  | IssuingCardholderSpendingLimitCategories'EnumStringHardwareEquipmentAndSupplies
-  | IssuingCardholderSpendingLimitCategories'EnumStringHardwareStores
-  | IssuingCardholderSpendingLimitCategories'EnumStringHealthAndBeautySpas
-  | IssuingCardholderSpendingLimitCategories'EnumStringHearingAidsSalesAndSupplies
-  | IssuingCardholderSpendingLimitCategories'EnumStringHeatingPlumbingAC
-  | IssuingCardholderSpendingLimitCategories'EnumStringHobbyToyAndGameShops
-  | IssuingCardholderSpendingLimitCategories'EnumStringHomeSupplyWarehouseStores
-  | IssuingCardholderSpendingLimitCategories'EnumStringHospitals
-  | IssuingCardholderSpendingLimitCategories'EnumStringHotelsMotelsAndResorts
-  | IssuingCardholderSpendingLimitCategories'EnumStringHouseholdApplianceStores
-  | IssuingCardholderSpendingLimitCategories'EnumStringIndustrialSupplies
-  | IssuingCardholderSpendingLimitCategories'EnumStringInformationRetrievalServices
-  | IssuingCardholderSpendingLimitCategories'EnumStringInsuranceDefault
-  | IssuingCardholderSpendingLimitCategories'EnumStringInsuranceUnderwritingPremiums
-  | IssuingCardholderSpendingLimitCategories'EnumStringIntraCompanyPurchases
-  | IssuingCardholderSpendingLimitCategories'EnumStringJewelryStoresWatchesClocksAndSilverwareStores
-  | IssuingCardholderSpendingLimitCategories'EnumStringLandscapingServices
-  | IssuingCardholderSpendingLimitCategories'EnumStringLaundries
-  | IssuingCardholderSpendingLimitCategories'EnumStringLaundryCleaningServices
-  | IssuingCardholderSpendingLimitCategories'EnumStringLegalServicesAttorneys
-  | IssuingCardholderSpendingLimitCategories'EnumStringLuggageAndLeatherGoodsStores
-  | IssuingCardholderSpendingLimitCategories'EnumStringLumberBuildingMaterialsStores
-  | IssuingCardholderSpendingLimitCategories'EnumStringManualCashDisburse
-  | IssuingCardholderSpendingLimitCategories'EnumStringMarinasServiceAndSupplies
-  | IssuingCardholderSpendingLimitCategories'EnumStringMasonryStoneworkAndPlaster
-  | IssuingCardholderSpendingLimitCategories'EnumStringMassageParlors
-  | IssuingCardholderSpendingLimitCategories'EnumStringMedicalAndDentalLabs
-  | IssuingCardholderSpendingLimitCategories'EnumStringMedicalDentalOphthalmicAndHospitalEquipmentAndSupplies
-  | IssuingCardholderSpendingLimitCategories'EnumStringMedicalServices
-  | IssuingCardholderSpendingLimitCategories'EnumStringMembershipOrganizations
-  | IssuingCardholderSpendingLimitCategories'EnumStringMensAndBoysClothingAndAccessoriesStores
-  | IssuingCardholderSpendingLimitCategories'EnumStringMensWomensClothingStores
-  | IssuingCardholderSpendingLimitCategories'EnumStringMetalServiceCenters
-  | IssuingCardholderSpendingLimitCategories'EnumStringMiscellaneous
-  | IssuingCardholderSpendingLimitCategories'EnumStringMiscellaneousApparelAndAccessoryShops
-  | IssuingCardholderSpendingLimitCategories'EnumStringMiscellaneousAutoDealers
-  | IssuingCardholderSpendingLimitCategories'EnumStringMiscellaneousBusinessServices
-  | IssuingCardholderSpendingLimitCategories'EnumStringMiscellaneousFoodStores
-  | IssuingCardholderSpendingLimitCategories'EnumStringMiscellaneousGeneralMerchandise
-  | IssuingCardholderSpendingLimitCategories'EnumStringMiscellaneousGeneralServices
-  | IssuingCardholderSpendingLimitCategories'EnumStringMiscellaneousHomeFurnishingSpecialtyStores
-  | IssuingCardholderSpendingLimitCategories'EnumStringMiscellaneousPublishingAndPrinting
-  | IssuingCardholderSpendingLimitCategories'EnumStringMiscellaneousRecreationServices
-  | IssuingCardholderSpendingLimitCategories'EnumStringMiscellaneousRepairShops
-  | IssuingCardholderSpendingLimitCategories'EnumStringMiscellaneousSpecialtyRetail
-  | IssuingCardholderSpendingLimitCategories'EnumStringMobileHomeDealers
-  | IssuingCardholderSpendingLimitCategories'EnumStringMotionPictureTheaters
-  | IssuingCardholderSpendingLimitCategories'EnumStringMotorFreightCarriersAndTrucking
-  | IssuingCardholderSpendingLimitCategories'EnumStringMotorHomesDealers
-  | IssuingCardholderSpendingLimitCategories'EnumStringMotorVehicleSuppliesAndNewParts
-  | IssuingCardholderSpendingLimitCategories'EnumStringMotorcycleShopsAndDealers
-  | IssuingCardholderSpendingLimitCategories'EnumStringMotorcycleShopsDealers
-  | IssuingCardholderSpendingLimitCategories'EnumStringMusicStoresMusicalInstrumentsPianosAndSheetMusic
-  | IssuingCardholderSpendingLimitCategories'EnumStringNewsDealersAndNewsstands
-  | IssuingCardholderSpendingLimitCategories'EnumStringNonFiMoneyOrders
-  | IssuingCardholderSpendingLimitCategories'EnumStringNonFiStoredValueCardPurchaseLoad
-  | IssuingCardholderSpendingLimitCategories'EnumStringNondurableGoods
-  | IssuingCardholderSpendingLimitCategories'EnumStringNurseriesLawnAndGardenSupplyStores
-  | IssuingCardholderSpendingLimitCategories'EnumStringNursingPersonalCare
-  | IssuingCardholderSpendingLimitCategories'EnumStringOfficeAndCommercialFurniture
-  | IssuingCardholderSpendingLimitCategories'EnumStringOpticiansEyeglasses
-  | IssuingCardholderSpendingLimitCategories'EnumStringOptometristsOphthalmologist
-  | IssuingCardholderSpendingLimitCategories'EnumStringOrthopedicGoodsProstheticDevices
-  | IssuingCardholderSpendingLimitCategories'EnumStringOsteopaths
-  | IssuingCardholderSpendingLimitCategories'EnumStringPackageStoresBeerWineAndLiquor
-  | IssuingCardholderSpendingLimitCategories'EnumStringPaintsVarnishesAndSupplies
-  | IssuingCardholderSpendingLimitCategories'EnumStringParkingLotsGarages
-  | IssuingCardholderSpendingLimitCategories'EnumStringPassengerRailways
-  | IssuingCardholderSpendingLimitCategories'EnumStringPawnShops
-  | IssuingCardholderSpendingLimitCategories'EnumStringPetShopsPetFoodAndSupplies
-  | IssuingCardholderSpendingLimitCategories'EnumStringPetroleumAndPetroleumProducts
-  | IssuingCardholderSpendingLimitCategories'EnumStringPhotoDeveloping
-  | IssuingCardholderSpendingLimitCategories'EnumStringPhotographicPhotocopyMicrofilmEquipmentAndSupplies
-  | IssuingCardholderSpendingLimitCategories'EnumStringPhotographicStudios
-  | IssuingCardholderSpendingLimitCategories'EnumStringPictureVideoProduction
-  | IssuingCardholderSpendingLimitCategories'EnumStringPieceGoodsNotionsAndOtherDryGoods
-  | IssuingCardholderSpendingLimitCategories'EnumStringPlumbingHeatingEquipmentAndSupplies
-  | IssuingCardholderSpendingLimitCategories'EnumStringPoliticalOrganizations
-  | IssuingCardholderSpendingLimitCategories'EnumStringPostalServicesGovernmentOnly
-  | IssuingCardholderSpendingLimitCategories'EnumStringPreciousStonesAndMetalsWatchesAndJewelry
-  | IssuingCardholderSpendingLimitCategories'EnumStringProfessionalServices
-  | IssuingCardholderSpendingLimitCategories'EnumStringPublicWarehousingAndStorage
-  | IssuingCardholderSpendingLimitCategories'EnumStringQuickCopyReproAndBlueprint
-  | IssuingCardholderSpendingLimitCategories'EnumStringRailroads
-  | IssuingCardholderSpendingLimitCategories'EnumStringRealEstateAgentsAndManagersRentals
-  | IssuingCardholderSpendingLimitCategories'EnumStringRecordStores
-  | IssuingCardholderSpendingLimitCategories'EnumStringRecreationalVehicleRentals
-  | IssuingCardholderSpendingLimitCategories'EnumStringReligiousGoodsStores
-  | IssuingCardholderSpendingLimitCategories'EnumStringReligiousOrganizations
-  | IssuingCardholderSpendingLimitCategories'EnumStringRoofingSidingSheetMetal
-  | IssuingCardholderSpendingLimitCategories'EnumStringSecretarialSupportServices
-  | IssuingCardholderSpendingLimitCategories'EnumStringSecurityBrokersDealers
-  | IssuingCardholderSpendingLimitCategories'EnumStringServiceStations
-  | IssuingCardholderSpendingLimitCategories'EnumStringSewingNeedleworkFabricAndPieceGoodsStores
-  | IssuingCardholderSpendingLimitCategories'EnumStringShoeRepairHatCleaning
-  | IssuingCardholderSpendingLimitCategories'EnumStringShoeStores
-  | IssuingCardholderSpendingLimitCategories'EnumStringSmallApplianceRepair
-  | IssuingCardholderSpendingLimitCategories'EnumStringSnowmobileDealers
-  | IssuingCardholderSpendingLimitCategories'EnumStringSpecialTradeServices
-  | IssuingCardholderSpendingLimitCategories'EnumStringSpecialtyCleaning
-  | IssuingCardholderSpendingLimitCategories'EnumStringSportingGoodsStores
-  | IssuingCardholderSpendingLimitCategories'EnumStringSportingRecreationCamps
-  | IssuingCardholderSpendingLimitCategories'EnumStringSportsAndRidingApparelStores
-  | IssuingCardholderSpendingLimitCategories'EnumStringSportsClubsFields
-  | IssuingCardholderSpendingLimitCategories'EnumStringStampAndCoinStores
-  | IssuingCardholderSpendingLimitCategories'EnumStringStationaryOfficeSuppliesPrintingAndWritingPaper
-  | IssuingCardholderSpendingLimitCategories'EnumStringStationeryStoresOfficeAndSchoolSupplyStores
-  | IssuingCardholderSpendingLimitCategories'EnumStringSwimmingPoolsSales
-  | IssuingCardholderSpendingLimitCategories'EnumStringTUiTravelGermany
-  | IssuingCardholderSpendingLimitCategories'EnumStringTailorsAlterations
-  | IssuingCardholderSpendingLimitCategories'EnumStringTaxPaymentsGovernmentAgencies
-  | IssuingCardholderSpendingLimitCategories'EnumStringTaxPreparationServices
-  | IssuingCardholderSpendingLimitCategories'EnumStringTaxicabsLimousines
-  | IssuingCardholderSpendingLimitCategories'EnumStringTelecommunicationEquipmentAndTelephoneSales
-  | IssuingCardholderSpendingLimitCategories'EnumStringTelecommunicationServices
-  | IssuingCardholderSpendingLimitCategories'EnumStringTelegraphServices
-  | IssuingCardholderSpendingLimitCategories'EnumStringTentAndAwningShops
-  | IssuingCardholderSpendingLimitCategories'EnumStringTestingLaboratories
-  | IssuingCardholderSpendingLimitCategories'EnumStringTheatricalTicketAgencies
-  | IssuingCardholderSpendingLimitCategories'EnumStringTimeshares
-  | IssuingCardholderSpendingLimitCategories'EnumStringTireRetreadingAndRepair
-  | IssuingCardholderSpendingLimitCategories'EnumStringTollsBridgeFees
-  | IssuingCardholderSpendingLimitCategories'EnumStringTouristAttractionsAndExhibits
-  | IssuingCardholderSpendingLimitCategories'EnumStringTowingServices
-  | IssuingCardholderSpendingLimitCategories'EnumStringTrailerParksCampgrounds
-  | IssuingCardholderSpendingLimitCategories'EnumStringTransportationServices
-  | IssuingCardholderSpendingLimitCategories'EnumStringTravelAgenciesTourOperators
-  | IssuingCardholderSpendingLimitCategories'EnumStringTruckStopIteration
-  | IssuingCardholderSpendingLimitCategories'EnumStringTruckUtilityTrailerRentals
-  | IssuingCardholderSpendingLimitCategories'EnumStringTypesettingPlateMakingAndRelatedServices
-  | IssuingCardholderSpendingLimitCategories'EnumStringTypewriterStores
-  | IssuingCardholderSpendingLimitCategories'EnumStringUSFederalGovernmentAgenciesOrDepartments
-  | IssuingCardholderSpendingLimitCategories'EnumStringUniformsCommercialClothing
-  | IssuingCardholderSpendingLimitCategories'EnumStringUsedMerchandiseAndSecondhandStores
-  | IssuingCardholderSpendingLimitCategories'EnumStringUtilities
-  | IssuingCardholderSpendingLimitCategories'EnumStringVarietyStores
-  | IssuingCardholderSpendingLimitCategories'EnumStringVeterinaryServices
-  | IssuingCardholderSpendingLimitCategories'EnumStringVideoAmusementGameSupplies
-  | IssuingCardholderSpendingLimitCategories'EnumStringVideoGameArcades
-  | IssuingCardholderSpendingLimitCategories'EnumStringVideoTapeRentalStores
-  | IssuingCardholderSpendingLimitCategories'EnumStringVocationalTradeSchools
-  | IssuingCardholderSpendingLimitCategories'EnumStringWatchJewelryRepair
-  | IssuingCardholderSpendingLimitCategories'EnumStringWeldingRepair
-  | IssuingCardholderSpendingLimitCategories'EnumStringWholesaleClubs
-  | IssuingCardholderSpendingLimitCategories'EnumStringWigAndToupeeStores
-  | IssuingCardholderSpendingLimitCategories'EnumStringWiresMoneyOrders
-  | IssuingCardholderSpendingLimitCategories'EnumStringWomensAccessoryAndSpecialtyShops
-  | IssuingCardholderSpendingLimitCategories'EnumStringWomensReadyToWearStores
-  | IssuingCardholderSpendingLimitCategories'EnumStringWreckingAndSalvageYards
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    IssuingCardholderSpendingLimitCategories'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    IssuingCardholderSpendingLimitCategories'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"ac_refrigeration_repair"@
+    IssuingCardholderSpendingLimitCategories'EnumAcRefrigerationRepair
+  | -- | Represents the JSON value @"accounting_bookkeeping_services"@
+    IssuingCardholderSpendingLimitCategories'EnumAccountingBookkeepingServices
+  | -- | Represents the JSON value @"advertising_services"@
+    IssuingCardholderSpendingLimitCategories'EnumAdvertisingServices
+  | -- | Represents the JSON value @"agricultural_cooperative"@
+    IssuingCardholderSpendingLimitCategories'EnumAgriculturalCooperative
+  | -- | Represents the JSON value @"airlines_air_carriers"@
+    IssuingCardholderSpendingLimitCategories'EnumAirlinesAirCarriers
+  | -- | Represents the JSON value @"airports_flying_fields"@
+    IssuingCardholderSpendingLimitCategories'EnumAirportsFlyingFields
+  | -- | Represents the JSON value @"ambulance_services"@
+    IssuingCardholderSpendingLimitCategories'EnumAmbulanceServices
+  | -- | Represents the JSON value @"amusement_parks_carnivals"@
+    IssuingCardholderSpendingLimitCategories'EnumAmusementParksCarnivals
+  | -- | Represents the JSON value @"antique_reproductions"@
+    IssuingCardholderSpendingLimitCategories'EnumAntiqueReproductions
+  | -- | Represents the JSON value @"antique_shops"@
+    IssuingCardholderSpendingLimitCategories'EnumAntiqueShops
+  | -- | Represents the JSON value @"aquariums"@
+    IssuingCardholderSpendingLimitCategories'EnumAquariums
+  | -- | Represents the JSON value @"architectural_surveying_services"@
+    IssuingCardholderSpendingLimitCategories'EnumArchitecturalSurveyingServices
+  | -- | Represents the JSON value @"art_dealers_and_galleries"@
+    IssuingCardholderSpendingLimitCategories'EnumArtDealersAndGalleries
+  | -- | Represents the JSON value @"artists_supply_and_craft_shops"@
+    IssuingCardholderSpendingLimitCategories'EnumArtistsSupplyAndCraftShops
+  | -- | Represents the JSON value @"auto_and_home_supply_stores"@
+    IssuingCardholderSpendingLimitCategories'EnumAutoAndHomeSupplyStores
+  | -- | Represents the JSON value @"auto_body_repair_shops"@
+    IssuingCardholderSpendingLimitCategories'EnumAutoBodyRepairShops
+  | -- | Represents the JSON value @"auto_paint_shops"@
+    IssuingCardholderSpendingLimitCategories'EnumAutoPaintShops
+  | -- | Represents the JSON value @"auto_service_shops"@
+    IssuingCardholderSpendingLimitCategories'EnumAutoServiceShops
+  | -- | Represents the JSON value @"automated_cash_disburse"@
+    IssuingCardholderSpendingLimitCategories'EnumAutomatedCashDisburse
+  | -- | Represents the JSON value @"automated_fuel_dispensers"@
+    IssuingCardholderSpendingLimitCategories'EnumAutomatedFuelDispensers
+  | -- | Represents the JSON value @"automobile_associations"@
+    IssuingCardholderSpendingLimitCategories'EnumAutomobileAssociations
+  | -- | Represents the JSON value @"automotive_parts_and_accessories_stores"@
+    IssuingCardholderSpendingLimitCategories'EnumAutomotivePartsAndAccessoriesStores
+  | -- | Represents the JSON value @"automotive_tire_stores"@
+    IssuingCardholderSpendingLimitCategories'EnumAutomotiveTireStores
+  | -- | Represents the JSON value @"bail_and_bond_payments"@
+    IssuingCardholderSpendingLimitCategories'EnumBailAndBondPayments
+  | -- | Represents the JSON value @"bakeries"@
+    IssuingCardholderSpendingLimitCategories'EnumBakeries
+  | -- | Represents the JSON value @"bands_orchestras"@
+    IssuingCardholderSpendingLimitCategories'EnumBandsOrchestras
+  | -- | Represents the JSON value @"barber_and_beauty_shops"@
+    IssuingCardholderSpendingLimitCategories'EnumBarberAndBeautyShops
+  | -- | Represents the JSON value @"betting_casino_gambling"@
+    IssuingCardholderSpendingLimitCategories'EnumBettingCasinoGambling
+  | -- | Represents the JSON value @"bicycle_shops"@
+    IssuingCardholderSpendingLimitCategories'EnumBicycleShops
+  | -- | Represents the JSON value @"billiard_pool_establishments"@
+    IssuingCardholderSpendingLimitCategories'EnumBilliardPoolEstablishments
+  | -- | Represents the JSON value @"boat_dealers"@
+    IssuingCardholderSpendingLimitCategories'EnumBoatDealers
+  | -- | Represents the JSON value @"boat_rentals_and_leases"@
+    IssuingCardholderSpendingLimitCategories'EnumBoatRentalsAndLeases
+  | -- | Represents the JSON value @"book_stores"@
+    IssuingCardholderSpendingLimitCategories'EnumBookStores
+  | -- | Represents the JSON value @"books_periodicals_and_newspapers"@
+    IssuingCardholderSpendingLimitCategories'EnumBooksPeriodicalsAndNewspapers
+  | -- | Represents the JSON value @"bowling_alleys"@
+    IssuingCardholderSpendingLimitCategories'EnumBowlingAlleys
+  | -- | Represents the JSON value @"bus_lines"@
+    IssuingCardholderSpendingLimitCategories'EnumBusLines
+  | -- | Represents the JSON value @"business_secretarial_schools"@
+    IssuingCardholderSpendingLimitCategories'EnumBusinessSecretarialSchools
+  | -- | Represents the JSON value @"buying_shopping_services"@
+    IssuingCardholderSpendingLimitCategories'EnumBuyingShoppingServices
+  | -- | Represents the JSON value @"cable_satellite_and_other_pay_television_and_radio"@
+    IssuingCardholderSpendingLimitCategories'EnumCableSatelliteAndOtherPayTelevisionAndRadio
+  | -- | Represents the JSON value @"camera_and_photographic_supply_stores"@
+    IssuingCardholderSpendingLimitCategories'EnumCameraAndPhotographicSupplyStores
+  | -- | Represents the JSON value @"candy_nut_and_confectionery_stores"@
+    IssuingCardholderSpendingLimitCategories'EnumCandyNutAndConfectioneryStores
+  | -- | Represents the JSON value @"car_and_truck_dealers_new_used"@
+    IssuingCardholderSpendingLimitCategories'EnumCarAndTruckDealersNewUsed
+  | -- | Represents the JSON value @"car_and_truck_dealers_used_only"@
+    IssuingCardholderSpendingLimitCategories'EnumCarAndTruckDealersUsedOnly
+  | -- | Represents the JSON value @"car_rental_agencies"@
+    IssuingCardholderSpendingLimitCategories'EnumCarRentalAgencies
+  | -- | Represents the JSON value @"car_washes"@
+    IssuingCardholderSpendingLimitCategories'EnumCarWashes
+  | -- | Represents the JSON value @"carpentry_services"@
+    IssuingCardholderSpendingLimitCategories'EnumCarpentryServices
+  | -- | Represents the JSON value @"carpet_upholstery_cleaning"@
+    IssuingCardholderSpendingLimitCategories'EnumCarpetUpholsteryCleaning
+  | -- | Represents the JSON value @"caterers"@
+    IssuingCardholderSpendingLimitCategories'EnumCaterers
+  | -- | Represents the JSON value @"charitable_and_social_service_organizations_fundraising"@
+    IssuingCardholderSpendingLimitCategories'EnumCharitableAndSocialServiceOrganizationsFundraising
+  | -- | Represents the JSON value @"chemicals_and_allied_products"@
+    IssuingCardholderSpendingLimitCategories'EnumChemicalsAndAlliedProducts
+  | -- | Represents the JSON value @"child_care_services"@
+    IssuingCardholderSpendingLimitCategories'EnumChildCareServices
+  | -- | Represents the JSON value @"childrens_and_infants_wear_stores"@
+    IssuingCardholderSpendingLimitCategories'EnumChildrensAndInfantsWearStores
+  | -- | Represents the JSON value @"chiropodists_podiatrists"@
+    IssuingCardholderSpendingLimitCategories'EnumChiropodistsPodiatrists
+  | -- | Represents the JSON value @"chiropractors"@
+    IssuingCardholderSpendingLimitCategories'EnumChiropractors
+  | -- | Represents the JSON value @"cigar_stores_and_stands"@
+    IssuingCardholderSpendingLimitCategories'EnumCigarStoresAndStands
+  | -- | Represents the JSON value @"civic_social_fraternal_associations"@
+    IssuingCardholderSpendingLimitCategories'EnumCivicSocialFraternalAssociations
+  | -- | Represents the JSON value @"cleaning_and_maintenance"@
+    IssuingCardholderSpendingLimitCategories'EnumCleaningAndMaintenance
+  | -- | Represents the JSON value @"clothing_rental"@
+    IssuingCardholderSpendingLimitCategories'EnumClothingRental
+  | -- | Represents the JSON value @"colleges_universities"@
+    IssuingCardholderSpendingLimitCategories'EnumCollegesUniversities
+  | -- | Represents the JSON value @"commercial_equipment"@
+    IssuingCardholderSpendingLimitCategories'EnumCommercialEquipment
+  | -- | Represents the JSON value @"commercial_footwear"@
+    IssuingCardholderSpendingLimitCategories'EnumCommercialFootwear
+  | -- | Represents the JSON value @"commercial_photography_art_and_graphics"@
+    IssuingCardholderSpendingLimitCategories'EnumCommercialPhotographyArtAndGraphics
+  | -- | Represents the JSON value @"commuter_transport_and_ferries"@
+    IssuingCardholderSpendingLimitCategories'EnumCommuterTransportAndFerries
+  | -- | Represents the JSON value @"computer_network_services"@
+    IssuingCardholderSpendingLimitCategories'EnumComputerNetworkServices
+  | -- | Represents the JSON value @"computer_programming"@
+    IssuingCardholderSpendingLimitCategories'EnumComputerProgramming
+  | -- | Represents the JSON value @"computer_repair"@
+    IssuingCardholderSpendingLimitCategories'EnumComputerRepair
+  | -- | Represents the JSON value @"computer_software_stores"@
+    IssuingCardholderSpendingLimitCategories'EnumComputerSoftwareStores
+  | -- | Represents the JSON value @"computers_peripherals_and_software"@
+    IssuingCardholderSpendingLimitCategories'EnumComputersPeripheralsAndSoftware
+  | -- | Represents the JSON value @"concrete_work_services"@
+    IssuingCardholderSpendingLimitCategories'EnumConcreteWorkServices
+  | -- | Represents the JSON value @"construction_materials"@
+    IssuingCardholderSpendingLimitCategories'EnumConstructionMaterials
+  | -- | Represents the JSON value @"consulting_public_relations"@
+    IssuingCardholderSpendingLimitCategories'EnumConsultingPublicRelations
+  | -- | Represents the JSON value @"correspondence_schools"@
+    IssuingCardholderSpendingLimitCategories'EnumCorrespondenceSchools
+  | -- | Represents the JSON value @"cosmetic_stores"@
+    IssuingCardholderSpendingLimitCategories'EnumCosmeticStores
+  | -- | Represents the JSON value @"counseling_services"@
+    IssuingCardholderSpendingLimitCategories'EnumCounselingServices
+  | -- | Represents the JSON value @"country_clubs"@
+    IssuingCardholderSpendingLimitCategories'EnumCountryClubs
+  | -- | Represents the JSON value @"courier_services"@
+    IssuingCardholderSpendingLimitCategories'EnumCourierServices
+  | -- | Represents the JSON value @"court_costs"@
+    IssuingCardholderSpendingLimitCategories'EnumCourtCosts
+  | -- | Represents the JSON value @"credit_reporting_agencies"@
+    IssuingCardholderSpendingLimitCategories'EnumCreditReportingAgencies
+  | -- | Represents the JSON value @"cruise_lines"@
+    IssuingCardholderSpendingLimitCategories'EnumCruiseLines
+  | -- | Represents the JSON value @"dairy_products_stores"@
+    IssuingCardholderSpendingLimitCategories'EnumDairyProductsStores
+  | -- | Represents the JSON value @"dance_hall_studios_schools"@
+    IssuingCardholderSpendingLimitCategories'EnumDanceHallStudiosSchools
+  | -- | Represents the JSON value @"dating_escort_services"@
+    IssuingCardholderSpendingLimitCategories'EnumDatingEscortServices
+  | -- | Represents the JSON value @"dentists_orthodontists"@
+    IssuingCardholderSpendingLimitCategories'EnumDentistsOrthodontists
+  | -- | Represents the JSON value @"department_stores"@
+    IssuingCardholderSpendingLimitCategories'EnumDepartmentStores
+  | -- | Represents the JSON value @"detective_agencies"@
+    IssuingCardholderSpendingLimitCategories'EnumDetectiveAgencies
+  | -- | Represents the JSON value @"digital_goods_applications"@
+    IssuingCardholderSpendingLimitCategories'EnumDigitalGoodsApplications
+  | -- | Represents the JSON value @"digital_goods_games"@
+    IssuingCardholderSpendingLimitCategories'EnumDigitalGoodsGames
+  | -- | Represents the JSON value @"digital_goods_large_volume"@
+    IssuingCardholderSpendingLimitCategories'EnumDigitalGoodsLargeVolume
+  | -- | Represents the JSON value @"digital_goods_media"@
+    IssuingCardholderSpendingLimitCategories'EnumDigitalGoodsMedia
+  | -- | Represents the JSON value @"direct_marketing_catalog_merchant"@
+    IssuingCardholderSpendingLimitCategories'EnumDirectMarketingCatalogMerchant
+  | -- | Represents the JSON value @"direct_marketing_combination_catalog_and_retail_merchant"@
+    IssuingCardholderSpendingLimitCategories'EnumDirectMarketingCombinationCatalogAndRetailMerchant
+  | -- | Represents the JSON value @"direct_marketing_inbound_telemarketing"@
+    IssuingCardholderSpendingLimitCategories'EnumDirectMarketingInboundTelemarketing
+  | -- | Represents the JSON value @"direct_marketing_insurance_services"@
+    IssuingCardholderSpendingLimitCategories'EnumDirectMarketingInsuranceServices
+  | -- | Represents the JSON value @"direct_marketing_other"@
+    IssuingCardholderSpendingLimitCategories'EnumDirectMarketingOther
+  | -- | Represents the JSON value @"direct_marketing_outbound_telemarketing"@
+    IssuingCardholderSpendingLimitCategories'EnumDirectMarketingOutboundTelemarketing
+  | -- | Represents the JSON value @"direct_marketing_subscription"@
+    IssuingCardholderSpendingLimitCategories'EnumDirectMarketingSubscription
+  | -- | Represents the JSON value @"direct_marketing_travel"@
+    IssuingCardholderSpendingLimitCategories'EnumDirectMarketingTravel
+  | -- | Represents the JSON value @"discount_stores"@
+    IssuingCardholderSpendingLimitCategories'EnumDiscountStores
+  | -- | Represents the JSON value @"doctors"@
+    IssuingCardholderSpendingLimitCategories'EnumDoctors
+  | -- | Represents the JSON value @"door_to_door_sales"@
+    IssuingCardholderSpendingLimitCategories'EnumDoorToDoorSales
+  | -- | Represents the JSON value @"drapery_window_covering_and_upholstery_stores"@
+    IssuingCardholderSpendingLimitCategories'EnumDraperyWindowCoveringAndUpholsteryStores
+  | -- | Represents the JSON value @"drinking_places"@
+    IssuingCardholderSpendingLimitCategories'EnumDrinkingPlaces
+  | -- | Represents the JSON value @"drug_stores_and_pharmacies"@
+    IssuingCardholderSpendingLimitCategories'EnumDrugStoresAndPharmacies
+  | -- | Represents the JSON value @"drugs_drug_proprietaries_and_druggist_sundries"@
+    IssuingCardholderSpendingLimitCategories'EnumDrugsDrugProprietariesAndDruggistSundries
+  | -- | Represents the JSON value @"dry_cleaners"@
+    IssuingCardholderSpendingLimitCategories'EnumDryCleaners
+  | -- | Represents the JSON value @"durable_goods"@
+    IssuingCardholderSpendingLimitCategories'EnumDurableGoods
+  | -- | Represents the JSON value @"duty_free_stores"@
+    IssuingCardholderSpendingLimitCategories'EnumDutyFreeStores
+  | -- | Represents the JSON value @"eating_places_restaurants"@
+    IssuingCardholderSpendingLimitCategories'EnumEatingPlacesRestaurants
+  | -- | Represents the JSON value @"educational_services"@
+    IssuingCardholderSpendingLimitCategories'EnumEducationalServices
+  | -- | Represents the JSON value @"electric_razor_stores"@
+    IssuingCardholderSpendingLimitCategories'EnumElectricRazorStores
+  | -- | Represents the JSON value @"electrical_parts_and_equipment"@
+    IssuingCardholderSpendingLimitCategories'EnumElectricalPartsAndEquipment
+  | -- | Represents the JSON value @"electrical_services"@
+    IssuingCardholderSpendingLimitCategories'EnumElectricalServices
+  | -- | Represents the JSON value @"electronics_repair_shops"@
+    IssuingCardholderSpendingLimitCategories'EnumElectronicsRepairShops
+  | -- | Represents the JSON value @"electronics_stores"@
+    IssuingCardholderSpendingLimitCategories'EnumElectronicsStores
+  | -- | Represents the JSON value @"elementary_secondary_schools"@
+    IssuingCardholderSpendingLimitCategories'EnumElementarySecondarySchools
+  | -- | Represents the JSON value @"employment_temp_agencies"@
+    IssuingCardholderSpendingLimitCategories'EnumEmploymentTempAgencies
+  | -- | Represents the JSON value @"equipment_rental"@
+    IssuingCardholderSpendingLimitCategories'EnumEquipmentRental
+  | -- | Represents the JSON value @"exterminating_services"@
+    IssuingCardholderSpendingLimitCategories'EnumExterminatingServices
+  | -- | Represents the JSON value @"family_clothing_stores"@
+    IssuingCardholderSpendingLimitCategories'EnumFamilyClothingStores
+  | -- | Represents the JSON value @"fast_food_restaurants"@
+    IssuingCardholderSpendingLimitCategories'EnumFastFoodRestaurants
+  | -- | Represents the JSON value @"financial_institutions"@
+    IssuingCardholderSpendingLimitCategories'EnumFinancialInstitutions
+  | -- | Represents the JSON value @"fines_government_administrative_entities"@
+    IssuingCardholderSpendingLimitCategories'EnumFinesGovernmentAdministrativeEntities
+  | -- | Represents the JSON value @"fireplace_fireplace_screens_and_accessories_stores"@
+    IssuingCardholderSpendingLimitCategories'EnumFireplaceFireplaceScreensAndAccessoriesStores
+  | -- | Represents the JSON value @"floor_covering_stores"@
+    IssuingCardholderSpendingLimitCategories'EnumFloorCoveringStores
+  | -- | Represents the JSON value @"florists"@
+    IssuingCardholderSpendingLimitCategories'EnumFlorists
+  | -- | Represents the JSON value @"florists_supplies_nursery_stock_and_flowers"@
+    IssuingCardholderSpendingLimitCategories'EnumFloristsSuppliesNurseryStockAndFlowers
+  | -- | Represents the JSON value @"freezer_and_locker_meat_provisioners"@
+    IssuingCardholderSpendingLimitCategories'EnumFreezerAndLockerMeatProvisioners
+  | -- | Represents the JSON value @"fuel_dealers_non_automotive"@
+    IssuingCardholderSpendingLimitCategories'EnumFuelDealersNonAutomotive
+  | -- | Represents the JSON value @"funeral_services_crematories"@
+    IssuingCardholderSpendingLimitCategories'EnumFuneralServicesCrematories
+  | -- | Represents the JSON value @"furniture_home_furnishings_and_equipment_stores_except_appliances"@
+    IssuingCardholderSpendingLimitCategories'EnumFurnitureHomeFurnishingsAndEquipmentStoresExceptAppliances
+  | -- | Represents the JSON value @"furniture_repair_refinishing"@
+    IssuingCardholderSpendingLimitCategories'EnumFurnitureRepairRefinishing
+  | -- | Represents the JSON value @"furriers_and_fur_shops"@
+    IssuingCardholderSpendingLimitCategories'EnumFurriersAndFurShops
+  | -- | Represents the JSON value @"general_services"@
+    IssuingCardholderSpendingLimitCategories'EnumGeneralServices
+  | -- | Represents the JSON value @"gift_card_novelty_and_souvenir_shops"@
+    IssuingCardholderSpendingLimitCategories'EnumGiftCardNoveltyAndSouvenirShops
+  | -- | Represents the JSON value @"glass_paint_and_wallpaper_stores"@
+    IssuingCardholderSpendingLimitCategories'EnumGlassPaintAndWallpaperStores
+  | -- | Represents the JSON value @"glassware_crystal_stores"@
+    IssuingCardholderSpendingLimitCategories'EnumGlasswareCrystalStores
+  | -- | Represents the JSON value @"golf_courses_public"@
+    IssuingCardholderSpendingLimitCategories'EnumGolfCoursesPublic
+  | -- | Represents the JSON value @"government_services"@
+    IssuingCardholderSpendingLimitCategories'EnumGovernmentServices
+  | -- | Represents the JSON value @"grocery_stores_supermarkets"@
+    IssuingCardholderSpendingLimitCategories'EnumGroceryStoresSupermarkets
+  | -- | Represents the JSON value @"hardware_equipment_and_supplies"@
+    IssuingCardholderSpendingLimitCategories'EnumHardwareEquipmentAndSupplies
+  | -- | Represents the JSON value @"hardware_stores"@
+    IssuingCardholderSpendingLimitCategories'EnumHardwareStores
+  | -- | Represents the JSON value @"health_and_beauty_spas"@
+    IssuingCardholderSpendingLimitCategories'EnumHealthAndBeautySpas
+  | -- | Represents the JSON value @"hearing_aids_sales_and_supplies"@
+    IssuingCardholderSpendingLimitCategories'EnumHearingAidsSalesAndSupplies
+  | -- | Represents the JSON value @"heating_plumbing_a_c"@
+    IssuingCardholderSpendingLimitCategories'EnumHeatingPlumbingAC
+  | -- | Represents the JSON value @"hobby_toy_and_game_shops"@
+    IssuingCardholderSpendingLimitCategories'EnumHobbyToyAndGameShops
+  | -- | Represents the JSON value @"home_supply_warehouse_stores"@
+    IssuingCardholderSpendingLimitCategories'EnumHomeSupplyWarehouseStores
+  | -- | Represents the JSON value @"hospitals"@
+    IssuingCardholderSpendingLimitCategories'EnumHospitals
+  | -- | Represents the JSON value @"hotels_motels_and_resorts"@
+    IssuingCardholderSpendingLimitCategories'EnumHotelsMotelsAndResorts
+  | -- | Represents the JSON value @"household_appliance_stores"@
+    IssuingCardholderSpendingLimitCategories'EnumHouseholdApplianceStores
+  | -- | Represents the JSON value @"industrial_supplies"@
+    IssuingCardholderSpendingLimitCategories'EnumIndustrialSupplies
+  | -- | Represents the JSON value @"information_retrieval_services"@
+    IssuingCardholderSpendingLimitCategories'EnumInformationRetrievalServices
+  | -- | Represents the JSON value @"insurance_default"@
+    IssuingCardholderSpendingLimitCategories'EnumInsuranceDefault
+  | -- | Represents the JSON value @"insurance_underwriting_premiums"@
+    IssuingCardholderSpendingLimitCategories'EnumInsuranceUnderwritingPremiums
+  | -- | Represents the JSON value @"intra_company_purchases"@
+    IssuingCardholderSpendingLimitCategories'EnumIntraCompanyPurchases
+  | -- | Represents the JSON value @"jewelry_stores_watches_clocks_and_silverware_stores"@
+    IssuingCardholderSpendingLimitCategories'EnumJewelryStoresWatchesClocksAndSilverwareStores
+  | -- | Represents the JSON value @"landscaping_services"@
+    IssuingCardholderSpendingLimitCategories'EnumLandscapingServices
+  | -- | Represents the JSON value @"laundries"@
+    IssuingCardholderSpendingLimitCategories'EnumLaundries
+  | -- | Represents the JSON value @"laundry_cleaning_services"@
+    IssuingCardholderSpendingLimitCategories'EnumLaundryCleaningServices
+  | -- | Represents the JSON value @"legal_services_attorneys"@
+    IssuingCardholderSpendingLimitCategories'EnumLegalServicesAttorneys
+  | -- | Represents the JSON value @"luggage_and_leather_goods_stores"@
+    IssuingCardholderSpendingLimitCategories'EnumLuggageAndLeatherGoodsStores
+  | -- | Represents the JSON value @"lumber_building_materials_stores"@
+    IssuingCardholderSpendingLimitCategories'EnumLumberBuildingMaterialsStores
+  | -- | Represents the JSON value @"manual_cash_disburse"@
+    IssuingCardholderSpendingLimitCategories'EnumManualCashDisburse
+  | -- | Represents the JSON value @"marinas_service_and_supplies"@
+    IssuingCardholderSpendingLimitCategories'EnumMarinasServiceAndSupplies
+  | -- | Represents the JSON value @"masonry_stonework_and_plaster"@
+    IssuingCardholderSpendingLimitCategories'EnumMasonryStoneworkAndPlaster
+  | -- | Represents the JSON value @"massage_parlors"@
+    IssuingCardholderSpendingLimitCategories'EnumMassageParlors
+  | -- | Represents the JSON value @"medical_and_dental_labs"@
+    IssuingCardholderSpendingLimitCategories'EnumMedicalAndDentalLabs
+  | -- | Represents the JSON value @"medical_dental_ophthalmic_and_hospital_equipment_and_supplies"@
+    IssuingCardholderSpendingLimitCategories'EnumMedicalDentalOphthalmicAndHospitalEquipmentAndSupplies
+  | -- | Represents the JSON value @"medical_services"@
+    IssuingCardholderSpendingLimitCategories'EnumMedicalServices
+  | -- | Represents the JSON value @"membership_organizations"@
+    IssuingCardholderSpendingLimitCategories'EnumMembershipOrganizations
+  | -- | Represents the JSON value @"mens_and_boys_clothing_and_accessories_stores"@
+    IssuingCardholderSpendingLimitCategories'EnumMensAndBoysClothingAndAccessoriesStores
+  | -- | Represents the JSON value @"mens_womens_clothing_stores"@
+    IssuingCardholderSpendingLimitCategories'EnumMensWomensClothingStores
+  | -- | Represents the JSON value @"metal_service_centers"@
+    IssuingCardholderSpendingLimitCategories'EnumMetalServiceCenters
+  | -- | Represents the JSON value @"miscellaneous"@
+    IssuingCardholderSpendingLimitCategories'EnumMiscellaneous
+  | -- | Represents the JSON value @"miscellaneous_apparel_and_accessory_shops"@
+    IssuingCardholderSpendingLimitCategories'EnumMiscellaneousApparelAndAccessoryShops
+  | -- | Represents the JSON value @"miscellaneous_auto_dealers"@
+    IssuingCardholderSpendingLimitCategories'EnumMiscellaneousAutoDealers
+  | -- | Represents the JSON value @"miscellaneous_business_services"@
+    IssuingCardholderSpendingLimitCategories'EnumMiscellaneousBusinessServices
+  | -- | Represents the JSON value @"miscellaneous_food_stores"@
+    IssuingCardholderSpendingLimitCategories'EnumMiscellaneousFoodStores
+  | -- | Represents the JSON value @"miscellaneous_general_merchandise"@
+    IssuingCardholderSpendingLimitCategories'EnumMiscellaneousGeneralMerchandise
+  | -- | Represents the JSON value @"miscellaneous_general_services"@
+    IssuingCardholderSpendingLimitCategories'EnumMiscellaneousGeneralServices
+  | -- | Represents the JSON value @"miscellaneous_home_furnishing_specialty_stores"@
+    IssuingCardholderSpendingLimitCategories'EnumMiscellaneousHomeFurnishingSpecialtyStores
+  | -- | Represents the JSON value @"miscellaneous_publishing_and_printing"@
+    IssuingCardholderSpendingLimitCategories'EnumMiscellaneousPublishingAndPrinting
+  | -- | Represents the JSON value @"miscellaneous_recreation_services"@
+    IssuingCardholderSpendingLimitCategories'EnumMiscellaneousRecreationServices
+  | -- | Represents the JSON value @"miscellaneous_repair_shops"@
+    IssuingCardholderSpendingLimitCategories'EnumMiscellaneousRepairShops
+  | -- | Represents the JSON value @"miscellaneous_specialty_retail"@
+    IssuingCardholderSpendingLimitCategories'EnumMiscellaneousSpecialtyRetail
+  | -- | Represents the JSON value @"mobile_home_dealers"@
+    IssuingCardholderSpendingLimitCategories'EnumMobileHomeDealers
+  | -- | Represents the JSON value @"motion_picture_theaters"@
+    IssuingCardholderSpendingLimitCategories'EnumMotionPictureTheaters
+  | -- | Represents the JSON value @"motor_freight_carriers_and_trucking"@
+    IssuingCardholderSpendingLimitCategories'EnumMotorFreightCarriersAndTrucking
+  | -- | Represents the JSON value @"motor_homes_dealers"@
+    IssuingCardholderSpendingLimitCategories'EnumMotorHomesDealers
+  | -- | Represents the JSON value @"motor_vehicle_supplies_and_new_parts"@
+    IssuingCardholderSpendingLimitCategories'EnumMotorVehicleSuppliesAndNewParts
+  | -- | Represents the JSON value @"motorcycle_shops_and_dealers"@
+    IssuingCardholderSpendingLimitCategories'EnumMotorcycleShopsAndDealers
+  | -- | Represents the JSON value @"motorcycle_shops_dealers"@
+    IssuingCardholderSpendingLimitCategories'EnumMotorcycleShopsDealers
+  | -- | Represents the JSON value @"music_stores_musical_instruments_pianos_and_sheet_music"@
+    IssuingCardholderSpendingLimitCategories'EnumMusicStoresMusicalInstrumentsPianosAndSheetMusic
+  | -- | Represents the JSON value @"news_dealers_and_newsstands"@
+    IssuingCardholderSpendingLimitCategories'EnumNewsDealersAndNewsstands
+  | -- | Represents the JSON value @"non_fi_money_orders"@
+    IssuingCardholderSpendingLimitCategories'EnumNonFiMoneyOrders
+  | -- | Represents the JSON value @"non_fi_stored_value_card_purchase_load"@
+    IssuingCardholderSpendingLimitCategories'EnumNonFiStoredValueCardPurchaseLoad
+  | -- | Represents the JSON value @"nondurable_goods"@
+    IssuingCardholderSpendingLimitCategories'EnumNondurableGoods
+  | -- | Represents the JSON value @"nurseries_lawn_and_garden_supply_stores"@
+    IssuingCardholderSpendingLimitCategories'EnumNurseriesLawnAndGardenSupplyStores
+  | -- | Represents the JSON value @"nursing_personal_care"@
+    IssuingCardholderSpendingLimitCategories'EnumNursingPersonalCare
+  | -- | Represents the JSON value @"office_and_commercial_furniture"@
+    IssuingCardholderSpendingLimitCategories'EnumOfficeAndCommercialFurniture
+  | -- | Represents the JSON value @"opticians_eyeglasses"@
+    IssuingCardholderSpendingLimitCategories'EnumOpticiansEyeglasses
+  | -- | Represents the JSON value @"optometrists_ophthalmologist"@
+    IssuingCardholderSpendingLimitCategories'EnumOptometristsOphthalmologist
+  | -- | Represents the JSON value @"orthopedic_goods_prosthetic_devices"@
+    IssuingCardholderSpendingLimitCategories'EnumOrthopedicGoodsProstheticDevices
+  | -- | Represents the JSON value @"osteopaths"@
+    IssuingCardholderSpendingLimitCategories'EnumOsteopaths
+  | -- | Represents the JSON value @"package_stores_beer_wine_and_liquor"@
+    IssuingCardholderSpendingLimitCategories'EnumPackageStoresBeerWineAndLiquor
+  | -- | Represents the JSON value @"paints_varnishes_and_supplies"@
+    IssuingCardholderSpendingLimitCategories'EnumPaintsVarnishesAndSupplies
+  | -- | Represents the JSON value @"parking_lots_garages"@
+    IssuingCardholderSpendingLimitCategories'EnumParkingLotsGarages
+  | -- | Represents the JSON value @"passenger_railways"@
+    IssuingCardholderSpendingLimitCategories'EnumPassengerRailways
+  | -- | Represents the JSON value @"pawn_shops"@
+    IssuingCardholderSpendingLimitCategories'EnumPawnShops
+  | -- | Represents the JSON value @"pet_shops_pet_food_and_supplies"@
+    IssuingCardholderSpendingLimitCategories'EnumPetShopsPetFoodAndSupplies
+  | -- | Represents the JSON value @"petroleum_and_petroleum_products"@
+    IssuingCardholderSpendingLimitCategories'EnumPetroleumAndPetroleumProducts
+  | -- | Represents the JSON value @"photo_developing"@
+    IssuingCardholderSpendingLimitCategories'EnumPhotoDeveloping
+  | -- | Represents the JSON value @"photographic_photocopy_microfilm_equipment_and_supplies"@
+    IssuingCardholderSpendingLimitCategories'EnumPhotographicPhotocopyMicrofilmEquipmentAndSupplies
+  | -- | Represents the JSON value @"photographic_studios"@
+    IssuingCardholderSpendingLimitCategories'EnumPhotographicStudios
+  | -- | Represents the JSON value @"picture_video_production"@
+    IssuingCardholderSpendingLimitCategories'EnumPictureVideoProduction
+  | -- | Represents the JSON value @"piece_goods_notions_and_other_dry_goods"@
+    IssuingCardholderSpendingLimitCategories'EnumPieceGoodsNotionsAndOtherDryGoods
+  | -- | Represents the JSON value @"plumbing_heating_equipment_and_supplies"@
+    IssuingCardholderSpendingLimitCategories'EnumPlumbingHeatingEquipmentAndSupplies
+  | -- | Represents the JSON value @"political_organizations"@
+    IssuingCardholderSpendingLimitCategories'EnumPoliticalOrganizations
+  | -- | Represents the JSON value @"postal_services_government_only"@
+    IssuingCardholderSpendingLimitCategories'EnumPostalServicesGovernmentOnly
+  | -- | Represents the JSON value @"precious_stones_and_metals_watches_and_jewelry"@
+    IssuingCardholderSpendingLimitCategories'EnumPreciousStonesAndMetalsWatchesAndJewelry
+  | -- | Represents the JSON value @"professional_services"@
+    IssuingCardholderSpendingLimitCategories'EnumProfessionalServices
+  | -- | Represents the JSON value @"public_warehousing_and_storage"@
+    IssuingCardholderSpendingLimitCategories'EnumPublicWarehousingAndStorage
+  | -- | Represents the JSON value @"quick_copy_repro_and_blueprint"@
+    IssuingCardholderSpendingLimitCategories'EnumQuickCopyReproAndBlueprint
+  | -- | Represents the JSON value @"railroads"@
+    IssuingCardholderSpendingLimitCategories'EnumRailroads
+  | -- | Represents the JSON value @"real_estate_agents_and_managers_rentals"@
+    IssuingCardholderSpendingLimitCategories'EnumRealEstateAgentsAndManagersRentals
+  | -- | Represents the JSON value @"record_stores"@
+    IssuingCardholderSpendingLimitCategories'EnumRecordStores
+  | -- | Represents the JSON value @"recreational_vehicle_rentals"@
+    IssuingCardholderSpendingLimitCategories'EnumRecreationalVehicleRentals
+  | -- | Represents the JSON value @"religious_goods_stores"@
+    IssuingCardholderSpendingLimitCategories'EnumReligiousGoodsStores
+  | -- | Represents the JSON value @"religious_organizations"@
+    IssuingCardholderSpendingLimitCategories'EnumReligiousOrganizations
+  | -- | Represents the JSON value @"roofing_siding_sheet_metal"@
+    IssuingCardholderSpendingLimitCategories'EnumRoofingSidingSheetMetal
+  | -- | Represents the JSON value @"secretarial_support_services"@
+    IssuingCardholderSpendingLimitCategories'EnumSecretarialSupportServices
+  | -- | Represents the JSON value @"security_brokers_dealers"@
+    IssuingCardholderSpendingLimitCategories'EnumSecurityBrokersDealers
+  | -- | Represents the JSON value @"service_stations"@
+    IssuingCardholderSpendingLimitCategories'EnumServiceStations
+  | -- | Represents the JSON value @"sewing_needlework_fabric_and_piece_goods_stores"@
+    IssuingCardholderSpendingLimitCategories'EnumSewingNeedleworkFabricAndPieceGoodsStores
+  | -- | Represents the JSON value @"shoe_repair_hat_cleaning"@
+    IssuingCardholderSpendingLimitCategories'EnumShoeRepairHatCleaning
+  | -- | Represents the JSON value @"shoe_stores"@
+    IssuingCardholderSpendingLimitCategories'EnumShoeStores
+  | -- | Represents the JSON value @"small_appliance_repair"@
+    IssuingCardholderSpendingLimitCategories'EnumSmallApplianceRepair
+  | -- | Represents the JSON value @"snowmobile_dealers"@
+    IssuingCardholderSpendingLimitCategories'EnumSnowmobileDealers
+  | -- | Represents the JSON value @"special_trade_services"@
+    IssuingCardholderSpendingLimitCategories'EnumSpecialTradeServices
+  | -- | Represents the JSON value @"specialty_cleaning"@
+    IssuingCardholderSpendingLimitCategories'EnumSpecialtyCleaning
+  | -- | Represents the JSON value @"sporting_goods_stores"@
+    IssuingCardholderSpendingLimitCategories'EnumSportingGoodsStores
+  | -- | Represents the JSON value @"sporting_recreation_camps"@
+    IssuingCardholderSpendingLimitCategories'EnumSportingRecreationCamps
+  | -- | Represents the JSON value @"sports_and_riding_apparel_stores"@
+    IssuingCardholderSpendingLimitCategories'EnumSportsAndRidingApparelStores
+  | -- | Represents the JSON value @"sports_clubs_fields"@
+    IssuingCardholderSpendingLimitCategories'EnumSportsClubsFields
+  | -- | Represents the JSON value @"stamp_and_coin_stores"@
+    IssuingCardholderSpendingLimitCategories'EnumStampAndCoinStores
+  | -- | Represents the JSON value @"stationary_office_supplies_printing_and_writing_paper"@
+    IssuingCardholderSpendingLimitCategories'EnumStationaryOfficeSuppliesPrintingAndWritingPaper
+  | -- | Represents the JSON value @"stationery_stores_office_and_school_supply_stores"@
+    IssuingCardholderSpendingLimitCategories'EnumStationeryStoresOfficeAndSchoolSupplyStores
+  | -- | Represents the JSON value @"swimming_pools_sales"@
+    IssuingCardholderSpendingLimitCategories'EnumSwimmingPoolsSales
+  | -- | Represents the JSON value @"t_ui_travel_germany"@
+    IssuingCardholderSpendingLimitCategories'EnumTUiTravelGermany
+  | -- | Represents the JSON value @"tailors_alterations"@
+    IssuingCardholderSpendingLimitCategories'EnumTailorsAlterations
+  | -- | Represents the JSON value @"tax_payments_government_agencies"@
+    IssuingCardholderSpendingLimitCategories'EnumTaxPaymentsGovernmentAgencies
+  | -- | Represents the JSON value @"tax_preparation_services"@
+    IssuingCardholderSpendingLimitCategories'EnumTaxPreparationServices
+  | -- | Represents the JSON value @"taxicabs_limousines"@
+    IssuingCardholderSpendingLimitCategories'EnumTaxicabsLimousines
+  | -- | Represents the JSON value @"telecommunication_equipment_and_telephone_sales"@
+    IssuingCardholderSpendingLimitCategories'EnumTelecommunicationEquipmentAndTelephoneSales
+  | -- | Represents the JSON value @"telecommunication_services"@
+    IssuingCardholderSpendingLimitCategories'EnumTelecommunicationServices
+  | -- | Represents the JSON value @"telegraph_services"@
+    IssuingCardholderSpendingLimitCategories'EnumTelegraphServices
+  | -- | Represents the JSON value @"tent_and_awning_shops"@
+    IssuingCardholderSpendingLimitCategories'EnumTentAndAwningShops
+  | -- | Represents the JSON value @"testing_laboratories"@
+    IssuingCardholderSpendingLimitCategories'EnumTestingLaboratories
+  | -- | Represents the JSON value @"theatrical_ticket_agencies"@
+    IssuingCardholderSpendingLimitCategories'EnumTheatricalTicketAgencies
+  | -- | Represents the JSON value @"timeshares"@
+    IssuingCardholderSpendingLimitCategories'EnumTimeshares
+  | -- | Represents the JSON value @"tire_retreading_and_repair"@
+    IssuingCardholderSpendingLimitCategories'EnumTireRetreadingAndRepair
+  | -- | Represents the JSON value @"tolls_bridge_fees"@
+    IssuingCardholderSpendingLimitCategories'EnumTollsBridgeFees
+  | -- | Represents the JSON value @"tourist_attractions_and_exhibits"@
+    IssuingCardholderSpendingLimitCategories'EnumTouristAttractionsAndExhibits
+  | -- | Represents the JSON value @"towing_services"@
+    IssuingCardholderSpendingLimitCategories'EnumTowingServices
+  | -- | Represents the JSON value @"trailer_parks_campgrounds"@
+    IssuingCardholderSpendingLimitCategories'EnumTrailerParksCampgrounds
+  | -- | Represents the JSON value @"transportation_services"@
+    IssuingCardholderSpendingLimitCategories'EnumTransportationServices
+  | -- | Represents the JSON value @"travel_agencies_tour_operators"@
+    IssuingCardholderSpendingLimitCategories'EnumTravelAgenciesTourOperators
+  | -- | Represents the JSON value @"truck_stop_iteration"@
+    IssuingCardholderSpendingLimitCategories'EnumTruckStopIteration
+  | -- | Represents the JSON value @"truck_utility_trailer_rentals"@
+    IssuingCardholderSpendingLimitCategories'EnumTruckUtilityTrailerRentals
+  | -- | Represents the JSON value @"typesetting_plate_making_and_related_services"@
+    IssuingCardholderSpendingLimitCategories'EnumTypesettingPlateMakingAndRelatedServices
+  | -- | Represents the JSON value @"typewriter_stores"@
+    IssuingCardholderSpendingLimitCategories'EnumTypewriterStores
+  | -- | Represents the JSON value @"u_s_federal_government_agencies_or_departments"@
+    IssuingCardholderSpendingLimitCategories'EnumUSFederalGovernmentAgenciesOrDepartments
+  | -- | Represents the JSON value @"uniforms_commercial_clothing"@
+    IssuingCardholderSpendingLimitCategories'EnumUniformsCommercialClothing
+  | -- | Represents the JSON value @"used_merchandise_and_secondhand_stores"@
+    IssuingCardholderSpendingLimitCategories'EnumUsedMerchandiseAndSecondhandStores
+  | -- | Represents the JSON value @"utilities"@
+    IssuingCardholderSpendingLimitCategories'EnumUtilities
+  | -- | Represents the JSON value @"variety_stores"@
+    IssuingCardholderSpendingLimitCategories'EnumVarietyStores
+  | -- | Represents the JSON value @"veterinary_services"@
+    IssuingCardholderSpendingLimitCategories'EnumVeterinaryServices
+  | -- | Represents the JSON value @"video_amusement_game_supplies"@
+    IssuingCardholderSpendingLimitCategories'EnumVideoAmusementGameSupplies
+  | -- | Represents the JSON value @"video_game_arcades"@
+    IssuingCardholderSpendingLimitCategories'EnumVideoGameArcades
+  | -- | Represents the JSON value @"video_tape_rental_stores"@
+    IssuingCardholderSpendingLimitCategories'EnumVideoTapeRentalStores
+  | -- | Represents the JSON value @"vocational_trade_schools"@
+    IssuingCardholderSpendingLimitCategories'EnumVocationalTradeSchools
+  | -- | Represents the JSON value @"watch_jewelry_repair"@
+    IssuingCardholderSpendingLimitCategories'EnumWatchJewelryRepair
+  | -- | Represents the JSON value @"welding_repair"@
+    IssuingCardholderSpendingLimitCategories'EnumWeldingRepair
+  | -- | Represents the JSON value @"wholesale_clubs"@
+    IssuingCardholderSpendingLimitCategories'EnumWholesaleClubs
+  | -- | Represents the JSON value @"wig_and_toupee_stores"@
+    IssuingCardholderSpendingLimitCategories'EnumWigAndToupeeStores
+  | -- | Represents the JSON value @"wires_money_orders"@
+    IssuingCardholderSpendingLimitCategories'EnumWiresMoneyOrders
+  | -- | Represents the JSON value @"womens_accessory_and_specialty_shops"@
+    IssuingCardholderSpendingLimitCategories'EnumWomensAccessoryAndSpecialtyShops
+  | -- | Represents the JSON value @"womens_ready_to_wear_stores"@
+    IssuingCardholderSpendingLimitCategories'EnumWomensReadyToWearStores
+  | -- | Represents the JSON value @"wrecking_and_salvage_yards"@
+    IssuingCardholderSpendingLimitCategories'EnumWreckingAndSalvageYards
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
 instance Data.Aeson.Types.ToJSON.ToJSON IssuingCardholderSpendingLimitCategories' where
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringAcRefrigerationRepair) = "ac_refrigeration_repair"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringAccountingBookkeepingServices) = "accounting_bookkeeping_services"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringAdvertisingServices) = "advertising_services"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringAgriculturalCooperative) = "agricultural_cooperative"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringAirlinesAirCarriers) = "airlines_air_carriers"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringAirportsFlyingFields) = "airports_flying_fields"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringAmbulanceServices) = "ambulance_services"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringAmusementParksCarnivals) = "amusement_parks_carnivals"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringAntiqueReproductions) = "antique_reproductions"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringAntiqueShops) = "antique_shops"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringAquariums) = "aquariums"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringArchitecturalSurveyingServices) = "architectural_surveying_services"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringArtDealersAndGalleries) = "art_dealers_and_galleries"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringArtistsSupplyAndCraftShops) = "artists_supply_and_craft_shops"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringAutoAndHomeSupplyStores) = "auto_and_home_supply_stores"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringAutoBodyRepairShops) = "auto_body_repair_shops"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringAutoPaintShops) = "auto_paint_shops"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringAutoServiceShops) = "auto_service_shops"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringAutomatedCashDisburse) = "automated_cash_disburse"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringAutomatedFuelDispensers) = "automated_fuel_dispensers"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringAutomobileAssociations) = "automobile_associations"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringAutomotivePartsAndAccessoriesStores) = "automotive_parts_and_accessories_stores"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringAutomotiveTireStores) = "automotive_tire_stores"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringBailAndBondPayments) = "bail_and_bond_payments"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringBakeries) = "bakeries"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringBandsOrchestras) = "bands_orchestras"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringBarberAndBeautyShops) = "barber_and_beauty_shops"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringBettingCasinoGambling) = "betting_casino_gambling"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringBicycleShops) = "bicycle_shops"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringBilliardPoolEstablishments) = "billiard_pool_establishments"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringBoatDealers) = "boat_dealers"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringBoatRentalsAndLeases) = "boat_rentals_and_leases"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringBookStores) = "book_stores"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringBooksPeriodicalsAndNewspapers) = "books_periodicals_and_newspapers"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringBowlingAlleys) = "bowling_alleys"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringBusLines) = "bus_lines"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringBusinessSecretarialSchools) = "business_secretarial_schools"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringBuyingShoppingServices) = "buying_shopping_services"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringCableSatelliteAndOtherPayTelevisionAndRadio) = "cable_satellite_and_other_pay_television_and_radio"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringCameraAndPhotographicSupplyStores) = "camera_and_photographic_supply_stores"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringCandyNutAndConfectioneryStores) = "candy_nut_and_confectionery_stores"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringCarAndTruckDealersNewUsed) = "car_and_truck_dealers_new_used"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringCarAndTruckDealersUsedOnly) = "car_and_truck_dealers_used_only"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringCarRentalAgencies) = "car_rental_agencies"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringCarWashes) = "car_washes"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringCarpentryServices) = "carpentry_services"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringCarpetUpholsteryCleaning) = "carpet_upholstery_cleaning"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringCaterers) = "caterers"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringCharitableAndSocialServiceOrganizationsFundraising) = "charitable_and_social_service_organizations_fundraising"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringChemicalsAndAlliedProducts) = "chemicals_and_allied_products"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringChildCareServices) = "child_care_services"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringChildrensAndInfantsWearStores) = "childrens_and_infants_wear_stores"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringChiropodistsPodiatrists) = "chiropodists_podiatrists"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringChiropractors) = "chiropractors"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringCigarStoresAndStands) = "cigar_stores_and_stands"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringCivicSocialFraternalAssociations) = "civic_social_fraternal_associations"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringCleaningAndMaintenance) = "cleaning_and_maintenance"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringClothingRental) = "clothing_rental"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringCollegesUniversities) = "colleges_universities"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringCommercialEquipment) = "commercial_equipment"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringCommercialFootwear) = "commercial_footwear"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringCommercialPhotographyArtAndGraphics) = "commercial_photography_art_and_graphics"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringCommuterTransportAndFerries) = "commuter_transport_and_ferries"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringComputerNetworkServices) = "computer_network_services"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringComputerProgramming) = "computer_programming"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringComputerRepair) = "computer_repair"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringComputerSoftwareStores) = "computer_software_stores"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringComputersPeripheralsAndSoftware) = "computers_peripherals_and_software"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringConcreteWorkServices) = "concrete_work_services"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringConstructionMaterials) = "construction_materials"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringConsultingPublicRelations) = "consulting_public_relations"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringCorrespondenceSchools) = "correspondence_schools"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringCosmeticStores) = "cosmetic_stores"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringCounselingServices) = "counseling_services"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringCountryClubs) = "country_clubs"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringCourierServices) = "courier_services"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringCourtCosts) = "court_costs"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringCreditReportingAgencies) = "credit_reporting_agencies"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringCruiseLines) = "cruise_lines"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringDairyProductsStores) = "dairy_products_stores"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringDanceHallStudiosSchools) = "dance_hall_studios_schools"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringDatingEscortServices) = "dating_escort_services"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringDentistsOrthodontists) = "dentists_orthodontists"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringDepartmentStores) = "department_stores"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringDetectiveAgencies) = "detective_agencies"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringDigitalGoodsApplications) = "digital_goods_applications"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringDigitalGoodsGames) = "digital_goods_games"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringDigitalGoodsLargeVolume) = "digital_goods_large_volume"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringDigitalGoodsMedia) = "digital_goods_media"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringDirectMarketingCatalogMerchant) = "direct_marketing_catalog_merchant"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringDirectMarketingCombinationCatalogAndRetailMerchant) = "direct_marketing_combination_catalog_and_retail_merchant"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringDirectMarketingInboundTelemarketing) = "direct_marketing_inbound_telemarketing"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringDirectMarketingInsuranceServices) = "direct_marketing_insurance_services"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringDirectMarketingOther) = "direct_marketing_other"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringDirectMarketingOutboundTelemarketing) = "direct_marketing_outbound_telemarketing"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringDirectMarketingSubscription) = "direct_marketing_subscription"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringDirectMarketingTravel) = "direct_marketing_travel"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringDiscountStores) = "discount_stores"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringDoctors) = "doctors"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringDoorToDoorSales) = "door_to_door_sales"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringDraperyWindowCoveringAndUpholsteryStores) = "drapery_window_covering_and_upholstery_stores"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringDrinkingPlaces) = "drinking_places"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringDrugStoresAndPharmacies) = "drug_stores_and_pharmacies"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringDrugsDrugProprietariesAndDruggistSundries) = "drugs_drug_proprietaries_and_druggist_sundries"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringDryCleaners) = "dry_cleaners"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringDurableGoods) = "durable_goods"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringDutyFreeStores) = "duty_free_stores"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringEatingPlacesRestaurants) = "eating_places_restaurants"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringEducationalServices) = "educational_services"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringElectricRazorStores) = "electric_razor_stores"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringElectricalPartsAndEquipment) = "electrical_parts_and_equipment"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringElectricalServices) = "electrical_services"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringElectronicsRepairShops) = "electronics_repair_shops"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringElectronicsStores) = "electronics_stores"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringElementarySecondarySchools) = "elementary_secondary_schools"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringEmploymentTempAgencies) = "employment_temp_agencies"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringEquipmentRental) = "equipment_rental"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringExterminatingServices) = "exterminating_services"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringFamilyClothingStores) = "family_clothing_stores"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringFastFoodRestaurants) = "fast_food_restaurants"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringFinancialInstitutions) = "financial_institutions"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringFinesGovernmentAdministrativeEntities) = "fines_government_administrative_entities"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringFireplaceFireplaceScreensAndAccessoriesStores) = "fireplace_fireplace_screens_and_accessories_stores"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringFloorCoveringStores) = "floor_covering_stores"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringFlorists) = "florists"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringFloristsSuppliesNurseryStockAndFlowers) = "florists_supplies_nursery_stock_and_flowers"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringFreezerAndLockerMeatProvisioners) = "freezer_and_locker_meat_provisioners"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringFuelDealersNonAutomotive) = "fuel_dealers_non_automotive"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringFuneralServicesCrematories) = "funeral_services_crematories"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringFurnitureHomeFurnishingsAndEquipmentStoresExceptAppliances) = "furniture_home_furnishings_and_equipment_stores_except_appliances"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringFurnitureRepairRefinishing) = "furniture_repair_refinishing"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringFurriersAndFurShops) = "furriers_and_fur_shops"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringGeneralServices) = "general_services"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringGiftCardNoveltyAndSouvenirShops) = "gift_card_novelty_and_souvenir_shops"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringGlassPaintAndWallpaperStores) = "glass_paint_and_wallpaper_stores"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringGlasswareCrystalStores) = "glassware_crystal_stores"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringGolfCoursesPublic) = "golf_courses_public"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringGovernmentServices) = "government_services"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringGroceryStoresSupermarkets) = "grocery_stores_supermarkets"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringHardwareEquipmentAndSupplies) = "hardware_equipment_and_supplies"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringHardwareStores) = "hardware_stores"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringHealthAndBeautySpas) = "health_and_beauty_spas"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringHearingAidsSalesAndSupplies) = "hearing_aids_sales_and_supplies"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringHeatingPlumbingAC) = "heating_plumbing_a_c"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringHobbyToyAndGameShops) = "hobby_toy_and_game_shops"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringHomeSupplyWarehouseStores) = "home_supply_warehouse_stores"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringHospitals) = "hospitals"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringHotelsMotelsAndResorts) = "hotels_motels_and_resorts"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringHouseholdApplianceStores) = "household_appliance_stores"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringIndustrialSupplies) = "industrial_supplies"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringInformationRetrievalServices) = "information_retrieval_services"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringInsuranceDefault) = "insurance_default"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringInsuranceUnderwritingPremiums) = "insurance_underwriting_premiums"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringIntraCompanyPurchases) = "intra_company_purchases"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringJewelryStoresWatchesClocksAndSilverwareStores) = "jewelry_stores_watches_clocks_and_silverware_stores"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringLandscapingServices) = "landscaping_services"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringLaundries) = "laundries"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringLaundryCleaningServices) = "laundry_cleaning_services"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringLegalServicesAttorneys) = "legal_services_attorneys"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringLuggageAndLeatherGoodsStores) = "luggage_and_leather_goods_stores"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringLumberBuildingMaterialsStores) = "lumber_building_materials_stores"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringManualCashDisburse) = "manual_cash_disburse"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringMarinasServiceAndSupplies) = "marinas_service_and_supplies"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringMasonryStoneworkAndPlaster) = "masonry_stonework_and_plaster"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringMassageParlors) = "massage_parlors"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringMedicalAndDentalLabs) = "medical_and_dental_labs"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringMedicalDentalOphthalmicAndHospitalEquipmentAndSupplies) = "medical_dental_ophthalmic_and_hospital_equipment_and_supplies"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringMedicalServices) = "medical_services"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringMembershipOrganizations) = "membership_organizations"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringMensAndBoysClothingAndAccessoriesStores) = "mens_and_boys_clothing_and_accessories_stores"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringMensWomensClothingStores) = "mens_womens_clothing_stores"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringMetalServiceCenters) = "metal_service_centers"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringMiscellaneous) = "miscellaneous"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringMiscellaneousApparelAndAccessoryShops) = "miscellaneous_apparel_and_accessory_shops"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringMiscellaneousAutoDealers) = "miscellaneous_auto_dealers"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringMiscellaneousBusinessServices) = "miscellaneous_business_services"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringMiscellaneousFoodStores) = "miscellaneous_food_stores"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringMiscellaneousGeneralMerchandise) = "miscellaneous_general_merchandise"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringMiscellaneousGeneralServices) = "miscellaneous_general_services"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringMiscellaneousHomeFurnishingSpecialtyStores) = "miscellaneous_home_furnishing_specialty_stores"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringMiscellaneousPublishingAndPrinting) = "miscellaneous_publishing_and_printing"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringMiscellaneousRecreationServices) = "miscellaneous_recreation_services"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringMiscellaneousRepairShops) = "miscellaneous_repair_shops"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringMiscellaneousSpecialtyRetail) = "miscellaneous_specialty_retail"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringMobileHomeDealers) = "mobile_home_dealers"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringMotionPictureTheaters) = "motion_picture_theaters"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringMotorFreightCarriersAndTrucking) = "motor_freight_carriers_and_trucking"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringMotorHomesDealers) = "motor_homes_dealers"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringMotorVehicleSuppliesAndNewParts) = "motor_vehicle_supplies_and_new_parts"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringMotorcycleShopsAndDealers) = "motorcycle_shops_and_dealers"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringMotorcycleShopsDealers) = "motorcycle_shops_dealers"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringMusicStoresMusicalInstrumentsPianosAndSheetMusic) = "music_stores_musical_instruments_pianos_and_sheet_music"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringNewsDealersAndNewsstands) = "news_dealers_and_newsstands"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringNonFiMoneyOrders) = "non_fi_money_orders"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringNonFiStoredValueCardPurchaseLoad) = "non_fi_stored_value_card_purchase_load"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringNondurableGoods) = "nondurable_goods"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringNurseriesLawnAndGardenSupplyStores) = "nurseries_lawn_and_garden_supply_stores"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringNursingPersonalCare) = "nursing_personal_care"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringOfficeAndCommercialFurniture) = "office_and_commercial_furniture"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringOpticiansEyeglasses) = "opticians_eyeglasses"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringOptometristsOphthalmologist) = "optometrists_ophthalmologist"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringOrthopedicGoodsProstheticDevices) = "orthopedic_goods_prosthetic_devices"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringOsteopaths) = "osteopaths"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringPackageStoresBeerWineAndLiquor) = "package_stores_beer_wine_and_liquor"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringPaintsVarnishesAndSupplies) = "paints_varnishes_and_supplies"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringParkingLotsGarages) = "parking_lots_garages"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringPassengerRailways) = "passenger_railways"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringPawnShops) = "pawn_shops"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringPetShopsPetFoodAndSupplies) = "pet_shops_pet_food_and_supplies"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringPetroleumAndPetroleumProducts) = "petroleum_and_petroleum_products"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringPhotoDeveloping) = "photo_developing"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringPhotographicPhotocopyMicrofilmEquipmentAndSupplies) = "photographic_photocopy_microfilm_equipment_and_supplies"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringPhotographicStudios) = "photographic_studios"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringPictureVideoProduction) = "picture_video_production"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringPieceGoodsNotionsAndOtherDryGoods) = "piece_goods_notions_and_other_dry_goods"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringPlumbingHeatingEquipmentAndSupplies) = "plumbing_heating_equipment_and_supplies"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringPoliticalOrganizations) = "political_organizations"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringPostalServicesGovernmentOnly) = "postal_services_government_only"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringPreciousStonesAndMetalsWatchesAndJewelry) = "precious_stones_and_metals_watches_and_jewelry"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringProfessionalServices) = "professional_services"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringPublicWarehousingAndStorage) = "public_warehousing_and_storage"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringQuickCopyReproAndBlueprint) = "quick_copy_repro_and_blueprint"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringRailroads) = "railroads"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringRealEstateAgentsAndManagersRentals) = "real_estate_agents_and_managers_rentals"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringRecordStores) = "record_stores"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringRecreationalVehicleRentals) = "recreational_vehicle_rentals"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringReligiousGoodsStores) = "religious_goods_stores"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringReligiousOrganizations) = "religious_organizations"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringRoofingSidingSheetMetal) = "roofing_siding_sheet_metal"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringSecretarialSupportServices) = "secretarial_support_services"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringSecurityBrokersDealers) = "security_brokers_dealers"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringServiceStations) = "service_stations"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringSewingNeedleworkFabricAndPieceGoodsStores) = "sewing_needlework_fabric_and_piece_goods_stores"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringShoeRepairHatCleaning) = "shoe_repair_hat_cleaning"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringShoeStores) = "shoe_stores"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringSmallApplianceRepair) = "small_appliance_repair"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringSnowmobileDealers) = "snowmobile_dealers"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringSpecialTradeServices) = "special_trade_services"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringSpecialtyCleaning) = "specialty_cleaning"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringSportingGoodsStores) = "sporting_goods_stores"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringSportingRecreationCamps) = "sporting_recreation_camps"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringSportsAndRidingApparelStores) = "sports_and_riding_apparel_stores"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringSportsClubsFields) = "sports_clubs_fields"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringStampAndCoinStores) = "stamp_and_coin_stores"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringStationaryOfficeSuppliesPrintingAndWritingPaper) = "stationary_office_supplies_printing_and_writing_paper"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringStationeryStoresOfficeAndSchoolSupplyStores) = "stationery_stores_office_and_school_supply_stores"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringSwimmingPoolsSales) = "swimming_pools_sales"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringTUiTravelGermany) = "t_ui_travel_germany"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringTailorsAlterations) = "tailors_alterations"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringTaxPaymentsGovernmentAgencies) = "tax_payments_government_agencies"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringTaxPreparationServices) = "tax_preparation_services"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringTaxicabsLimousines) = "taxicabs_limousines"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringTelecommunicationEquipmentAndTelephoneSales) = "telecommunication_equipment_and_telephone_sales"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringTelecommunicationServices) = "telecommunication_services"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringTelegraphServices) = "telegraph_services"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringTentAndAwningShops) = "tent_and_awning_shops"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringTestingLaboratories) = "testing_laboratories"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringTheatricalTicketAgencies) = "theatrical_ticket_agencies"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringTimeshares) = "timeshares"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringTireRetreadingAndRepair) = "tire_retreading_and_repair"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringTollsBridgeFees) = "tolls_bridge_fees"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringTouristAttractionsAndExhibits) = "tourist_attractions_and_exhibits"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringTowingServices) = "towing_services"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringTrailerParksCampgrounds) = "trailer_parks_campgrounds"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringTransportationServices) = "transportation_services"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringTravelAgenciesTourOperators) = "travel_agencies_tour_operators"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringTruckStopIteration) = "truck_stop_iteration"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringTruckUtilityTrailerRentals) = "truck_utility_trailer_rentals"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringTypesettingPlateMakingAndRelatedServices) = "typesetting_plate_making_and_related_services"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringTypewriterStores) = "typewriter_stores"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringUSFederalGovernmentAgenciesOrDepartments) = "u_s_federal_government_agencies_or_departments"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringUniformsCommercialClothing) = "uniforms_commercial_clothing"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringUsedMerchandiseAndSecondhandStores) = "used_merchandise_and_secondhand_stores"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringUtilities) = "utilities"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringVarietyStores) = "variety_stores"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringVeterinaryServices) = "veterinary_services"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringVideoAmusementGameSupplies) = "video_amusement_game_supplies"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringVideoGameArcades) = "video_game_arcades"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringVideoTapeRentalStores) = "video_tape_rental_stores"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringVocationalTradeSchools) = "vocational_trade_schools"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringWatchJewelryRepair) = "watch_jewelry_repair"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringWeldingRepair) = "welding_repair"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringWholesaleClubs) = "wholesale_clubs"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringWigAndToupeeStores) = "wig_and_toupee_stores"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringWiresMoneyOrders) = "wires_money_orders"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringWomensAccessoryAndSpecialtyShops) = "womens_accessory_and_specialty_shops"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringWomensReadyToWearStores) = "womens_ready_to_wear_stores"
-  toJSON (IssuingCardholderSpendingLimitCategories'EnumStringWreckingAndSalvageYards) = "wrecking_and_salvage_yards"
+  toJSON (IssuingCardholderSpendingLimitCategories'Other val) = val
+  toJSON (IssuingCardholderSpendingLimitCategories'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumAcRefrigerationRepair) = "ac_refrigeration_repair"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumAccountingBookkeepingServices) = "accounting_bookkeeping_services"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumAdvertisingServices) = "advertising_services"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumAgriculturalCooperative) = "agricultural_cooperative"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumAirlinesAirCarriers) = "airlines_air_carriers"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumAirportsFlyingFields) = "airports_flying_fields"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumAmbulanceServices) = "ambulance_services"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumAmusementParksCarnivals) = "amusement_parks_carnivals"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumAntiqueReproductions) = "antique_reproductions"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumAntiqueShops) = "antique_shops"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumAquariums) = "aquariums"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumArchitecturalSurveyingServices) = "architectural_surveying_services"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumArtDealersAndGalleries) = "art_dealers_and_galleries"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumArtistsSupplyAndCraftShops) = "artists_supply_and_craft_shops"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumAutoAndHomeSupplyStores) = "auto_and_home_supply_stores"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumAutoBodyRepairShops) = "auto_body_repair_shops"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumAutoPaintShops) = "auto_paint_shops"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumAutoServiceShops) = "auto_service_shops"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumAutomatedCashDisburse) = "automated_cash_disburse"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumAutomatedFuelDispensers) = "automated_fuel_dispensers"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumAutomobileAssociations) = "automobile_associations"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumAutomotivePartsAndAccessoriesStores) = "automotive_parts_and_accessories_stores"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumAutomotiveTireStores) = "automotive_tire_stores"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumBailAndBondPayments) = "bail_and_bond_payments"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumBakeries) = "bakeries"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumBandsOrchestras) = "bands_orchestras"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumBarberAndBeautyShops) = "barber_and_beauty_shops"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumBettingCasinoGambling) = "betting_casino_gambling"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumBicycleShops) = "bicycle_shops"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumBilliardPoolEstablishments) = "billiard_pool_establishments"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumBoatDealers) = "boat_dealers"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumBoatRentalsAndLeases) = "boat_rentals_and_leases"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumBookStores) = "book_stores"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumBooksPeriodicalsAndNewspapers) = "books_periodicals_and_newspapers"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumBowlingAlleys) = "bowling_alleys"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumBusLines) = "bus_lines"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumBusinessSecretarialSchools) = "business_secretarial_schools"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumBuyingShoppingServices) = "buying_shopping_services"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumCableSatelliteAndOtherPayTelevisionAndRadio) = "cable_satellite_and_other_pay_television_and_radio"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumCameraAndPhotographicSupplyStores) = "camera_and_photographic_supply_stores"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumCandyNutAndConfectioneryStores) = "candy_nut_and_confectionery_stores"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumCarAndTruckDealersNewUsed) = "car_and_truck_dealers_new_used"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumCarAndTruckDealersUsedOnly) = "car_and_truck_dealers_used_only"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumCarRentalAgencies) = "car_rental_agencies"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumCarWashes) = "car_washes"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumCarpentryServices) = "carpentry_services"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumCarpetUpholsteryCleaning) = "carpet_upholstery_cleaning"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumCaterers) = "caterers"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumCharitableAndSocialServiceOrganizationsFundraising) = "charitable_and_social_service_organizations_fundraising"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumChemicalsAndAlliedProducts) = "chemicals_and_allied_products"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumChildCareServices) = "child_care_services"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumChildrensAndInfantsWearStores) = "childrens_and_infants_wear_stores"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumChiropodistsPodiatrists) = "chiropodists_podiatrists"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumChiropractors) = "chiropractors"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumCigarStoresAndStands) = "cigar_stores_and_stands"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumCivicSocialFraternalAssociations) = "civic_social_fraternal_associations"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumCleaningAndMaintenance) = "cleaning_and_maintenance"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumClothingRental) = "clothing_rental"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumCollegesUniversities) = "colleges_universities"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumCommercialEquipment) = "commercial_equipment"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumCommercialFootwear) = "commercial_footwear"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumCommercialPhotographyArtAndGraphics) = "commercial_photography_art_and_graphics"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumCommuterTransportAndFerries) = "commuter_transport_and_ferries"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumComputerNetworkServices) = "computer_network_services"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumComputerProgramming) = "computer_programming"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumComputerRepair) = "computer_repair"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumComputerSoftwareStores) = "computer_software_stores"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumComputersPeripheralsAndSoftware) = "computers_peripherals_and_software"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumConcreteWorkServices) = "concrete_work_services"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumConstructionMaterials) = "construction_materials"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumConsultingPublicRelations) = "consulting_public_relations"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumCorrespondenceSchools) = "correspondence_schools"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumCosmeticStores) = "cosmetic_stores"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumCounselingServices) = "counseling_services"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumCountryClubs) = "country_clubs"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumCourierServices) = "courier_services"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumCourtCosts) = "court_costs"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumCreditReportingAgencies) = "credit_reporting_agencies"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumCruiseLines) = "cruise_lines"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumDairyProductsStores) = "dairy_products_stores"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumDanceHallStudiosSchools) = "dance_hall_studios_schools"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumDatingEscortServices) = "dating_escort_services"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumDentistsOrthodontists) = "dentists_orthodontists"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumDepartmentStores) = "department_stores"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumDetectiveAgencies) = "detective_agencies"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumDigitalGoodsApplications) = "digital_goods_applications"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumDigitalGoodsGames) = "digital_goods_games"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumDigitalGoodsLargeVolume) = "digital_goods_large_volume"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumDigitalGoodsMedia) = "digital_goods_media"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumDirectMarketingCatalogMerchant) = "direct_marketing_catalog_merchant"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumDirectMarketingCombinationCatalogAndRetailMerchant) = "direct_marketing_combination_catalog_and_retail_merchant"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumDirectMarketingInboundTelemarketing) = "direct_marketing_inbound_telemarketing"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumDirectMarketingInsuranceServices) = "direct_marketing_insurance_services"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumDirectMarketingOther) = "direct_marketing_other"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumDirectMarketingOutboundTelemarketing) = "direct_marketing_outbound_telemarketing"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumDirectMarketingSubscription) = "direct_marketing_subscription"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumDirectMarketingTravel) = "direct_marketing_travel"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumDiscountStores) = "discount_stores"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumDoctors) = "doctors"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumDoorToDoorSales) = "door_to_door_sales"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumDraperyWindowCoveringAndUpholsteryStores) = "drapery_window_covering_and_upholstery_stores"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumDrinkingPlaces) = "drinking_places"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumDrugStoresAndPharmacies) = "drug_stores_and_pharmacies"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumDrugsDrugProprietariesAndDruggistSundries) = "drugs_drug_proprietaries_and_druggist_sundries"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumDryCleaners) = "dry_cleaners"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumDurableGoods) = "durable_goods"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumDutyFreeStores) = "duty_free_stores"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumEatingPlacesRestaurants) = "eating_places_restaurants"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumEducationalServices) = "educational_services"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumElectricRazorStores) = "electric_razor_stores"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumElectricalPartsAndEquipment) = "electrical_parts_and_equipment"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumElectricalServices) = "electrical_services"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumElectronicsRepairShops) = "electronics_repair_shops"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumElectronicsStores) = "electronics_stores"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumElementarySecondarySchools) = "elementary_secondary_schools"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumEmploymentTempAgencies) = "employment_temp_agencies"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumEquipmentRental) = "equipment_rental"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumExterminatingServices) = "exterminating_services"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumFamilyClothingStores) = "family_clothing_stores"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumFastFoodRestaurants) = "fast_food_restaurants"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumFinancialInstitutions) = "financial_institutions"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumFinesGovernmentAdministrativeEntities) = "fines_government_administrative_entities"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumFireplaceFireplaceScreensAndAccessoriesStores) = "fireplace_fireplace_screens_and_accessories_stores"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumFloorCoveringStores) = "floor_covering_stores"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumFlorists) = "florists"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumFloristsSuppliesNurseryStockAndFlowers) = "florists_supplies_nursery_stock_and_flowers"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumFreezerAndLockerMeatProvisioners) = "freezer_and_locker_meat_provisioners"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumFuelDealersNonAutomotive) = "fuel_dealers_non_automotive"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumFuneralServicesCrematories) = "funeral_services_crematories"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumFurnitureHomeFurnishingsAndEquipmentStoresExceptAppliances) = "furniture_home_furnishings_and_equipment_stores_except_appliances"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumFurnitureRepairRefinishing) = "furniture_repair_refinishing"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumFurriersAndFurShops) = "furriers_and_fur_shops"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumGeneralServices) = "general_services"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumGiftCardNoveltyAndSouvenirShops) = "gift_card_novelty_and_souvenir_shops"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumGlassPaintAndWallpaperStores) = "glass_paint_and_wallpaper_stores"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumGlasswareCrystalStores) = "glassware_crystal_stores"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumGolfCoursesPublic) = "golf_courses_public"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumGovernmentServices) = "government_services"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumGroceryStoresSupermarkets) = "grocery_stores_supermarkets"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumHardwareEquipmentAndSupplies) = "hardware_equipment_and_supplies"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumHardwareStores) = "hardware_stores"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumHealthAndBeautySpas) = "health_and_beauty_spas"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumHearingAidsSalesAndSupplies) = "hearing_aids_sales_and_supplies"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumHeatingPlumbingAC) = "heating_plumbing_a_c"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumHobbyToyAndGameShops) = "hobby_toy_and_game_shops"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumHomeSupplyWarehouseStores) = "home_supply_warehouse_stores"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumHospitals) = "hospitals"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumHotelsMotelsAndResorts) = "hotels_motels_and_resorts"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumHouseholdApplianceStores) = "household_appliance_stores"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumIndustrialSupplies) = "industrial_supplies"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumInformationRetrievalServices) = "information_retrieval_services"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumInsuranceDefault) = "insurance_default"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumInsuranceUnderwritingPremiums) = "insurance_underwriting_premiums"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumIntraCompanyPurchases) = "intra_company_purchases"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumJewelryStoresWatchesClocksAndSilverwareStores) = "jewelry_stores_watches_clocks_and_silverware_stores"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumLandscapingServices) = "landscaping_services"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumLaundries) = "laundries"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumLaundryCleaningServices) = "laundry_cleaning_services"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumLegalServicesAttorneys) = "legal_services_attorneys"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumLuggageAndLeatherGoodsStores) = "luggage_and_leather_goods_stores"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumLumberBuildingMaterialsStores) = "lumber_building_materials_stores"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumManualCashDisburse) = "manual_cash_disburse"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumMarinasServiceAndSupplies) = "marinas_service_and_supplies"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumMasonryStoneworkAndPlaster) = "masonry_stonework_and_plaster"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumMassageParlors) = "massage_parlors"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumMedicalAndDentalLabs) = "medical_and_dental_labs"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumMedicalDentalOphthalmicAndHospitalEquipmentAndSupplies) = "medical_dental_ophthalmic_and_hospital_equipment_and_supplies"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumMedicalServices) = "medical_services"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumMembershipOrganizations) = "membership_organizations"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumMensAndBoysClothingAndAccessoriesStores) = "mens_and_boys_clothing_and_accessories_stores"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumMensWomensClothingStores) = "mens_womens_clothing_stores"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumMetalServiceCenters) = "metal_service_centers"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumMiscellaneous) = "miscellaneous"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumMiscellaneousApparelAndAccessoryShops) = "miscellaneous_apparel_and_accessory_shops"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumMiscellaneousAutoDealers) = "miscellaneous_auto_dealers"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumMiscellaneousBusinessServices) = "miscellaneous_business_services"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumMiscellaneousFoodStores) = "miscellaneous_food_stores"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumMiscellaneousGeneralMerchandise) = "miscellaneous_general_merchandise"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumMiscellaneousGeneralServices) = "miscellaneous_general_services"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumMiscellaneousHomeFurnishingSpecialtyStores) = "miscellaneous_home_furnishing_specialty_stores"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumMiscellaneousPublishingAndPrinting) = "miscellaneous_publishing_and_printing"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumMiscellaneousRecreationServices) = "miscellaneous_recreation_services"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumMiscellaneousRepairShops) = "miscellaneous_repair_shops"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumMiscellaneousSpecialtyRetail) = "miscellaneous_specialty_retail"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumMobileHomeDealers) = "mobile_home_dealers"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumMotionPictureTheaters) = "motion_picture_theaters"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumMotorFreightCarriersAndTrucking) = "motor_freight_carriers_and_trucking"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumMotorHomesDealers) = "motor_homes_dealers"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumMotorVehicleSuppliesAndNewParts) = "motor_vehicle_supplies_and_new_parts"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumMotorcycleShopsAndDealers) = "motorcycle_shops_and_dealers"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumMotorcycleShopsDealers) = "motorcycle_shops_dealers"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumMusicStoresMusicalInstrumentsPianosAndSheetMusic) = "music_stores_musical_instruments_pianos_and_sheet_music"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumNewsDealersAndNewsstands) = "news_dealers_and_newsstands"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumNonFiMoneyOrders) = "non_fi_money_orders"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumNonFiStoredValueCardPurchaseLoad) = "non_fi_stored_value_card_purchase_load"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumNondurableGoods) = "nondurable_goods"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumNurseriesLawnAndGardenSupplyStores) = "nurseries_lawn_and_garden_supply_stores"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumNursingPersonalCare) = "nursing_personal_care"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumOfficeAndCommercialFurniture) = "office_and_commercial_furniture"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumOpticiansEyeglasses) = "opticians_eyeglasses"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumOptometristsOphthalmologist) = "optometrists_ophthalmologist"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumOrthopedicGoodsProstheticDevices) = "orthopedic_goods_prosthetic_devices"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumOsteopaths) = "osteopaths"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumPackageStoresBeerWineAndLiquor) = "package_stores_beer_wine_and_liquor"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumPaintsVarnishesAndSupplies) = "paints_varnishes_and_supplies"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumParkingLotsGarages) = "parking_lots_garages"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumPassengerRailways) = "passenger_railways"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumPawnShops) = "pawn_shops"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumPetShopsPetFoodAndSupplies) = "pet_shops_pet_food_and_supplies"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumPetroleumAndPetroleumProducts) = "petroleum_and_petroleum_products"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumPhotoDeveloping) = "photo_developing"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumPhotographicPhotocopyMicrofilmEquipmentAndSupplies) = "photographic_photocopy_microfilm_equipment_and_supplies"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumPhotographicStudios) = "photographic_studios"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumPictureVideoProduction) = "picture_video_production"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumPieceGoodsNotionsAndOtherDryGoods) = "piece_goods_notions_and_other_dry_goods"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumPlumbingHeatingEquipmentAndSupplies) = "plumbing_heating_equipment_and_supplies"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumPoliticalOrganizations) = "political_organizations"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumPostalServicesGovernmentOnly) = "postal_services_government_only"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumPreciousStonesAndMetalsWatchesAndJewelry) = "precious_stones_and_metals_watches_and_jewelry"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumProfessionalServices) = "professional_services"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumPublicWarehousingAndStorage) = "public_warehousing_and_storage"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumQuickCopyReproAndBlueprint) = "quick_copy_repro_and_blueprint"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumRailroads) = "railroads"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumRealEstateAgentsAndManagersRentals) = "real_estate_agents_and_managers_rentals"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumRecordStores) = "record_stores"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumRecreationalVehicleRentals) = "recreational_vehicle_rentals"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumReligiousGoodsStores) = "religious_goods_stores"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumReligiousOrganizations) = "religious_organizations"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumRoofingSidingSheetMetal) = "roofing_siding_sheet_metal"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumSecretarialSupportServices) = "secretarial_support_services"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumSecurityBrokersDealers) = "security_brokers_dealers"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumServiceStations) = "service_stations"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumSewingNeedleworkFabricAndPieceGoodsStores) = "sewing_needlework_fabric_and_piece_goods_stores"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumShoeRepairHatCleaning) = "shoe_repair_hat_cleaning"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumShoeStores) = "shoe_stores"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumSmallApplianceRepair) = "small_appliance_repair"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumSnowmobileDealers) = "snowmobile_dealers"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumSpecialTradeServices) = "special_trade_services"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumSpecialtyCleaning) = "specialty_cleaning"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumSportingGoodsStores) = "sporting_goods_stores"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumSportingRecreationCamps) = "sporting_recreation_camps"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumSportsAndRidingApparelStores) = "sports_and_riding_apparel_stores"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumSportsClubsFields) = "sports_clubs_fields"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumStampAndCoinStores) = "stamp_and_coin_stores"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumStationaryOfficeSuppliesPrintingAndWritingPaper) = "stationary_office_supplies_printing_and_writing_paper"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumStationeryStoresOfficeAndSchoolSupplyStores) = "stationery_stores_office_and_school_supply_stores"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumSwimmingPoolsSales) = "swimming_pools_sales"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumTUiTravelGermany) = "t_ui_travel_germany"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumTailorsAlterations) = "tailors_alterations"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumTaxPaymentsGovernmentAgencies) = "tax_payments_government_agencies"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumTaxPreparationServices) = "tax_preparation_services"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumTaxicabsLimousines) = "taxicabs_limousines"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumTelecommunicationEquipmentAndTelephoneSales) = "telecommunication_equipment_and_telephone_sales"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumTelecommunicationServices) = "telecommunication_services"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumTelegraphServices) = "telegraph_services"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumTentAndAwningShops) = "tent_and_awning_shops"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumTestingLaboratories) = "testing_laboratories"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumTheatricalTicketAgencies) = "theatrical_ticket_agencies"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumTimeshares) = "timeshares"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumTireRetreadingAndRepair) = "tire_retreading_and_repair"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumTollsBridgeFees) = "tolls_bridge_fees"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumTouristAttractionsAndExhibits) = "tourist_attractions_and_exhibits"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumTowingServices) = "towing_services"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumTrailerParksCampgrounds) = "trailer_parks_campgrounds"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumTransportationServices) = "transportation_services"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumTravelAgenciesTourOperators) = "travel_agencies_tour_operators"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumTruckStopIteration) = "truck_stop_iteration"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumTruckUtilityTrailerRentals) = "truck_utility_trailer_rentals"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumTypesettingPlateMakingAndRelatedServices) = "typesetting_plate_making_and_related_services"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumTypewriterStores) = "typewriter_stores"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumUSFederalGovernmentAgenciesOrDepartments) = "u_s_federal_government_agencies_or_departments"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumUniformsCommercialClothing) = "uniforms_commercial_clothing"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumUsedMerchandiseAndSecondhandStores) = "used_merchandise_and_secondhand_stores"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumUtilities) = "utilities"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumVarietyStores) = "variety_stores"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumVeterinaryServices) = "veterinary_services"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumVideoAmusementGameSupplies) = "video_amusement_game_supplies"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumVideoGameArcades) = "video_game_arcades"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumVideoTapeRentalStores) = "video_tape_rental_stores"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumVocationalTradeSchools) = "vocational_trade_schools"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumWatchJewelryRepair) = "watch_jewelry_repair"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumWeldingRepair) = "welding_repair"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumWholesaleClubs) = "wholesale_clubs"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumWigAndToupeeStores) = "wig_and_toupee_stores"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumWiresMoneyOrders) = "wires_money_orders"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumWomensAccessoryAndSpecialtyShops) = "womens_accessory_and_specialty_shops"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumWomensReadyToWearStores) = "womens_ready_to_wear_stores"
+  toJSON (IssuingCardholderSpendingLimitCategories'EnumWreckingAndSalvageYards) = "wrecking_and_salvage_yards"
 
 instance Data.Aeson.Types.FromJSON.FromJSON IssuingCardholderSpendingLimitCategories' where
   parseJSON val =
     GHC.Base.pure
-      ( if  | val GHC.Classes.== "ac_refrigeration_repair" -> IssuingCardholderSpendingLimitCategories'EnumStringAcRefrigerationRepair
-            | val GHC.Classes.== "accounting_bookkeeping_services" -> IssuingCardholderSpendingLimitCategories'EnumStringAccountingBookkeepingServices
-            | val GHC.Classes.== "advertising_services" -> IssuingCardholderSpendingLimitCategories'EnumStringAdvertisingServices
-            | val GHC.Classes.== "agricultural_cooperative" -> IssuingCardholderSpendingLimitCategories'EnumStringAgriculturalCooperative
-            | val GHC.Classes.== "airlines_air_carriers" -> IssuingCardholderSpendingLimitCategories'EnumStringAirlinesAirCarriers
-            | val GHC.Classes.== "airports_flying_fields" -> IssuingCardholderSpendingLimitCategories'EnumStringAirportsFlyingFields
-            | val GHC.Classes.== "ambulance_services" -> IssuingCardholderSpendingLimitCategories'EnumStringAmbulanceServices
-            | val GHC.Classes.== "amusement_parks_carnivals" -> IssuingCardholderSpendingLimitCategories'EnumStringAmusementParksCarnivals
-            | val GHC.Classes.== "antique_reproductions" -> IssuingCardholderSpendingLimitCategories'EnumStringAntiqueReproductions
-            | val GHC.Classes.== "antique_shops" -> IssuingCardholderSpendingLimitCategories'EnumStringAntiqueShops
-            | val GHC.Classes.== "aquariums" -> IssuingCardholderSpendingLimitCategories'EnumStringAquariums
-            | val GHC.Classes.== "architectural_surveying_services" -> IssuingCardholderSpendingLimitCategories'EnumStringArchitecturalSurveyingServices
-            | val GHC.Classes.== "art_dealers_and_galleries" -> IssuingCardholderSpendingLimitCategories'EnumStringArtDealersAndGalleries
-            | val GHC.Classes.== "artists_supply_and_craft_shops" -> IssuingCardholderSpendingLimitCategories'EnumStringArtistsSupplyAndCraftShops
-            | val GHC.Classes.== "auto_and_home_supply_stores" -> IssuingCardholderSpendingLimitCategories'EnumStringAutoAndHomeSupplyStores
-            | val GHC.Classes.== "auto_body_repair_shops" -> IssuingCardholderSpendingLimitCategories'EnumStringAutoBodyRepairShops
-            | val GHC.Classes.== "auto_paint_shops" -> IssuingCardholderSpendingLimitCategories'EnumStringAutoPaintShops
-            | val GHC.Classes.== "auto_service_shops" -> IssuingCardholderSpendingLimitCategories'EnumStringAutoServiceShops
-            | val GHC.Classes.== "automated_cash_disburse" -> IssuingCardholderSpendingLimitCategories'EnumStringAutomatedCashDisburse
-            | val GHC.Classes.== "automated_fuel_dispensers" -> IssuingCardholderSpendingLimitCategories'EnumStringAutomatedFuelDispensers
-            | val GHC.Classes.== "automobile_associations" -> IssuingCardholderSpendingLimitCategories'EnumStringAutomobileAssociations
-            | val GHC.Classes.== "automotive_parts_and_accessories_stores" -> IssuingCardholderSpendingLimitCategories'EnumStringAutomotivePartsAndAccessoriesStores
-            | val GHC.Classes.== "automotive_tire_stores" -> IssuingCardholderSpendingLimitCategories'EnumStringAutomotiveTireStores
-            | val GHC.Classes.== "bail_and_bond_payments" -> IssuingCardholderSpendingLimitCategories'EnumStringBailAndBondPayments
-            | val GHC.Classes.== "bakeries" -> IssuingCardholderSpendingLimitCategories'EnumStringBakeries
-            | val GHC.Classes.== "bands_orchestras" -> IssuingCardholderSpendingLimitCategories'EnumStringBandsOrchestras
-            | val GHC.Classes.== "barber_and_beauty_shops" -> IssuingCardholderSpendingLimitCategories'EnumStringBarberAndBeautyShops
-            | val GHC.Classes.== "betting_casino_gambling" -> IssuingCardholderSpendingLimitCategories'EnumStringBettingCasinoGambling
-            | val GHC.Classes.== "bicycle_shops" -> IssuingCardholderSpendingLimitCategories'EnumStringBicycleShops
-            | val GHC.Classes.== "billiard_pool_establishments" -> IssuingCardholderSpendingLimitCategories'EnumStringBilliardPoolEstablishments
-            | val GHC.Classes.== "boat_dealers" -> IssuingCardholderSpendingLimitCategories'EnumStringBoatDealers
-            | val GHC.Classes.== "boat_rentals_and_leases" -> IssuingCardholderSpendingLimitCategories'EnumStringBoatRentalsAndLeases
-            | val GHC.Classes.== "book_stores" -> IssuingCardholderSpendingLimitCategories'EnumStringBookStores
-            | val GHC.Classes.== "books_periodicals_and_newspapers" -> IssuingCardholderSpendingLimitCategories'EnumStringBooksPeriodicalsAndNewspapers
-            | val GHC.Classes.== "bowling_alleys" -> IssuingCardholderSpendingLimitCategories'EnumStringBowlingAlleys
-            | val GHC.Classes.== "bus_lines" -> IssuingCardholderSpendingLimitCategories'EnumStringBusLines
-            | val GHC.Classes.== "business_secretarial_schools" -> IssuingCardholderSpendingLimitCategories'EnumStringBusinessSecretarialSchools
-            | val GHC.Classes.== "buying_shopping_services" -> IssuingCardholderSpendingLimitCategories'EnumStringBuyingShoppingServices
-            | val GHC.Classes.== "cable_satellite_and_other_pay_television_and_radio" -> IssuingCardholderSpendingLimitCategories'EnumStringCableSatelliteAndOtherPayTelevisionAndRadio
-            | val GHC.Classes.== "camera_and_photographic_supply_stores" -> IssuingCardholderSpendingLimitCategories'EnumStringCameraAndPhotographicSupplyStores
-            | val GHC.Classes.== "candy_nut_and_confectionery_stores" -> IssuingCardholderSpendingLimitCategories'EnumStringCandyNutAndConfectioneryStores
-            | val GHC.Classes.== "car_and_truck_dealers_new_used" -> IssuingCardholderSpendingLimitCategories'EnumStringCarAndTruckDealersNewUsed
-            | val GHC.Classes.== "car_and_truck_dealers_used_only" -> IssuingCardholderSpendingLimitCategories'EnumStringCarAndTruckDealersUsedOnly
-            | val GHC.Classes.== "car_rental_agencies" -> IssuingCardholderSpendingLimitCategories'EnumStringCarRentalAgencies
-            | val GHC.Classes.== "car_washes" -> IssuingCardholderSpendingLimitCategories'EnumStringCarWashes
-            | val GHC.Classes.== "carpentry_services" -> IssuingCardholderSpendingLimitCategories'EnumStringCarpentryServices
-            | val GHC.Classes.== "carpet_upholstery_cleaning" -> IssuingCardholderSpendingLimitCategories'EnumStringCarpetUpholsteryCleaning
-            | val GHC.Classes.== "caterers" -> IssuingCardholderSpendingLimitCategories'EnumStringCaterers
-            | val GHC.Classes.== "charitable_and_social_service_organizations_fundraising" -> IssuingCardholderSpendingLimitCategories'EnumStringCharitableAndSocialServiceOrganizationsFundraising
-            | val GHC.Classes.== "chemicals_and_allied_products" -> IssuingCardholderSpendingLimitCategories'EnumStringChemicalsAndAlliedProducts
-            | val GHC.Classes.== "child_care_services" -> IssuingCardholderSpendingLimitCategories'EnumStringChildCareServices
-            | val GHC.Classes.== "childrens_and_infants_wear_stores" -> IssuingCardholderSpendingLimitCategories'EnumStringChildrensAndInfantsWearStores
-            | val GHC.Classes.== "chiropodists_podiatrists" -> IssuingCardholderSpendingLimitCategories'EnumStringChiropodistsPodiatrists
-            | val GHC.Classes.== "chiropractors" -> IssuingCardholderSpendingLimitCategories'EnumStringChiropractors
-            | val GHC.Classes.== "cigar_stores_and_stands" -> IssuingCardholderSpendingLimitCategories'EnumStringCigarStoresAndStands
-            | val GHC.Classes.== "civic_social_fraternal_associations" -> IssuingCardholderSpendingLimitCategories'EnumStringCivicSocialFraternalAssociations
-            | val GHC.Classes.== "cleaning_and_maintenance" -> IssuingCardholderSpendingLimitCategories'EnumStringCleaningAndMaintenance
-            | val GHC.Classes.== "clothing_rental" -> IssuingCardholderSpendingLimitCategories'EnumStringClothingRental
-            | val GHC.Classes.== "colleges_universities" -> IssuingCardholderSpendingLimitCategories'EnumStringCollegesUniversities
-            | val GHC.Classes.== "commercial_equipment" -> IssuingCardholderSpendingLimitCategories'EnumStringCommercialEquipment
-            | val GHC.Classes.== "commercial_footwear" -> IssuingCardholderSpendingLimitCategories'EnumStringCommercialFootwear
-            | val GHC.Classes.== "commercial_photography_art_and_graphics" -> IssuingCardholderSpendingLimitCategories'EnumStringCommercialPhotographyArtAndGraphics
-            | val GHC.Classes.== "commuter_transport_and_ferries" -> IssuingCardholderSpendingLimitCategories'EnumStringCommuterTransportAndFerries
-            | val GHC.Classes.== "computer_network_services" -> IssuingCardholderSpendingLimitCategories'EnumStringComputerNetworkServices
-            | val GHC.Classes.== "computer_programming" -> IssuingCardholderSpendingLimitCategories'EnumStringComputerProgramming
-            | val GHC.Classes.== "computer_repair" -> IssuingCardholderSpendingLimitCategories'EnumStringComputerRepair
-            | val GHC.Classes.== "computer_software_stores" -> IssuingCardholderSpendingLimitCategories'EnumStringComputerSoftwareStores
-            | val GHC.Classes.== "computers_peripherals_and_software" -> IssuingCardholderSpendingLimitCategories'EnumStringComputersPeripheralsAndSoftware
-            | val GHC.Classes.== "concrete_work_services" -> IssuingCardholderSpendingLimitCategories'EnumStringConcreteWorkServices
-            | val GHC.Classes.== "construction_materials" -> IssuingCardholderSpendingLimitCategories'EnumStringConstructionMaterials
-            | val GHC.Classes.== "consulting_public_relations" -> IssuingCardholderSpendingLimitCategories'EnumStringConsultingPublicRelations
-            | val GHC.Classes.== "correspondence_schools" -> IssuingCardholderSpendingLimitCategories'EnumStringCorrespondenceSchools
-            | val GHC.Classes.== "cosmetic_stores" -> IssuingCardholderSpendingLimitCategories'EnumStringCosmeticStores
-            | val GHC.Classes.== "counseling_services" -> IssuingCardholderSpendingLimitCategories'EnumStringCounselingServices
-            | val GHC.Classes.== "country_clubs" -> IssuingCardholderSpendingLimitCategories'EnumStringCountryClubs
-            | val GHC.Classes.== "courier_services" -> IssuingCardholderSpendingLimitCategories'EnumStringCourierServices
-            | val GHC.Classes.== "court_costs" -> IssuingCardholderSpendingLimitCategories'EnumStringCourtCosts
-            | val GHC.Classes.== "credit_reporting_agencies" -> IssuingCardholderSpendingLimitCategories'EnumStringCreditReportingAgencies
-            | val GHC.Classes.== "cruise_lines" -> IssuingCardholderSpendingLimitCategories'EnumStringCruiseLines
-            | val GHC.Classes.== "dairy_products_stores" -> IssuingCardholderSpendingLimitCategories'EnumStringDairyProductsStores
-            | val GHC.Classes.== "dance_hall_studios_schools" -> IssuingCardholderSpendingLimitCategories'EnumStringDanceHallStudiosSchools
-            | val GHC.Classes.== "dating_escort_services" -> IssuingCardholderSpendingLimitCategories'EnumStringDatingEscortServices
-            | val GHC.Classes.== "dentists_orthodontists" -> IssuingCardholderSpendingLimitCategories'EnumStringDentistsOrthodontists
-            | val GHC.Classes.== "department_stores" -> IssuingCardholderSpendingLimitCategories'EnumStringDepartmentStores
-            | val GHC.Classes.== "detective_agencies" -> IssuingCardholderSpendingLimitCategories'EnumStringDetectiveAgencies
-            | val GHC.Classes.== "digital_goods_applications" -> IssuingCardholderSpendingLimitCategories'EnumStringDigitalGoodsApplications
-            | val GHC.Classes.== "digital_goods_games" -> IssuingCardholderSpendingLimitCategories'EnumStringDigitalGoodsGames
-            | val GHC.Classes.== "digital_goods_large_volume" -> IssuingCardholderSpendingLimitCategories'EnumStringDigitalGoodsLargeVolume
-            | val GHC.Classes.== "digital_goods_media" -> IssuingCardholderSpendingLimitCategories'EnumStringDigitalGoodsMedia
-            | val GHC.Classes.== "direct_marketing_catalog_merchant" -> IssuingCardholderSpendingLimitCategories'EnumStringDirectMarketingCatalogMerchant
-            | val GHC.Classes.== "direct_marketing_combination_catalog_and_retail_merchant" -> IssuingCardholderSpendingLimitCategories'EnumStringDirectMarketingCombinationCatalogAndRetailMerchant
-            | val GHC.Classes.== "direct_marketing_inbound_telemarketing" -> IssuingCardholderSpendingLimitCategories'EnumStringDirectMarketingInboundTelemarketing
-            | val GHC.Classes.== "direct_marketing_insurance_services" -> IssuingCardholderSpendingLimitCategories'EnumStringDirectMarketingInsuranceServices
-            | val GHC.Classes.== "direct_marketing_other" -> IssuingCardholderSpendingLimitCategories'EnumStringDirectMarketingOther
-            | val GHC.Classes.== "direct_marketing_outbound_telemarketing" -> IssuingCardholderSpendingLimitCategories'EnumStringDirectMarketingOutboundTelemarketing
-            | val GHC.Classes.== "direct_marketing_subscription" -> IssuingCardholderSpendingLimitCategories'EnumStringDirectMarketingSubscription
-            | val GHC.Classes.== "direct_marketing_travel" -> IssuingCardholderSpendingLimitCategories'EnumStringDirectMarketingTravel
-            | val GHC.Classes.== "discount_stores" -> IssuingCardholderSpendingLimitCategories'EnumStringDiscountStores
-            | val GHC.Classes.== "doctors" -> IssuingCardholderSpendingLimitCategories'EnumStringDoctors
-            | val GHC.Classes.== "door_to_door_sales" -> IssuingCardholderSpendingLimitCategories'EnumStringDoorToDoorSales
-            | val GHC.Classes.== "drapery_window_covering_and_upholstery_stores" -> IssuingCardholderSpendingLimitCategories'EnumStringDraperyWindowCoveringAndUpholsteryStores
-            | val GHC.Classes.== "drinking_places" -> IssuingCardholderSpendingLimitCategories'EnumStringDrinkingPlaces
-            | val GHC.Classes.== "drug_stores_and_pharmacies" -> IssuingCardholderSpendingLimitCategories'EnumStringDrugStoresAndPharmacies
-            | val GHC.Classes.== "drugs_drug_proprietaries_and_druggist_sundries" -> IssuingCardholderSpendingLimitCategories'EnumStringDrugsDrugProprietariesAndDruggistSundries
-            | val GHC.Classes.== "dry_cleaners" -> IssuingCardholderSpendingLimitCategories'EnumStringDryCleaners
-            | val GHC.Classes.== "durable_goods" -> IssuingCardholderSpendingLimitCategories'EnumStringDurableGoods
-            | val GHC.Classes.== "duty_free_stores" -> IssuingCardholderSpendingLimitCategories'EnumStringDutyFreeStores
-            | val GHC.Classes.== "eating_places_restaurants" -> IssuingCardholderSpendingLimitCategories'EnumStringEatingPlacesRestaurants
-            | val GHC.Classes.== "educational_services" -> IssuingCardholderSpendingLimitCategories'EnumStringEducationalServices
-            | val GHC.Classes.== "electric_razor_stores" -> IssuingCardholderSpendingLimitCategories'EnumStringElectricRazorStores
-            | val GHC.Classes.== "electrical_parts_and_equipment" -> IssuingCardholderSpendingLimitCategories'EnumStringElectricalPartsAndEquipment
-            | val GHC.Classes.== "electrical_services" -> IssuingCardholderSpendingLimitCategories'EnumStringElectricalServices
-            | val GHC.Classes.== "electronics_repair_shops" -> IssuingCardholderSpendingLimitCategories'EnumStringElectronicsRepairShops
-            | val GHC.Classes.== "electronics_stores" -> IssuingCardholderSpendingLimitCategories'EnumStringElectronicsStores
-            | val GHC.Classes.== "elementary_secondary_schools" -> IssuingCardholderSpendingLimitCategories'EnumStringElementarySecondarySchools
-            | val GHC.Classes.== "employment_temp_agencies" -> IssuingCardholderSpendingLimitCategories'EnumStringEmploymentTempAgencies
-            | val GHC.Classes.== "equipment_rental" -> IssuingCardholderSpendingLimitCategories'EnumStringEquipmentRental
-            | val GHC.Classes.== "exterminating_services" -> IssuingCardholderSpendingLimitCategories'EnumStringExterminatingServices
-            | val GHC.Classes.== "family_clothing_stores" -> IssuingCardholderSpendingLimitCategories'EnumStringFamilyClothingStores
-            | val GHC.Classes.== "fast_food_restaurants" -> IssuingCardholderSpendingLimitCategories'EnumStringFastFoodRestaurants
-            | val GHC.Classes.== "financial_institutions" -> IssuingCardholderSpendingLimitCategories'EnumStringFinancialInstitutions
-            | val GHC.Classes.== "fines_government_administrative_entities" -> IssuingCardholderSpendingLimitCategories'EnumStringFinesGovernmentAdministrativeEntities
-            | val GHC.Classes.== "fireplace_fireplace_screens_and_accessories_stores" -> IssuingCardholderSpendingLimitCategories'EnumStringFireplaceFireplaceScreensAndAccessoriesStores
-            | val GHC.Classes.== "floor_covering_stores" -> IssuingCardholderSpendingLimitCategories'EnumStringFloorCoveringStores
-            | val GHC.Classes.== "florists" -> IssuingCardholderSpendingLimitCategories'EnumStringFlorists
-            | val GHC.Classes.== "florists_supplies_nursery_stock_and_flowers" -> IssuingCardholderSpendingLimitCategories'EnumStringFloristsSuppliesNurseryStockAndFlowers
-            | val GHC.Classes.== "freezer_and_locker_meat_provisioners" -> IssuingCardholderSpendingLimitCategories'EnumStringFreezerAndLockerMeatProvisioners
-            | val GHC.Classes.== "fuel_dealers_non_automotive" -> IssuingCardholderSpendingLimitCategories'EnumStringFuelDealersNonAutomotive
-            | val GHC.Classes.== "funeral_services_crematories" -> IssuingCardholderSpendingLimitCategories'EnumStringFuneralServicesCrematories
-            | val GHC.Classes.== "furniture_home_furnishings_and_equipment_stores_except_appliances" -> IssuingCardholderSpendingLimitCategories'EnumStringFurnitureHomeFurnishingsAndEquipmentStoresExceptAppliances
-            | val GHC.Classes.== "furniture_repair_refinishing" -> IssuingCardholderSpendingLimitCategories'EnumStringFurnitureRepairRefinishing
-            | val GHC.Classes.== "furriers_and_fur_shops" -> IssuingCardholderSpendingLimitCategories'EnumStringFurriersAndFurShops
-            | val GHC.Classes.== "general_services" -> IssuingCardholderSpendingLimitCategories'EnumStringGeneralServices
-            | val GHC.Classes.== "gift_card_novelty_and_souvenir_shops" -> IssuingCardholderSpendingLimitCategories'EnumStringGiftCardNoveltyAndSouvenirShops
-            | val GHC.Classes.== "glass_paint_and_wallpaper_stores" -> IssuingCardholderSpendingLimitCategories'EnumStringGlassPaintAndWallpaperStores
-            | val GHC.Classes.== "glassware_crystal_stores" -> IssuingCardholderSpendingLimitCategories'EnumStringGlasswareCrystalStores
-            | val GHC.Classes.== "golf_courses_public" -> IssuingCardholderSpendingLimitCategories'EnumStringGolfCoursesPublic
-            | val GHC.Classes.== "government_services" -> IssuingCardholderSpendingLimitCategories'EnumStringGovernmentServices
-            | val GHC.Classes.== "grocery_stores_supermarkets" -> IssuingCardholderSpendingLimitCategories'EnumStringGroceryStoresSupermarkets
-            | val GHC.Classes.== "hardware_equipment_and_supplies" -> IssuingCardholderSpendingLimitCategories'EnumStringHardwareEquipmentAndSupplies
-            | val GHC.Classes.== "hardware_stores" -> IssuingCardholderSpendingLimitCategories'EnumStringHardwareStores
-            | val GHC.Classes.== "health_and_beauty_spas" -> IssuingCardholderSpendingLimitCategories'EnumStringHealthAndBeautySpas
-            | val GHC.Classes.== "hearing_aids_sales_and_supplies" -> IssuingCardholderSpendingLimitCategories'EnumStringHearingAidsSalesAndSupplies
-            | val GHC.Classes.== "heating_plumbing_a_c" -> IssuingCardholderSpendingLimitCategories'EnumStringHeatingPlumbingAC
-            | val GHC.Classes.== "hobby_toy_and_game_shops" -> IssuingCardholderSpendingLimitCategories'EnumStringHobbyToyAndGameShops
-            | val GHC.Classes.== "home_supply_warehouse_stores" -> IssuingCardholderSpendingLimitCategories'EnumStringHomeSupplyWarehouseStores
-            | val GHC.Classes.== "hospitals" -> IssuingCardholderSpendingLimitCategories'EnumStringHospitals
-            | val GHC.Classes.== "hotels_motels_and_resorts" -> IssuingCardholderSpendingLimitCategories'EnumStringHotelsMotelsAndResorts
-            | val GHC.Classes.== "household_appliance_stores" -> IssuingCardholderSpendingLimitCategories'EnumStringHouseholdApplianceStores
-            | val GHC.Classes.== "industrial_supplies" -> IssuingCardholderSpendingLimitCategories'EnumStringIndustrialSupplies
-            | val GHC.Classes.== "information_retrieval_services" -> IssuingCardholderSpendingLimitCategories'EnumStringInformationRetrievalServices
-            | val GHC.Classes.== "insurance_default" -> IssuingCardholderSpendingLimitCategories'EnumStringInsuranceDefault
-            | val GHC.Classes.== "insurance_underwriting_premiums" -> IssuingCardholderSpendingLimitCategories'EnumStringInsuranceUnderwritingPremiums
-            | val GHC.Classes.== "intra_company_purchases" -> IssuingCardholderSpendingLimitCategories'EnumStringIntraCompanyPurchases
-            | val GHC.Classes.== "jewelry_stores_watches_clocks_and_silverware_stores" -> IssuingCardholderSpendingLimitCategories'EnumStringJewelryStoresWatchesClocksAndSilverwareStores
-            | val GHC.Classes.== "landscaping_services" -> IssuingCardholderSpendingLimitCategories'EnumStringLandscapingServices
-            | val GHC.Classes.== "laundries" -> IssuingCardholderSpendingLimitCategories'EnumStringLaundries
-            | val GHC.Classes.== "laundry_cleaning_services" -> IssuingCardholderSpendingLimitCategories'EnumStringLaundryCleaningServices
-            | val GHC.Classes.== "legal_services_attorneys" -> IssuingCardholderSpendingLimitCategories'EnumStringLegalServicesAttorneys
-            | val GHC.Classes.== "luggage_and_leather_goods_stores" -> IssuingCardholderSpendingLimitCategories'EnumStringLuggageAndLeatherGoodsStores
-            | val GHC.Classes.== "lumber_building_materials_stores" -> IssuingCardholderSpendingLimitCategories'EnumStringLumberBuildingMaterialsStores
-            | val GHC.Classes.== "manual_cash_disburse" -> IssuingCardholderSpendingLimitCategories'EnumStringManualCashDisburse
-            | val GHC.Classes.== "marinas_service_and_supplies" -> IssuingCardholderSpendingLimitCategories'EnumStringMarinasServiceAndSupplies
-            | val GHC.Classes.== "masonry_stonework_and_plaster" -> IssuingCardholderSpendingLimitCategories'EnumStringMasonryStoneworkAndPlaster
-            | val GHC.Classes.== "massage_parlors" -> IssuingCardholderSpendingLimitCategories'EnumStringMassageParlors
-            | val GHC.Classes.== "medical_and_dental_labs" -> IssuingCardholderSpendingLimitCategories'EnumStringMedicalAndDentalLabs
-            | val GHC.Classes.== "medical_dental_ophthalmic_and_hospital_equipment_and_supplies" -> IssuingCardholderSpendingLimitCategories'EnumStringMedicalDentalOphthalmicAndHospitalEquipmentAndSupplies
-            | val GHC.Classes.== "medical_services" -> IssuingCardholderSpendingLimitCategories'EnumStringMedicalServices
-            | val GHC.Classes.== "membership_organizations" -> IssuingCardholderSpendingLimitCategories'EnumStringMembershipOrganizations
-            | val GHC.Classes.== "mens_and_boys_clothing_and_accessories_stores" -> IssuingCardholderSpendingLimitCategories'EnumStringMensAndBoysClothingAndAccessoriesStores
-            | val GHC.Classes.== "mens_womens_clothing_stores" -> IssuingCardholderSpendingLimitCategories'EnumStringMensWomensClothingStores
-            | val GHC.Classes.== "metal_service_centers" -> IssuingCardholderSpendingLimitCategories'EnumStringMetalServiceCenters
-            | val GHC.Classes.== "miscellaneous" -> IssuingCardholderSpendingLimitCategories'EnumStringMiscellaneous
-            | val GHC.Classes.== "miscellaneous_apparel_and_accessory_shops" -> IssuingCardholderSpendingLimitCategories'EnumStringMiscellaneousApparelAndAccessoryShops
-            | val GHC.Classes.== "miscellaneous_auto_dealers" -> IssuingCardholderSpendingLimitCategories'EnumStringMiscellaneousAutoDealers
-            | val GHC.Classes.== "miscellaneous_business_services" -> IssuingCardholderSpendingLimitCategories'EnumStringMiscellaneousBusinessServices
-            | val GHC.Classes.== "miscellaneous_food_stores" -> IssuingCardholderSpendingLimitCategories'EnumStringMiscellaneousFoodStores
-            | val GHC.Classes.== "miscellaneous_general_merchandise" -> IssuingCardholderSpendingLimitCategories'EnumStringMiscellaneousGeneralMerchandise
-            | val GHC.Classes.== "miscellaneous_general_services" -> IssuingCardholderSpendingLimitCategories'EnumStringMiscellaneousGeneralServices
-            | val GHC.Classes.== "miscellaneous_home_furnishing_specialty_stores" -> IssuingCardholderSpendingLimitCategories'EnumStringMiscellaneousHomeFurnishingSpecialtyStores
-            | val GHC.Classes.== "miscellaneous_publishing_and_printing" -> IssuingCardholderSpendingLimitCategories'EnumStringMiscellaneousPublishingAndPrinting
-            | val GHC.Classes.== "miscellaneous_recreation_services" -> IssuingCardholderSpendingLimitCategories'EnumStringMiscellaneousRecreationServices
-            | val GHC.Classes.== "miscellaneous_repair_shops" -> IssuingCardholderSpendingLimitCategories'EnumStringMiscellaneousRepairShops
-            | val GHC.Classes.== "miscellaneous_specialty_retail" -> IssuingCardholderSpendingLimitCategories'EnumStringMiscellaneousSpecialtyRetail
-            | val GHC.Classes.== "mobile_home_dealers" -> IssuingCardholderSpendingLimitCategories'EnumStringMobileHomeDealers
-            | val GHC.Classes.== "motion_picture_theaters" -> IssuingCardholderSpendingLimitCategories'EnumStringMotionPictureTheaters
-            | val GHC.Classes.== "motor_freight_carriers_and_trucking" -> IssuingCardholderSpendingLimitCategories'EnumStringMotorFreightCarriersAndTrucking
-            | val GHC.Classes.== "motor_homes_dealers" -> IssuingCardholderSpendingLimitCategories'EnumStringMotorHomesDealers
-            | val GHC.Classes.== "motor_vehicle_supplies_and_new_parts" -> IssuingCardholderSpendingLimitCategories'EnumStringMotorVehicleSuppliesAndNewParts
-            | val GHC.Classes.== "motorcycle_shops_and_dealers" -> IssuingCardholderSpendingLimitCategories'EnumStringMotorcycleShopsAndDealers
-            | val GHC.Classes.== "motorcycle_shops_dealers" -> IssuingCardholderSpendingLimitCategories'EnumStringMotorcycleShopsDealers
-            | val GHC.Classes.== "music_stores_musical_instruments_pianos_and_sheet_music" -> IssuingCardholderSpendingLimitCategories'EnumStringMusicStoresMusicalInstrumentsPianosAndSheetMusic
-            | val GHC.Classes.== "news_dealers_and_newsstands" -> IssuingCardholderSpendingLimitCategories'EnumStringNewsDealersAndNewsstands
-            | val GHC.Classes.== "non_fi_money_orders" -> IssuingCardholderSpendingLimitCategories'EnumStringNonFiMoneyOrders
-            | val GHC.Classes.== "non_fi_stored_value_card_purchase_load" -> IssuingCardholderSpendingLimitCategories'EnumStringNonFiStoredValueCardPurchaseLoad
-            | val GHC.Classes.== "nondurable_goods" -> IssuingCardholderSpendingLimitCategories'EnumStringNondurableGoods
-            | val GHC.Classes.== "nurseries_lawn_and_garden_supply_stores" -> IssuingCardholderSpendingLimitCategories'EnumStringNurseriesLawnAndGardenSupplyStores
-            | val GHC.Classes.== "nursing_personal_care" -> IssuingCardholderSpendingLimitCategories'EnumStringNursingPersonalCare
-            | val GHC.Classes.== "office_and_commercial_furniture" -> IssuingCardholderSpendingLimitCategories'EnumStringOfficeAndCommercialFurniture
-            | val GHC.Classes.== "opticians_eyeglasses" -> IssuingCardholderSpendingLimitCategories'EnumStringOpticiansEyeglasses
-            | val GHC.Classes.== "optometrists_ophthalmologist" -> IssuingCardholderSpendingLimitCategories'EnumStringOptometristsOphthalmologist
-            | val GHC.Classes.== "orthopedic_goods_prosthetic_devices" -> IssuingCardholderSpendingLimitCategories'EnumStringOrthopedicGoodsProstheticDevices
-            | val GHC.Classes.== "osteopaths" -> IssuingCardholderSpendingLimitCategories'EnumStringOsteopaths
-            | val GHC.Classes.== "package_stores_beer_wine_and_liquor" -> IssuingCardholderSpendingLimitCategories'EnumStringPackageStoresBeerWineAndLiquor
-            | val GHC.Classes.== "paints_varnishes_and_supplies" -> IssuingCardholderSpendingLimitCategories'EnumStringPaintsVarnishesAndSupplies
-            | val GHC.Classes.== "parking_lots_garages" -> IssuingCardholderSpendingLimitCategories'EnumStringParkingLotsGarages
-            | val GHC.Classes.== "passenger_railways" -> IssuingCardholderSpendingLimitCategories'EnumStringPassengerRailways
-            | val GHC.Classes.== "pawn_shops" -> IssuingCardholderSpendingLimitCategories'EnumStringPawnShops
-            | val GHC.Classes.== "pet_shops_pet_food_and_supplies" -> IssuingCardholderSpendingLimitCategories'EnumStringPetShopsPetFoodAndSupplies
-            | val GHC.Classes.== "petroleum_and_petroleum_products" -> IssuingCardholderSpendingLimitCategories'EnumStringPetroleumAndPetroleumProducts
-            | val GHC.Classes.== "photo_developing" -> IssuingCardholderSpendingLimitCategories'EnumStringPhotoDeveloping
-            | val GHC.Classes.== "photographic_photocopy_microfilm_equipment_and_supplies" -> IssuingCardholderSpendingLimitCategories'EnumStringPhotographicPhotocopyMicrofilmEquipmentAndSupplies
-            | val GHC.Classes.== "photographic_studios" -> IssuingCardholderSpendingLimitCategories'EnumStringPhotographicStudios
-            | val GHC.Classes.== "picture_video_production" -> IssuingCardholderSpendingLimitCategories'EnumStringPictureVideoProduction
-            | val GHC.Classes.== "piece_goods_notions_and_other_dry_goods" -> IssuingCardholderSpendingLimitCategories'EnumStringPieceGoodsNotionsAndOtherDryGoods
-            | val GHC.Classes.== "plumbing_heating_equipment_and_supplies" -> IssuingCardholderSpendingLimitCategories'EnumStringPlumbingHeatingEquipmentAndSupplies
-            | val GHC.Classes.== "political_organizations" -> IssuingCardholderSpendingLimitCategories'EnumStringPoliticalOrganizations
-            | val GHC.Classes.== "postal_services_government_only" -> IssuingCardholderSpendingLimitCategories'EnumStringPostalServicesGovernmentOnly
-            | val GHC.Classes.== "precious_stones_and_metals_watches_and_jewelry" -> IssuingCardholderSpendingLimitCategories'EnumStringPreciousStonesAndMetalsWatchesAndJewelry
-            | val GHC.Classes.== "professional_services" -> IssuingCardholderSpendingLimitCategories'EnumStringProfessionalServices
-            | val GHC.Classes.== "public_warehousing_and_storage" -> IssuingCardholderSpendingLimitCategories'EnumStringPublicWarehousingAndStorage
-            | val GHC.Classes.== "quick_copy_repro_and_blueprint" -> IssuingCardholderSpendingLimitCategories'EnumStringQuickCopyReproAndBlueprint
-            | val GHC.Classes.== "railroads" -> IssuingCardholderSpendingLimitCategories'EnumStringRailroads
-            | val GHC.Classes.== "real_estate_agents_and_managers_rentals" -> IssuingCardholderSpendingLimitCategories'EnumStringRealEstateAgentsAndManagersRentals
-            | val GHC.Classes.== "record_stores" -> IssuingCardholderSpendingLimitCategories'EnumStringRecordStores
-            | val GHC.Classes.== "recreational_vehicle_rentals" -> IssuingCardholderSpendingLimitCategories'EnumStringRecreationalVehicleRentals
-            | val GHC.Classes.== "religious_goods_stores" -> IssuingCardholderSpendingLimitCategories'EnumStringReligiousGoodsStores
-            | val GHC.Classes.== "religious_organizations" -> IssuingCardholderSpendingLimitCategories'EnumStringReligiousOrganizations
-            | val GHC.Classes.== "roofing_siding_sheet_metal" -> IssuingCardholderSpendingLimitCategories'EnumStringRoofingSidingSheetMetal
-            | val GHC.Classes.== "secretarial_support_services" -> IssuingCardholderSpendingLimitCategories'EnumStringSecretarialSupportServices
-            | val GHC.Classes.== "security_brokers_dealers" -> IssuingCardholderSpendingLimitCategories'EnumStringSecurityBrokersDealers
-            | val GHC.Classes.== "service_stations" -> IssuingCardholderSpendingLimitCategories'EnumStringServiceStations
-            | val GHC.Classes.== "sewing_needlework_fabric_and_piece_goods_stores" -> IssuingCardholderSpendingLimitCategories'EnumStringSewingNeedleworkFabricAndPieceGoodsStores
-            | val GHC.Classes.== "shoe_repair_hat_cleaning" -> IssuingCardholderSpendingLimitCategories'EnumStringShoeRepairHatCleaning
-            | val GHC.Classes.== "shoe_stores" -> IssuingCardholderSpendingLimitCategories'EnumStringShoeStores
-            | val GHC.Classes.== "small_appliance_repair" -> IssuingCardholderSpendingLimitCategories'EnumStringSmallApplianceRepair
-            | val GHC.Classes.== "snowmobile_dealers" -> IssuingCardholderSpendingLimitCategories'EnumStringSnowmobileDealers
-            | val GHC.Classes.== "special_trade_services" -> IssuingCardholderSpendingLimitCategories'EnumStringSpecialTradeServices
-            | val GHC.Classes.== "specialty_cleaning" -> IssuingCardholderSpendingLimitCategories'EnumStringSpecialtyCleaning
-            | val GHC.Classes.== "sporting_goods_stores" -> IssuingCardholderSpendingLimitCategories'EnumStringSportingGoodsStores
-            | val GHC.Classes.== "sporting_recreation_camps" -> IssuingCardholderSpendingLimitCategories'EnumStringSportingRecreationCamps
-            | val GHC.Classes.== "sports_and_riding_apparel_stores" -> IssuingCardholderSpendingLimitCategories'EnumStringSportsAndRidingApparelStores
-            | val GHC.Classes.== "sports_clubs_fields" -> IssuingCardholderSpendingLimitCategories'EnumStringSportsClubsFields
-            | val GHC.Classes.== "stamp_and_coin_stores" -> IssuingCardholderSpendingLimitCategories'EnumStringStampAndCoinStores
-            | val GHC.Classes.== "stationary_office_supplies_printing_and_writing_paper" -> IssuingCardholderSpendingLimitCategories'EnumStringStationaryOfficeSuppliesPrintingAndWritingPaper
-            | val GHC.Classes.== "stationery_stores_office_and_school_supply_stores" -> IssuingCardholderSpendingLimitCategories'EnumStringStationeryStoresOfficeAndSchoolSupplyStores
-            | val GHC.Classes.== "swimming_pools_sales" -> IssuingCardholderSpendingLimitCategories'EnumStringSwimmingPoolsSales
-            | val GHC.Classes.== "t_ui_travel_germany" -> IssuingCardholderSpendingLimitCategories'EnumStringTUiTravelGermany
-            | val GHC.Classes.== "tailors_alterations" -> IssuingCardholderSpendingLimitCategories'EnumStringTailorsAlterations
-            | val GHC.Classes.== "tax_payments_government_agencies" -> IssuingCardholderSpendingLimitCategories'EnumStringTaxPaymentsGovernmentAgencies
-            | val GHC.Classes.== "tax_preparation_services" -> IssuingCardholderSpendingLimitCategories'EnumStringTaxPreparationServices
-            | val GHC.Classes.== "taxicabs_limousines" -> IssuingCardholderSpendingLimitCategories'EnumStringTaxicabsLimousines
-            | val GHC.Classes.== "telecommunication_equipment_and_telephone_sales" -> IssuingCardholderSpendingLimitCategories'EnumStringTelecommunicationEquipmentAndTelephoneSales
-            | val GHC.Classes.== "telecommunication_services" -> IssuingCardholderSpendingLimitCategories'EnumStringTelecommunicationServices
-            | val GHC.Classes.== "telegraph_services" -> IssuingCardholderSpendingLimitCategories'EnumStringTelegraphServices
-            | val GHC.Classes.== "tent_and_awning_shops" -> IssuingCardholderSpendingLimitCategories'EnumStringTentAndAwningShops
-            | val GHC.Classes.== "testing_laboratories" -> IssuingCardholderSpendingLimitCategories'EnumStringTestingLaboratories
-            | val GHC.Classes.== "theatrical_ticket_agencies" -> IssuingCardholderSpendingLimitCategories'EnumStringTheatricalTicketAgencies
-            | val GHC.Classes.== "timeshares" -> IssuingCardholderSpendingLimitCategories'EnumStringTimeshares
-            | val GHC.Classes.== "tire_retreading_and_repair" -> IssuingCardholderSpendingLimitCategories'EnumStringTireRetreadingAndRepair
-            | val GHC.Classes.== "tolls_bridge_fees" -> IssuingCardholderSpendingLimitCategories'EnumStringTollsBridgeFees
-            | val GHC.Classes.== "tourist_attractions_and_exhibits" -> IssuingCardholderSpendingLimitCategories'EnumStringTouristAttractionsAndExhibits
-            | val GHC.Classes.== "towing_services" -> IssuingCardholderSpendingLimitCategories'EnumStringTowingServices
-            | val GHC.Classes.== "trailer_parks_campgrounds" -> IssuingCardholderSpendingLimitCategories'EnumStringTrailerParksCampgrounds
-            | val GHC.Classes.== "transportation_services" -> IssuingCardholderSpendingLimitCategories'EnumStringTransportationServices
-            | val GHC.Classes.== "travel_agencies_tour_operators" -> IssuingCardholderSpendingLimitCategories'EnumStringTravelAgenciesTourOperators
-            | val GHC.Classes.== "truck_stop_iteration" -> IssuingCardholderSpendingLimitCategories'EnumStringTruckStopIteration
-            | val GHC.Classes.== "truck_utility_trailer_rentals" -> IssuingCardholderSpendingLimitCategories'EnumStringTruckUtilityTrailerRentals
-            | val GHC.Classes.== "typesetting_plate_making_and_related_services" -> IssuingCardholderSpendingLimitCategories'EnumStringTypesettingPlateMakingAndRelatedServices
-            | val GHC.Classes.== "typewriter_stores" -> IssuingCardholderSpendingLimitCategories'EnumStringTypewriterStores
-            | val GHC.Classes.== "u_s_federal_government_agencies_or_departments" -> IssuingCardholderSpendingLimitCategories'EnumStringUSFederalGovernmentAgenciesOrDepartments
-            | val GHC.Classes.== "uniforms_commercial_clothing" -> IssuingCardholderSpendingLimitCategories'EnumStringUniformsCommercialClothing
-            | val GHC.Classes.== "used_merchandise_and_secondhand_stores" -> IssuingCardholderSpendingLimitCategories'EnumStringUsedMerchandiseAndSecondhandStores
-            | val GHC.Classes.== "utilities" -> IssuingCardholderSpendingLimitCategories'EnumStringUtilities
-            | val GHC.Classes.== "variety_stores" -> IssuingCardholderSpendingLimitCategories'EnumStringVarietyStores
-            | val GHC.Classes.== "veterinary_services" -> IssuingCardholderSpendingLimitCategories'EnumStringVeterinaryServices
-            | val GHC.Classes.== "video_amusement_game_supplies" -> IssuingCardholderSpendingLimitCategories'EnumStringVideoAmusementGameSupplies
-            | val GHC.Classes.== "video_game_arcades" -> IssuingCardholderSpendingLimitCategories'EnumStringVideoGameArcades
-            | val GHC.Classes.== "video_tape_rental_stores" -> IssuingCardholderSpendingLimitCategories'EnumStringVideoTapeRentalStores
-            | val GHC.Classes.== "vocational_trade_schools" -> IssuingCardholderSpendingLimitCategories'EnumStringVocationalTradeSchools
-            | val GHC.Classes.== "watch_jewelry_repair" -> IssuingCardholderSpendingLimitCategories'EnumStringWatchJewelryRepair
-            | val GHC.Classes.== "welding_repair" -> IssuingCardholderSpendingLimitCategories'EnumStringWeldingRepair
-            | val GHC.Classes.== "wholesale_clubs" -> IssuingCardholderSpendingLimitCategories'EnumStringWholesaleClubs
-            | val GHC.Classes.== "wig_and_toupee_stores" -> IssuingCardholderSpendingLimitCategories'EnumStringWigAndToupeeStores
-            | val GHC.Classes.== "wires_money_orders" -> IssuingCardholderSpendingLimitCategories'EnumStringWiresMoneyOrders
-            | val GHC.Classes.== "womens_accessory_and_specialty_shops" -> IssuingCardholderSpendingLimitCategories'EnumStringWomensAccessoryAndSpecialtyShops
-            | val GHC.Classes.== "womens_ready_to_wear_stores" -> IssuingCardholderSpendingLimitCategories'EnumStringWomensReadyToWearStores
-            | val GHC.Classes.== "wrecking_and_salvage_yards" -> IssuingCardholderSpendingLimitCategories'EnumStringWreckingAndSalvageYards
-            | GHC.Base.otherwise -> IssuingCardholderSpendingLimitCategories'EnumOther val
+      ( if  | val GHC.Classes.== "ac_refrigeration_repair" -> IssuingCardholderSpendingLimitCategories'EnumAcRefrigerationRepair
+            | val GHC.Classes.== "accounting_bookkeeping_services" -> IssuingCardholderSpendingLimitCategories'EnumAccountingBookkeepingServices
+            | val GHC.Classes.== "advertising_services" -> IssuingCardholderSpendingLimitCategories'EnumAdvertisingServices
+            | val GHC.Classes.== "agricultural_cooperative" -> IssuingCardholderSpendingLimitCategories'EnumAgriculturalCooperative
+            | val GHC.Classes.== "airlines_air_carriers" -> IssuingCardholderSpendingLimitCategories'EnumAirlinesAirCarriers
+            | val GHC.Classes.== "airports_flying_fields" -> IssuingCardholderSpendingLimitCategories'EnumAirportsFlyingFields
+            | val GHC.Classes.== "ambulance_services" -> IssuingCardholderSpendingLimitCategories'EnumAmbulanceServices
+            | val GHC.Classes.== "amusement_parks_carnivals" -> IssuingCardholderSpendingLimitCategories'EnumAmusementParksCarnivals
+            | val GHC.Classes.== "antique_reproductions" -> IssuingCardholderSpendingLimitCategories'EnumAntiqueReproductions
+            | val GHC.Classes.== "antique_shops" -> IssuingCardholderSpendingLimitCategories'EnumAntiqueShops
+            | val GHC.Classes.== "aquariums" -> IssuingCardholderSpendingLimitCategories'EnumAquariums
+            | val GHC.Classes.== "architectural_surveying_services" -> IssuingCardholderSpendingLimitCategories'EnumArchitecturalSurveyingServices
+            | val GHC.Classes.== "art_dealers_and_galleries" -> IssuingCardholderSpendingLimitCategories'EnumArtDealersAndGalleries
+            | val GHC.Classes.== "artists_supply_and_craft_shops" -> IssuingCardholderSpendingLimitCategories'EnumArtistsSupplyAndCraftShops
+            | val GHC.Classes.== "auto_and_home_supply_stores" -> IssuingCardholderSpendingLimitCategories'EnumAutoAndHomeSupplyStores
+            | val GHC.Classes.== "auto_body_repair_shops" -> IssuingCardholderSpendingLimitCategories'EnumAutoBodyRepairShops
+            | val GHC.Classes.== "auto_paint_shops" -> IssuingCardholderSpendingLimitCategories'EnumAutoPaintShops
+            | val GHC.Classes.== "auto_service_shops" -> IssuingCardholderSpendingLimitCategories'EnumAutoServiceShops
+            | val GHC.Classes.== "automated_cash_disburse" -> IssuingCardholderSpendingLimitCategories'EnumAutomatedCashDisburse
+            | val GHC.Classes.== "automated_fuel_dispensers" -> IssuingCardholderSpendingLimitCategories'EnumAutomatedFuelDispensers
+            | val GHC.Classes.== "automobile_associations" -> IssuingCardholderSpendingLimitCategories'EnumAutomobileAssociations
+            | val GHC.Classes.== "automotive_parts_and_accessories_stores" -> IssuingCardholderSpendingLimitCategories'EnumAutomotivePartsAndAccessoriesStores
+            | val GHC.Classes.== "automotive_tire_stores" -> IssuingCardholderSpendingLimitCategories'EnumAutomotiveTireStores
+            | val GHC.Classes.== "bail_and_bond_payments" -> IssuingCardholderSpendingLimitCategories'EnumBailAndBondPayments
+            | val GHC.Classes.== "bakeries" -> IssuingCardholderSpendingLimitCategories'EnumBakeries
+            | val GHC.Classes.== "bands_orchestras" -> IssuingCardholderSpendingLimitCategories'EnumBandsOrchestras
+            | val GHC.Classes.== "barber_and_beauty_shops" -> IssuingCardholderSpendingLimitCategories'EnumBarberAndBeautyShops
+            | val GHC.Classes.== "betting_casino_gambling" -> IssuingCardholderSpendingLimitCategories'EnumBettingCasinoGambling
+            | val GHC.Classes.== "bicycle_shops" -> IssuingCardholderSpendingLimitCategories'EnumBicycleShops
+            | val GHC.Classes.== "billiard_pool_establishments" -> IssuingCardholderSpendingLimitCategories'EnumBilliardPoolEstablishments
+            | val GHC.Classes.== "boat_dealers" -> IssuingCardholderSpendingLimitCategories'EnumBoatDealers
+            | val GHC.Classes.== "boat_rentals_and_leases" -> IssuingCardholderSpendingLimitCategories'EnumBoatRentalsAndLeases
+            | val GHC.Classes.== "book_stores" -> IssuingCardholderSpendingLimitCategories'EnumBookStores
+            | val GHC.Classes.== "books_periodicals_and_newspapers" -> IssuingCardholderSpendingLimitCategories'EnumBooksPeriodicalsAndNewspapers
+            | val GHC.Classes.== "bowling_alleys" -> IssuingCardholderSpendingLimitCategories'EnumBowlingAlleys
+            | val GHC.Classes.== "bus_lines" -> IssuingCardholderSpendingLimitCategories'EnumBusLines
+            | val GHC.Classes.== "business_secretarial_schools" -> IssuingCardholderSpendingLimitCategories'EnumBusinessSecretarialSchools
+            | val GHC.Classes.== "buying_shopping_services" -> IssuingCardholderSpendingLimitCategories'EnumBuyingShoppingServices
+            | val GHC.Classes.== "cable_satellite_and_other_pay_television_and_radio" -> IssuingCardholderSpendingLimitCategories'EnumCableSatelliteAndOtherPayTelevisionAndRadio
+            | val GHC.Classes.== "camera_and_photographic_supply_stores" -> IssuingCardholderSpendingLimitCategories'EnumCameraAndPhotographicSupplyStores
+            | val GHC.Classes.== "candy_nut_and_confectionery_stores" -> IssuingCardholderSpendingLimitCategories'EnumCandyNutAndConfectioneryStores
+            | val GHC.Classes.== "car_and_truck_dealers_new_used" -> IssuingCardholderSpendingLimitCategories'EnumCarAndTruckDealersNewUsed
+            | val GHC.Classes.== "car_and_truck_dealers_used_only" -> IssuingCardholderSpendingLimitCategories'EnumCarAndTruckDealersUsedOnly
+            | val GHC.Classes.== "car_rental_agencies" -> IssuingCardholderSpendingLimitCategories'EnumCarRentalAgencies
+            | val GHC.Classes.== "car_washes" -> IssuingCardholderSpendingLimitCategories'EnumCarWashes
+            | val GHC.Classes.== "carpentry_services" -> IssuingCardholderSpendingLimitCategories'EnumCarpentryServices
+            | val GHC.Classes.== "carpet_upholstery_cleaning" -> IssuingCardholderSpendingLimitCategories'EnumCarpetUpholsteryCleaning
+            | val GHC.Classes.== "caterers" -> IssuingCardholderSpendingLimitCategories'EnumCaterers
+            | val GHC.Classes.== "charitable_and_social_service_organizations_fundraising" -> IssuingCardholderSpendingLimitCategories'EnumCharitableAndSocialServiceOrganizationsFundraising
+            | val GHC.Classes.== "chemicals_and_allied_products" -> IssuingCardholderSpendingLimitCategories'EnumChemicalsAndAlliedProducts
+            | val GHC.Classes.== "child_care_services" -> IssuingCardholderSpendingLimitCategories'EnumChildCareServices
+            | val GHC.Classes.== "childrens_and_infants_wear_stores" -> IssuingCardholderSpendingLimitCategories'EnumChildrensAndInfantsWearStores
+            | val GHC.Classes.== "chiropodists_podiatrists" -> IssuingCardholderSpendingLimitCategories'EnumChiropodistsPodiatrists
+            | val GHC.Classes.== "chiropractors" -> IssuingCardholderSpendingLimitCategories'EnumChiropractors
+            | val GHC.Classes.== "cigar_stores_and_stands" -> IssuingCardholderSpendingLimitCategories'EnumCigarStoresAndStands
+            | val GHC.Classes.== "civic_social_fraternal_associations" -> IssuingCardholderSpendingLimitCategories'EnumCivicSocialFraternalAssociations
+            | val GHC.Classes.== "cleaning_and_maintenance" -> IssuingCardholderSpendingLimitCategories'EnumCleaningAndMaintenance
+            | val GHC.Classes.== "clothing_rental" -> IssuingCardholderSpendingLimitCategories'EnumClothingRental
+            | val GHC.Classes.== "colleges_universities" -> IssuingCardholderSpendingLimitCategories'EnumCollegesUniversities
+            | val GHC.Classes.== "commercial_equipment" -> IssuingCardholderSpendingLimitCategories'EnumCommercialEquipment
+            | val GHC.Classes.== "commercial_footwear" -> IssuingCardholderSpendingLimitCategories'EnumCommercialFootwear
+            | val GHC.Classes.== "commercial_photography_art_and_graphics" -> IssuingCardholderSpendingLimitCategories'EnumCommercialPhotographyArtAndGraphics
+            | val GHC.Classes.== "commuter_transport_and_ferries" -> IssuingCardholderSpendingLimitCategories'EnumCommuterTransportAndFerries
+            | val GHC.Classes.== "computer_network_services" -> IssuingCardholderSpendingLimitCategories'EnumComputerNetworkServices
+            | val GHC.Classes.== "computer_programming" -> IssuingCardholderSpendingLimitCategories'EnumComputerProgramming
+            | val GHC.Classes.== "computer_repair" -> IssuingCardholderSpendingLimitCategories'EnumComputerRepair
+            | val GHC.Classes.== "computer_software_stores" -> IssuingCardholderSpendingLimitCategories'EnumComputerSoftwareStores
+            | val GHC.Classes.== "computers_peripherals_and_software" -> IssuingCardholderSpendingLimitCategories'EnumComputersPeripheralsAndSoftware
+            | val GHC.Classes.== "concrete_work_services" -> IssuingCardholderSpendingLimitCategories'EnumConcreteWorkServices
+            | val GHC.Classes.== "construction_materials" -> IssuingCardholderSpendingLimitCategories'EnumConstructionMaterials
+            | val GHC.Classes.== "consulting_public_relations" -> IssuingCardholderSpendingLimitCategories'EnumConsultingPublicRelations
+            | val GHC.Classes.== "correspondence_schools" -> IssuingCardholderSpendingLimitCategories'EnumCorrespondenceSchools
+            | val GHC.Classes.== "cosmetic_stores" -> IssuingCardholderSpendingLimitCategories'EnumCosmeticStores
+            | val GHC.Classes.== "counseling_services" -> IssuingCardholderSpendingLimitCategories'EnumCounselingServices
+            | val GHC.Classes.== "country_clubs" -> IssuingCardholderSpendingLimitCategories'EnumCountryClubs
+            | val GHC.Classes.== "courier_services" -> IssuingCardholderSpendingLimitCategories'EnumCourierServices
+            | val GHC.Classes.== "court_costs" -> IssuingCardholderSpendingLimitCategories'EnumCourtCosts
+            | val GHC.Classes.== "credit_reporting_agencies" -> IssuingCardholderSpendingLimitCategories'EnumCreditReportingAgencies
+            | val GHC.Classes.== "cruise_lines" -> IssuingCardholderSpendingLimitCategories'EnumCruiseLines
+            | val GHC.Classes.== "dairy_products_stores" -> IssuingCardholderSpendingLimitCategories'EnumDairyProductsStores
+            | val GHC.Classes.== "dance_hall_studios_schools" -> IssuingCardholderSpendingLimitCategories'EnumDanceHallStudiosSchools
+            | val GHC.Classes.== "dating_escort_services" -> IssuingCardholderSpendingLimitCategories'EnumDatingEscortServices
+            | val GHC.Classes.== "dentists_orthodontists" -> IssuingCardholderSpendingLimitCategories'EnumDentistsOrthodontists
+            | val GHC.Classes.== "department_stores" -> IssuingCardholderSpendingLimitCategories'EnumDepartmentStores
+            | val GHC.Classes.== "detective_agencies" -> IssuingCardholderSpendingLimitCategories'EnumDetectiveAgencies
+            | val GHC.Classes.== "digital_goods_applications" -> IssuingCardholderSpendingLimitCategories'EnumDigitalGoodsApplications
+            | val GHC.Classes.== "digital_goods_games" -> IssuingCardholderSpendingLimitCategories'EnumDigitalGoodsGames
+            | val GHC.Classes.== "digital_goods_large_volume" -> IssuingCardholderSpendingLimitCategories'EnumDigitalGoodsLargeVolume
+            | val GHC.Classes.== "digital_goods_media" -> IssuingCardholderSpendingLimitCategories'EnumDigitalGoodsMedia
+            | val GHC.Classes.== "direct_marketing_catalog_merchant" -> IssuingCardholderSpendingLimitCategories'EnumDirectMarketingCatalogMerchant
+            | val GHC.Classes.== "direct_marketing_combination_catalog_and_retail_merchant" -> IssuingCardholderSpendingLimitCategories'EnumDirectMarketingCombinationCatalogAndRetailMerchant
+            | val GHC.Classes.== "direct_marketing_inbound_telemarketing" -> IssuingCardholderSpendingLimitCategories'EnumDirectMarketingInboundTelemarketing
+            | val GHC.Classes.== "direct_marketing_insurance_services" -> IssuingCardholderSpendingLimitCategories'EnumDirectMarketingInsuranceServices
+            | val GHC.Classes.== "direct_marketing_other" -> IssuingCardholderSpendingLimitCategories'EnumDirectMarketingOther
+            | val GHC.Classes.== "direct_marketing_outbound_telemarketing" -> IssuingCardholderSpendingLimitCategories'EnumDirectMarketingOutboundTelemarketing
+            | val GHC.Classes.== "direct_marketing_subscription" -> IssuingCardholderSpendingLimitCategories'EnumDirectMarketingSubscription
+            | val GHC.Classes.== "direct_marketing_travel" -> IssuingCardholderSpendingLimitCategories'EnumDirectMarketingTravel
+            | val GHC.Classes.== "discount_stores" -> IssuingCardholderSpendingLimitCategories'EnumDiscountStores
+            | val GHC.Classes.== "doctors" -> IssuingCardholderSpendingLimitCategories'EnumDoctors
+            | val GHC.Classes.== "door_to_door_sales" -> IssuingCardholderSpendingLimitCategories'EnumDoorToDoorSales
+            | val GHC.Classes.== "drapery_window_covering_and_upholstery_stores" -> IssuingCardholderSpendingLimitCategories'EnumDraperyWindowCoveringAndUpholsteryStores
+            | val GHC.Classes.== "drinking_places" -> IssuingCardholderSpendingLimitCategories'EnumDrinkingPlaces
+            | val GHC.Classes.== "drug_stores_and_pharmacies" -> IssuingCardholderSpendingLimitCategories'EnumDrugStoresAndPharmacies
+            | val GHC.Classes.== "drugs_drug_proprietaries_and_druggist_sundries" -> IssuingCardholderSpendingLimitCategories'EnumDrugsDrugProprietariesAndDruggistSundries
+            | val GHC.Classes.== "dry_cleaners" -> IssuingCardholderSpendingLimitCategories'EnumDryCleaners
+            | val GHC.Classes.== "durable_goods" -> IssuingCardholderSpendingLimitCategories'EnumDurableGoods
+            | val GHC.Classes.== "duty_free_stores" -> IssuingCardholderSpendingLimitCategories'EnumDutyFreeStores
+            | val GHC.Classes.== "eating_places_restaurants" -> IssuingCardholderSpendingLimitCategories'EnumEatingPlacesRestaurants
+            | val GHC.Classes.== "educational_services" -> IssuingCardholderSpendingLimitCategories'EnumEducationalServices
+            | val GHC.Classes.== "electric_razor_stores" -> IssuingCardholderSpendingLimitCategories'EnumElectricRazorStores
+            | val GHC.Classes.== "electrical_parts_and_equipment" -> IssuingCardholderSpendingLimitCategories'EnumElectricalPartsAndEquipment
+            | val GHC.Classes.== "electrical_services" -> IssuingCardholderSpendingLimitCategories'EnumElectricalServices
+            | val GHC.Classes.== "electronics_repair_shops" -> IssuingCardholderSpendingLimitCategories'EnumElectronicsRepairShops
+            | val GHC.Classes.== "electronics_stores" -> IssuingCardholderSpendingLimitCategories'EnumElectronicsStores
+            | val GHC.Classes.== "elementary_secondary_schools" -> IssuingCardholderSpendingLimitCategories'EnumElementarySecondarySchools
+            | val GHC.Classes.== "employment_temp_agencies" -> IssuingCardholderSpendingLimitCategories'EnumEmploymentTempAgencies
+            | val GHC.Classes.== "equipment_rental" -> IssuingCardholderSpendingLimitCategories'EnumEquipmentRental
+            | val GHC.Classes.== "exterminating_services" -> IssuingCardholderSpendingLimitCategories'EnumExterminatingServices
+            | val GHC.Classes.== "family_clothing_stores" -> IssuingCardholderSpendingLimitCategories'EnumFamilyClothingStores
+            | val GHC.Classes.== "fast_food_restaurants" -> IssuingCardholderSpendingLimitCategories'EnumFastFoodRestaurants
+            | val GHC.Classes.== "financial_institutions" -> IssuingCardholderSpendingLimitCategories'EnumFinancialInstitutions
+            | val GHC.Classes.== "fines_government_administrative_entities" -> IssuingCardholderSpendingLimitCategories'EnumFinesGovernmentAdministrativeEntities
+            | val GHC.Classes.== "fireplace_fireplace_screens_and_accessories_stores" -> IssuingCardholderSpendingLimitCategories'EnumFireplaceFireplaceScreensAndAccessoriesStores
+            | val GHC.Classes.== "floor_covering_stores" -> IssuingCardholderSpendingLimitCategories'EnumFloorCoveringStores
+            | val GHC.Classes.== "florists" -> IssuingCardholderSpendingLimitCategories'EnumFlorists
+            | val GHC.Classes.== "florists_supplies_nursery_stock_and_flowers" -> IssuingCardholderSpendingLimitCategories'EnumFloristsSuppliesNurseryStockAndFlowers
+            | val GHC.Classes.== "freezer_and_locker_meat_provisioners" -> IssuingCardholderSpendingLimitCategories'EnumFreezerAndLockerMeatProvisioners
+            | val GHC.Classes.== "fuel_dealers_non_automotive" -> IssuingCardholderSpendingLimitCategories'EnumFuelDealersNonAutomotive
+            | val GHC.Classes.== "funeral_services_crematories" -> IssuingCardholderSpendingLimitCategories'EnumFuneralServicesCrematories
+            | val GHC.Classes.== "furniture_home_furnishings_and_equipment_stores_except_appliances" -> IssuingCardholderSpendingLimitCategories'EnumFurnitureHomeFurnishingsAndEquipmentStoresExceptAppliances
+            | val GHC.Classes.== "furniture_repair_refinishing" -> IssuingCardholderSpendingLimitCategories'EnumFurnitureRepairRefinishing
+            | val GHC.Classes.== "furriers_and_fur_shops" -> IssuingCardholderSpendingLimitCategories'EnumFurriersAndFurShops
+            | val GHC.Classes.== "general_services" -> IssuingCardholderSpendingLimitCategories'EnumGeneralServices
+            | val GHC.Classes.== "gift_card_novelty_and_souvenir_shops" -> IssuingCardholderSpendingLimitCategories'EnumGiftCardNoveltyAndSouvenirShops
+            | val GHC.Classes.== "glass_paint_and_wallpaper_stores" -> IssuingCardholderSpendingLimitCategories'EnumGlassPaintAndWallpaperStores
+            | val GHC.Classes.== "glassware_crystal_stores" -> IssuingCardholderSpendingLimitCategories'EnumGlasswareCrystalStores
+            | val GHC.Classes.== "golf_courses_public" -> IssuingCardholderSpendingLimitCategories'EnumGolfCoursesPublic
+            | val GHC.Classes.== "government_services" -> IssuingCardholderSpendingLimitCategories'EnumGovernmentServices
+            | val GHC.Classes.== "grocery_stores_supermarkets" -> IssuingCardholderSpendingLimitCategories'EnumGroceryStoresSupermarkets
+            | val GHC.Classes.== "hardware_equipment_and_supplies" -> IssuingCardholderSpendingLimitCategories'EnumHardwareEquipmentAndSupplies
+            | val GHC.Classes.== "hardware_stores" -> IssuingCardholderSpendingLimitCategories'EnumHardwareStores
+            | val GHC.Classes.== "health_and_beauty_spas" -> IssuingCardholderSpendingLimitCategories'EnumHealthAndBeautySpas
+            | val GHC.Classes.== "hearing_aids_sales_and_supplies" -> IssuingCardholderSpendingLimitCategories'EnumHearingAidsSalesAndSupplies
+            | val GHC.Classes.== "heating_plumbing_a_c" -> IssuingCardholderSpendingLimitCategories'EnumHeatingPlumbingAC
+            | val GHC.Classes.== "hobby_toy_and_game_shops" -> IssuingCardholderSpendingLimitCategories'EnumHobbyToyAndGameShops
+            | val GHC.Classes.== "home_supply_warehouse_stores" -> IssuingCardholderSpendingLimitCategories'EnumHomeSupplyWarehouseStores
+            | val GHC.Classes.== "hospitals" -> IssuingCardholderSpendingLimitCategories'EnumHospitals
+            | val GHC.Classes.== "hotels_motels_and_resorts" -> IssuingCardholderSpendingLimitCategories'EnumHotelsMotelsAndResorts
+            | val GHC.Classes.== "household_appliance_stores" -> IssuingCardholderSpendingLimitCategories'EnumHouseholdApplianceStores
+            | val GHC.Classes.== "industrial_supplies" -> IssuingCardholderSpendingLimitCategories'EnumIndustrialSupplies
+            | val GHC.Classes.== "information_retrieval_services" -> IssuingCardholderSpendingLimitCategories'EnumInformationRetrievalServices
+            | val GHC.Classes.== "insurance_default" -> IssuingCardholderSpendingLimitCategories'EnumInsuranceDefault
+            | val GHC.Classes.== "insurance_underwriting_premiums" -> IssuingCardholderSpendingLimitCategories'EnumInsuranceUnderwritingPremiums
+            | val GHC.Classes.== "intra_company_purchases" -> IssuingCardholderSpendingLimitCategories'EnumIntraCompanyPurchases
+            | val GHC.Classes.== "jewelry_stores_watches_clocks_and_silverware_stores" -> IssuingCardholderSpendingLimitCategories'EnumJewelryStoresWatchesClocksAndSilverwareStores
+            | val GHC.Classes.== "landscaping_services" -> IssuingCardholderSpendingLimitCategories'EnumLandscapingServices
+            | val GHC.Classes.== "laundries" -> IssuingCardholderSpendingLimitCategories'EnumLaundries
+            | val GHC.Classes.== "laundry_cleaning_services" -> IssuingCardholderSpendingLimitCategories'EnumLaundryCleaningServices
+            | val GHC.Classes.== "legal_services_attorneys" -> IssuingCardholderSpendingLimitCategories'EnumLegalServicesAttorneys
+            | val GHC.Classes.== "luggage_and_leather_goods_stores" -> IssuingCardholderSpendingLimitCategories'EnumLuggageAndLeatherGoodsStores
+            | val GHC.Classes.== "lumber_building_materials_stores" -> IssuingCardholderSpendingLimitCategories'EnumLumberBuildingMaterialsStores
+            | val GHC.Classes.== "manual_cash_disburse" -> IssuingCardholderSpendingLimitCategories'EnumManualCashDisburse
+            | val GHC.Classes.== "marinas_service_and_supplies" -> IssuingCardholderSpendingLimitCategories'EnumMarinasServiceAndSupplies
+            | val GHC.Classes.== "masonry_stonework_and_plaster" -> IssuingCardholderSpendingLimitCategories'EnumMasonryStoneworkAndPlaster
+            | val GHC.Classes.== "massage_parlors" -> IssuingCardholderSpendingLimitCategories'EnumMassageParlors
+            | val GHC.Classes.== "medical_and_dental_labs" -> IssuingCardholderSpendingLimitCategories'EnumMedicalAndDentalLabs
+            | val GHC.Classes.== "medical_dental_ophthalmic_and_hospital_equipment_and_supplies" -> IssuingCardholderSpendingLimitCategories'EnumMedicalDentalOphthalmicAndHospitalEquipmentAndSupplies
+            | val GHC.Classes.== "medical_services" -> IssuingCardholderSpendingLimitCategories'EnumMedicalServices
+            | val GHC.Classes.== "membership_organizations" -> IssuingCardholderSpendingLimitCategories'EnumMembershipOrganizations
+            | val GHC.Classes.== "mens_and_boys_clothing_and_accessories_stores" -> IssuingCardholderSpendingLimitCategories'EnumMensAndBoysClothingAndAccessoriesStores
+            | val GHC.Classes.== "mens_womens_clothing_stores" -> IssuingCardholderSpendingLimitCategories'EnumMensWomensClothingStores
+            | val GHC.Classes.== "metal_service_centers" -> IssuingCardholderSpendingLimitCategories'EnumMetalServiceCenters
+            | val GHC.Classes.== "miscellaneous" -> IssuingCardholderSpendingLimitCategories'EnumMiscellaneous
+            | val GHC.Classes.== "miscellaneous_apparel_and_accessory_shops" -> IssuingCardholderSpendingLimitCategories'EnumMiscellaneousApparelAndAccessoryShops
+            | val GHC.Classes.== "miscellaneous_auto_dealers" -> IssuingCardholderSpendingLimitCategories'EnumMiscellaneousAutoDealers
+            | val GHC.Classes.== "miscellaneous_business_services" -> IssuingCardholderSpendingLimitCategories'EnumMiscellaneousBusinessServices
+            | val GHC.Classes.== "miscellaneous_food_stores" -> IssuingCardholderSpendingLimitCategories'EnumMiscellaneousFoodStores
+            | val GHC.Classes.== "miscellaneous_general_merchandise" -> IssuingCardholderSpendingLimitCategories'EnumMiscellaneousGeneralMerchandise
+            | val GHC.Classes.== "miscellaneous_general_services" -> IssuingCardholderSpendingLimitCategories'EnumMiscellaneousGeneralServices
+            | val GHC.Classes.== "miscellaneous_home_furnishing_specialty_stores" -> IssuingCardholderSpendingLimitCategories'EnumMiscellaneousHomeFurnishingSpecialtyStores
+            | val GHC.Classes.== "miscellaneous_publishing_and_printing" -> IssuingCardholderSpendingLimitCategories'EnumMiscellaneousPublishingAndPrinting
+            | val GHC.Classes.== "miscellaneous_recreation_services" -> IssuingCardholderSpendingLimitCategories'EnumMiscellaneousRecreationServices
+            | val GHC.Classes.== "miscellaneous_repair_shops" -> IssuingCardholderSpendingLimitCategories'EnumMiscellaneousRepairShops
+            | val GHC.Classes.== "miscellaneous_specialty_retail" -> IssuingCardholderSpendingLimitCategories'EnumMiscellaneousSpecialtyRetail
+            | val GHC.Classes.== "mobile_home_dealers" -> IssuingCardholderSpendingLimitCategories'EnumMobileHomeDealers
+            | val GHC.Classes.== "motion_picture_theaters" -> IssuingCardholderSpendingLimitCategories'EnumMotionPictureTheaters
+            | val GHC.Classes.== "motor_freight_carriers_and_trucking" -> IssuingCardholderSpendingLimitCategories'EnumMotorFreightCarriersAndTrucking
+            | val GHC.Classes.== "motor_homes_dealers" -> IssuingCardholderSpendingLimitCategories'EnumMotorHomesDealers
+            | val GHC.Classes.== "motor_vehicle_supplies_and_new_parts" -> IssuingCardholderSpendingLimitCategories'EnumMotorVehicleSuppliesAndNewParts
+            | val GHC.Classes.== "motorcycle_shops_and_dealers" -> IssuingCardholderSpendingLimitCategories'EnumMotorcycleShopsAndDealers
+            | val GHC.Classes.== "motorcycle_shops_dealers" -> IssuingCardholderSpendingLimitCategories'EnumMotorcycleShopsDealers
+            | val GHC.Classes.== "music_stores_musical_instruments_pianos_and_sheet_music" -> IssuingCardholderSpendingLimitCategories'EnumMusicStoresMusicalInstrumentsPianosAndSheetMusic
+            | val GHC.Classes.== "news_dealers_and_newsstands" -> IssuingCardholderSpendingLimitCategories'EnumNewsDealersAndNewsstands
+            | val GHC.Classes.== "non_fi_money_orders" -> IssuingCardholderSpendingLimitCategories'EnumNonFiMoneyOrders
+            | val GHC.Classes.== "non_fi_stored_value_card_purchase_load" -> IssuingCardholderSpendingLimitCategories'EnumNonFiStoredValueCardPurchaseLoad
+            | val GHC.Classes.== "nondurable_goods" -> IssuingCardholderSpendingLimitCategories'EnumNondurableGoods
+            | val GHC.Classes.== "nurseries_lawn_and_garden_supply_stores" -> IssuingCardholderSpendingLimitCategories'EnumNurseriesLawnAndGardenSupplyStores
+            | val GHC.Classes.== "nursing_personal_care" -> IssuingCardholderSpendingLimitCategories'EnumNursingPersonalCare
+            | val GHC.Classes.== "office_and_commercial_furniture" -> IssuingCardholderSpendingLimitCategories'EnumOfficeAndCommercialFurniture
+            | val GHC.Classes.== "opticians_eyeglasses" -> IssuingCardholderSpendingLimitCategories'EnumOpticiansEyeglasses
+            | val GHC.Classes.== "optometrists_ophthalmologist" -> IssuingCardholderSpendingLimitCategories'EnumOptometristsOphthalmologist
+            | val GHC.Classes.== "orthopedic_goods_prosthetic_devices" -> IssuingCardholderSpendingLimitCategories'EnumOrthopedicGoodsProstheticDevices
+            | val GHC.Classes.== "osteopaths" -> IssuingCardholderSpendingLimitCategories'EnumOsteopaths
+            | val GHC.Classes.== "package_stores_beer_wine_and_liquor" -> IssuingCardholderSpendingLimitCategories'EnumPackageStoresBeerWineAndLiquor
+            | val GHC.Classes.== "paints_varnishes_and_supplies" -> IssuingCardholderSpendingLimitCategories'EnumPaintsVarnishesAndSupplies
+            | val GHC.Classes.== "parking_lots_garages" -> IssuingCardholderSpendingLimitCategories'EnumParkingLotsGarages
+            | val GHC.Classes.== "passenger_railways" -> IssuingCardholderSpendingLimitCategories'EnumPassengerRailways
+            | val GHC.Classes.== "pawn_shops" -> IssuingCardholderSpendingLimitCategories'EnumPawnShops
+            | val GHC.Classes.== "pet_shops_pet_food_and_supplies" -> IssuingCardholderSpendingLimitCategories'EnumPetShopsPetFoodAndSupplies
+            | val GHC.Classes.== "petroleum_and_petroleum_products" -> IssuingCardholderSpendingLimitCategories'EnumPetroleumAndPetroleumProducts
+            | val GHC.Classes.== "photo_developing" -> IssuingCardholderSpendingLimitCategories'EnumPhotoDeveloping
+            | val GHC.Classes.== "photographic_photocopy_microfilm_equipment_and_supplies" -> IssuingCardholderSpendingLimitCategories'EnumPhotographicPhotocopyMicrofilmEquipmentAndSupplies
+            | val GHC.Classes.== "photographic_studios" -> IssuingCardholderSpendingLimitCategories'EnumPhotographicStudios
+            | val GHC.Classes.== "picture_video_production" -> IssuingCardholderSpendingLimitCategories'EnumPictureVideoProduction
+            | val GHC.Classes.== "piece_goods_notions_and_other_dry_goods" -> IssuingCardholderSpendingLimitCategories'EnumPieceGoodsNotionsAndOtherDryGoods
+            | val GHC.Classes.== "plumbing_heating_equipment_and_supplies" -> IssuingCardholderSpendingLimitCategories'EnumPlumbingHeatingEquipmentAndSupplies
+            | val GHC.Classes.== "political_organizations" -> IssuingCardholderSpendingLimitCategories'EnumPoliticalOrganizations
+            | val GHC.Classes.== "postal_services_government_only" -> IssuingCardholderSpendingLimitCategories'EnumPostalServicesGovernmentOnly
+            | val GHC.Classes.== "precious_stones_and_metals_watches_and_jewelry" -> IssuingCardholderSpendingLimitCategories'EnumPreciousStonesAndMetalsWatchesAndJewelry
+            | val GHC.Classes.== "professional_services" -> IssuingCardholderSpendingLimitCategories'EnumProfessionalServices
+            | val GHC.Classes.== "public_warehousing_and_storage" -> IssuingCardholderSpendingLimitCategories'EnumPublicWarehousingAndStorage
+            | val GHC.Classes.== "quick_copy_repro_and_blueprint" -> IssuingCardholderSpendingLimitCategories'EnumQuickCopyReproAndBlueprint
+            | val GHC.Classes.== "railroads" -> IssuingCardholderSpendingLimitCategories'EnumRailroads
+            | val GHC.Classes.== "real_estate_agents_and_managers_rentals" -> IssuingCardholderSpendingLimitCategories'EnumRealEstateAgentsAndManagersRentals
+            | val GHC.Classes.== "record_stores" -> IssuingCardholderSpendingLimitCategories'EnumRecordStores
+            | val GHC.Classes.== "recreational_vehicle_rentals" -> IssuingCardholderSpendingLimitCategories'EnumRecreationalVehicleRentals
+            | val GHC.Classes.== "religious_goods_stores" -> IssuingCardholderSpendingLimitCategories'EnumReligiousGoodsStores
+            | val GHC.Classes.== "religious_organizations" -> IssuingCardholderSpendingLimitCategories'EnumReligiousOrganizations
+            | val GHC.Classes.== "roofing_siding_sheet_metal" -> IssuingCardholderSpendingLimitCategories'EnumRoofingSidingSheetMetal
+            | val GHC.Classes.== "secretarial_support_services" -> IssuingCardholderSpendingLimitCategories'EnumSecretarialSupportServices
+            | val GHC.Classes.== "security_brokers_dealers" -> IssuingCardholderSpendingLimitCategories'EnumSecurityBrokersDealers
+            | val GHC.Classes.== "service_stations" -> IssuingCardholderSpendingLimitCategories'EnumServiceStations
+            | val GHC.Classes.== "sewing_needlework_fabric_and_piece_goods_stores" -> IssuingCardholderSpendingLimitCategories'EnumSewingNeedleworkFabricAndPieceGoodsStores
+            | val GHC.Classes.== "shoe_repair_hat_cleaning" -> IssuingCardholderSpendingLimitCategories'EnumShoeRepairHatCleaning
+            | val GHC.Classes.== "shoe_stores" -> IssuingCardholderSpendingLimitCategories'EnumShoeStores
+            | val GHC.Classes.== "small_appliance_repair" -> IssuingCardholderSpendingLimitCategories'EnumSmallApplianceRepair
+            | val GHC.Classes.== "snowmobile_dealers" -> IssuingCardholderSpendingLimitCategories'EnumSnowmobileDealers
+            | val GHC.Classes.== "special_trade_services" -> IssuingCardholderSpendingLimitCategories'EnumSpecialTradeServices
+            | val GHC.Classes.== "specialty_cleaning" -> IssuingCardholderSpendingLimitCategories'EnumSpecialtyCleaning
+            | val GHC.Classes.== "sporting_goods_stores" -> IssuingCardholderSpendingLimitCategories'EnumSportingGoodsStores
+            | val GHC.Classes.== "sporting_recreation_camps" -> IssuingCardholderSpendingLimitCategories'EnumSportingRecreationCamps
+            | val GHC.Classes.== "sports_and_riding_apparel_stores" -> IssuingCardholderSpendingLimitCategories'EnumSportsAndRidingApparelStores
+            | val GHC.Classes.== "sports_clubs_fields" -> IssuingCardholderSpendingLimitCategories'EnumSportsClubsFields
+            | val GHC.Classes.== "stamp_and_coin_stores" -> IssuingCardholderSpendingLimitCategories'EnumStampAndCoinStores
+            | val GHC.Classes.== "stationary_office_supplies_printing_and_writing_paper" -> IssuingCardholderSpendingLimitCategories'EnumStationaryOfficeSuppliesPrintingAndWritingPaper
+            | val GHC.Classes.== "stationery_stores_office_and_school_supply_stores" -> IssuingCardholderSpendingLimitCategories'EnumStationeryStoresOfficeAndSchoolSupplyStores
+            | val GHC.Classes.== "swimming_pools_sales" -> IssuingCardholderSpendingLimitCategories'EnumSwimmingPoolsSales
+            | val GHC.Classes.== "t_ui_travel_germany" -> IssuingCardholderSpendingLimitCategories'EnumTUiTravelGermany
+            | val GHC.Classes.== "tailors_alterations" -> IssuingCardholderSpendingLimitCategories'EnumTailorsAlterations
+            | val GHC.Classes.== "tax_payments_government_agencies" -> IssuingCardholderSpendingLimitCategories'EnumTaxPaymentsGovernmentAgencies
+            | val GHC.Classes.== "tax_preparation_services" -> IssuingCardholderSpendingLimitCategories'EnumTaxPreparationServices
+            | val GHC.Classes.== "taxicabs_limousines" -> IssuingCardholderSpendingLimitCategories'EnumTaxicabsLimousines
+            | val GHC.Classes.== "telecommunication_equipment_and_telephone_sales" -> IssuingCardholderSpendingLimitCategories'EnumTelecommunicationEquipmentAndTelephoneSales
+            | val GHC.Classes.== "telecommunication_services" -> IssuingCardholderSpendingLimitCategories'EnumTelecommunicationServices
+            | val GHC.Classes.== "telegraph_services" -> IssuingCardholderSpendingLimitCategories'EnumTelegraphServices
+            | val GHC.Classes.== "tent_and_awning_shops" -> IssuingCardholderSpendingLimitCategories'EnumTentAndAwningShops
+            | val GHC.Classes.== "testing_laboratories" -> IssuingCardholderSpendingLimitCategories'EnumTestingLaboratories
+            | val GHC.Classes.== "theatrical_ticket_agencies" -> IssuingCardholderSpendingLimitCategories'EnumTheatricalTicketAgencies
+            | val GHC.Classes.== "timeshares" -> IssuingCardholderSpendingLimitCategories'EnumTimeshares
+            | val GHC.Classes.== "tire_retreading_and_repair" -> IssuingCardholderSpendingLimitCategories'EnumTireRetreadingAndRepair
+            | val GHC.Classes.== "tolls_bridge_fees" -> IssuingCardholderSpendingLimitCategories'EnumTollsBridgeFees
+            | val GHC.Classes.== "tourist_attractions_and_exhibits" -> IssuingCardholderSpendingLimitCategories'EnumTouristAttractionsAndExhibits
+            | val GHC.Classes.== "towing_services" -> IssuingCardholderSpendingLimitCategories'EnumTowingServices
+            | val GHC.Classes.== "trailer_parks_campgrounds" -> IssuingCardholderSpendingLimitCategories'EnumTrailerParksCampgrounds
+            | val GHC.Classes.== "transportation_services" -> IssuingCardholderSpendingLimitCategories'EnumTransportationServices
+            | val GHC.Classes.== "travel_agencies_tour_operators" -> IssuingCardholderSpendingLimitCategories'EnumTravelAgenciesTourOperators
+            | val GHC.Classes.== "truck_stop_iteration" -> IssuingCardholderSpendingLimitCategories'EnumTruckStopIteration
+            | val GHC.Classes.== "truck_utility_trailer_rentals" -> IssuingCardholderSpendingLimitCategories'EnumTruckUtilityTrailerRentals
+            | val GHC.Classes.== "typesetting_plate_making_and_related_services" -> IssuingCardholderSpendingLimitCategories'EnumTypesettingPlateMakingAndRelatedServices
+            | val GHC.Classes.== "typewriter_stores" -> IssuingCardholderSpendingLimitCategories'EnumTypewriterStores
+            | val GHC.Classes.== "u_s_federal_government_agencies_or_departments" -> IssuingCardholderSpendingLimitCategories'EnumUSFederalGovernmentAgenciesOrDepartments
+            | val GHC.Classes.== "uniforms_commercial_clothing" -> IssuingCardholderSpendingLimitCategories'EnumUniformsCommercialClothing
+            | val GHC.Classes.== "used_merchandise_and_secondhand_stores" -> IssuingCardholderSpendingLimitCategories'EnumUsedMerchandiseAndSecondhandStores
+            | val GHC.Classes.== "utilities" -> IssuingCardholderSpendingLimitCategories'EnumUtilities
+            | val GHC.Classes.== "variety_stores" -> IssuingCardholderSpendingLimitCategories'EnumVarietyStores
+            | val GHC.Classes.== "veterinary_services" -> IssuingCardholderSpendingLimitCategories'EnumVeterinaryServices
+            | val GHC.Classes.== "video_amusement_game_supplies" -> IssuingCardholderSpendingLimitCategories'EnumVideoAmusementGameSupplies
+            | val GHC.Classes.== "video_game_arcades" -> IssuingCardholderSpendingLimitCategories'EnumVideoGameArcades
+            | val GHC.Classes.== "video_tape_rental_stores" -> IssuingCardholderSpendingLimitCategories'EnumVideoTapeRentalStores
+            | val GHC.Classes.== "vocational_trade_schools" -> IssuingCardholderSpendingLimitCategories'EnumVocationalTradeSchools
+            | val GHC.Classes.== "watch_jewelry_repair" -> IssuingCardholderSpendingLimitCategories'EnumWatchJewelryRepair
+            | val GHC.Classes.== "welding_repair" -> IssuingCardholderSpendingLimitCategories'EnumWeldingRepair
+            | val GHC.Classes.== "wholesale_clubs" -> IssuingCardholderSpendingLimitCategories'EnumWholesaleClubs
+            | val GHC.Classes.== "wig_and_toupee_stores" -> IssuingCardholderSpendingLimitCategories'EnumWigAndToupeeStores
+            | val GHC.Classes.== "wires_money_orders" -> IssuingCardholderSpendingLimitCategories'EnumWiresMoneyOrders
+            | val GHC.Classes.== "womens_accessory_and_specialty_shops" -> IssuingCardholderSpendingLimitCategories'EnumWomensAccessoryAndSpecialtyShops
+            | val GHC.Classes.== "womens_ready_to_wear_stores" -> IssuingCardholderSpendingLimitCategories'EnumWomensReadyToWearStores
+            | val GHC.Classes.== "wrecking_and_salvage_yards" -> IssuingCardholderSpendingLimitCategories'EnumWreckingAndSalvageYards
+            | GHC.Base.otherwise -> IssuingCardholderSpendingLimitCategories'Other val
       )
 
--- | Defines the enum schema issuing_cardholder_spending_limitInterval\'
+-- | Defines the enum schema located at @components.schemas.issuing_cardholder_spending_limit.properties.interval@ in the specification.
 --
 -- The time interval or event with which to apply this spending limit towards.
 data IssuingCardholderSpendingLimitInterval'
-  = IssuingCardholderSpendingLimitInterval'EnumOther Data.Aeson.Types.Internal.Value
-  | IssuingCardholderSpendingLimitInterval'EnumTyped Data.Text.Internal.Text
-  | IssuingCardholderSpendingLimitInterval'EnumStringAllTime
-  | IssuingCardholderSpendingLimitInterval'EnumStringDaily
-  | IssuingCardholderSpendingLimitInterval'EnumStringMonthly
-  | IssuingCardholderSpendingLimitInterval'EnumStringPerAuthorization
-  | IssuingCardholderSpendingLimitInterval'EnumStringWeekly
-  | IssuingCardholderSpendingLimitInterval'EnumStringYearly
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    IssuingCardholderSpendingLimitInterval'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    IssuingCardholderSpendingLimitInterval'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"all_time"@
+    IssuingCardholderSpendingLimitInterval'EnumAllTime
+  | -- | Represents the JSON value @"daily"@
+    IssuingCardholderSpendingLimitInterval'EnumDaily
+  | -- | Represents the JSON value @"monthly"@
+    IssuingCardholderSpendingLimitInterval'EnumMonthly
+  | -- | Represents the JSON value @"per_authorization"@
+    IssuingCardholderSpendingLimitInterval'EnumPerAuthorization
+  | -- | Represents the JSON value @"weekly"@
+    IssuingCardholderSpendingLimitInterval'EnumWeekly
+  | -- | Represents the JSON value @"yearly"@
+    IssuingCardholderSpendingLimitInterval'EnumYearly
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
 instance Data.Aeson.Types.ToJSON.ToJSON IssuingCardholderSpendingLimitInterval' where
-  toJSON (IssuingCardholderSpendingLimitInterval'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (IssuingCardholderSpendingLimitInterval'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (IssuingCardholderSpendingLimitInterval'EnumStringAllTime) = "all_time"
-  toJSON (IssuingCardholderSpendingLimitInterval'EnumStringDaily) = "daily"
-  toJSON (IssuingCardholderSpendingLimitInterval'EnumStringMonthly) = "monthly"
-  toJSON (IssuingCardholderSpendingLimitInterval'EnumStringPerAuthorization) = "per_authorization"
-  toJSON (IssuingCardholderSpendingLimitInterval'EnumStringWeekly) = "weekly"
-  toJSON (IssuingCardholderSpendingLimitInterval'EnumStringYearly) = "yearly"
+  toJSON (IssuingCardholderSpendingLimitInterval'Other val) = val
+  toJSON (IssuingCardholderSpendingLimitInterval'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (IssuingCardholderSpendingLimitInterval'EnumAllTime) = "all_time"
+  toJSON (IssuingCardholderSpendingLimitInterval'EnumDaily) = "daily"
+  toJSON (IssuingCardholderSpendingLimitInterval'EnumMonthly) = "monthly"
+  toJSON (IssuingCardholderSpendingLimitInterval'EnumPerAuthorization) = "per_authorization"
+  toJSON (IssuingCardholderSpendingLimitInterval'EnumWeekly) = "weekly"
+  toJSON (IssuingCardholderSpendingLimitInterval'EnumYearly) = "yearly"
 
 instance Data.Aeson.Types.FromJSON.FromJSON IssuingCardholderSpendingLimitInterval' where
   parseJSON val =
     GHC.Base.pure
-      ( if  | val GHC.Classes.== "all_time" -> IssuingCardholderSpendingLimitInterval'EnumStringAllTime
-            | val GHC.Classes.== "daily" -> IssuingCardholderSpendingLimitInterval'EnumStringDaily
-            | val GHC.Classes.== "monthly" -> IssuingCardholderSpendingLimitInterval'EnumStringMonthly
-            | val GHC.Classes.== "per_authorization" -> IssuingCardholderSpendingLimitInterval'EnumStringPerAuthorization
-            | val GHC.Classes.== "weekly" -> IssuingCardholderSpendingLimitInterval'EnumStringWeekly
-            | val GHC.Classes.== "yearly" -> IssuingCardholderSpendingLimitInterval'EnumStringYearly
-            | GHC.Base.otherwise -> IssuingCardholderSpendingLimitInterval'EnumOther val
+      ( if  | val GHC.Classes.== "all_time" -> IssuingCardholderSpendingLimitInterval'EnumAllTime
+            | val GHC.Classes.== "daily" -> IssuingCardholderSpendingLimitInterval'EnumDaily
+            | val GHC.Classes.== "monthly" -> IssuingCardholderSpendingLimitInterval'EnumMonthly
+            | val GHC.Classes.== "per_authorization" -> IssuingCardholderSpendingLimitInterval'EnumPerAuthorization
+            | val GHC.Classes.== "weekly" -> IssuingCardholderSpendingLimitInterval'EnumWeekly
+            | val GHC.Classes.== "yearly" -> IssuingCardholderSpendingLimitInterval'EnumYearly
+            | GHC.Base.otherwise -> IssuingCardholderSpendingLimitInterval'Other val
       )

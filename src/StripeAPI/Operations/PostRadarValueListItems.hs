@@ -10,6 +10,7 @@ module StripeAPI.Operations.PostRadarValueListItems where
 import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -77,7 +78,7 @@ postRadarValueListItems body =
     )
     (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack "/v1/radar/value_list_items") [] (GHC.Maybe.Just body) StripeAPI.Common.RequestBodyEncodingFormData)
 
--- | Defines the data type for the schema postRadarValueListItemsRequestBody
+-- | Defines the object schema located at @paths.\/v1\/radar\/value_list_items.POST.requestBody.content.application\/x-www-form-urlencoded.schema@ in the specification.
 data PostRadarValueListItemsRequestBody
   = PostRadarValueListItemsRequestBody
       { -- | expand: Specifies which fields in the response should be expanded.
@@ -101,11 +102,25 @@ data PostRadarValueListItemsRequestBody
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostRadarValueListItemsRequestBody where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "expand" (postRadarValueListItemsRequestBodyExpand obj) : (Data.Aeson..=) "value" (postRadarValueListItemsRequestBodyValue obj) : (Data.Aeson..=) "value_list" (postRadarValueListItemsRequestBodyValueList obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "expand" (postRadarValueListItemsRequestBodyExpand obj) GHC.Base.<> ((Data.Aeson..=) "value" (postRadarValueListItemsRequestBodyValue obj) GHC.Base.<> (Data.Aeson..=) "value_list" (postRadarValueListItemsRequestBodyValueList obj)))
+  toJSON obj = Data.Aeson.Types.Internal.object ("expand" Data.Aeson.Types.ToJSON..= postRadarValueListItemsRequestBodyExpand obj : "value" Data.Aeson.Types.ToJSON..= postRadarValueListItemsRequestBodyValue obj : "value_list" Data.Aeson.Types.ToJSON..= postRadarValueListItemsRequestBodyValueList obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("expand" Data.Aeson.Types.ToJSON..= postRadarValueListItemsRequestBodyExpand obj) GHC.Base.<> (("value" Data.Aeson.Types.ToJSON..= postRadarValueListItemsRequestBodyValue obj) GHC.Base.<> ("value_list" Data.Aeson.Types.ToJSON..= postRadarValueListItemsRequestBodyValueList obj)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostRadarValueListItemsRequestBody where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PostRadarValueListItemsRequestBody" (\obj -> ((GHC.Base.pure PostRadarValueListItemsRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "value")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "value_list"))
+
+-- | Create a new 'PostRadarValueListItemsRequestBody' with all required fields.
+mkPostRadarValueListItemsRequestBody ::
+  -- | 'postRadarValueListItemsRequestBodyValue'
+  Data.Text.Internal.Text ->
+  -- | 'postRadarValueListItemsRequestBodyValueList'
+  Data.Text.Internal.Text ->
+  PostRadarValueListItemsRequestBody
+mkPostRadarValueListItemsRequestBody postRadarValueListItemsRequestBodyValue postRadarValueListItemsRequestBodyValueList =
+  PostRadarValueListItemsRequestBody
+    { postRadarValueListItemsRequestBodyExpand = GHC.Maybe.Nothing,
+      postRadarValueListItemsRequestBodyValue = postRadarValueListItemsRequestBodyValue,
+      postRadarValueListItemsRequestBodyValueList = postRadarValueListItemsRequestBodyValueList
+    }
 
 -- | Represents a response of the operation 'postRadarValueListItems'.
 --

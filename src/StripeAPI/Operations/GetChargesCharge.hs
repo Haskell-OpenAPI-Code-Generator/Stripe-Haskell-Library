@@ -10,6 +10,7 @@ module StripeAPI.Operations.GetChargesCharge where
 import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -77,7 +78,7 @@ getChargesCharge parameters =
     )
     (StripeAPI.Common.doCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET") (Data.Text.pack ("/v1/charges/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel (getChargesChargeParametersPathCharge parameters))) GHC.Base.++ ""))) [StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getChargesChargeParametersQueryExpand parameters) (Data.Text.pack "deepObject") GHC.Types.True])
 
--- | Defines the data type for the schema getChargesChargeParameters
+-- | Defines the object schema located at @paths.\/v1\/charges\/{charge}.GET.parameters@ in the specification.
 data GetChargesChargeParameters
   = GetChargesChargeParameters
       { -- | pathCharge: Represents the parameter named \'charge\'
@@ -97,11 +98,22 @@ data GetChargesChargeParameters
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetChargesChargeParameters where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "pathCharge" (getChargesChargeParametersPathCharge obj) : (Data.Aeson..=) "queryExpand" (getChargesChargeParametersQueryExpand obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "pathCharge" (getChargesChargeParametersPathCharge obj) GHC.Base.<> (Data.Aeson..=) "queryExpand" (getChargesChargeParametersQueryExpand obj))
+  toJSON obj = Data.Aeson.Types.Internal.object ("pathCharge" Data.Aeson.Types.ToJSON..= getChargesChargeParametersPathCharge obj : "queryExpand" Data.Aeson.Types.ToJSON..= getChargesChargeParametersQueryExpand obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("pathCharge" Data.Aeson.Types.ToJSON..= getChargesChargeParametersPathCharge obj) GHC.Base.<> ("queryExpand" Data.Aeson.Types.ToJSON..= getChargesChargeParametersQueryExpand obj))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetChargesChargeParameters where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "GetChargesChargeParameters" (\obj -> (GHC.Base.pure GetChargesChargeParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathCharge")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryExpand"))
+
+-- | Create a new 'GetChargesChargeParameters' with all required fields.
+mkGetChargesChargeParameters ::
+  -- | 'getChargesChargeParametersPathCharge'
+  Data.Text.Internal.Text ->
+  GetChargesChargeParameters
+mkGetChargesChargeParameters getChargesChargeParametersPathCharge =
+  GetChargesChargeParameters
+    { getChargesChargeParametersPathCharge = getChargesChargeParametersPathCharge,
+      getChargesChargeParametersQueryExpand = GHC.Maybe.Nothing
+    }
 
 -- | Represents a response of the operation 'getChargesCharge'.
 --

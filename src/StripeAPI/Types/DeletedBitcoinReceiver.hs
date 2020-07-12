@@ -8,6 +8,7 @@ module StripeAPI.Types.DeletedBitcoinReceiver where
 
 import qualified Control.Monad.Fail
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -30,19 +31,15 @@ import StripeAPI.TypeAlias
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
--- | Defines the data type for the schema deleted_bitcoin_receiver
+-- | Defines the object schema located at @components.schemas.deleted_bitcoin_receiver@ in the specification.
 data DeletedBitcoinReceiver
   = DeletedBitcoinReceiver
-      { -- | deleted: Always true for a deleted object
-        deletedBitcoinReceiverDeleted :: DeletedBitcoinReceiverDeleted',
-        -- | id: Unique identifier for the object.
+      { -- | id: Unique identifier for the object.
         --
         -- Constraints:
         --
         -- * Maximum length of 5000
-        deletedBitcoinReceiverId :: Data.Text.Internal.Text,
-        -- | object: String representing the object\'s type. Objects of the same type share the same value.
-        deletedBitcoinReceiverObject :: DeletedBitcoinReceiverObject'
+        deletedBitcoinReceiverId :: Data.Text.Internal.Text
       }
   deriving
     ( GHC.Show.Show,
@@ -50,50 +47,15 @@ data DeletedBitcoinReceiver
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON DeletedBitcoinReceiver where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "deleted" (deletedBitcoinReceiverDeleted obj) : (Data.Aeson..=) "id" (deletedBitcoinReceiverId obj) : (Data.Aeson..=) "object" (deletedBitcoinReceiverObject obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "deleted" (deletedBitcoinReceiverDeleted obj) GHC.Base.<> ((Data.Aeson..=) "id" (deletedBitcoinReceiverId obj) GHC.Base.<> (Data.Aeson..=) "object" (deletedBitcoinReceiverObject obj)))
+  toJSON obj = Data.Aeson.Types.Internal.object ("id" Data.Aeson.Types.ToJSON..= deletedBitcoinReceiverId obj : "deleted" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.Bool GHC.Types.True : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "bitcoin_receiver" : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("id" Data.Aeson.Types.ToJSON..= deletedBitcoinReceiverId obj) GHC.Base.<> (("deleted" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.Bool GHC.Types.True) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "bitcoin_receiver")))
 
 instance Data.Aeson.Types.FromJSON.FromJSON DeletedBitcoinReceiver where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "DeletedBitcoinReceiver" (\obj -> ((GHC.Base.pure DeletedBitcoinReceiver GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "deleted")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "object"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "DeletedBitcoinReceiver" (\obj -> GHC.Base.pure DeletedBitcoinReceiver GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id"))
 
--- | Defines the enum schema deleted_bitcoin_receiverDeleted\'
---
--- Always true for a deleted object
-data DeletedBitcoinReceiverDeleted'
-  = DeletedBitcoinReceiverDeleted'EnumOther Data.Aeson.Types.Internal.Value
-  | DeletedBitcoinReceiverDeleted'EnumTyped GHC.Types.Bool
-  | DeletedBitcoinReceiverDeleted'EnumBoolTrue
-  deriving (GHC.Show.Show, GHC.Classes.Eq)
-
-instance Data.Aeson.Types.ToJSON.ToJSON DeletedBitcoinReceiverDeleted' where
-  toJSON (DeletedBitcoinReceiverDeleted'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (DeletedBitcoinReceiverDeleted'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (DeletedBitcoinReceiverDeleted'EnumBoolTrue) = Data.Aeson.Types.Internal.Bool GHC.Types.True
-
-instance Data.Aeson.Types.FromJSON.FromJSON DeletedBitcoinReceiverDeleted' where
-  parseJSON val =
-    GHC.Base.pure
-      ( if  | val GHC.Classes.== Data.Aeson.Types.Internal.Bool GHC.Types.True -> DeletedBitcoinReceiverDeleted'EnumBoolTrue
-            | GHC.Base.otherwise -> DeletedBitcoinReceiverDeleted'EnumOther val
-      )
-
--- | Defines the enum schema deleted_bitcoin_receiverObject\'
---
--- String representing the object\'s type. Objects of the same type share the same value.
-data DeletedBitcoinReceiverObject'
-  = DeletedBitcoinReceiverObject'EnumOther Data.Aeson.Types.Internal.Value
-  | DeletedBitcoinReceiverObject'EnumTyped Data.Text.Internal.Text
-  | DeletedBitcoinReceiverObject'EnumStringBitcoinReceiver
-  deriving (GHC.Show.Show, GHC.Classes.Eq)
-
-instance Data.Aeson.Types.ToJSON.ToJSON DeletedBitcoinReceiverObject' where
-  toJSON (DeletedBitcoinReceiverObject'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (DeletedBitcoinReceiverObject'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (DeletedBitcoinReceiverObject'EnumStringBitcoinReceiver) = "bitcoin_receiver"
-
-instance Data.Aeson.Types.FromJSON.FromJSON DeletedBitcoinReceiverObject' where
-  parseJSON val =
-    GHC.Base.pure
-      ( if  | val GHC.Classes.== "bitcoin_receiver" -> DeletedBitcoinReceiverObject'EnumStringBitcoinReceiver
-            | GHC.Base.otherwise -> DeletedBitcoinReceiverObject'EnumOther val
-      )
+-- | Create a new 'DeletedBitcoinReceiver' with all required fields.
+mkDeletedBitcoinReceiver ::
+  -- | 'deletedBitcoinReceiverId'
+  Data.Text.Internal.Text ->
+  DeletedBitcoinReceiver
+mkDeletedBitcoinReceiver deletedBitcoinReceiverId = DeletedBitcoinReceiver {deletedBitcoinReceiverId = deletedBitcoinReceiverId}

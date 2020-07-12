@@ -8,6 +8,7 @@ module StripeAPI.Types.SubscriptionSchedule where
 
 import qualified Control.Monad.Fail
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -36,7 +37,7 @@ import {-# SOURCE #-} StripeAPI.Types.SubscriptionSchedulesResourceDefaultSettin
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
--- | Defines the data type for the schema subscription_schedule
+-- | Defines the object schema located at @components.schemas.subscription_schedule@ in the specification.
 --
 -- A subscription schedule allows you to create and manage the lifecycle of a subscription by predefining expected changes.
 --
@@ -67,8 +68,6 @@ data SubscriptionSchedule
         subscriptionScheduleLivemode :: GHC.Types.Bool,
         -- | metadata: Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
         subscriptionScheduleMetadata :: (GHC.Maybe.Maybe Data.Aeson.Types.Internal.Object),
-        -- | object: String representing the object\'s type. Objects of the same type share the same value.
-        subscriptionScheduleObject :: SubscriptionScheduleObject',
         -- | phases: Configuration for the subscription schedule\'s phases.
         subscriptionSchedulePhases :: ([SubscriptionSchedulePhaseConfiguration]),
         -- | released_at: Time at which the subscription schedule was released. Measured in seconds since the Unix epoch.
@@ -90,13 +89,51 @@ data SubscriptionSchedule
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON SubscriptionSchedule where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "canceled_at" (subscriptionScheduleCanceledAt obj) : (Data.Aeson..=) "completed_at" (subscriptionScheduleCompletedAt obj) : (Data.Aeson..=) "created" (subscriptionScheduleCreated obj) : (Data.Aeson..=) "current_phase" (subscriptionScheduleCurrentPhase obj) : (Data.Aeson..=) "customer" (subscriptionScheduleCustomer obj) : (Data.Aeson..=) "default_settings" (subscriptionScheduleDefaultSettings obj) : (Data.Aeson..=) "end_behavior" (subscriptionScheduleEndBehavior obj) : (Data.Aeson..=) "id" (subscriptionScheduleId obj) : (Data.Aeson..=) "livemode" (subscriptionScheduleLivemode obj) : (Data.Aeson..=) "metadata" (subscriptionScheduleMetadata obj) : (Data.Aeson..=) "object" (subscriptionScheduleObject obj) : (Data.Aeson..=) "phases" (subscriptionSchedulePhases obj) : (Data.Aeson..=) "released_at" (subscriptionScheduleReleasedAt obj) : (Data.Aeson..=) "released_subscription" (subscriptionScheduleReleasedSubscription obj) : (Data.Aeson..=) "status" (subscriptionScheduleStatus obj) : (Data.Aeson..=) "subscription" (subscriptionScheduleSubscription obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "canceled_at" (subscriptionScheduleCanceledAt obj) GHC.Base.<> ((Data.Aeson..=) "completed_at" (subscriptionScheduleCompletedAt obj) GHC.Base.<> ((Data.Aeson..=) "created" (subscriptionScheduleCreated obj) GHC.Base.<> ((Data.Aeson..=) "current_phase" (subscriptionScheduleCurrentPhase obj) GHC.Base.<> ((Data.Aeson..=) "customer" (subscriptionScheduleCustomer obj) GHC.Base.<> ((Data.Aeson..=) "default_settings" (subscriptionScheduleDefaultSettings obj) GHC.Base.<> ((Data.Aeson..=) "end_behavior" (subscriptionScheduleEndBehavior obj) GHC.Base.<> ((Data.Aeson..=) "id" (subscriptionScheduleId obj) GHC.Base.<> ((Data.Aeson..=) "livemode" (subscriptionScheduleLivemode obj) GHC.Base.<> ((Data.Aeson..=) "metadata" (subscriptionScheduleMetadata obj) GHC.Base.<> ((Data.Aeson..=) "object" (subscriptionScheduleObject obj) GHC.Base.<> ((Data.Aeson..=) "phases" (subscriptionSchedulePhases obj) GHC.Base.<> ((Data.Aeson..=) "released_at" (subscriptionScheduleReleasedAt obj) GHC.Base.<> ((Data.Aeson..=) "released_subscription" (subscriptionScheduleReleasedSubscription obj) GHC.Base.<> ((Data.Aeson..=) "status" (subscriptionScheduleStatus obj) GHC.Base.<> (Data.Aeson..=) "subscription" (subscriptionScheduleSubscription obj))))))))))))))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("canceled_at" Data.Aeson.Types.ToJSON..= subscriptionScheduleCanceledAt obj : "completed_at" Data.Aeson.Types.ToJSON..= subscriptionScheduleCompletedAt obj : "created" Data.Aeson.Types.ToJSON..= subscriptionScheduleCreated obj : "current_phase" Data.Aeson.Types.ToJSON..= subscriptionScheduleCurrentPhase obj : "customer" Data.Aeson.Types.ToJSON..= subscriptionScheduleCustomer obj : "default_settings" Data.Aeson.Types.ToJSON..= subscriptionScheduleDefaultSettings obj : "end_behavior" Data.Aeson.Types.ToJSON..= subscriptionScheduleEndBehavior obj : "id" Data.Aeson.Types.ToJSON..= subscriptionScheduleId obj : "livemode" Data.Aeson.Types.ToJSON..= subscriptionScheduleLivemode obj : "metadata" Data.Aeson.Types.ToJSON..= subscriptionScheduleMetadata obj : "phases" Data.Aeson.Types.ToJSON..= subscriptionSchedulePhases obj : "released_at" Data.Aeson.Types.ToJSON..= subscriptionScheduleReleasedAt obj : "released_subscription" Data.Aeson.Types.ToJSON..= subscriptionScheduleReleasedSubscription obj : "status" Data.Aeson.Types.ToJSON..= subscriptionScheduleStatus obj : "subscription" Data.Aeson.Types.ToJSON..= subscriptionScheduleSubscription obj : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "subscription_schedule" : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("canceled_at" Data.Aeson.Types.ToJSON..= subscriptionScheduleCanceledAt obj) GHC.Base.<> (("completed_at" Data.Aeson.Types.ToJSON..= subscriptionScheduleCompletedAt obj) GHC.Base.<> (("created" Data.Aeson.Types.ToJSON..= subscriptionScheduleCreated obj) GHC.Base.<> (("current_phase" Data.Aeson.Types.ToJSON..= subscriptionScheduleCurrentPhase obj) GHC.Base.<> (("customer" Data.Aeson.Types.ToJSON..= subscriptionScheduleCustomer obj) GHC.Base.<> (("default_settings" Data.Aeson.Types.ToJSON..= subscriptionScheduleDefaultSettings obj) GHC.Base.<> (("end_behavior" Data.Aeson.Types.ToJSON..= subscriptionScheduleEndBehavior obj) GHC.Base.<> (("id" Data.Aeson.Types.ToJSON..= subscriptionScheduleId obj) GHC.Base.<> (("livemode" Data.Aeson.Types.ToJSON..= subscriptionScheduleLivemode obj) GHC.Base.<> (("metadata" Data.Aeson.Types.ToJSON..= subscriptionScheduleMetadata obj) GHC.Base.<> (("phases" Data.Aeson.Types.ToJSON..= subscriptionSchedulePhases obj) GHC.Base.<> (("released_at" Data.Aeson.Types.ToJSON..= subscriptionScheduleReleasedAt obj) GHC.Base.<> (("released_subscription" Data.Aeson.Types.ToJSON..= subscriptionScheduleReleasedSubscription obj) GHC.Base.<> (("status" Data.Aeson.Types.ToJSON..= subscriptionScheduleStatus obj) GHC.Base.<> (("subscription" Data.Aeson.Types.ToJSON..= subscriptionScheduleSubscription obj) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "subscription_schedule"))))))))))))))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON SubscriptionSchedule where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "SubscriptionSchedule" (\obj -> (((((((((((((((GHC.Base.pure SubscriptionSchedule GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "canceled_at")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "completed_at")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "created")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "current_phase")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "customer")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "default_settings")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "end_behavior")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "livemode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "object")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "phases")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "released_at")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "released_subscription")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "status")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "subscription"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "SubscriptionSchedule" (\obj -> ((((((((((((((GHC.Base.pure SubscriptionSchedule GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "canceled_at")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "completed_at")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "created")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "current_phase")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "customer")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "default_settings")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "end_behavior")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "livemode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "phases")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "released_at")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "released_subscription")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "status")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "subscription"))
 
--- | Defines the data type for the schema subscription_scheduleCurrent_phase\'
+-- | Create a new 'SubscriptionSchedule' with all required fields.
+mkSubscriptionSchedule ::
+  -- | 'subscriptionScheduleCreated'
+  GHC.Types.Int ->
+  -- | 'subscriptionScheduleCustomer'
+  SubscriptionScheduleCustomer'Variants ->
+  -- | 'subscriptionScheduleDefaultSettings'
+  SubscriptionSchedulesResourceDefaultSettings ->
+  -- | 'subscriptionScheduleEndBehavior'
+  SubscriptionScheduleEndBehavior' ->
+  -- | 'subscriptionScheduleId'
+  Data.Text.Internal.Text ->
+  -- | 'subscriptionScheduleLivemode'
+  GHC.Types.Bool ->
+  -- | 'subscriptionSchedulePhases'
+  [SubscriptionSchedulePhaseConfiguration] ->
+  -- | 'subscriptionScheduleStatus'
+  SubscriptionScheduleStatus' ->
+  SubscriptionSchedule
+mkSubscriptionSchedule subscriptionScheduleCreated subscriptionScheduleCustomer subscriptionScheduleDefaultSettings subscriptionScheduleEndBehavior subscriptionScheduleId subscriptionScheduleLivemode subscriptionSchedulePhases subscriptionScheduleStatus =
+  SubscriptionSchedule
+    { subscriptionScheduleCanceledAt = GHC.Maybe.Nothing,
+      subscriptionScheduleCompletedAt = GHC.Maybe.Nothing,
+      subscriptionScheduleCreated = subscriptionScheduleCreated,
+      subscriptionScheduleCurrentPhase = GHC.Maybe.Nothing,
+      subscriptionScheduleCustomer = subscriptionScheduleCustomer,
+      subscriptionScheduleDefaultSettings = subscriptionScheduleDefaultSettings,
+      subscriptionScheduleEndBehavior = subscriptionScheduleEndBehavior,
+      subscriptionScheduleId = subscriptionScheduleId,
+      subscriptionScheduleLivemode = subscriptionScheduleLivemode,
+      subscriptionScheduleMetadata = GHC.Maybe.Nothing,
+      subscriptionSchedulePhases = subscriptionSchedulePhases,
+      subscriptionScheduleReleasedAt = GHC.Maybe.Nothing,
+      subscriptionScheduleReleasedSubscription = GHC.Maybe.Nothing,
+      subscriptionScheduleStatus = subscriptionScheduleStatus,
+      subscriptionScheduleSubscription = GHC.Maybe.Nothing
+    }
+
+-- | Defines the object schema located at @components.schemas.subscription_schedule.properties.current_phase.anyOf@ in the specification.
 --
 -- Object representing the start and end dates for the current phase of the subscription schedule, if it is \\\`active\\\`.
 data SubscriptionScheduleCurrentPhase'
@@ -112,13 +149,21 @@ data SubscriptionScheduleCurrentPhase'
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON SubscriptionScheduleCurrentPhase' where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "end_date" (subscriptionScheduleCurrentPhase'EndDate obj) : (Data.Aeson..=) "start_date" (subscriptionScheduleCurrentPhase'StartDate obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "end_date" (subscriptionScheduleCurrentPhase'EndDate obj) GHC.Base.<> (Data.Aeson..=) "start_date" (subscriptionScheduleCurrentPhase'StartDate obj))
+  toJSON obj = Data.Aeson.Types.Internal.object ("end_date" Data.Aeson.Types.ToJSON..= subscriptionScheduleCurrentPhase'EndDate obj : "start_date" Data.Aeson.Types.ToJSON..= subscriptionScheduleCurrentPhase'StartDate obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("end_date" Data.Aeson.Types.ToJSON..= subscriptionScheduleCurrentPhase'EndDate obj) GHC.Base.<> ("start_date" Data.Aeson.Types.ToJSON..= subscriptionScheduleCurrentPhase'StartDate obj))
 
 instance Data.Aeson.Types.FromJSON.FromJSON SubscriptionScheduleCurrentPhase' where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "SubscriptionScheduleCurrentPhase'" (\obj -> (GHC.Base.pure SubscriptionScheduleCurrentPhase' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "end_date")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "start_date"))
 
--- | Define the one-of schema subscription_scheduleCustomer\'
+-- | Create a new 'SubscriptionScheduleCurrentPhase'' with all required fields.
+mkSubscriptionScheduleCurrentPhase' :: SubscriptionScheduleCurrentPhase'
+mkSubscriptionScheduleCurrentPhase' =
+  SubscriptionScheduleCurrentPhase'
+    { subscriptionScheduleCurrentPhase'EndDate = GHC.Maybe.Nothing,
+      subscriptionScheduleCurrentPhase'StartDate = GHC.Maybe.Nothing
+    }
+
+-- | Defines the oneOf schema located at @components.schemas.subscription_schedule.properties.customer.anyOf@ in the specification.
 --
 -- ID of the customer who owns the subscription schedule.
 data SubscriptionScheduleCustomer'Variants
@@ -133,99 +178,87 @@ instance Data.Aeson.Types.ToJSON.ToJSON SubscriptionScheduleCustomer'Variants wh
   toJSON (SubscriptionScheduleCustomer'Text a) = Data.Aeson.Types.ToJSON.toJSON a
 
 instance Data.Aeson.Types.FromJSON.FromJSON SubscriptionScheduleCustomer'Variants where
-  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
-    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ SubscriptionScheduleCustomer'Customer a
-    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ SubscriptionScheduleCustomer'DeletedCustomer a
-      Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-        Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ SubscriptionScheduleCustomer'Text a
-        Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+  parseJSON val = case (SubscriptionScheduleCustomer'Customer Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((SubscriptionScheduleCustomer'DeletedCustomer Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((SubscriptionScheduleCustomer'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched")) of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+    Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
--- | Defines the enum schema subscription_scheduleEnd_behavior\'
+-- | Defines the enum schema located at @components.schemas.subscription_schedule.properties.end_behavior@ in the specification.
 --
 -- Behavior of the subscription schedule and underlying subscription when it ends.
 data SubscriptionScheduleEndBehavior'
-  = SubscriptionScheduleEndBehavior'EnumOther Data.Aeson.Types.Internal.Value
-  | SubscriptionScheduleEndBehavior'EnumTyped Data.Text.Internal.Text
-  | SubscriptionScheduleEndBehavior'EnumStringCancel
-  | SubscriptionScheduleEndBehavior'EnumStringNone
-  | SubscriptionScheduleEndBehavior'EnumStringRelease
-  | SubscriptionScheduleEndBehavior'EnumStringRenew
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    SubscriptionScheduleEndBehavior'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    SubscriptionScheduleEndBehavior'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"cancel"@
+    SubscriptionScheduleEndBehavior'EnumCancel
+  | -- | Represents the JSON value @"none"@
+    SubscriptionScheduleEndBehavior'EnumNone
+  | -- | Represents the JSON value @"release"@
+    SubscriptionScheduleEndBehavior'EnumRelease
+  | -- | Represents the JSON value @"renew"@
+    SubscriptionScheduleEndBehavior'EnumRenew
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
 instance Data.Aeson.Types.ToJSON.ToJSON SubscriptionScheduleEndBehavior' where
-  toJSON (SubscriptionScheduleEndBehavior'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (SubscriptionScheduleEndBehavior'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (SubscriptionScheduleEndBehavior'EnumStringCancel) = "cancel"
-  toJSON (SubscriptionScheduleEndBehavior'EnumStringNone) = "none"
-  toJSON (SubscriptionScheduleEndBehavior'EnumStringRelease) = "release"
-  toJSON (SubscriptionScheduleEndBehavior'EnumStringRenew) = "renew"
+  toJSON (SubscriptionScheduleEndBehavior'Other val) = val
+  toJSON (SubscriptionScheduleEndBehavior'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (SubscriptionScheduleEndBehavior'EnumCancel) = "cancel"
+  toJSON (SubscriptionScheduleEndBehavior'EnumNone) = "none"
+  toJSON (SubscriptionScheduleEndBehavior'EnumRelease) = "release"
+  toJSON (SubscriptionScheduleEndBehavior'EnumRenew) = "renew"
 
 instance Data.Aeson.Types.FromJSON.FromJSON SubscriptionScheduleEndBehavior' where
   parseJSON val =
     GHC.Base.pure
-      ( if  | val GHC.Classes.== "cancel" -> SubscriptionScheduleEndBehavior'EnumStringCancel
-            | val GHC.Classes.== "none" -> SubscriptionScheduleEndBehavior'EnumStringNone
-            | val GHC.Classes.== "release" -> SubscriptionScheduleEndBehavior'EnumStringRelease
-            | val GHC.Classes.== "renew" -> SubscriptionScheduleEndBehavior'EnumStringRenew
-            | GHC.Base.otherwise -> SubscriptionScheduleEndBehavior'EnumOther val
+      ( if  | val GHC.Classes.== "cancel" -> SubscriptionScheduleEndBehavior'EnumCancel
+            | val GHC.Classes.== "none" -> SubscriptionScheduleEndBehavior'EnumNone
+            | val GHC.Classes.== "release" -> SubscriptionScheduleEndBehavior'EnumRelease
+            | val GHC.Classes.== "renew" -> SubscriptionScheduleEndBehavior'EnumRenew
+            | GHC.Base.otherwise -> SubscriptionScheduleEndBehavior'Other val
       )
 
--- | Defines the enum schema subscription_scheduleObject\'
---
--- String representing the object\'s type. Objects of the same type share the same value.
-data SubscriptionScheduleObject'
-  = SubscriptionScheduleObject'EnumOther Data.Aeson.Types.Internal.Value
-  | SubscriptionScheduleObject'EnumTyped Data.Text.Internal.Text
-  | SubscriptionScheduleObject'EnumStringSubscriptionSchedule
-  deriving (GHC.Show.Show, GHC.Classes.Eq)
-
-instance Data.Aeson.Types.ToJSON.ToJSON SubscriptionScheduleObject' where
-  toJSON (SubscriptionScheduleObject'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (SubscriptionScheduleObject'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (SubscriptionScheduleObject'EnumStringSubscriptionSchedule) = "subscription_schedule"
-
-instance Data.Aeson.Types.FromJSON.FromJSON SubscriptionScheduleObject' where
-  parseJSON val =
-    GHC.Base.pure
-      ( if  | val GHC.Classes.== "subscription_schedule" -> SubscriptionScheduleObject'EnumStringSubscriptionSchedule
-            | GHC.Base.otherwise -> SubscriptionScheduleObject'EnumOther val
-      )
-
--- | Defines the enum schema subscription_scheduleStatus\'
+-- | Defines the enum schema located at @components.schemas.subscription_schedule.properties.status@ in the specification.
 --
 -- The present status of the subscription schedule. Possible values are \`not_started\`, \`active\`, \`completed\`, \`released\`, and \`canceled\`. You can read more about the different states in our [behavior guide](https:\/\/stripe.com\/docs\/billing\/subscriptions\/subscription-schedules).
 data SubscriptionScheduleStatus'
-  = SubscriptionScheduleStatus'EnumOther Data.Aeson.Types.Internal.Value
-  | SubscriptionScheduleStatus'EnumTyped Data.Text.Internal.Text
-  | SubscriptionScheduleStatus'EnumStringActive
-  | SubscriptionScheduleStatus'EnumStringCanceled
-  | SubscriptionScheduleStatus'EnumStringCompleted
-  | SubscriptionScheduleStatus'EnumStringNotStarted
-  | SubscriptionScheduleStatus'EnumStringReleased
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    SubscriptionScheduleStatus'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    SubscriptionScheduleStatus'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"active"@
+    SubscriptionScheduleStatus'EnumActive
+  | -- | Represents the JSON value @"canceled"@
+    SubscriptionScheduleStatus'EnumCanceled
+  | -- | Represents the JSON value @"completed"@
+    SubscriptionScheduleStatus'EnumCompleted
+  | -- | Represents the JSON value @"not_started"@
+    SubscriptionScheduleStatus'EnumNotStarted
+  | -- | Represents the JSON value @"released"@
+    SubscriptionScheduleStatus'EnumReleased
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
 instance Data.Aeson.Types.ToJSON.ToJSON SubscriptionScheduleStatus' where
-  toJSON (SubscriptionScheduleStatus'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (SubscriptionScheduleStatus'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (SubscriptionScheduleStatus'EnumStringActive) = "active"
-  toJSON (SubscriptionScheduleStatus'EnumStringCanceled) = "canceled"
-  toJSON (SubscriptionScheduleStatus'EnumStringCompleted) = "completed"
-  toJSON (SubscriptionScheduleStatus'EnumStringNotStarted) = "not_started"
-  toJSON (SubscriptionScheduleStatus'EnumStringReleased) = "released"
+  toJSON (SubscriptionScheduleStatus'Other val) = val
+  toJSON (SubscriptionScheduleStatus'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (SubscriptionScheduleStatus'EnumActive) = "active"
+  toJSON (SubscriptionScheduleStatus'EnumCanceled) = "canceled"
+  toJSON (SubscriptionScheduleStatus'EnumCompleted) = "completed"
+  toJSON (SubscriptionScheduleStatus'EnumNotStarted) = "not_started"
+  toJSON (SubscriptionScheduleStatus'EnumReleased) = "released"
 
 instance Data.Aeson.Types.FromJSON.FromJSON SubscriptionScheduleStatus' where
   parseJSON val =
     GHC.Base.pure
-      ( if  | val GHC.Classes.== "active" -> SubscriptionScheduleStatus'EnumStringActive
-            | val GHC.Classes.== "canceled" -> SubscriptionScheduleStatus'EnumStringCanceled
-            | val GHC.Classes.== "completed" -> SubscriptionScheduleStatus'EnumStringCompleted
-            | val GHC.Classes.== "not_started" -> SubscriptionScheduleStatus'EnumStringNotStarted
-            | val GHC.Classes.== "released" -> SubscriptionScheduleStatus'EnumStringReleased
-            | GHC.Base.otherwise -> SubscriptionScheduleStatus'EnumOther val
+      ( if  | val GHC.Classes.== "active" -> SubscriptionScheduleStatus'EnumActive
+            | val GHC.Classes.== "canceled" -> SubscriptionScheduleStatus'EnumCanceled
+            | val GHC.Classes.== "completed" -> SubscriptionScheduleStatus'EnumCompleted
+            | val GHC.Classes.== "not_started" -> SubscriptionScheduleStatus'EnumNotStarted
+            | val GHC.Classes.== "released" -> SubscriptionScheduleStatus'EnumReleased
+            | GHC.Base.otherwise -> SubscriptionScheduleStatus'Other val
       )
 
--- | Define the one-of schema subscription_scheduleSubscription\'
+-- | Defines the oneOf schema located at @components.schemas.subscription_schedule.properties.subscription.anyOf@ in the specification.
 --
 -- ID of the subscription managed by the subscription schedule.
 data SubscriptionScheduleSubscription'Variants
@@ -238,8 +271,6 @@ instance Data.Aeson.Types.ToJSON.ToJSON SubscriptionScheduleSubscription'Variant
   toJSON (SubscriptionScheduleSubscription'Text a) = Data.Aeson.Types.ToJSON.toJSON a
 
 instance Data.Aeson.Types.FromJSON.FromJSON SubscriptionScheduleSubscription'Variants where
-  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
-    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ SubscriptionScheduleSubscription'Subscription a
-    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ SubscriptionScheduleSubscription'Text a
-      Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+  parseJSON val = case (SubscriptionScheduleSubscription'Subscription Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((SubscriptionScheduleSubscription'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched") of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+    Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a

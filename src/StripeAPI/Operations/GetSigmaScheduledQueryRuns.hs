@@ -10,6 +10,7 @@ module StripeAPI.Operations.GetSigmaScheduledQueryRuns where
 import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -85,7 +86,7 @@ getSigmaScheduledQueryRuns parameters =
         ]
     )
 
--- | Defines the data type for the schema getSigmaScheduledQueryRunsParameters
+-- | Defines the object schema located at @paths.\/v1\/sigma\/scheduled_query_runs.GET.parameters@ in the specification.
 data GetSigmaScheduledQueryRunsParameters
   = GetSigmaScheduledQueryRunsParameters
       { -- | queryEnding_before: Represents the parameter named \'ending_before\'
@@ -119,11 +120,21 @@ data GetSigmaScheduledQueryRunsParameters
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetSigmaScheduledQueryRunsParameters where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "queryEnding_before" (getSigmaScheduledQueryRunsParametersQueryEndingBefore obj) : (Data.Aeson..=) "queryExpand" (getSigmaScheduledQueryRunsParametersQueryExpand obj) : (Data.Aeson..=) "queryLimit" (getSigmaScheduledQueryRunsParametersQueryLimit obj) : (Data.Aeson..=) "queryStarting_after" (getSigmaScheduledQueryRunsParametersQueryStartingAfter obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "queryEnding_before" (getSigmaScheduledQueryRunsParametersQueryEndingBefore obj) GHC.Base.<> ((Data.Aeson..=) "queryExpand" (getSigmaScheduledQueryRunsParametersQueryExpand obj) GHC.Base.<> ((Data.Aeson..=) "queryLimit" (getSigmaScheduledQueryRunsParametersQueryLimit obj) GHC.Base.<> (Data.Aeson..=) "queryStarting_after" (getSigmaScheduledQueryRunsParametersQueryStartingAfter obj))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("queryEnding_before" Data.Aeson.Types.ToJSON..= getSigmaScheduledQueryRunsParametersQueryEndingBefore obj : "queryExpand" Data.Aeson.Types.ToJSON..= getSigmaScheduledQueryRunsParametersQueryExpand obj : "queryLimit" Data.Aeson.Types.ToJSON..= getSigmaScheduledQueryRunsParametersQueryLimit obj : "queryStarting_after" Data.Aeson.Types.ToJSON..= getSigmaScheduledQueryRunsParametersQueryStartingAfter obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("queryEnding_before" Data.Aeson.Types.ToJSON..= getSigmaScheduledQueryRunsParametersQueryEndingBefore obj) GHC.Base.<> (("queryExpand" Data.Aeson.Types.ToJSON..= getSigmaScheduledQueryRunsParametersQueryExpand obj) GHC.Base.<> (("queryLimit" Data.Aeson.Types.ToJSON..= getSigmaScheduledQueryRunsParametersQueryLimit obj) GHC.Base.<> ("queryStarting_after" Data.Aeson.Types.ToJSON..= getSigmaScheduledQueryRunsParametersQueryStartingAfter obj))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetSigmaScheduledQueryRunsParameters where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "GetSigmaScheduledQueryRunsParameters" (\obj -> (((GHC.Base.pure GetSigmaScheduledQueryRunsParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryEnding_before")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryExpand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryLimit")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryStarting_after"))
+
+-- | Create a new 'GetSigmaScheduledQueryRunsParameters' with all required fields.
+mkGetSigmaScheduledQueryRunsParameters :: GetSigmaScheduledQueryRunsParameters
+mkGetSigmaScheduledQueryRunsParameters =
+  GetSigmaScheduledQueryRunsParameters
+    { getSigmaScheduledQueryRunsParametersQueryEndingBefore = GHC.Maybe.Nothing,
+      getSigmaScheduledQueryRunsParametersQueryExpand = GHC.Maybe.Nothing,
+      getSigmaScheduledQueryRunsParametersQueryLimit = GHC.Maybe.Nothing,
+      getSigmaScheduledQueryRunsParametersQueryStartingAfter = GHC.Maybe.Nothing
+    }
 
 -- | Represents a response of the operation 'getSigmaScheduledQueryRuns'.
 --
@@ -137,15 +148,13 @@ data GetSigmaScheduledQueryRunsResponse
     GetSigmaScheduledQueryRunsResponseDefault Error
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
--- | Defines the data type for the schema GetSigmaScheduledQueryRunsResponseBody200
+-- | Defines the object schema located at @paths.\/v1\/sigma\/scheduled_query_runs.GET.responses.200.content.application\/json.schema@ in the specification.
 data GetSigmaScheduledQueryRunsResponseBody200
   = GetSigmaScheduledQueryRunsResponseBody200
       { -- | data
         getSigmaScheduledQueryRunsResponseBody200Data :: ([ScheduledQueryRun]),
         -- | has_more: True if this list has another page of items after this one that can be fetched.
         getSigmaScheduledQueryRunsResponseBody200HasMore :: GHC.Types.Bool,
-        -- | object: String representing the object\'s type. Objects of the same type share the same value. Always has the value \`list\`.
-        getSigmaScheduledQueryRunsResponseBody200Object :: GetSigmaScheduledQueryRunsResponseBody200Object',
         -- | url: The URL where this list can be accessed.
         --
         -- Constraints:
@@ -160,29 +169,24 @@ data GetSigmaScheduledQueryRunsResponseBody200
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetSigmaScheduledQueryRunsResponseBody200 where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "data" (getSigmaScheduledQueryRunsResponseBody200Data obj) : (Data.Aeson..=) "has_more" (getSigmaScheduledQueryRunsResponseBody200HasMore obj) : (Data.Aeson..=) "object" (getSigmaScheduledQueryRunsResponseBody200Object obj) : (Data.Aeson..=) "url" (getSigmaScheduledQueryRunsResponseBody200Url obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "data" (getSigmaScheduledQueryRunsResponseBody200Data obj) GHC.Base.<> ((Data.Aeson..=) "has_more" (getSigmaScheduledQueryRunsResponseBody200HasMore obj) GHC.Base.<> ((Data.Aeson..=) "object" (getSigmaScheduledQueryRunsResponseBody200Object obj) GHC.Base.<> (Data.Aeson..=) "url" (getSigmaScheduledQueryRunsResponseBody200Url obj))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("data" Data.Aeson.Types.ToJSON..= getSigmaScheduledQueryRunsResponseBody200Data obj : "has_more" Data.Aeson.Types.ToJSON..= getSigmaScheduledQueryRunsResponseBody200HasMore obj : "url" Data.Aeson.Types.ToJSON..= getSigmaScheduledQueryRunsResponseBody200Url obj : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "list" : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("data" Data.Aeson.Types.ToJSON..= getSigmaScheduledQueryRunsResponseBody200Data obj) GHC.Base.<> (("has_more" Data.Aeson.Types.ToJSON..= getSigmaScheduledQueryRunsResponseBody200HasMore obj) GHC.Base.<> (("url" Data.Aeson.Types.ToJSON..= getSigmaScheduledQueryRunsResponseBody200Url obj) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "list"))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetSigmaScheduledQueryRunsResponseBody200 where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetSigmaScheduledQueryRunsResponseBody200" (\obj -> (((GHC.Base.pure GetSigmaScheduledQueryRunsResponseBody200 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "has_more")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "object")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "url"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetSigmaScheduledQueryRunsResponseBody200" (\obj -> ((GHC.Base.pure GetSigmaScheduledQueryRunsResponseBody200 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "has_more")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "url"))
 
--- | Defines the enum schema GetSigmaScheduledQueryRunsResponseBody200Object\'
---
--- String representing the object\'s type. Objects of the same type share the same value. Always has the value \`list\`.
-data GetSigmaScheduledQueryRunsResponseBody200Object'
-  = GetSigmaScheduledQueryRunsResponseBody200Object'EnumOther Data.Aeson.Types.Internal.Value
-  | GetSigmaScheduledQueryRunsResponseBody200Object'EnumTyped Data.Text.Internal.Text
-  | GetSigmaScheduledQueryRunsResponseBody200Object'EnumStringList
-  deriving (GHC.Show.Show, GHC.Classes.Eq)
-
-instance Data.Aeson.Types.ToJSON.ToJSON GetSigmaScheduledQueryRunsResponseBody200Object' where
-  toJSON (GetSigmaScheduledQueryRunsResponseBody200Object'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (GetSigmaScheduledQueryRunsResponseBody200Object'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (GetSigmaScheduledQueryRunsResponseBody200Object'EnumStringList) = "list"
-
-instance Data.Aeson.Types.FromJSON.FromJSON GetSigmaScheduledQueryRunsResponseBody200Object' where
-  parseJSON val =
-    GHC.Base.pure
-      ( if  | val GHC.Classes.== "list" -> GetSigmaScheduledQueryRunsResponseBody200Object'EnumStringList
-            | GHC.Base.otherwise -> GetSigmaScheduledQueryRunsResponseBody200Object'EnumOther val
-      )
+-- | Create a new 'GetSigmaScheduledQueryRunsResponseBody200' with all required fields.
+mkGetSigmaScheduledQueryRunsResponseBody200 ::
+  -- | 'getSigmaScheduledQueryRunsResponseBody200Data'
+  [ScheduledQueryRun] ->
+  -- | 'getSigmaScheduledQueryRunsResponseBody200HasMore'
+  GHC.Types.Bool ->
+  -- | 'getSigmaScheduledQueryRunsResponseBody200Url'
+  Data.Text.Internal.Text ->
+  GetSigmaScheduledQueryRunsResponseBody200
+mkGetSigmaScheduledQueryRunsResponseBody200 getSigmaScheduledQueryRunsResponseBody200Data getSigmaScheduledQueryRunsResponseBody200HasMore getSigmaScheduledQueryRunsResponseBody200Url =
+  GetSigmaScheduledQueryRunsResponseBody200
+    { getSigmaScheduledQueryRunsResponseBody200Data = getSigmaScheduledQueryRunsResponseBody200Data,
+      getSigmaScheduledQueryRunsResponseBody200HasMore = getSigmaScheduledQueryRunsResponseBody200HasMore,
+      getSigmaScheduledQueryRunsResponseBody200Url = getSigmaScheduledQueryRunsResponseBody200Url
+    }

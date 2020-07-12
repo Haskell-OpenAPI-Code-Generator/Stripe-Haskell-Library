@@ -8,6 +8,7 @@ module StripeAPI.Types.PaymentMethodIdeal where
 
 import qualified Control.Monad.Fail
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -30,7 +31,7 @@ import StripeAPI.TypeAlias
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
--- | Defines the data type for the schema payment_method_ideal
+-- | Defines the object schema located at @components.schemas.payment_method_ideal@ in the specification.
 data PaymentMethodIdeal
   = PaymentMethodIdeal
       { -- | bank: The customer\'s bank, if provided. Can be one of \`abn_amro\`, \`asn_bank\`, \`bunq\`, \`handelsbanken\`, \`ing\`, \`knab\`, \`moneyou\`, \`rabobank\`, \`regiobank\`, \`sns_bank\`, \`triodos_bank\`, or \`van_lanschot\`.
@@ -44,116 +45,152 @@ data PaymentMethodIdeal
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PaymentMethodIdeal where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "bank" (paymentMethodIdealBank obj) : (Data.Aeson..=) "bic" (paymentMethodIdealBic obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "bank" (paymentMethodIdealBank obj) GHC.Base.<> (Data.Aeson..=) "bic" (paymentMethodIdealBic obj))
+  toJSON obj = Data.Aeson.Types.Internal.object ("bank" Data.Aeson.Types.ToJSON..= paymentMethodIdealBank obj : "bic" Data.Aeson.Types.ToJSON..= paymentMethodIdealBic obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("bank" Data.Aeson.Types.ToJSON..= paymentMethodIdealBank obj) GHC.Base.<> ("bic" Data.Aeson.Types.ToJSON..= paymentMethodIdealBic obj))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PaymentMethodIdeal where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PaymentMethodIdeal" (\obj -> (GHC.Base.pure PaymentMethodIdeal GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "bank")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "bic"))
 
--- | Defines the enum schema payment_method_idealBank\'
+-- | Create a new 'PaymentMethodIdeal' with all required fields.
+mkPaymentMethodIdeal :: PaymentMethodIdeal
+mkPaymentMethodIdeal =
+  PaymentMethodIdeal
+    { paymentMethodIdealBank = GHC.Maybe.Nothing,
+      paymentMethodIdealBic = GHC.Maybe.Nothing
+    }
+
+-- | Defines the enum schema located at @components.schemas.payment_method_ideal.properties.bank@ in the specification.
 --
 -- The customer\'s bank, if provided. Can be one of \`abn_amro\`, \`asn_bank\`, \`bunq\`, \`handelsbanken\`, \`ing\`, \`knab\`, \`moneyou\`, \`rabobank\`, \`regiobank\`, \`sns_bank\`, \`triodos_bank\`, or \`van_lanschot\`.
 data PaymentMethodIdealBank'
-  = PaymentMethodIdealBank'EnumOther Data.Aeson.Types.Internal.Value
-  | PaymentMethodIdealBank'EnumTyped Data.Text.Internal.Text
-  | PaymentMethodIdealBank'EnumStringAbnAmro
-  | PaymentMethodIdealBank'EnumStringAsnBank
-  | PaymentMethodIdealBank'EnumStringBunq
-  | PaymentMethodIdealBank'EnumStringHandelsbanken
-  | PaymentMethodIdealBank'EnumStringIng
-  | PaymentMethodIdealBank'EnumStringKnab
-  | PaymentMethodIdealBank'EnumStringMoneyou
-  | PaymentMethodIdealBank'EnumStringRabobank
-  | PaymentMethodIdealBank'EnumStringRegiobank
-  | PaymentMethodIdealBank'EnumStringSnsBank
-  | PaymentMethodIdealBank'EnumStringTriodosBank
-  | PaymentMethodIdealBank'EnumStringVanLanschot
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    PaymentMethodIdealBank'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    PaymentMethodIdealBank'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"abn_amro"@
+    PaymentMethodIdealBank'EnumAbnAmro
+  | -- | Represents the JSON value @"asn_bank"@
+    PaymentMethodIdealBank'EnumAsnBank
+  | -- | Represents the JSON value @"bunq"@
+    PaymentMethodIdealBank'EnumBunq
+  | -- | Represents the JSON value @"handelsbanken"@
+    PaymentMethodIdealBank'EnumHandelsbanken
+  | -- | Represents the JSON value @"ing"@
+    PaymentMethodIdealBank'EnumIng
+  | -- | Represents the JSON value @"knab"@
+    PaymentMethodIdealBank'EnumKnab
+  | -- | Represents the JSON value @"moneyou"@
+    PaymentMethodIdealBank'EnumMoneyou
+  | -- | Represents the JSON value @"rabobank"@
+    PaymentMethodIdealBank'EnumRabobank
+  | -- | Represents the JSON value @"regiobank"@
+    PaymentMethodIdealBank'EnumRegiobank
+  | -- | Represents the JSON value @"sns_bank"@
+    PaymentMethodIdealBank'EnumSnsBank
+  | -- | Represents the JSON value @"triodos_bank"@
+    PaymentMethodIdealBank'EnumTriodosBank
+  | -- | Represents the JSON value @"van_lanschot"@
+    PaymentMethodIdealBank'EnumVanLanschot
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
 instance Data.Aeson.Types.ToJSON.ToJSON PaymentMethodIdealBank' where
-  toJSON (PaymentMethodIdealBank'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PaymentMethodIdealBank'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PaymentMethodIdealBank'EnumStringAbnAmro) = "abn_amro"
-  toJSON (PaymentMethodIdealBank'EnumStringAsnBank) = "asn_bank"
-  toJSON (PaymentMethodIdealBank'EnumStringBunq) = "bunq"
-  toJSON (PaymentMethodIdealBank'EnumStringHandelsbanken) = "handelsbanken"
-  toJSON (PaymentMethodIdealBank'EnumStringIng) = "ing"
-  toJSON (PaymentMethodIdealBank'EnumStringKnab) = "knab"
-  toJSON (PaymentMethodIdealBank'EnumStringMoneyou) = "moneyou"
-  toJSON (PaymentMethodIdealBank'EnumStringRabobank) = "rabobank"
-  toJSON (PaymentMethodIdealBank'EnumStringRegiobank) = "regiobank"
-  toJSON (PaymentMethodIdealBank'EnumStringSnsBank) = "sns_bank"
-  toJSON (PaymentMethodIdealBank'EnumStringTriodosBank) = "triodos_bank"
-  toJSON (PaymentMethodIdealBank'EnumStringVanLanschot) = "van_lanschot"
+  toJSON (PaymentMethodIdealBank'Other val) = val
+  toJSON (PaymentMethodIdealBank'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PaymentMethodIdealBank'EnumAbnAmro) = "abn_amro"
+  toJSON (PaymentMethodIdealBank'EnumAsnBank) = "asn_bank"
+  toJSON (PaymentMethodIdealBank'EnumBunq) = "bunq"
+  toJSON (PaymentMethodIdealBank'EnumHandelsbanken) = "handelsbanken"
+  toJSON (PaymentMethodIdealBank'EnumIng) = "ing"
+  toJSON (PaymentMethodIdealBank'EnumKnab) = "knab"
+  toJSON (PaymentMethodIdealBank'EnumMoneyou) = "moneyou"
+  toJSON (PaymentMethodIdealBank'EnumRabobank) = "rabobank"
+  toJSON (PaymentMethodIdealBank'EnumRegiobank) = "regiobank"
+  toJSON (PaymentMethodIdealBank'EnumSnsBank) = "sns_bank"
+  toJSON (PaymentMethodIdealBank'EnumTriodosBank) = "triodos_bank"
+  toJSON (PaymentMethodIdealBank'EnumVanLanschot) = "van_lanschot"
 
 instance Data.Aeson.Types.FromJSON.FromJSON PaymentMethodIdealBank' where
   parseJSON val =
     GHC.Base.pure
-      ( if  | val GHC.Classes.== "abn_amro" -> PaymentMethodIdealBank'EnumStringAbnAmro
-            | val GHC.Classes.== "asn_bank" -> PaymentMethodIdealBank'EnumStringAsnBank
-            | val GHC.Classes.== "bunq" -> PaymentMethodIdealBank'EnumStringBunq
-            | val GHC.Classes.== "handelsbanken" -> PaymentMethodIdealBank'EnumStringHandelsbanken
-            | val GHC.Classes.== "ing" -> PaymentMethodIdealBank'EnumStringIng
-            | val GHC.Classes.== "knab" -> PaymentMethodIdealBank'EnumStringKnab
-            | val GHC.Classes.== "moneyou" -> PaymentMethodIdealBank'EnumStringMoneyou
-            | val GHC.Classes.== "rabobank" -> PaymentMethodIdealBank'EnumStringRabobank
-            | val GHC.Classes.== "regiobank" -> PaymentMethodIdealBank'EnumStringRegiobank
-            | val GHC.Classes.== "sns_bank" -> PaymentMethodIdealBank'EnumStringSnsBank
-            | val GHC.Classes.== "triodos_bank" -> PaymentMethodIdealBank'EnumStringTriodosBank
-            | val GHC.Classes.== "van_lanschot" -> PaymentMethodIdealBank'EnumStringVanLanschot
-            | GHC.Base.otherwise -> PaymentMethodIdealBank'EnumOther val
+      ( if  | val GHC.Classes.== "abn_amro" -> PaymentMethodIdealBank'EnumAbnAmro
+            | val GHC.Classes.== "asn_bank" -> PaymentMethodIdealBank'EnumAsnBank
+            | val GHC.Classes.== "bunq" -> PaymentMethodIdealBank'EnumBunq
+            | val GHC.Classes.== "handelsbanken" -> PaymentMethodIdealBank'EnumHandelsbanken
+            | val GHC.Classes.== "ing" -> PaymentMethodIdealBank'EnumIng
+            | val GHC.Classes.== "knab" -> PaymentMethodIdealBank'EnumKnab
+            | val GHC.Classes.== "moneyou" -> PaymentMethodIdealBank'EnumMoneyou
+            | val GHC.Classes.== "rabobank" -> PaymentMethodIdealBank'EnumRabobank
+            | val GHC.Classes.== "regiobank" -> PaymentMethodIdealBank'EnumRegiobank
+            | val GHC.Classes.== "sns_bank" -> PaymentMethodIdealBank'EnumSnsBank
+            | val GHC.Classes.== "triodos_bank" -> PaymentMethodIdealBank'EnumTriodosBank
+            | val GHC.Classes.== "van_lanschot" -> PaymentMethodIdealBank'EnumVanLanschot
+            | GHC.Base.otherwise -> PaymentMethodIdealBank'Other val
       )
 
--- | Defines the enum schema payment_method_idealBic\'
+-- | Defines the enum schema located at @components.schemas.payment_method_ideal.properties.bic@ in the specification.
 --
 -- The Bank Identifier Code of the customer\'s bank, if the bank was provided.
 data PaymentMethodIdealBic'
-  = PaymentMethodIdealBic'EnumOther Data.Aeson.Types.Internal.Value
-  | PaymentMethodIdealBic'EnumTyped Data.Text.Internal.Text
-  | PaymentMethodIdealBic'EnumStringABNANL2A
-  | PaymentMethodIdealBic'EnumStringASNBNL21
-  | PaymentMethodIdealBic'EnumStringBUNQNL2A
-  | PaymentMethodIdealBic'EnumStringFVLBNL22
-  | PaymentMethodIdealBic'EnumStringHANDNL2A
-  | PaymentMethodIdealBic'EnumStringINGBNL2A
-  | PaymentMethodIdealBic'EnumStringKNABNL2H
-  | PaymentMethodIdealBic'EnumStringMOYONL21
-  | PaymentMethodIdealBic'EnumStringRABONL2U
-  | PaymentMethodIdealBic'EnumStringRBRBNL21
-  | PaymentMethodIdealBic'EnumStringSNSBNL2A
-  | PaymentMethodIdealBic'EnumStringTRIONL2U
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    PaymentMethodIdealBic'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    PaymentMethodIdealBic'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"ABNANL2A"@
+    PaymentMethodIdealBic'EnumABNANL2A
+  | -- | Represents the JSON value @"ASNBNL21"@
+    PaymentMethodIdealBic'EnumASNBNL21
+  | -- | Represents the JSON value @"BUNQNL2A"@
+    PaymentMethodIdealBic'EnumBUNQNL2A
+  | -- | Represents the JSON value @"FVLBNL22"@
+    PaymentMethodIdealBic'EnumFVLBNL22
+  | -- | Represents the JSON value @"HANDNL2A"@
+    PaymentMethodIdealBic'EnumHANDNL2A
+  | -- | Represents the JSON value @"INGBNL2A"@
+    PaymentMethodIdealBic'EnumINGBNL2A
+  | -- | Represents the JSON value @"KNABNL2H"@
+    PaymentMethodIdealBic'EnumKNABNL2H
+  | -- | Represents the JSON value @"MOYONL21"@
+    PaymentMethodIdealBic'EnumMOYONL21
+  | -- | Represents the JSON value @"RABONL2U"@
+    PaymentMethodIdealBic'EnumRABONL2U
+  | -- | Represents the JSON value @"RBRBNL21"@
+    PaymentMethodIdealBic'EnumRBRBNL21
+  | -- | Represents the JSON value @"SNSBNL2A"@
+    PaymentMethodIdealBic'EnumSNSBNL2A
+  | -- | Represents the JSON value @"TRIONL2U"@
+    PaymentMethodIdealBic'EnumTRIONL2U
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
 instance Data.Aeson.Types.ToJSON.ToJSON PaymentMethodIdealBic' where
-  toJSON (PaymentMethodIdealBic'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PaymentMethodIdealBic'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PaymentMethodIdealBic'EnumStringABNANL2A) = "ABNANL2A"
-  toJSON (PaymentMethodIdealBic'EnumStringASNBNL21) = "ASNBNL21"
-  toJSON (PaymentMethodIdealBic'EnumStringBUNQNL2A) = "BUNQNL2A"
-  toJSON (PaymentMethodIdealBic'EnumStringFVLBNL22) = "FVLBNL22"
-  toJSON (PaymentMethodIdealBic'EnumStringHANDNL2A) = "HANDNL2A"
-  toJSON (PaymentMethodIdealBic'EnumStringINGBNL2A) = "INGBNL2A"
-  toJSON (PaymentMethodIdealBic'EnumStringKNABNL2H) = "KNABNL2H"
-  toJSON (PaymentMethodIdealBic'EnumStringMOYONL21) = "MOYONL21"
-  toJSON (PaymentMethodIdealBic'EnumStringRABONL2U) = "RABONL2U"
-  toJSON (PaymentMethodIdealBic'EnumStringRBRBNL21) = "RBRBNL21"
-  toJSON (PaymentMethodIdealBic'EnumStringSNSBNL2A) = "SNSBNL2A"
-  toJSON (PaymentMethodIdealBic'EnumStringTRIONL2U) = "TRIONL2U"
+  toJSON (PaymentMethodIdealBic'Other val) = val
+  toJSON (PaymentMethodIdealBic'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PaymentMethodIdealBic'EnumABNANL2A) = "ABNANL2A"
+  toJSON (PaymentMethodIdealBic'EnumASNBNL21) = "ASNBNL21"
+  toJSON (PaymentMethodIdealBic'EnumBUNQNL2A) = "BUNQNL2A"
+  toJSON (PaymentMethodIdealBic'EnumFVLBNL22) = "FVLBNL22"
+  toJSON (PaymentMethodIdealBic'EnumHANDNL2A) = "HANDNL2A"
+  toJSON (PaymentMethodIdealBic'EnumINGBNL2A) = "INGBNL2A"
+  toJSON (PaymentMethodIdealBic'EnumKNABNL2H) = "KNABNL2H"
+  toJSON (PaymentMethodIdealBic'EnumMOYONL21) = "MOYONL21"
+  toJSON (PaymentMethodIdealBic'EnumRABONL2U) = "RABONL2U"
+  toJSON (PaymentMethodIdealBic'EnumRBRBNL21) = "RBRBNL21"
+  toJSON (PaymentMethodIdealBic'EnumSNSBNL2A) = "SNSBNL2A"
+  toJSON (PaymentMethodIdealBic'EnumTRIONL2U) = "TRIONL2U"
 
 instance Data.Aeson.Types.FromJSON.FromJSON PaymentMethodIdealBic' where
   parseJSON val =
     GHC.Base.pure
-      ( if  | val GHC.Classes.== "ABNANL2A" -> PaymentMethodIdealBic'EnumStringABNANL2A
-            | val GHC.Classes.== "ASNBNL21" -> PaymentMethodIdealBic'EnumStringASNBNL21
-            | val GHC.Classes.== "BUNQNL2A" -> PaymentMethodIdealBic'EnumStringBUNQNL2A
-            | val GHC.Classes.== "FVLBNL22" -> PaymentMethodIdealBic'EnumStringFVLBNL22
-            | val GHC.Classes.== "HANDNL2A" -> PaymentMethodIdealBic'EnumStringHANDNL2A
-            | val GHC.Classes.== "INGBNL2A" -> PaymentMethodIdealBic'EnumStringINGBNL2A
-            | val GHC.Classes.== "KNABNL2H" -> PaymentMethodIdealBic'EnumStringKNABNL2H
-            | val GHC.Classes.== "MOYONL21" -> PaymentMethodIdealBic'EnumStringMOYONL21
-            | val GHC.Classes.== "RABONL2U" -> PaymentMethodIdealBic'EnumStringRABONL2U
-            | val GHC.Classes.== "RBRBNL21" -> PaymentMethodIdealBic'EnumStringRBRBNL21
-            | val GHC.Classes.== "SNSBNL2A" -> PaymentMethodIdealBic'EnumStringSNSBNL2A
-            | val GHC.Classes.== "TRIONL2U" -> PaymentMethodIdealBic'EnumStringTRIONL2U
-            | GHC.Base.otherwise -> PaymentMethodIdealBic'EnumOther val
+      ( if  | val GHC.Classes.== "ABNANL2A" -> PaymentMethodIdealBic'EnumABNANL2A
+            | val GHC.Classes.== "ASNBNL21" -> PaymentMethodIdealBic'EnumASNBNL21
+            | val GHC.Classes.== "BUNQNL2A" -> PaymentMethodIdealBic'EnumBUNQNL2A
+            | val GHC.Classes.== "FVLBNL22" -> PaymentMethodIdealBic'EnumFVLBNL22
+            | val GHC.Classes.== "HANDNL2A" -> PaymentMethodIdealBic'EnumHANDNL2A
+            | val GHC.Classes.== "INGBNL2A" -> PaymentMethodIdealBic'EnumINGBNL2A
+            | val GHC.Classes.== "KNABNL2H" -> PaymentMethodIdealBic'EnumKNABNL2H
+            | val GHC.Classes.== "MOYONL21" -> PaymentMethodIdealBic'EnumMOYONL21
+            | val GHC.Classes.== "RABONL2U" -> PaymentMethodIdealBic'EnumRABONL2U
+            | val GHC.Classes.== "RBRBNL21" -> PaymentMethodIdealBic'EnumRBRBNL21
+            | val GHC.Classes.== "SNSBNL2A" -> PaymentMethodIdealBic'EnumSNSBNL2A
+            | val GHC.Classes.== "TRIONL2U" -> PaymentMethodIdealBic'EnumTRIONL2U
+            | GHC.Base.otherwise -> PaymentMethodIdealBic'Other val
       )

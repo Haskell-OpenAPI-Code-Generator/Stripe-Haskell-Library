@@ -1,11 +1,11 @@
 module StripeAPI.Types.AccountCapabilities where
 import Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Types.Internal
-data AccountCapabilities 
-instance Show AccountCapabilities 
-instance Eq AccountCapabilities 
-instance FromJSON AccountCapabilities 
-instance ToJSON AccountCapabilities 
+data AccountCapabilities
+instance Show AccountCapabilities
+instance Eq AccountCapabilities
+instance FromJSON AccountCapabilities
+instance ToJSON AccountCapabilities
 data AccountCapabilitiesCardIssuing'
 instance Show AccountCapabilitiesCardIssuing'
 instance Eq AccountCapabilitiesCardIssuing'

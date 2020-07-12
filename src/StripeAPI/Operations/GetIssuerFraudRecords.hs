@@ -10,6 +10,7 @@ module StripeAPI.Operations.GetIssuerFraudRecords where
 import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -86,7 +87,7 @@ getIssuerFraudRecords parameters =
         ]
     )
 
--- | Defines the data type for the schema getIssuerFraudRecordsParameters
+-- | Defines the object schema located at @paths.\/v1\/issuer_fraud_records.GET.parameters@ in the specification.
 data GetIssuerFraudRecordsParameters
   = GetIssuerFraudRecordsParameters
       { -- | queryCharge: Represents the parameter named \'charge\'
@@ -124,11 +125,22 @@ data GetIssuerFraudRecordsParameters
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetIssuerFraudRecordsParameters where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "queryCharge" (getIssuerFraudRecordsParametersQueryCharge obj) : (Data.Aeson..=) "queryEnding_before" (getIssuerFraudRecordsParametersQueryEndingBefore obj) : (Data.Aeson..=) "queryExpand" (getIssuerFraudRecordsParametersQueryExpand obj) : (Data.Aeson..=) "queryLimit" (getIssuerFraudRecordsParametersQueryLimit obj) : (Data.Aeson..=) "queryStarting_after" (getIssuerFraudRecordsParametersQueryStartingAfter obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "queryCharge" (getIssuerFraudRecordsParametersQueryCharge obj) GHC.Base.<> ((Data.Aeson..=) "queryEnding_before" (getIssuerFraudRecordsParametersQueryEndingBefore obj) GHC.Base.<> ((Data.Aeson..=) "queryExpand" (getIssuerFraudRecordsParametersQueryExpand obj) GHC.Base.<> ((Data.Aeson..=) "queryLimit" (getIssuerFraudRecordsParametersQueryLimit obj) GHC.Base.<> (Data.Aeson..=) "queryStarting_after" (getIssuerFraudRecordsParametersQueryStartingAfter obj)))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("queryCharge" Data.Aeson.Types.ToJSON..= getIssuerFraudRecordsParametersQueryCharge obj : "queryEnding_before" Data.Aeson.Types.ToJSON..= getIssuerFraudRecordsParametersQueryEndingBefore obj : "queryExpand" Data.Aeson.Types.ToJSON..= getIssuerFraudRecordsParametersQueryExpand obj : "queryLimit" Data.Aeson.Types.ToJSON..= getIssuerFraudRecordsParametersQueryLimit obj : "queryStarting_after" Data.Aeson.Types.ToJSON..= getIssuerFraudRecordsParametersQueryStartingAfter obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("queryCharge" Data.Aeson.Types.ToJSON..= getIssuerFraudRecordsParametersQueryCharge obj) GHC.Base.<> (("queryEnding_before" Data.Aeson.Types.ToJSON..= getIssuerFraudRecordsParametersQueryEndingBefore obj) GHC.Base.<> (("queryExpand" Data.Aeson.Types.ToJSON..= getIssuerFraudRecordsParametersQueryExpand obj) GHC.Base.<> (("queryLimit" Data.Aeson.Types.ToJSON..= getIssuerFraudRecordsParametersQueryLimit obj) GHC.Base.<> ("queryStarting_after" Data.Aeson.Types.ToJSON..= getIssuerFraudRecordsParametersQueryStartingAfter obj)))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetIssuerFraudRecordsParameters where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "GetIssuerFraudRecordsParameters" (\obj -> ((((GHC.Base.pure GetIssuerFraudRecordsParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryCharge")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryEnding_before")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryExpand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryLimit")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryStarting_after"))
+
+-- | Create a new 'GetIssuerFraudRecordsParameters' with all required fields.
+mkGetIssuerFraudRecordsParameters :: GetIssuerFraudRecordsParameters
+mkGetIssuerFraudRecordsParameters =
+  GetIssuerFraudRecordsParameters
+    { getIssuerFraudRecordsParametersQueryCharge = GHC.Maybe.Nothing,
+      getIssuerFraudRecordsParametersQueryEndingBefore = GHC.Maybe.Nothing,
+      getIssuerFraudRecordsParametersQueryExpand = GHC.Maybe.Nothing,
+      getIssuerFraudRecordsParametersQueryLimit = GHC.Maybe.Nothing,
+      getIssuerFraudRecordsParametersQueryStartingAfter = GHC.Maybe.Nothing
+    }
 
 -- | Represents a response of the operation 'getIssuerFraudRecords'.
 --
@@ -142,15 +154,13 @@ data GetIssuerFraudRecordsResponse
     GetIssuerFraudRecordsResponseDefault Error
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
--- | Defines the data type for the schema GetIssuerFraudRecordsResponseBody200
+-- | Defines the object schema located at @paths.\/v1\/issuer_fraud_records.GET.responses.200.content.application\/json.schema@ in the specification.
 data GetIssuerFraudRecordsResponseBody200
   = GetIssuerFraudRecordsResponseBody200
       { -- | data
         getIssuerFraudRecordsResponseBody200Data :: ([IssuerFraudRecord]),
         -- | has_more: True if this list has another page of items after this one that can be fetched.
         getIssuerFraudRecordsResponseBody200HasMore :: GHC.Types.Bool,
-        -- | object: String representing the object\'s type. Objects of the same type share the same value. Always has the value \`list\`.
-        getIssuerFraudRecordsResponseBody200Object :: GetIssuerFraudRecordsResponseBody200Object',
         -- | url: The URL where this list can be accessed.
         --
         -- Constraints:
@@ -165,29 +175,24 @@ data GetIssuerFraudRecordsResponseBody200
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetIssuerFraudRecordsResponseBody200 where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "data" (getIssuerFraudRecordsResponseBody200Data obj) : (Data.Aeson..=) "has_more" (getIssuerFraudRecordsResponseBody200HasMore obj) : (Data.Aeson..=) "object" (getIssuerFraudRecordsResponseBody200Object obj) : (Data.Aeson..=) "url" (getIssuerFraudRecordsResponseBody200Url obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "data" (getIssuerFraudRecordsResponseBody200Data obj) GHC.Base.<> ((Data.Aeson..=) "has_more" (getIssuerFraudRecordsResponseBody200HasMore obj) GHC.Base.<> ((Data.Aeson..=) "object" (getIssuerFraudRecordsResponseBody200Object obj) GHC.Base.<> (Data.Aeson..=) "url" (getIssuerFraudRecordsResponseBody200Url obj))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("data" Data.Aeson.Types.ToJSON..= getIssuerFraudRecordsResponseBody200Data obj : "has_more" Data.Aeson.Types.ToJSON..= getIssuerFraudRecordsResponseBody200HasMore obj : "url" Data.Aeson.Types.ToJSON..= getIssuerFraudRecordsResponseBody200Url obj : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "list" : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("data" Data.Aeson.Types.ToJSON..= getIssuerFraudRecordsResponseBody200Data obj) GHC.Base.<> (("has_more" Data.Aeson.Types.ToJSON..= getIssuerFraudRecordsResponseBody200HasMore obj) GHC.Base.<> (("url" Data.Aeson.Types.ToJSON..= getIssuerFraudRecordsResponseBody200Url obj) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "list"))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetIssuerFraudRecordsResponseBody200 where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetIssuerFraudRecordsResponseBody200" (\obj -> (((GHC.Base.pure GetIssuerFraudRecordsResponseBody200 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "has_more")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "object")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "url"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetIssuerFraudRecordsResponseBody200" (\obj -> ((GHC.Base.pure GetIssuerFraudRecordsResponseBody200 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "has_more")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "url"))
 
--- | Defines the enum schema GetIssuerFraudRecordsResponseBody200Object\'
---
--- String representing the object\'s type. Objects of the same type share the same value. Always has the value \`list\`.
-data GetIssuerFraudRecordsResponseBody200Object'
-  = GetIssuerFraudRecordsResponseBody200Object'EnumOther Data.Aeson.Types.Internal.Value
-  | GetIssuerFraudRecordsResponseBody200Object'EnumTyped Data.Text.Internal.Text
-  | GetIssuerFraudRecordsResponseBody200Object'EnumStringList
-  deriving (GHC.Show.Show, GHC.Classes.Eq)
-
-instance Data.Aeson.Types.ToJSON.ToJSON GetIssuerFraudRecordsResponseBody200Object' where
-  toJSON (GetIssuerFraudRecordsResponseBody200Object'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (GetIssuerFraudRecordsResponseBody200Object'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (GetIssuerFraudRecordsResponseBody200Object'EnumStringList) = "list"
-
-instance Data.Aeson.Types.FromJSON.FromJSON GetIssuerFraudRecordsResponseBody200Object' where
-  parseJSON val =
-    GHC.Base.pure
-      ( if  | val GHC.Classes.== "list" -> GetIssuerFraudRecordsResponseBody200Object'EnumStringList
-            | GHC.Base.otherwise -> GetIssuerFraudRecordsResponseBody200Object'EnumOther val
-      )
+-- | Create a new 'GetIssuerFraudRecordsResponseBody200' with all required fields.
+mkGetIssuerFraudRecordsResponseBody200 ::
+  -- | 'getIssuerFraudRecordsResponseBody200Data'
+  [IssuerFraudRecord] ->
+  -- | 'getIssuerFraudRecordsResponseBody200HasMore'
+  GHC.Types.Bool ->
+  -- | 'getIssuerFraudRecordsResponseBody200Url'
+  Data.Text.Internal.Text ->
+  GetIssuerFraudRecordsResponseBody200
+mkGetIssuerFraudRecordsResponseBody200 getIssuerFraudRecordsResponseBody200Data getIssuerFraudRecordsResponseBody200HasMore getIssuerFraudRecordsResponseBody200Url =
+  GetIssuerFraudRecordsResponseBody200
+    { getIssuerFraudRecordsResponseBody200Data = getIssuerFraudRecordsResponseBody200Data,
+      getIssuerFraudRecordsResponseBody200HasMore = getIssuerFraudRecordsResponseBody200HasMore,
+      getIssuerFraudRecordsResponseBody200Url = getIssuerFraudRecordsResponseBody200Url
+    }

@@ -8,6 +8,7 @@ module StripeAPI.Types.Inventory where
 
 import qualified Control.Monad.Fail
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -30,7 +31,7 @@ import StripeAPI.TypeAlias
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
--- | Defines the data type for the schema inventory
+-- | Defines the object schema located at @components.schemas.inventory@ in the specification.
 data Inventory
   = Inventory
       { -- | quantity: The count of inventory available. Will be present if and only if \`type\` is \`finite\`.
@@ -54,8 +55,20 @@ data Inventory
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON Inventory where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "quantity" (inventoryQuantity obj) : (Data.Aeson..=) "type" (inventoryType obj) : (Data.Aeson..=) "value" (inventoryValue obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "quantity" (inventoryQuantity obj) GHC.Base.<> ((Data.Aeson..=) "type" (inventoryType obj) GHC.Base.<> (Data.Aeson..=) "value" (inventoryValue obj)))
+  toJSON obj = Data.Aeson.Types.Internal.object ("quantity" Data.Aeson.Types.ToJSON..= inventoryQuantity obj : "type" Data.Aeson.Types.ToJSON..= inventoryType obj : "value" Data.Aeson.Types.ToJSON..= inventoryValue obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("quantity" Data.Aeson.Types.ToJSON..= inventoryQuantity obj) GHC.Base.<> (("type" Data.Aeson.Types.ToJSON..= inventoryType obj) GHC.Base.<> ("value" Data.Aeson.Types.ToJSON..= inventoryValue obj)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON Inventory where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "Inventory" (\obj -> ((GHC.Base.pure Inventory GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "quantity")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "type")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "value"))
+
+-- | Create a new 'Inventory' with all required fields.
+mkInventory ::
+  -- | 'inventoryType'
+  Data.Text.Internal.Text ->
+  Inventory
+mkInventory inventoryType =
+  Inventory
+    { inventoryQuantity = GHC.Maybe.Nothing,
+      inventoryType = inventoryType,
+      inventoryValue = GHC.Maybe.Nothing
+    }

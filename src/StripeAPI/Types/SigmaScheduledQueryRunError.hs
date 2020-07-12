@@ -8,6 +8,7 @@ module StripeAPI.Types.SigmaScheduledQueryRunError where
 
 import qualified Control.Monad.Fail
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -30,7 +31,7 @@ import StripeAPI.TypeAlias
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
--- | Defines the data type for the schema sigma_scheduled_query_run_error
+-- | Defines the object schema located at @components.schemas.sigma_scheduled_query_run_error@ in the specification.
 data SigmaScheduledQueryRunError
   = SigmaScheduledQueryRunError
       { -- | message: Information about the run failure.
@@ -46,8 +47,15 @@ data SigmaScheduledQueryRunError
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON SigmaScheduledQueryRunError where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "message" (sigmaScheduledQueryRunErrorMessage obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "message" (sigmaScheduledQueryRunErrorMessage obj))
+  toJSON obj = Data.Aeson.Types.Internal.object ("message" Data.Aeson.Types.ToJSON..= sigmaScheduledQueryRunErrorMessage obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs ("message" Data.Aeson.Types.ToJSON..= sigmaScheduledQueryRunErrorMessage obj)
 
 instance Data.Aeson.Types.FromJSON.FromJSON SigmaScheduledQueryRunError where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "SigmaScheduledQueryRunError" (\obj -> GHC.Base.pure SigmaScheduledQueryRunError GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "message"))
+
+-- | Create a new 'SigmaScheduledQueryRunError' with all required fields.
+mkSigmaScheduledQueryRunError ::
+  -- | 'sigmaScheduledQueryRunErrorMessage'
+  Data.Text.Internal.Text ->
+  SigmaScheduledQueryRunError
+mkSigmaScheduledQueryRunError sigmaScheduledQueryRunErrorMessage = SigmaScheduledQueryRunError {sigmaScheduledQueryRunErrorMessage = sigmaScheduledQueryRunErrorMessage}

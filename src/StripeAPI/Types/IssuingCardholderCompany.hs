@@ -8,6 +8,7 @@ module StripeAPI.Types.IssuingCardholderCompany where
 
 import qualified Control.Monad.Fail
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -30,7 +31,7 @@ import StripeAPI.TypeAlias
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
--- | Defines the data type for the schema issuing_cardholder_company
+-- | Defines the object schema located at @components.schemas.issuing_cardholder_company@ in the specification.
 data IssuingCardholderCompany
   = IssuingCardholderCompany
       { -- | tax_id_provided: Whether the company\'s business ID number was provided.
@@ -42,8 +43,15 @@ data IssuingCardholderCompany
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON IssuingCardholderCompany where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "tax_id_provided" (issuingCardholderCompanyTaxIdProvided obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "tax_id_provided" (issuingCardholderCompanyTaxIdProvided obj))
+  toJSON obj = Data.Aeson.Types.Internal.object ("tax_id_provided" Data.Aeson.Types.ToJSON..= issuingCardholderCompanyTaxIdProvided obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs ("tax_id_provided" Data.Aeson.Types.ToJSON..= issuingCardholderCompanyTaxIdProvided obj)
 
 instance Data.Aeson.Types.FromJSON.FromJSON IssuingCardholderCompany where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "IssuingCardholderCompany" (\obj -> GHC.Base.pure IssuingCardholderCompany GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "tax_id_provided"))
+
+-- | Create a new 'IssuingCardholderCompany' with all required fields.
+mkIssuingCardholderCompany ::
+  -- | 'issuingCardholderCompanyTaxIdProvided'
+  GHC.Types.Bool ->
+  IssuingCardholderCompany
+mkIssuingCardholderCompany issuingCardholderCompanyTaxIdProvided = IssuingCardholderCompany {issuingCardholderCompanyTaxIdProvided = issuingCardholderCompanyTaxIdProvided}

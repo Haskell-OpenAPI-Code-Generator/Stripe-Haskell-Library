@@ -8,6 +8,7 @@ module StripeAPI.Types.CountrySpecVerificationFieldDetails where
 
 import qualified Control.Monad.Fail
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -30,7 +31,7 @@ import StripeAPI.TypeAlias
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
--- | Defines the data type for the schema country_spec_verification_field_details
+-- | Defines the object schema located at @components.schemas.country_spec_verification_field_details@ in the specification.
 data CountrySpecVerificationFieldDetails
   = CountrySpecVerificationFieldDetails
       { -- | additional: Additional fields which are only required for some users.
@@ -44,8 +45,21 @@ data CountrySpecVerificationFieldDetails
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON CountrySpecVerificationFieldDetails where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "additional" (countrySpecVerificationFieldDetailsAdditional obj) : (Data.Aeson..=) "minimum" (countrySpecVerificationFieldDetailsMinimum obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "additional" (countrySpecVerificationFieldDetailsAdditional obj) GHC.Base.<> (Data.Aeson..=) "minimum" (countrySpecVerificationFieldDetailsMinimum obj))
+  toJSON obj = Data.Aeson.Types.Internal.object ("additional" Data.Aeson.Types.ToJSON..= countrySpecVerificationFieldDetailsAdditional obj : "minimum" Data.Aeson.Types.ToJSON..= countrySpecVerificationFieldDetailsMinimum obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("additional" Data.Aeson.Types.ToJSON..= countrySpecVerificationFieldDetailsAdditional obj) GHC.Base.<> ("minimum" Data.Aeson.Types.ToJSON..= countrySpecVerificationFieldDetailsMinimum obj))
 
 instance Data.Aeson.Types.FromJSON.FromJSON CountrySpecVerificationFieldDetails where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "CountrySpecVerificationFieldDetails" (\obj -> (GHC.Base.pure CountrySpecVerificationFieldDetails GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "additional")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "minimum"))
+
+-- | Create a new 'CountrySpecVerificationFieldDetails' with all required fields.
+mkCountrySpecVerificationFieldDetails ::
+  -- | 'countrySpecVerificationFieldDetailsAdditional'
+  [Data.Text.Internal.Text] ->
+  -- | 'countrySpecVerificationFieldDetailsMinimum'
+  [Data.Text.Internal.Text] ->
+  CountrySpecVerificationFieldDetails
+mkCountrySpecVerificationFieldDetails countrySpecVerificationFieldDetailsAdditional countrySpecVerificationFieldDetailsMinimum =
+  CountrySpecVerificationFieldDetails
+    { countrySpecVerificationFieldDetailsAdditional = countrySpecVerificationFieldDetailsAdditional,
+      countrySpecVerificationFieldDetailsMinimum = countrySpecVerificationFieldDetailsMinimum
+    }

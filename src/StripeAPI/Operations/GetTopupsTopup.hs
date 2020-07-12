@@ -10,6 +10,7 @@ module StripeAPI.Operations.GetTopupsTopup where
 import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -77,7 +78,7 @@ getTopupsTopup parameters =
     )
     (StripeAPI.Common.doCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET") (Data.Text.pack ("/v1/topups/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel (getTopupsTopupParametersPathTopup parameters))) GHC.Base.++ ""))) [StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getTopupsTopupParametersQueryExpand parameters) (Data.Text.pack "deepObject") GHC.Types.True])
 
--- | Defines the data type for the schema getTopupsTopupParameters
+-- | Defines the object schema located at @paths.\/v1\/topups\/{topup}.GET.parameters@ in the specification.
 data GetTopupsTopupParameters
   = GetTopupsTopupParameters
       { -- | pathTopup: Represents the parameter named \'topup\'
@@ -97,11 +98,22 @@ data GetTopupsTopupParameters
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetTopupsTopupParameters where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "pathTopup" (getTopupsTopupParametersPathTopup obj) : (Data.Aeson..=) "queryExpand" (getTopupsTopupParametersQueryExpand obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "pathTopup" (getTopupsTopupParametersPathTopup obj) GHC.Base.<> (Data.Aeson..=) "queryExpand" (getTopupsTopupParametersQueryExpand obj))
+  toJSON obj = Data.Aeson.Types.Internal.object ("pathTopup" Data.Aeson.Types.ToJSON..= getTopupsTopupParametersPathTopup obj : "queryExpand" Data.Aeson.Types.ToJSON..= getTopupsTopupParametersQueryExpand obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("pathTopup" Data.Aeson.Types.ToJSON..= getTopupsTopupParametersPathTopup obj) GHC.Base.<> ("queryExpand" Data.Aeson.Types.ToJSON..= getTopupsTopupParametersQueryExpand obj))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetTopupsTopupParameters where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "GetTopupsTopupParameters" (\obj -> (GHC.Base.pure GetTopupsTopupParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathTopup")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryExpand"))
+
+-- | Create a new 'GetTopupsTopupParameters' with all required fields.
+mkGetTopupsTopupParameters ::
+  -- | 'getTopupsTopupParametersPathTopup'
+  Data.Text.Internal.Text ->
+  GetTopupsTopupParameters
+mkGetTopupsTopupParameters getTopupsTopupParametersPathTopup =
+  GetTopupsTopupParameters
+    { getTopupsTopupParametersPathTopup = getTopupsTopupParametersPathTopup,
+      getTopupsTopupParametersQueryExpand = GHC.Maybe.Nothing
+    }
 
 -- | Represents a response of the operation 'getTopupsTopup'.
 --

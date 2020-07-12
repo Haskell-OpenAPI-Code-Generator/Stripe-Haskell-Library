@@ -10,6 +10,7 @@ module StripeAPI.Operations.DeleteEphemeralKeysKey where
 import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -81,7 +82,7 @@ deleteEphemeralKeysKey
       )
       (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "DELETE") (Data.Text.pack ("/v1/ephemeral_keys/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel key)) GHC.Base.++ ""))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
 
--- | Defines the data type for the schema deleteEphemeralKeysKeyRequestBody
+-- | Defines the object schema located at @paths.\/v1\/ephemeral_keys\/{key}.DELETE.requestBody.content.application\/x-www-form-urlencoded.schema@ in the specification.
 data DeleteEphemeralKeysKeyRequestBody
   = DeleteEphemeralKeysKeyRequestBody
       { -- | expand: Specifies which fields in the response should be expanded.
@@ -93,11 +94,15 @@ data DeleteEphemeralKeysKeyRequestBody
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON DeleteEphemeralKeysKeyRequestBody where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "expand" (deleteEphemeralKeysKeyRequestBodyExpand obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "expand" (deleteEphemeralKeysKeyRequestBodyExpand obj))
+  toJSON obj = Data.Aeson.Types.Internal.object ("expand" Data.Aeson.Types.ToJSON..= deleteEphemeralKeysKeyRequestBodyExpand obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs ("expand" Data.Aeson.Types.ToJSON..= deleteEphemeralKeysKeyRequestBodyExpand obj)
 
 instance Data.Aeson.Types.FromJSON.FromJSON DeleteEphemeralKeysKeyRequestBody where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "DeleteEphemeralKeysKeyRequestBody" (\obj -> GHC.Base.pure DeleteEphemeralKeysKeyRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "expand"))
+
+-- | Create a new 'DeleteEphemeralKeysKeyRequestBody' with all required fields.
+mkDeleteEphemeralKeysKeyRequestBody :: DeleteEphemeralKeysKeyRequestBody
+mkDeleteEphemeralKeysKeyRequestBody = DeleteEphemeralKeysKeyRequestBody {deleteEphemeralKeysKeyRequestBodyExpand = GHC.Maybe.Nothing}
 
 -- | Represents a response of the operation 'deleteEphemeralKeysKey'.
 --

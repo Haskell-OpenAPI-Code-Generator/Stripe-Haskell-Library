@@ -8,6 +8,7 @@ module StripeAPI.Types.AccountBrandingSettings where
 
 import qualified Control.Monad.Fail
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -31,7 +32,7 @@ import {-# SOURCE #-} StripeAPI.Types.File
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
--- | Defines the data type for the schema account_branding_settings
+-- | Defines the object schema located at @components.schemas.account_branding_settings@ in the specification.
 data AccountBrandingSettings
   = AccountBrandingSettings
       { -- | icon: (ID of a [file upload](https:\/\/stripe.com\/docs\/guides\/file-upload)) An icon for the account. Must be square and at least 128px x 128px.
@@ -51,13 +52,22 @@ data AccountBrandingSettings
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON AccountBrandingSettings where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "icon" (accountBrandingSettingsIcon obj) : (Data.Aeson..=) "logo" (accountBrandingSettingsLogo obj) : (Data.Aeson..=) "primary_color" (accountBrandingSettingsPrimaryColor obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "icon" (accountBrandingSettingsIcon obj) GHC.Base.<> ((Data.Aeson..=) "logo" (accountBrandingSettingsLogo obj) GHC.Base.<> (Data.Aeson..=) "primary_color" (accountBrandingSettingsPrimaryColor obj)))
+  toJSON obj = Data.Aeson.Types.Internal.object ("icon" Data.Aeson.Types.ToJSON..= accountBrandingSettingsIcon obj : "logo" Data.Aeson.Types.ToJSON..= accountBrandingSettingsLogo obj : "primary_color" Data.Aeson.Types.ToJSON..= accountBrandingSettingsPrimaryColor obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("icon" Data.Aeson.Types.ToJSON..= accountBrandingSettingsIcon obj) GHC.Base.<> (("logo" Data.Aeson.Types.ToJSON..= accountBrandingSettingsLogo obj) GHC.Base.<> ("primary_color" Data.Aeson.Types.ToJSON..= accountBrandingSettingsPrimaryColor obj)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON AccountBrandingSettings where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "AccountBrandingSettings" (\obj -> ((GHC.Base.pure AccountBrandingSettings GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "icon")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "logo")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "primary_color"))
 
--- | Define the one-of schema account_branding_settingsIcon\'
+-- | Create a new 'AccountBrandingSettings' with all required fields.
+mkAccountBrandingSettings :: AccountBrandingSettings
+mkAccountBrandingSettings =
+  AccountBrandingSettings
+    { accountBrandingSettingsIcon = GHC.Maybe.Nothing,
+      accountBrandingSettingsLogo = GHC.Maybe.Nothing,
+      accountBrandingSettingsPrimaryColor = GHC.Maybe.Nothing
+    }
+
+-- | Defines the oneOf schema located at @components.schemas.account_branding_settings.properties.icon.anyOf@ in the specification.
 --
 -- (ID of a [file upload](https:\/\/stripe.com\/docs\/guides\/file-upload)) An icon for the account. Must be square and at least 128px x 128px.
 data AccountBrandingSettingsIcon'Variants
@@ -70,13 +80,11 @@ instance Data.Aeson.Types.ToJSON.ToJSON AccountBrandingSettingsIcon'Variants whe
   toJSON (AccountBrandingSettingsIcon'Text a) = Data.Aeson.Types.ToJSON.toJSON a
 
 instance Data.Aeson.Types.FromJSON.FromJSON AccountBrandingSettingsIcon'Variants where
-  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
-    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ AccountBrandingSettingsIcon'File a
-    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ AccountBrandingSettingsIcon'Text a
-      Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+  parseJSON val = case (AccountBrandingSettingsIcon'File Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((AccountBrandingSettingsIcon'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched") of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+    Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
--- | Define the one-of schema account_branding_settingsLogo\'
+-- | Defines the oneOf schema located at @components.schemas.account_branding_settings.properties.logo.anyOf@ in the specification.
 --
 -- (ID of a [file upload](https:\/\/stripe.com\/docs\/guides\/file-upload)) A logo for the account that will be used in Checkout instead of the icon and without the account\'s name next to it if provided. Must be at least 128px x 128px.
 data AccountBrandingSettingsLogo'Variants
@@ -89,8 +97,6 @@ instance Data.Aeson.Types.ToJSON.ToJSON AccountBrandingSettingsLogo'Variants whe
   toJSON (AccountBrandingSettingsLogo'Text a) = Data.Aeson.Types.ToJSON.toJSON a
 
 instance Data.Aeson.Types.FromJSON.FromJSON AccountBrandingSettingsLogo'Variants where
-  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
-    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ AccountBrandingSettingsLogo'File a
-    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ AccountBrandingSettingsLogo'Text a
-      Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+  parseJSON val = case (AccountBrandingSettingsLogo'File Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((AccountBrandingSettingsLogo'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched") of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+    Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a

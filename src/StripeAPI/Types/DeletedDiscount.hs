@@ -8,6 +8,7 @@ module StripeAPI.Types.DeletedDiscount where
 
 import qualified Control.Monad.Fail
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -30,13 +31,10 @@ import StripeAPI.TypeAlias
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
--- | Defines the data type for the schema deleted_discount
+-- | Defines the object schema located at @components.schemas.deleted_discount@ in the specification.
 data DeletedDiscount
   = DeletedDiscount
-      { -- | deleted: Always true for a deleted object
-        deletedDiscountDeleted :: DeletedDiscountDeleted',
-        -- | object: String representing the object\'s type. Objects of the same type share the same value.
-        deletedDiscountObject :: DeletedDiscountObject'
+      {
       }
   deriving
     ( GHC.Show.Show,
@@ -44,50 +42,12 @@ data DeletedDiscount
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON DeletedDiscount where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "deleted" (deletedDiscountDeleted obj) : (Data.Aeson..=) "object" (deletedDiscountObject obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "deleted" (deletedDiscountDeleted obj) GHC.Base.<> (Data.Aeson..=) "object" (deletedDiscountObject obj))
+  toJSON obj = Data.Aeson.Types.Internal.object ("deleted" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.Bool GHC.Types.True : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "discount" : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("deleted" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.Bool GHC.Types.True) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "discount"))
 
 instance Data.Aeson.Types.FromJSON.FromJSON DeletedDiscount where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "DeletedDiscount" (\obj -> (GHC.Base.pure DeletedDiscount GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "deleted")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "object"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "DeletedDiscount" (\obj -> GHC.Base.pure DeletedDiscount)
 
--- | Defines the enum schema deleted_discountDeleted\'
---
--- Always true for a deleted object
-data DeletedDiscountDeleted'
-  = DeletedDiscountDeleted'EnumOther Data.Aeson.Types.Internal.Value
-  | DeletedDiscountDeleted'EnumTyped GHC.Types.Bool
-  | DeletedDiscountDeleted'EnumBoolTrue
-  deriving (GHC.Show.Show, GHC.Classes.Eq)
-
-instance Data.Aeson.Types.ToJSON.ToJSON DeletedDiscountDeleted' where
-  toJSON (DeletedDiscountDeleted'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (DeletedDiscountDeleted'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (DeletedDiscountDeleted'EnumBoolTrue) = Data.Aeson.Types.Internal.Bool GHC.Types.True
-
-instance Data.Aeson.Types.FromJSON.FromJSON DeletedDiscountDeleted' where
-  parseJSON val =
-    GHC.Base.pure
-      ( if  | val GHC.Classes.== Data.Aeson.Types.Internal.Bool GHC.Types.True -> DeletedDiscountDeleted'EnumBoolTrue
-            | GHC.Base.otherwise -> DeletedDiscountDeleted'EnumOther val
-      )
-
--- | Defines the enum schema deleted_discountObject\'
---
--- String representing the object\'s type. Objects of the same type share the same value.
-data DeletedDiscountObject'
-  = DeletedDiscountObject'EnumOther Data.Aeson.Types.Internal.Value
-  | DeletedDiscountObject'EnumTyped Data.Text.Internal.Text
-  | DeletedDiscountObject'EnumStringDiscount
-  deriving (GHC.Show.Show, GHC.Classes.Eq)
-
-instance Data.Aeson.Types.ToJSON.ToJSON DeletedDiscountObject' where
-  toJSON (DeletedDiscountObject'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (DeletedDiscountObject'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (DeletedDiscountObject'EnumStringDiscount) = "discount"
-
-instance Data.Aeson.Types.FromJSON.FromJSON DeletedDiscountObject' where
-  parseJSON val =
-    GHC.Base.pure
-      ( if  | val GHC.Classes.== "discount" -> DeletedDiscountObject'EnumStringDiscount
-            | GHC.Base.otherwise -> DeletedDiscountObject'EnumOther val
-      )
+-- | Create a new 'DeletedDiscount' with all required fields.
+mkDeletedDiscount :: DeletedDiscount
+mkDeletedDiscount = DeletedDiscount {}

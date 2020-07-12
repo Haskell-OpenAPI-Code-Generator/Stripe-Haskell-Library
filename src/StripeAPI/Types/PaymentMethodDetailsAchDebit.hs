@@ -8,6 +8,7 @@ module StripeAPI.Types.PaymentMethodDetailsAchDebit where
 
 import qualified Control.Monad.Fail
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -30,7 +31,7 @@ import StripeAPI.TypeAlias
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
--- | Defines the data type for the schema payment_method_details_ach_debit
+-- | Defines the object schema located at @components.schemas.payment_method_details_ach_debit@ in the specification.
 data PaymentMethodDetailsAchDebit
   = PaymentMethodDetailsAchDebit
       { -- | account_holder_type: Type of entity that holds the account. This can be either \`individual\` or \`company\`.
@@ -72,32 +73,48 @@ data PaymentMethodDetailsAchDebit
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PaymentMethodDetailsAchDebit where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "account_holder_type" (paymentMethodDetailsAchDebitAccountHolderType obj) : (Data.Aeson..=) "bank_name" (paymentMethodDetailsAchDebitBankName obj) : (Data.Aeson..=) "country" (paymentMethodDetailsAchDebitCountry obj) : (Data.Aeson..=) "fingerprint" (paymentMethodDetailsAchDebitFingerprint obj) : (Data.Aeson..=) "last4" (paymentMethodDetailsAchDebitLast4 obj) : (Data.Aeson..=) "routing_number" (paymentMethodDetailsAchDebitRoutingNumber obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "account_holder_type" (paymentMethodDetailsAchDebitAccountHolderType obj) GHC.Base.<> ((Data.Aeson..=) "bank_name" (paymentMethodDetailsAchDebitBankName obj) GHC.Base.<> ((Data.Aeson..=) "country" (paymentMethodDetailsAchDebitCountry obj) GHC.Base.<> ((Data.Aeson..=) "fingerprint" (paymentMethodDetailsAchDebitFingerprint obj) GHC.Base.<> ((Data.Aeson..=) "last4" (paymentMethodDetailsAchDebitLast4 obj) GHC.Base.<> (Data.Aeson..=) "routing_number" (paymentMethodDetailsAchDebitRoutingNumber obj))))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("account_holder_type" Data.Aeson.Types.ToJSON..= paymentMethodDetailsAchDebitAccountHolderType obj : "bank_name" Data.Aeson.Types.ToJSON..= paymentMethodDetailsAchDebitBankName obj : "country" Data.Aeson.Types.ToJSON..= paymentMethodDetailsAchDebitCountry obj : "fingerprint" Data.Aeson.Types.ToJSON..= paymentMethodDetailsAchDebitFingerprint obj : "last4" Data.Aeson.Types.ToJSON..= paymentMethodDetailsAchDebitLast4 obj : "routing_number" Data.Aeson.Types.ToJSON..= paymentMethodDetailsAchDebitRoutingNumber obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("account_holder_type" Data.Aeson.Types.ToJSON..= paymentMethodDetailsAchDebitAccountHolderType obj) GHC.Base.<> (("bank_name" Data.Aeson.Types.ToJSON..= paymentMethodDetailsAchDebitBankName obj) GHC.Base.<> (("country" Data.Aeson.Types.ToJSON..= paymentMethodDetailsAchDebitCountry obj) GHC.Base.<> (("fingerprint" Data.Aeson.Types.ToJSON..= paymentMethodDetailsAchDebitFingerprint obj) GHC.Base.<> (("last4" Data.Aeson.Types.ToJSON..= paymentMethodDetailsAchDebitLast4 obj) GHC.Base.<> ("routing_number" Data.Aeson.Types.ToJSON..= paymentMethodDetailsAchDebitRoutingNumber obj))))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PaymentMethodDetailsAchDebit where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PaymentMethodDetailsAchDebit" (\obj -> (((((GHC.Base.pure PaymentMethodDetailsAchDebit GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "account_holder_type")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "bank_name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "country")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "fingerprint")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "last4")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "routing_number"))
 
--- | Defines the enum schema payment_method_details_ach_debitAccount_holder_type\'
+-- | Create a new 'PaymentMethodDetailsAchDebit' with all required fields.
+mkPaymentMethodDetailsAchDebit :: PaymentMethodDetailsAchDebit
+mkPaymentMethodDetailsAchDebit =
+  PaymentMethodDetailsAchDebit
+    { paymentMethodDetailsAchDebitAccountHolderType = GHC.Maybe.Nothing,
+      paymentMethodDetailsAchDebitBankName = GHC.Maybe.Nothing,
+      paymentMethodDetailsAchDebitCountry = GHC.Maybe.Nothing,
+      paymentMethodDetailsAchDebitFingerprint = GHC.Maybe.Nothing,
+      paymentMethodDetailsAchDebitLast4 = GHC.Maybe.Nothing,
+      paymentMethodDetailsAchDebitRoutingNumber = GHC.Maybe.Nothing
+    }
+
+-- | Defines the enum schema located at @components.schemas.payment_method_details_ach_debit.properties.account_holder_type@ in the specification.
 --
 -- Type of entity that holds the account. This can be either \`individual\` or \`company\`.
 data PaymentMethodDetailsAchDebitAccountHolderType'
-  = PaymentMethodDetailsAchDebitAccountHolderType'EnumOther Data.Aeson.Types.Internal.Value
-  | PaymentMethodDetailsAchDebitAccountHolderType'EnumTyped Data.Text.Internal.Text
-  | PaymentMethodDetailsAchDebitAccountHolderType'EnumStringCompany
-  | PaymentMethodDetailsAchDebitAccountHolderType'EnumStringIndividual
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    PaymentMethodDetailsAchDebitAccountHolderType'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    PaymentMethodDetailsAchDebitAccountHolderType'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"company"@
+    PaymentMethodDetailsAchDebitAccountHolderType'EnumCompany
+  | -- | Represents the JSON value @"individual"@
+    PaymentMethodDetailsAchDebitAccountHolderType'EnumIndividual
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
 instance Data.Aeson.Types.ToJSON.ToJSON PaymentMethodDetailsAchDebitAccountHolderType' where
-  toJSON (PaymentMethodDetailsAchDebitAccountHolderType'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PaymentMethodDetailsAchDebitAccountHolderType'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PaymentMethodDetailsAchDebitAccountHolderType'EnumStringCompany) = "company"
-  toJSON (PaymentMethodDetailsAchDebitAccountHolderType'EnumStringIndividual) = "individual"
+  toJSON (PaymentMethodDetailsAchDebitAccountHolderType'Other val) = val
+  toJSON (PaymentMethodDetailsAchDebitAccountHolderType'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PaymentMethodDetailsAchDebitAccountHolderType'EnumCompany) = "company"
+  toJSON (PaymentMethodDetailsAchDebitAccountHolderType'EnumIndividual) = "individual"
 
 instance Data.Aeson.Types.FromJSON.FromJSON PaymentMethodDetailsAchDebitAccountHolderType' where
   parseJSON val =
     GHC.Base.pure
-      ( if  | val GHC.Classes.== "company" -> PaymentMethodDetailsAchDebitAccountHolderType'EnumStringCompany
-            | val GHC.Classes.== "individual" -> PaymentMethodDetailsAchDebitAccountHolderType'EnumStringIndividual
-            | GHC.Base.otherwise -> PaymentMethodDetailsAchDebitAccountHolderType'EnumOther val
+      ( if  | val GHC.Classes.== "company" -> PaymentMethodDetailsAchDebitAccountHolderType'EnumCompany
+            | val GHC.Classes.== "individual" -> PaymentMethodDetailsAchDebitAccountHolderType'EnumIndividual
+            | GHC.Base.otherwise -> PaymentMethodDetailsAchDebitAccountHolderType'Other val
       )

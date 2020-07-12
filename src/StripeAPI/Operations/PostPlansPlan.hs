@@ -10,6 +10,7 @@ module StripeAPI.Operations.PostPlansPlan where
 import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -81,7 +82,7 @@ postPlansPlan
       )
       (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack ("/v1/plans/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel plan)) GHC.Base.++ ""))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
 
--- | Defines the data type for the schema postPlansPlanRequestBody
+-- | Defines the object schema located at @paths.\/v1\/plans\/{plan}.POST.requestBody.content.application\/x-www-form-urlencoded.schema@ in the specification.
 data PostPlansPlanRequestBody
   = PostPlansPlanRequestBody
       { -- | active: Whether the plan is currently available for new subscriptions.
@@ -111,11 +112,23 @@ data PostPlansPlanRequestBody
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostPlansPlanRequestBody where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "active" (postPlansPlanRequestBodyActive obj) : (Data.Aeson..=) "expand" (postPlansPlanRequestBodyExpand obj) : (Data.Aeson..=) "metadata" (postPlansPlanRequestBodyMetadata obj) : (Data.Aeson..=) "nickname" (postPlansPlanRequestBodyNickname obj) : (Data.Aeson..=) "product" (postPlansPlanRequestBodyProduct obj) : (Data.Aeson..=) "trial_period_days" (postPlansPlanRequestBodyTrialPeriodDays obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "active" (postPlansPlanRequestBodyActive obj) GHC.Base.<> ((Data.Aeson..=) "expand" (postPlansPlanRequestBodyExpand obj) GHC.Base.<> ((Data.Aeson..=) "metadata" (postPlansPlanRequestBodyMetadata obj) GHC.Base.<> ((Data.Aeson..=) "nickname" (postPlansPlanRequestBodyNickname obj) GHC.Base.<> ((Data.Aeson..=) "product" (postPlansPlanRequestBodyProduct obj) GHC.Base.<> (Data.Aeson..=) "trial_period_days" (postPlansPlanRequestBodyTrialPeriodDays obj))))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("active" Data.Aeson.Types.ToJSON..= postPlansPlanRequestBodyActive obj : "expand" Data.Aeson.Types.ToJSON..= postPlansPlanRequestBodyExpand obj : "metadata" Data.Aeson.Types.ToJSON..= postPlansPlanRequestBodyMetadata obj : "nickname" Data.Aeson.Types.ToJSON..= postPlansPlanRequestBodyNickname obj : "product" Data.Aeson.Types.ToJSON..= postPlansPlanRequestBodyProduct obj : "trial_period_days" Data.Aeson.Types.ToJSON..= postPlansPlanRequestBodyTrialPeriodDays obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("active" Data.Aeson.Types.ToJSON..= postPlansPlanRequestBodyActive obj) GHC.Base.<> (("expand" Data.Aeson.Types.ToJSON..= postPlansPlanRequestBodyExpand obj) GHC.Base.<> (("metadata" Data.Aeson.Types.ToJSON..= postPlansPlanRequestBodyMetadata obj) GHC.Base.<> (("nickname" Data.Aeson.Types.ToJSON..= postPlansPlanRequestBodyNickname obj) GHC.Base.<> (("product" Data.Aeson.Types.ToJSON..= postPlansPlanRequestBodyProduct obj) GHC.Base.<> ("trial_period_days" Data.Aeson.Types.ToJSON..= postPlansPlanRequestBodyTrialPeriodDays obj))))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostPlansPlanRequestBody where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PostPlansPlanRequestBody" (\obj -> (((((GHC.Base.pure PostPlansPlanRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "active")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "nickname")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "product")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "trial_period_days"))
+
+-- | Create a new 'PostPlansPlanRequestBody' with all required fields.
+mkPostPlansPlanRequestBody :: PostPlansPlanRequestBody
+mkPostPlansPlanRequestBody =
+  PostPlansPlanRequestBody
+    { postPlansPlanRequestBodyActive = GHC.Maybe.Nothing,
+      postPlansPlanRequestBodyExpand = GHC.Maybe.Nothing,
+      postPlansPlanRequestBodyMetadata = GHC.Maybe.Nothing,
+      postPlansPlanRequestBodyNickname = GHC.Maybe.Nothing,
+      postPlansPlanRequestBodyProduct = GHC.Maybe.Nothing,
+      postPlansPlanRequestBodyTrialPeriodDays = GHC.Maybe.Nothing
+    }
 
 -- | Represents a response of the operation 'postPlansPlan'.
 --

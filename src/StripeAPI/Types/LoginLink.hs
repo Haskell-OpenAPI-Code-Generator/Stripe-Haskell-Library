@@ -8,6 +8,7 @@ module StripeAPI.Types.LoginLink where
 
 import qualified Control.Monad.Fail
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -30,13 +31,11 @@ import StripeAPI.TypeAlias
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
--- | Defines the data type for the schema login_link
+-- | Defines the object schema located at @components.schemas.login_link@ in the specification.
 data LoginLink
   = LoginLink
       { -- | created: Time at which the object was created. Measured in seconds since the Unix epoch.
         loginLinkCreated :: GHC.Types.Int,
-        -- | object: String representing the object\'s type. Objects of the same type share the same value.
-        loginLinkObject :: LoginLinkObject',
         -- | url: The URL for the login link.
         --
         -- Constraints:
@@ -50,29 +49,21 @@ data LoginLink
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON LoginLink where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "created" (loginLinkCreated obj) : (Data.Aeson..=) "object" (loginLinkObject obj) : (Data.Aeson..=) "url" (loginLinkUrl obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "created" (loginLinkCreated obj) GHC.Base.<> ((Data.Aeson..=) "object" (loginLinkObject obj) GHC.Base.<> (Data.Aeson..=) "url" (loginLinkUrl obj)))
+  toJSON obj = Data.Aeson.Types.Internal.object ("created" Data.Aeson.Types.ToJSON..= loginLinkCreated obj : "url" Data.Aeson.Types.ToJSON..= loginLinkUrl obj : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "login_link" : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("created" Data.Aeson.Types.ToJSON..= loginLinkCreated obj) GHC.Base.<> (("url" Data.Aeson.Types.ToJSON..= loginLinkUrl obj) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "login_link")))
 
 instance Data.Aeson.Types.FromJSON.FromJSON LoginLink where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "LoginLink" (\obj -> ((GHC.Base.pure LoginLink GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "created")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "object")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "url"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "LoginLink" (\obj -> (GHC.Base.pure LoginLink GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "created")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "url"))
 
--- | Defines the enum schema login_linkObject\'
---
--- String representing the object\'s type. Objects of the same type share the same value.
-data LoginLinkObject'
-  = LoginLinkObject'EnumOther Data.Aeson.Types.Internal.Value
-  | LoginLinkObject'EnumTyped Data.Text.Internal.Text
-  | LoginLinkObject'EnumStringLoginLink
-  deriving (GHC.Show.Show, GHC.Classes.Eq)
-
-instance Data.Aeson.Types.ToJSON.ToJSON LoginLinkObject' where
-  toJSON (LoginLinkObject'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (LoginLinkObject'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (LoginLinkObject'EnumStringLoginLink) = "login_link"
-
-instance Data.Aeson.Types.FromJSON.FromJSON LoginLinkObject' where
-  parseJSON val =
-    GHC.Base.pure
-      ( if  | val GHC.Classes.== "login_link" -> LoginLinkObject'EnumStringLoginLink
-            | GHC.Base.otherwise -> LoginLinkObject'EnumOther val
-      )
+-- | Create a new 'LoginLink' with all required fields.
+mkLoginLink ::
+  -- | 'loginLinkCreated'
+  GHC.Types.Int ->
+  -- | 'loginLinkUrl'
+  Data.Text.Internal.Text ->
+  LoginLink
+mkLoginLink loginLinkCreated loginLinkUrl =
+  LoginLink
+    { loginLinkCreated = loginLinkCreated,
+      loginLinkUrl = loginLinkUrl
+    }

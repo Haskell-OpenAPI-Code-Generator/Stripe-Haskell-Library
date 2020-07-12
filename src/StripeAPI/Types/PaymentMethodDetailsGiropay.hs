@@ -8,6 +8,7 @@ module StripeAPI.Types.PaymentMethodDetailsGiropay where
 
 import qualified Control.Monad.Fail
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -30,7 +31,7 @@ import StripeAPI.TypeAlias
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
--- | Defines the data type for the schema payment_method_details_giropay
+-- | Defines the object schema located at @components.schemas.payment_method_details_giropay@ in the specification.
 data PaymentMethodDetailsGiropay
   = PaymentMethodDetailsGiropay
       { -- | bank_code: Bank code of bank associated with the bank account.
@@ -65,8 +66,18 @@ data PaymentMethodDetailsGiropay
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PaymentMethodDetailsGiropay where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "bank_code" (paymentMethodDetailsGiropayBankCode obj) : (Data.Aeson..=) "bank_name" (paymentMethodDetailsGiropayBankName obj) : (Data.Aeson..=) "bic" (paymentMethodDetailsGiropayBic obj) : (Data.Aeson..=) "verified_name" (paymentMethodDetailsGiropayVerifiedName obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "bank_code" (paymentMethodDetailsGiropayBankCode obj) GHC.Base.<> ((Data.Aeson..=) "bank_name" (paymentMethodDetailsGiropayBankName obj) GHC.Base.<> ((Data.Aeson..=) "bic" (paymentMethodDetailsGiropayBic obj) GHC.Base.<> (Data.Aeson..=) "verified_name" (paymentMethodDetailsGiropayVerifiedName obj))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("bank_code" Data.Aeson.Types.ToJSON..= paymentMethodDetailsGiropayBankCode obj : "bank_name" Data.Aeson.Types.ToJSON..= paymentMethodDetailsGiropayBankName obj : "bic" Data.Aeson.Types.ToJSON..= paymentMethodDetailsGiropayBic obj : "verified_name" Data.Aeson.Types.ToJSON..= paymentMethodDetailsGiropayVerifiedName obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("bank_code" Data.Aeson.Types.ToJSON..= paymentMethodDetailsGiropayBankCode obj) GHC.Base.<> (("bank_name" Data.Aeson.Types.ToJSON..= paymentMethodDetailsGiropayBankName obj) GHC.Base.<> (("bic" Data.Aeson.Types.ToJSON..= paymentMethodDetailsGiropayBic obj) GHC.Base.<> ("verified_name" Data.Aeson.Types.ToJSON..= paymentMethodDetailsGiropayVerifiedName obj))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PaymentMethodDetailsGiropay where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PaymentMethodDetailsGiropay" (\obj -> (((GHC.Base.pure PaymentMethodDetailsGiropay GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "bank_code")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "bank_name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "bic")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "verified_name"))
+
+-- | Create a new 'PaymentMethodDetailsGiropay' with all required fields.
+mkPaymentMethodDetailsGiropay :: PaymentMethodDetailsGiropay
+mkPaymentMethodDetailsGiropay =
+  PaymentMethodDetailsGiropay
+    { paymentMethodDetailsGiropayBankCode = GHC.Maybe.Nothing,
+      paymentMethodDetailsGiropayBankName = GHC.Maybe.Nothing,
+      paymentMethodDetailsGiropayBic = GHC.Maybe.Nothing,
+      paymentMethodDetailsGiropayVerifiedName = GHC.Maybe.Nothing
+    }

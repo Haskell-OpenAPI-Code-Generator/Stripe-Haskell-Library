@@ -1,11 +1,11 @@
 module StripeAPI.Types.Transfer where
 import Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Types.Internal
-data Transfer 
-instance Show Transfer 
-instance Eq Transfer 
-instance FromJSON Transfer 
-instance ToJSON Transfer 
+data Transfer
+instance Show Transfer
+instance Eq Transfer
+instance FromJSON Transfer
+instance ToJSON Transfer
 data TransferBalanceTransaction'Variants
 instance Show TransferBalanceTransaction'Variants
 instance Eq TransferBalanceTransaction'Variants
@@ -21,21 +21,11 @@ instance Show TransferDestinationPayment'Variants
 instance Eq TransferDestinationPayment'Variants
 instance FromJSON TransferDestinationPayment'Variants
 instance ToJSON TransferDestinationPayment'Variants
-data TransferObject'
-instance Show TransferObject'
-instance Eq TransferObject'
-instance FromJSON TransferObject'
-instance ToJSON TransferObject'
-data TransferReversals' 
-instance Show TransferReversals' 
-instance Eq TransferReversals' 
-instance FromJSON TransferReversals' 
-instance ToJSON TransferReversals' 
-data TransferReversals'Object'
-instance Show TransferReversals'Object'
-instance Eq TransferReversals'Object'
-instance FromJSON TransferReversals'Object'
-instance ToJSON TransferReversals'Object'
+data TransferReversals'
+instance Show TransferReversals'
+instance Eq TransferReversals'
+instance FromJSON TransferReversals'
+instance ToJSON TransferReversals'
 data TransferSourceTransaction'Variants
 instance Show TransferSourceTransaction'Variants
 instance Eq TransferSourceTransaction'Variants

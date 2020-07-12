@@ -1,16 +1,11 @@
 module StripeAPI.Types.Mandate where
 import Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Types.Internal
-data Mandate 
-instance Show Mandate 
-instance Eq Mandate 
-instance FromJSON Mandate 
-instance ToJSON Mandate 
-data MandateObject'
-instance Show MandateObject'
-instance Eq MandateObject'
-instance FromJSON MandateObject'
-instance ToJSON MandateObject'
+data Mandate
+instance Show Mandate
+instance Eq Mandate
+instance FromJSON Mandate
+instance ToJSON Mandate
 data MandatePaymentMethod'Variants
 instance Show MandatePaymentMethod'Variants
 instance Eq MandatePaymentMethod'Variants

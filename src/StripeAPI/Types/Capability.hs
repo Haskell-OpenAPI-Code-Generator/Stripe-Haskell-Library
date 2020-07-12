@@ -8,6 +8,7 @@ module StripeAPI.Types.Capability where
 
 import qualified Control.Monad.Fail
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -32,7 +33,7 @@ import {-# SOURCE #-} StripeAPI.Types.AccountCapabilityRequirements
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
--- | Defines the data type for the schema capability
+-- | Defines the object schema located at @components.schemas.capability@ in the specification.
 --
 -- This is an object representing a capability for a Stripe account.
 --
@@ -47,8 +48,6 @@ data Capability
         --
         -- * Maximum length of 5000
         capabilityId :: Data.Text.Internal.Text,
-        -- | object: String representing the object\'s type. Objects of the same type share the same value.
-        capabilityObject :: CapabilityObject',
         -- | requested: Whether the capability has been requested.
         capabilityRequested :: GHC.Types.Bool,
         -- | requested_at: Time at which the capability was requested. Measured in seconds since the Unix epoch.
@@ -64,13 +63,34 @@ data Capability
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON Capability where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "account" (capabilityAccount obj) : (Data.Aeson..=) "id" (capabilityId obj) : (Data.Aeson..=) "object" (capabilityObject obj) : (Data.Aeson..=) "requested" (capabilityRequested obj) : (Data.Aeson..=) "requested_at" (capabilityRequestedAt obj) : (Data.Aeson..=) "requirements" (capabilityRequirements obj) : (Data.Aeson..=) "status" (capabilityStatus obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "account" (capabilityAccount obj) GHC.Base.<> ((Data.Aeson..=) "id" (capabilityId obj) GHC.Base.<> ((Data.Aeson..=) "object" (capabilityObject obj) GHC.Base.<> ((Data.Aeson..=) "requested" (capabilityRequested obj) GHC.Base.<> ((Data.Aeson..=) "requested_at" (capabilityRequestedAt obj) GHC.Base.<> ((Data.Aeson..=) "requirements" (capabilityRequirements obj) GHC.Base.<> (Data.Aeson..=) "status" (capabilityStatus obj)))))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("account" Data.Aeson.Types.ToJSON..= capabilityAccount obj : "id" Data.Aeson.Types.ToJSON..= capabilityId obj : "requested" Data.Aeson.Types.ToJSON..= capabilityRequested obj : "requested_at" Data.Aeson.Types.ToJSON..= capabilityRequestedAt obj : "requirements" Data.Aeson.Types.ToJSON..= capabilityRequirements obj : "status" Data.Aeson.Types.ToJSON..= capabilityStatus obj : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "capability" : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("account" Data.Aeson.Types.ToJSON..= capabilityAccount obj) GHC.Base.<> (("id" Data.Aeson.Types.ToJSON..= capabilityId obj) GHC.Base.<> (("requested" Data.Aeson.Types.ToJSON..= capabilityRequested obj) GHC.Base.<> (("requested_at" Data.Aeson.Types.ToJSON..= capabilityRequestedAt obj) GHC.Base.<> (("requirements" Data.Aeson.Types.ToJSON..= capabilityRequirements obj) GHC.Base.<> (("status" Data.Aeson.Types.ToJSON..= capabilityStatus obj) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "capability")))))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON Capability where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "Capability" (\obj -> ((((((GHC.Base.pure Capability GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "account")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "object")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "requested")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "requested_at")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "requirements")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "status"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "Capability" (\obj -> (((((GHC.Base.pure Capability GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "account")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "requested")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "requested_at")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "requirements")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "status"))
 
--- | Define the one-of schema capabilityAccount\'
+-- | Create a new 'Capability' with all required fields.
+mkCapability ::
+  -- | 'capabilityAccount'
+  CapabilityAccount'Variants ->
+  -- | 'capabilityId'
+  Data.Text.Internal.Text ->
+  -- | 'capabilityRequested'
+  GHC.Types.Bool ->
+  -- | 'capabilityStatus'
+  CapabilityStatus' ->
+  Capability
+mkCapability capabilityAccount capabilityId capabilityRequested capabilityStatus =
+  Capability
+    { capabilityAccount = capabilityAccount,
+      capabilityId = capabilityId,
+      capabilityRequested = capabilityRequested,
+      capabilityRequestedAt = GHC.Maybe.Nothing,
+      capabilityRequirements = GHC.Maybe.Nothing,
+      capabilityStatus = capabilityStatus
+    }
+
+-- | Defines the oneOf schema located at @components.schemas.capability.properties.account.anyOf@ in the specification.
 --
 -- The account for which the capability enables functionality.
 data CapabilityAccount'Variants
@@ -83,62 +103,46 @@ instance Data.Aeson.Types.ToJSON.ToJSON CapabilityAccount'Variants where
   toJSON (CapabilityAccount'Text a) = Data.Aeson.Types.ToJSON.toJSON a
 
 instance Data.Aeson.Types.FromJSON.FromJSON CapabilityAccount'Variants where
-  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
-    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ CapabilityAccount'Account a
-    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ CapabilityAccount'Text a
-      Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+  parseJSON val = case (CapabilityAccount'Account Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((CapabilityAccount'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched") of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+    Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
--- | Defines the enum schema capabilityObject\'
---
--- String representing the object\'s type. Objects of the same type share the same value.
-data CapabilityObject'
-  = CapabilityObject'EnumOther Data.Aeson.Types.Internal.Value
-  | CapabilityObject'EnumTyped Data.Text.Internal.Text
-  | CapabilityObject'EnumStringCapability
-  deriving (GHC.Show.Show, GHC.Classes.Eq)
-
-instance Data.Aeson.Types.ToJSON.ToJSON CapabilityObject' where
-  toJSON (CapabilityObject'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (CapabilityObject'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (CapabilityObject'EnumStringCapability) = "capability"
-
-instance Data.Aeson.Types.FromJSON.FromJSON CapabilityObject' where
-  parseJSON val =
-    GHC.Base.pure
-      ( if  | val GHC.Classes.== "capability" -> CapabilityObject'EnumStringCapability
-            | GHC.Base.otherwise -> CapabilityObject'EnumOther val
-      )
-
--- | Defines the enum schema capabilityStatus\'
+-- | Defines the enum schema located at @components.schemas.capability.properties.status@ in the specification.
 --
 -- The status of the capability. Can be \`active\`, \`inactive\`, \`pending\`, or \`unrequested\`.
 data CapabilityStatus'
-  = CapabilityStatus'EnumOther Data.Aeson.Types.Internal.Value
-  | CapabilityStatus'EnumTyped Data.Text.Internal.Text
-  | CapabilityStatus'EnumStringActive
-  | CapabilityStatus'EnumStringDisabled
-  | CapabilityStatus'EnumStringInactive
-  | CapabilityStatus'EnumStringPending
-  | CapabilityStatus'EnumStringUnrequested
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    CapabilityStatus'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    CapabilityStatus'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"active"@
+    CapabilityStatus'EnumActive
+  | -- | Represents the JSON value @"disabled"@
+    CapabilityStatus'EnumDisabled
+  | -- | Represents the JSON value @"inactive"@
+    CapabilityStatus'EnumInactive
+  | -- | Represents the JSON value @"pending"@
+    CapabilityStatus'EnumPending
+  | -- | Represents the JSON value @"unrequested"@
+    CapabilityStatus'EnumUnrequested
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
 instance Data.Aeson.Types.ToJSON.ToJSON CapabilityStatus' where
-  toJSON (CapabilityStatus'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (CapabilityStatus'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (CapabilityStatus'EnumStringActive) = "active"
-  toJSON (CapabilityStatus'EnumStringDisabled) = "disabled"
-  toJSON (CapabilityStatus'EnumStringInactive) = "inactive"
-  toJSON (CapabilityStatus'EnumStringPending) = "pending"
-  toJSON (CapabilityStatus'EnumStringUnrequested) = "unrequested"
+  toJSON (CapabilityStatus'Other val) = val
+  toJSON (CapabilityStatus'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (CapabilityStatus'EnumActive) = "active"
+  toJSON (CapabilityStatus'EnumDisabled) = "disabled"
+  toJSON (CapabilityStatus'EnumInactive) = "inactive"
+  toJSON (CapabilityStatus'EnumPending) = "pending"
+  toJSON (CapabilityStatus'EnumUnrequested) = "unrequested"
 
 instance Data.Aeson.Types.FromJSON.FromJSON CapabilityStatus' where
   parseJSON val =
     GHC.Base.pure
-      ( if  | val GHC.Classes.== "active" -> CapabilityStatus'EnumStringActive
-            | val GHC.Classes.== "disabled" -> CapabilityStatus'EnumStringDisabled
-            | val GHC.Classes.== "inactive" -> CapabilityStatus'EnumStringInactive
-            | val GHC.Classes.== "pending" -> CapabilityStatus'EnumStringPending
-            | val GHC.Classes.== "unrequested" -> CapabilityStatus'EnumStringUnrequested
-            | GHC.Base.otherwise -> CapabilityStatus'EnumOther val
+      ( if  | val GHC.Classes.== "active" -> CapabilityStatus'EnumActive
+            | val GHC.Classes.== "disabled" -> CapabilityStatus'EnumDisabled
+            | val GHC.Classes.== "inactive" -> CapabilityStatus'EnumInactive
+            | val GHC.Classes.== "pending" -> CapabilityStatus'EnumPending
+            | val GHC.Classes.== "unrequested" -> CapabilityStatus'EnumUnrequested
+            | GHC.Base.otherwise -> CapabilityStatus'Other val
       )

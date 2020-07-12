@@ -8,6 +8,7 @@ module StripeAPI.Types.Product where
 
 import qualified Control.Monad.Fail
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -31,7 +32,7 @@ import {-# SOURCE #-} StripeAPI.Types.PackageDimensions
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
--- | Defines the data type for the schema product
+-- | Defines the object schema located at @components.schemas.product@ in the specification.
 --
 -- Store representations of products you sell in \`Product\` objects, used in
 -- conjunction with [SKUs](https:\/\/stripe.com\/docs\/api\#skus). Products may be physical goods, to be shipped, or
@@ -81,8 +82,6 @@ data Product
         --
         -- * Maximum length of 5000
         productName :: Data.Text.Internal.Text,
-        -- | object: String representing the object\'s type. Objects of the same type share the same value.
-        productObject :: ProductObject',
         -- | package_dimensions: The dimensions of this product for shipping purposes. A SKU associated with this product can override this value by having its own \`package_dimensions\`. Only applicable to products of \`type=good\`.
         productPackageDimensions :: (GHC.Maybe.Maybe ProductPackageDimensions'),
         -- | shippable: Whether this product is a shipped good. Only applicable to products of \`type=good\`.
@@ -116,34 +115,56 @@ data Product
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON Product where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "active" (productActive obj) : (Data.Aeson..=) "attributes" (productAttributes obj) : (Data.Aeson..=) "caption" (productCaption obj) : (Data.Aeson..=) "created" (productCreated obj) : (Data.Aeson..=) "deactivate_on" (productDeactivateOn obj) : (Data.Aeson..=) "description" (productDescription obj) : (Data.Aeson..=) "id" (productId obj) : (Data.Aeson..=) "images" (productImages obj) : (Data.Aeson..=) "livemode" (productLivemode obj) : (Data.Aeson..=) "metadata" (productMetadata obj) : (Data.Aeson..=) "name" (productName obj) : (Data.Aeson..=) "object" (productObject obj) : (Data.Aeson..=) "package_dimensions" (productPackageDimensions obj) : (Data.Aeson..=) "shippable" (productShippable obj) : (Data.Aeson..=) "statement_descriptor" (productStatementDescriptor obj) : (Data.Aeson..=) "type" (productType obj) : (Data.Aeson..=) "unit_label" (productUnitLabel obj) : (Data.Aeson..=) "updated" (productUpdated obj) : (Data.Aeson..=) "url" (productUrl obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "active" (productActive obj) GHC.Base.<> ((Data.Aeson..=) "attributes" (productAttributes obj) GHC.Base.<> ((Data.Aeson..=) "caption" (productCaption obj) GHC.Base.<> ((Data.Aeson..=) "created" (productCreated obj) GHC.Base.<> ((Data.Aeson..=) "deactivate_on" (productDeactivateOn obj) GHC.Base.<> ((Data.Aeson..=) "description" (productDescription obj) GHC.Base.<> ((Data.Aeson..=) "id" (productId obj) GHC.Base.<> ((Data.Aeson..=) "images" (productImages obj) GHC.Base.<> ((Data.Aeson..=) "livemode" (productLivemode obj) GHC.Base.<> ((Data.Aeson..=) "metadata" (productMetadata obj) GHC.Base.<> ((Data.Aeson..=) "name" (productName obj) GHC.Base.<> ((Data.Aeson..=) "object" (productObject obj) GHC.Base.<> ((Data.Aeson..=) "package_dimensions" (productPackageDimensions obj) GHC.Base.<> ((Data.Aeson..=) "shippable" (productShippable obj) GHC.Base.<> ((Data.Aeson..=) "statement_descriptor" (productStatementDescriptor obj) GHC.Base.<> ((Data.Aeson..=) "type" (productType obj) GHC.Base.<> ((Data.Aeson..=) "unit_label" (productUnitLabel obj) GHC.Base.<> ((Data.Aeson..=) "updated" (productUpdated obj) GHC.Base.<> (Data.Aeson..=) "url" (productUrl obj)))))))))))))))))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("active" Data.Aeson.Types.ToJSON..= productActive obj : "attributes" Data.Aeson.Types.ToJSON..= productAttributes obj : "caption" Data.Aeson.Types.ToJSON..= productCaption obj : "created" Data.Aeson.Types.ToJSON..= productCreated obj : "deactivate_on" Data.Aeson.Types.ToJSON..= productDeactivateOn obj : "description" Data.Aeson.Types.ToJSON..= productDescription obj : "id" Data.Aeson.Types.ToJSON..= productId obj : "images" Data.Aeson.Types.ToJSON..= productImages obj : "livemode" Data.Aeson.Types.ToJSON..= productLivemode obj : "metadata" Data.Aeson.Types.ToJSON..= productMetadata obj : "name" Data.Aeson.Types.ToJSON..= productName obj : "package_dimensions" Data.Aeson.Types.ToJSON..= productPackageDimensions obj : "shippable" Data.Aeson.Types.ToJSON..= productShippable obj : "statement_descriptor" Data.Aeson.Types.ToJSON..= productStatementDescriptor obj : "type" Data.Aeson.Types.ToJSON..= productType obj : "unit_label" Data.Aeson.Types.ToJSON..= productUnitLabel obj : "updated" Data.Aeson.Types.ToJSON..= productUpdated obj : "url" Data.Aeson.Types.ToJSON..= productUrl obj : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "product" : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("active" Data.Aeson.Types.ToJSON..= productActive obj) GHC.Base.<> (("attributes" Data.Aeson.Types.ToJSON..= productAttributes obj) GHC.Base.<> (("caption" Data.Aeson.Types.ToJSON..= productCaption obj) GHC.Base.<> (("created" Data.Aeson.Types.ToJSON..= productCreated obj) GHC.Base.<> (("deactivate_on" Data.Aeson.Types.ToJSON..= productDeactivateOn obj) GHC.Base.<> (("description" Data.Aeson.Types.ToJSON..= productDescription obj) GHC.Base.<> (("id" Data.Aeson.Types.ToJSON..= productId obj) GHC.Base.<> (("images" Data.Aeson.Types.ToJSON..= productImages obj) GHC.Base.<> (("livemode" Data.Aeson.Types.ToJSON..= productLivemode obj) GHC.Base.<> (("metadata" Data.Aeson.Types.ToJSON..= productMetadata obj) GHC.Base.<> (("name" Data.Aeson.Types.ToJSON..= productName obj) GHC.Base.<> (("package_dimensions" Data.Aeson.Types.ToJSON..= productPackageDimensions obj) GHC.Base.<> (("shippable" Data.Aeson.Types.ToJSON..= productShippable obj) GHC.Base.<> (("statement_descriptor" Data.Aeson.Types.ToJSON..= productStatementDescriptor obj) GHC.Base.<> (("type" Data.Aeson.Types.ToJSON..= productType obj) GHC.Base.<> (("unit_label" Data.Aeson.Types.ToJSON..= productUnitLabel obj) GHC.Base.<> (("updated" Data.Aeson.Types.ToJSON..= productUpdated obj) GHC.Base.<> (("url" Data.Aeson.Types.ToJSON..= productUrl obj) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "product")))))))))))))))))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON Product where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "Product" (\obj -> ((((((((((((((((((GHC.Base.pure Product GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "active")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "attributes")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "caption")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "created")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "deactivate_on")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "description")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "images")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "livemode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "object")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "package_dimensions")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "shippable")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "statement_descriptor")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "type")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "unit_label")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "updated")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "url"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "Product" (\obj -> (((((((((((((((((GHC.Base.pure Product GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "active")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "attributes")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "caption")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "created")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "deactivate_on")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "description")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "images")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "livemode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "package_dimensions")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "shippable")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "statement_descriptor")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "type")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "unit_label")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "updated")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "url"))
 
--- | Defines the enum schema productObject\'
---
--- String representing the object\'s type. Objects of the same type share the same value.
-data ProductObject'
-  = ProductObject'EnumOther Data.Aeson.Types.Internal.Value
-  | ProductObject'EnumTyped Data.Text.Internal.Text
-  | ProductObject'EnumStringProduct
-  deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Create a new 'Product' with all required fields.
+mkProduct ::
+  -- | 'productActive'
+  GHC.Types.Bool ->
+  -- | 'productCreated'
+  GHC.Types.Int ->
+  -- | 'productId'
+  Data.Text.Internal.Text ->
+  -- | 'productImages'
+  [Data.Text.Internal.Text] ->
+  -- | 'productLivemode'
+  GHC.Types.Bool ->
+  -- | 'productMetadata'
+  Data.Aeson.Types.Internal.Object ->
+  -- | 'productName'
+  Data.Text.Internal.Text ->
+  -- | 'productType'
+  ProductType' ->
+  -- | 'productUpdated'
+  GHC.Types.Int ->
+  Product
+mkProduct productActive productCreated productId productImages productLivemode productMetadata productName productType productUpdated =
+  Product
+    { productActive = productActive,
+      productAttributes = GHC.Maybe.Nothing,
+      productCaption = GHC.Maybe.Nothing,
+      productCreated = productCreated,
+      productDeactivateOn = GHC.Maybe.Nothing,
+      productDescription = GHC.Maybe.Nothing,
+      productId = productId,
+      productImages = productImages,
+      productLivemode = productLivemode,
+      productMetadata = productMetadata,
+      productName = productName,
+      productPackageDimensions = GHC.Maybe.Nothing,
+      productShippable = GHC.Maybe.Nothing,
+      productStatementDescriptor = GHC.Maybe.Nothing,
+      productType = productType,
+      productUnitLabel = GHC.Maybe.Nothing,
+      productUpdated = productUpdated,
+      productUrl = GHC.Maybe.Nothing
+    }
 
-instance Data.Aeson.Types.ToJSON.ToJSON ProductObject' where
-  toJSON (ProductObject'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (ProductObject'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (ProductObject'EnumStringProduct) = "product"
-
-instance Data.Aeson.Types.FromJSON.FromJSON ProductObject' where
-  parseJSON val =
-    GHC.Base.pure
-      ( if  | val GHC.Classes.== "product" -> ProductObject'EnumStringProduct
-            | GHC.Base.otherwise -> ProductObject'EnumOther val
-      )
-
--- | Defines the data type for the schema productPackage_dimensions\'
+-- | Defines the object schema located at @components.schemas.product.properties.package_dimensions.anyOf@ in the specification.
 --
 -- The dimensions of this product for shipping purposes. A SKU associated with this product can override this value by having its own \\\`package_dimensions\\\`. Only applicable to products of \\\`type=good\\\`.
 data ProductPackageDimensions'
@@ -163,32 +184,46 @@ data ProductPackageDimensions'
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON ProductPackageDimensions' where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "height" (productPackageDimensions'Height obj) : (Data.Aeson..=) "length" (productPackageDimensions'Length obj) : (Data.Aeson..=) "weight" (productPackageDimensions'Weight obj) : (Data.Aeson..=) "width" (productPackageDimensions'Width obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "height" (productPackageDimensions'Height obj) GHC.Base.<> ((Data.Aeson..=) "length" (productPackageDimensions'Length obj) GHC.Base.<> ((Data.Aeson..=) "weight" (productPackageDimensions'Weight obj) GHC.Base.<> (Data.Aeson..=) "width" (productPackageDimensions'Width obj))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("height" Data.Aeson.Types.ToJSON..= productPackageDimensions'Height obj : "length" Data.Aeson.Types.ToJSON..= productPackageDimensions'Length obj : "weight" Data.Aeson.Types.ToJSON..= productPackageDimensions'Weight obj : "width" Data.Aeson.Types.ToJSON..= productPackageDimensions'Width obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("height" Data.Aeson.Types.ToJSON..= productPackageDimensions'Height obj) GHC.Base.<> (("length" Data.Aeson.Types.ToJSON..= productPackageDimensions'Length obj) GHC.Base.<> (("weight" Data.Aeson.Types.ToJSON..= productPackageDimensions'Weight obj) GHC.Base.<> ("width" Data.Aeson.Types.ToJSON..= productPackageDimensions'Width obj))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON ProductPackageDimensions' where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "ProductPackageDimensions'" (\obj -> (((GHC.Base.pure ProductPackageDimensions' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "height")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "length")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "weight")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "width"))
 
--- | Defines the enum schema productType\'
+-- | Create a new 'ProductPackageDimensions'' with all required fields.
+mkProductPackageDimensions' :: ProductPackageDimensions'
+mkProductPackageDimensions' =
+  ProductPackageDimensions'
+    { productPackageDimensions'Height = GHC.Maybe.Nothing,
+      productPackageDimensions'Length = GHC.Maybe.Nothing,
+      productPackageDimensions'Weight = GHC.Maybe.Nothing,
+      productPackageDimensions'Width = GHC.Maybe.Nothing
+    }
+
+-- | Defines the enum schema located at @components.schemas.product.properties.type@ in the specification.
 --
 -- The type of the product. The product is either of type \`good\`, which is eligible for use with Orders and SKUs, or \`service\`, which is eligible for use with Subscriptions and Plans.
 data ProductType'
-  = ProductType'EnumOther Data.Aeson.Types.Internal.Value
-  | ProductType'EnumTyped Data.Text.Internal.Text
-  | ProductType'EnumStringGood
-  | ProductType'EnumStringService
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    ProductType'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    ProductType'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"good"@
+    ProductType'EnumGood
+  | -- | Represents the JSON value @"service"@
+    ProductType'EnumService
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
 instance Data.Aeson.Types.ToJSON.ToJSON ProductType' where
-  toJSON (ProductType'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (ProductType'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (ProductType'EnumStringGood) = "good"
-  toJSON (ProductType'EnumStringService) = "service"
+  toJSON (ProductType'Other val) = val
+  toJSON (ProductType'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (ProductType'EnumGood) = "good"
+  toJSON (ProductType'EnumService) = "service"
 
 instance Data.Aeson.Types.FromJSON.FromJSON ProductType' where
   parseJSON val =
     GHC.Base.pure
-      ( if  | val GHC.Classes.== "good" -> ProductType'EnumStringGood
-            | val GHC.Classes.== "service" -> ProductType'EnumStringService
-            | GHC.Base.otherwise -> ProductType'EnumOther val
+      ( if  | val GHC.Classes.== "good" -> ProductType'EnumGood
+            | val GHC.Classes.== "service" -> ProductType'EnumService
+            | GHC.Base.otherwise -> ProductType'Other val
       )

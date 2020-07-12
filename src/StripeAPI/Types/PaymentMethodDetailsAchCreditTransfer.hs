@@ -8,6 +8,7 @@ module StripeAPI.Types.PaymentMethodDetailsAchCreditTransfer where
 
 import qualified Control.Monad.Fail
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -30,7 +31,7 @@ import StripeAPI.TypeAlias
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
--- | Defines the data type for the schema payment_method_details_ach_credit_transfer
+-- | Defines the object schema located at @components.schemas.payment_method_details_ach_credit_transfer@ in the specification.
 data PaymentMethodDetailsAchCreditTransfer
   = PaymentMethodDetailsAchCreditTransfer
       { -- | account_number: Account number to transfer funds to.
@@ -64,8 +65,18 @@ data PaymentMethodDetailsAchCreditTransfer
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PaymentMethodDetailsAchCreditTransfer where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "account_number" (paymentMethodDetailsAchCreditTransferAccountNumber obj) : (Data.Aeson..=) "bank_name" (paymentMethodDetailsAchCreditTransferBankName obj) : (Data.Aeson..=) "routing_number" (paymentMethodDetailsAchCreditTransferRoutingNumber obj) : (Data.Aeson..=) "swift_code" (paymentMethodDetailsAchCreditTransferSwiftCode obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "account_number" (paymentMethodDetailsAchCreditTransferAccountNumber obj) GHC.Base.<> ((Data.Aeson..=) "bank_name" (paymentMethodDetailsAchCreditTransferBankName obj) GHC.Base.<> ((Data.Aeson..=) "routing_number" (paymentMethodDetailsAchCreditTransferRoutingNumber obj) GHC.Base.<> (Data.Aeson..=) "swift_code" (paymentMethodDetailsAchCreditTransferSwiftCode obj))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("account_number" Data.Aeson.Types.ToJSON..= paymentMethodDetailsAchCreditTransferAccountNumber obj : "bank_name" Data.Aeson.Types.ToJSON..= paymentMethodDetailsAchCreditTransferBankName obj : "routing_number" Data.Aeson.Types.ToJSON..= paymentMethodDetailsAchCreditTransferRoutingNumber obj : "swift_code" Data.Aeson.Types.ToJSON..= paymentMethodDetailsAchCreditTransferSwiftCode obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("account_number" Data.Aeson.Types.ToJSON..= paymentMethodDetailsAchCreditTransferAccountNumber obj) GHC.Base.<> (("bank_name" Data.Aeson.Types.ToJSON..= paymentMethodDetailsAchCreditTransferBankName obj) GHC.Base.<> (("routing_number" Data.Aeson.Types.ToJSON..= paymentMethodDetailsAchCreditTransferRoutingNumber obj) GHC.Base.<> ("swift_code" Data.Aeson.Types.ToJSON..= paymentMethodDetailsAchCreditTransferSwiftCode obj))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PaymentMethodDetailsAchCreditTransfer where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PaymentMethodDetailsAchCreditTransfer" (\obj -> (((GHC.Base.pure PaymentMethodDetailsAchCreditTransfer GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "account_number")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "bank_name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "routing_number")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "swift_code"))
+
+-- | Create a new 'PaymentMethodDetailsAchCreditTransfer' with all required fields.
+mkPaymentMethodDetailsAchCreditTransfer :: PaymentMethodDetailsAchCreditTransfer
+mkPaymentMethodDetailsAchCreditTransfer =
+  PaymentMethodDetailsAchCreditTransfer
+    { paymentMethodDetailsAchCreditTransferAccountNumber = GHC.Maybe.Nothing,
+      paymentMethodDetailsAchCreditTransferBankName = GHC.Maybe.Nothing,
+      paymentMethodDetailsAchCreditTransferRoutingNumber = GHC.Maybe.Nothing,
+      paymentMethodDetailsAchCreditTransferSwiftCode = GHC.Maybe.Nothing
+    }

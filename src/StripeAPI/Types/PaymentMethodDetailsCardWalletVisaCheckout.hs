@@ -8,6 +8,7 @@ module StripeAPI.Types.PaymentMethodDetailsCardWalletVisaCheckout where
 
 import qualified Control.Monad.Fail
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -31,7 +32,7 @@ import {-# SOURCE #-} StripeAPI.Types.Address
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
--- | Defines the data type for the schema payment_method_details_card_wallet_visa_checkout
+-- | Defines the object schema located at @components.schemas.payment_method_details_card_wallet_visa_checkout@ in the specification.
 data PaymentMethodDetailsCardWalletVisaCheckout
   = PaymentMethodDetailsCardWalletVisaCheckout
       { -- | billing_address: Owner\'s verified billing address. Values are verified or provided by the wallet directly (if supported) at the time of authorization or settlement. They cannot be set or mutated.
@@ -57,13 +58,23 @@ data PaymentMethodDetailsCardWalletVisaCheckout
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PaymentMethodDetailsCardWalletVisaCheckout where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "billing_address" (paymentMethodDetailsCardWalletVisaCheckoutBillingAddress obj) : (Data.Aeson..=) "email" (paymentMethodDetailsCardWalletVisaCheckoutEmail obj) : (Data.Aeson..=) "name" (paymentMethodDetailsCardWalletVisaCheckoutName obj) : (Data.Aeson..=) "shipping_address" (paymentMethodDetailsCardWalletVisaCheckoutShippingAddress obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "billing_address" (paymentMethodDetailsCardWalletVisaCheckoutBillingAddress obj) GHC.Base.<> ((Data.Aeson..=) "email" (paymentMethodDetailsCardWalletVisaCheckoutEmail obj) GHC.Base.<> ((Data.Aeson..=) "name" (paymentMethodDetailsCardWalletVisaCheckoutName obj) GHC.Base.<> (Data.Aeson..=) "shipping_address" (paymentMethodDetailsCardWalletVisaCheckoutShippingAddress obj))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("billing_address" Data.Aeson.Types.ToJSON..= paymentMethodDetailsCardWalletVisaCheckoutBillingAddress obj : "email" Data.Aeson.Types.ToJSON..= paymentMethodDetailsCardWalletVisaCheckoutEmail obj : "name" Data.Aeson.Types.ToJSON..= paymentMethodDetailsCardWalletVisaCheckoutName obj : "shipping_address" Data.Aeson.Types.ToJSON..= paymentMethodDetailsCardWalletVisaCheckoutShippingAddress obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("billing_address" Data.Aeson.Types.ToJSON..= paymentMethodDetailsCardWalletVisaCheckoutBillingAddress obj) GHC.Base.<> (("email" Data.Aeson.Types.ToJSON..= paymentMethodDetailsCardWalletVisaCheckoutEmail obj) GHC.Base.<> (("name" Data.Aeson.Types.ToJSON..= paymentMethodDetailsCardWalletVisaCheckoutName obj) GHC.Base.<> ("shipping_address" Data.Aeson.Types.ToJSON..= paymentMethodDetailsCardWalletVisaCheckoutShippingAddress obj))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PaymentMethodDetailsCardWalletVisaCheckout where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PaymentMethodDetailsCardWalletVisaCheckout" (\obj -> (((GHC.Base.pure PaymentMethodDetailsCardWalletVisaCheckout GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "billing_address")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "email")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "shipping_address"))
 
--- | Defines the data type for the schema payment_method_details_card_wallet_visa_checkoutBilling_address\'
+-- | Create a new 'PaymentMethodDetailsCardWalletVisaCheckout' with all required fields.
+mkPaymentMethodDetailsCardWalletVisaCheckout :: PaymentMethodDetailsCardWalletVisaCheckout
+mkPaymentMethodDetailsCardWalletVisaCheckout =
+  PaymentMethodDetailsCardWalletVisaCheckout
+    { paymentMethodDetailsCardWalletVisaCheckoutBillingAddress = GHC.Maybe.Nothing,
+      paymentMethodDetailsCardWalletVisaCheckoutEmail = GHC.Maybe.Nothing,
+      paymentMethodDetailsCardWalletVisaCheckoutName = GHC.Maybe.Nothing,
+      paymentMethodDetailsCardWalletVisaCheckoutShippingAddress = GHC.Maybe.Nothing
+    }
+
+-- | Defines the object schema located at @components.schemas.payment_method_details_card_wallet_visa_checkout.properties.billing_address.anyOf@ in the specification.
 --
 -- Owner\\\'s verified billing address. Values are verified or provided by the wallet directly (if supported) at the time of authorization or settlement. They cannot be set or mutated.
 data PaymentMethodDetailsCardWalletVisaCheckoutBillingAddress'
@@ -111,13 +122,25 @@ data PaymentMethodDetailsCardWalletVisaCheckoutBillingAddress'
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PaymentMethodDetailsCardWalletVisaCheckoutBillingAddress' where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "city" (paymentMethodDetailsCardWalletVisaCheckoutBillingAddress'City obj) : (Data.Aeson..=) "country" (paymentMethodDetailsCardWalletVisaCheckoutBillingAddress'Country obj) : (Data.Aeson..=) "line1" (paymentMethodDetailsCardWalletVisaCheckoutBillingAddress'Line1 obj) : (Data.Aeson..=) "line2" (paymentMethodDetailsCardWalletVisaCheckoutBillingAddress'Line2 obj) : (Data.Aeson..=) "postal_code" (paymentMethodDetailsCardWalletVisaCheckoutBillingAddress'PostalCode obj) : (Data.Aeson..=) "state" (paymentMethodDetailsCardWalletVisaCheckoutBillingAddress'State obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "city" (paymentMethodDetailsCardWalletVisaCheckoutBillingAddress'City obj) GHC.Base.<> ((Data.Aeson..=) "country" (paymentMethodDetailsCardWalletVisaCheckoutBillingAddress'Country obj) GHC.Base.<> ((Data.Aeson..=) "line1" (paymentMethodDetailsCardWalletVisaCheckoutBillingAddress'Line1 obj) GHC.Base.<> ((Data.Aeson..=) "line2" (paymentMethodDetailsCardWalletVisaCheckoutBillingAddress'Line2 obj) GHC.Base.<> ((Data.Aeson..=) "postal_code" (paymentMethodDetailsCardWalletVisaCheckoutBillingAddress'PostalCode obj) GHC.Base.<> (Data.Aeson..=) "state" (paymentMethodDetailsCardWalletVisaCheckoutBillingAddress'State obj))))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("city" Data.Aeson.Types.ToJSON..= paymentMethodDetailsCardWalletVisaCheckoutBillingAddress'City obj : "country" Data.Aeson.Types.ToJSON..= paymentMethodDetailsCardWalletVisaCheckoutBillingAddress'Country obj : "line1" Data.Aeson.Types.ToJSON..= paymentMethodDetailsCardWalletVisaCheckoutBillingAddress'Line1 obj : "line2" Data.Aeson.Types.ToJSON..= paymentMethodDetailsCardWalletVisaCheckoutBillingAddress'Line2 obj : "postal_code" Data.Aeson.Types.ToJSON..= paymentMethodDetailsCardWalletVisaCheckoutBillingAddress'PostalCode obj : "state" Data.Aeson.Types.ToJSON..= paymentMethodDetailsCardWalletVisaCheckoutBillingAddress'State obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("city" Data.Aeson.Types.ToJSON..= paymentMethodDetailsCardWalletVisaCheckoutBillingAddress'City obj) GHC.Base.<> (("country" Data.Aeson.Types.ToJSON..= paymentMethodDetailsCardWalletVisaCheckoutBillingAddress'Country obj) GHC.Base.<> (("line1" Data.Aeson.Types.ToJSON..= paymentMethodDetailsCardWalletVisaCheckoutBillingAddress'Line1 obj) GHC.Base.<> (("line2" Data.Aeson.Types.ToJSON..= paymentMethodDetailsCardWalletVisaCheckoutBillingAddress'Line2 obj) GHC.Base.<> (("postal_code" Data.Aeson.Types.ToJSON..= paymentMethodDetailsCardWalletVisaCheckoutBillingAddress'PostalCode obj) GHC.Base.<> ("state" Data.Aeson.Types.ToJSON..= paymentMethodDetailsCardWalletVisaCheckoutBillingAddress'State obj))))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PaymentMethodDetailsCardWalletVisaCheckoutBillingAddress' where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PaymentMethodDetailsCardWalletVisaCheckoutBillingAddress'" (\obj -> (((((GHC.Base.pure PaymentMethodDetailsCardWalletVisaCheckoutBillingAddress' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "city")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "country")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "line1")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "line2")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "postal_code")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "state"))
 
--- | Defines the data type for the schema payment_method_details_card_wallet_visa_checkoutShipping_address\'
+-- | Create a new 'PaymentMethodDetailsCardWalletVisaCheckoutBillingAddress'' with all required fields.
+mkPaymentMethodDetailsCardWalletVisaCheckoutBillingAddress' :: PaymentMethodDetailsCardWalletVisaCheckoutBillingAddress'
+mkPaymentMethodDetailsCardWalletVisaCheckoutBillingAddress' =
+  PaymentMethodDetailsCardWalletVisaCheckoutBillingAddress'
+    { paymentMethodDetailsCardWalletVisaCheckoutBillingAddress'City = GHC.Maybe.Nothing,
+      paymentMethodDetailsCardWalletVisaCheckoutBillingAddress'Country = GHC.Maybe.Nothing,
+      paymentMethodDetailsCardWalletVisaCheckoutBillingAddress'Line1 = GHC.Maybe.Nothing,
+      paymentMethodDetailsCardWalletVisaCheckoutBillingAddress'Line2 = GHC.Maybe.Nothing,
+      paymentMethodDetailsCardWalletVisaCheckoutBillingAddress'PostalCode = GHC.Maybe.Nothing,
+      paymentMethodDetailsCardWalletVisaCheckoutBillingAddress'State = GHC.Maybe.Nothing
+    }
+
+-- | Defines the object schema located at @components.schemas.payment_method_details_card_wallet_visa_checkout.properties.shipping_address.anyOf@ in the specification.
 --
 -- Owner\\\'s verified shipping address. Values are verified or provided by the wallet directly (if supported) at the time of authorization or settlement. They cannot be set or mutated.
 data PaymentMethodDetailsCardWalletVisaCheckoutShippingAddress'
@@ -165,8 +188,20 @@ data PaymentMethodDetailsCardWalletVisaCheckoutShippingAddress'
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PaymentMethodDetailsCardWalletVisaCheckoutShippingAddress' where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "city" (paymentMethodDetailsCardWalletVisaCheckoutShippingAddress'City obj) : (Data.Aeson..=) "country" (paymentMethodDetailsCardWalletVisaCheckoutShippingAddress'Country obj) : (Data.Aeson..=) "line1" (paymentMethodDetailsCardWalletVisaCheckoutShippingAddress'Line1 obj) : (Data.Aeson..=) "line2" (paymentMethodDetailsCardWalletVisaCheckoutShippingAddress'Line2 obj) : (Data.Aeson..=) "postal_code" (paymentMethodDetailsCardWalletVisaCheckoutShippingAddress'PostalCode obj) : (Data.Aeson..=) "state" (paymentMethodDetailsCardWalletVisaCheckoutShippingAddress'State obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "city" (paymentMethodDetailsCardWalletVisaCheckoutShippingAddress'City obj) GHC.Base.<> ((Data.Aeson..=) "country" (paymentMethodDetailsCardWalletVisaCheckoutShippingAddress'Country obj) GHC.Base.<> ((Data.Aeson..=) "line1" (paymentMethodDetailsCardWalletVisaCheckoutShippingAddress'Line1 obj) GHC.Base.<> ((Data.Aeson..=) "line2" (paymentMethodDetailsCardWalletVisaCheckoutShippingAddress'Line2 obj) GHC.Base.<> ((Data.Aeson..=) "postal_code" (paymentMethodDetailsCardWalletVisaCheckoutShippingAddress'PostalCode obj) GHC.Base.<> (Data.Aeson..=) "state" (paymentMethodDetailsCardWalletVisaCheckoutShippingAddress'State obj))))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("city" Data.Aeson.Types.ToJSON..= paymentMethodDetailsCardWalletVisaCheckoutShippingAddress'City obj : "country" Data.Aeson.Types.ToJSON..= paymentMethodDetailsCardWalletVisaCheckoutShippingAddress'Country obj : "line1" Data.Aeson.Types.ToJSON..= paymentMethodDetailsCardWalletVisaCheckoutShippingAddress'Line1 obj : "line2" Data.Aeson.Types.ToJSON..= paymentMethodDetailsCardWalletVisaCheckoutShippingAddress'Line2 obj : "postal_code" Data.Aeson.Types.ToJSON..= paymentMethodDetailsCardWalletVisaCheckoutShippingAddress'PostalCode obj : "state" Data.Aeson.Types.ToJSON..= paymentMethodDetailsCardWalletVisaCheckoutShippingAddress'State obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("city" Data.Aeson.Types.ToJSON..= paymentMethodDetailsCardWalletVisaCheckoutShippingAddress'City obj) GHC.Base.<> (("country" Data.Aeson.Types.ToJSON..= paymentMethodDetailsCardWalletVisaCheckoutShippingAddress'Country obj) GHC.Base.<> (("line1" Data.Aeson.Types.ToJSON..= paymentMethodDetailsCardWalletVisaCheckoutShippingAddress'Line1 obj) GHC.Base.<> (("line2" Data.Aeson.Types.ToJSON..= paymentMethodDetailsCardWalletVisaCheckoutShippingAddress'Line2 obj) GHC.Base.<> (("postal_code" Data.Aeson.Types.ToJSON..= paymentMethodDetailsCardWalletVisaCheckoutShippingAddress'PostalCode obj) GHC.Base.<> ("state" Data.Aeson.Types.ToJSON..= paymentMethodDetailsCardWalletVisaCheckoutShippingAddress'State obj))))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PaymentMethodDetailsCardWalletVisaCheckoutShippingAddress' where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PaymentMethodDetailsCardWalletVisaCheckoutShippingAddress'" (\obj -> (((((GHC.Base.pure PaymentMethodDetailsCardWalletVisaCheckoutShippingAddress' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "city")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "country")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "line1")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "line2")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "postal_code")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "state"))
+
+-- | Create a new 'PaymentMethodDetailsCardWalletVisaCheckoutShippingAddress'' with all required fields.
+mkPaymentMethodDetailsCardWalletVisaCheckoutShippingAddress' :: PaymentMethodDetailsCardWalletVisaCheckoutShippingAddress'
+mkPaymentMethodDetailsCardWalletVisaCheckoutShippingAddress' =
+  PaymentMethodDetailsCardWalletVisaCheckoutShippingAddress'
+    { paymentMethodDetailsCardWalletVisaCheckoutShippingAddress'City = GHC.Maybe.Nothing,
+      paymentMethodDetailsCardWalletVisaCheckoutShippingAddress'Country = GHC.Maybe.Nothing,
+      paymentMethodDetailsCardWalletVisaCheckoutShippingAddress'Line1 = GHC.Maybe.Nothing,
+      paymentMethodDetailsCardWalletVisaCheckoutShippingAddress'Line2 = GHC.Maybe.Nothing,
+      paymentMethodDetailsCardWalletVisaCheckoutShippingAddress'PostalCode = GHC.Maybe.Nothing,
+      paymentMethodDetailsCardWalletVisaCheckoutShippingAddress'State = GHC.Maybe.Nothing
+    }

@@ -10,6 +10,7 @@ module StripeAPI.Operations.GetPaymentMethodsPaymentMethod where
 import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -77,7 +78,7 @@ getPaymentMethodsPaymentMethod parameters =
     )
     (StripeAPI.Common.doCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET") (Data.Text.pack ("/v1/payment_methods/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel (getPaymentMethodsPaymentMethodParametersPathPaymentMethod parameters))) GHC.Base.++ ""))) [StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getPaymentMethodsPaymentMethodParametersQueryExpand parameters) (Data.Text.pack "deepObject") GHC.Types.True])
 
--- | Defines the data type for the schema getPaymentMethodsPaymentMethodParameters
+-- | Defines the object schema located at @paths.\/v1\/payment_methods\/{payment_method}.GET.parameters@ in the specification.
 data GetPaymentMethodsPaymentMethodParameters
   = GetPaymentMethodsPaymentMethodParameters
       { -- | pathPayment_method: Represents the parameter named \'payment_method\'
@@ -97,11 +98,22 @@ data GetPaymentMethodsPaymentMethodParameters
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetPaymentMethodsPaymentMethodParameters where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "pathPayment_method" (getPaymentMethodsPaymentMethodParametersPathPaymentMethod obj) : (Data.Aeson..=) "queryExpand" (getPaymentMethodsPaymentMethodParametersQueryExpand obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "pathPayment_method" (getPaymentMethodsPaymentMethodParametersPathPaymentMethod obj) GHC.Base.<> (Data.Aeson..=) "queryExpand" (getPaymentMethodsPaymentMethodParametersQueryExpand obj))
+  toJSON obj = Data.Aeson.Types.Internal.object ("pathPayment_method" Data.Aeson.Types.ToJSON..= getPaymentMethodsPaymentMethodParametersPathPaymentMethod obj : "queryExpand" Data.Aeson.Types.ToJSON..= getPaymentMethodsPaymentMethodParametersQueryExpand obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("pathPayment_method" Data.Aeson.Types.ToJSON..= getPaymentMethodsPaymentMethodParametersPathPaymentMethod obj) GHC.Base.<> ("queryExpand" Data.Aeson.Types.ToJSON..= getPaymentMethodsPaymentMethodParametersQueryExpand obj))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetPaymentMethodsPaymentMethodParameters where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "GetPaymentMethodsPaymentMethodParameters" (\obj -> (GHC.Base.pure GetPaymentMethodsPaymentMethodParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathPayment_method")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryExpand"))
+
+-- | Create a new 'GetPaymentMethodsPaymentMethodParameters' with all required fields.
+mkGetPaymentMethodsPaymentMethodParameters ::
+  -- | 'getPaymentMethodsPaymentMethodParametersPathPaymentMethod'
+  Data.Text.Internal.Text ->
+  GetPaymentMethodsPaymentMethodParameters
+mkGetPaymentMethodsPaymentMethodParameters getPaymentMethodsPaymentMethodParametersPathPaymentMethod =
+  GetPaymentMethodsPaymentMethodParameters
+    { getPaymentMethodsPaymentMethodParametersPathPaymentMethod = getPaymentMethodsPaymentMethodParametersPathPaymentMethod,
+      getPaymentMethodsPaymentMethodParametersQueryExpand = GHC.Maybe.Nothing
+    }
 
 -- | Represents a response of the operation 'getPaymentMethodsPaymentMethod'.
 --

@@ -8,6 +8,7 @@ module StripeAPI.Types.PaymentMethodDetailsCardChecks where
 
 import qualified Control.Monad.Fail
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -30,7 +31,7 @@ import StripeAPI.TypeAlias
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
--- | Defines the data type for the schema payment_method_details_card_checks
+-- | Defines the object schema located at @components.schemas.payment_method_details_card_checks@ in the specification.
 data PaymentMethodDetailsCardChecks
   = PaymentMethodDetailsCardChecks
       { -- | address_line1_check: If a address line1 was provided, results of the check, one of \`pass\`, \`fail\`, \`unavailable\`, or \`unchecked\`.
@@ -58,8 +59,17 @@ data PaymentMethodDetailsCardChecks
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PaymentMethodDetailsCardChecks where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "address_line1_check" (paymentMethodDetailsCardChecksAddressLine1Check obj) : (Data.Aeson..=) "address_postal_code_check" (paymentMethodDetailsCardChecksAddressPostalCodeCheck obj) : (Data.Aeson..=) "cvc_check" (paymentMethodDetailsCardChecksCvcCheck obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "address_line1_check" (paymentMethodDetailsCardChecksAddressLine1Check obj) GHC.Base.<> ((Data.Aeson..=) "address_postal_code_check" (paymentMethodDetailsCardChecksAddressPostalCodeCheck obj) GHC.Base.<> (Data.Aeson..=) "cvc_check" (paymentMethodDetailsCardChecksCvcCheck obj)))
+  toJSON obj = Data.Aeson.Types.Internal.object ("address_line1_check" Data.Aeson.Types.ToJSON..= paymentMethodDetailsCardChecksAddressLine1Check obj : "address_postal_code_check" Data.Aeson.Types.ToJSON..= paymentMethodDetailsCardChecksAddressPostalCodeCheck obj : "cvc_check" Data.Aeson.Types.ToJSON..= paymentMethodDetailsCardChecksCvcCheck obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("address_line1_check" Data.Aeson.Types.ToJSON..= paymentMethodDetailsCardChecksAddressLine1Check obj) GHC.Base.<> (("address_postal_code_check" Data.Aeson.Types.ToJSON..= paymentMethodDetailsCardChecksAddressPostalCodeCheck obj) GHC.Base.<> ("cvc_check" Data.Aeson.Types.ToJSON..= paymentMethodDetailsCardChecksCvcCheck obj)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PaymentMethodDetailsCardChecks where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PaymentMethodDetailsCardChecks" (\obj -> ((GHC.Base.pure PaymentMethodDetailsCardChecks GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "address_line1_check")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "address_postal_code_check")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "cvc_check"))
+
+-- | Create a new 'PaymentMethodDetailsCardChecks' with all required fields.
+mkPaymentMethodDetailsCardChecks :: PaymentMethodDetailsCardChecks
+mkPaymentMethodDetailsCardChecks =
+  PaymentMethodDetailsCardChecks
+    { paymentMethodDetailsCardChecksAddressLine1Check = GHC.Maybe.Nothing,
+      paymentMethodDetailsCardChecksAddressPostalCodeCheck = GHC.Maybe.Nothing,
+      paymentMethodDetailsCardChecksCvcCheck = GHC.Maybe.Nothing
+    }

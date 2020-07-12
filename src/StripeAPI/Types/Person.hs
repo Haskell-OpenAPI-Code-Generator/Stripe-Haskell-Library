@@ -8,6 +8,7 @@ module StripeAPI.Types.Person where
 
 import qualified Control.Monad.Fail
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -37,7 +38,7 @@ import {-# SOURCE #-} StripeAPI.Types.PersonRequirements
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
--- | Defines the data type for the schema person
+-- | Defines the object schema located at @components.schemas.person@ in the specification.
 --
 -- This is an object representing a person associated with a Stripe account.
 --
@@ -124,8 +125,6 @@ data Person
         personMaidenName :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
         -- | metadata: Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
         personMetadata :: (GHC.Maybe.Maybe Data.Aeson.Types.Internal.Object),
-        -- | object: String representing the object\'s type. Objects of the same type share the same value.
-        personObject :: PersonObject',
         -- | phone
         --
         -- Constraints:
@@ -147,13 +146,49 @@ data Person
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON Person where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "account" (personAccount obj) : (Data.Aeson..=) "address" (personAddress obj) : (Data.Aeson..=) "address_kana" (personAddressKana obj) : (Data.Aeson..=) "address_kanji" (personAddressKanji obj) : (Data.Aeson..=) "created" (personCreated obj) : (Data.Aeson..=) "dob" (personDob obj) : (Data.Aeson..=) "email" (personEmail obj) : (Data.Aeson..=) "first_name" (personFirstName obj) : (Data.Aeson..=) "first_name_kana" (personFirstNameKana obj) : (Data.Aeson..=) "first_name_kanji" (personFirstNameKanji obj) : (Data.Aeson..=) "gender" (personGender obj) : (Data.Aeson..=) "id" (personId obj) : (Data.Aeson..=) "id_number_provided" (personIdNumberProvided obj) : (Data.Aeson..=) "last_name" (personLastName obj) : (Data.Aeson..=) "last_name_kana" (personLastNameKana obj) : (Data.Aeson..=) "last_name_kanji" (personLastNameKanji obj) : (Data.Aeson..=) "maiden_name" (personMaidenName obj) : (Data.Aeson..=) "metadata" (personMetadata obj) : (Data.Aeson..=) "object" (personObject obj) : (Data.Aeson..=) "phone" (personPhone obj) : (Data.Aeson..=) "relationship" (personRelationship obj) : (Data.Aeson..=) "requirements" (personRequirements obj) : (Data.Aeson..=) "ssn_last_4_provided" (personSsnLast_4Provided obj) : (Data.Aeson..=) "verification" (personVerification obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "account" (personAccount obj) GHC.Base.<> ((Data.Aeson..=) "address" (personAddress obj) GHC.Base.<> ((Data.Aeson..=) "address_kana" (personAddressKana obj) GHC.Base.<> ((Data.Aeson..=) "address_kanji" (personAddressKanji obj) GHC.Base.<> ((Data.Aeson..=) "created" (personCreated obj) GHC.Base.<> ((Data.Aeson..=) "dob" (personDob obj) GHC.Base.<> ((Data.Aeson..=) "email" (personEmail obj) GHC.Base.<> ((Data.Aeson..=) "first_name" (personFirstName obj) GHC.Base.<> ((Data.Aeson..=) "first_name_kana" (personFirstNameKana obj) GHC.Base.<> ((Data.Aeson..=) "first_name_kanji" (personFirstNameKanji obj) GHC.Base.<> ((Data.Aeson..=) "gender" (personGender obj) GHC.Base.<> ((Data.Aeson..=) "id" (personId obj) GHC.Base.<> ((Data.Aeson..=) "id_number_provided" (personIdNumberProvided obj) GHC.Base.<> ((Data.Aeson..=) "last_name" (personLastName obj) GHC.Base.<> ((Data.Aeson..=) "last_name_kana" (personLastNameKana obj) GHC.Base.<> ((Data.Aeson..=) "last_name_kanji" (personLastNameKanji obj) GHC.Base.<> ((Data.Aeson..=) "maiden_name" (personMaidenName obj) GHC.Base.<> ((Data.Aeson..=) "metadata" (personMetadata obj) GHC.Base.<> ((Data.Aeson..=) "object" (personObject obj) GHC.Base.<> ((Data.Aeson..=) "phone" (personPhone obj) GHC.Base.<> ((Data.Aeson..=) "relationship" (personRelationship obj) GHC.Base.<> ((Data.Aeson..=) "requirements" (personRequirements obj) GHC.Base.<> ((Data.Aeson..=) "ssn_last_4_provided" (personSsnLast_4Provided obj) GHC.Base.<> (Data.Aeson..=) "verification" (personVerification obj))))))))))))))))))))))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("account" Data.Aeson.Types.ToJSON..= personAccount obj : "address" Data.Aeson.Types.ToJSON..= personAddress obj : "address_kana" Data.Aeson.Types.ToJSON..= personAddressKana obj : "address_kanji" Data.Aeson.Types.ToJSON..= personAddressKanji obj : "created" Data.Aeson.Types.ToJSON..= personCreated obj : "dob" Data.Aeson.Types.ToJSON..= personDob obj : "email" Data.Aeson.Types.ToJSON..= personEmail obj : "first_name" Data.Aeson.Types.ToJSON..= personFirstName obj : "first_name_kana" Data.Aeson.Types.ToJSON..= personFirstNameKana obj : "first_name_kanji" Data.Aeson.Types.ToJSON..= personFirstNameKanji obj : "gender" Data.Aeson.Types.ToJSON..= personGender obj : "id" Data.Aeson.Types.ToJSON..= personId obj : "id_number_provided" Data.Aeson.Types.ToJSON..= personIdNumberProvided obj : "last_name" Data.Aeson.Types.ToJSON..= personLastName obj : "last_name_kana" Data.Aeson.Types.ToJSON..= personLastNameKana obj : "last_name_kanji" Data.Aeson.Types.ToJSON..= personLastNameKanji obj : "maiden_name" Data.Aeson.Types.ToJSON..= personMaidenName obj : "metadata" Data.Aeson.Types.ToJSON..= personMetadata obj : "phone" Data.Aeson.Types.ToJSON..= personPhone obj : "relationship" Data.Aeson.Types.ToJSON..= personRelationship obj : "requirements" Data.Aeson.Types.ToJSON..= personRequirements obj : "ssn_last_4_provided" Data.Aeson.Types.ToJSON..= personSsnLast_4Provided obj : "verification" Data.Aeson.Types.ToJSON..= personVerification obj : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "person" : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("account" Data.Aeson.Types.ToJSON..= personAccount obj) GHC.Base.<> (("address" Data.Aeson.Types.ToJSON..= personAddress obj) GHC.Base.<> (("address_kana" Data.Aeson.Types.ToJSON..= personAddressKana obj) GHC.Base.<> (("address_kanji" Data.Aeson.Types.ToJSON..= personAddressKanji obj) GHC.Base.<> (("created" Data.Aeson.Types.ToJSON..= personCreated obj) GHC.Base.<> (("dob" Data.Aeson.Types.ToJSON..= personDob obj) GHC.Base.<> (("email" Data.Aeson.Types.ToJSON..= personEmail obj) GHC.Base.<> (("first_name" Data.Aeson.Types.ToJSON..= personFirstName obj) GHC.Base.<> (("first_name_kana" Data.Aeson.Types.ToJSON..= personFirstNameKana obj) GHC.Base.<> (("first_name_kanji" Data.Aeson.Types.ToJSON..= personFirstNameKanji obj) GHC.Base.<> (("gender" Data.Aeson.Types.ToJSON..= personGender obj) GHC.Base.<> (("id" Data.Aeson.Types.ToJSON..= personId obj) GHC.Base.<> (("id_number_provided" Data.Aeson.Types.ToJSON..= personIdNumberProvided obj) GHC.Base.<> (("last_name" Data.Aeson.Types.ToJSON..= personLastName obj) GHC.Base.<> (("last_name_kana" Data.Aeson.Types.ToJSON..= personLastNameKana obj) GHC.Base.<> (("last_name_kanji" Data.Aeson.Types.ToJSON..= personLastNameKanji obj) GHC.Base.<> (("maiden_name" Data.Aeson.Types.ToJSON..= personMaidenName obj) GHC.Base.<> (("metadata" Data.Aeson.Types.ToJSON..= personMetadata obj) GHC.Base.<> (("phone" Data.Aeson.Types.ToJSON..= personPhone obj) GHC.Base.<> (("relationship" Data.Aeson.Types.ToJSON..= personRelationship obj) GHC.Base.<> (("requirements" Data.Aeson.Types.ToJSON..= personRequirements obj) GHC.Base.<> (("ssn_last_4_provided" Data.Aeson.Types.ToJSON..= personSsnLast_4Provided obj) GHC.Base.<> (("verification" Data.Aeson.Types.ToJSON..= personVerification obj) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "person"))))))))))))))))))))))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON Person where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "Person" (\obj -> (((((((((((((((((((((((GHC.Base.pure Person GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "account")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "address")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "address_kana")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "address_kanji")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "created")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "dob")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "email")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "first_name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "first_name_kana")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "first_name_kanji")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "gender")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "id_number_provided")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "last_name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "last_name_kana")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "last_name_kanji")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "maiden_name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "object")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "phone")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "relationship")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "requirements")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "ssn_last_4_provided")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "verification"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "Person" (\obj -> ((((((((((((((((((((((GHC.Base.pure Person GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "account")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "address")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "address_kana")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "address_kanji")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "created")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "dob")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "email")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "first_name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "first_name_kana")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "first_name_kanji")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "gender")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "id_number_provided")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "last_name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "last_name_kana")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "last_name_kanji")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "maiden_name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "phone")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "relationship")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "requirements")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "ssn_last_4_provided")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "verification"))
 
--- | Defines the data type for the schema personAddress_kana\'
+-- | Create a new 'Person' with all required fields.
+mkPerson ::
+  -- | 'personAccount'
+  Data.Text.Internal.Text ->
+  -- | 'personCreated'
+  GHC.Types.Int ->
+  -- | 'personId'
+  Data.Text.Internal.Text ->
+  Person
+mkPerson personAccount personCreated personId =
+  Person
+    { personAccount = personAccount,
+      personAddress = GHC.Maybe.Nothing,
+      personAddressKana = GHC.Maybe.Nothing,
+      personAddressKanji = GHC.Maybe.Nothing,
+      personCreated = personCreated,
+      personDob = GHC.Maybe.Nothing,
+      personEmail = GHC.Maybe.Nothing,
+      personFirstName = GHC.Maybe.Nothing,
+      personFirstNameKana = GHC.Maybe.Nothing,
+      personFirstNameKanji = GHC.Maybe.Nothing,
+      personGender = GHC.Maybe.Nothing,
+      personId = personId,
+      personIdNumberProvided = GHC.Maybe.Nothing,
+      personLastName = GHC.Maybe.Nothing,
+      personLastNameKana = GHC.Maybe.Nothing,
+      personLastNameKanji = GHC.Maybe.Nothing,
+      personMaidenName = GHC.Maybe.Nothing,
+      personMetadata = GHC.Maybe.Nothing,
+      personPhone = GHC.Maybe.Nothing,
+      personRelationship = GHC.Maybe.Nothing,
+      personRequirements = GHC.Maybe.Nothing,
+      personSsnLast_4Provided = GHC.Maybe.Nothing,
+      personVerification = GHC.Maybe.Nothing
+    }
+
+-- | Defines the object schema located at @components.schemas.person.properties.address_kana.anyOf@ in the specification.
 data PersonAddressKana'
   = PersonAddressKana'
       { -- | city: City\/Ward.
@@ -205,13 +240,26 @@ data PersonAddressKana'
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PersonAddressKana' where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "city" (personAddressKana'City obj) : (Data.Aeson..=) "country" (personAddressKana'Country obj) : (Data.Aeson..=) "line1" (personAddressKana'Line1 obj) : (Data.Aeson..=) "line2" (personAddressKana'Line2 obj) : (Data.Aeson..=) "postal_code" (personAddressKana'PostalCode obj) : (Data.Aeson..=) "state" (personAddressKana'State obj) : (Data.Aeson..=) "town" (personAddressKana'Town obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "city" (personAddressKana'City obj) GHC.Base.<> ((Data.Aeson..=) "country" (personAddressKana'Country obj) GHC.Base.<> ((Data.Aeson..=) "line1" (personAddressKana'Line1 obj) GHC.Base.<> ((Data.Aeson..=) "line2" (personAddressKana'Line2 obj) GHC.Base.<> ((Data.Aeson..=) "postal_code" (personAddressKana'PostalCode obj) GHC.Base.<> ((Data.Aeson..=) "state" (personAddressKana'State obj) GHC.Base.<> (Data.Aeson..=) "town" (personAddressKana'Town obj)))))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("city" Data.Aeson.Types.ToJSON..= personAddressKana'City obj : "country" Data.Aeson.Types.ToJSON..= personAddressKana'Country obj : "line1" Data.Aeson.Types.ToJSON..= personAddressKana'Line1 obj : "line2" Data.Aeson.Types.ToJSON..= personAddressKana'Line2 obj : "postal_code" Data.Aeson.Types.ToJSON..= personAddressKana'PostalCode obj : "state" Data.Aeson.Types.ToJSON..= personAddressKana'State obj : "town" Data.Aeson.Types.ToJSON..= personAddressKana'Town obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("city" Data.Aeson.Types.ToJSON..= personAddressKana'City obj) GHC.Base.<> (("country" Data.Aeson.Types.ToJSON..= personAddressKana'Country obj) GHC.Base.<> (("line1" Data.Aeson.Types.ToJSON..= personAddressKana'Line1 obj) GHC.Base.<> (("line2" Data.Aeson.Types.ToJSON..= personAddressKana'Line2 obj) GHC.Base.<> (("postal_code" Data.Aeson.Types.ToJSON..= personAddressKana'PostalCode obj) GHC.Base.<> (("state" Data.Aeson.Types.ToJSON..= personAddressKana'State obj) GHC.Base.<> ("town" Data.Aeson.Types.ToJSON..= personAddressKana'Town obj)))))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PersonAddressKana' where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PersonAddressKana'" (\obj -> ((((((GHC.Base.pure PersonAddressKana' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "city")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "country")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "line1")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "line2")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "postal_code")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "state")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "town"))
 
--- | Defines the data type for the schema personAddress_kanji\'
+-- | Create a new 'PersonAddressKana'' with all required fields.
+mkPersonAddressKana' :: PersonAddressKana'
+mkPersonAddressKana' =
+  PersonAddressKana'
+    { personAddressKana'City = GHC.Maybe.Nothing,
+      personAddressKana'Country = GHC.Maybe.Nothing,
+      personAddressKana'Line1 = GHC.Maybe.Nothing,
+      personAddressKana'Line2 = GHC.Maybe.Nothing,
+      personAddressKana'PostalCode = GHC.Maybe.Nothing,
+      personAddressKana'State = GHC.Maybe.Nothing,
+      personAddressKana'Town = GHC.Maybe.Nothing
+    }
+
+-- | Defines the object schema located at @components.schemas.person.properties.address_kanji.anyOf@ in the specification.
 data PersonAddressKanji'
   = PersonAddressKanji'
       { -- | city: City\/Ward.
@@ -263,34 +311,26 @@ data PersonAddressKanji'
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PersonAddressKanji' where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "city" (personAddressKanji'City obj) : (Data.Aeson..=) "country" (personAddressKanji'Country obj) : (Data.Aeson..=) "line1" (personAddressKanji'Line1 obj) : (Data.Aeson..=) "line2" (personAddressKanji'Line2 obj) : (Data.Aeson..=) "postal_code" (personAddressKanji'PostalCode obj) : (Data.Aeson..=) "state" (personAddressKanji'State obj) : (Data.Aeson..=) "town" (personAddressKanji'Town obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "city" (personAddressKanji'City obj) GHC.Base.<> ((Data.Aeson..=) "country" (personAddressKanji'Country obj) GHC.Base.<> ((Data.Aeson..=) "line1" (personAddressKanji'Line1 obj) GHC.Base.<> ((Data.Aeson..=) "line2" (personAddressKanji'Line2 obj) GHC.Base.<> ((Data.Aeson..=) "postal_code" (personAddressKanji'PostalCode obj) GHC.Base.<> ((Data.Aeson..=) "state" (personAddressKanji'State obj) GHC.Base.<> (Data.Aeson..=) "town" (personAddressKanji'Town obj)))))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("city" Data.Aeson.Types.ToJSON..= personAddressKanji'City obj : "country" Data.Aeson.Types.ToJSON..= personAddressKanji'Country obj : "line1" Data.Aeson.Types.ToJSON..= personAddressKanji'Line1 obj : "line2" Data.Aeson.Types.ToJSON..= personAddressKanji'Line2 obj : "postal_code" Data.Aeson.Types.ToJSON..= personAddressKanji'PostalCode obj : "state" Data.Aeson.Types.ToJSON..= personAddressKanji'State obj : "town" Data.Aeson.Types.ToJSON..= personAddressKanji'Town obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("city" Data.Aeson.Types.ToJSON..= personAddressKanji'City obj) GHC.Base.<> (("country" Data.Aeson.Types.ToJSON..= personAddressKanji'Country obj) GHC.Base.<> (("line1" Data.Aeson.Types.ToJSON..= personAddressKanji'Line1 obj) GHC.Base.<> (("line2" Data.Aeson.Types.ToJSON..= personAddressKanji'Line2 obj) GHC.Base.<> (("postal_code" Data.Aeson.Types.ToJSON..= personAddressKanji'PostalCode obj) GHC.Base.<> (("state" Data.Aeson.Types.ToJSON..= personAddressKanji'State obj) GHC.Base.<> ("town" Data.Aeson.Types.ToJSON..= personAddressKanji'Town obj)))))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PersonAddressKanji' where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PersonAddressKanji'" (\obj -> ((((((GHC.Base.pure PersonAddressKanji' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "city")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "country")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "line1")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "line2")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "postal_code")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "state")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "town"))
 
--- | Defines the enum schema personObject\'
---
--- String representing the object\'s type. Objects of the same type share the same value.
-data PersonObject'
-  = PersonObject'EnumOther Data.Aeson.Types.Internal.Value
-  | PersonObject'EnumTyped Data.Text.Internal.Text
-  | PersonObject'EnumStringPerson
-  deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Create a new 'PersonAddressKanji'' with all required fields.
+mkPersonAddressKanji' :: PersonAddressKanji'
+mkPersonAddressKanji' =
+  PersonAddressKanji'
+    { personAddressKanji'City = GHC.Maybe.Nothing,
+      personAddressKanji'Country = GHC.Maybe.Nothing,
+      personAddressKanji'Line1 = GHC.Maybe.Nothing,
+      personAddressKanji'Line2 = GHC.Maybe.Nothing,
+      personAddressKanji'PostalCode = GHC.Maybe.Nothing,
+      personAddressKanji'State = GHC.Maybe.Nothing,
+      personAddressKanji'Town = GHC.Maybe.Nothing
+    }
 
-instance Data.Aeson.Types.ToJSON.ToJSON PersonObject' where
-  toJSON (PersonObject'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PersonObject'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PersonObject'EnumStringPerson) = "person"
-
-instance Data.Aeson.Types.FromJSON.FromJSON PersonObject' where
-  parseJSON val =
-    GHC.Base.pure
-      ( if  | val GHC.Classes.== "person" -> PersonObject'EnumStringPerson
-            | GHC.Base.otherwise -> PersonObject'EnumOther val
-      )
-
--- | Defines the data type for the schema personRequirements\'
+-- | Defines the object schema located at @components.schemas.person.properties.requirements.anyOf@ in the specification.
 data PersonRequirements'
   = PersonRequirements'
       { -- | currently_due: Fields that need to be collected to keep the person\'s account enabled. If not collected by the account\'s \`current_deadline\`, these fields appear in \`past_due\` as well, and the account is disabled.
@@ -310,8 +350,19 @@ data PersonRequirements'
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PersonRequirements' where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "currently_due" (personRequirements'CurrentlyDue obj) : (Data.Aeson..=) "errors" (personRequirements'Errors obj) : (Data.Aeson..=) "eventually_due" (personRequirements'EventuallyDue obj) : (Data.Aeson..=) "past_due" (personRequirements'PastDue obj) : (Data.Aeson..=) "pending_verification" (personRequirements'PendingVerification obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "currently_due" (personRequirements'CurrentlyDue obj) GHC.Base.<> ((Data.Aeson..=) "errors" (personRequirements'Errors obj) GHC.Base.<> ((Data.Aeson..=) "eventually_due" (personRequirements'EventuallyDue obj) GHC.Base.<> ((Data.Aeson..=) "past_due" (personRequirements'PastDue obj) GHC.Base.<> (Data.Aeson..=) "pending_verification" (personRequirements'PendingVerification obj)))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("currently_due" Data.Aeson.Types.ToJSON..= personRequirements'CurrentlyDue obj : "errors" Data.Aeson.Types.ToJSON..= personRequirements'Errors obj : "eventually_due" Data.Aeson.Types.ToJSON..= personRequirements'EventuallyDue obj : "past_due" Data.Aeson.Types.ToJSON..= personRequirements'PastDue obj : "pending_verification" Data.Aeson.Types.ToJSON..= personRequirements'PendingVerification obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("currently_due" Data.Aeson.Types.ToJSON..= personRequirements'CurrentlyDue obj) GHC.Base.<> (("errors" Data.Aeson.Types.ToJSON..= personRequirements'Errors obj) GHC.Base.<> (("eventually_due" Data.Aeson.Types.ToJSON..= personRequirements'EventuallyDue obj) GHC.Base.<> (("past_due" Data.Aeson.Types.ToJSON..= personRequirements'PastDue obj) GHC.Base.<> ("pending_verification" Data.Aeson.Types.ToJSON..= personRequirements'PendingVerification obj)))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PersonRequirements' where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PersonRequirements'" (\obj -> ((((GHC.Base.pure PersonRequirements' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "currently_due")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "errors")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "eventually_due")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "past_due")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "pending_verification"))
+
+-- | Create a new 'PersonRequirements'' with all required fields.
+mkPersonRequirements' :: PersonRequirements'
+mkPersonRequirements' =
+  PersonRequirements'
+    { personRequirements'CurrentlyDue = GHC.Maybe.Nothing,
+      personRequirements'Errors = GHC.Maybe.Nothing,
+      personRequirements'EventuallyDue = GHC.Maybe.Nothing,
+      personRequirements'PastDue = GHC.Maybe.Nothing,
+      personRequirements'PendingVerification = GHC.Maybe.Nothing
+    }

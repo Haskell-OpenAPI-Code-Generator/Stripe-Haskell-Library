@@ -10,6 +10,7 @@ module StripeAPI.Operations.GetApplicationFees where
 import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -87,7 +88,7 @@ getApplicationFees parameters =
         ]
     )
 
--- | Defines the data type for the schema getApplicationFeesParameters
+-- | Defines the object schema located at @paths.\/v1\/application_fees.GET.parameters@ in the specification.
 data GetApplicationFeesParameters
   = GetApplicationFeesParameters
       { -- | queryCharge: Represents the parameter named \'charge\'
@@ -131,13 +132,25 @@ data GetApplicationFeesParameters
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetApplicationFeesParameters where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "queryCharge" (getApplicationFeesParametersQueryCharge obj) : (Data.Aeson..=) "queryCreated" (getApplicationFeesParametersQueryCreated obj) : (Data.Aeson..=) "queryEnding_before" (getApplicationFeesParametersQueryEndingBefore obj) : (Data.Aeson..=) "queryExpand" (getApplicationFeesParametersQueryExpand obj) : (Data.Aeson..=) "queryLimit" (getApplicationFeesParametersQueryLimit obj) : (Data.Aeson..=) "queryStarting_after" (getApplicationFeesParametersQueryStartingAfter obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "queryCharge" (getApplicationFeesParametersQueryCharge obj) GHC.Base.<> ((Data.Aeson..=) "queryCreated" (getApplicationFeesParametersQueryCreated obj) GHC.Base.<> ((Data.Aeson..=) "queryEnding_before" (getApplicationFeesParametersQueryEndingBefore obj) GHC.Base.<> ((Data.Aeson..=) "queryExpand" (getApplicationFeesParametersQueryExpand obj) GHC.Base.<> ((Data.Aeson..=) "queryLimit" (getApplicationFeesParametersQueryLimit obj) GHC.Base.<> (Data.Aeson..=) "queryStarting_after" (getApplicationFeesParametersQueryStartingAfter obj))))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("queryCharge" Data.Aeson.Types.ToJSON..= getApplicationFeesParametersQueryCharge obj : "queryCreated" Data.Aeson.Types.ToJSON..= getApplicationFeesParametersQueryCreated obj : "queryEnding_before" Data.Aeson.Types.ToJSON..= getApplicationFeesParametersQueryEndingBefore obj : "queryExpand" Data.Aeson.Types.ToJSON..= getApplicationFeesParametersQueryExpand obj : "queryLimit" Data.Aeson.Types.ToJSON..= getApplicationFeesParametersQueryLimit obj : "queryStarting_after" Data.Aeson.Types.ToJSON..= getApplicationFeesParametersQueryStartingAfter obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("queryCharge" Data.Aeson.Types.ToJSON..= getApplicationFeesParametersQueryCharge obj) GHC.Base.<> (("queryCreated" Data.Aeson.Types.ToJSON..= getApplicationFeesParametersQueryCreated obj) GHC.Base.<> (("queryEnding_before" Data.Aeson.Types.ToJSON..= getApplicationFeesParametersQueryEndingBefore obj) GHC.Base.<> (("queryExpand" Data.Aeson.Types.ToJSON..= getApplicationFeesParametersQueryExpand obj) GHC.Base.<> (("queryLimit" Data.Aeson.Types.ToJSON..= getApplicationFeesParametersQueryLimit obj) GHC.Base.<> ("queryStarting_after" Data.Aeson.Types.ToJSON..= getApplicationFeesParametersQueryStartingAfter obj))))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetApplicationFeesParameters where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "GetApplicationFeesParameters" (\obj -> (((((GHC.Base.pure GetApplicationFeesParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryCharge")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryCreated")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryEnding_before")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryExpand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryLimit")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryStarting_after"))
 
--- | Defines the data type for the schema getApplicationFeesParametersQueryCreated\'OneOf2
+-- | Create a new 'GetApplicationFeesParameters' with all required fields.
+mkGetApplicationFeesParameters :: GetApplicationFeesParameters
+mkGetApplicationFeesParameters =
+  GetApplicationFeesParameters
+    { getApplicationFeesParametersQueryCharge = GHC.Maybe.Nothing,
+      getApplicationFeesParametersQueryCreated = GHC.Maybe.Nothing,
+      getApplicationFeesParametersQueryEndingBefore = GHC.Maybe.Nothing,
+      getApplicationFeesParametersQueryExpand = GHC.Maybe.Nothing,
+      getApplicationFeesParametersQueryLimit = GHC.Maybe.Nothing,
+      getApplicationFeesParametersQueryStartingAfter = GHC.Maybe.Nothing
+    }
+
+-- | Defines the object schema located at @paths.\/v1\/application_fees.GET.parameters.properties.queryCreated.anyOf@ in the specification.
 data GetApplicationFeesParametersQueryCreated'OneOf2
   = GetApplicationFeesParametersQueryCreated'OneOf2
       { -- | gt
@@ -155,13 +168,23 @@ data GetApplicationFeesParametersQueryCreated'OneOf2
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetApplicationFeesParametersQueryCreated'OneOf2 where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "gt" (getApplicationFeesParametersQueryCreated'OneOf2Gt obj) : (Data.Aeson..=) "gte" (getApplicationFeesParametersQueryCreated'OneOf2Gte obj) : (Data.Aeson..=) "lt" (getApplicationFeesParametersQueryCreated'OneOf2Lt obj) : (Data.Aeson..=) "lte" (getApplicationFeesParametersQueryCreated'OneOf2Lte obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "gt" (getApplicationFeesParametersQueryCreated'OneOf2Gt obj) GHC.Base.<> ((Data.Aeson..=) "gte" (getApplicationFeesParametersQueryCreated'OneOf2Gte obj) GHC.Base.<> ((Data.Aeson..=) "lt" (getApplicationFeesParametersQueryCreated'OneOf2Lt obj) GHC.Base.<> (Data.Aeson..=) "lte" (getApplicationFeesParametersQueryCreated'OneOf2Lte obj))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("gt" Data.Aeson.Types.ToJSON..= getApplicationFeesParametersQueryCreated'OneOf2Gt obj : "gte" Data.Aeson.Types.ToJSON..= getApplicationFeesParametersQueryCreated'OneOf2Gte obj : "lt" Data.Aeson.Types.ToJSON..= getApplicationFeesParametersQueryCreated'OneOf2Lt obj : "lte" Data.Aeson.Types.ToJSON..= getApplicationFeesParametersQueryCreated'OneOf2Lte obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("gt" Data.Aeson.Types.ToJSON..= getApplicationFeesParametersQueryCreated'OneOf2Gt obj) GHC.Base.<> (("gte" Data.Aeson.Types.ToJSON..= getApplicationFeesParametersQueryCreated'OneOf2Gte obj) GHC.Base.<> (("lt" Data.Aeson.Types.ToJSON..= getApplicationFeesParametersQueryCreated'OneOf2Lt obj) GHC.Base.<> ("lte" Data.Aeson.Types.ToJSON..= getApplicationFeesParametersQueryCreated'OneOf2Lte obj))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetApplicationFeesParametersQueryCreated'OneOf2 where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "GetApplicationFeesParametersQueryCreated'OneOf2" (\obj -> (((GHC.Base.pure GetApplicationFeesParametersQueryCreated'OneOf2 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "gt")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "gte")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "lt")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "lte"))
 
--- | Define the one-of schema getApplicationFeesParametersQueryCreated\'
+-- | Create a new 'GetApplicationFeesParametersQueryCreated'OneOf2' with all required fields.
+mkGetApplicationFeesParametersQueryCreated'OneOf2 :: GetApplicationFeesParametersQueryCreated'OneOf2
+mkGetApplicationFeesParametersQueryCreated'OneOf2 =
+  GetApplicationFeesParametersQueryCreated'OneOf2
+    { getApplicationFeesParametersQueryCreated'OneOf2Gt = GHC.Maybe.Nothing,
+      getApplicationFeesParametersQueryCreated'OneOf2Gte = GHC.Maybe.Nothing,
+      getApplicationFeesParametersQueryCreated'OneOf2Lt = GHC.Maybe.Nothing,
+      getApplicationFeesParametersQueryCreated'OneOf2Lte = GHC.Maybe.Nothing
+    }
+
+-- | Defines the oneOf schema located at @paths.\/v1\/application_fees.GET.parameters.properties.queryCreated.anyOf@ in the specification.
 --
 -- Represents the parameter named \'created\'
 data GetApplicationFeesParametersQueryCreated'Variants
@@ -174,11 +197,9 @@ instance Data.Aeson.Types.ToJSON.ToJSON GetApplicationFeesParametersQueryCreated
   toJSON (GetApplicationFeesParametersQueryCreated'GetApplicationFeesParametersQueryCreated'OneOf2 a) = Data.Aeson.Types.ToJSON.toJSON a
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetApplicationFeesParametersQueryCreated'Variants where
-  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
-    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ GetApplicationFeesParametersQueryCreated'Int a
-    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ GetApplicationFeesParametersQueryCreated'GetApplicationFeesParametersQueryCreated'OneOf2 a
-      Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+  parseJSON val = case (GetApplicationFeesParametersQueryCreated'Int Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((GetApplicationFeesParametersQueryCreated'GetApplicationFeesParametersQueryCreated'OneOf2 Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched") of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+    Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
 -- | Represents a response of the operation 'getApplicationFees'.
 --
@@ -192,15 +213,13 @@ data GetApplicationFeesResponse
     GetApplicationFeesResponseDefault Error
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
--- | Defines the data type for the schema GetApplicationFeesResponseBody200
+-- | Defines the object schema located at @paths.\/v1\/application_fees.GET.responses.200.content.application\/json.schema@ in the specification.
 data GetApplicationFeesResponseBody200
   = GetApplicationFeesResponseBody200
       { -- | data
         getApplicationFeesResponseBody200Data :: ([ApplicationFee]),
         -- | has_more: True if this list has another page of items after this one that can be fetched.
         getApplicationFeesResponseBody200HasMore :: GHC.Types.Bool,
-        -- | object: String representing the object\'s type. Objects of the same type share the same value. Always has the value \`list\`.
-        getApplicationFeesResponseBody200Object :: GetApplicationFeesResponseBody200Object',
         -- | url: The URL where this list can be accessed.
         --
         -- Constraints:
@@ -215,29 +234,24 @@ data GetApplicationFeesResponseBody200
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetApplicationFeesResponseBody200 where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "data" (getApplicationFeesResponseBody200Data obj) : (Data.Aeson..=) "has_more" (getApplicationFeesResponseBody200HasMore obj) : (Data.Aeson..=) "object" (getApplicationFeesResponseBody200Object obj) : (Data.Aeson..=) "url" (getApplicationFeesResponseBody200Url obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "data" (getApplicationFeesResponseBody200Data obj) GHC.Base.<> ((Data.Aeson..=) "has_more" (getApplicationFeesResponseBody200HasMore obj) GHC.Base.<> ((Data.Aeson..=) "object" (getApplicationFeesResponseBody200Object obj) GHC.Base.<> (Data.Aeson..=) "url" (getApplicationFeesResponseBody200Url obj))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("data" Data.Aeson.Types.ToJSON..= getApplicationFeesResponseBody200Data obj : "has_more" Data.Aeson.Types.ToJSON..= getApplicationFeesResponseBody200HasMore obj : "url" Data.Aeson.Types.ToJSON..= getApplicationFeesResponseBody200Url obj : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "list" : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("data" Data.Aeson.Types.ToJSON..= getApplicationFeesResponseBody200Data obj) GHC.Base.<> (("has_more" Data.Aeson.Types.ToJSON..= getApplicationFeesResponseBody200HasMore obj) GHC.Base.<> (("url" Data.Aeson.Types.ToJSON..= getApplicationFeesResponseBody200Url obj) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "list"))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetApplicationFeesResponseBody200 where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetApplicationFeesResponseBody200" (\obj -> (((GHC.Base.pure GetApplicationFeesResponseBody200 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "has_more")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "object")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "url"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetApplicationFeesResponseBody200" (\obj -> ((GHC.Base.pure GetApplicationFeesResponseBody200 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "has_more")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "url"))
 
--- | Defines the enum schema GetApplicationFeesResponseBody200Object\'
---
--- String representing the object\'s type. Objects of the same type share the same value. Always has the value \`list\`.
-data GetApplicationFeesResponseBody200Object'
-  = GetApplicationFeesResponseBody200Object'EnumOther Data.Aeson.Types.Internal.Value
-  | GetApplicationFeesResponseBody200Object'EnumTyped Data.Text.Internal.Text
-  | GetApplicationFeesResponseBody200Object'EnumStringList
-  deriving (GHC.Show.Show, GHC.Classes.Eq)
-
-instance Data.Aeson.Types.ToJSON.ToJSON GetApplicationFeesResponseBody200Object' where
-  toJSON (GetApplicationFeesResponseBody200Object'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (GetApplicationFeesResponseBody200Object'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (GetApplicationFeesResponseBody200Object'EnumStringList) = "list"
-
-instance Data.Aeson.Types.FromJSON.FromJSON GetApplicationFeesResponseBody200Object' where
-  parseJSON val =
-    GHC.Base.pure
-      ( if  | val GHC.Classes.== "list" -> GetApplicationFeesResponseBody200Object'EnumStringList
-            | GHC.Base.otherwise -> GetApplicationFeesResponseBody200Object'EnumOther val
-      )
+-- | Create a new 'GetApplicationFeesResponseBody200' with all required fields.
+mkGetApplicationFeesResponseBody200 ::
+  -- | 'getApplicationFeesResponseBody200Data'
+  [ApplicationFee] ->
+  -- | 'getApplicationFeesResponseBody200HasMore'
+  GHC.Types.Bool ->
+  -- | 'getApplicationFeesResponseBody200Url'
+  Data.Text.Internal.Text ->
+  GetApplicationFeesResponseBody200
+mkGetApplicationFeesResponseBody200 getApplicationFeesResponseBody200Data getApplicationFeesResponseBody200HasMore getApplicationFeesResponseBody200Url =
+  GetApplicationFeesResponseBody200
+    { getApplicationFeesResponseBody200Data = getApplicationFeesResponseBody200Data,
+      getApplicationFeesResponseBody200HasMore = getApplicationFeesResponseBody200HasMore,
+      getApplicationFeesResponseBody200Url = getApplicationFeesResponseBody200Url
+    }

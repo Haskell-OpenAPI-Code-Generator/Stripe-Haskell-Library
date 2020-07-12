@@ -8,6 +8,7 @@ module StripeAPI.Types.SourceTypeCard where
 
 import qualified Control.Monad.Fail
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -30,7 +31,7 @@ import StripeAPI.TypeAlias
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
--- | Defines the data type for the schema source_type_card
+-- | Defines the object schema located at @components.schemas.source_type_card@ in the specification.
 data SourceTypeCard
   = SourceTypeCard
       { -- | address_line1_check
@@ -68,8 +69,28 @@ data SourceTypeCard
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON SourceTypeCard where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "address_line1_check" (sourceTypeCardAddressLine1Check obj) : (Data.Aeson..=) "address_zip_check" (sourceTypeCardAddressZipCheck obj) : (Data.Aeson..=) "brand" (sourceTypeCardBrand obj) : (Data.Aeson..=) "country" (sourceTypeCardCountry obj) : (Data.Aeson..=) "cvc_check" (sourceTypeCardCvcCheck obj) : (Data.Aeson..=) "dynamic_last4" (sourceTypeCardDynamicLast4 obj) : (Data.Aeson..=) "exp_month" (sourceTypeCardExpMonth obj) : (Data.Aeson..=) "exp_year" (sourceTypeCardExpYear obj) : (Data.Aeson..=) "fingerprint" (sourceTypeCardFingerprint obj) : (Data.Aeson..=) "funding" (sourceTypeCardFunding obj) : (Data.Aeson..=) "last4" (sourceTypeCardLast4 obj) : (Data.Aeson..=) "name" (sourceTypeCardName obj) : (Data.Aeson..=) "three_d_secure" (sourceTypeCardThreeDSecure obj) : (Data.Aeson..=) "tokenization_method" (sourceTypeCardTokenizationMethod obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "address_line1_check" (sourceTypeCardAddressLine1Check obj) GHC.Base.<> ((Data.Aeson..=) "address_zip_check" (sourceTypeCardAddressZipCheck obj) GHC.Base.<> ((Data.Aeson..=) "brand" (sourceTypeCardBrand obj) GHC.Base.<> ((Data.Aeson..=) "country" (sourceTypeCardCountry obj) GHC.Base.<> ((Data.Aeson..=) "cvc_check" (sourceTypeCardCvcCheck obj) GHC.Base.<> ((Data.Aeson..=) "dynamic_last4" (sourceTypeCardDynamicLast4 obj) GHC.Base.<> ((Data.Aeson..=) "exp_month" (sourceTypeCardExpMonth obj) GHC.Base.<> ((Data.Aeson..=) "exp_year" (sourceTypeCardExpYear obj) GHC.Base.<> ((Data.Aeson..=) "fingerprint" (sourceTypeCardFingerprint obj) GHC.Base.<> ((Data.Aeson..=) "funding" (sourceTypeCardFunding obj) GHC.Base.<> ((Data.Aeson..=) "last4" (sourceTypeCardLast4 obj) GHC.Base.<> ((Data.Aeson..=) "name" (sourceTypeCardName obj) GHC.Base.<> ((Data.Aeson..=) "three_d_secure" (sourceTypeCardThreeDSecure obj) GHC.Base.<> (Data.Aeson..=) "tokenization_method" (sourceTypeCardTokenizationMethod obj))))))))))))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("address_line1_check" Data.Aeson.Types.ToJSON..= sourceTypeCardAddressLine1Check obj : "address_zip_check" Data.Aeson.Types.ToJSON..= sourceTypeCardAddressZipCheck obj : "brand" Data.Aeson.Types.ToJSON..= sourceTypeCardBrand obj : "country" Data.Aeson.Types.ToJSON..= sourceTypeCardCountry obj : "cvc_check" Data.Aeson.Types.ToJSON..= sourceTypeCardCvcCheck obj : "dynamic_last4" Data.Aeson.Types.ToJSON..= sourceTypeCardDynamicLast4 obj : "exp_month" Data.Aeson.Types.ToJSON..= sourceTypeCardExpMonth obj : "exp_year" Data.Aeson.Types.ToJSON..= sourceTypeCardExpYear obj : "fingerprint" Data.Aeson.Types.ToJSON..= sourceTypeCardFingerprint obj : "funding" Data.Aeson.Types.ToJSON..= sourceTypeCardFunding obj : "last4" Data.Aeson.Types.ToJSON..= sourceTypeCardLast4 obj : "name" Data.Aeson.Types.ToJSON..= sourceTypeCardName obj : "three_d_secure" Data.Aeson.Types.ToJSON..= sourceTypeCardThreeDSecure obj : "tokenization_method" Data.Aeson.Types.ToJSON..= sourceTypeCardTokenizationMethod obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("address_line1_check" Data.Aeson.Types.ToJSON..= sourceTypeCardAddressLine1Check obj) GHC.Base.<> (("address_zip_check" Data.Aeson.Types.ToJSON..= sourceTypeCardAddressZipCheck obj) GHC.Base.<> (("brand" Data.Aeson.Types.ToJSON..= sourceTypeCardBrand obj) GHC.Base.<> (("country" Data.Aeson.Types.ToJSON..= sourceTypeCardCountry obj) GHC.Base.<> (("cvc_check" Data.Aeson.Types.ToJSON..= sourceTypeCardCvcCheck obj) GHC.Base.<> (("dynamic_last4" Data.Aeson.Types.ToJSON..= sourceTypeCardDynamicLast4 obj) GHC.Base.<> (("exp_month" Data.Aeson.Types.ToJSON..= sourceTypeCardExpMonth obj) GHC.Base.<> (("exp_year" Data.Aeson.Types.ToJSON..= sourceTypeCardExpYear obj) GHC.Base.<> (("fingerprint" Data.Aeson.Types.ToJSON..= sourceTypeCardFingerprint obj) GHC.Base.<> (("funding" Data.Aeson.Types.ToJSON..= sourceTypeCardFunding obj) GHC.Base.<> (("last4" Data.Aeson.Types.ToJSON..= sourceTypeCardLast4 obj) GHC.Base.<> (("name" Data.Aeson.Types.ToJSON..= sourceTypeCardName obj) GHC.Base.<> (("three_d_secure" Data.Aeson.Types.ToJSON..= sourceTypeCardThreeDSecure obj) GHC.Base.<> ("tokenization_method" Data.Aeson.Types.ToJSON..= sourceTypeCardTokenizationMethod obj))))))))))))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON SourceTypeCard where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "SourceTypeCard" (\obj -> (((((((((((((GHC.Base.pure SourceTypeCard GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "address_line1_check")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "address_zip_check")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "brand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "country")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "cvc_check")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "dynamic_last4")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "exp_month")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "exp_year")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "fingerprint")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "funding")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "last4")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "three_d_secure")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "tokenization_method"))
+
+-- | Create a new 'SourceTypeCard' with all required fields.
+mkSourceTypeCard :: SourceTypeCard
+mkSourceTypeCard =
+  SourceTypeCard
+    { sourceTypeCardAddressLine1Check = GHC.Maybe.Nothing,
+      sourceTypeCardAddressZipCheck = GHC.Maybe.Nothing,
+      sourceTypeCardBrand = GHC.Maybe.Nothing,
+      sourceTypeCardCountry = GHC.Maybe.Nothing,
+      sourceTypeCardCvcCheck = GHC.Maybe.Nothing,
+      sourceTypeCardDynamicLast4 = GHC.Maybe.Nothing,
+      sourceTypeCardExpMonth = GHC.Maybe.Nothing,
+      sourceTypeCardExpYear = GHC.Maybe.Nothing,
+      sourceTypeCardFingerprint = GHC.Maybe.Nothing,
+      sourceTypeCardFunding = GHC.Maybe.Nothing,
+      sourceTypeCardLast4 = GHC.Maybe.Nothing,
+      sourceTypeCardName = GHC.Maybe.Nothing,
+      sourceTypeCardThreeDSecure = GHC.Maybe.Nothing,
+      sourceTypeCardTokenizationMethod = GHC.Maybe.Nothing
+    }

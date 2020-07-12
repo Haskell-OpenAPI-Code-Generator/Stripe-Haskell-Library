@@ -10,6 +10,7 @@ module StripeAPI.Operations.GetOrderReturns where
 import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -87,7 +88,7 @@ getOrderReturns parameters =
         ]
     )
 
--- | Defines the data type for the schema getOrderReturnsParameters
+-- | Defines the object schema located at @paths.\/v1\/order_returns.GET.parameters@ in the specification.
 data GetOrderReturnsParameters
   = GetOrderReturnsParameters
       { -- | queryCreated: Represents the parameter named \'created\'
@@ -133,13 +134,25 @@ data GetOrderReturnsParameters
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetOrderReturnsParameters where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "queryCreated" (getOrderReturnsParametersQueryCreated obj) : (Data.Aeson..=) "queryEnding_before" (getOrderReturnsParametersQueryEndingBefore obj) : (Data.Aeson..=) "queryExpand" (getOrderReturnsParametersQueryExpand obj) : (Data.Aeson..=) "queryLimit" (getOrderReturnsParametersQueryLimit obj) : (Data.Aeson..=) "queryOrder" (getOrderReturnsParametersQueryOrder obj) : (Data.Aeson..=) "queryStarting_after" (getOrderReturnsParametersQueryStartingAfter obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "queryCreated" (getOrderReturnsParametersQueryCreated obj) GHC.Base.<> ((Data.Aeson..=) "queryEnding_before" (getOrderReturnsParametersQueryEndingBefore obj) GHC.Base.<> ((Data.Aeson..=) "queryExpand" (getOrderReturnsParametersQueryExpand obj) GHC.Base.<> ((Data.Aeson..=) "queryLimit" (getOrderReturnsParametersQueryLimit obj) GHC.Base.<> ((Data.Aeson..=) "queryOrder" (getOrderReturnsParametersQueryOrder obj) GHC.Base.<> (Data.Aeson..=) "queryStarting_after" (getOrderReturnsParametersQueryStartingAfter obj))))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("queryCreated" Data.Aeson.Types.ToJSON..= getOrderReturnsParametersQueryCreated obj : "queryEnding_before" Data.Aeson.Types.ToJSON..= getOrderReturnsParametersQueryEndingBefore obj : "queryExpand" Data.Aeson.Types.ToJSON..= getOrderReturnsParametersQueryExpand obj : "queryLimit" Data.Aeson.Types.ToJSON..= getOrderReturnsParametersQueryLimit obj : "queryOrder" Data.Aeson.Types.ToJSON..= getOrderReturnsParametersQueryOrder obj : "queryStarting_after" Data.Aeson.Types.ToJSON..= getOrderReturnsParametersQueryStartingAfter obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("queryCreated" Data.Aeson.Types.ToJSON..= getOrderReturnsParametersQueryCreated obj) GHC.Base.<> (("queryEnding_before" Data.Aeson.Types.ToJSON..= getOrderReturnsParametersQueryEndingBefore obj) GHC.Base.<> (("queryExpand" Data.Aeson.Types.ToJSON..= getOrderReturnsParametersQueryExpand obj) GHC.Base.<> (("queryLimit" Data.Aeson.Types.ToJSON..= getOrderReturnsParametersQueryLimit obj) GHC.Base.<> (("queryOrder" Data.Aeson.Types.ToJSON..= getOrderReturnsParametersQueryOrder obj) GHC.Base.<> ("queryStarting_after" Data.Aeson.Types.ToJSON..= getOrderReturnsParametersQueryStartingAfter obj))))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetOrderReturnsParameters where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "GetOrderReturnsParameters" (\obj -> (((((GHC.Base.pure GetOrderReturnsParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryCreated")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryEnding_before")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryExpand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryLimit")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryOrder")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryStarting_after"))
 
--- | Defines the data type for the schema getOrderReturnsParametersQueryCreated\'OneOf2
+-- | Create a new 'GetOrderReturnsParameters' with all required fields.
+mkGetOrderReturnsParameters :: GetOrderReturnsParameters
+mkGetOrderReturnsParameters =
+  GetOrderReturnsParameters
+    { getOrderReturnsParametersQueryCreated = GHC.Maybe.Nothing,
+      getOrderReturnsParametersQueryEndingBefore = GHC.Maybe.Nothing,
+      getOrderReturnsParametersQueryExpand = GHC.Maybe.Nothing,
+      getOrderReturnsParametersQueryLimit = GHC.Maybe.Nothing,
+      getOrderReturnsParametersQueryOrder = GHC.Maybe.Nothing,
+      getOrderReturnsParametersQueryStartingAfter = GHC.Maybe.Nothing
+    }
+
+-- | Defines the object schema located at @paths.\/v1\/order_returns.GET.parameters.properties.queryCreated.anyOf@ in the specification.
 data GetOrderReturnsParametersQueryCreated'OneOf2
   = GetOrderReturnsParametersQueryCreated'OneOf2
       { -- | gt
@@ -157,13 +170,23 @@ data GetOrderReturnsParametersQueryCreated'OneOf2
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetOrderReturnsParametersQueryCreated'OneOf2 where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "gt" (getOrderReturnsParametersQueryCreated'OneOf2Gt obj) : (Data.Aeson..=) "gte" (getOrderReturnsParametersQueryCreated'OneOf2Gte obj) : (Data.Aeson..=) "lt" (getOrderReturnsParametersQueryCreated'OneOf2Lt obj) : (Data.Aeson..=) "lte" (getOrderReturnsParametersQueryCreated'OneOf2Lte obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "gt" (getOrderReturnsParametersQueryCreated'OneOf2Gt obj) GHC.Base.<> ((Data.Aeson..=) "gte" (getOrderReturnsParametersQueryCreated'OneOf2Gte obj) GHC.Base.<> ((Data.Aeson..=) "lt" (getOrderReturnsParametersQueryCreated'OneOf2Lt obj) GHC.Base.<> (Data.Aeson..=) "lte" (getOrderReturnsParametersQueryCreated'OneOf2Lte obj))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("gt" Data.Aeson.Types.ToJSON..= getOrderReturnsParametersQueryCreated'OneOf2Gt obj : "gte" Data.Aeson.Types.ToJSON..= getOrderReturnsParametersQueryCreated'OneOf2Gte obj : "lt" Data.Aeson.Types.ToJSON..= getOrderReturnsParametersQueryCreated'OneOf2Lt obj : "lte" Data.Aeson.Types.ToJSON..= getOrderReturnsParametersQueryCreated'OneOf2Lte obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("gt" Data.Aeson.Types.ToJSON..= getOrderReturnsParametersQueryCreated'OneOf2Gt obj) GHC.Base.<> (("gte" Data.Aeson.Types.ToJSON..= getOrderReturnsParametersQueryCreated'OneOf2Gte obj) GHC.Base.<> (("lt" Data.Aeson.Types.ToJSON..= getOrderReturnsParametersQueryCreated'OneOf2Lt obj) GHC.Base.<> ("lte" Data.Aeson.Types.ToJSON..= getOrderReturnsParametersQueryCreated'OneOf2Lte obj))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetOrderReturnsParametersQueryCreated'OneOf2 where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "GetOrderReturnsParametersQueryCreated'OneOf2" (\obj -> (((GHC.Base.pure GetOrderReturnsParametersQueryCreated'OneOf2 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "gt")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "gte")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "lt")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "lte"))
 
--- | Define the one-of schema getOrderReturnsParametersQueryCreated\'
+-- | Create a new 'GetOrderReturnsParametersQueryCreated'OneOf2' with all required fields.
+mkGetOrderReturnsParametersQueryCreated'OneOf2 :: GetOrderReturnsParametersQueryCreated'OneOf2
+mkGetOrderReturnsParametersQueryCreated'OneOf2 =
+  GetOrderReturnsParametersQueryCreated'OneOf2
+    { getOrderReturnsParametersQueryCreated'OneOf2Gt = GHC.Maybe.Nothing,
+      getOrderReturnsParametersQueryCreated'OneOf2Gte = GHC.Maybe.Nothing,
+      getOrderReturnsParametersQueryCreated'OneOf2Lt = GHC.Maybe.Nothing,
+      getOrderReturnsParametersQueryCreated'OneOf2Lte = GHC.Maybe.Nothing
+    }
+
+-- | Defines the oneOf schema located at @paths.\/v1\/order_returns.GET.parameters.properties.queryCreated.anyOf@ in the specification.
 --
 -- Represents the parameter named \'created\'
 --
@@ -178,11 +201,9 @@ instance Data.Aeson.Types.ToJSON.ToJSON GetOrderReturnsParametersQueryCreated'Va
   toJSON (GetOrderReturnsParametersQueryCreated'GetOrderReturnsParametersQueryCreated'OneOf2 a) = Data.Aeson.Types.ToJSON.toJSON a
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetOrderReturnsParametersQueryCreated'Variants where
-  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
-    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ GetOrderReturnsParametersQueryCreated'Int a
-    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ GetOrderReturnsParametersQueryCreated'GetOrderReturnsParametersQueryCreated'OneOf2 a
-      Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+  parseJSON val = case (GetOrderReturnsParametersQueryCreated'Int Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((GetOrderReturnsParametersQueryCreated'GetOrderReturnsParametersQueryCreated'OneOf2 Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched") of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+    Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
 -- | Represents a response of the operation 'getOrderReturns'.
 --
@@ -196,15 +217,13 @@ data GetOrderReturnsResponse
     GetOrderReturnsResponseDefault Error
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
--- | Defines the data type for the schema GetOrderReturnsResponseBody200
+-- | Defines the object schema located at @paths.\/v1\/order_returns.GET.responses.200.content.application\/json.schema@ in the specification.
 data GetOrderReturnsResponseBody200
   = GetOrderReturnsResponseBody200
       { -- | data
         getOrderReturnsResponseBody200Data :: ([OrderReturn]),
         -- | has_more: True if this list has another page of items after this one that can be fetched.
         getOrderReturnsResponseBody200HasMore :: GHC.Types.Bool,
-        -- | object: String representing the object\'s type. Objects of the same type share the same value. Always has the value \`list\`.
-        getOrderReturnsResponseBody200Object :: GetOrderReturnsResponseBody200Object',
         -- | url: The URL where this list can be accessed.
         --
         -- Constraints:
@@ -219,29 +238,24 @@ data GetOrderReturnsResponseBody200
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetOrderReturnsResponseBody200 where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "data" (getOrderReturnsResponseBody200Data obj) : (Data.Aeson..=) "has_more" (getOrderReturnsResponseBody200HasMore obj) : (Data.Aeson..=) "object" (getOrderReturnsResponseBody200Object obj) : (Data.Aeson..=) "url" (getOrderReturnsResponseBody200Url obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "data" (getOrderReturnsResponseBody200Data obj) GHC.Base.<> ((Data.Aeson..=) "has_more" (getOrderReturnsResponseBody200HasMore obj) GHC.Base.<> ((Data.Aeson..=) "object" (getOrderReturnsResponseBody200Object obj) GHC.Base.<> (Data.Aeson..=) "url" (getOrderReturnsResponseBody200Url obj))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("data" Data.Aeson.Types.ToJSON..= getOrderReturnsResponseBody200Data obj : "has_more" Data.Aeson.Types.ToJSON..= getOrderReturnsResponseBody200HasMore obj : "url" Data.Aeson.Types.ToJSON..= getOrderReturnsResponseBody200Url obj : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "list" : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("data" Data.Aeson.Types.ToJSON..= getOrderReturnsResponseBody200Data obj) GHC.Base.<> (("has_more" Data.Aeson.Types.ToJSON..= getOrderReturnsResponseBody200HasMore obj) GHC.Base.<> (("url" Data.Aeson.Types.ToJSON..= getOrderReturnsResponseBody200Url obj) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "list"))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetOrderReturnsResponseBody200 where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetOrderReturnsResponseBody200" (\obj -> (((GHC.Base.pure GetOrderReturnsResponseBody200 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "has_more")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "object")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "url"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetOrderReturnsResponseBody200" (\obj -> ((GHC.Base.pure GetOrderReturnsResponseBody200 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "has_more")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "url"))
 
--- | Defines the enum schema GetOrderReturnsResponseBody200Object\'
---
--- String representing the object\'s type. Objects of the same type share the same value. Always has the value \`list\`.
-data GetOrderReturnsResponseBody200Object'
-  = GetOrderReturnsResponseBody200Object'EnumOther Data.Aeson.Types.Internal.Value
-  | GetOrderReturnsResponseBody200Object'EnumTyped Data.Text.Internal.Text
-  | GetOrderReturnsResponseBody200Object'EnumStringList
-  deriving (GHC.Show.Show, GHC.Classes.Eq)
-
-instance Data.Aeson.Types.ToJSON.ToJSON GetOrderReturnsResponseBody200Object' where
-  toJSON (GetOrderReturnsResponseBody200Object'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (GetOrderReturnsResponseBody200Object'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (GetOrderReturnsResponseBody200Object'EnumStringList) = "list"
-
-instance Data.Aeson.Types.FromJSON.FromJSON GetOrderReturnsResponseBody200Object' where
-  parseJSON val =
-    GHC.Base.pure
-      ( if  | val GHC.Classes.== "list" -> GetOrderReturnsResponseBody200Object'EnumStringList
-            | GHC.Base.otherwise -> GetOrderReturnsResponseBody200Object'EnumOther val
-      )
+-- | Create a new 'GetOrderReturnsResponseBody200' with all required fields.
+mkGetOrderReturnsResponseBody200 ::
+  -- | 'getOrderReturnsResponseBody200Data'
+  [OrderReturn] ->
+  -- | 'getOrderReturnsResponseBody200HasMore'
+  GHC.Types.Bool ->
+  -- | 'getOrderReturnsResponseBody200Url'
+  Data.Text.Internal.Text ->
+  GetOrderReturnsResponseBody200
+mkGetOrderReturnsResponseBody200 getOrderReturnsResponseBody200Data getOrderReturnsResponseBody200HasMore getOrderReturnsResponseBody200Url =
+  GetOrderReturnsResponseBody200
+    { getOrderReturnsResponseBody200Data = getOrderReturnsResponseBody200Data,
+      getOrderReturnsResponseBody200HasMore = getOrderReturnsResponseBody200HasMore,
+      getOrderReturnsResponseBody200Url = getOrderReturnsResponseBody200Url
+    }

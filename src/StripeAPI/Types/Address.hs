@@ -8,6 +8,7 @@ module StripeAPI.Types.Address where
 
 import qualified Control.Monad.Fail
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -30,7 +31,7 @@ import StripeAPI.TypeAlias
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
--- | Defines the data type for the schema address
+-- | Defines the object schema located at @components.schemas.address@ in the specification.
 data Address
   = Address
       { -- | city: City, district, suburb, town, or village.
@@ -76,8 +77,20 @@ data Address
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON Address where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "city" (addressCity obj) : (Data.Aeson..=) "country" (addressCountry obj) : (Data.Aeson..=) "line1" (addressLine1 obj) : (Data.Aeson..=) "line2" (addressLine2 obj) : (Data.Aeson..=) "postal_code" (addressPostalCode obj) : (Data.Aeson..=) "state" (addressState obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "city" (addressCity obj) GHC.Base.<> ((Data.Aeson..=) "country" (addressCountry obj) GHC.Base.<> ((Data.Aeson..=) "line1" (addressLine1 obj) GHC.Base.<> ((Data.Aeson..=) "line2" (addressLine2 obj) GHC.Base.<> ((Data.Aeson..=) "postal_code" (addressPostalCode obj) GHC.Base.<> (Data.Aeson..=) "state" (addressState obj))))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("city" Data.Aeson.Types.ToJSON..= addressCity obj : "country" Data.Aeson.Types.ToJSON..= addressCountry obj : "line1" Data.Aeson.Types.ToJSON..= addressLine1 obj : "line2" Data.Aeson.Types.ToJSON..= addressLine2 obj : "postal_code" Data.Aeson.Types.ToJSON..= addressPostalCode obj : "state" Data.Aeson.Types.ToJSON..= addressState obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("city" Data.Aeson.Types.ToJSON..= addressCity obj) GHC.Base.<> (("country" Data.Aeson.Types.ToJSON..= addressCountry obj) GHC.Base.<> (("line1" Data.Aeson.Types.ToJSON..= addressLine1 obj) GHC.Base.<> (("line2" Data.Aeson.Types.ToJSON..= addressLine2 obj) GHC.Base.<> (("postal_code" Data.Aeson.Types.ToJSON..= addressPostalCode obj) GHC.Base.<> ("state" Data.Aeson.Types.ToJSON..= addressState obj))))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON Address where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "Address" (\obj -> (((((GHC.Base.pure Address GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "city")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "country")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "line1")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "line2")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "postal_code")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "state"))
+
+-- | Create a new 'Address' with all required fields.
+mkAddress :: Address
+mkAddress =
+  Address
+    { addressCity = GHC.Maybe.Nothing,
+      addressCountry = GHC.Maybe.Nothing,
+      addressLine1 = GHC.Maybe.Nothing,
+      addressLine2 = GHC.Maybe.Nothing,
+      addressPostalCode = GHC.Maybe.Nothing,
+      addressState = GHC.Maybe.Nothing
+    }

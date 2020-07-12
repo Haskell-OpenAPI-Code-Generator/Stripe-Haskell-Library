@@ -10,6 +10,7 @@ module StripeAPI.Operations.PostChargesCharge where
 import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -81,7 +82,7 @@ postChargesCharge
       )
       (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack ("/v1/charges/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel charge)) GHC.Base.++ ""))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
 
--- | Defines the data type for the schema postChargesChargeRequestBody
+-- | Defines the object schema located at @paths.\/v1\/charges\/{charge}.POST.requestBody.content.application\/x-www-form-urlencoded.schema@ in the specification.
 data PostChargesChargeRequestBody
   = PostChargesChargeRequestBody
       { -- | customer: The ID of an existing customer that will be associated with this request. This field may only be updated if there is no existing associated customer with this charge.
@@ -119,13 +120,27 @@ data PostChargesChargeRequestBody
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostChargesChargeRequestBody where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "customer" (postChargesChargeRequestBodyCustomer obj) : (Data.Aeson..=) "description" (postChargesChargeRequestBodyDescription obj) : (Data.Aeson..=) "expand" (postChargesChargeRequestBodyExpand obj) : (Data.Aeson..=) "fraud_details" (postChargesChargeRequestBodyFraudDetails obj) : (Data.Aeson..=) "metadata" (postChargesChargeRequestBodyMetadata obj) : (Data.Aeson..=) "receipt_email" (postChargesChargeRequestBodyReceiptEmail obj) : (Data.Aeson..=) "shipping" (postChargesChargeRequestBodyShipping obj) : (Data.Aeson..=) "transfer_group" (postChargesChargeRequestBodyTransferGroup obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "customer" (postChargesChargeRequestBodyCustomer obj) GHC.Base.<> ((Data.Aeson..=) "description" (postChargesChargeRequestBodyDescription obj) GHC.Base.<> ((Data.Aeson..=) "expand" (postChargesChargeRequestBodyExpand obj) GHC.Base.<> ((Data.Aeson..=) "fraud_details" (postChargesChargeRequestBodyFraudDetails obj) GHC.Base.<> ((Data.Aeson..=) "metadata" (postChargesChargeRequestBodyMetadata obj) GHC.Base.<> ((Data.Aeson..=) "receipt_email" (postChargesChargeRequestBodyReceiptEmail obj) GHC.Base.<> ((Data.Aeson..=) "shipping" (postChargesChargeRequestBodyShipping obj) GHC.Base.<> (Data.Aeson..=) "transfer_group" (postChargesChargeRequestBodyTransferGroup obj))))))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("customer" Data.Aeson.Types.ToJSON..= postChargesChargeRequestBodyCustomer obj : "description" Data.Aeson.Types.ToJSON..= postChargesChargeRequestBodyDescription obj : "expand" Data.Aeson.Types.ToJSON..= postChargesChargeRequestBodyExpand obj : "fraud_details" Data.Aeson.Types.ToJSON..= postChargesChargeRequestBodyFraudDetails obj : "metadata" Data.Aeson.Types.ToJSON..= postChargesChargeRequestBodyMetadata obj : "receipt_email" Data.Aeson.Types.ToJSON..= postChargesChargeRequestBodyReceiptEmail obj : "shipping" Data.Aeson.Types.ToJSON..= postChargesChargeRequestBodyShipping obj : "transfer_group" Data.Aeson.Types.ToJSON..= postChargesChargeRequestBodyTransferGroup obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("customer" Data.Aeson.Types.ToJSON..= postChargesChargeRequestBodyCustomer obj) GHC.Base.<> (("description" Data.Aeson.Types.ToJSON..= postChargesChargeRequestBodyDescription obj) GHC.Base.<> (("expand" Data.Aeson.Types.ToJSON..= postChargesChargeRequestBodyExpand obj) GHC.Base.<> (("fraud_details" Data.Aeson.Types.ToJSON..= postChargesChargeRequestBodyFraudDetails obj) GHC.Base.<> (("metadata" Data.Aeson.Types.ToJSON..= postChargesChargeRequestBodyMetadata obj) GHC.Base.<> (("receipt_email" Data.Aeson.Types.ToJSON..= postChargesChargeRequestBodyReceiptEmail obj) GHC.Base.<> (("shipping" Data.Aeson.Types.ToJSON..= postChargesChargeRequestBodyShipping obj) GHC.Base.<> ("transfer_group" Data.Aeson.Types.ToJSON..= postChargesChargeRequestBodyTransferGroup obj))))))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostChargesChargeRequestBody where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PostChargesChargeRequestBody" (\obj -> (((((((GHC.Base.pure PostChargesChargeRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "customer")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "description")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "fraud_details")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "receipt_email")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "shipping")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "transfer_group"))
 
--- | Defines the data type for the schema postChargesChargeRequestBodyFraud_details\'
+-- | Create a new 'PostChargesChargeRequestBody' with all required fields.
+mkPostChargesChargeRequestBody :: PostChargesChargeRequestBody
+mkPostChargesChargeRequestBody =
+  PostChargesChargeRequestBody
+    { postChargesChargeRequestBodyCustomer = GHC.Maybe.Nothing,
+      postChargesChargeRequestBodyDescription = GHC.Maybe.Nothing,
+      postChargesChargeRequestBodyExpand = GHC.Maybe.Nothing,
+      postChargesChargeRequestBodyFraudDetails = GHC.Maybe.Nothing,
+      postChargesChargeRequestBodyMetadata = GHC.Maybe.Nothing,
+      postChargesChargeRequestBodyReceiptEmail = GHC.Maybe.Nothing,
+      postChargesChargeRequestBodyShipping = GHC.Maybe.Nothing,
+      postChargesChargeRequestBodyTransferGroup = GHC.Maybe.Nothing
+    }
+
+-- | Defines the object schema located at @paths.\/v1\/charges\/{charge}.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.fraud_details@ in the specification.
 --
 -- A set of key-value pairs you can attach to a charge giving information about its riskiness. If you believe a charge is fraudulent, include a \`user_report\` key with a value of \`fraudulent\`. If you believe a charge is safe, include a \`user_report\` key with a value of \`safe\`. Stripe will use the information you send to improve our fraud detection algorithms.
 data PostChargesChargeRequestBodyFraudDetails'
@@ -143,38 +158,50 @@ data PostChargesChargeRequestBodyFraudDetails'
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostChargesChargeRequestBodyFraudDetails' where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "user_report" (postChargesChargeRequestBodyFraudDetails'UserReport obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "user_report" (postChargesChargeRequestBodyFraudDetails'UserReport obj))
+  toJSON obj = Data.Aeson.Types.Internal.object ("user_report" Data.Aeson.Types.ToJSON..= postChargesChargeRequestBodyFraudDetails'UserReport obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs ("user_report" Data.Aeson.Types.ToJSON..= postChargesChargeRequestBodyFraudDetails'UserReport obj)
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostChargesChargeRequestBodyFraudDetails' where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PostChargesChargeRequestBodyFraudDetails'" (\obj -> GHC.Base.pure PostChargesChargeRequestBodyFraudDetails' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "user_report"))
 
--- | Defines the enum schema postChargesChargeRequestBodyFraud_details\'User_report\'
+-- | Create a new 'PostChargesChargeRequestBodyFraudDetails'' with all required fields.
+mkPostChargesChargeRequestBodyFraudDetails' ::
+  -- | 'postChargesChargeRequestBodyFraudDetails'UserReport'
+  PostChargesChargeRequestBodyFraudDetails'UserReport' ->
+  PostChargesChargeRequestBodyFraudDetails'
+mkPostChargesChargeRequestBodyFraudDetails' postChargesChargeRequestBodyFraudDetails'UserReport = PostChargesChargeRequestBodyFraudDetails' {postChargesChargeRequestBodyFraudDetails'UserReport = postChargesChargeRequestBodyFraudDetails'UserReport}
+
+-- | Defines the enum schema located at @paths.\/v1\/charges\/{charge}.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.fraud_details.properties.user_report@ in the specification.
 data PostChargesChargeRequestBodyFraudDetails'UserReport'
-  = PostChargesChargeRequestBodyFraudDetails'UserReport'EnumOther Data.Aeson.Types.Internal.Value
-  | PostChargesChargeRequestBodyFraudDetails'UserReport'EnumTyped Data.Text.Internal.Text
-  | PostChargesChargeRequestBodyFraudDetails'UserReport'EnumString_
-  | PostChargesChargeRequestBodyFraudDetails'UserReport'EnumStringFraudulent
-  | PostChargesChargeRequestBodyFraudDetails'UserReport'EnumStringSafe
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    PostChargesChargeRequestBodyFraudDetails'UserReport'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    PostChargesChargeRequestBodyFraudDetails'UserReport'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @""@
+    PostChargesChargeRequestBodyFraudDetails'UserReport'EnumEmptyString
+  | -- | Represents the JSON value @"fraudulent"@
+    PostChargesChargeRequestBodyFraudDetails'UserReport'EnumFraudulent
+  | -- | Represents the JSON value @"safe"@
+    PostChargesChargeRequestBodyFraudDetails'UserReport'EnumSafe
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostChargesChargeRequestBodyFraudDetails'UserReport' where
-  toJSON (PostChargesChargeRequestBodyFraudDetails'UserReport'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostChargesChargeRequestBodyFraudDetails'UserReport'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostChargesChargeRequestBodyFraudDetails'UserReport'EnumString_) = ""
-  toJSON (PostChargesChargeRequestBodyFraudDetails'UserReport'EnumStringFraudulent) = "fraudulent"
-  toJSON (PostChargesChargeRequestBodyFraudDetails'UserReport'EnumStringSafe) = "safe"
+  toJSON (PostChargesChargeRequestBodyFraudDetails'UserReport'Other val) = val
+  toJSON (PostChargesChargeRequestBodyFraudDetails'UserReport'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PostChargesChargeRequestBodyFraudDetails'UserReport'EnumEmptyString) = ""
+  toJSON (PostChargesChargeRequestBodyFraudDetails'UserReport'EnumFraudulent) = "fraudulent"
+  toJSON (PostChargesChargeRequestBodyFraudDetails'UserReport'EnumSafe) = "safe"
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostChargesChargeRequestBodyFraudDetails'UserReport' where
   parseJSON val =
     GHC.Base.pure
-      ( if  | val GHC.Classes.== "" -> PostChargesChargeRequestBodyFraudDetails'UserReport'EnumString_
-            | val GHC.Classes.== "fraudulent" -> PostChargesChargeRequestBodyFraudDetails'UserReport'EnumStringFraudulent
-            | val GHC.Classes.== "safe" -> PostChargesChargeRequestBodyFraudDetails'UserReport'EnumStringSafe
-            | GHC.Base.otherwise -> PostChargesChargeRequestBodyFraudDetails'UserReport'EnumOther val
+      ( if  | val GHC.Classes.== "" -> PostChargesChargeRequestBodyFraudDetails'UserReport'EnumEmptyString
+            | val GHC.Classes.== "fraudulent" -> PostChargesChargeRequestBodyFraudDetails'UserReport'EnumFraudulent
+            | val GHC.Classes.== "safe" -> PostChargesChargeRequestBodyFraudDetails'UserReport'EnumSafe
+            | GHC.Base.otherwise -> PostChargesChargeRequestBodyFraudDetails'UserReport'Other val
       )
 
--- | Defines the data type for the schema postChargesChargeRequestBodyShipping\'
+-- | Defines the object schema located at @paths.\/v1\/charges\/{charge}.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.shipping@ in the specification.
 --
 -- Shipping information for the charge. Helps prevent fraud on charges for physical goods.
 data PostChargesChargeRequestBodyShipping'
@@ -212,13 +239,29 @@ data PostChargesChargeRequestBodyShipping'
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostChargesChargeRequestBodyShipping' where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "address" (postChargesChargeRequestBodyShipping'Address obj) : (Data.Aeson..=) "carrier" (postChargesChargeRequestBodyShipping'Carrier obj) : (Data.Aeson..=) "name" (postChargesChargeRequestBodyShipping'Name obj) : (Data.Aeson..=) "phone" (postChargesChargeRequestBodyShipping'Phone obj) : (Data.Aeson..=) "tracking_number" (postChargesChargeRequestBodyShipping'TrackingNumber obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "address" (postChargesChargeRequestBodyShipping'Address obj) GHC.Base.<> ((Data.Aeson..=) "carrier" (postChargesChargeRequestBodyShipping'Carrier obj) GHC.Base.<> ((Data.Aeson..=) "name" (postChargesChargeRequestBodyShipping'Name obj) GHC.Base.<> ((Data.Aeson..=) "phone" (postChargesChargeRequestBodyShipping'Phone obj) GHC.Base.<> (Data.Aeson..=) "tracking_number" (postChargesChargeRequestBodyShipping'TrackingNumber obj)))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("address" Data.Aeson.Types.ToJSON..= postChargesChargeRequestBodyShipping'Address obj : "carrier" Data.Aeson.Types.ToJSON..= postChargesChargeRequestBodyShipping'Carrier obj : "name" Data.Aeson.Types.ToJSON..= postChargesChargeRequestBodyShipping'Name obj : "phone" Data.Aeson.Types.ToJSON..= postChargesChargeRequestBodyShipping'Phone obj : "tracking_number" Data.Aeson.Types.ToJSON..= postChargesChargeRequestBodyShipping'TrackingNumber obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("address" Data.Aeson.Types.ToJSON..= postChargesChargeRequestBodyShipping'Address obj) GHC.Base.<> (("carrier" Data.Aeson.Types.ToJSON..= postChargesChargeRequestBodyShipping'Carrier obj) GHC.Base.<> (("name" Data.Aeson.Types.ToJSON..= postChargesChargeRequestBodyShipping'Name obj) GHC.Base.<> (("phone" Data.Aeson.Types.ToJSON..= postChargesChargeRequestBodyShipping'Phone obj) GHC.Base.<> ("tracking_number" Data.Aeson.Types.ToJSON..= postChargesChargeRequestBodyShipping'TrackingNumber obj)))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostChargesChargeRequestBodyShipping' where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PostChargesChargeRequestBodyShipping'" (\obj -> ((((GHC.Base.pure PostChargesChargeRequestBodyShipping' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "address")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "carrier")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "phone")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "tracking_number"))
 
--- | Defines the data type for the schema postChargesChargeRequestBodyShipping\'Address\'
+-- | Create a new 'PostChargesChargeRequestBodyShipping'' with all required fields.
+mkPostChargesChargeRequestBodyShipping' ::
+  -- | 'postChargesChargeRequestBodyShipping'Address'
+  PostChargesChargeRequestBodyShipping'Address' ->
+  -- | 'postChargesChargeRequestBodyShipping'Name'
+  Data.Text.Internal.Text ->
+  PostChargesChargeRequestBodyShipping'
+mkPostChargesChargeRequestBodyShipping' postChargesChargeRequestBodyShipping'Address postChargesChargeRequestBodyShipping'Name =
+  PostChargesChargeRequestBodyShipping'
+    { postChargesChargeRequestBodyShipping'Address = postChargesChargeRequestBodyShipping'Address,
+      postChargesChargeRequestBodyShipping'Carrier = GHC.Maybe.Nothing,
+      postChargesChargeRequestBodyShipping'Name = postChargesChargeRequestBodyShipping'Name,
+      postChargesChargeRequestBodyShipping'Phone = GHC.Maybe.Nothing,
+      postChargesChargeRequestBodyShipping'TrackingNumber = GHC.Maybe.Nothing
+    }
+
+-- | Defines the object schema located at @paths.\/v1\/charges\/{charge}.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.shipping.properties.address@ in the specification.
 data PostChargesChargeRequestBodyShipping'Address'
   = PostChargesChargeRequestBodyShipping'Address'
       { -- | city
@@ -264,11 +307,26 @@ data PostChargesChargeRequestBodyShipping'Address'
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostChargesChargeRequestBodyShipping'Address' where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "city" (postChargesChargeRequestBodyShipping'Address'City obj) : (Data.Aeson..=) "country" (postChargesChargeRequestBodyShipping'Address'Country obj) : (Data.Aeson..=) "line1" (postChargesChargeRequestBodyShipping'Address'Line1 obj) : (Data.Aeson..=) "line2" (postChargesChargeRequestBodyShipping'Address'Line2 obj) : (Data.Aeson..=) "postal_code" (postChargesChargeRequestBodyShipping'Address'PostalCode obj) : (Data.Aeson..=) "state" (postChargesChargeRequestBodyShipping'Address'State obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "city" (postChargesChargeRequestBodyShipping'Address'City obj) GHC.Base.<> ((Data.Aeson..=) "country" (postChargesChargeRequestBodyShipping'Address'Country obj) GHC.Base.<> ((Data.Aeson..=) "line1" (postChargesChargeRequestBodyShipping'Address'Line1 obj) GHC.Base.<> ((Data.Aeson..=) "line2" (postChargesChargeRequestBodyShipping'Address'Line2 obj) GHC.Base.<> ((Data.Aeson..=) "postal_code" (postChargesChargeRequestBodyShipping'Address'PostalCode obj) GHC.Base.<> (Data.Aeson..=) "state" (postChargesChargeRequestBodyShipping'Address'State obj))))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("city" Data.Aeson.Types.ToJSON..= postChargesChargeRequestBodyShipping'Address'City obj : "country" Data.Aeson.Types.ToJSON..= postChargesChargeRequestBodyShipping'Address'Country obj : "line1" Data.Aeson.Types.ToJSON..= postChargesChargeRequestBodyShipping'Address'Line1 obj : "line2" Data.Aeson.Types.ToJSON..= postChargesChargeRequestBodyShipping'Address'Line2 obj : "postal_code" Data.Aeson.Types.ToJSON..= postChargesChargeRequestBodyShipping'Address'PostalCode obj : "state" Data.Aeson.Types.ToJSON..= postChargesChargeRequestBodyShipping'Address'State obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("city" Data.Aeson.Types.ToJSON..= postChargesChargeRequestBodyShipping'Address'City obj) GHC.Base.<> (("country" Data.Aeson.Types.ToJSON..= postChargesChargeRequestBodyShipping'Address'Country obj) GHC.Base.<> (("line1" Data.Aeson.Types.ToJSON..= postChargesChargeRequestBodyShipping'Address'Line1 obj) GHC.Base.<> (("line2" Data.Aeson.Types.ToJSON..= postChargesChargeRequestBodyShipping'Address'Line2 obj) GHC.Base.<> (("postal_code" Data.Aeson.Types.ToJSON..= postChargesChargeRequestBodyShipping'Address'PostalCode obj) GHC.Base.<> ("state" Data.Aeson.Types.ToJSON..= postChargesChargeRequestBodyShipping'Address'State obj))))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostChargesChargeRequestBodyShipping'Address' where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PostChargesChargeRequestBodyShipping'Address'" (\obj -> (((((GHC.Base.pure PostChargesChargeRequestBodyShipping'Address' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "city")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "country")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "line1")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "line2")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "postal_code")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "state"))
+
+-- | Create a new 'PostChargesChargeRequestBodyShipping'Address'' with all required fields.
+mkPostChargesChargeRequestBodyShipping'Address' ::
+  -- | 'postChargesChargeRequestBodyShipping'Address'Line1'
+  Data.Text.Internal.Text ->
+  PostChargesChargeRequestBodyShipping'Address'
+mkPostChargesChargeRequestBodyShipping'Address' postChargesChargeRequestBodyShipping'Address'Line1 =
+  PostChargesChargeRequestBodyShipping'Address'
+    { postChargesChargeRequestBodyShipping'Address'City = GHC.Maybe.Nothing,
+      postChargesChargeRequestBodyShipping'Address'Country = GHC.Maybe.Nothing,
+      postChargesChargeRequestBodyShipping'Address'Line1 = postChargesChargeRequestBodyShipping'Address'Line1,
+      postChargesChargeRequestBodyShipping'Address'Line2 = GHC.Maybe.Nothing,
+      postChargesChargeRequestBodyShipping'Address'PostalCode = GHC.Maybe.Nothing,
+      postChargesChargeRequestBodyShipping'Address'State = GHC.Maybe.Nothing
+    }
 
 -- | Represents a response of the operation 'postChargesCharge'.
 --

@@ -8,6 +8,7 @@ module StripeAPI.Types.SourceTypeMultibanco where
 
 import qualified Control.Monad.Fail
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -30,7 +31,7 @@ import StripeAPI.TypeAlias
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
--- | Defines the data type for the schema source_type_multibanco
+-- | Defines the object schema located at @components.schemas.source_type_multibanco@ in the specification.
 data SourceTypeMultibanco
   = SourceTypeMultibanco
       { -- | entity
@@ -60,8 +61,24 @@ data SourceTypeMultibanco
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON SourceTypeMultibanco where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "entity" (sourceTypeMultibancoEntity obj) : (Data.Aeson..=) "reference" (sourceTypeMultibancoReference obj) : (Data.Aeson..=) "refund_account_holder_address_city" (sourceTypeMultibancoRefundAccountHolderAddressCity obj) : (Data.Aeson..=) "refund_account_holder_address_country" (sourceTypeMultibancoRefundAccountHolderAddressCountry obj) : (Data.Aeson..=) "refund_account_holder_address_line1" (sourceTypeMultibancoRefundAccountHolderAddressLine1 obj) : (Data.Aeson..=) "refund_account_holder_address_line2" (sourceTypeMultibancoRefundAccountHolderAddressLine2 obj) : (Data.Aeson..=) "refund_account_holder_address_postal_code" (sourceTypeMultibancoRefundAccountHolderAddressPostalCode obj) : (Data.Aeson..=) "refund_account_holder_address_state" (sourceTypeMultibancoRefundAccountHolderAddressState obj) : (Data.Aeson..=) "refund_account_holder_name" (sourceTypeMultibancoRefundAccountHolderName obj) : (Data.Aeson..=) "refund_iban" (sourceTypeMultibancoRefundIban obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "entity" (sourceTypeMultibancoEntity obj) GHC.Base.<> ((Data.Aeson..=) "reference" (sourceTypeMultibancoReference obj) GHC.Base.<> ((Data.Aeson..=) "refund_account_holder_address_city" (sourceTypeMultibancoRefundAccountHolderAddressCity obj) GHC.Base.<> ((Data.Aeson..=) "refund_account_holder_address_country" (sourceTypeMultibancoRefundAccountHolderAddressCountry obj) GHC.Base.<> ((Data.Aeson..=) "refund_account_holder_address_line1" (sourceTypeMultibancoRefundAccountHolderAddressLine1 obj) GHC.Base.<> ((Data.Aeson..=) "refund_account_holder_address_line2" (sourceTypeMultibancoRefundAccountHolderAddressLine2 obj) GHC.Base.<> ((Data.Aeson..=) "refund_account_holder_address_postal_code" (sourceTypeMultibancoRefundAccountHolderAddressPostalCode obj) GHC.Base.<> ((Data.Aeson..=) "refund_account_holder_address_state" (sourceTypeMultibancoRefundAccountHolderAddressState obj) GHC.Base.<> ((Data.Aeson..=) "refund_account_holder_name" (sourceTypeMultibancoRefundAccountHolderName obj) GHC.Base.<> (Data.Aeson..=) "refund_iban" (sourceTypeMultibancoRefundIban obj))))))))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("entity" Data.Aeson.Types.ToJSON..= sourceTypeMultibancoEntity obj : "reference" Data.Aeson.Types.ToJSON..= sourceTypeMultibancoReference obj : "refund_account_holder_address_city" Data.Aeson.Types.ToJSON..= sourceTypeMultibancoRefundAccountHolderAddressCity obj : "refund_account_holder_address_country" Data.Aeson.Types.ToJSON..= sourceTypeMultibancoRefundAccountHolderAddressCountry obj : "refund_account_holder_address_line1" Data.Aeson.Types.ToJSON..= sourceTypeMultibancoRefundAccountHolderAddressLine1 obj : "refund_account_holder_address_line2" Data.Aeson.Types.ToJSON..= sourceTypeMultibancoRefundAccountHolderAddressLine2 obj : "refund_account_holder_address_postal_code" Data.Aeson.Types.ToJSON..= sourceTypeMultibancoRefundAccountHolderAddressPostalCode obj : "refund_account_holder_address_state" Data.Aeson.Types.ToJSON..= sourceTypeMultibancoRefundAccountHolderAddressState obj : "refund_account_holder_name" Data.Aeson.Types.ToJSON..= sourceTypeMultibancoRefundAccountHolderName obj : "refund_iban" Data.Aeson.Types.ToJSON..= sourceTypeMultibancoRefundIban obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("entity" Data.Aeson.Types.ToJSON..= sourceTypeMultibancoEntity obj) GHC.Base.<> (("reference" Data.Aeson.Types.ToJSON..= sourceTypeMultibancoReference obj) GHC.Base.<> (("refund_account_holder_address_city" Data.Aeson.Types.ToJSON..= sourceTypeMultibancoRefundAccountHolderAddressCity obj) GHC.Base.<> (("refund_account_holder_address_country" Data.Aeson.Types.ToJSON..= sourceTypeMultibancoRefundAccountHolderAddressCountry obj) GHC.Base.<> (("refund_account_holder_address_line1" Data.Aeson.Types.ToJSON..= sourceTypeMultibancoRefundAccountHolderAddressLine1 obj) GHC.Base.<> (("refund_account_holder_address_line2" Data.Aeson.Types.ToJSON..= sourceTypeMultibancoRefundAccountHolderAddressLine2 obj) GHC.Base.<> (("refund_account_holder_address_postal_code" Data.Aeson.Types.ToJSON..= sourceTypeMultibancoRefundAccountHolderAddressPostalCode obj) GHC.Base.<> (("refund_account_holder_address_state" Data.Aeson.Types.ToJSON..= sourceTypeMultibancoRefundAccountHolderAddressState obj) GHC.Base.<> (("refund_account_holder_name" Data.Aeson.Types.ToJSON..= sourceTypeMultibancoRefundAccountHolderName obj) GHC.Base.<> ("refund_iban" Data.Aeson.Types.ToJSON..= sourceTypeMultibancoRefundIban obj))))))))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON SourceTypeMultibanco where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "SourceTypeMultibanco" (\obj -> (((((((((GHC.Base.pure SourceTypeMultibanco GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "entity")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "reference")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "refund_account_holder_address_city")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "refund_account_holder_address_country")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "refund_account_holder_address_line1")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "refund_account_holder_address_line2")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "refund_account_holder_address_postal_code")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "refund_account_holder_address_state")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "refund_account_holder_name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "refund_iban"))
+
+-- | Create a new 'SourceTypeMultibanco' with all required fields.
+mkSourceTypeMultibanco :: SourceTypeMultibanco
+mkSourceTypeMultibanco =
+  SourceTypeMultibanco
+    { sourceTypeMultibancoEntity = GHC.Maybe.Nothing,
+      sourceTypeMultibancoReference = GHC.Maybe.Nothing,
+      sourceTypeMultibancoRefundAccountHolderAddressCity = GHC.Maybe.Nothing,
+      sourceTypeMultibancoRefundAccountHolderAddressCountry = GHC.Maybe.Nothing,
+      sourceTypeMultibancoRefundAccountHolderAddressLine1 = GHC.Maybe.Nothing,
+      sourceTypeMultibancoRefundAccountHolderAddressLine2 = GHC.Maybe.Nothing,
+      sourceTypeMultibancoRefundAccountHolderAddressPostalCode = GHC.Maybe.Nothing,
+      sourceTypeMultibancoRefundAccountHolderAddressState = GHC.Maybe.Nothing,
+      sourceTypeMultibancoRefundAccountHolderName = GHC.Maybe.Nothing,
+      sourceTypeMultibancoRefundIban = GHC.Maybe.Nothing
+    }

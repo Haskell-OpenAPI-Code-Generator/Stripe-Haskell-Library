@@ -1,11 +1,11 @@
 module StripeAPI.Types.Checkout_Session where
 import Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Types.Internal
-data Checkout'session 
-instance Show Checkout'session 
-instance Eq Checkout'session 
-instance FromJSON Checkout'session 
-instance ToJSON Checkout'session 
+data Checkout'session
+instance Show Checkout'session
+instance Eq Checkout'session
+instance FromJSON Checkout'session
+instance ToJSON Checkout'session
 data Checkout'sessionCustomer'Variants
 instance Show Checkout'sessionCustomer'Variants
 instance Eq Checkout'sessionCustomer'Variants
@@ -21,11 +21,6 @@ instance Show Checkout'sessionMode'
 instance Eq Checkout'sessionMode'
 instance FromJSON Checkout'sessionMode'
 instance ToJSON Checkout'sessionMode'
-data Checkout'sessionObject'
-instance Show Checkout'sessionObject'
-instance Eq Checkout'sessionObject'
-instance FromJSON Checkout'sessionObject'
-instance ToJSON Checkout'sessionObject'
 data Checkout'sessionPaymentIntent'Variants
 instance Show Checkout'sessionPaymentIntent'Variants
 instance Eq Checkout'sessionPaymentIntent'Variants

@@ -10,6 +10,7 @@ module StripeAPI.Operations.PostPaymentIntentsIntentCancel where
 import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -83,7 +84,7 @@ postPaymentIntentsIntentCancel
       )
       (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack ("/v1/payment_intents/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel intent)) GHC.Base.++ "/cancel"))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
 
--- | Defines the data type for the schema postPaymentIntentsIntentCancelRequestBody
+-- | Defines the object schema located at @paths.\/v1\/payment_intents\/{intent}\/cancel.POST.requestBody.content.application\/x-www-form-urlencoded.schema@ in the specification.
 data PostPaymentIntentsIntentCancelRequestBody
   = PostPaymentIntentsIntentCancelRequestBody
       { -- | cancellation_reason: Reason for canceling this PaymentIntent. Possible values are \`duplicate\`, \`fraudulent\`, \`requested_by_customer\`, or \`abandoned\`
@@ -101,40 +102,54 @@ data PostPaymentIntentsIntentCancelRequestBody
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostPaymentIntentsIntentCancelRequestBody where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "cancellation_reason" (postPaymentIntentsIntentCancelRequestBodyCancellationReason obj) : (Data.Aeson..=) "expand" (postPaymentIntentsIntentCancelRequestBodyExpand obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "cancellation_reason" (postPaymentIntentsIntentCancelRequestBodyCancellationReason obj) GHC.Base.<> (Data.Aeson..=) "expand" (postPaymentIntentsIntentCancelRequestBodyExpand obj))
+  toJSON obj = Data.Aeson.Types.Internal.object ("cancellation_reason" Data.Aeson.Types.ToJSON..= postPaymentIntentsIntentCancelRequestBodyCancellationReason obj : "expand" Data.Aeson.Types.ToJSON..= postPaymentIntentsIntentCancelRequestBodyExpand obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("cancellation_reason" Data.Aeson.Types.ToJSON..= postPaymentIntentsIntentCancelRequestBodyCancellationReason obj) GHC.Base.<> ("expand" Data.Aeson.Types.ToJSON..= postPaymentIntentsIntentCancelRequestBodyExpand obj))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostPaymentIntentsIntentCancelRequestBody where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PostPaymentIntentsIntentCancelRequestBody" (\obj -> (GHC.Base.pure PostPaymentIntentsIntentCancelRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "cancellation_reason")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "expand"))
 
--- | Defines the enum schema postPaymentIntentsIntentCancelRequestBodyCancellation_reason\'
+-- | Create a new 'PostPaymentIntentsIntentCancelRequestBody' with all required fields.
+mkPostPaymentIntentsIntentCancelRequestBody :: PostPaymentIntentsIntentCancelRequestBody
+mkPostPaymentIntentsIntentCancelRequestBody =
+  PostPaymentIntentsIntentCancelRequestBody
+    { postPaymentIntentsIntentCancelRequestBodyCancellationReason = GHC.Maybe.Nothing,
+      postPaymentIntentsIntentCancelRequestBodyExpand = GHC.Maybe.Nothing
+    }
+
+-- | Defines the enum schema located at @paths.\/v1\/payment_intents\/{intent}\/cancel.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.cancellation_reason@ in the specification.
 --
 -- Reason for canceling this PaymentIntent. Possible values are \`duplicate\`, \`fraudulent\`, \`requested_by_customer\`, or \`abandoned\`
 data PostPaymentIntentsIntentCancelRequestBodyCancellationReason'
-  = PostPaymentIntentsIntentCancelRequestBodyCancellationReason'EnumOther Data.Aeson.Types.Internal.Value
-  | PostPaymentIntentsIntentCancelRequestBodyCancellationReason'EnumTyped Data.Text.Internal.Text
-  | PostPaymentIntentsIntentCancelRequestBodyCancellationReason'EnumStringAbandoned
-  | PostPaymentIntentsIntentCancelRequestBodyCancellationReason'EnumStringDuplicate
-  | PostPaymentIntentsIntentCancelRequestBodyCancellationReason'EnumStringFraudulent
-  | PostPaymentIntentsIntentCancelRequestBodyCancellationReason'EnumStringRequestedByCustomer
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    PostPaymentIntentsIntentCancelRequestBodyCancellationReason'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    PostPaymentIntentsIntentCancelRequestBodyCancellationReason'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"abandoned"@
+    PostPaymentIntentsIntentCancelRequestBodyCancellationReason'EnumAbandoned
+  | -- | Represents the JSON value @"duplicate"@
+    PostPaymentIntentsIntentCancelRequestBodyCancellationReason'EnumDuplicate
+  | -- | Represents the JSON value @"fraudulent"@
+    PostPaymentIntentsIntentCancelRequestBodyCancellationReason'EnumFraudulent
+  | -- | Represents the JSON value @"requested_by_customer"@
+    PostPaymentIntentsIntentCancelRequestBodyCancellationReason'EnumRequestedByCustomer
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostPaymentIntentsIntentCancelRequestBodyCancellationReason' where
-  toJSON (PostPaymentIntentsIntentCancelRequestBodyCancellationReason'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostPaymentIntentsIntentCancelRequestBodyCancellationReason'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostPaymentIntentsIntentCancelRequestBodyCancellationReason'EnumStringAbandoned) = "abandoned"
-  toJSON (PostPaymentIntentsIntentCancelRequestBodyCancellationReason'EnumStringDuplicate) = "duplicate"
-  toJSON (PostPaymentIntentsIntentCancelRequestBodyCancellationReason'EnumStringFraudulent) = "fraudulent"
-  toJSON (PostPaymentIntentsIntentCancelRequestBodyCancellationReason'EnumStringRequestedByCustomer) = "requested_by_customer"
+  toJSON (PostPaymentIntentsIntentCancelRequestBodyCancellationReason'Other val) = val
+  toJSON (PostPaymentIntentsIntentCancelRequestBodyCancellationReason'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PostPaymentIntentsIntentCancelRequestBodyCancellationReason'EnumAbandoned) = "abandoned"
+  toJSON (PostPaymentIntentsIntentCancelRequestBodyCancellationReason'EnumDuplicate) = "duplicate"
+  toJSON (PostPaymentIntentsIntentCancelRequestBodyCancellationReason'EnumFraudulent) = "fraudulent"
+  toJSON (PostPaymentIntentsIntentCancelRequestBodyCancellationReason'EnumRequestedByCustomer) = "requested_by_customer"
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostPaymentIntentsIntentCancelRequestBodyCancellationReason' where
   parseJSON val =
     GHC.Base.pure
-      ( if  | val GHC.Classes.== "abandoned" -> PostPaymentIntentsIntentCancelRequestBodyCancellationReason'EnumStringAbandoned
-            | val GHC.Classes.== "duplicate" -> PostPaymentIntentsIntentCancelRequestBodyCancellationReason'EnumStringDuplicate
-            | val GHC.Classes.== "fraudulent" -> PostPaymentIntentsIntentCancelRequestBodyCancellationReason'EnumStringFraudulent
-            | val GHC.Classes.== "requested_by_customer" -> PostPaymentIntentsIntentCancelRequestBodyCancellationReason'EnumStringRequestedByCustomer
-            | GHC.Base.otherwise -> PostPaymentIntentsIntentCancelRequestBodyCancellationReason'EnumOther val
+      ( if  | val GHC.Classes.== "abandoned" -> PostPaymentIntentsIntentCancelRequestBodyCancellationReason'EnumAbandoned
+            | val GHC.Classes.== "duplicate" -> PostPaymentIntentsIntentCancelRequestBodyCancellationReason'EnumDuplicate
+            | val GHC.Classes.== "fraudulent" -> PostPaymentIntentsIntentCancelRequestBodyCancellationReason'EnumFraudulent
+            | val GHC.Classes.== "requested_by_customer" -> PostPaymentIntentsIntentCancelRequestBodyCancellationReason'EnumRequestedByCustomer
+            | GHC.Base.otherwise -> PostPaymentIntentsIntentCancelRequestBodyCancellationReason'Other val
       )
 
 -- | Represents a response of the operation 'postPaymentIntentsIntentCancel'.

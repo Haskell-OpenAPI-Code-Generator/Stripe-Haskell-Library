@@ -10,6 +10,7 @@ module StripeAPI.Operations.PostIssuingTransactionsTransaction where
 import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -81,7 +82,7 @@ postIssuingTransactionsTransaction
       )
       (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack ("/v1/issuing/transactions/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel transaction)) GHC.Base.++ ""))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
 
--- | Defines the data type for the schema postIssuingTransactionsTransactionRequestBody
+-- | Defines the object schema located at @paths.\/v1\/issuing\/transactions\/{transaction}.POST.requestBody.content.application\/x-www-form-urlencoded.schema@ in the specification.
 data PostIssuingTransactionsTransactionRequestBody
   = PostIssuingTransactionsTransactionRequestBody
       { -- | expand: Specifies which fields in the response should be expanded.
@@ -95,49 +96,39 @@ data PostIssuingTransactionsTransactionRequestBody
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostIssuingTransactionsTransactionRequestBody where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "expand" (postIssuingTransactionsTransactionRequestBodyExpand obj) : (Data.Aeson..=) "metadata" (postIssuingTransactionsTransactionRequestBodyMetadata obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "expand" (postIssuingTransactionsTransactionRequestBodyExpand obj) GHC.Base.<> (Data.Aeson..=) "metadata" (postIssuingTransactionsTransactionRequestBodyMetadata obj))
+  toJSON obj = Data.Aeson.Types.Internal.object ("expand" Data.Aeson.Types.ToJSON..= postIssuingTransactionsTransactionRequestBodyExpand obj : "metadata" Data.Aeson.Types.ToJSON..= postIssuingTransactionsTransactionRequestBodyMetadata obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("expand" Data.Aeson.Types.ToJSON..= postIssuingTransactionsTransactionRequestBodyExpand obj) GHC.Base.<> ("metadata" Data.Aeson.Types.ToJSON..= postIssuingTransactionsTransactionRequestBodyMetadata obj))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostIssuingTransactionsTransactionRequestBody where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PostIssuingTransactionsTransactionRequestBody" (\obj -> (GHC.Base.pure PostIssuingTransactionsTransactionRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "metadata"))
 
--- | Defines the enum schema postIssuingTransactionsTransactionRequestBodyMetadata\'OneOf1
-data PostIssuingTransactionsTransactionRequestBodyMetadata'OneOf1
-  = PostIssuingTransactionsTransactionRequestBodyMetadata'OneOf1EnumOther Data.Aeson.Types.Internal.Value
-  | PostIssuingTransactionsTransactionRequestBodyMetadata'OneOf1EnumTyped Data.Text.Internal.Text
-  | PostIssuingTransactionsTransactionRequestBodyMetadata'OneOf1EnumString_
-  deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Create a new 'PostIssuingTransactionsTransactionRequestBody' with all required fields.
+mkPostIssuingTransactionsTransactionRequestBody :: PostIssuingTransactionsTransactionRequestBody
+mkPostIssuingTransactionsTransactionRequestBody =
+  PostIssuingTransactionsTransactionRequestBody
+    { postIssuingTransactionsTransactionRequestBodyExpand = GHC.Maybe.Nothing,
+      postIssuingTransactionsTransactionRequestBodyMetadata = GHC.Maybe.Nothing
+    }
 
-instance Data.Aeson.Types.ToJSON.ToJSON PostIssuingTransactionsTransactionRequestBodyMetadata'OneOf1 where
-  toJSON (PostIssuingTransactionsTransactionRequestBodyMetadata'OneOf1EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostIssuingTransactionsTransactionRequestBodyMetadata'OneOf1EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostIssuingTransactionsTransactionRequestBodyMetadata'OneOf1EnumString_) = ""
-
-instance Data.Aeson.Types.FromJSON.FromJSON PostIssuingTransactionsTransactionRequestBodyMetadata'OneOf1 where
-  parseJSON val =
-    GHC.Base.pure
-      ( if  | val GHC.Classes.== "" -> PostIssuingTransactionsTransactionRequestBodyMetadata'OneOf1EnumString_
-            | GHC.Base.otherwise -> PostIssuingTransactionsTransactionRequestBodyMetadata'OneOf1EnumOther val
-      )
-
--- | Define the one-of schema postIssuingTransactionsTransactionRequestBodyMetadata\'
+-- | Defines the oneOf schema located at @paths.\/v1\/issuing\/transactions\/{transaction}.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.metadata.anyOf@ in the specification.
 --
 -- Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to \`metadata\`.
 data PostIssuingTransactionsTransactionRequestBodyMetadata'Variants
-  = PostIssuingTransactionsTransactionRequestBodyMetadata'PostIssuingTransactionsTransactionRequestBodyMetadata'OneOf1 PostIssuingTransactionsTransactionRequestBodyMetadata'OneOf1
+  = -- | Represents the JSON value @""@
+    PostIssuingTransactionsTransactionRequestBodyMetadata'EmptyString
   | PostIssuingTransactionsTransactionRequestBodyMetadata'Object Data.Aeson.Types.Internal.Object
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostIssuingTransactionsTransactionRequestBodyMetadata'Variants where
-  toJSON (PostIssuingTransactionsTransactionRequestBodyMetadata'PostIssuingTransactionsTransactionRequestBodyMetadata'OneOf1 a) = Data.Aeson.Types.ToJSON.toJSON a
   toJSON (PostIssuingTransactionsTransactionRequestBodyMetadata'Object a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (PostIssuingTransactionsTransactionRequestBodyMetadata'EmptyString) = ""
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostIssuingTransactionsTransactionRequestBodyMetadata'Variants where
-  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
-    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ PostIssuingTransactionsTransactionRequestBodyMetadata'PostIssuingTransactionsTransactionRequestBodyMetadata'OneOf1 a
-    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ PostIssuingTransactionsTransactionRequestBodyMetadata'Object a
-      Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+  parseJSON val =
+    if  | val GHC.Classes.== "" -> GHC.Base.pure PostIssuingTransactionsTransactionRequestBodyMetadata'EmptyString
+        | GHC.Base.otherwise -> case (PostIssuingTransactionsTransactionRequestBodyMetadata'Object Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched" of
+          Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+          Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
 -- | Represents a response of the operation 'postIssuingTransactionsTransaction'.
 --

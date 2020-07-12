@@ -10,6 +10,7 @@ module StripeAPI.Operations.PostSubscriptionSchedulesScheduleRelease where
 import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -81,7 +82,7 @@ postSubscriptionSchedulesScheduleRelease
       )
       (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack ("/v1/subscription_schedules/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel schedule)) GHC.Base.++ "/release"))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
 
--- | Defines the data type for the schema postSubscriptionSchedulesScheduleReleaseRequestBody
+-- | Defines the object schema located at @paths.\/v1\/subscription_schedules\/{schedule}\/release.POST.requestBody.content.application\/x-www-form-urlencoded.schema@ in the specification.
 data PostSubscriptionSchedulesScheduleReleaseRequestBody
   = PostSubscriptionSchedulesScheduleReleaseRequestBody
       { -- | expand: Specifies which fields in the response should be expanded.
@@ -95,11 +96,19 @@ data PostSubscriptionSchedulesScheduleReleaseRequestBody
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostSubscriptionSchedulesScheduleReleaseRequestBody where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "expand" (postSubscriptionSchedulesScheduleReleaseRequestBodyExpand obj) : (Data.Aeson..=) "preserve_cancel_date" (postSubscriptionSchedulesScheduleReleaseRequestBodyPreserveCancelDate obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "expand" (postSubscriptionSchedulesScheduleReleaseRequestBodyExpand obj) GHC.Base.<> (Data.Aeson..=) "preserve_cancel_date" (postSubscriptionSchedulesScheduleReleaseRequestBodyPreserveCancelDate obj))
+  toJSON obj = Data.Aeson.Types.Internal.object ("expand" Data.Aeson.Types.ToJSON..= postSubscriptionSchedulesScheduleReleaseRequestBodyExpand obj : "preserve_cancel_date" Data.Aeson.Types.ToJSON..= postSubscriptionSchedulesScheduleReleaseRequestBodyPreserveCancelDate obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("expand" Data.Aeson.Types.ToJSON..= postSubscriptionSchedulesScheduleReleaseRequestBodyExpand obj) GHC.Base.<> ("preserve_cancel_date" Data.Aeson.Types.ToJSON..= postSubscriptionSchedulesScheduleReleaseRequestBodyPreserveCancelDate obj))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostSubscriptionSchedulesScheduleReleaseRequestBody where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PostSubscriptionSchedulesScheduleReleaseRequestBody" (\obj -> (GHC.Base.pure PostSubscriptionSchedulesScheduleReleaseRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "preserve_cancel_date"))
+
+-- | Create a new 'PostSubscriptionSchedulesScheduleReleaseRequestBody' with all required fields.
+mkPostSubscriptionSchedulesScheduleReleaseRequestBody :: PostSubscriptionSchedulesScheduleReleaseRequestBody
+mkPostSubscriptionSchedulesScheduleReleaseRequestBody =
+  PostSubscriptionSchedulesScheduleReleaseRequestBody
+    { postSubscriptionSchedulesScheduleReleaseRequestBodyExpand = GHC.Maybe.Nothing,
+      postSubscriptionSchedulesScheduleReleaseRequestBodyPreserveCancelDate = GHC.Maybe.Nothing
+    }
 
 -- | Represents a response of the operation 'postSubscriptionSchedulesScheduleRelease'.
 --

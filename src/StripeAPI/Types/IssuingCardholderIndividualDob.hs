@@ -8,6 +8,7 @@ module StripeAPI.Types.IssuingCardholderIndividualDob where
 
 import qualified Control.Monad.Fail
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -30,7 +31,7 @@ import StripeAPI.TypeAlias
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
--- | Defines the data type for the schema issuing_cardholder_individual_dob
+-- | Defines the object schema located at @components.schemas.issuing_cardholder_individual_dob@ in the specification.
 data IssuingCardholderIndividualDob
   = IssuingCardholderIndividualDob
       { -- | day: The day of birth, between 1 and 31.
@@ -46,8 +47,17 @@ data IssuingCardholderIndividualDob
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON IssuingCardholderIndividualDob where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "day" (issuingCardholderIndividualDobDay obj) : (Data.Aeson..=) "month" (issuingCardholderIndividualDobMonth obj) : (Data.Aeson..=) "year" (issuingCardholderIndividualDobYear obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "day" (issuingCardholderIndividualDobDay obj) GHC.Base.<> ((Data.Aeson..=) "month" (issuingCardholderIndividualDobMonth obj) GHC.Base.<> (Data.Aeson..=) "year" (issuingCardholderIndividualDobYear obj)))
+  toJSON obj = Data.Aeson.Types.Internal.object ("day" Data.Aeson.Types.ToJSON..= issuingCardholderIndividualDobDay obj : "month" Data.Aeson.Types.ToJSON..= issuingCardholderIndividualDobMonth obj : "year" Data.Aeson.Types.ToJSON..= issuingCardholderIndividualDobYear obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("day" Data.Aeson.Types.ToJSON..= issuingCardholderIndividualDobDay obj) GHC.Base.<> (("month" Data.Aeson.Types.ToJSON..= issuingCardholderIndividualDobMonth obj) GHC.Base.<> ("year" Data.Aeson.Types.ToJSON..= issuingCardholderIndividualDobYear obj)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON IssuingCardholderIndividualDob where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "IssuingCardholderIndividualDob" (\obj -> ((GHC.Base.pure IssuingCardholderIndividualDob GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "day")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "month")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "year"))
+
+-- | Create a new 'IssuingCardholderIndividualDob' with all required fields.
+mkIssuingCardholderIndividualDob :: IssuingCardholderIndividualDob
+mkIssuingCardholderIndividualDob =
+  IssuingCardholderIndividualDob
+    { issuingCardholderIndividualDobDay = GHC.Maybe.Nothing,
+      issuingCardholderIndividualDobMonth = GHC.Maybe.Nothing,
+      issuingCardholderIndividualDobYear = GHC.Maybe.Nothing
+    }

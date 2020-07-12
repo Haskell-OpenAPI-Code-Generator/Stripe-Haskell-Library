@@ -8,6 +8,7 @@ module StripeAPI.Types.DeletedBankAccount where
 
 import qualified Control.Monad.Fail
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -30,7 +31,7 @@ import StripeAPI.TypeAlias
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
--- | Defines the data type for the schema deleted_bank_account
+-- | Defines the object schema located at @components.schemas.deleted_bank_account@ in the specification.
 data DeletedBankAccount
   = DeletedBankAccount
       { -- | currency: Three-letter [ISO code for the currency](https:\/\/stripe.com\/docs\/payouts) paid out to the bank account.
@@ -39,16 +40,12 @@ data DeletedBankAccount
         --
         -- * Maximum length of 5000
         deletedBankAccountCurrency :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
-        -- | deleted: Always true for a deleted object
-        deletedBankAccountDeleted :: DeletedBankAccountDeleted',
         -- | id: Unique identifier for the object.
         --
         -- Constraints:
         --
         -- * Maximum length of 5000
-        deletedBankAccountId :: Data.Text.Internal.Text,
-        -- | object: String representing the object\'s type. Objects of the same type share the same value.
-        deletedBankAccountObject :: DeletedBankAccountObject'
+        deletedBankAccountId :: Data.Text.Internal.Text
       }
   deriving
     ( GHC.Show.Show,
@@ -56,50 +53,19 @@ data DeletedBankAccount
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON DeletedBankAccount where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "currency" (deletedBankAccountCurrency obj) : (Data.Aeson..=) "deleted" (deletedBankAccountDeleted obj) : (Data.Aeson..=) "id" (deletedBankAccountId obj) : (Data.Aeson..=) "object" (deletedBankAccountObject obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "currency" (deletedBankAccountCurrency obj) GHC.Base.<> ((Data.Aeson..=) "deleted" (deletedBankAccountDeleted obj) GHC.Base.<> ((Data.Aeson..=) "id" (deletedBankAccountId obj) GHC.Base.<> (Data.Aeson..=) "object" (deletedBankAccountObject obj))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("currency" Data.Aeson.Types.ToJSON..= deletedBankAccountCurrency obj : "id" Data.Aeson.Types.ToJSON..= deletedBankAccountId obj : "deleted" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.Bool GHC.Types.True : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "bank_account" : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("currency" Data.Aeson.Types.ToJSON..= deletedBankAccountCurrency obj) GHC.Base.<> (("id" Data.Aeson.Types.ToJSON..= deletedBankAccountId obj) GHC.Base.<> (("deleted" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.Bool GHC.Types.True) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "bank_account"))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON DeletedBankAccount where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "DeletedBankAccount" (\obj -> (((GHC.Base.pure DeletedBankAccount GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "deleted")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "object"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "DeletedBankAccount" (\obj -> (GHC.Base.pure DeletedBankAccount GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id"))
 
--- | Defines the enum schema deleted_bank_accountDeleted\'
---
--- Always true for a deleted object
-data DeletedBankAccountDeleted'
-  = DeletedBankAccountDeleted'EnumOther Data.Aeson.Types.Internal.Value
-  | DeletedBankAccountDeleted'EnumTyped GHC.Types.Bool
-  | DeletedBankAccountDeleted'EnumBoolTrue
-  deriving (GHC.Show.Show, GHC.Classes.Eq)
-
-instance Data.Aeson.Types.ToJSON.ToJSON DeletedBankAccountDeleted' where
-  toJSON (DeletedBankAccountDeleted'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (DeletedBankAccountDeleted'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (DeletedBankAccountDeleted'EnumBoolTrue) = Data.Aeson.Types.Internal.Bool GHC.Types.True
-
-instance Data.Aeson.Types.FromJSON.FromJSON DeletedBankAccountDeleted' where
-  parseJSON val =
-    GHC.Base.pure
-      ( if  | val GHC.Classes.== Data.Aeson.Types.Internal.Bool GHC.Types.True -> DeletedBankAccountDeleted'EnumBoolTrue
-            | GHC.Base.otherwise -> DeletedBankAccountDeleted'EnumOther val
-      )
-
--- | Defines the enum schema deleted_bank_accountObject\'
---
--- String representing the object\'s type. Objects of the same type share the same value.
-data DeletedBankAccountObject'
-  = DeletedBankAccountObject'EnumOther Data.Aeson.Types.Internal.Value
-  | DeletedBankAccountObject'EnumTyped Data.Text.Internal.Text
-  | DeletedBankAccountObject'EnumStringBankAccount
-  deriving (GHC.Show.Show, GHC.Classes.Eq)
-
-instance Data.Aeson.Types.ToJSON.ToJSON DeletedBankAccountObject' where
-  toJSON (DeletedBankAccountObject'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (DeletedBankAccountObject'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (DeletedBankAccountObject'EnumStringBankAccount) = "bank_account"
-
-instance Data.Aeson.Types.FromJSON.FromJSON DeletedBankAccountObject' where
-  parseJSON val =
-    GHC.Base.pure
-      ( if  | val GHC.Classes.== "bank_account" -> DeletedBankAccountObject'EnumStringBankAccount
-            | GHC.Base.otherwise -> DeletedBankAccountObject'EnumOther val
-      )
+-- | Create a new 'DeletedBankAccount' with all required fields.
+mkDeletedBankAccount ::
+  -- | 'deletedBankAccountId'
+  Data.Text.Internal.Text ->
+  DeletedBankAccount
+mkDeletedBankAccount deletedBankAccountId =
+  DeletedBankAccount
+    { deletedBankAccountCurrency = GHC.Maybe.Nothing,
+      deletedBankAccountId = deletedBankAccountId
+    }

@@ -8,6 +8,7 @@ module StripeAPI.Types.ChargeOutcome where
 
 import qualified Control.Monad.Fail
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -31,7 +32,7 @@ import {-# SOURCE #-} StripeAPI.Types.Rule
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
--- | Defines the data type for the schema charge_outcome
+-- | Defines the object schema located at @components.schemas.charge_outcome@ in the specification.
 data ChargeOutcome
   = ChargeOutcome
       { -- | network_status: Possible values are \`approved_by_network\`, \`declined_by_network\`, \`not_sent_to_network\`, and \`reversed_after_approval\`. The value \`reversed_after_approval\` indicates the payment was [blocked by Stripe](https:\/\/stripe.com\/docs\/declines\#blocked-payments) after bank authorization, and may temporarily appear as \"pending\" on a cardholder\'s statement.
@@ -75,13 +76,29 @@ data ChargeOutcome
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON ChargeOutcome where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "network_status" (chargeOutcomeNetworkStatus obj) : (Data.Aeson..=) "reason" (chargeOutcomeReason obj) : (Data.Aeson..=) "risk_level" (chargeOutcomeRiskLevel obj) : (Data.Aeson..=) "risk_score" (chargeOutcomeRiskScore obj) : (Data.Aeson..=) "rule" (chargeOutcomeRule obj) : (Data.Aeson..=) "seller_message" (chargeOutcomeSellerMessage obj) : (Data.Aeson..=) "type" (chargeOutcomeType obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "network_status" (chargeOutcomeNetworkStatus obj) GHC.Base.<> ((Data.Aeson..=) "reason" (chargeOutcomeReason obj) GHC.Base.<> ((Data.Aeson..=) "risk_level" (chargeOutcomeRiskLevel obj) GHC.Base.<> ((Data.Aeson..=) "risk_score" (chargeOutcomeRiskScore obj) GHC.Base.<> ((Data.Aeson..=) "rule" (chargeOutcomeRule obj) GHC.Base.<> ((Data.Aeson..=) "seller_message" (chargeOutcomeSellerMessage obj) GHC.Base.<> (Data.Aeson..=) "type" (chargeOutcomeType obj)))))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("network_status" Data.Aeson.Types.ToJSON..= chargeOutcomeNetworkStatus obj : "reason" Data.Aeson.Types.ToJSON..= chargeOutcomeReason obj : "risk_level" Data.Aeson.Types.ToJSON..= chargeOutcomeRiskLevel obj : "risk_score" Data.Aeson.Types.ToJSON..= chargeOutcomeRiskScore obj : "rule" Data.Aeson.Types.ToJSON..= chargeOutcomeRule obj : "seller_message" Data.Aeson.Types.ToJSON..= chargeOutcomeSellerMessage obj : "type" Data.Aeson.Types.ToJSON..= chargeOutcomeType obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("network_status" Data.Aeson.Types.ToJSON..= chargeOutcomeNetworkStatus obj) GHC.Base.<> (("reason" Data.Aeson.Types.ToJSON..= chargeOutcomeReason obj) GHC.Base.<> (("risk_level" Data.Aeson.Types.ToJSON..= chargeOutcomeRiskLevel obj) GHC.Base.<> (("risk_score" Data.Aeson.Types.ToJSON..= chargeOutcomeRiskScore obj) GHC.Base.<> (("rule" Data.Aeson.Types.ToJSON..= chargeOutcomeRule obj) GHC.Base.<> (("seller_message" Data.Aeson.Types.ToJSON..= chargeOutcomeSellerMessage obj) GHC.Base.<> ("type" Data.Aeson.Types.ToJSON..= chargeOutcomeType obj)))))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON ChargeOutcome where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "ChargeOutcome" (\obj -> ((((((GHC.Base.pure ChargeOutcome GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "network_status")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "reason")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "risk_level")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "risk_score")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "rule")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "seller_message")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "type"))
 
--- | Define the one-of schema charge_outcomeRule\'
+-- | Create a new 'ChargeOutcome' with all required fields.
+mkChargeOutcome ::
+  -- | 'chargeOutcomeType'
+  Data.Text.Internal.Text ->
+  ChargeOutcome
+mkChargeOutcome chargeOutcomeType =
+  ChargeOutcome
+    { chargeOutcomeNetworkStatus = GHC.Maybe.Nothing,
+      chargeOutcomeReason = GHC.Maybe.Nothing,
+      chargeOutcomeRiskLevel = GHC.Maybe.Nothing,
+      chargeOutcomeRiskScore = GHC.Maybe.Nothing,
+      chargeOutcomeRule = GHC.Maybe.Nothing,
+      chargeOutcomeSellerMessage = GHC.Maybe.Nothing,
+      chargeOutcomeType = chargeOutcomeType
+    }
+
+-- | Defines the oneOf schema located at @components.schemas.charge_outcome.properties.rule.anyOf@ in the specification.
 --
 -- The ID of the Radar rule that matched the payment, if applicable.
 data ChargeOutcomeRule'Variants
@@ -94,8 +111,6 @@ instance Data.Aeson.Types.ToJSON.ToJSON ChargeOutcomeRule'Variants where
   toJSON (ChargeOutcomeRule'Text a) = Data.Aeson.Types.ToJSON.toJSON a
 
 instance Data.Aeson.Types.FromJSON.FromJSON ChargeOutcomeRule'Variants where
-  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
-    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ ChargeOutcomeRule'Rule a
-    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ ChargeOutcomeRule'Text a
-      Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+  parseJSON val = case (ChargeOutcomeRule'Rule Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((ChargeOutcomeRule'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched") of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+    Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a

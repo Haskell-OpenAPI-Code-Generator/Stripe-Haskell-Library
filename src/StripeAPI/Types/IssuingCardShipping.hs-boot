@@ -1,11 +1,11 @@
 module StripeAPI.Types.IssuingCardShipping where
 import Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Types.Internal
-data IssuingCardShipping 
-instance Show IssuingCardShipping 
-instance Eq IssuingCardShipping 
-instance FromJSON IssuingCardShipping 
-instance ToJSON IssuingCardShipping 
+data IssuingCardShipping
+instance Show IssuingCardShipping
+instance Eq IssuingCardShipping
+instance FromJSON IssuingCardShipping
+instance ToJSON IssuingCardShipping
 data IssuingCardShippingCarrier'
 instance Show IssuingCardShippingCarrier'
 instance Eq IssuingCardShippingCarrier'

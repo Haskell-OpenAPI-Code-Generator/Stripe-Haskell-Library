@@ -10,6 +10,7 @@ module StripeAPI.Operations.GetChargesChargeRefundsRefund where
 import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -77,7 +78,7 @@ getChargesChargeRefundsRefund parameters =
     )
     (StripeAPI.Common.doCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET") (Data.Text.pack ("/v1/charges/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel (getChargesChargeRefundsRefundParametersPathCharge parameters))) GHC.Base.++ ("/refunds/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel (getChargesChargeRefundsRefundParametersPathRefund parameters))) GHC.Base.++ ""))))) [StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getChargesChargeRefundsRefundParametersQueryExpand parameters) (Data.Text.pack "deepObject") GHC.Types.True])
 
--- | Defines the data type for the schema getChargesChargeRefundsRefundParameters
+-- | Defines the object schema located at @paths.\/v1\/charges\/{charge}\/refunds\/{refund}.GET.parameters@ in the specification.
 data GetChargesChargeRefundsRefundParameters
   = GetChargesChargeRefundsRefundParameters
       { -- | pathCharge: Represents the parameter named \'charge\'
@@ -95,11 +96,25 @@ data GetChargesChargeRefundsRefundParameters
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetChargesChargeRefundsRefundParameters where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "pathCharge" (getChargesChargeRefundsRefundParametersPathCharge obj) : (Data.Aeson..=) "pathRefund" (getChargesChargeRefundsRefundParametersPathRefund obj) : (Data.Aeson..=) "queryExpand" (getChargesChargeRefundsRefundParametersQueryExpand obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "pathCharge" (getChargesChargeRefundsRefundParametersPathCharge obj) GHC.Base.<> ((Data.Aeson..=) "pathRefund" (getChargesChargeRefundsRefundParametersPathRefund obj) GHC.Base.<> (Data.Aeson..=) "queryExpand" (getChargesChargeRefundsRefundParametersQueryExpand obj)))
+  toJSON obj = Data.Aeson.Types.Internal.object ("pathCharge" Data.Aeson.Types.ToJSON..= getChargesChargeRefundsRefundParametersPathCharge obj : "pathRefund" Data.Aeson.Types.ToJSON..= getChargesChargeRefundsRefundParametersPathRefund obj : "queryExpand" Data.Aeson.Types.ToJSON..= getChargesChargeRefundsRefundParametersQueryExpand obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("pathCharge" Data.Aeson.Types.ToJSON..= getChargesChargeRefundsRefundParametersPathCharge obj) GHC.Base.<> (("pathRefund" Data.Aeson.Types.ToJSON..= getChargesChargeRefundsRefundParametersPathRefund obj) GHC.Base.<> ("queryExpand" Data.Aeson.Types.ToJSON..= getChargesChargeRefundsRefundParametersQueryExpand obj)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetChargesChargeRefundsRefundParameters where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "GetChargesChargeRefundsRefundParameters" (\obj -> ((GHC.Base.pure GetChargesChargeRefundsRefundParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathCharge")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathRefund")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryExpand"))
+
+-- | Create a new 'GetChargesChargeRefundsRefundParameters' with all required fields.
+mkGetChargesChargeRefundsRefundParameters ::
+  -- | 'getChargesChargeRefundsRefundParametersPathCharge'
+  Data.Text.Internal.Text ->
+  -- | 'getChargesChargeRefundsRefundParametersPathRefund'
+  Data.Text.Internal.Text ->
+  GetChargesChargeRefundsRefundParameters
+mkGetChargesChargeRefundsRefundParameters getChargesChargeRefundsRefundParametersPathCharge getChargesChargeRefundsRefundParametersPathRefund =
+  GetChargesChargeRefundsRefundParameters
+    { getChargesChargeRefundsRefundParametersPathCharge = getChargesChargeRefundsRefundParametersPathCharge,
+      getChargesChargeRefundsRefundParametersPathRefund = getChargesChargeRefundsRefundParametersPathRefund,
+      getChargesChargeRefundsRefundParametersQueryExpand = GHC.Maybe.Nothing
+    }
 
 -- | Represents a response of the operation 'getChargesChargeRefundsRefund'.
 --

@@ -10,6 +10,7 @@ module StripeAPI.Operations.GetCreditNotesCreditNoteLines where
 import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -85,7 +86,7 @@ getCreditNotesCreditNoteLines parameters =
         ]
     )
 
--- | Defines the data type for the schema getCreditNotesCreditNoteLinesParameters
+-- | Defines the object schema located at @paths.\/v1\/credit_notes\/{credit_note}\/lines.GET.parameters@ in the specification.
 data GetCreditNotesCreditNoteLinesParameters
   = GetCreditNotesCreditNoteLinesParameters
       { -- | pathCredit_note: Represents the parameter named \'credit_note\'
@@ -125,11 +126,25 @@ data GetCreditNotesCreditNoteLinesParameters
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetCreditNotesCreditNoteLinesParameters where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "pathCredit_note" (getCreditNotesCreditNoteLinesParametersPathCreditNote obj) : (Data.Aeson..=) "queryEnding_before" (getCreditNotesCreditNoteLinesParametersQueryEndingBefore obj) : (Data.Aeson..=) "queryExpand" (getCreditNotesCreditNoteLinesParametersQueryExpand obj) : (Data.Aeson..=) "queryLimit" (getCreditNotesCreditNoteLinesParametersQueryLimit obj) : (Data.Aeson..=) "queryStarting_after" (getCreditNotesCreditNoteLinesParametersQueryStartingAfter obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "pathCredit_note" (getCreditNotesCreditNoteLinesParametersPathCreditNote obj) GHC.Base.<> ((Data.Aeson..=) "queryEnding_before" (getCreditNotesCreditNoteLinesParametersQueryEndingBefore obj) GHC.Base.<> ((Data.Aeson..=) "queryExpand" (getCreditNotesCreditNoteLinesParametersQueryExpand obj) GHC.Base.<> ((Data.Aeson..=) "queryLimit" (getCreditNotesCreditNoteLinesParametersQueryLimit obj) GHC.Base.<> (Data.Aeson..=) "queryStarting_after" (getCreditNotesCreditNoteLinesParametersQueryStartingAfter obj)))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("pathCredit_note" Data.Aeson.Types.ToJSON..= getCreditNotesCreditNoteLinesParametersPathCreditNote obj : "queryEnding_before" Data.Aeson.Types.ToJSON..= getCreditNotesCreditNoteLinesParametersQueryEndingBefore obj : "queryExpand" Data.Aeson.Types.ToJSON..= getCreditNotesCreditNoteLinesParametersQueryExpand obj : "queryLimit" Data.Aeson.Types.ToJSON..= getCreditNotesCreditNoteLinesParametersQueryLimit obj : "queryStarting_after" Data.Aeson.Types.ToJSON..= getCreditNotesCreditNoteLinesParametersQueryStartingAfter obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("pathCredit_note" Data.Aeson.Types.ToJSON..= getCreditNotesCreditNoteLinesParametersPathCreditNote obj) GHC.Base.<> (("queryEnding_before" Data.Aeson.Types.ToJSON..= getCreditNotesCreditNoteLinesParametersQueryEndingBefore obj) GHC.Base.<> (("queryExpand" Data.Aeson.Types.ToJSON..= getCreditNotesCreditNoteLinesParametersQueryExpand obj) GHC.Base.<> (("queryLimit" Data.Aeson.Types.ToJSON..= getCreditNotesCreditNoteLinesParametersQueryLimit obj) GHC.Base.<> ("queryStarting_after" Data.Aeson.Types.ToJSON..= getCreditNotesCreditNoteLinesParametersQueryStartingAfter obj)))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetCreditNotesCreditNoteLinesParameters where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "GetCreditNotesCreditNoteLinesParameters" (\obj -> ((((GHC.Base.pure GetCreditNotesCreditNoteLinesParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathCredit_note")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryEnding_before")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryExpand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryLimit")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryStarting_after"))
+
+-- | Create a new 'GetCreditNotesCreditNoteLinesParameters' with all required fields.
+mkGetCreditNotesCreditNoteLinesParameters ::
+  -- | 'getCreditNotesCreditNoteLinesParametersPathCreditNote'
+  Data.Text.Internal.Text ->
+  GetCreditNotesCreditNoteLinesParameters
+mkGetCreditNotesCreditNoteLinesParameters getCreditNotesCreditNoteLinesParametersPathCreditNote =
+  GetCreditNotesCreditNoteLinesParameters
+    { getCreditNotesCreditNoteLinesParametersPathCreditNote = getCreditNotesCreditNoteLinesParametersPathCreditNote,
+      getCreditNotesCreditNoteLinesParametersQueryEndingBefore = GHC.Maybe.Nothing,
+      getCreditNotesCreditNoteLinesParametersQueryExpand = GHC.Maybe.Nothing,
+      getCreditNotesCreditNoteLinesParametersQueryLimit = GHC.Maybe.Nothing,
+      getCreditNotesCreditNoteLinesParametersQueryStartingAfter = GHC.Maybe.Nothing
+    }
 
 -- | Represents a response of the operation 'getCreditNotesCreditNoteLines'.
 --
@@ -143,15 +158,13 @@ data GetCreditNotesCreditNoteLinesResponse
     GetCreditNotesCreditNoteLinesResponseDefault Error
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
--- | Defines the data type for the schema GetCreditNotesCreditNoteLinesResponseBody200
+-- | Defines the object schema located at @paths.\/v1\/credit_notes\/{credit_note}\/lines.GET.responses.200.content.application\/json.schema@ in the specification.
 data GetCreditNotesCreditNoteLinesResponseBody200
   = GetCreditNotesCreditNoteLinesResponseBody200
       { -- | data: Details about each object.
         getCreditNotesCreditNoteLinesResponseBody200Data :: ([CreditNoteLineItem]),
         -- | has_more: True if this list has another page of items after this one that can be fetched.
         getCreditNotesCreditNoteLinesResponseBody200HasMore :: GHC.Types.Bool,
-        -- | object: String representing the object\'s type. Objects of the same type share the same value. Always has the value \`list\`.
-        getCreditNotesCreditNoteLinesResponseBody200Object :: GetCreditNotesCreditNoteLinesResponseBody200Object',
         -- | url: The URL where this list can be accessed.
         --
         -- Constraints:
@@ -165,29 +178,24 @@ data GetCreditNotesCreditNoteLinesResponseBody200
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetCreditNotesCreditNoteLinesResponseBody200 where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "data" (getCreditNotesCreditNoteLinesResponseBody200Data obj) : (Data.Aeson..=) "has_more" (getCreditNotesCreditNoteLinesResponseBody200HasMore obj) : (Data.Aeson..=) "object" (getCreditNotesCreditNoteLinesResponseBody200Object obj) : (Data.Aeson..=) "url" (getCreditNotesCreditNoteLinesResponseBody200Url obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "data" (getCreditNotesCreditNoteLinesResponseBody200Data obj) GHC.Base.<> ((Data.Aeson..=) "has_more" (getCreditNotesCreditNoteLinesResponseBody200HasMore obj) GHC.Base.<> ((Data.Aeson..=) "object" (getCreditNotesCreditNoteLinesResponseBody200Object obj) GHC.Base.<> (Data.Aeson..=) "url" (getCreditNotesCreditNoteLinesResponseBody200Url obj))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("data" Data.Aeson.Types.ToJSON..= getCreditNotesCreditNoteLinesResponseBody200Data obj : "has_more" Data.Aeson.Types.ToJSON..= getCreditNotesCreditNoteLinesResponseBody200HasMore obj : "url" Data.Aeson.Types.ToJSON..= getCreditNotesCreditNoteLinesResponseBody200Url obj : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "list" : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("data" Data.Aeson.Types.ToJSON..= getCreditNotesCreditNoteLinesResponseBody200Data obj) GHC.Base.<> (("has_more" Data.Aeson.Types.ToJSON..= getCreditNotesCreditNoteLinesResponseBody200HasMore obj) GHC.Base.<> (("url" Data.Aeson.Types.ToJSON..= getCreditNotesCreditNoteLinesResponseBody200Url obj) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "list"))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetCreditNotesCreditNoteLinesResponseBody200 where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetCreditNotesCreditNoteLinesResponseBody200" (\obj -> (((GHC.Base.pure GetCreditNotesCreditNoteLinesResponseBody200 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "has_more")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "object")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "url"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetCreditNotesCreditNoteLinesResponseBody200" (\obj -> ((GHC.Base.pure GetCreditNotesCreditNoteLinesResponseBody200 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "has_more")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "url"))
 
--- | Defines the enum schema GetCreditNotesCreditNoteLinesResponseBody200Object\'
---
--- String representing the object\'s type. Objects of the same type share the same value. Always has the value \`list\`.
-data GetCreditNotesCreditNoteLinesResponseBody200Object'
-  = GetCreditNotesCreditNoteLinesResponseBody200Object'EnumOther Data.Aeson.Types.Internal.Value
-  | GetCreditNotesCreditNoteLinesResponseBody200Object'EnumTyped Data.Text.Internal.Text
-  | GetCreditNotesCreditNoteLinesResponseBody200Object'EnumStringList
-  deriving (GHC.Show.Show, GHC.Classes.Eq)
-
-instance Data.Aeson.Types.ToJSON.ToJSON GetCreditNotesCreditNoteLinesResponseBody200Object' where
-  toJSON (GetCreditNotesCreditNoteLinesResponseBody200Object'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (GetCreditNotesCreditNoteLinesResponseBody200Object'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (GetCreditNotesCreditNoteLinesResponseBody200Object'EnumStringList) = "list"
-
-instance Data.Aeson.Types.FromJSON.FromJSON GetCreditNotesCreditNoteLinesResponseBody200Object' where
-  parseJSON val =
-    GHC.Base.pure
-      ( if  | val GHC.Classes.== "list" -> GetCreditNotesCreditNoteLinesResponseBody200Object'EnumStringList
-            | GHC.Base.otherwise -> GetCreditNotesCreditNoteLinesResponseBody200Object'EnumOther val
-      )
+-- | Create a new 'GetCreditNotesCreditNoteLinesResponseBody200' with all required fields.
+mkGetCreditNotesCreditNoteLinesResponseBody200 ::
+  -- | 'getCreditNotesCreditNoteLinesResponseBody200Data'
+  [CreditNoteLineItem] ->
+  -- | 'getCreditNotesCreditNoteLinesResponseBody200HasMore'
+  GHC.Types.Bool ->
+  -- | 'getCreditNotesCreditNoteLinesResponseBody200Url'
+  Data.Text.Internal.Text ->
+  GetCreditNotesCreditNoteLinesResponseBody200
+mkGetCreditNotesCreditNoteLinesResponseBody200 getCreditNotesCreditNoteLinesResponseBody200Data getCreditNotesCreditNoteLinesResponseBody200HasMore getCreditNotesCreditNoteLinesResponseBody200Url =
+  GetCreditNotesCreditNoteLinesResponseBody200
+    { getCreditNotesCreditNoteLinesResponseBody200Data = getCreditNotesCreditNoteLinesResponseBody200Data,
+      getCreditNotesCreditNoteLinesResponseBody200HasMore = getCreditNotesCreditNoteLinesResponseBody200HasMore,
+      getCreditNotesCreditNoteLinesResponseBody200Url = getCreditNotesCreditNoteLinesResponseBody200Url
+    }

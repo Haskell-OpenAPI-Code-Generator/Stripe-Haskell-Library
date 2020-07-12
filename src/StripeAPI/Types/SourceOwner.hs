@@ -8,6 +8,7 @@ module StripeAPI.Types.SourceOwner where
 
 import qualified Control.Monad.Fail
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -31,7 +32,7 @@ import {-# SOURCE #-} StripeAPI.Types.Address
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
--- | Defines the data type for the schema source_owner
+-- | Defines the object schema located at @components.schemas.source_owner@ in the specification.
 data SourceOwner
   = SourceOwner
       { -- | address: Owner\'s address.
@@ -81,13 +82,27 @@ data SourceOwner
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON SourceOwner where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "address" (sourceOwnerAddress obj) : (Data.Aeson..=) "email" (sourceOwnerEmail obj) : (Data.Aeson..=) "name" (sourceOwnerName obj) : (Data.Aeson..=) "phone" (sourceOwnerPhone obj) : (Data.Aeson..=) "verified_address" (sourceOwnerVerifiedAddress obj) : (Data.Aeson..=) "verified_email" (sourceOwnerVerifiedEmail obj) : (Data.Aeson..=) "verified_name" (sourceOwnerVerifiedName obj) : (Data.Aeson..=) "verified_phone" (sourceOwnerVerifiedPhone obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "address" (sourceOwnerAddress obj) GHC.Base.<> ((Data.Aeson..=) "email" (sourceOwnerEmail obj) GHC.Base.<> ((Data.Aeson..=) "name" (sourceOwnerName obj) GHC.Base.<> ((Data.Aeson..=) "phone" (sourceOwnerPhone obj) GHC.Base.<> ((Data.Aeson..=) "verified_address" (sourceOwnerVerifiedAddress obj) GHC.Base.<> ((Data.Aeson..=) "verified_email" (sourceOwnerVerifiedEmail obj) GHC.Base.<> ((Data.Aeson..=) "verified_name" (sourceOwnerVerifiedName obj) GHC.Base.<> (Data.Aeson..=) "verified_phone" (sourceOwnerVerifiedPhone obj))))))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("address" Data.Aeson.Types.ToJSON..= sourceOwnerAddress obj : "email" Data.Aeson.Types.ToJSON..= sourceOwnerEmail obj : "name" Data.Aeson.Types.ToJSON..= sourceOwnerName obj : "phone" Data.Aeson.Types.ToJSON..= sourceOwnerPhone obj : "verified_address" Data.Aeson.Types.ToJSON..= sourceOwnerVerifiedAddress obj : "verified_email" Data.Aeson.Types.ToJSON..= sourceOwnerVerifiedEmail obj : "verified_name" Data.Aeson.Types.ToJSON..= sourceOwnerVerifiedName obj : "verified_phone" Data.Aeson.Types.ToJSON..= sourceOwnerVerifiedPhone obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("address" Data.Aeson.Types.ToJSON..= sourceOwnerAddress obj) GHC.Base.<> (("email" Data.Aeson.Types.ToJSON..= sourceOwnerEmail obj) GHC.Base.<> (("name" Data.Aeson.Types.ToJSON..= sourceOwnerName obj) GHC.Base.<> (("phone" Data.Aeson.Types.ToJSON..= sourceOwnerPhone obj) GHC.Base.<> (("verified_address" Data.Aeson.Types.ToJSON..= sourceOwnerVerifiedAddress obj) GHC.Base.<> (("verified_email" Data.Aeson.Types.ToJSON..= sourceOwnerVerifiedEmail obj) GHC.Base.<> (("verified_name" Data.Aeson.Types.ToJSON..= sourceOwnerVerifiedName obj) GHC.Base.<> ("verified_phone" Data.Aeson.Types.ToJSON..= sourceOwnerVerifiedPhone obj))))))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON SourceOwner where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "SourceOwner" (\obj -> (((((((GHC.Base.pure SourceOwner GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "address")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "email")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "phone")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "verified_address")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "verified_email")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "verified_name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "verified_phone"))
 
--- | Defines the data type for the schema source_ownerAddress\'
+-- | Create a new 'SourceOwner' with all required fields.
+mkSourceOwner :: SourceOwner
+mkSourceOwner =
+  SourceOwner
+    { sourceOwnerAddress = GHC.Maybe.Nothing,
+      sourceOwnerEmail = GHC.Maybe.Nothing,
+      sourceOwnerName = GHC.Maybe.Nothing,
+      sourceOwnerPhone = GHC.Maybe.Nothing,
+      sourceOwnerVerifiedAddress = GHC.Maybe.Nothing,
+      sourceOwnerVerifiedEmail = GHC.Maybe.Nothing,
+      sourceOwnerVerifiedName = GHC.Maybe.Nothing,
+      sourceOwnerVerifiedPhone = GHC.Maybe.Nothing
+    }
+
+-- | Defines the object schema located at @components.schemas.source_owner.properties.address.anyOf@ in the specification.
 --
 -- Owner\\\'s address.
 data SourceOwnerAddress'
@@ -135,13 +150,25 @@ data SourceOwnerAddress'
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON SourceOwnerAddress' where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "city" (sourceOwnerAddress'City obj) : (Data.Aeson..=) "country" (sourceOwnerAddress'Country obj) : (Data.Aeson..=) "line1" (sourceOwnerAddress'Line1 obj) : (Data.Aeson..=) "line2" (sourceOwnerAddress'Line2 obj) : (Data.Aeson..=) "postal_code" (sourceOwnerAddress'PostalCode obj) : (Data.Aeson..=) "state" (sourceOwnerAddress'State obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "city" (sourceOwnerAddress'City obj) GHC.Base.<> ((Data.Aeson..=) "country" (sourceOwnerAddress'Country obj) GHC.Base.<> ((Data.Aeson..=) "line1" (sourceOwnerAddress'Line1 obj) GHC.Base.<> ((Data.Aeson..=) "line2" (sourceOwnerAddress'Line2 obj) GHC.Base.<> ((Data.Aeson..=) "postal_code" (sourceOwnerAddress'PostalCode obj) GHC.Base.<> (Data.Aeson..=) "state" (sourceOwnerAddress'State obj))))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("city" Data.Aeson.Types.ToJSON..= sourceOwnerAddress'City obj : "country" Data.Aeson.Types.ToJSON..= sourceOwnerAddress'Country obj : "line1" Data.Aeson.Types.ToJSON..= sourceOwnerAddress'Line1 obj : "line2" Data.Aeson.Types.ToJSON..= sourceOwnerAddress'Line2 obj : "postal_code" Data.Aeson.Types.ToJSON..= sourceOwnerAddress'PostalCode obj : "state" Data.Aeson.Types.ToJSON..= sourceOwnerAddress'State obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("city" Data.Aeson.Types.ToJSON..= sourceOwnerAddress'City obj) GHC.Base.<> (("country" Data.Aeson.Types.ToJSON..= sourceOwnerAddress'Country obj) GHC.Base.<> (("line1" Data.Aeson.Types.ToJSON..= sourceOwnerAddress'Line1 obj) GHC.Base.<> (("line2" Data.Aeson.Types.ToJSON..= sourceOwnerAddress'Line2 obj) GHC.Base.<> (("postal_code" Data.Aeson.Types.ToJSON..= sourceOwnerAddress'PostalCode obj) GHC.Base.<> ("state" Data.Aeson.Types.ToJSON..= sourceOwnerAddress'State obj))))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON SourceOwnerAddress' where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "SourceOwnerAddress'" (\obj -> (((((GHC.Base.pure SourceOwnerAddress' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "city")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "country")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "line1")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "line2")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "postal_code")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "state"))
 
--- | Defines the data type for the schema source_ownerVerified_address\'
+-- | Create a new 'SourceOwnerAddress'' with all required fields.
+mkSourceOwnerAddress' :: SourceOwnerAddress'
+mkSourceOwnerAddress' =
+  SourceOwnerAddress'
+    { sourceOwnerAddress'City = GHC.Maybe.Nothing,
+      sourceOwnerAddress'Country = GHC.Maybe.Nothing,
+      sourceOwnerAddress'Line1 = GHC.Maybe.Nothing,
+      sourceOwnerAddress'Line2 = GHC.Maybe.Nothing,
+      sourceOwnerAddress'PostalCode = GHC.Maybe.Nothing,
+      sourceOwnerAddress'State = GHC.Maybe.Nothing
+    }
+
+-- | Defines the object schema located at @components.schemas.source_owner.properties.verified_address.anyOf@ in the specification.
 --
 -- Verified owner\\\'s address. Verified values are verified or provided by the payment method directly (and if supported) at the time of authorization or settlement. They cannot be set or mutated.
 data SourceOwnerVerifiedAddress'
@@ -189,8 +216,20 @@ data SourceOwnerVerifiedAddress'
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON SourceOwnerVerifiedAddress' where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "city" (sourceOwnerVerifiedAddress'City obj) : (Data.Aeson..=) "country" (sourceOwnerVerifiedAddress'Country obj) : (Data.Aeson..=) "line1" (sourceOwnerVerifiedAddress'Line1 obj) : (Data.Aeson..=) "line2" (sourceOwnerVerifiedAddress'Line2 obj) : (Data.Aeson..=) "postal_code" (sourceOwnerVerifiedAddress'PostalCode obj) : (Data.Aeson..=) "state" (sourceOwnerVerifiedAddress'State obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "city" (sourceOwnerVerifiedAddress'City obj) GHC.Base.<> ((Data.Aeson..=) "country" (sourceOwnerVerifiedAddress'Country obj) GHC.Base.<> ((Data.Aeson..=) "line1" (sourceOwnerVerifiedAddress'Line1 obj) GHC.Base.<> ((Data.Aeson..=) "line2" (sourceOwnerVerifiedAddress'Line2 obj) GHC.Base.<> ((Data.Aeson..=) "postal_code" (sourceOwnerVerifiedAddress'PostalCode obj) GHC.Base.<> (Data.Aeson..=) "state" (sourceOwnerVerifiedAddress'State obj))))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("city" Data.Aeson.Types.ToJSON..= sourceOwnerVerifiedAddress'City obj : "country" Data.Aeson.Types.ToJSON..= sourceOwnerVerifiedAddress'Country obj : "line1" Data.Aeson.Types.ToJSON..= sourceOwnerVerifiedAddress'Line1 obj : "line2" Data.Aeson.Types.ToJSON..= sourceOwnerVerifiedAddress'Line2 obj : "postal_code" Data.Aeson.Types.ToJSON..= sourceOwnerVerifiedAddress'PostalCode obj : "state" Data.Aeson.Types.ToJSON..= sourceOwnerVerifiedAddress'State obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("city" Data.Aeson.Types.ToJSON..= sourceOwnerVerifiedAddress'City obj) GHC.Base.<> (("country" Data.Aeson.Types.ToJSON..= sourceOwnerVerifiedAddress'Country obj) GHC.Base.<> (("line1" Data.Aeson.Types.ToJSON..= sourceOwnerVerifiedAddress'Line1 obj) GHC.Base.<> (("line2" Data.Aeson.Types.ToJSON..= sourceOwnerVerifiedAddress'Line2 obj) GHC.Base.<> (("postal_code" Data.Aeson.Types.ToJSON..= sourceOwnerVerifiedAddress'PostalCode obj) GHC.Base.<> ("state" Data.Aeson.Types.ToJSON..= sourceOwnerVerifiedAddress'State obj))))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON SourceOwnerVerifiedAddress' where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "SourceOwnerVerifiedAddress'" (\obj -> (((((GHC.Base.pure SourceOwnerVerifiedAddress' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "city")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "country")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "line1")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "line2")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "postal_code")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "state"))
+
+-- | Create a new 'SourceOwnerVerifiedAddress'' with all required fields.
+mkSourceOwnerVerifiedAddress' :: SourceOwnerVerifiedAddress'
+mkSourceOwnerVerifiedAddress' =
+  SourceOwnerVerifiedAddress'
+    { sourceOwnerVerifiedAddress'City = GHC.Maybe.Nothing,
+      sourceOwnerVerifiedAddress'Country = GHC.Maybe.Nothing,
+      sourceOwnerVerifiedAddress'Line1 = GHC.Maybe.Nothing,
+      sourceOwnerVerifiedAddress'Line2 = GHC.Maybe.Nothing,
+      sourceOwnerVerifiedAddress'PostalCode = GHC.Maybe.Nothing,
+      sourceOwnerVerifiedAddress'State = GHC.Maybe.Nothing
+    }

@@ -10,6 +10,7 @@ module StripeAPI.Operations.GetSubscriptionSchedules where
 import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -91,7 +92,7 @@ getSubscriptionSchedules parameters =
         ]
     )
 
--- | Defines the data type for the schema getSubscriptionSchedulesParameters
+-- | Defines the object schema located at @paths.\/v1\/subscription_schedules.GET.parameters@ in the specification.
 data GetSubscriptionSchedulesParameters
   = GetSubscriptionSchedulesParameters
       { -- | queryCanceled_at: Represents the parameter named \'canceled_at\'
@@ -153,13 +154,29 @@ data GetSubscriptionSchedulesParameters
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetSubscriptionSchedulesParameters where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "queryCanceled_at" (getSubscriptionSchedulesParametersQueryCanceledAt obj) : (Data.Aeson..=) "queryCompleted_at" (getSubscriptionSchedulesParametersQueryCompletedAt obj) : (Data.Aeson..=) "queryCreated" (getSubscriptionSchedulesParametersQueryCreated obj) : (Data.Aeson..=) "queryCustomer" (getSubscriptionSchedulesParametersQueryCustomer obj) : (Data.Aeson..=) "queryEnding_before" (getSubscriptionSchedulesParametersQueryEndingBefore obj) : (Data.Aeson..=) "queryExpand" (getSubscriptionSchedulesParametersQueryExpand obj) : (Data.Aeson..=) "queryLimit" (getSubscriptionSchedulesParametersQueryLimit obj) : (Data.Aeson..=) "queryReleased_at" (getSubscriptionSchedulesParametersQueryReleasedAt obj) : (Data.Aeson..=) "queryScheduled" (getSubscriptionSchedulesParametersQueryScheduled obj) : (Data.Aeson..=) "queryStarting_after" (getSubscriptionSchedulesParametersQueryStartingAfter obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "queryCanceled_at" (getSubscriptionSchedulesParametersQueryCanceledAt obj) GHC.Base.<> ((Data.Aeson..=) "queryCompleted_at" (getSubscriptionSchedulesParametersQueryCompletedAt obj) GHC.Base.<> ((Data.Aeson..=) "queryCreated" (getSubscriptionSchedulesParametersQueryCreated obj) GHC.Base.<> ((Data.Aeson..=) "queryCustomer" (getSubscriptionSchedulesParametersQueryCustomer obj) GHC.Base.<> ((Data.Aeson..=) "queryEnding_before" (getSubscriptionSchedulesParametersQueryEndingBefore obj) GHC.Base.<> ((Data.Aeson..=) "queryExpand" (getSubscriptionSchedulesParametersQueryExpand obj) GHC.Base.<> ((Data.Aeson..=) "queryLimit" (getSubscriptionSchedulesParametersQueryLimit obj) GHC.Base.<> ((Data.Aeson..=) "queryReleased_at" (getSubscriptionSchedulesParametersQueryReleasedAt obj) GHC.Base.<> ((Data.Aeson..=) "queryScheduled" (getSubscriptionSchedulesParametersQueryScheduled obj) GHC.Base.<> (Data.Aeson..=) "queryStarting_after" (getSubscriptionSchedulesParametersQueryStartingAfter obj))))))))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("queryCanceled_at" Data.Aeson.Types.ToJSON..= getSubscriptionSchedulesParametersQueryCanceledAt obj : "queryCompleted_at" Data.Aeson.Types.ToJSON..= getSubscriptionSchedulesParametersQueryCompletedAt obj : "queryCreated" Data.Aeson.Types.ToJSON..= getSubscriptionSchedulesParametersQueryCreated obj : "queryCustomer" Data.Aeson.Types.ToJSON..= getSubscriptionSchedulesParametersQueryCustomer obj : "queryEnding_before" Data.Aeson.Types.ToJSON..= getSubscriptionSchedulesParametersQueryEndingBefore obj : "queryExpand" Data.Aeson.Types.ToJSON..= getSubscriptionSchedulesParametersQueryExpand obj : "queryLimit" Data.Aeson.Types.ToJSON..= getSubscriptionSchedulesParametersQueryLimit obj : "queryReleased_at" Data.Aeson.Types.ToJSON..= getSubscriptionSchedulesParametersQueryReleasedAt obj : "queryScheduled" Data.Aeson.Types.ToJSON..= getSubscriptionSchedulesParametersQueryScheduled obj : "queryStarting_after" Data.Aeson.Types.ToJSON..= getSubscriptionSchedulesParametersQueryStartingAfter obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("queryCanceled_at" Data.Aeson.Types.ToJSON..= getSubscriptionSchedulesParametersQueryCanceledAt obj) GHC.Base.<> (("queryCompleted_at" Data.Aeson.Types.ToJSON..= getSubscriptionSchedulesParametersQueryCompletedAt obj) GHC.Base.<> (("queryCreated" Data.Aeson.Types.ToJSON..= getSubscriptionSchedulesParametersQueryCreated obj) GHC.Base.<> (("queryCustomer" Data.Aeson.Types.ToJSON..= getSubscriptionSchedulesParametersQueryCustomer obj) GHC.Base.<> (("queryEnding_before" Data.Aeson.Types.ToJSON..= getSubscriptionSchedulesParametersQueryEndingBefore obj) GHC.Base.<> (("queryExpand" Data.Aeson.Types.ToJSON..= getSubscriptionSchedulesParametersQueryExpand obj) GHC.Base.<> (("queryLimit" Data.Aeson.Types.ToJSON..= getSubscriptionSchedulesParametersQueryLimit obj) GHC.Base.<> (("queryReleased_at" Data.Aeson.Types.ToJSON..= getSubscriptionSchedulesParametersQueryReleasedAt obj) GHC.Base.<> (("queryScheduled" Data.Aeson.Types.ToJSON..= getSubscriptionSchedulesParametersQueryScheduled obj) GHC.Base.<> ("queryStarting_after" Data.Aeson.Types.ToJSON..= getSubscriptionSchedulesParametersQueryStartingAfter obj))))))))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetSubscriptionSchedulesParameters where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "GetSubscriptionSchedulesParameters" (\obj -> (((((((((GHC.Base.pure GetSubscriptionSchedulesParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryCanceled_at")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryCompleted_at")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryCreated")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryCustomer")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryEnding_before")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryExpand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryLimit")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryReleased_at")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryScheduled")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryStarting_after"))
 
--- | Defines the data type for the schema getSubscriptionSchedulesParametersQueryCanceled_at\'OneOf2
+-- | Create a new 'GetSubscriptionSchedulesParameters' with all required fields.
+mkGetSubscriptionSchedulesParameters :: GetSubscriptionSchedulesParameters
+mkGetSubscriptionSchedulesParameters =
+  GetSubscriptionSchedulesParameters
+    { getSubscriptionSchedulesParametersQueryCanceledAt = GHC.Maybe.Nothing,
+      getSubscriptionSchedulesParametersQueryCompletedAt = GHC.Maybe.Nothing,
+      getSubscriptionSchedulesParametersQueryCreated = GHC.Maybe.Nothing,
+      getSubscriptionSchedulesParametersQueryCustomer = GHC.Maybe.Nothing,
+      getSubscriptionSchedulesParametersQueryEndingBefore = GHC.Maybe.Nothing,
+      getSubscriptionSchedulesParametersQueryExpand = GHC.Maybe.Nothing,
+      getSubscriptionSchedulesParametersQueryLimit = GHC.Maybe.Nothing,
+      getSubscriptionSchedulesParametersQueryReleasedAt = GHC.Maybe.Nothing,
+      getSubscriptionSchedulesParametersQueryScheduled = GHC.Maybe.Nothing,
+      getSubscriptionSchedulesParametersQueryStartingAfter = GHC.Maybe.Nothing
+    }
+
+-- | Defines the object schema located at @paths.\/v1\/subscription_schedules.GET.parameters.properties.queryCanceled_at.anyOf@ in the specification.
 data GetSubscriptionSchedulesParametersQueryCanceledAt'OneOf2
   = GetSubscriptionSchedulesParametersQueryCanceledAt'OneOf2
       { -- | gt
@@ -177,13 +194,23 @@ data GetSubscriptionSchedulesParametersQueryCanceledAt'OneOf2
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetSubscriptionSchedulesParametersQueryCanceledAt'OneOf2 where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "gt" (getSubscriptionSchedulesParametersQueryCanceledAt'OneOf2Gt obj) : (Data.Aeson..=) "gte" (getSubscriptionSchedulesParametersQueryCanceledAt'OneOf2Gte obj) : (Data.Aeson..=) "lt" (getSubscriptionSchedulesParametersQueryCanceledAt'OneOf2Lt obj) : (Data.Aeson..=) "lte" (getSubscriptionSchedulesParametersQueryCanceledAt'OneOf2Lte obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "gt" (getSubscriptionSchedulesParametersQueryCanceledAt'OneOf2Gt obj) GHC.Base.<> ((Data.Aeson..=) "gte" (getSubscriptionSchedulesParametersQueryCanceledAt'OneOf2Gte obj) GHC.Base.<> ((Data.Aeson..=) "lt" (getSubscriptionSchedulesParametersQueryCanceledAt'OneOf2Lt obj) GHC.Base.<> (Data.Aeson..=) "lte" (getSubscriptionSchedulesParametersQueryCanceledAt'OneOf2Lte obj))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("gt" Data.Aeson.Types.ToJSON..= getSubscriptionSchedulesParametersQueryCanceledAt'OneOf2Gt obj : "gte" Data.Aeson.Types.ToJSON..= getSubscriptionSchedulesParametersQueryCanceledAt'OneOf2Gte obj : "lt" Data.Aeson.Types.ToJSON..= getSubscriptionSchedulesParametersQueryCanceledAt'OneOf2Lt obj : "lte" Data.Aeson.Types.ToJSON..= getSubscriptionSchedulesParametersQueryCanceledAt'OneOf2Lte obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("gt" Data.Aeson.Types.ToJSON..= getSubscriptionSchedulesParametersQueryCanceledAt'OneOf2Gt obj) GHC.Base.<> (("gte" Data.Aeson.Types.ToJSON..= getSubscriptionSchedulesParametersQueryCanceledAt'OneOf2Gte obj) GHC.Base.<> (("lt" Data.Aeson.Types.ToJSON..= getSubscriptionSchedulesParametersQueryCanceledAt'OneOf2Lt obj) GHC.Base.<> ("lte" Data.Aeson.Types.ToJSON..= getSubscriptionSchedulesParametersQueryCanceledAt'OneOf2Lte obj))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetSubscriptionSchedulesParametersQueryCanceledAt'OneOf2 where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "GetSubscriptionSchedulesParametersQueryCanceledAt'OneOf2" (\obj -> (((GHC.Base.pure GetSubscriptionSchedulesParametersQueryCanceledAt'OneOf2 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "gt")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "gte")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "lt")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "lte"))
 
--- | Define the one-of schema getSubscriptionSchedulesParametersQueryCanceled_at\'
+-- | Create a new 'GetSubscriptionSchedulesParametersQueryCanceledAt'OneOf2' with all required fields.
+mkGetSubscriptionSchedulesParametersQueryCanceledAt'OneOf2 :: GetSubscriptionSchedulesParametersQueryCanceledAt'OneOf2
+mkGetSubscriptionSchedulesParametersQueryCanceledAt'OneOf2 =
+  GetSubscriptionSchedulesParametersQueryCanceledAt'OneOf2
+    { getSubscriptionSchedulesParametersQueryCanceledAt'OneOf2Gt = GHC.Maybe.Nothing,
+      getSubscriptionSchedulesParametersQueryCanceledAt'OneOf2Gte = GHC.Maybe.Nothing,
+      getSubscriptionSchedulesParametersQueryCanceledAt'OneOf2Lt = GHC.Maybe.Nothing,
+      getSubscriptionSchedulesParametersQueryCanceledAt'OneOf2Lte = GHC.Maybe.Nothing
+    }
+
+-- | Defines the oneOf schema located at @paths.\/v1\/subscription_schedules.GET.parameters.properties.queryCanceled_at.anyOf@ in the specification.
 --
 -- Represents the parameter named \'canceled_at\'
 --
@@ -198,13 +225,11 @@ instance Data.Aeson.Types.ToJSON.ToJSON GetSubscriptionSchedulesParametersQueryC
   toJSON (GetSubscriptionSchedulesParametersQueryCanceledAt'GetSubscriptionSchedulesParametersQueryCanceledAt'OneOf2 a) = Data.Aeson.Types.ToJSON.toJSON a
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetSubscriptionSchedulesParametersQueryCanceledAt'Variants where
-  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
-    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ GetSubscriptionSchedulesParametersQueryCanceledAt'Int a
-    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ GetSubscriptionSchedulesParametersQueryCanceledAt'GetSubscriptionSchedulesParametersQueryCanceledAt'OneOf2 a
-      Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+  parseJSON val = case (GetSubscriptionSchedulesParametersQueryCanceledAt'Int Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((GetSubscriptionSchedulesParametersQueryCanceledAt'GetSubscriptionSchedulesParametersQueryCanceledAt'OneOf2 Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched") of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+    Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
--- | Defines the data type for the schema getSubscriptionSchedulesParametersQueryCompleted_at\'OneOf2
+-- | Defines the object schema located at @paths.\/v1\/subscription_schedules.GET.parameters.properties.queryCompleted_at.anyOf@ in the specification.
 data GetSubscriptionSchedulesParametersQueryCompletedAt'OneOf2
   = GetSubscriptionSchedulesParametersQueryCompletedAt'OneOf2
       { -- | gt
@@ -222,13 +247,23 @@ data GetSubscriptionSchedulesParametersQueryCompletedAt'OneOf2
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetSubscriptionSchedulesParametersQueryCompletedAt'OneOf2 where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "gt" (getSubscriptionSchedulesParametersQueryCompletedAt'OneOf2Gt obj) : (Data.Aeson..=) "gte" (getSubscriptionSchedulesParametersQueryCompletedAt'OneOf2Gte obj) : (Data.Aeson..=) "lt" (getSubscriptionSchedulesParametersQueryCompletedAt'OneOf2Lt obj) : (Data.Aeson..=) "lte" (getSubscriptionSchedulesParametersQueryCompletedAt'OneOf2Lte obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "gt" (getSubscriptionSchedulesParametersQueryCompletedAt'OneOf2Gt obj) GHC.Base.<> ((Data.Aeson..=) "gte" (getSubscriptionSchedulesParametersQueryCompletedAt'OneOf2Gte obj) GHC.Base.<> ((Data.Aeson..=) "lt" (getSubscriptionSchedulesParametersQueryCompletedAt'OneOf2Lt obj) GHC.Base.<> (Data.Aeson..=) "lte" (getSubscriptionSchedulesParametersQueryCompletedAt'OneOf2Lte obj))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("gt" Data.Aeson.Types.ToJSON..= getSubscriptionSchedulesParametersQueryCompletedAt'OneOf2Gt obj : "gte" Data.Aeson.Types.ToJSON..= getSubscriptionSchedulesParametersQueryCompletedAt'OneOf2Gte obj : "lt" Data.Aeson.Types.ToJSON..= getSubscriptionSchedulesParametersQueryCompletedAt'OneOf2Lt obj : "lte" Data.Aeson.Types.ToJSON..= getSubscriptionSchedulesParametersQueryCompletedAt'OneOf2Lte obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("gt" Data.Aeson.Types.ToJSON..= getSubscriptionSchedulesParametersQueryCompletedAt'OneOf2Gt obj) GHC.Base.<> (("gte" Data.Aeson.Types.ToJSON..= getSubscriptionSchedulesParametersQueryCompletedAt'OneOf2Gte obj) GHC.Base.<> (("lt" Data.Aeson.Types.ToJSON..= getSubscriptionSchedulesParametersQueryCompletedAt'OneOf2Lt obj) GHC.Base.<> ("lte" Data.Aeson.Types.ToJSON..= getSubscriptionSchedulesParametersQueryCompletedAt'OneOf2Lte obj))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetSubscriptionSchedulesParametersQueryCompletedAt'OneOf2 where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "GetSubscriptionSchedulesParametersQueryCompletedAt'OneOf2" (\obj -> (((GHC.Base.pure GetSubscriptionSchedulesParametersQueryCompletedAt'OneOf2 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "gt")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "gte")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "lt")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "lte"))
 
--- | Define the one-of schema getSubscriptionSchedulesParametersQueryCompleted_at\'
+-- | Create a new 'GetSubscriptionSchedulesParametersQueryCompletedAt'OneOf2' with all required fields.
+mkGetSubscriptionSchedulesParametersQueryCompletedAt'OneOf2 :: GetSubscriptionSchedulesParametersQueryCompletedAt'OneOf2
+mkGetSubscriptionSchedulesParametersQueryCompletedAt'OneOf2 =
+  GetSubscriptionSchedulesParametersQueryCompletedAt'OneOf2
+    { getSubscriptionSchedulesParametersQueryCompletedAt'OneOf2Gt = GHC.Maybe.Nothing,
+      getSubscriptionSchedulesParametersQueryCompletedAt'OneOf2Gte = GHC.Maybe.Nothing,
+      getSubscriptionSchedulesParametersQueryCompletedAt'OneOf2Lt = GHC.Maybe.Nothing,
+      getSubscriptionSchedulesParametersQueryCompletedAt'OneOf2Lte = GHC.Maybe.Nothing
+    }
+
+-- | Defines the oneOf schema located at @paths.\/v1\/subscription_schedules.GET.parameters.properties.queryCompleted_at.anyOf@ in the specification.
 --
 -- Represents the parameter named \'completed_at\'
 --
@@ -243,13 +278,11 @@ instance Data.Aeson.Types.ToJSON.ToJSON GetSubscriptionSchedulesParametersQueryC
   toJSON (GetSubscriptionSchedulesParametersQueryCompletedAt'GetSubscriptionSchedulesParametersQueryCompletedAt'OneOf2 a) = Data.Aeson.Types.ToJSON.toJSON a
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetSubscriptionSchedulesParametersQueryCompletedAt'Variants where
-  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
-    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ GetSubscriptionSchedulesParametersQueryCompletedAt'Int a
-    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ GetSubscriptionSchedulesParametersQueryCompletedAt'GetSubscriptionSchedulesParametersQueryCompletedAt'OneOf2 a
-      Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+  parseJSON val = case (GetSubscriptionSchedulesParametersQueryCompletedAt'Int Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((GetSubscriptionSchedulesParametersQueryCompletedAt'GetSubscriptionSchedulesParametersQueryCompletedAt'OneOf2 Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched") of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+    Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
--- | Defines the data type for the schema getSubscriptionSchedulesParametersQueryCreated\'OneOf2
+-- | Defines the object schema located at @paths.\/v1\/subscription_schedules.GET.parameters.properties.queryCreated.anyOf@ in the specification.
 data GetSubscriptionSchedulesParametersQueryCreated'OneOf2
   = GetSubscriptionSchedulesParametersQueryCreated'OneOf2
       { -- | gt
@@ -267,13 +300,23 @@ data GetSubscriptionSchedulesParametersQueryCreated'OneOf2
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetSubscriptionSchedulesParametersQueryCreated'OneOf2 where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "gt" (getSubscriptionSchedulesParametersQueryCreated'OneOf2Gt obj) : (Data.Aeson..=) "gte" (getSubscriptionSchedulesParametersQueryCreated'OneOf2Gte obj) : (Data.Aeson..=) "lt" (getSubscriptionSchedulesParametersQueryCreated'OneOf2Lt obj) : (Data.Aeson..=) "lte" (getSubscriptionSchedulesParametersQueryCreated'OneOf2Lte obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "gt" (getSubscriptionSchedulesParametersQueryCreated'OneOf2Gt obj) GHC.Base.<> ((Data.Aeson..=) "gte" (getSubscriptionSchedulesParametersQueryCreated'OneOf2Gte obj) GHC.Base.<> ((Data.Aeson..=) "lt" (getSubscriptionSchedulesParametersQueryCreated'OneOf2Lt obj) GHC.Base.<> (Data.Aeson..=) "lte" (getSubscriptionSchedulesParametersQueryCreated'OneOf2Lte obj))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("gt" Data.Aeson.Types.ToJSON..= getSubscriptionSchedulesParametersQueryCreated'OneOf2Gt obj : "gte" Data.Aeson.Types.ToJSON..= getSubscriptionSchedulesParametersQueryCreated'OneOf2Gte obj : "lt" Data.Aeson.Types.ToJSON..= getSubscriptionSchedulesParametersQueryCreated'OneOf2Lt obj : "lte" Data.Aeson.Types.ToJSON..= getSubscriptionSchedulesParametersQueryCreated'OneOf2Lte obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("gt" Data.Aeson.Types.ToJSON..= getSubscriptionSchedulesParametersQueryCreated'OneOf2Gt obj) GHC.Base.<> (("gte" Data.Aeson.Types.ToJSON..= getSubscriptionSchedulesParametersQueryCreated'OneOf2Gte obj) GHC.Base.<> (("lt" Data.Aeson.Types.ToJSON..= getSubscriptionSchedulesParametersQueryCreated'OneOf2Lt obj) GHC.Base.<> ("lte" Data.Aeson.Types.ToJSON..= getSubscriptionSchedulesParametersQueryCreated'OneOf2Lte obj))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetSubscriptionSchedulesParametersQueryCreated'OneOf2 where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "GetSubscriptionSchedulesParametersQueryCreated'OneOf2" (\obj -> (((GHC.Base.pure GetSubscriptionSchedulesParametersQueryCreated'OneOf2 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "gt")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "gte")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "lt")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "lte"))
 
--- | Define the one-of schema getSubscriptionSchedulesParametersQueryCreated\'
+-- | Create a new 'GetSubscriptionSchedulesParametersQueryCreated'OneOf2' with all required fields.
+mkGetSubscriptionSchedulesParametersQueryCreated'OneOf2 :: GetSubscriptionSchedulesParametersQueryCreated'OneOf2
+mkGetSubscriptionSchedulesParametersQueryCreated'OneOf2 =
+  GetSubscriptionSchedulesParametersQueryCreated'OneOf2
+    { getSubscriptionSchedulesParametersQueryCreated'OneOf2Gt = GHC.Maybe.Nothing,
+      getSubscriptionSchedulesParametersQueryCreated'OneOf2Gte = GHC.Maybe.Nothing,
+      getSubscriptionSchedulesParametersQueryCreated'OneOf2Lt = GHC.Maybe.Nothing,
+      getSubscriptionSchedulesParametersQueryCreated'OneOf2Lte = GHC.Maybe.Nothing
+    }
+
+-- | Defines the oneOf schema located at @paths.\/v1\/subscription_schedules.GET.parameters.properties.queryCreated.anyOf@ in the specification.
 --
 -- Represents the parameter named \'created\'
 --
@@ -288,13 +331,11 @@ instance Data.Aeson.Types.ToJSON.ToJSON GetSubscriptionSchedulesParametersQueryC
   toJSON (GetSubscriptionSchedulesParametersQueryCreated'GetSubscriptionSchedulesParametersQueryCreated'OneOf2 a) = Data.Aeson.Types.ToJSON.toJSON a
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetSubscriptionSchedulesParametersQueryCreated'Variants where
-  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
-    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ GetSubscriptionSchedulesParametersQueryCreated'Int a
-    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ GetSubscriptionSchedulesParametersQueryCreated'GetSubscriptionSchedulesParametersQueryCreated'OneOf2 a
-      Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+  parseJSON val = case (GetSubscriptionSchedulesParametersQueryCreated'Int Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((GetSubscriptionSchedulesParametersQueryCreated'GetSubscriptionSchedulesParametersQueryCreated'OneOf2 Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched") of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+    Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
--- | Defines the data type for the schema getSubscriptionSchedulesParametersQueryReleased_at\'OneOf2
+-- | Defines the object schema located at @paths.\/v1\/subscription_schedules.GET.parameters.properties.queryReleased_at.anyOf@ in the specification.
 data GetSubscriptionSchedulesParametersQueryReleasedAt'OneOf2
   = GetSubscriptionSchedulesParametersQueryReleasedAt'OneOf2
       { -- | gt
@@ -312,13 +353,23 @@ data GetSubscriptionSchedulesParametersQueryReleasedAt'OneOf2
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetSubscriptionSchedulesParametersQueryReleasedAt'OneOf2 where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "gt" (getSubscriptionSchedulesParametersQueryReleasedAt'OneOf2Gt obj) : (Data.Aeson..=) "gte" (getSubscriptionSchedulesParametersQueryReleasedAt'OneOf2Gte obj) : (Data.Aeson..=) "lt" (getSubscriptionSchedulesParametersQueryReleasedAt'OneOf2Lt obj) : (Data.Aeson..=) "lte" (getSubscriptionSchedulesParametersQueryReleasedAt'OneOf2Lte obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "gt" (getSubscriptionSchedulesParametersQueryReleasedAt'OneOf2Gt obj) GHC.Base.<> ((Data.Aeson..=) "gte" (getSubscriptionSchedulesParametersQueryReleasedAt'OneOf2Gte obj) GHC.Base.<> ((Data.Aeson..=) "lt" (getSubscriptionSchedulesParametersQueryReleasedAt'OneOf2Lt obj) GHC.Base.<> (Data.Aeson..=) "lte" (getSubscriptionSchedulesParametersQueryReleasedAt'OneOf2Lte obj))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("gt" Data.Aeson.Types.ToJSON..= getSubscriptionSchedulesParametersQueryReleasedAt'OneOf2Gt obj : "gte" Data.Aeson.Types.ToJSON..= getSubscriptionSchedulesParametersQueryReleasedAt'OneOf2Gte obj : "lt" Data.Aeson.Types.ToJSON..= getSubscriptionSchedulesParametersQueryReleasedAt'OneOf2Lt obj : "lte" Data.Aeson.Types.ToJSON..= getSubscriptionSchedulesParametersQueryReleasedAt'OneOf2Lte obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("gt" Data.Aeson.Types.ToJSON..= getSubscriptionSchedulesParametersQueryReleasedAt'OneOf2Gt obj) GHC.Base.<> (("gte" Data.Aeson.Types.ToJSON..= getSubscriptionSchedulesParametersQueryReleasedAt'OneOf2Gte obj) GHC.Base.<> (("lt" Data.Aeson.Types.ToJSON..= getSubscriptionSchedulesParametersQueryReleasedAt'OneOf2Lt obj) GHC.Base.<> ("lte" Data.Aeson.Types.ToJSON..= getSubscriptionSchedulesParametersQueryReleasedAt'OneOf2Lte obj))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetSubscriptionSchedulesParametersQueryReleasedAt'OneOf2 where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "GetSubscriptionSchedulesParametersQueryReleasedAt'OneOf2" (\obj -> (((GHC.Base.pure GetSubscriptionSchedulesParametersQueryReleasedAt'OneOf2 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "gt")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "gte")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "lt")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "lte"))
 
--- | Define the one-of schema getSubscriptionSchedulesParametersQueryReleased_at\'
+-- | Create a new 'GetSubscriptionSchedulesParametersQueryReleasedAt'OneOf2' with all required fields.
+mkGetSubscriptionSchedulesParametersQueryReleasedAt'OneOf2 :: GetSubscriptionSchedulesParametersQueryReleasedAt'OneOf2
+mkGetSubscriptionSchedulesParametersQueryReleasedAt'OneOf2 =
+  GetSubscriptionSchedulesParametersQueryReleasedAt'OneOf2
+    { getSubscriptionSchedulesParametersQueryReleasedAt'OneOf2Gt = GHC.Maybe.Nothing,
+      getSubscriptionSchedulesParametersQueryReleasedAt'OneOf2Gte = GHC.Maybe.Nothing,
+      getSubscriptionSchedulesParametersQueryReleasedAt'OneOf2Lt = GHC.Maybe.Nothing,
+      getSubscriptionSchedulesParametersQueryReleasedAt'OneOf2Lte = GHC.Maybe.Nothing
+    }
+
+-- | Defines the oneOf schema located at @paths.\/v1\/subscription_schedules.GET.parameters.properties.queryReleased_at.anyOf@ in the specification.
 --
 -- Represents the parameter named \'released_at\'
 --
@@ -333,11 +384,9 @@ instance Data.Aeson.Types.ToJSON.ToJSON GetSubscriptionSchedulesParametersQueryR
   toJSON (GetSubscriptionSchedulesParametersQueryReleasedAt'GetSubscriptionSchedulesParametersQueryReleasedAt'OneOf2 a) = Data.Aeson.Types.ToJSON.toJSON a
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetSubscriptionSchedulesParametersQueryReleasedAt'Variants where
-  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
-    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ GetSubscriptionSchedulesParametersQueryReleasedAt'Int a
-    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ GetSubscriptionSchedulesParametersQueryReleasedAt'GetSubscriptionSchedulesParametersQueryReleasedAt'OneOf2 a
-      Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+  parseJSON val = case (GetSubscriptionSchedulesParametersQueryReleasedAt'Int Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((GetSubscriptionSchedulesParametersQueryReleasedAt'GetSubscriptionSchedulesParametersQueryReleasedAt'OneOf2 Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched") of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+    Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
 -- | Represents a response of the operation 'getSubscriptionSchedules'.
 --
@@ -351,15 +400,13 @@ data GetSubscriptionSchedulesResponse
     GetSubscriptionSchedulesResponseDefault Error
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
--- | Defines the data type for the schema GetSubscriptionSchedulesResponseBody200
+-- | Defines the object schema located at @paths.\/v1\/subscription_schedules.GET.responses.200.content.application\/json.schema@ in the specification.
 data GetSubscriptionSchedulesResponseBody200
   = GetSubscriptionSchedulesResponseBody200
       { -- | data
         getSubscriptionSchedulesResponseBody200Data :: ([SubscriptionSchedule]),
         -- | has_more: True if this list has another page of items after this one that can be fetched.
         getSubscriptionSchedulesResponseBody200HasMore :: GHC.Types.Bool,
-        -- | object: String representing the object\'s type. Objects of the same type share the same value. Always has the value \`list\`.
-        getSubscriptionSchedulesResponseBody200Object :: GetSubscriptionSchedulesResponseBody200Object',
         -- | url: The URL where this list can be accessed.
         --
         -- Constraints:
@@ -374,29 +421,24 @@ data GetSubscriptionSchedulesResponseBody200
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetSubscriptionSchedulesResponseBody200 where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "data" (getSubscriptionSchedulesResponseBody200Data obj) : (Data.Aeson..=) "has_more" (getSubscriptionSchedulesResponseBody200HasMore obj) : (Data.Aeson..=) "object" (getSubscriptionSchedulesResponseBody200Object obj) : (Data.Aeson..=) "url" (getSubscriptionSchedulesResponseBody200Url obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "data" (getSubscriptionSchedulesResponseBody200Data obj) GHC.Base.<> ((Data.Aeson..=) "has_more" (getSubscriptionSchedulesResponseBody200HasMore obj) GHC.Base.<> ((Data.Aeson..=) "object" (getSubscriptionSchedulesResponseBody200Object obj) GHC.Base.<> (Data.Aeson..=) "url" (getSubscriptionSchedulesResponseBody200Url obj))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("data" Data.Aeson.Types.ToJSON..= getSubscriptionSchedulesResponseBody200Data obj : "has_more" Data.Aeson.Types.ToJSON..= getSubscriptionSchedulesResponseBody200HasMore obj : "url" Data.Aeson.Types.ToJSON..= getSubscriptionSchedulesResponseBody200Url obj : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "list" : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("data" Data.Aeson.Types.ToJSON..= getSubscriptionSchedulesResponseBody200Data obj) GHC.Base.<> (("has_more" Data.Aeson.Types.ToJSON..= getSubscriptionSchedulesResponseBody200HasMore obj) GHC.Base.<> (("url" Data.Aeson.Types.ToJSON..= getSubscriptionSchedulesResponseBody200Url obj) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "list"))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetSubscriptionSchedulesResponseBody200 where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetSubscriptionSchedulesResponseBody200" (\obj -> (((GHC.Base.pure GetSubscriptionSchedulesResponseBody200 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "has_more")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "object")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "url"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetSubscriptionSchedulesResponseBody200" (\obj -> ((GHC.Base.pure GetSubscriptionSchedulesResponseBody200 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "has_more")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "url"))
 
--- | Defines the enum schema GetSubscriptionSchedulesResponseBody200Object\'
---
--- String representing the object\'s type. Objects of the same type share the same value. Always has the value \`list\`.
-data GetSubscriptionSchedulesResponseBody200Object'
-  = GetSubscriptionSchedulesResponseBody200Object'EnumOther Data.Aeson.Types.Internal.Value
-  | GetSubscriptionSchedulesResponseBody200Object'EnumTyped Data.Text.Internal.Text
-  | GetSubscriptionSchedulesResponseBody200Object'EnumStringList
-  deriving (GHC.Show.Show, GHC.Classes.Eq)
-
-instance Data.Aeson.Types.ToJSON.ToJSON GetSubscriptionSchedulesResponseBody200Object' where
-  toJSON (GetSubscriptionSchedulesResponseBody200Object'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (GetSubscriptionSchedulesResponseBody200Object'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (GetSubscriptionSchedulesResponseBody200Object'EnumStringList) = "list"
-
-instance Data.Aeson.Types.FromJSON.FromJSON GetSubscriptionSchedulesResponseBody200Object' where
-  parseJSON val =
-    GHC.Base.pure
-      ( if  | val GHC.Classes.== "list" -> GetSubscriptionSchedulesResponseBody200Object'EnumStringList
-            | GHC.Base.otherwise -> GetSubscriptionSchedulesResponseBody200Object'EnumOther val
-      )
+-- | Create a new 'GetSubscriptionSchedulesResponseBody200' with all required fields.
+mkGetSubscriptionSchedulesResponseBody200 ::
+  -- | 'getSubscriptionSchedulesResponseBody200Data'
+  [SubscriptionSchedule] ->
+  -- | 'getSubscriptionSchedulesResponseBody200HasMore'
+  GHC.Types.Bool ->
+  -- | 'getSubscriptionSchedulesResponseBody200Url'
+  Data.Text.Internal.Text ->
+  GetSubscriptionSchedulesResponseBody200
+mkGetSubscriptionSchedulesResponseBody200 getSubscriptionSchedulesResponseBody200Data getSubscriptionSchedulesResponseBody200HasMore getSubscriptionSchedulesResponseBody200Url =
+  GetSubscriptionSchedulesResponseBody200
+    { getSubscriptionSchedulesResponseBody200Data = getSubscriptionSchedulesResponseBody200Data,
+      getSubscriptionSchedulesResponseBody200HasMore = getSubscriptionSchedulesResponseBody200HasMore,
+      getSubscriptionSchedulesResponseBody200Url = getSubscriptionSchedulesResponseBody200Url
+    }

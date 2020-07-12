@@ -10,6 +10,7 @@ module StripeAPI.Operations.GetReviewsReview where
 import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -77,7 +78,7 @@ getReviewsReview parameters =
     )
     (StripeAPI.Common.doCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET") (Data.Text.pack ("/v1/reviews/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel (getReviewsReviewParametersPathReview parameters))) GHC.Base.++ ""))) [StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getReviewsReviewParametersQueryExpand parameters) (Data.Text.pack "deepObject") GHC.Types.True])
 
--- | Defines the data type for the schema getReviewsReviewParameters
+-- | Defines the object schema located at @paths.\/v1\/reviews\/{review}.GET.parameters@ in the specification.
 data GetReviewsReviewParameters
   = GetReviewsReviewParameters
       { -- | pathReview: Represents the parameter named \'review\'
@@ -97,11 +98,22 @@ data GetReviewsReviewParameters
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetReviewsReviewParameters where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "pathReview" (getReviewsReviewParametersPathReview obj) : (Data.Aeson..=) "queryExpand" (getReviewsReviewParametersQueryExpand obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "pathReview" (getReviewsReviewParametersPathReview obj) GHC.Base.<> (Data.Aeson..=) "queryExpand" (getReviewsReviewParametersQueryExpand obj))
+  toJSON obj = Data.Aeson.Types.Internal.object ("pathReview" Data.Aeson.Types.ToJSON..= getReviewsReviewParametersPathReview obj : "queryExpand" Data.Aeson.Types.ToJSON..= getReviewsReviewParametersQueryExpand obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("pathReview" Data.Aeson.Types.ToJSON..= getReviewsReviewParametersPathReview obj) GHC.Base.<> ("queryExpand" Data.Aeson.Types.ToJSON..= getReviewsReviewParametersQueryExpand obj))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetReviewsReviewParameters where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "GetReviewsReviewParameters" (\obj -> (GHC.Base.pure GetReviewsReviewParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathReview")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryExpand"))
+
+-- | Create a new 'GetReviewsReviewParameters' with all required fields.
+mkGetReviewsReviewParameters ::
+  -- | 'getReviewsReviewParametersPathReview'
+  Data.Text.Internal.Text ->
+  GetReviewsReviewParameters
+mkGetReviewsReviewParameters getReviewsReviewParametersPathReview =
+  GetReviewsReviewParameters
+    { getReviewsReviewParametersPathReview = getReviewsReviewParametersPathReview,
+      getReviewsReviewParametersQueryExpand = GHC.Maybe.Nothing
+    }
 
 -- | Represents a response of the operation 'getReviewsReview'.
 --

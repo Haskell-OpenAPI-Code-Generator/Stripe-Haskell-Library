@@ -1,11 +1,11 @@
 module StripeAPI.Types.ChargeTransferData where
 import Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Types.Internal
-data ChargeTransferData 
-instance Show ChargeTransferData 
-instance Eq ChargeTransferData 
-instance FromJSON ChargeTransferData 
-instance ToJSON ChargeTransferData 
+data ChargeTransferData
+instance Show ChargeTransferData
+instance Eq ChargeTransferData
+instance FromJSON ChargeTransferData
+instance ToJSON ChargeTransferData
 data ChargeTransferDataDestination'Variants
 instance Show ChargeTransferDataDestination'Variants
 instance Eq ChargeTransferDataDestination'Variants

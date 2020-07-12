@@ -10,6 +10,7 @@ module StripeAPI.Operations.GetIssuingCardsCardPin where
 import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -83,7 +84,7 @@ getIssuingCardsCardPin parameters =
         ]
     )
 
--- | Defines the data type for the schema getIssuingCardsCardPinParameters
+-- | Defines the object schema located at @paths.\/v1\/issuing\/cards\/{card}\/pin.GET.parameters@ in the specification.
 data GetIssuingCardsCardPinParameters
   = GetIssuingCardsCardPinParameters
       { -- | pathCard: Represents the parameter named \'card\'
@@ -107,13 +108,27 @@ data GetIssuingCardsCardPinParameters
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetIssuingCardsCardPinParameters where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "pathCard" (getIssuingCardsCardPinParametersPathCard obj) : (Data.Aeson..=) "queryExpand" (getIssuingCardsCardPinParametersQueryExpand obj) : (Data.Aeson..=) "queryVerification" (getIssuingCardsCardPinParametersQueryVerification obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "pathCard" (getIssuingCardsCardPinParametersPathCard obj) GHC.Base.<> ((Data.Aeson..=) "queryExpand" (getIssuingCardsCardPinParametersQueryExpand obj) GHC.Base.<> (Data.Aeson..=) "queryVerification" (getIssuingCardsCardPinParametersQueryVerification obj)))
+  toJSON obj = Data.Aeson.Types.Internal.object ("pathCard" Data.Aeson.Types.ToJSON..= getIssuingCardsCardPinParametersPathCard obj : "queryExpand" Data.Aeson.Types.ToJSON..= getIssuingCardsCardPinParametersQueryExpand obj : "queryVerification" Data.Aeson.Types.ToJSON..= getIssuingCardsCardPinParametersQueryVerification obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("pathCard" Data.Aeson.Types.ToJSON..= getIssuingCardsCardPinParametersPathCard obj) GHC.Base.<> (("queryExpand" Data.Aeson.Types.ToJSON..= getIssuingCardsCardPinParametersQueryExpand obj) GHC.Base.<> ("queryVerification" Data.Aeson.Types.ToJSON..= getIssuingCardsCardPinParametersQueryVerification obj)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetIssuingCardsCardPinParameters where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "GetIssuingCardsCardPinParameters" (\obj -> ((GHC.Base.pure GetIssuingCardsCardPinParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathCard")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryExpand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "queryVerification"))
 
--- | Defines the data type for the schema getIssuingCardsCardPinParametersQueryVerification\'
+-- | Create a new 'GetIssuingCardsCardPinParameters' with all required fields.
+mkGetIssuingCardsCardPinParameters ::
+  -- | 'getIssuingCardsCardPinParametersPathCard'
+  Data.Text.Internal.Text ->
+  -- | 'getIssuingCardsCardPinParametersQueryVerification'
+  GetIssuingCardsCardPinParametersQueryVerification' ->
+  GetIssuingCardsCardPinParameters
+mkGetIssuingCardsCardPinParameters getIssuingCardsCardPinParametersPathCard getIssuingCardsCardPinParametersQueryVerification =
+  GetIssuingCardsCardPinParameters
+    { getIssuingCardsCardPinParametersPathCard = getIssuingCardsCardPinParametersPathCard,
+      getIssuingCardsCardPinParametersQueryExpand = GHC.Maybe.Nothing,
+      getIssuingCardsCardPinParametersQueryVerification = getIssuingCardsCardPinParametersQueryVerification
+    }
+
+-- | Defines the object schema located at @paths.\/v1\/issuing\/cards\/{card}\/pin.GET.parameters.properties.queryVerification@ in the specification.
 --
 -- Represents the parameter named \'verification\'
 --
@@ -139,11 +154,24 @@ data GetIssuingCardsCardPinParametersQueryVerification'
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetIssuingCardsCardPinParametersQueryVerification' where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "id" (getIssuingCardsCardPinParametersQueryVerification'Id obj) : (Data.Aeson..=) "one_time_code" (getIssuingCardsCardPinParametersQueryVerification'OneTimeCode obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "id" (getIssuingCardsCardPinParametersQueryVerification'Id obj) GHC.Base.<> (Data.Aeson..=) "one_time_code" (getIssuingCardsCardPinParametersQueryVerification'OneTimeCode obj))
+  toJSON obj = Data.Aeson.Types.Internal.object ("id" Data.Aeson.Types.ToJSON..= getIssuingCardsCardPinParametersQueryVerification'Id obj : "one_time_code" Data.Aeson.Types.ToJSON..= getIssuingCardsCardPinParametersQueryVerification'OneTimeCode obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("id" Data.Aeson.Types.ToJSON..= getIssuingCardsCardPinParametersQueryVerification'Id obj) GHC.Base.<> ("one_time_code" Data.Aeson.Types.ToJSON..= getIssuingCardsCardPinParametersQueryVerification'OneTimeCode obj))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetIssuingCardsCardPinParametersQueryVerification' where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "GetIssuingCardsCardPinParametersQueryVerification'" (\obj -> (GHC.Base.pure GetIssuingCardsCardPinParametersQueryVerification' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "one_time_code"))
+
+-- | Create a new 'GetIssuingCardsCardPinParametersQueryVerification'' with all required fields.
+mkGetIssuingCardsCardPinParametersQueryVerification' ::
+  -- | 'getIssuingCardsCardPinParametersQueryVerification'Id'
+  Data.Text.Internal.Text ->
+  -- | 'getIssuingCardsCardPinParametersQueryVerification'OneTimeCode'
+  Data.Text.Internal.Text ->
+  GetIssuingCardsCardPinParametersQueryVerification'
+mkGetIssuingCardsCardPinParametersQueryVerification' getIssuingCardsCardPinParametersQueryVerification'Id getIssuingCardsCardPinParametersQueryVerification'OneTimeCode =
+  GetIssuingCardsCardPinParametersQueryVerification'
+    { getIssuingCardsCardPinParametersQueryVerification'Id = getIssuingCardsCardPinParametersQueryVerification'Id,
+      getIssuingCardsCardPinParametersQueryVerification'OneTimeCode = getIssuingCardsCardPinParametersQueryVerification'OneTimeCode
+    }
 
 -- | Represents a response of the operation 'getIssuingCardsCardPin'.
 --

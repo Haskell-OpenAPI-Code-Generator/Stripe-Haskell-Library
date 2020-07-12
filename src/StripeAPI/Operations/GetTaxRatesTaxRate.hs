@@ -10,6 +10,7 @@ module StripeAPI.Operations.GetTaxRatesTaxRate where
 import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -77,7 +78,7 @@ getTaxRatesTaxRate parameters =
     )
     (StripeAPI.Common.doCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET") (Data.Text.pack ("/v1/tax_rates/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel (getTaxRatesTaxRateParametersPathTaxRate parameters))) GHC.Base.++ ""))) [StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getTaxRatesTaxRateParametersQueryExpand parameters) (Data.Text.pack "deepObject") GHC.Types.True])
 
--- | Defines the data type for the schema getTaxRatesTaxRateParameters
+-- | Defines the object schema located at @paths.\/v1\/tax_rates\/{tax_rate}.GET.parameters@ in the specification.
 data GetTaxRatesTaxRateParameters
   = GetTaxRatesTaxRateParameters
       { -- | pathTax_rate: Represents the parameter named \'tax_rate\'
@@ -97,11 +98,22 @@ data GetTaxRatesTaxRateParameters
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetTaxRatesTaxRateParameters where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "pathTax_rate" (getTaxRatesTaxRateParametersPathTaxRate obj) : (Data.Aeson..=) "queryExpand" (getTaxRatesTaxRateParametersQueryExpand obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "pathTax_rate" (getTaxRatesTaxRateParametersPathTaxRate obj) GHC.Base.<> (Data.Aeson..=) "queryExpand" (getTaxRatesTaxRateParametersQueryExpand obj))
+  toJSON obj = Data.Aeson.Types.Internal.object ("pathTax_rate" Data.Aeson.Types.ToJSON..= getTaxRatesTaxRateParametersPathTaxRate obj : "queryExpand" Data.Aeson.Types.ToJSON..= getTaxRatesTaxRateParametersQueryExpand obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("pathTax_rate" Data.Aeson.Types.ToJSON..= getTaxRatesTaxRateParametersPathTaxRate obj) GHC.Base.<> ("queryExpand" Data.Aeson.Types.ToJSON..= getTaxRatesTaxRateParametersQueryExpand obj))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetTaxRatesTaxRateParameters where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "GetTaxRatesTaxRateParameters" (\obj -> (GHC.Base.pure GetTaxRatesTaxRateParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathTax_rate")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryExpand"))
+
+-- | Create a new 'GetTaxRatesTaxRateParameters' with all required fields.
+mkGetTaxRatesTaxRateParameters ::
+  -- | 'getTaxRatesTaxRateParametersPathTaxRate'
+  Data.Text.Internal.Text ->
+  GetTaxRatesTaxRateParameters
+mkGetTaxRatesTaxRateParameters getTaxRatesTaxRateParametersPathTaxRate =
+  GetTaxRatesTaxRateParameters
+    { getTaxRatesTaxRateParametersPathTaxRate = getTaxRatesTaxRateParametersPathTaxRate,
+      getTaxRatesTaxRateParametersQueryExpand = GHC.Maybe.Nothing
+    }
 
 -- | Represents a response of the operation 'getTaxRatesTaxRate'.
 --

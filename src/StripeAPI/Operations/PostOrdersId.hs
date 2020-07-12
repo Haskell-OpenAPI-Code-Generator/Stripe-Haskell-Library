@@ -10,6 +10,7 @@ module StripeAPI.Operations.PostOrdersId where
 import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -81,7 +82,7 @@ postOrdersId
       )
       (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack ("/v1/orders/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel id)) GHC.Base.++ ""))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
 
--- | Defines the data type for the schema postOrdersIdRequestBody
+-- | Defines the object schema located at @paths.\/v1\/orders\/{id}.POST.requestBody.content.application\/x-www-form-urlencoded.schema@ in the specification.
 data PostOrdersIdRequestBody
   = PostOrdersIdRequestBody
       { -- | coupon: A coupon code that represents a discount to be applied to this order. Must be one-time duration and in same currency as the order. An order can have multiple coupons.
@@ -115,13 +116,25 @@ data PostOrdersIdRequestBody
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostOrdersIdRequestBody where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "coupon" (postOrdersIdRequestBodyCoupon obj) : (Data.Aeson..=) "expand" (postOrdersIdRequestBodyExpand obj) : (Data.Aeson..=) "metadata" (postOrdersIdRequestBodyMetadata obj) : (Data.Aeson..=) "selected_shipping_method" (postOrdersIdRequestBodySelectedShippingMethod obj) : (Data.Aeson..=) "shipping" (postOrdersIdRequestBodyShipping obj) : (Data.Aeson..=) "status" (postOrdersIdRequestBodyStatus obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "coupon" (postOrdersIdRequestBodyCoupon obj) GHC.Base.<> ((Data.Aeson..=) "expand" (postOrdersIdRequestBodyExpand obj) GHC.Base.<> ((Data.Aeson..=) "metadata" (postOrdersIdRequestBodyMetadata obj) GHC.Base.<> ((Data.Aeson..=) "selected_shipping_method" (postOrdersIdRequestBodySelectedShippingMethod obj) GHC.Base.<> ((Data.Aeson..=) "shipping" (postOrdersIdRequestBodyShipping obj) GHC.Base.<> (Data.Aeson..=) "status" (postOrdersIdRequestBodyStatus obj))))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("coupon" Data.Aeson.Types.ToJSON..= postOrdersIdRequestBodyCoupon obj : "expand" Data.Aeson.Types.ToJSON..= postOrdersIdRequestBodyExpand obj : "metadata" Data.Aeson.Types.ToJSON..= postOrdersIdRequestBodyMetadata obj : "selected_shipping_method" Data.Aeson.Types.ToJSON..= postOrdersIdRequestBodySelectedShippingMethod obj : "shipping" Data.Aeson.Types.ToJSON..= postOrdersIdRequestBodyShipping obj : "status" Data.Aeson.Types.ToJSON..= postOrdersIdRequestBodyStatus obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("coupon" Data.Aeson.Types.ToJSON..= postOrdersIdRequestBodyCoupon obj) GHC.Base.<> (("expand" Data.Aeson.Types.ToJSON..= postOrdersIdRequestBodyExpand obj) GHC.Base.<> (("metadata" Data.Aeson.Types.ToJSON..= postOrdersIdRequestBodyMetadata obj) GHC.Base.<> (("selected_shipping_method" Data.Aeson.Types.ToJSON..= postOrdersIdRequestBodySelectedShippingMethod obj) GHC.Base.<> (("shipping" Data.Aeson.Types.ToJSON..= postOrdersIdRequestBodyShipping obj) GHC.Base.<> ("status" Data.Aeson.Types.ToJSON..= postOrdersIdRequestBodyStatus obj))))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostOrdersIdRequestBody where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PostOrdersIdRequestBody" (\obj -> (((((GHC.Base.pure PostOrdersIdRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "coupon")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "selected_shipping_method")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "shipping")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "status"))
 
--- | Defines the data type for the schema postOrdersIdRequestBodyShipping\'
+-- | Create a new 'PostOrdersIdRequestBody' with all required fields.
+mkPostOrdersIdRequestBody :: PostOrdersIdRequestBody
+mkPostOrdersIdRequestBody =
+  PostOrdersIdRequestBody
+    { postOrdersIdRequestBodyCoupon = GHC.Maybe.Nothing,
+      postOrdersIdRequestBodyExpand = GHC.Maybe.Nothing,
+      postOrdersIdRequestBodyMetadata = GHC.Maybe.Nothing,
+      postOrdersIdRequestBodySelectedShippingMethod = GHC.Maybe.Nothing,
+      postOrdersIdRequestBodyShipping = GHC.Maybe.Nothing,
+      postOrdersIdRequestBodyStatus = GHC.Maybe.Nothing
+    }
+
+-- | Defines the object schema located at @paths.\/v1\/orders\/{id}.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.shipping@ in the specification.
 --
 -- Tracking information once the order has been fulfilled.
 data PostOrdersIdRequestBodyShipping'
@@ -145,43 +158,63 @@ data PostOrdersIdRequestBodyShipping'
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostOrdersIdRequestBodyShipping' where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "carrier" (postOrdersIdRequestBodyShipping'Carrier obj) : (Data.Aeson..=) "tracking_number" (postOrdersIdRequestBodyShipping'TrackingNumber obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "carrier" (postOrdersIdRequestBodyShipping'Carrier obj) GHC.Base.<> (Data.Aeson..=) "tracking_number" (postOrdersIdRequestBodyShipping'TrackingNumber obj))
+  toJSON obj = Data.Aeson.Types.Internal.object ("carrier" Data.Aeson.Types.ToJSON..= postOrdersIdRequestBodyShipping'Carrier obj : "tracking_number" Data.Aeson.Types.ToJSON..= postOrdersIdRequestBodyShipping'TrackingNumber obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("carrier" Data.Aeson.Types.ToJSON..= postOrdersIdRequestBodyShipping'Carrier obj) GHC.Base.<> ("tracking_number" Data.Aeson.Types.ToJSON..= postOrdersIdRequestBodyShipping'TrackingNumber obj))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostOrdersIdRequestBodyShipping' where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PostOrdersIdRequestBodyShipping'" (\obj -> (GHC.Base.pure PostOrdersIdRequestBodyShipping' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "carrier")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "tracking_number"))
 
--- | Defines the enum schema postOrdersIdRequestBodyStatus\'
+-- | Create a new 'PostOrdersIdRequestBodyShipping'' with all required fields.
+mkPostOrdersIdRequestBodyShipping' ::
+  -- | 'postOrdersIdRequestBodyShipping'Carrier'
+  Data.Text.Internal.Text ->
+  -- | 'postOrdersIdRequestBodyShipping'TrackingNumber'
+  Data.Text.Internal.Text ->
+  PostOrdersIdRequestBodyShipping'
+mkPostOrdersIdRequestBodyShipping' postOrdersIdRequestBodyShipping'Carrier postOrdersIdRequestBodyShipping'TrackingNumber =
+  PostOrdersIdRequestBodyShipping'
+    { postOrdersIdRequestBodyShipping'Carrier = postOrdersIdRequestBodyShipping'Carrier,
+      postOrdersIdRequestBodyShipping'TrackingNumber = postOrdersIdRequestBodyShipping'TrackingNumber
+    }
+
+-- | Defines the enum schema located at @paths.\/v1\/orders\/{id}.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.status@ in the specification.
 --
 -- Current order status. One of \`created\`, \`paid\`, \`canceled\`, \`fulfilled\`, or \`returned\`. More detail in the [Orders Guide](https:\/\/stripe.com\/docs\/orders\/guide\#understanding-order-statuses).
 data PostOrdersIdRequestBodyStatus'
-  = PostOrdersIdRequestBodyStatus'EnumOther Data.Aeson.Types.Internal.Value
-  | PostOrdersIdRequestBodyStatus'EnumTyped Data.Text.Internal.Text
-  | PostOrdersIdRequestBodyStatus'EnumStringCanceled
-  | PostOrdersIdRequestBodyStatus'EnumStringCreated
-  | PostOrdersIdRequestBodyStatus'EnumStringFulfilled
-  | PostOrdersIdRequestBodyStatus'EnumStringPaid
-  | PostOrdersIdRequestBodyStatus'EnumStringReturned
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    PostOrdersIdRequestBodyStatus'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    PostOrdersIdRequestBodyStatus'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"canceled"@
+    PostOrdersIdRequestBodyStatus'EnumCanceled
+  | -- | Represents the JSON value @"created"@
+    PostOrdersIdRequestBodyStatus'EnumCreated
+  | -- | Represents the JSON value @"fulfilled"@
+    PostOrdersIdRequestBodyStatus'EnumFulfilled
+  | -- | Represents the JSON value @"paid"@
+    PostOrdersIdRequestBodyStatus'EnumPaid
+  | -- | Represents the JSON value @"returned"@
+    PostOrdersIdRequestBodyStatus'EnumReturned
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostOrdersIdRequestBodyStatus' where
-  toJSON (PostOrdersIdRequestBodyStatus'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostOrdersIdRequestBodyStatus'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostOrdersIdRequestBodyStatus'EnumStringCanceled) = "canceled"
-  toJSON (PostOrdersIdRequestBodyStatus'EnumStringCreated) = "created"
-  toJSON (PostOrdersIdRequestBodyStatus'EnumStringFulfilled) = "fulfilled"
-  toJSON (PostOrdersIdRequestBodyStatus'EnumStringPaid) = "paid"
-  toJSON (PostOrdersIdRequestBodyStatus'EnumStringReturned) = "returned"
+  toJSON (PostOrdersIdRequestBodyStatus'Other val) = val
+  toJSON (PostOrdersIdRequestBodyStatus'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PostOrdersIdRequestBodyStatus'EnumCanceled) = "canceled"
+  toJSON (PostOrdersIdRequestBodyStatus'EnumCreated) = "created"
+  toJSON (PostOrdersIdRequestBodyStatus'EnumFulfilled) = "fulfilled"
+  toJSON (PostOrdersIdRequestBodyStatus'EnumPaid) = "paid"
+  toJSON (PostOrdersIdRequestBodyStatus'EnumReturned) = "returned"
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostOrdersIdRequestBodyStatus' where
   parseJSON val =
     GHC.Base.pure
-      ( if  | val GHC.Classes.== "canceled" -> PostOrdersIdRequestBodyStatus'EnumStringCanceled
-            | val GHC.Classes.== "created" -> PostOrdersIdRequestBodyStatus'EnumStringCreated
-            | val GHC.Classes.== "fulfilled" -> PostOrdersIdRequestBodyStatus'EnumStringFulfilled
-            | val GHC.Classes.== "paid" -> PostOrdersIdRequestBodyStatus'EnumStringPaid
-            | val GHC.Classes.== "returned" -> PostOrdersIdRequestBodyStatus'EnumStringReturned
-            | GHC.Base.otherwise -> PostOrdersIdRequestBodyStatus'EnumOther val
+      ( if  | val GHC.Classes.== "canceled" -> PostOrdersIdRequestBodyStatus'EnumCanceled
+            | val GHC.Classes.== "created" -> PostOrdersIdRequestBodyStatus'EnumCreated
+            | val GHC.Classes.== "fulfilled" -> PostOrdersIdRequestBodyStatus'EnumFulfilled
+            | val GHC.Classes.== "paid" -> PostOrdersIdRequestBodyStatus'EnumPaid
+            | val GHC.Classes.== "returned" -> PostOrdersIdRequestBodyStatus'EnumReturned
+            | GHC.Base.otherwise -> PostOrdersIdRequestBodyStatus'Other val
       )
 
 -- | Represents a response of the operation 'postOrdersId'.

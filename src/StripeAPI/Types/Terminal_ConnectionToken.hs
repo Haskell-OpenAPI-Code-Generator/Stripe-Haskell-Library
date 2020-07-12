@@ -8,6 +8,7 @@ module StripeAPI.Types.Terminal_ConnectionToken where
 
 import qualified Control.Monad.Fail
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -30,7 +31,7 @@ import StripeAPI.TypeAlias
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
--- | Defines the data type for the schema terminal.connection_token
+-- | Defines the object schema located at @components.schemas.terminal.connection_token@ in the specification.
 --
 -- A Connection Token is used by the Stripe Terminal SDK to connect to a reader.
 --
@@ -43,8 +44,6 @@ data Terminal'connectionToken
         --
         -- * Maximum length of 5000
         terminal'connectionTokenLocation :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
-        -- | object: String representing the object\'s type. Objects of the same type share the same value.
-        terminal'connectionTokenObject :: Terminal'connectionTokenObject',
         -- | secret: Your application should pass this token to the Stripe Terminal SDK.
         --
         -- Constraints:
@@ -58,29 +57,19 @@ data Terminal'connectionToken
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON Terminal'connectionToken where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "location" (terminal'connectionTokenLocation obj) : (Data.Aeson..=) "object" (terminal'connectionTokenObject obj) : (Data.Aeson..=) "secret" (terminal'connectionTokenSecret obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "location" (terminal'connectionTokenLocation obj) GHC.Base.<> ((Data.Aeson..=) "object" (terminal'connectionTokenObject obj) GHC.Base.<> (Data.Aeson..=) "secret" (terminal'connectionTokenSecret obj)))
+  toJSON obj = Data.Aeson.Types.Internal.object ("location" Data.Aeson.Types.ToJSON..= terminal'connectionTokenLocation obj : "secret" Data.Aeson.Types.ToJSON..= terminal'connectionTokenSecret obj : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "terminal.connection_token" : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("location" Data.Aeson.Types.ToJSON..= terminal'connectionTokenLocation obj) GHC.Base.<> (("secret" Data.Aeson.Types.ToJSON..= terminal'connectionTokenSecret obj) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "terminal.connection_token")))
 
 instance Data.Aeson.Types.FromJSON.FromJSON Terminal'connectionToken where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "Terminal'connectionToken" (\obj -> ((GHC.Base.pure Terminal'connectionToken GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "location")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "object")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "secret"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "Terminal'connectionToken" (\obj -> (GHC.Base.pure Terminal'connectionToken GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "location")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "secret"))
 
--- | Defines the enum schema terminal.connection_tokenObject\'
---
--- String representing the object\'s type. Objects of the same type share the same value.
-data Terminal'connectionTokenObject'
-  = Terminal'connectionTokenObject'EnumOther Data.Aeson.Types.Internal.Value
-  | Terminal'connectionTokenObject'EnumTyped Data.Text.Internal.Text
-  | Terminal'connectionTokenObject'EnumStringTerminal'connectionToken
-  deriving (GHC.Show.Show, GHC.Classes.Eq)
-
-instance Data.Aeson.Types.ToJSON.ToJSON Terminal'connectionTokenObject' where
-  toJSON (Terminal'connectionTokenObject'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (Terminal'connectionTokenObject'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (Terminal'connectionTokenObject'EnumStringTerminal'connectionToken) = "terminal.connection_token"
-
-instance Data.Aeson.Types.FromJSON.FromJSON Terminal'connectionTokenObject' where
-  parseJSON val =
-    GHC.Base.pure
-      ( if  | val GHC.Classes.== "terminal.connection_token" -> Terminal'connectionTokenObject'EnumStringTerminal'connectionToken
-            | GHC.Base.otherwise -> Terminal'connectionTokenObject'EnumOther val
-      )
+-- | Create a new 'Terminal'connectionToken' with all required fields.
+mkTerminal'connectionToken ::
+  -- | 'terminal'connectionTokenSecret'
+  Data.Text.Internal.Text ->
+  Terminal'connectionToken
+mkTerminal'connectionToken terminal'connectionTokenSecret =
+  Terminal'connectionToken
+    { terminal'connectionTokenLocation = GHC.Maybe.Nothing,
+      terminal'connectionTokenSecret = terminal'connectionTokenSecret
+    }

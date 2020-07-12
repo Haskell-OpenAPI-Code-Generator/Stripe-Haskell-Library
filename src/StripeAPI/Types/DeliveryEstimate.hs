@@ -8,6 +8,7 @@ module StripeAPI.Types.DeliveryEstimate where
 
 import qualified Control.Monad.Fail
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -30,7 +31,7 @@ import StripeAPI.TypeAlias
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
--- | Defines the data type for the schema delivery_estimate
+-- | Defines the object schema located at @components.schemas.delivery_estimate@ in the specification.
 data DeliveryEstimate
   = DeliveryEstimate
       { -- | date: If \`type\` is \`\"exact\"\`, \`date\` will be the expected delivery date in the format YYYY-MM-DD.
@@ -64,8 +65,21 @@ data DeliveryEstimate
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON DeliveryEstimate where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "date" (deliveryEstimateDate obj) : (Data.Aeson..=) "earliest" (deliveryEstimateEarliest obj) : (Data.Aeson..=) "latest" (deliveryEstimateLatest obj) : (Data.Aeson..=) "type" (deliveryEstimateType obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "date" (deliveryEstimateDate obj) GHC.Base.<> ((Data.Aeson..=) "earliest" (deliveryEstimateEarliest obj) GHC.Base.<> ((Data.Aeson..=) "latest" (deliveryEstimateLatest obj) GHC.Base.<> (Data.Aeson..=) "type" (deliveryEstimateType obj))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("date" Data.Aeson.Types.ToJSON..= deliveryEstimateDate obj : "earliest" Data.Aeson.Types.ToJSON..= deliveryEstimateEarliest obj : "latest" Data.Aeson.Types.ToJSON..= deliveryEstimateLatest obj : "type" Data.Aeson.Types.ToJSON..= deliveryEstimateType obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("date" Data.Aeson.Types.ToJSON..= deliveryEstimateDate obj) GHC.Base.<> (("earliest" Data.Aeson.Types.ToJSON..= deliveryEstimateEarliest obj) GHC.Base.<> (("latest" Data.Aeson.Types.ToJSON..= deliveryEstimateLatest obj) GHC.Base.<> ("type" Data.Aeson.Types.ToJSON..= deliveryEstimateType obj))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON DeliveryEstimate where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "DeliveryEstimate" (\obj -> (((GHC.Base.pure DeliveryEstimate GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "date")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "earliest")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "latest")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "type"))
+
+-- | Create a new 'DeliveryEstimate' with all required fields.
+mkDeliveryEstimate ::
+  -- | 'deliveryEstimateType'
+  Data.Text.Internal.Text ->
+  DeliveryEstimate
+mkDeliveryEstimate deliveryEstimateType =
+  DeliveryEstimate
+    { deliveryEstimateDate = GHC.Maybe.Nothing,
+      deliveryEstimateEarliest = GHC.Maybe.Nothing,
+      deliveryEstimateLatest = GHC.Maybe.Nothing,
+      deliveryEstimateType = deliveryEstimateType
+    }

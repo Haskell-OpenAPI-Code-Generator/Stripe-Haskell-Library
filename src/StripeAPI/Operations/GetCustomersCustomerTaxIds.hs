@@ -10,6 +10,7 @@ module StripeAPI.Operations.GetCustomersCustomerTaxIds where
 import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -85,7 +86,7 @@ getCustomersCustomerTaxIds parameters =
         ]
     )
 
--- | Defines the data type for the schema getCustomersCustomerTaxIdsParameters
+-- | Defines the object schema located at @paths.\/v1\/customers\/{customer}\/tax_ids.GET.parameters@ in the specification.
 data GetCustomersCustomerTaxIdsParameters
   = GetCustomersCustomerTaxIdsParameters
       { -- | pathCustomer: Represents the parameter named \'customer\'
@@ -125,11 +126,25 @@ data GetCustomersCustomerTaxIdsParameters
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetCustomersCustomerTaxIdsParameters where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "pathCustomer" (getCustomersCustomerTaxIdsParametersPathCustomer obj) : (Data.Aeson..=) "queryEnding_before" (getCustomersCustomerTaxIdsParametersQueryEndingBefore obj) : (Data.Aeson..=) "queryExpand" (getCustomersCustomerTaxIdsParametersQueryExpand obj) : (Data.Aeson..=) "queryLimit" (getCustomersCustomerTaxIdsParametersQueryLimit obj) : (Data.Aeson..=) "queryStarting_after" (getCustomersCustomerTaxIdsParametersQueryStartingAfter obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "pathCustomer" (getCustomersCustomerTaxIdsParametersPathCustomer obj) GHC.Base.<> ((Data.Aeson..=) "queryEnding_before" (getCustomersCustomerTaxIdsParametersQueryEndingBefore obj) GHC.Base.<> ((Data.Aeson..=) "queryExpand" (getCustomersCustomerTaxIdsParametersQueryExpand obj) GHC.Base.<> ((Data.Aeson..=) "queryLimit" (getCustomersCustomerTaxIdsParametersQueryLimit obj) GHC.Base.<> (Data.Aeson..=) "queryStarting_after" (getCustomersCustomerTaxIdsParametersQueryStartingAfter obj)))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("pathCustomer" Data.Aeson.Types.ToJSON..= getCustomersCustomerTaxIdsParametersPathCustomer obj : "queryEnding_before" Data.Aeson.Types.ToJSON..= getCustomersCustomerTaxIdsParametersQueryEndingBefore obj : "queryExpand" Data.Aeson.Types.ToJSON..= getCustomersCustomerTaxIdsParametersQueryExpand obj : "queryLimit" Data.Aeson.Types.ToJSON..= getCustomersCustomerTaxIdsParametersQueryLimit obj : "queryStarting_after" Data.Aeson.Types.ToJSON..= getCustomersCustomerTaxIdsParametersQueryStartingAfter obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("pathCustomer" Data.Aeson.Types.ToJSON..= getCustomersCustomerTaxIdsParametersPathCustomer obj) GHC.Base.<> (("queryEnding_before" Data.Aeson.Types.ToJSON..= getCustomersCustomerTaxIdsParametersQueryEndingBefore obj) GHC.Base.<> (("queryExpand" Data.Aeson.Types.ToJSON..= getCustomersCustomerTaxIdsParametersQueryExpand obj) GHC.Base.<> (("queryLimit" Data.Aeson.Types.ToJSON..= getCustomersCustomerTaxIdsParametersQueryLimit obj) GHC.Base.<> ("queryStarting_after" Data.Aeson.Types.ToJSON..= getCustomersCustomerTaxIdsParametersQueryStartingAfter obj)))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetCustomersCustomerTaxIdsParameters where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "GetCustomersCustomerTaxIdsParameters" (\obj -> ((((GHC.Base.pure GetCustomersCustomerTaxIdsParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathCustomer")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryEnding_before")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryExpand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryLimit")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryStarting_after"))
+
+-- | Create a new 'GetCustomersCustomerTaxIdsParameters' with all required fields.
+mkGetCustomersCustomerTaxIdsParameters ::
+  -- | 'getCustomersCustomerTaxIdsParametersPathCustomer'
+  Data.Text.Internal.Text ->
+  GetCustomersCustomerTaxIdsParameters
+mkGetCustomersCustomerTaxIdsParameters getCustomersCustomerTaxIdsParametersPathCustomer =
+  GetCustomersCustomerTaxIdsParameters
+    { getCustomersCustomerTaxIdsParametersPathCustomer = getCustomersCustomerTaxIdsParametersPathCustomer,
+      getCustomersCustomerTaxIdsParametersQueryEndingBefore = GHC.Maybe.Nothing,
+      getCustomersCustomerTaxIdsParametersQueryExpand = GHC.Maybe.Nothing,
+      getCustomersCustomerTaxIdsParametersQueryLimit = GHC.Maybe.Nothing,
+      getCustomersCustomerTaxIdsParametersQueryStartingAfter = GHC.Maybe.Nothing
+    }
 
 -- | Represents a response of the operation 'getCustomersCustomerTaxIds'.
 --
@@ -143,15 +158,13 @@ data GetCustomersCustomerTaxIdsResponse
     GetCustomersCustomerTaxIdsResponseDefault Error
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
--- | Defines the data type for the schema GetCustomersCustomerTaxIdsResponseBody200
+-- | Defines the object schema located at @paths.\/v1\/customers\/{customer}\/tax_ids.GET.responses.200.content.application\/json.schema@ in the specification.
 data GetCustomersCustomerTaxIdsResponseBody200
   = GetCustomersCustomerTaxIdsResponseBody200
       { -- | data: Details about each object.
         getCustomersCustomerTaxIdsResponseBody200Data :: ([TaxId]),
         -- | has_more: True if this list has another page of items after this one that can be fetched.
         getCustomersCustomerTaxIdsResponseBody200HasMore :: GHC.Types.Bool,
-        -- | object: String representing the object\'s type. Objects of the same type share the same value. Always has the value \`list\`.
-        getCustomersCustomerTaxIdsResponseBody200Object :: GetCustomersCustomerTaxIdsResponseBody200Object',
         -- | url: The URL where this list can be accessed.
         --
         -- Constraints:
@@ -165,29 +178,24 @@ data GetCustomersCustomerTaxIdsResponseBody200
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetCustomersCustomerTaxIdsResponseBody200 where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "data" (getCustomersCustomerTaxIdsResponseBody200Data obj) : (Data.Aeson..=) "has_more" (getCustomersCustomerTaxIdsResponseBody200HasMore obj) : (Data.Aeson..=) "object" (getCustomersCustomerTaxIdsResponseBody200Object obj) : (Data.Aeson..=) "url" (getCustomersCustomerTaxIdsResponseBody200Url obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "data" (getCustomersCustomerTaxIdsResponseBody200Data obj) GHC.Base.<> ((Data.Aeson..=) "has_more" (getCustomersCustomerTaxIdsResponseBody200HasMore obj) GHC.Base.<> ((Data.Aeson..=) "object" (getCustomersCustomerTaxIdsResponseBody200Object obj) GHC.Base.<> (Data.Aeson..=) "url" (getCustomersCustomerTaxIdsResponseBody200Url obj))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("data" Data.Aeson.Types.ToJSON..= getCustomersCustomerTaxIdsResponseBody200Data obj : "has_more" Data.Aeson.Types.ToJSON..= getCustomersCustomerTaxIdsResponseBody200HasMore obj : "url" Data.Aeson.Types.ToJSON..= getCustomersCustomerTaxIdsResponseBody200Url obj : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "list" : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("data" Data.Aeson.Types.ToJSON..= getCustomersCustomerTaxIdsResponseBody200Data obj) GHC.Base.<> (("has_more" Data.Aeson.Types.ToJSON..= getCustomersCustomerTaxIdsResponseBody200HasMore obj) GHC.Base.<> (("url" Data.Aeson.Types.ToJSON..= getCustomersCustomerTaxIdsResponseBody200Url obj) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "list"))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetCustomersCustomerTaxIdsResponseBody200 where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetCustomersCustomerTaxIdsResponseBody200" (\obj -> (((GHC.Base.pure GetCustomersCustomerTaxIdsResponseBody200 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "has_more")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "object")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "url"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetCustomersCustomerTaxIdsResponseBody200" (\obj -> ((GHC.Base.pure GetCustomersCustomerTaxIdsResponseBody200 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "has_more")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "url"))
 
--- | Defines the enum schema GetCustomersCustomerTaxIdsResponseBody200Object\'
---
--- String representing the object\'s type. Objects of the same type share the same value. Always has the value \`list\`.
-data GetCustomersCustomerTaxIdsResponseBody200Object'
-  = GetCustomersCustomerTaxIdsResponseBody200Object'EnumOther Data.Aeson.Types.Internal.Value
-  | GetCustomersCustomerTaxIdsResponseBody200Object'EnumTyped Data.Text.Internal.Text
-  | GetCustomersCustomerTaxIdsResponseBody200Object'EnumStringList
-  deriving (GHC.Show.Show, GHC.Classes.Eq)
-
-instance Data.Aeson.Types.ToJSON.ToJSON GetCustomersCustomerTaxIdsResponseBody200Object' where
-  toJSON (GetCustomersCustomerTaxIdsResponseBody200Object'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (GetCustomersCustomerTaxIdsResponseBody200Object'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (GetCustomersCustomerTaxIdsResponseBody200Object'EnumStringList) = "list"
-
-instance Data.Aeson.Types.FromJSON.FromJSON GetCustomersCustomerTaxIdsResponseBody200Object' where
-  parseJSON val =
-    GHC.Base.pure
-      ( if  | val GHC.Classes.== "list" -> GetCustomersCustomerTaxIdsResponseBody200Object'EnumStringList
-            | GHC.Base.otherwise -> GetCustomersCustomerTaxIdsResponseBody200Object'EnumOther val
-      )
+-- | Create a new 'GetCustomersCustomerTaxIdsResponseBody200' with all required fields.
+mkGetCustomersCustomerTaxIdsResponseBody200 ::
+  -- | 'getCustomersCustomerTaxIdsResponseBody200Data'
+  [TaxId] ->
+  -- | 'getCustomersCustomerTaxIdsResponseBody200HasMore'
+  GHC.Types.Bool ->
+  -- | 'getCustomersCustomerTaxIdsResponseBody200Url'
+  Data.Text.Internal.Text ->
+  GetCustomersCustomerTaxIdsResponseBody200
+mkGetCustomersCustomerTaxIdsResponseBody200 getCustomersCustomerTaxIdsResponseBody200Data getCustomersCustomerTaxIdsResponseBody200HasMore getCustomersCustomerTaxIdsResponseBody200Url =
+  GetCustomersCustomerTaxIdsResponseBody200
+    { getCustomersCustomerTaxIdsResponseBody200Data = getCustomersCustomerTaxIdsResponseBody200Data,
+      getCustomersCustomerTaxIdsResponseBody200HasMore = getCustomersCustomerTaxIdsResponseBody200HasMore,
+      getCustomersCustomerTaxIdsResponseBody200Url = getCustomersCustomerTaxIdsResponseBody200Url
+    }

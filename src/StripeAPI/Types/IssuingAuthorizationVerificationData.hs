@@ -8,6 +8,7 @@ module StripeAPI.Types.IssuingAuthorizationVerificationData where
 
 import qualified Control.Monad.Fail
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -30,7 +31,7 @@ import StripeAPI.TypeAlias
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
--- | Defines the data type for the schema issuing_authorization_verification_data
+-- | Defines the object schema located at @components.schemas.issuing_authorization_verification_data@ in the specification.
 data IssuingAuthorizationVerificationData
   = IssuingAuthorizationVerificationData
       { -- | address_line1_check: Whether the cardholder provided an address first line and if it matched the cardholder’s \`billing.address.line1\`.
@@ -48,116 +49,155 @@ data IssuingAuthorizationVerificationData
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON IssuingAuthorizationVerificationData where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "address_line1_check" (issuingAuthorizationVerificationDataAddressLine1Check obj) : (Data.Aeson..=) "address_zip_check" (issuingAuthorizationVerificationDataAddressZipCheck obj) : (Data.Aeson..=) "authentication" (issuingAuthorizationVerificationDataAuthentication obj) : (Data.Aeson..=) "cvc_check" (issuingAuthorizationVerificationDataCvcCheck obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "address_line1_check" (issuingAuthorizationVerificationDataAddressLine1Check obj) GHC.Base.<> ((Data.Aeson..=) "address_zip_check" (issuingAuthorizationVerificationDataAddressZipCheck obj) GHC.Base.<> ((Data.Aeson..=) "authentication" (issuingAuthorizationVerificationDataAuthentication obj) GHC.Base.<> (Data.Aeson..=) "cvc_check" (issuingAuthorizationVerificationDataCvcCheck obj))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("address_line1_check" Data.Aeson.Types.ToJSON..= issuingAuthorizationVerificationDataAddressLine1Check obj : "address_zip_check" Data.Aeson.Types.ToJSON..= issuingAuthorizationVerificationDataAddressZipCheck obj : "authentication" Data.Aeson.Types.ToJSON..= issuingAuthorizationVerificationDataAuthentication obj : "cvc_check" Data.Aeson.Types.ToJSON..= issuingAuthorizationVerificationDataCvcCheck obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("address_line1_check" Data.Aeson.Types.ToJSON..= issuingAuthorizationVerificationDataAddressLine1Check obj) GHC.Base.<> (("address_zip_check" Data.Aeson.Types.ToJSON..= issuingAuthorizationVerificationDataAddressZipCheck obj) GHC.Base.<> (("authentication" Data.Aeson.Types.ToJSON..= issuingAuthorizationVerificationDataAuthentication obj) GHC.Base.<> ("cvc_check" Data.Aeson.Types.ToJSON..= issuingAuthorizationVerificationDataCvcCheck obj))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON IssuingAuthorizationVerificationData where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "IssuingAuthorizationVerificationData" (\obj -> (((GHC.Base.pure IssuingAuthorizationVerificationData GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "address_line1_check")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "address_zip_check")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "authentication")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "cvc_check"))
 
--- | Defines the enum schema issuing_authorization_verification_dataAddress_line1_check\'
+-- | Create a new 'IssuingAuthorizationVerificationData' with all required fields.
+mkIssuingAuthorizationVerificationData ::
+  -- | 'issuingAuthorizationVerificationDataAddressLine1Check'
+  IssuingAuthorizationVerificationDataAddressLine1Check' ->
+  -- | 'issuingAuthorizationVerificationDataAddressZipCheck'
+  IssuingAuthorizationVerificationDataAddressZipCheck' ->
+  -- | 'issuingAuthorizationVerificationDataAuthentication'
+  IssuingAuthorizationVerificationDataAuthentication' ->
+  -- | 'issuingAuthorizationVerificationDataCvcCheck'
+  IssuingAuthorizationVerificationDataCvcCheck' ->
+  IssuingAuthorizationVerificationData
+mkIssuingAuthorizationVerificationData issuingAuthorizationVerificationDataAddressLine1Check issuingAuthorizationVerificationDataAddressZipCheck issuingAuthorizationVerificationDataAuthentication issuingAuthorizationVerificationDataCvcCheck =
+  IssuingAuthorizationVerificationData
+    { issuingAuthorizationVerificationDataAddressLine1Check = issuingAuthorizationVerificationDataAddressLine1Check,
+      issuingAuthorizationVerificationDataAddressZipCheck = issuingAuthorizationVerificationDataAddressZipCheck,
+      issuingAuthorizationVerificationDataAuthentication = issuingAuthorizationVerificationDataAuthentication,
+      issuingAuthorizationVerificationDataCvcCheck = issuingAuthorizationVerificationDataCvcCheck
+    }
+
+-- | Defines the enum schema located at @components.schemas.issuing_authorization_verification_data.properties.address_line1_check@ in the specification.
 --
 -- Whether the cardholder provided an address first line and if it matched the cardholder’s \`billing.address.line1\`.
 data IssuingAuthorizationVerificationDataAddressLine1Check'
-  = IssuingAuthorizationVerificationDataAddressLine1Check'EnumOther Data.Aeson.Types.Internal.Value
-  | IssuingAuthorizationVerificationDataAddressLine1Check'EnumTyped Data.Text.Internal.Text
-  | IssuingAuthorizationVerificationDataAddressLine1Check'EnumStringMatch
-  | IssuingAuthorizationVerificationDataAddressLine1Check'EnumStringMismatch
-  | IssuingAuthorizationVerificationDataAddressLine1Check'EnumStringNotProvided
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    IssuingAuthorizationVerificationDataAddressLine1Check'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    IssuingAuthorizationVerificationDataAddressLine1Check'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"match"@
+    IssuingAuthorizationVerificationDataAddressLine1Check'EnumMatch
+  | -- | Represents the JSON value @"mismatch"@
+    IssuingAuthorizationVerificationDataAddressLine1Check'EnumMismatch
+  | -- | Represents the JSON value @"not_provided"@
+    IssuingAuthorizationVerificationDataAddressLine1Check'EnumNotProvided
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
 instance Data.Aeson.Types.ToJSON.ToJSON IssuingAuthorizationVerificationDataAddressLine1Check' where
-  toJSON (IssuingAuthorizationVerificationDataAddressLine1Check'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (IssuingAuthorizationVerificationDataAddressLine1Check'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (IssuingAuthorizationVerificationDataAddressLine1Check'EnumStringMatch) = "match"
-  toJSON (IssuingAuthorizationVerificationDataAddressLine1Check'EnumStringMismatch) = "mismatch"
-  toJSON (IssuingAuthorizationVerificationDataAddressLine1Check'EnumStringNotProvided) = "not_provided"
+  toJSON (IssuingAuthorizationVerificationDataAddressLine1Check'Other val) = val
+  toJSON (IssuingAuthorizationVerificationDataAddressLine1Check'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (IssuingAuthorizationVerificationDataAddressLine1Check'EnumMatch) = "match"
+  toJSON (IssuingAuthorizationVerificationDataAddressLine1Check'EnumMismatch) = "mismatch"
+  toJSON (IssuingAuthorizationVerificationDataAddressLine1Check'EnumNotProvided) = "not_provided"
 
 instance Data.Aeson.Types.FromJSON.FromJSON IssuingAuthorizationVerificationDataAddressLine1Check' where
   parseJSON val =
     GHC.Base.pure
-      ( if  | val GHC.Classes.== "match" -> IssuingAuthorizationVerificationDataAddressLine1Check'EnumStringMatch
-            | val GHC.Classes.== "mismatch" -> IssuingAuthorizationVerificationDataAddressLine1Check'EnumStringMismatch
-            | val GHC.Classes.== "not_provided" -> IssuingAuthorizationVerificationDataAddressLine1Check'EnumStringNotProvided
-            | GHC.Base.otherwise -> IssuingAuthorizationVerificationDataAddressLine1Check'EnumOther val
+      ( if  | val GHC.Classes.== "match" -> IssuingAuthorizationVerificationDataAddressLine1Check'EnumMatch
+            | val GHC.Classes.== "mismatch" -> IssuingAuthorizationVerificationDataAddressLine1Check'EnumMismatch
+            | val GHC.Classes.== "not_provided" -> IssuingAuthorizationVerificationDataAddressLine1Check'EnumNotProvided
+            | GHC.Base.otherwise -> IssuingAuthorizationVerificationDataAddressLine1Check'Other val
       )
 
--- | Defines the enum schema issuing_authorization_verification_dataAddress_zip_check\'
+-- | Defines the enum schema located at @components.schemas.issuing_authorization_verification_data.properties.address_zip_check@ in the specification.
 --
 -- Whether the cardholder provided a zip (or postal code) and if it matched the cardholder’s \`billing.address.postal_code\`.
 data IssuingAuthorizationVerificationDataAddressZipCheck'
-  = IssuingAuthorizationVerificationDataAddressZipCheck'EnumOther Data.Aeson.Types.Internal.Value
-  | IssuingAuthorizationVerificationDataAddressZipCheck'EnumTyped Data.Text.Internal.Text
-  | IssuingAuthorizationVerificationDataAddressZipCheck'EnumStringMatch
-  | IssuingAuthorizationVerificationDataAddressZipCheck'EnumStringMismatch
-  | IssuingAuthorizationVerificationDataAddressZipCheck'EnumStringNotProvided
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    IssuingAuthorizationVerificationDataAddressZipCheck'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    IssuingAuthorizationVerificationDataAddressZipCheck'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"match"@
+    IssuingAuthorizationVerificationDataAddressZipCheck'EnumMatch
+  | -- | Represents the JSON value @"mismatch"@
+    IssuingAuthorizationVerificationDataAddressZipCheck'EnumMismatch
+  | -- | Represents the JSON value @"not_provided"@
+    IssuingAuthorizationVerificationDataAddressZipCheck'EnumNotProvided
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
 instance Data.Aeson.Types.ToJSON.ToJSON IssuingAuthorizationVerificationDataAddressZipCheck' where
-  toJSON (IssuingAuthorizationVerificationDataAddressZipCheck'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (IssuingAuthorizationVerificationDataAddressZipCheck'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (IssuingAuthorizationVerificationDataAddressZipCheck'EnumStringMatch) = "match"
-  toJSON (IssuingAuthorizationVerificationDataAddressZipCheck'EnumStringMismatch) = "mismatch"
-  toJSON (IssuingAuthorizationVerificationDataAddressZipCheck'EnumStringNotProvided) = "not_provided"
+  toJSON (IssuingAuthorizationVerificationDataAddressZipCheck'Other val) = val
+  toJSON (IssuingAuthorizationVerificationDataAddressZipCheck'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (IssuingAuthorizationVerificationDataAddressZipCheck'EnumMatch) = "match"
+  toJSON (IssuingAuthorizationVerificationDataAddressZipCheck'EnumMismatch) = "mismatch"
+  toJSON (IssuingAuthorizationVerificationDataAddressZipCheck'EnumNotProvided) = "not_provided"
 
 instance Data.Aeson.Types.FromJSON.FromJSON IssuingAuthorizationVerificationDataAddressZipCheck' where
   parseJSON val =
     GHC.Base.pure
-      ( if  | val GHC.Classes.== "match" -> IssuingAuthorizationVerificationDataAddressZipCheck'EnumStringMatch
-            | val GHC.Classes.== "mismatch" -> IssuingAuthorizationVerificationDataAddressZipCheck'EnumStringMismatch
-            | val GHC.Classes.== "not_provided" -> IssuingAuthorizationVerificationDataAddressZipCheck'EnumStringNotProvided
-            | GHC.Base.otherwise -> IssuingAuthorizationVerificationDataAddressZipCheck'EnumOther val
+      ( if  | val GHC.Classes.== "match" -> IssuingAuthorizationVerificationDataAddressZipCheck'EnumMatch
+            | val GHC.Classes.== "mismatch" -> IssuingAuthorizationVerificationDataAddressZipCheck'EnumMismatch
+            | val GHC.Classes.== "not_provided" -> IssuingAuthorizationVerificationDataAddressZipCheck'EnumNotProvided
+            | GHC.Base.otherwise -> IssuingAuthorizationVerificationDataAddressZipCheck'Other val
       )
 
--- | Defines the enum schema issuing_authorization_verification_dataAuthentication\'
+-- | Defines the enum schema located at @components.schemas.issuing_authorization_verification_data.properties.authentication@ in the specification.
 --
 -- Whether 3DS authentication was performed.
 data IssuingAuthorizationVerificationDataAuthentication'
-  = IssuingAuthorizationVerificationDataAuthentication'EnumOther Data.Aeson.Types.Internal.Value
-  | IssuingAuthorizationVerificationDataAuthentication'EnumTyped Data.Text.Internal.Text
-  | IssuingAuthorizationVerificationDataAuthentication'EnumStringFailure
-  | IssuingAuthorizationVerificationDataAuthentication'EnumStringNone
-  | IssuingAuthorizationVerificationDataAuthentication'EnumStringSuccess
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    IssuingAuthorizationVerificationDataAuthentication'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    IssuingAuthorizationVerificationDataAuthentication'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"failure"@
+    IssuingAuthorizationVerificationDataAuthentication'EnumFailure
+  | -- | Represents the JSON value @"none"@
+    IssuingAuthorizationVerificationDataAuthentication'EnumNone
+  | -- | Represents the JSON value @"success"@
+    IssuingAuthorizationVerificationDataAuthentication'EnumSuccess
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
 instance Data.Aeson.Types.ToJSON.ToJSON IssuingAuthorizationVerificationDataAuthentication' where
-  toJSON (IssuingAuthorizationVerificationDataAuthentication'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (IssuingAuthorizationVerificationDataAuthentication'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (IssuingAuthorizationVerificationDataAuthentication'EnumStringFailure) = "failure"
-  toJSON (IssuingAuthorizationVerificationDataAuthentication'EnumStringNone) = "none"
-  toJSON (IssuingAuthorizationVerificationDataAuthentication'EnumStringSuccess) = "success"
+  toJSON (IssuingAuthorizationVerificationDataAuthentication'Other val) = val
+  toJSON (IssuingAuthorizationVerificationDataAuthentication'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (IssuingAuthorizationVerificationDataAuthentication'EnumFailure) = "failure"
+  toJSON (IssuingAuthorizationVerificationDataAuthentication'EnumNone) = "none"
+  toJSON (IssuingAuthorizationVerificationDataAuthentication'EnumSuccess) = "success"
 
 instance Data.Aeson.Types.FromJSON.FromJSON IssuingAuthorizationVerificationDataAuthentication' where
   parseJSON val =
     GHC.Base.pure
-      ( if  | val GHC.Classes.== "failure" -> IssuingAuthorizationVerificationDataAuthentication'EnumStringFailure
-            | val GHC.Classes.== "none" -> IssuingAuthorizationVerificationDataAuthentication'EnumStringNone
-            | val GHC.Classes.== "success" -> IssuingAuthorizationVerificationDataAuthentication'EnumStringSuccess
-            | GHC.Base.otherwise -> IssuingAuthorizationVerificationDataAuthentication'EnumOther val
+      ( if  | val GHC.Classes.== "failure" -> IssuingAuthorizationVerificationDataAuthentication'EnumFailure
+            | val GHC.Classes.== "none" -> IssuingAuthorizationVerificationDataAuthentication'EnumNone
+            | val GHC.Classes.== "success" -> IssuingAuthorizationVerificationDataAuthentication'EnumSuccess
+            | GHC.Base.otherwise -> IssuingAuthorizationVerificationDataAuthentication'Other val
       )
 
--- | Defines the enum schema issuing_authorization_verification_dataCvc_check\'
+-- | Defines the enum schema located at @components.schemas.issuing_authorization_verification_data.properties.cvc_check@ in the specification.
 --
 -- Whether the cardholder provided a CVC and if it matched Stripe’s record.
 data IssuingAuthorizationVerificationDataCvcCheck'
-  = IssuingAuthorizationVerificationDataCvcCheck'EnumOther Data.Aeson.Types.Internal.Value
-  | IssuingAuthorizationVerificationDataCvcCheck'EnumTyped Data.Text.Internal.Text
-  | IssuingAuthorizationVerificationDataCvcCheck'EnumStringMatch
-  | IssuingAuthorizationVerificationDataCvcCheck'EnumStringMismatch
-  | IssuingAuthorizationVerificationDataCvcCheck'EnumStringNotProvided
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    IssuingAuthorizationVerificationDataCvcCheck'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    IssuingAuthorizationVerificationDataCvcCheck'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"match"@
+    IssuingAuthorizationVerificationDataCvcCheck'EnumMatch
+  | -- | Represents the JSON value @"mismatch"@
+    IssuingAuthorizationVerificationDataCvcCheck'EnumMismatch
+  | -- | Represents the JSON value @"not_provided"@
+    IssuingAuthorizationVerificationDataCvcCheck'EnumNotProvided
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
 instance Data.Aeson.Types.ToJSON.ToJSON IssuingAuthorizationVerificationDataCvcCheck' where
-  toJSON (IssuingAuthorizationVerificationDataCvcCheck'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (IssuingAuthorizationVerificationDataCvcCheck'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (IssuingAuthorizationVerificationDataCvcCheck'EnumStringMatch) = "match"
-  toJSON (IssuingAuthorizationVerificationDataCvcCheck'EnumStringMismatch) = "mismatch"
-  toJSON (IssuingAuthorizationVerificationDataCvcCheck'EnumStringNotProvided) = "not_provided"
+  toJSON (IssuingAuthorizationVerificationDataCvcCheck'Other val) = val
+  toJSON (IssuingAuthorizationVerificationDataCvcCheck'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (IssuingAuthorizationVerificationDataCvcCheck'EnumMatch) = "match"
+  toJSON (IssuingAuthorizationVerificationDataCvcCheck'EnumMismatch) = "mismatch"
+  toJSON (IssuingAuthorizationVerificationDataCvcCheck'EnumNotProvided) = "not_provided"
 
 instance Data.Aeson.Types.FromJSON.FromJSON IssuingAuthorizationVerificationDataCvcCheck' where
   parseJSON val =
     GHC.Base.pure
-      ( if  | val GHC.Classes.== "match" -> IssuingAuthorizationVerificationDataCvcCheck'EnumStringMatch
-            | val GHC.Classes.== "mismatch" -> IssuingAuthorizationVerificationDataCvcCheck'EnumStringMismatch
-            | val GHC.Classes.== "not_provided" -> IssuingAuthorizationVerificationDataCvcCheck'EnumStringNotProvided
-            | GHC.Base.otherwise -> IssuingAuthorizationVerificationDataCvcCheck'EnumOther val
+      ( if  | val GHC.Classes.== "match" -> IssuingAuthorizationVerificationDataCvcCheck'EnumMatch
+            | val GHC.Classes.== "mismatch" -> IssuingAuthorizationVerificationDataCvcCheck'EnumMismatch
+            | val GHC.Classes.== "not_provided" -> IssuingAuthorizationVerificationDataCvcCheck'EnumNotProvided
+            | GHC.Base.otherwise -> IssuingAuthorizationVerificationDataCvcCheck'Other val
       )

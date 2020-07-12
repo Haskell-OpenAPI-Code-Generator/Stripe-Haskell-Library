@@ -10,6 +10,7 @@ module StripeAPI.Operations.PostTerminalConnectionTokens where
 import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -77,7 +78,7 @@ postTerminalConnectionTokens body =
     )
     (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack "/v1/terminal/connection_tokens") [] body StripeAPI.Common.RequestBodyEncodingFormData)
 
--- | Defines the data type for the schema postTerminalConnectionTokensRequestBody
+-- | Defines the object schema located at @paths.\/v1\/terminal\/connection_tokens.POST.requestBody.content.application\/x-www-form-urlencoded.schema@ in the specification.
 data PostTerminalConnectionTokensRequestBody
   = PostTerminalConnectionTokensRequestBody
       { -- | expand: Specifies which fields in the response should be expanded.
@@ -95,11 +96,19 @@ data PostTerminalConnectionTokensRequestBody
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostTerminalConnectionTokensRequestBody where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "expand" (postTerminalConnectionTokensRequestBodyExpand obj) : (Data.Aeson..=) "location" (postTerminalConnectionTokensRequestBodyLocation obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "expand" (postTerminalConnectionTokensRequestBodyExpand obj) GHC.Base.<> (Data.Aeson..=) "location" (postTerminalConnectionTokensRequestBodyLocation obj))
+  toJSON obj = Data.Aeson.Types.Internal.object ("expand" Data.Aeson.Types.ToJSON..= postTerminalConnectionTokensRequestBodyExpand obj : "location" Data.Aeson.Types.ToJSON..= postTerminalConnectionTokensRequestBodyLocation obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("expand" Data.Aeson.Types.ToJSON..= postTerminalConnectionTokensRequestBodyExpand obj) GHC.Base.<> ("location" Data.Aeson.Types.ToJSON..= postTerminalConnectionTokensRequestBodyLocation obj))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostTerminalConnectionTokensRequestBody where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PostTerminalConnectionTokensRequestBody" (\obj -> (GHC.Base.pure PostTerminalConnectionTokensRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "location"))
+
+-- | Create a new 'PostTerminalConnectionTokensRequestBody' with all required fields.
+mkPostTerminalConnectionTokensRequestBody :: PostTerminalConnectionTokensRequestBody
+mkPostTerminalConnectionTokensRequestBody =
+  PostTerminalConnectionTokensRequestBody
+    { postTerminalConnectionTokensRequestBodyExpand = GHC.Maybe.Nothing,
+      postTerminalConnectionTokensRequestBodyLocation = GHC.Maybe.Nothing
+    }
 
 -- | Represents a response of the operation 'postTerminalConnectionTokens'.
 --

@@ -1,11 +1,11 @@
 module StripeAPI.Types.IssuingCardAuthorizationControls where
 import Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Types.Internal
-data IssuingCardAuthorizationControls 
-instance Show IssuingCardAuthorizationControls 
-instance Eq IssuingCardAuthorizationControls 
-instance FromJSON IssuingCardAuthorizationControls 
-instance ToJSON IssuingCardAuthorizationControls 
+data IssuingCardAuthorizationControls
+instance Show IssuingCardAuthorizationControls
+instance Eq IssuingCardAuthorizationControls
+instance FromJSON IssuingCardAuthorizationControls
+instance ToJSON IssuingCardAuthorizationControls
 data IssuingCardAuthorizationControlsAllowedCategories'
 instance Show IssuingCardAuthorizationControlsAllowedCategories'
 instance Eq IssuingCardAuthorizationControlsAllowedCategories'

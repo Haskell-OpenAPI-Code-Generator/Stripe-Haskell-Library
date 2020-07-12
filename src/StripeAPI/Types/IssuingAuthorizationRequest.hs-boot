@@ -1,11 +1,11 @@
 module StripeAPI.Types.IssuingAuthorizationRequest where
 import Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Types.Internal
-data IssuingAuthorizationRequest 
-instance Show IssuingAuthorizationRequest 
-instance Eq IssuingAuthorizationRequest 
-instance FromJSON IssuingAuthorizationRequest 
-instance ToJSON IssuingAuthorizationRequest 
+data IssuingAuthorizationRequest
+instance Show IssuingAuthorizationRequest
+instance Eq IssuingAuthorizationRequest
+instance FromJSON IssuingAuthorizationRequest
+instance ToJSON IssuingAuthorizationRequest
 data IssuingAuthorizationRequestReason'
 instance Show IssuingAuthorizationRequestReason'
 instance Eq IssuingAuthorizationRequestReason'

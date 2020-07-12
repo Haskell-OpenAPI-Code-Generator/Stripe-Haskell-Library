@@ -1,11 +1,11 @@
 module StripeAPI.Types.CreditNoteTaxAmount where
 import Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Types.Internal
-data CreditNoteTaxAmount 
-instance Show CreditNoteTaxAmount 
-instance Eq CreditNoteTaxAmount 
-instance FromJSON CreditNoteTaxAmount 
-instance ToJSON CreditNoteTaxAmount 
+data CreditNoteTaxAmount
+instance Show CreditNoteTaxAmount
+instance Eq CreditNoteTaxAmount
+instance FromJSON CreditNoteTaxAmount
+instance ToJSON CreditNoteTaxAmount
 data CreditNoteTaxAmountTaxRate'Variants
 instance Show CreditNoteTaxAmountTaxRate'Variants
 instance Eq CreditNoteTaxAmountTaxRate'Variants

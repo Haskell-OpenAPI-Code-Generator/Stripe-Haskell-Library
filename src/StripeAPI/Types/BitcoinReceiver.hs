@@ -8,6 +8,7 @@ module StripeAPI.Types.BitcoinReceiver where
 
 import qualified Control.Monad.Fail
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -31,7 +32,7 @@ import {-# SOURCE #-} StripeAPI.Types.BitcoinTransaction
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
--- | Defines the data type for the schema bitcoin_receiver
+-- | Defines the object schema located at @components.schemas.bitcoin_receiver@ in the specification.
 data BitcoinReceiver
   = BitcoinReceiver
       { -- | active: True when this bitcoin receiver has received a non-zero amount of bitcoin.
@@ -90,8 +91,6 @@ data BitcoinReceiver
         bitcoinReceiverLivemode :: GHC.Types.Bool,
         -- | metadata: Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
         bitcoinReceiverMetadata :: Data.Aeson.Types.Internal.Object,
-        -- | object: String representing the object\'s type. Objects of the same type share the same value.
-        bitcoinReceiverObject :: BitcoinReceiverObject',
         -- | payment: The ID of the payment created from the receiver, if any. Hidden when viewing the receiver with a publishable key.
         --
         -- Constraints:
@@ -117,34 +116,69 @@ data BitcoinReceiver
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON BitcoinReceiver where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "active" (bitcoinReceiverActive obj) : (Data.Aeson..=) "amount" (bitcoinReceiverAmount obj) : (Data.Aeson..=) "amount_received" (bitcoinReceiverAmountReceived obj) : (Data.Aeson..=) "bitcoin_amount" (bitcoinReceiverBitcoinAmount obj) : (Data.Aeson..=) "bitcoin_amount_received" (bitcoinReceiverBitcoinAmountReceived obj) : (Data.Aeson..=) "bitcoin_uri" (bitcoinReceiverBitcoinUri obj) : (Data.Aeson..=) "created" (bitcoinReceiverCreated obj) : (Data.Aeson..=) "currency" (bitcoinReceiverCurrency obj) : (Data.Aeson..=) "customer" (bitcoinReceiverCustomer obj) : (Data.Aeson..=) "description" (bitcoinReceiverDescription obj) : (Data.Aeson..=) "email" (bitcoinReceiverEmail obj) : (Data.Aeson..=) "filled" (bitcoinReceiverFilled obj) : (Data.Aeson..=) "id" (bitcoinReceiverId obj) : (Data.Aeson..=) "inbound_address" (bitcoinReceiverInboundAddress obj) : (Data.Aeson..=) "livemode" (bitcoinReceiverLivemode obj) : (Data.Aeson..=) "metadata" (bitcoinReceiverMetadata obj) : (Data.Aeson..=) "object" (bitcoinReceiverObject obj) : (Data.Aeson..=) "payment" (bitcoinReceiverPayment obj) : (Data.Aeson..=) "refund_address" (bitcoinReceiverRefundAddress obj) : (Data.Aeson..=) "transactions" (bitcoinReceiverTransactions obj) : (Data.Aeson..=) "uncaptured_funds" (bitcoinReceiverUncapturedFunds obj) : (Data.Aeson..=) "used_for_payment" (bitcoinReceiverUsedForPayment obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "active" (bitcoinReceiverActive obj) GHC.Base.<> ((Data.Aeson..=) "amount" (bitcoinReceiverAmount obj) GHC.Base.<> ((Data.Aeson..=) "amount_received" (bitcoinReceiverAmountReceived obj) GHC.Base.<> ((Data.Aeson..=) "bitcoin_amount" (bitcoinReceiverBitcoinAmount obj) GHC.Base.<> ((Data.Aeson..=) "bitcoin_amount_received" (bitcoinReceiverBitcoinAmountReceived obj) GHC.Base.<> ((Data.Aeson..=) "bitcoin_uri" (bitcoinReceiverBitcoinUri obj) GHC.Base.<> ((Data.Aeson..=) "created" (bitcoinReceiverCreated obj) GHC.Base.<> ((Data.Aeson..=) "currency" (bitcoinReceiverCurrency obj) GHC.Base.<> ((Data.Aeson..=) "customer" (bitcoinReceiverCustomer obj) GHC.Base.<> ((Data.Aeson..=) "description" (bitcoinReceiverDescription obj) GHC.Base.<> ((Data.Aeson..=) "email" (bitcoinReceiverEmail obj) GHC.Base.<> ((Data.Aeson..=) "filled" (bitcoinReceiverFilled obj) GHC.Base.<> ((Data.Aeson..=) "id" (bitcoinReceiverId obj) GHC.Base.<> ((Data.Aeson..=) "inbound_address" (bitcoinReceiverInboundAddress obj) GHC.Base.<> ((Data.Aeson..=) "livemode" (bitcoinReceiverLivemode obj) GHC.Base.<> ((Data.Aeson..=) "metadata" (bitcoinReceiverMetadata obj) GHC.Base.<> ((Data.Aeson..=) "object" (bitcoinReceiverObject obj) GHC.Base.<> ((Data.Aeson..=) "payment" (bitcoinReceiverPayment obj) GHC.Base.<> ((Data.Aeson..=) "refund_address" (bitcoinReceiverRefundAddress obj) GHC.Base.<> ((Data.Aeson..=) "transactions" (bitcoinReceiverTransactions obj) GHC.Base.<> ((Data.Aeson..=) "uncaptured_funds" (bitcoinReceiverUncapturedFunds obj) GHC.Base.<> (Data.Aeson..=) "used_for_payment" (bitcoinReceiverUsedForPayment obj))))))))))))))))))))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("active" Data.Aeson.Types.ToJSON..= bitcoinReceiverActive obj : "amount" Data.Aeson.Types.ToJSON..= bitcoinReceiverAmount obj : "amount_received" Data.Aeson.Types.ToJSON..= bitcoinReceiverAmountReceived obj : "bitcoin_amount" Data.Aeson.Types.ToJSON..= bitcoinReceiverBitcoinAmount obj : "bitcoin_amount_received" Data.Aeson.Types.ToJSON..= bitcoinReceiverBitcoinAmountReceived obj : "bitcoin_uri" Data.Aeson.Types.ToJSON..= bitcoinReceiverBitcoinUri obj : "created" Data.Aeson.Types.ToJSON..= bitcoinReceiverCreated obj : "currency" Data.Aeson.Types.ToJSON..= bitcoinReceiverCurrency obj : "customer" Data.Aeson.Types.ToJSON..= bitcoinReceiverCustomer obj : "description" Data.Aeson.Types.ToJSON..= bitcoinReceiverDescription obj : "email" Data.Aeson.Types.ToJSON..= bitcoinReceiverEmail obj : "filled" Data.Aeson.Types.ToJSON..= bitcoinReceiverFilled obj : "id" Data.Aeson.Types.ToJSON..= bitcoinReceiverId obj : "inbound_address" Data.Aeson.Types.ToJSON..= bitcoinReceiverInboundAddress obj : "livemode" Data.Aeson.Types.ToJSON..= bitcoinReceiverLivemode obj : "metadata" Data.Aeson.Types.ToJSON..= bitcoinReceiverMetadata obj : "payment" Data.Aeson.Types.ToJSON..= bitcoinReceiverPayment obj : "refund_address" Data.Aeson.Types.ToJSON..= bitcoinReceiverRefundAddress obj : "transactions" Data.Aeson.Types.ToJSON..= bitcoinReceiverTransactions obj : "uncaptured_funds" Data.Aeson.Types.ToJSON..= bitcoinReceiverUncapturedFunds obj : "used_for_payment" Data.Aeson.Types.ToJSON..= bitcoinReceiverUsedForPayment obj : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "bitcoin_receiver" : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("active" Data.Aeson.Types.ToJSON..= bitcoinReceiverActive obj) GHC.Base.<> (("amount" Data.Aeson.Types.ToJSON..= bitcoinReceiverAmount obj) GHC.Base.<> (("amount_received" Data.Aeson.Types.ToJSON..= bitcoinReceiverAmountReceived obj) GHC.Base.<> (("bitcoin_amount" Data.Aeson.Types.ToJSON..= bitcoinReceiverBitcoinAmount obj) GHC.Base.<> (("bitcoin_amount_received" Data.Aeson.Types.ToJSON..= bitcoinReceiverBitcoinAmountReceived obj) GHC.Base.<> (("bitcoin_uri" Data.Aeson.Types.ToJSON..= bitcoinReceiverBitcoinUri obj) GHC.Base.<> (("created" Data.Aeson.Types.ToJSON..= bitcoinReceiverCreated obj) GHC.Base.<> (("currency" Data.Aeson.Types.ToJSON..= bitcoinReceiverCurrency obj) GHC.Base.<> (("customer" Data.Aeson.Types.ToJSON..= bitcoinReceiverCustomer obj) GHC.Base.<> (("description" Data.Aeson.Types.ToJSON..= bitcoinReceiverDescription obj) GHC.Base.<> (("email" Data.Aeson.Types.ToJSON..= bitcoinReceiverEmail obj) GHC.Base.<> (("filled" Data.Aeson.Types.ToJSON..= bitcoinReceiverFilled obj) GHC.Base.<> (("id" Data.Aeson.Types.ToJSON..= bitcoinReceiverId obj) GHC.Base.<> (("inbound_address" Data.Aeson.Types.ToJSON..= bitcoinReceiverInboundAddress obj) GHC.Base.<> (("livemode" Data.Aeson.Types.ToJSON..= bitcoinReceiverLivemode obj) GHC.Base.<> (("metadata" Data.Aeson.Types.ToJSON..= bitcoinReceiverMetadata obj) GHC.Base.<> (("payment" Data.Aeson.Types.ToJSON..= bitcoinReceiverPayment obj) GHC.Base.<> (("refund_address" Data.Aeson.Types.ToJSON..= bitcoinReceiverRefundAddress obj) GHC.Base.<> (("transactions" Data.Aeson.Types.ToJSON..= bitcoinReceiverTransactions obj) GHC.Base.<> (("uncaptured_funds" Data.Aeson.Types.ToJSON..= bitcoinReceiverUncapturedFunds obj) GHC.Base.<> (("used_for_payment" Data.Aeson.Types.ToJSON..= bitcoinReceiverUsedForPayment obj) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "bitcoin_receiver"))))))))))))))))))))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON BitcoinReceiver where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "BitcoinReceiver" (\obj -> (((((((((((((((((((((GHC.Base.pure BitcoinReceiver GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "active")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "amount_received")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "bitcoin_amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "bitcoin_amount_received")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "bitcoin_uri")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "created")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "customer")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "description")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "email")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "filled")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "inbound_address")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "livemode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "object")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "payment")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "refund_address")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "transactions")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "uncaptured_funds")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "used_for_payment"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "BitcoinReceiver" (\obj -> ((((((((((((((((((((GHC.Base.pure BitcoinReceiver GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "active")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "amount_received")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "bitcoin_amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "bitcoin_amount_received")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "bitcoin_uri")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "created")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "customer")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "description")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "email")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "filled")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "inbound_address")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "livemode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "payment")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "refund_address")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "transactions")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "uncaptured_funds")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "used_for_payment"))
 
--- | Defines the enum schema bitcoin_receiverObject\'
---
--- String representing the object\'s type. Objects of the same type share the same value.
-data BitcoinReceiverObject'
-  = BitcoinReceiverObject'EnumOther Data.Aeson.Types.Internal.Value
-  | BitcoinReceiverObject'EnumTyped Data.Text.Internal.Text
-  | BitcoinReceiverObject'EnumStringBitcoinReceiver
-  deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Create a new 'BitcoinReceiver' with all required fields.
+mkBitcoinReceiver ::
+  -- | 'bitcoinReceiverActive'
+  GHC.Types.Bool ->
+  -- | 'bitcoinReceiverAmount'
+  GHC.Types.Int ->
+  -- | 'bitcoinReceiverAmountReceived'
+  GHC.Types.Int ->
+  -- | 'bitcoinReceiverBitcoinAmount'
+  GHC.Types.Int ->
+  -- | 'bitcoinReceiverBitcoinAmountReceived'
+  GHC.Types.Int ->
+  -- | 'bitcoinReceiverBitcoinUri'
+  Data.Text.Internal.Text ->
+  -- | 'bitcoinReceiverCreated'
+  GHC.Types.Int ->
+  -- | 'bitcoinReceiverCurrency'
+  Data.Text.Internal.Text ->
+  -- | 'bitcoinReceiverFilled'
+  GHC.Types.Bool ->
+  -- | 'bitcoinReceiverId'
+  Data.Text.Internal.Text ->
+  -- | 'bitcoinReceiverInboundAddress'
+  Data.Text.Internal.Text ->
+  -- | 'bitcoinReceiverLivemode'
+  GHC.Types.Bool ->
+  -- | 'bitcoinReceiverMetadata'
+  Data.Aeson.Types.Internal.Object ->
+  -- | 'bitcoinReceiverUncapturedFunds'
+  GHC.Types.Bool ->
+  BitcoinReceiver
+mkBitcoinReceiver bitcoinReceiverActive bitcoinReceiverAmount bitcoinReceiverAmountReceived bitcoinReceiverBitcoinAmount bitcoinReceiverBitcoinAmountReceived bitcoinReceiverBitcoinUri bitcoinReceiverCreated bitcoinReceiverCurrency bitcoinReceiverFilled bitcoinReceiverId bitcoinReceiverInboundAddress bitcoinReceiverLivemode bitcoinReceiverMetadata bitcoinReceiverUncapturedFunds =
+  BitcoinReceiver
+    { bitcoinReceiverActive = bitcoinReceiverActive,
+      bitcoinReceiverAmount = bitcoinReceiverAmount,
+      bitcoinReceiverAmountReceived = bitcoinReceiverAmountReceived,
+      bitcoinReceiverBitcoinAmount = bitcoinReceiverBitcoinAmount,
+      bitcoinReceiverBitcoinAmountReceived = bitcoinReceiverBitcoinAmountReceived,
+      bitcoinReceiverBitcoinUri = bitcoinReceiverBitcoinUri,
+      bitcoinReceiverCreated = bitcoinReceiverCreated,
+      bitcoinReceiverCurrency = bitcoinReceiverCurrency,
+      bitcoinReceiverCustomer = GHC.Maybe.Nothing,
+      bitcoinReceiverDescription = GHC.Maybe.Nothing,
+      bitcoinReceiverEmail = GHC.Maybe.Nothing,
+      bitcoinReceiverFilled = bitcoinReceiverFilled,
+      bitcoinReceiverId = bitcoinReceiverId,
+      bitcoinReceiverInboundAddress = bitcoinReceiverInboundAddress,
+      bitcoinReceiverLivemode = bitcoinReceiverLivemode,
+      bitcoinReceiverMetadata = bitcoinReceiverMetadata,
+      bitcoinReceiverPayment = GHC.Maybe.Nothing,
+      bitcoinReceiverRefundAddress = GHC.Maybe.Nothing,
+      bitcoinReceiverTransactions = GHC.Maybe.Nothing,
+      bitcoinReceiverUncapturedFunds = bitcoinReceiverUncapturedFunds,
+      bitcoinReceiverUsedForPayment = GHC.Maybe.Nothing
+    }
 
-instance Data.Aeson.Types.ToJSON.ToJSON BitcoinReceiverObject' where
-  toJSON (BitcoinReceiverObject'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (BitcoinReceiverObject'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (BitcoinReceiverObject'EnumStringBitcoinReceiver) = "bitcoin_receiver"
-
-instance Data.Aeson.Types.FromJSON.FromJSON BitcoinReceiverObject' where
-  parseJSON val =
-    GHC.Base.pure
-      ( if  | val GHC.Classes.== "bitcoin_receiver" -> BitcoinReceiverObject'EnumStringBitcoinReceiver
-            | GHC.Base.otherwise -> BitcoinReceiverObject'EnumOther val
-      )
-
--- | Defines the data type for the schema bitcoin_receiverTransactions\'
+-- | Defines the object schema located at @components.schemas.bitcoin_receiver.properties.transactions@ in the specification.
 --
 -- A list with one entry for each time that the customer sent bitcoin to the receiver. Hidden when viewing the receiver with a publishable key.
 data BitcoinReceiverTransactions'
@@ -153,8 +187,6 @@ data BitcoinReceiverTransactions'
         bitcoinReceiverTransactions'Data :: ([BitcoinTransaction]),
         -- | has_more: True if this list has another page of items after this one that can be fetched.
         bitcoinReceiverTransactions'HasMore :: GHC.Types.Bool,
-        -- | object: String representing the object\'s type. Objects of the same type share the same value. Always has the value \`list\`.
-        bitcoinReceiverTransactions'Object :: BitcoinReceiverTransactions'Object',
         -- | url: The URL where this list can be accessed.
         --
         -- Constraints:
@@ -168,29 +200,24 @@ data BitcoinReceiverTransactions'
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON BitcoinReceiverTransactions' where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "data" (bitcoinReceiverTransactions'Data obj) : (Data.Aeson..=) "has_more" (bitcoinReceiverTransactions'HasMore obj) : (Data.Aeson..=) "object" (bitcoinReceiverTransactions'Object obj) : (Data.Aeson..=) "url" (bitcoinReceiverTransactions'Url obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "data" (bitcoinReceiverTransactions'Data obj) GHC.Base.<> ((Data.Aeson..=) "has_more" (bitcoinReceiverTransactions'HasMore obj) GHC.Base.<> ((Data.Aeson..=) "object" (bitcoinReceiverTransactions'Object obj) GHC.Base.<> (Data.Aeson..=) "url" (bitcoinReceiverTransactions'Url obj))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("data" Data.Aeson.Types.ToJSON..= bitcoinReceiverTransactions'Data obj : "has_more" Data.Aeson.Types.ToJSON..= bitcoinReceiverTransactions'HasMore obj : "url" Data.Aeson.Types.ToJSON..= bitcoinReceiverTransactions'Url obj : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "list" : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("data" Data.Aeson.Types.ToJSON..= bitcoinReceiverTransactions'Data obj) GHC.Base.<> (("has_more" Data.Aeson.Types.ToJSON..= bitcoinReceiverTransactions'HasMore obj) GHC.Base.<> (("url" Data.Aeson.Types.ToJSON..= bitcoinReceiverTransactions'Url obj) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "list"))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON BitcoinReceiverTransactions' where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "BitcoinReceiverTransactions'" (\obj -> (((GHC.Base.pure BitcoinReceiverTransactions' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "has_more")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "object")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "url"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "BitcoinReceiverTransactions'" (\obj -> ((GHC.Base.pure BitcoinReceiverTransactions' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "has_more")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "url"))
 
--- | Defines the enum schema bitcoin_receiverTransactions\'Object\'
---
--- String representing the object\'s type. Objects of the same type share the same value. Always has the value \`list\`.
-data BitcoinReceiverTransactions'Object'
-  = BitcoinReceiverTransactions'Object'EnumOther Data.Aeson.Types.Internal.Value
-  | BitcoinReceiverTransactions'Object'EnumTyped Data.Text.Internal.Text
-  | BitcoinReceiverTransactions'Object'EnumStringList
-  deriving (GHC.Show.Show, GHC.Classes.Eq)
-
-instance Data.Aeson.Types.ToJSON.ToJSON BitcoinReceiverTransactions'Object' where
-  toJSON (BitcoinReceiverTransactions'Object'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (BitcoinReceiverTransactions'Object'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (BitcoinReceiverTransactions'Object'EnumStringList) = "list"
-
-instance Data.Aeson.Types.FromJSON.FromJSON BitcoinReceiverTransactions'Object' where
-  parseJSON val =
-    GHC.Base.pure
-      ( if  | val GHC.Classes.== "list" -> BitcoinReceiverTransactions'Object'EnumStringList
-            | GHC.Base.otherwise -> BitcoinReceiverTransactions'Object'EnumOther val
-      )
+-- | Create a new 'BitcoinReceiverTransactions'' with all required fields.
+mkBitcoinReceiverTransactions' ::
+  -- | 'bitcoinReceiverTransactions'Data'
+  [BitcoinTransaction] ->
+  -- | 'bitcoinReceiverTransactions'HasMore'
+  GHC.Types.Bool ->
+  -- | 'bitcoinReceiverTransactions'Url'
+  Data.Text.Internal.Text ->
+  BitcoinReceiverTransactions'
+mkBitcoinReceiverTransactions' bitcoinReceiverTransactions'Data bitcoinReceiverTransactions'HasMore bitcoinReceiverTransactions'Url =
+  BitcoinReceiverTransactions'
+    { bitcoinReceiverTransactions'Data = bitcoinReceiverTransactions'Data,
+      bitcoinReceiverTransactions'HasMore = bitcoinReceiverTransactions'HasMore,
+      bitcoinReceiverTransactions'Url = bitcoinReceiverTransactions'Url
+    }

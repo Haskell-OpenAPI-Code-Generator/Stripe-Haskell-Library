@@ -8,6 +8,7 @@ module StripeAPI.Types.LegalEntityDob where
 
 import qualified Control.Monad.Fail
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -30,7 +31,7 @@ import StripeAPI.TypeAlias
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
--- | Defines the data type for the schema legal_entity_dob
+-- | Defines the object schema located at @components.schemas.legal_entity_dob@ in the specification.
 data LegalEntityDob
   = LegalEntityDob
       { -- | day: The day of birth, between 1 and 31.
@@ -46,8 +47,17 @@ data LegalEntityDob
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON LegalEntityDob where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "day" (legalEntityDobDay obj) : (Data.Aeson..=) "month" (legalEntityDobMonth obj) : (Data.Aeson..=) "year" (legalEntityDobYear obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "day" (legalEntityDobDay obj) GHC.Base.<> ((Data.Aeson..=) "month" (legalEntityDobMonth obj) GHC.Base.<> (Data.Aeson..=) "year" (legalEntityDobYear obj)))
+  toJSON obj = Data.Aeson.Types.Internal.object ("day" Data.Aeson.Types.ToJSON..= legalEntityDobDay obj : "month" Data.Aeson.Types.ToJSON..= legalEntityDobMonth obj : "year" Data.Aeson.Types.ToJSON..= legalEntityDobYear obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("day" Data.Aeson.Types.ToJSON..= legalEntityDobDay obj) GHC.Base.<> (("month" Data.Aeson.Types.ToJSON..= legalEntityDobMonth obj) GHC.Base.<> ("year" Data.Aeson.Types.ToJSON..= legalEntityDobYear obj)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON LegalEntityDob where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "LegalEntityDob" (\obj -> ((GHC.Base.pure LegalEntityDob GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "day")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "month")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "year"))
+
+-- | Create a new 'LegalEntityDob' with all required fields.
+mkLegalEntityDob :: LegalEntityDob
+mkLegalEntityDob =
+  LegalEntityDob
+    { legalEntityDobDay = GHC.Maybe.Nothing,
+      legalEntityDobMonth = GHC.Maybe.Nothing,
+      legalEntityDobYear = GHC.Maybe.Nothing
+    }

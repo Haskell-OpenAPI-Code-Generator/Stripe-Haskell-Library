@@ -10,6 +10,7 @@ module StripeAPI.Operations.PostOrders where
 import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -77,7 +78,7 @@ postOrders body =
     )
     (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack "/v1/orders") [] (GHC.Maybe.Just body) StripeAPI.Common.RequestBodyEncodingFormData)
 
--- | Defines the data type for the schema postOrdersRequestBody
+-- | Defines the object schema located at @paths.\/v1\/orders.POST.requestBody.content.application\/x-www-form-urlencoded.schema@ in the specification.
 data PostOrdersRequestBody
   = PostOrdersRequestBody
       { -- | coupon: A coupon code that represents a discount to be applied to this order. Must be one-time duration and in same currency as the order. An order can have multiple coupons.
@@ -115,13 +116,30 @@ data PostOrdersRequestBody
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostOrdersRequestBody where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "coupon" (postOrdersRequestBodyCoupon obj) : (Data.Aeson..=) "currency" (postOrdersRequestBodyCurrency obj) : (Data.Aeson..=) "customer" (postOrdersRequestBodyCustomer obj) : (Data.Aeson..=) "email" (postOrdersRequestBodyEmail obj) : (Data.Aeson..=) "expand" (postOrdersRequestBodyExpand obj) : (Data.Aeson..=) "items" (postOrdersRequestBodyItems obj) : (Data.Aeson..=) "metadata" (postOrdersRequestBodyMetadata obj) : (Data.Aeson..=) "shipping" (postOrdersRequestBodyShipping obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "coupon" (postOrdersRequestBodyCoupon obj) GHC.Base.<> ((Data.Aeson..=) "currency" (postOrdersRequestBodyCurrency obj) GHC.Base.<> ((Data.Aeson..=) "customer" (postOrdersRequestBodyCustomer obj) GHC.Base.<> ((Data.Aeson..=) "email" (postOrdersRequestBodyEmail obj) GHC.Base.<> ((Data.Aeson..=) "expand" (postOrdersRequestBodyExpand obj) GHC.Base.<> ((Data.Aeson..=) "items" (postOrdersRequestBodyItems obj) GHC.Base.<> ((Data.Aeson..=) "metadata" (postOrdersRequestBodyMetadata obj) GHC.Base.<> (Data.Aeson..=) "shipping" (postOrdersRequestBodyShipping obj))))))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("coupon" Data.Aeson.Types.ToJSON..= postOrdersRequestBodyCoupon obj : "currency" Data.Aeson.Types.ToJSON..= postOrdersRequestBodyCurrency obj : "customer" Data.Aeson.Types.ToJSON..= postOrdersRequestBodyCustomer obj : "email" Data.Aeson.Types.ToJSON..= postOrdersRequestBodyEmail obj : "expand" Data.Aeson.Types.ToJSON..= postOrdersRequestBodyExpand obj : "items" Data.Aeson.Types.ToJSON..= postOrdersRequestBodyItems obj : "metadata" Data.Aeson.Types.ToJSON..= postOrdersRequestBodyMetadata obj : "shipping" Data.Aeson.Types.ToJSON..= postOrdersRequestBodyShipping obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("coupon" Data.Aeson.Types.ToJSON..= postOrdersRequestBodyCoupon obj) GHC.Base.<> (("currency" Data.Aeson.Types.ToJSON..= postOrdersRequestBodyCurrency obj) GHC.Base.<> (("customer" Data.Aeson.Types.ToJSON..= postOrdersRequestBodyCustomer obj) GHC.Base.<> (("email" Data.Aeson.Types.ToJSON..= postOrdersRequestBodyEmail obj) GHC.Base.<> (("expand" Data.Aeson.Types.ToJSON..= postOrdersRequestBodyExpand obj) GHC.Base.<> (("items" Data.Aeson.Types.ToJSON..= postOrdersRequestBodyItems obj) GHC.Base.<> (("metadata" Data.Aeson.Types.ToJSON..= postOrdersRequestBodyMetadata obj) GHC.Base.<> ("shipping" Data.Aeson.Types.ToJSON..= postOrdersRequestBodyShipping obj))))))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostOrdersRequestBody where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PostOrdersRequestBody" (\obj -> (((((((GHC.Base.pure PostOrdersRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "coupon")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "customer")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "email")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "items")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "shipping"))
 
--- | Defines the data type for the schema postOrdersRequestBodyItems\'
+-- | Create a new 'PostOrdersRequestBody' with all required fields.
+mkPostOrdersRequestBody ::
+  -- | 'postOrdersRequestBodyCurrency'
+  Data.Text.Internal.Text ->
+  PostOrdersRequestBody
+mkPostOrdersRequestBody postOrdersRequestBodyCurrency =
+  PostOrdersRequestBody
+    { postOrdersRequestBodyCoupon = GHC.Maybe.Nothing,
+      postOrdersRequestBodyCurrency = postOrdersRequestBodyCurrency,
+      postOrdersRequestBodyCustomer = GHC.Maybe.Nothing,
+      postOrdersRequestBodyEmail = GHC.Maybe.Nothing,
+      postOrdersRequestBodyExpand = GHC.Maybe.Nothing,
+      postOrdersRequestBodyItems = GHC.Maybe.Nothing,
+      postOrdersRequestBodyMetadata = GHC.Maybe.Nothing,
+      postOrdersRequestBodyShipping = GHC.Maybe.Nothing
+    }
+
+-- | Defines the object schema located at @paths.\/v1\/orders.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.items.items@ in the specification.
 data PostOrdersRequestBodyItems'
   = PostOrdersRequestBodyItems'
       { -- | amount
@@ -155,41 +173,59 @@ data PostOrdersRequestBodyItems'
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostOrdersRequestBodyItems' where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "amount" (postOrdersRequestBodyItems'Amount obj) : (Data.Aeson..=) "currency" (postOrdersRequestBodyItems'Currency obj) : (Data.Aeson..=) "description" (postOrdersRequestBodyItems'Description obj) : (Data.Aeson..=) "parent" (postOrdersRequestBodyItems'Parent obj) : (Data.Aeson..=) "quantity" (postOrdersRequestBodyItems'Quantity obj) : (Data.Aeson..=) "type" (postOrdersRequestBodyItems'Type obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "amount" (postOrdersRequestBodyItems'Amount obj) GHC.Base.<> ((Data.Aeson..=) "currency" (postOrdersRequestBodyItems'Currency obj) GHC.Base.<> ((Data.Aeson..=) "description" (postOrdersRequestBodyItems'Description obj) GHC.Base.<> ((Data.Aeson..=) "parent" (postOrdersRequestBodyItems'Parent obj) GHC.Base.<> ((Data.Aeson..=) "quantity" (postOrdersRequestBodyItems'Quantity obj) GHC.Base.<> (Data.Aeson..=) "type" (postOrdersRequestBodyItems'Type obj))))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("amount" Data.Aeson.Types.ToJSON..= postOrdersRequestBodyItems'Amount obj : "currency" Data.Aeson.Types.ToJSON..= postOrdersRequestBodyItems'Currency obj : "description" Data.Aeson.Types.ToJSON..= postOrdersRequestBodyItems'Description obj : "parent" Data.Aeson.Types.ToJSON..= postOrdersRequestBodyItems'Parent obj : "quantity" Data.Aeson.Types.ToJSON..= postOrdersRequestBodyItems'Quantity obj : "type" Data.Aeson.Types.ToJSON..= postOrdersRequestBodyItems'Type obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("amount" Data.Aeson.Types.ToJSON..= postOrdersRequestBodyItems'Amount obj) GHC.Base.<> (("currency" Data.Aeson.Types.ToJSON..= postOrdersRequestBodyItems'Currency obj) GHC.Base.<> (("description" Data.Aeson.Types.ToJSON..= postOrdersRequestBodyItems'Description obj) GHC.Base.<> (("parent" Data.Aeson.Types.ToJSON..= postOrdersRequestBodyItems'Parent obj) GHC.Base.<> (("quantity" Data.Aeson.Types.ToJSON..= postOrdersRequestBodyItems'Quantity obj) GHC.Base.<> ("type" Data.Aeson.Types.ToJSON..= postOrdersRequestBodyItems'Type obj))))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostOrdersRequestBodyItems' where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PostOrdersRequestBodyItems'" (\obj -> (((((GHC.Base.pure PostOrdersRequestBodyItems' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "description")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "parent")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "quantity")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "type"))
 
--- | Defines the enum schema postOrdersRequestBodyItems\'Type\'
+-- | Create a new 'PostOrdersRequestBodyItems'' with all required fields.
+mkPostOrdersRequestBodyItems' :: PostOrdersRequestBodyItems'
+mkPostOrdersRequestBodyItems' =
+  PostOrdersRequestBodyItems'
+    { postOrdersRequestBodyItems'Amount = GHC.Maybe.Nothing,
+      postOrdersRequestBodyItems'Currency = GHC.Maybe.Nothing,
+      postOrdersRequestBodyItems'Description = GHC.Maybe.Nothing,
+      postOrdersRequestBodyItems'Parent = GHC.Maybe.Nothing,
+      postOrdersRequestBodyItems'Quantity = GHC.Maybe.Nothing,
+      postOrdersRequestBodyItems'Type = GHC.Maybe.Nothing
+    }
+
+-- | Defines the enum schema located at @paths.\/v1\/orders.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.items.items.properties.type@ in the specification.
 data PostOrdersRequestBodyItems'Type'
-  = PostOrdersRequestBodyItems'Type'EnumOther Data.Aeson.Types.Internal.Value
-  | PostOrdersRequestBodyItems'Type'EnumTyped Data.Text.Internal.Text
-  | PostOrdersRequestBodyItems'Type'EnumStringDiscount
-  | PostOrdersRequestBodyItems'Type'EnumStringShipping
-  | PostOrdersRequestBodyItems'Type'EnumStringSku
-  | PostOrdersRequestBodyItems'Type'EnumStringTax
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    PostOrdersRequestBodyItems'Type'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    PostOrdersRequestBodyItems'Type'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"discount"@
+    PostOrdersRequestBodyItems'Type'EnumDiscount
+  | -- | Represents the JSON value @"shipping"@
+    PostOrdersRequestBodyItems'Type'EnumShipping
+  | -- | Represents the JSON value @"sku"@
+    PostOrdersRequestBodyItems'Type'EnumSku
+  | -- | Represents the JSON value @"tax"@
+    PostOrdersRequestBodyItems'Type'EnumTax
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostOrdersRequestBodyItems'Type' where
-  toJSON (PostOrdersRequestBodyItems'Type'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostOrdersRequestBodyItems'Type'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostOrdersRequestBodyItems'Type'EnumStringDiscount) = "discount"
-  toJSON (PostOrdersRequestBodyItems'Type'EnumStringShipping) = "shipping"
-  toJSON (PostOrdersRequestBodyItems'Type'EnumStringSku) = "sku"
-  toJSON (PostOrdersRequestBodyItems'Type'EnumStringTax) = "tax"
+  toJSON (PostOrdersRequestBodyItems'Type'Other val) = val
+  toJSON (PostOrdersRequestBodyItems'Type'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PostOrdersRequestBodyItems'Type'EnumDiscount) = "discount"
+  toJSON (PostOrdersRequestBodyItems'Type'EnumShipping) = "shipping"
+  toJSON (PostOrdersRequestBodyItems'Type'EnumSku) = "sku"
+  toJSON (PostOrdersRequestBodyItems'Type'EnumTax) = "tax"
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostOrdersRequestBodyItems'Type' where
   parseJSON val =
     GHC.Base.pure
-      ( if  | val GHC.Classes.== "discount" -> PostOrdersRequestBodyItems'Type'EnumStringDiscount
-            | val GHC.Classes.== "shipping" -> PostOrdersRequestBodyItems'Type'EnumStringShipping
-            | val GHC.Classes.== "sku" -> PostOrdersRequestBodyItems'Type'EnumStringSku
-            | val GHC.Classes.== "tax" -> PostOrdersRequestBodyItems'Type'EnumStringTax
-            | GHC.Base.otherwise -> PostOrdersRequestBodyItems'Type'EnumOther val
+      ( if  | val GHC.Classes.== "discount" -> PostOrdersRequestBodyItems'Type'EnumDiscount
+            | val GHC.Classes.== "shipping" -> PostOrdersRequestBodyItems'Type'EnumShipping
+            | val GHC.Classes.== "sku" -> PostOrdersRequestBodyItems'Type'EnumSku
+            | val GHC.Classes.== "tax" -> PostOrdersRequestBodyItems'Type'EnumTax
+            | GHC.Base.otherwise -> PostOrdersRequestBodyItems'Type'Other val
       )
 
--- | Defines the data type for the schema postOrdersRequestBodyShipping\'
+-- | Defines the object schema located at @paths.\/v1\/orders.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.shipping@ in the specification.
 --
 -- Shipping address for the order. Required if any of the SKUs are for products that have \`shippable\` set to true.
 data PostOrdersRequestBodyShipping'
@@ -215,13 +251,27 @@ data PostOrdersRequestBodyShipping'
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostOrdersRequestBodyShipping' where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "address" (postOrdersRequestBodyShipping'Address obj) : (Data.Aeson..=) "name" (postOrdersRequestBodyShipping'Name obj) : (Data.Aeson..=) "phone" (postOrdersRequestBodyShipping'Phone obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "address" (postOrdersRequestBodyShipping'Address obj) GHC.Base.<> ((Data.Aeson..=) "name" (postOrdersRequestBodyShipping'Name obj) GHC.Base.<> (Data.Aeson..=) "phone" (postOrdersRequestBodyShipping'Phone obj)))
+  toJSON obj = Data.Aeson.Types.Internal.object ("address" Data.Aeson.Types.ToJSON..= postOrdersRequestBodyShipping'Address obj : "name" Data.Aeson.Types.ToJSON..= postOrdersRequestBodyShipping'Name obj : "phone" Data.Aeson.Types.ToJSON..= postOrdersRequestBodyShipping'Phone obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("address" Data.Aeson.Types.ToJSON..= postOrdersRequestBodyShipping'Address obj) GHC.Base.<> (("name" Data.Aeson.Types.ToJSON..= postOrdersRequestBodyShipping'Name obj) GHC.Base.<> ("phone" Data.Aeson.Types.ToJSON..= postOrdersRequestBodyShipping'Phone obj)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostOrdersRequestBodyShipping' where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PostOrdersRequestBodyShipping'" (\obj -> ((GHC.Base.pure PostOrdersRequestBodyShipping' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "address")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "phone"))
 
--- | Defines the data type for the schema postOrdersRequestBodyShipping\'Address\'
+-- | Create a new 'PostOrdersRequestBodyShipping'' with all required fields.
+mkPostOrdersRequestBodyShipping' ::
+  -- | 'postOrdersRequestBodyShipping'Address'
+  PostOrdersRequestBodyShipping'Address' ->
+  -- | 'postOrdersRequestBodyShipping'Name'
+  Data.Text.Internal.Text ->
+  PostOrdersRequestBodyShipping'
+mkPostOrdersRequestBodyShipping' postOrdersRequestBodyShipping'Address postOrdersRequestBodyShipping'Name =
+  PostOrdersRequestBodyShipping'
+    { postOrdersRequestBodyShipping'Address = postOrdersRequestBodyShipping'Address,
+      postOrdersRequestBodyShipping'Name = postOrdersRequestBodyShipping'Name,
+      postOrdersRequestBodyShipping'Phone = GHC.Maybe.Nothing
+    }
+
+-- | Defines the object schema located at @paths.\/v1\/orders.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.shipping.properties.address@ in the specification.
 data PostOrdersRequestBodyShipping'Address'
   = PostOrdersRequestBodyShipping'Address'
       { -- | city
@@ -267,11 +317,26 @@ data PostOrdersRequestBodyShipping'Address'
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostOrdersRequestBodyShipping'Address' where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "city" (postOrdersRequestBodyShipping'Address'City obj) : (Data.Aeson..=) "country" (postOrdersRequestBodyShipping'Address'Country obj) : (Data.Aeson..=) "line1" (postOrdersRequestBodyShipping'Address'Line1 obj) : (Data.Aeson..=) "line2" (postOrdersRequestBodyShipping'Address'Line2 obj) : (Data.Aeson..=) "postal_code" (postOrdersRequestBodyShipping'Address'PostalCode obj) : (Data.Aeson..=) "state" (postOrdersRequestBodyShipping'Address'State obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "city" (postOrdersRequestBodyShipping'Address'City obj) GHC.Base.<> ((Data.Aeson..=) "country" (postOrdersRequestBodyShipping'Address'Country obj) GHC.Base.<> ((Data.Aeson..=) "line1" (postOrdersRequestBodyShipping'Address'Line1 obj) GHC.Base.<> ((Data.Aeson..=) "line2" (postOrdersRequestBodyShipping'Address'Line2 obj) GHC.Base.<> ((Data.Aeson..=) "postal_code" (postOrdersRequestBodyShipping'Address'PostalCode obj) GHC.Base.<> (Data.Aeson..=) "state" (postOrdersRequestBodyShipping'Address'State obj))))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("city" Data.Aeson.Types.ToJSON..= postOrdersRequestBodyShipping'Address'City obj : "country" Data.Aeson.Types.ToJSON..= postOrdersRequestBodyShipping'Address'Country obj : "line1" Data.Aeson.Types.ToJSON..= postOrdersRequestBodyShipping'Address'Line1 obj : "line2" Data.Aeson.Types.ToJSON..= postOrdersRequestBodyShipping'Address'Line2 obj : "postal_code" Data.Aeson.Types.ToJSON..= postOrdersRequestBodyShipping'Address'PostalCode obj : "state" Data.Aeson.Types.ToJSON..= postOrdersRequestBodyShipping'Address'State obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("city" Data.Aeson.Types.ToJSON..= postOrdersRequestBodyShipping'Address'City obj) GHC.Base.<> (("country" Data.Aeson.Types.ToJSON..= postOrdersRequestBodyShipping'Address'Country obj) GHC.Base.<> (("line1" Data.Aeson.Types.ToJSON..= postOrdersRequestBodyShipping'Address'Line1 obj) GHC.Base.<> (("line2" Data.Aeson.Types.ToJSON..= postOrdersRequestBodyShipping'Address'Line2 obj) GHC.Base.<> (("postal_code" Data.Aeson.Types.ToJSON..= postOrdersRequestBodyShipping'Address'PostalCode obj) GHC.Base.<> ("state" Data.Aeson.Types.ToJSON..= postOrdersRequestBodyShipping'Address'State obj))))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostOrdersRequestBodyShipping'Address' where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PostOrdersRequestBodyShipping'Address'" (\obj -> (((((GHC.Base.pure PostOrdersRequestBodyShipping'Address' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "city")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "country")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "line1")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "line2")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "postal_code")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "state"))
+
+-- | Create a new 'PostOrdersRequestBodyShipping'Address'' with all required fields.
+mkPostOrdersRequestBodyShipping'Address' ::
+  -- | 'postOrdersRequestBodyShipping'Address'Line1'
+  Data.Text.Internal.Text ->
+  PostOrdersRequestBodyShipping'Address'
+mkPostOrdersRequestBodyShipping'Address' postOrdersRequestBodyShipping'Address'Line1 =
+  PostOrdersRequestBodyShipping'Address'
+    { postOrdersRequestBodyShipping'Address'City = GHC.Maybe.Nothing,
+      postOrdersRequestBodyShipping'Address'Country = GHC.Maybe.Nothing,
+      postOrdersRequestBodyShipping'Address'Line1 = postOrdersRequestBodyShipping'Address'Line1,
+      postOrdersRequestBodyShipping'Address'Line2 = GHC.Maybe.Nothing,
+      postOrdersRequestBodyShipping'Address'PostalCode = GHC.Maybe.Nothing,
+      postOrdersRequestBodyShipping'Address'State = GHC.Maybe.Nothing
+    }
 
 -- | Represents a response of the operation 'postOrders'.
 --

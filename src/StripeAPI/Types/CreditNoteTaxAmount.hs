@@ -8,6 +8,7 @@ module StripeAPI.Types.CreditNoteTaxAmount where
 
 import qualified Control.Monad.Fail
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -31,7 +32,7 @@ import {-# SOURCE #-} StripeAPI.Types.TaxRate
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
--- | Defines the data type for the schema credit_note_tax_amount
+-- | Defines the object schema located at @components.schemas.credit_note_tax_amount@ in the specification.
 data CreditNoteTaxAmount
   = CreditNoteTaxAmount
       { -- | amount: The amount, in %s, of the tax.
@@ -47,13 +48,29 @@ data CreditNoteTaxAmount
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON CreditNoteTaxAmount where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "amount" (creditNoteTaxAmountAmount obj) : (Data.Aeson..=) "inclusive" (creditNoteTaxAmountInclusive obj) : (Data.Aeson..=) "tax_rate" (creditNoteTaxAmountTaxRate obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "amount" (creditNoteTaxAmountAmount obj) GHC.Base.<> ((Data.Aeson..=) "inclusive" (creditNoteTaxAmountInclusive obj) GHC.Base.<> (Data.Aeson..=) "tax_rate" (creditNoteTaxAmountTaxRate obj)))
+  toJSON obj = Data.Aeson.Types.Internal.object ("amount" Data.Aeson.Types.ToJSON..= creditNoteTaxAmountAmount obj : "inclusive" Data.Aeson.Types.ToJSON..= creditNoteTaxAmountInclusive obj : "tax_rate" Data.Aeson.Types.ToJSON..= creditNoteTaxAmountTaxRate obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("amount" Data.Aeson.Types.ToJSON..= creditNoteTaxAmountAmount obj) GHC.Base.<> (("inclusive" Data.Aeson.Types.ToJSON..= creditNoteTaxAmountInclusive obj) GHC.Base.<> ("tax_rate" Data.Aeson.Types.ToJSON..= creditNoteTaxAmountTaxRate obj)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON CreditNoteTaxAmount where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "CreditNoteTaxAmount" (\obj -> ((GHC.Base.pure CreditNoteTaxAmount GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "inclusive")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "tax_rate"))
 
--- | Define the one-of schema credit_note_tax_amountTax_rate\'
+-- | Create a new 'CreditNoteTaxAmount' with all required fields.
+mkCreditNoteTaxAmount ::
+  -- | 'creditNoteTaxAmountAmount'
+  GHC.Types.Int ->
+  -- | 'creditNoteTaxAmountInclusive'
+  GHC.Types.Bool ->
+  -- | 'creditNoteTaxAmountTaxRate'
+  CreditNoteTaxAmountTaxRate'Variants ->
+  CreditNoteTaxAmount
+mkCreditNoteTaxAmount creditNoteTaxAmountAmount creditNoteTaxAmountInclusive creditNoteTaxAmountTaxRate =
+  CreditNoteTaxAmount
+    { creditNoteTaxAmountAmount = creditNoteTaxAmountAmount,
+      creditNoteTaxAmountInclusive = creditNoteTaxAmountInclusive,
+      creditNoteTaxAmountTaxRate = creditNoteTaxAmountTaxRate
+    }
+
+-- | Defines the oneOf schema located at @components.schemas.credit_note_tax_amount.properties.tax_rate.anyOf@ in the specification.
 --
 -- The tax rate that was applied to get this tax amount.
 data CreditNoteTaxAmountTaxRate'Variants
@@ -66,8 +83,6 @@ instance Data.Aeson.Types.ToJSON.ToJSON CreditNoteTaxAmountTaxRate'Variants wher
   toJSON (CreditNoteTaxAmountTaxRate'Text a) = Data.Aeson.Types.ToJSON.toJSON a
 
 instance Data.Aeson.Types.FromJSON.FromJSON CreditNoteTaxAmountTaxRate'Variants where
-  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
-    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ CreditNoteTaxAmountTaxRate'TaxRate a
-    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ CreditNoteTaxAmountTaxRate'Text a
-      Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+  parseJSON val = case (CreditNoteTaxAmountTaxRate'TaxRate Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((CreditNoteTaxAmountTaxRate'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched") of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+    Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a

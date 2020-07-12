@@ -8,6 +8,7 @@ module StripeAPI.Types.Invoice where
 
 import qualified Control.Monad.Fail
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -52,7 +53,7 @@ import {-# SOURCE #-} StripeAPI.Types.TaxRate
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
--- | Defines the data type for the schema invoice
+-- | Defines the object schema located at @components.schemas.invoice@ in the specification.
 --
 -- Invoices are statements of amounts owed by a customer, and are either
 -- generated one-off, or generated periodically from a subscription.
@@ -210,8 +211,6 @@ data Invoice
         --
         -- * Maximum length of 5000
         invoiceNumber :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
-        -- | object: String representing the object\'s type. Objects of the same type share the same value.
-        invoiceObject :: InvoiceObject',
         -- | paid: Whether payment was successfully collected for this invoice. An invoice can be paid (most commonly) with a charge or with credit from the customer\'s account balance.
         invoicePaid :: GHC.Types.Bool,
         -- | payment_intent: The PaymentIntent associated with this invoice. The PaymentIntent is generated when the invoice is finalized, and can then be used to pay the invoice. Note that voiding an invoice will cancel the PaymentIntent.
@@ -267,55 +266,169 @@ data Invoice
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON Invoice where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "account_country" (invoiceAccountCountry obj) : (Data.Aeson..=) "account_name" (invoiceAccountName obj) : (Data.Aeson..=) "amount_due" (invoiceAmountDue obj) : (Data.Aeson..=) "amount_paid" (invoiceAmountPaid obj) : (Data.Aeson..=) "amount_remaining" (invoiceAmountRemaining obj) : (Data.Aeson..=) "application_fee_amount" (invoiceApplicationFeeAmount obj) : (Data.Aeson..=) "attempt_count" (invoiceAttemptCount obj) : (Data.Aeson..=) "attempted" (invoiceAttempted obj) : (Data.Aeson..=) "auto_advance" (invoiceAutoAdvance obj) : (Data.Aeson..=) "billing_reason" (invoiceBillingReason obj) : (Data.Aeson..=) "charge" (invoiceCharge obj) : (Data.Aeson..=) "collection_method" (invoiceCollectionMethod obj) : (Data.Aeson..=) "created" (invoiceCreated obj) : (Data.Aeson..=) "currency" (invoiceCurrency obj) : (Data.Aeson..=) "custom_fields" (invoiceCustomFields obj) : (Data.Aeson..=) "customer" (invoiceCustomer obj) : (Data.Aeson..=) "customer_address" (invoiceCustomerAddress obj) : (Data.Aeson..=) "customer_email" (invoiceCustomerEmail obj) : (Data.Aeson..=) "customer_name" (invoiceCustomerName obj) : (Data.Aeson..=) "customer_phone" (invoiceCustomerPhone obj) : (Data.Aeson..=) "customer_shipping" (invoiceCustomerShipping obj) : (Data.Aeson..=) "customer_tax_exempt" (invoiceCustomerTaxExempt obj) : (Data.Aeson..=) "customer_tax_ids" (invoiceCustomerTaxIds obj) : (Data.Aeson..=) "default_payment_method" (invoiceDefaultPaymentMethod obj) : (Data.Aeson..=) "default_source" (invoiceDefaultSource obj) : (Data.Aeson..=) "default_tax_rates" (invoiceDefaultTaxRates obj) : (Data.Aeson..=) "description" (invoiceDescription obj) : (Data.Aeson..=) "discount" (invoiceDiscount obj) : (Data.Aeson..=) "due_date" (invoiceDueDate obj) : (Data.Aeson..=) "ending_balance" (invoiceEndingBalance obj) : (Data.Aeson..=) "footer" (invoiceFooter obj) : (Data.Aeson..=) "hosted_invoice_url" (invoiceHostedInvoiceUrl obj) : (Data.Aeson..=) "id" (invoiceId obj) : (Data.Aeson..=) "invoice_pdf" (invoiceInvoicePdf obj) : (Data.Aeson..=) "lines" (invoiceLines obj) : (Data.Aeson..=) "livemode" (invoiceLivemode obj) : (Data.Aeson..=) "metadata" (invoiceMetadata obj) : (Data.Aeson..=) "next_payment_attempt" (invoiceNextPaymentAttempt obj) : (Data.Aeson..=) "number" (invoiceNumber obj) : (Data.Aeson..=) "object" (invoiceObject obj) : (Data.Aeson..=) "paid" (invoicePaid obj) : (Data.Aeson..=) "payment_intent" (invoicePaymentIntent obj) : (Data.Aeson..=) "period_end" (invoicePeriodEnd obj) : (Data.Aeson..=) "period_start" (invoicePeriodStart obj) : (Data.Aeson..=) "post_payment_credit_notes_amount" (invoicePostPaymentCreditNotesAmount obj) : (Data.Aeson..=) "pre_payment_credit_notes_amount" (invoicePrePaymentCreditNotesAmount obj) : (Data.Aeson..=) "receipt_number" (invoiceReceiptNumber obj) : (Data.Aeson..=) "starting_balance" (invoiceStartingBalance obj) : (Data.Aeson..=) "statement_descriptor" (invoiceStatementDescriptor obj) : (Data.Aeson..=) "status" (invoiceStatus obj) : (Data.Aeson..=) "status_transitions" (invoiceStatusTransitions obj) : (Data.Aeson..=) "subscription" (invoiceSubscription obj) : (Data.Aeson..=) "subscription_proration_date" (invoiceSubscriptionProrationDate obj) : (Data.Aeson..=) "subtotal" (invoiceSubtotal obj) : (Data.Aeson..=) "tax" (invoiceTax obj) : (Data.Aeson..=) "tax_percent" (invoiceTaxPercent obj) : (Data.Aeson..=) "threshold_reason" (invoiceThresholdReason obj) : (Data.Aeson..=) "total" (invoiceTotal obj) : (Data.Aeson..=) "total_tax_amounts" (invoiceTotalTaxAmounts obj) : (Data.Aeson..=) "webhooks_delivered_at" (invoiceWebhooksDeliveredAt obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "account_country" (invoiceAccountCountry obj) GHC.Base.<> ((Data.Aeson..=) "account_name" (invoiceAccountName obj) GHC.Base.<> ((Data.Aeson..=) "amount_due" (invoiceAmountDue obj) GHC.Base.<> ((Data.Aeson..=) "amount_paid" (invoiceAmountPaid obj) GHC.Base.<> ((Data.Aeson..=) "amount_remaining" (invoiceAmountRemaining obj) GHC.Base.<> ((Data.Aeson..=) "application_fee_amount" (invoiceApplicationFeeAmount obj) GHC.Base.<> ((Data.Aeson..=) "attempt_count" (invoiceAttemptCount obj) GHC.Base.<> ((Data.Aeson..=) "attempted" (invoiceAttempted obj) GHC.Base.<> ((Data.Aeson..=) "auto_advance" (invoiceAutoAdvance obj) GHC.Base.<> ((Data.Aeson..=) "billing_reason" (invoiceBillingReason obj) GHC.Base.<> ((Data.Aeson..=) "charge" (invoiceCharge obj) GHC.Base.<> ((Data.Aeson..=) "collection_method" (invoiceCollectionMethod obj) GHC.Base.<> ((Data.Aeson..=) "created" (invoiceCreated obj) GHC.Base.<> ((Data.Aeson..=) "currency" (invoiceCurrency obj) GHC.Base.<> ((Data.Aeson..=) "custom_fields" (invoiceCustomFields obj) GHC.Base.<> ((Data.Aeson..=) "customer" (invoiceCustomer obj) GHC.Base.<> ((Data.Aeson..=) "customer_address" (invoiceCustomerAddress obj) GHC.Base.<> ((Data.Aeson..=) "customer_email" (invoiceCustomerEmail obj) GHC.Base.<> ((Data.Aeson..=) "customer_name" (invoiceCustomerName obj) GHC.Base.<> ((Data.Aeson..=) "customer_phone" (invoiceCustomerPhone obj) GHC.Base.<> ((Data.Aeson..=) "customer_shipping" (invoiceCustomerShipping obj) GHC.Base.<> ((Data.Aeson..=) "customer_tax_exempt" (invoiceCustomerTaxExempt obj) GHC.Base.<> ((Data.Aeson..=) "customer_tax_ids" (invoiceCustomerTaxIds obj) GHC.Base.<> ((Data.Aeson..=) "default_payment_method" (invoiceDefaultPaymentMethod obj) GHC.Base.<> ((Data.Aeson..=) "default_source" (invoiceDefaultSource obj) GHC.Base.<> ((Data.Aeson..=) "default_tax_rates" (invoiceDefaultTaxRates obj) GHC.Base.<> ((Data.Aeson..=) "description" (invoiceDescription obj) GHC.Base.<> ((Data.Aeson..=) "discount" (invoiceDiscount obj) GHC.Base.<> ((Data.Aeson..=) "due_date" (invoiceDueDate obj) GHC.Base.<> ((Data.Aeson..=) "ending_balance" (invoiceEndingBalance obj) GHC.Base.<> ((Data.Aeson..=) "footer" (invoiceFooter obj) GHC.Base.<> ((Data.Aeson..=) "hosted_invoice_url" (invoiceHostedInvoiceUrl obj) GHC.Base.<> ((Data.Aeson..=) "id" (invoiceId obj) GHC.Base.<> ((Data.Aeson..=) "invoice_pdf" (invoiceInvoicePdf obj) GHC.Base.<> ((Data.Aeson..=) "lines" (invoiceLines obj) GHC.Base.<> ((Data.Aeson..=) "livemode" (invoiceLivemode obj) GHC.Base.<> ((Data.Aeson..=) "metadata" (invoiceMetadata obj) GHC.Base.<> ((Data.Aeson..=) "next_payment_attempt" (invoiceNextPaymentAttempt obj) GHC.Base.<> ((Data.Aeson..=) "number" (invoiceNumber obj) GHC.Base.<> ((Data.Aeson..=) "object" (invoiceObject obj) GHC.Base.<> ((Data.Aeson..=) "paid" (invoicePaid obj) GHC.Base.<> ((Data.Aeson..=) "payment_intent" (invoicePaymentIntent obj) GHC.Base.<> ((Data.Aeson..=) "period_end" (invoicePeriodEnd obj) GHC.Base.<> ((Data.Aeson..=) "period_start" (invoicePeriodStart obj) GHC.Base.<> ((Data.Aeson..=) "post_payment_credit_notes_amount" (invoicePostPaymentCreditNotesAmount obj) GHC.Base.<> ((Data.Aeson..=) "pre_payment_credit_notes_amount" (invoicePrePaymentCreditNotesAmount obj) GHC.Base.<> ((Data.Aeson..=) "receipt_number" (invoiceReceiptNumber obj) GHC.Base.<> ((Data.Aeson..=) "starting_balance" (invoiceStartingBalance obj) GHC.Base.<> ((Data.Aeson..=) "statement_descriptor" (invoiceStatementDescriptor obj) GHC.Base.<> ((Data.Aeson..=) "status" (invoiceStatus obj) GHC.Base.<> ((Data.Aeson..=) "status_transitions" (invoiceStatusTransitions obj) GHC.Base.<> ((Data.Aeson..=) "subscription" (invoiceSubscription obj) GHC.Base.<> ((Data.Aeson..=) "subscription_proration_date" (invoiceSubscriptionProrationDate obj) GHC.Base.<> ((Data.Aeson..=) "subtotal" (invoiceSubtotal obj) GHC.Base.<> ((Data.Aeson..=) "tax" (invoiceTax obj) GHC.Base.<> ((Data.Aeson..=) "tax_percent" (invoiceTaxPercent obj) GHC.Base.<> ((Data.Aeson..=) "threshold_reason" (invoiceThresholdReason obj) GHC.Base.<> ((Data.Aeson..=) "total" (invoiceTotal obj) GHC.Base.<> ((Data.Aeson..=) "total_tax_amounts" (invoiceTotalTaxAmounts obj) GHC.Base.<> (Data.Aeson..=) "webhooks_delivered_at" (invoiceWebhooksDeliveredAt obj))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("account_country" Data.Aeson.Types.ToJSON..= invoiceAccountCountry obj : "account_name" Data.Aeson.Types.ToJSON..= invoiceAccountName obj : "amount_due" Data.Aeson.Types.ToJSON..= invoiceAmountDue obj : "amount_paid" Data.Aeson.Types.ToJSON..= invoiceAmountPaid obj : "amount_remaining" Data.Aeson.Types.ToJSON..= invoiceAmountRemaining obj : "application_fee_amount" Data.Aeson.Types.ToJSON..= invoiceApplicationFeeAmount obj : "attempt_count" Data.Aeson.Types.ToJSON..= invoiceAttemptCount obj : "attempted" Data.Aeson.Types.ToJSON..= invoiceAttempted obj : "auto_advance" Data.Aeson.Types.ToJSON..= invoiceAutoAdvance obj : "billing_reason" Data.Aeson.Types.ToJSON..= invoiceBillingReason obj : "charge" Data.Aeson.Types.ToJSON..= invoiceCharge obj : "collection_method" Data.Aeson.Types.ToJSON..= invoiceCollectionMethod obj : "created" Data.Aeson.Types.ToJSON..= invoiceCreated obj : "currency" Data.Aeson.Types.ToJSON..= invoiceCurrency obj : "custom_fields" Data.Aeson.Types.ToJSON..= invoiceCustomFields obj : "customer" Data.Aeson.Types.ToJSON..= invoiceCustomer obj : "customer_address" Data.Aeson.Types.ToJSON..= invoiceCustomerAddress obj : "customer_email" Data.Aeson.Types.ToJSON..= invoiceCustomerEmail obj : "customer_name" Data.Aeson.Types.ToJSON..= invoiceCustomerName obj : "customer_phone" Data.Aeson.Types.ToJSON..= invoiceCustomerPhone obj : "customer_shipping" Data.Aeson.Types.ToJSON..= invoiceCustomerShipping obj : "customer_tax_exempt" Data.Aeson.Types.ToJSON..= invoiceCustomerTaxExempt obj : "customer_tax_ids" Data.Aeson.Types.ToJSON..= invoiceCustomerTaxIds obj : "default_payment_method" Data.Aeson.Types.ToJSON..= invoiceDefaultPaymentMethod obj : "default_source" Data.Aeson.Types.ToJSON..= invoiceDefaultSource obj : "default_tax_rates" Data.Aeson.Types.ToJSON..= invoiceDefaultTaxRates obj : "description" Data.Aeson.Types.ToJSON..= invoiceDescription obj : "discount" Data.Aeson.Types.ToJSON..= invoiceDiscount obj : "due_date" Data.Aeson.Types.ToJSON..= invoiceDueDate obj : "ending_balance" Data.Aeson.Types.ToJSON..= invoiceEndingBalance obj : "footer" Data.Aeson.Types.ToJSON..= invoiceFooter obj : "hosted_invoice_url" Data.Aeson.Types.ToJSON..= invoiceHostedInvoiceUrl obj : "id" Data.Aeson.Types.ToJSON..= invoiceId obj : "invoice_pdf" Data.Aeson.Types.ToJSON..= invoiceInvoicePdf obj : "lines" Data.Aeson.Types.ToJSON..= invoiceLines obj : "livemode" Data.Aeson.Types.ToJSON..= invoiceLivemode obj : "metadata" Data.Aeson.Types.ToJSON..= invoiceMetadata obj : "next_payment_attempt" Data.Aeson.Types.ToJSON..= invoiceNextPaymentAttempt obj : "number" Data.Aeson.Types.ToJSON..= invoiceNumber obj : "paid" Data.Aeson.Types.ToJSON..= invoicePaid obj : "payment_intent" Data.Aeson.Types.ToJSON..= invoicePaymentIntent obj : "period_end" Data.Aeson.Types.ToJSON..= invoicePeriodEnd obj : "period_start" Data.Aeson.Types.ToJSON..= invoicePeriodStart obj : "post_payment_credit_notes_amount" Data.Aeson.Types.ToJSON..= invoicePostPaymentCreditNotesAmount obj : "pre_payment_credit_notes_amount" Data.Aeson.Types.ToJSON..= invoicePrePaymentCreditNotesAmount obj : "receipt_number" Data.Aeson.Types.ToJSON..= invoiceReceiptNumber obj : "starting_balance" Data.Aeson.Types.ToJSON..= invoiceStartingBalance obj : "statement_descriptor" Data.Aeson.Types.ToJSON..= invoiceStatementDescriptor obj : "status" Data.Aeson.Types.ToJSON..= invoiceStatus obj : "status_transitions" Data.Aeson.Types.ToJSON..= invoiceStatusTransitions obj : "subscription" Data.Aeson.Types.ToJSON..= invoiceSubscription obj : "subscription_proration_date" Data.Aeson.Types.ToJSON..= invoiceSubscriptionProrationDate obj : "subtotal" Data.Aeson.Types.ToJSON..= invoiceSubtotal obj : "tax" Data.Aeson.Types.ToJSON..= invoiceTax obj : "tax_percent" Data.Aeson.Types.ToJSON..= invoiceTaxPercent obj : "threshold_reason" Data.Aeson.Types.ToJSON..= invoiceThresholdReason obj : "total" Data.Aeson.Types.ToJSON..= invoiceTotal obj : "total_tax_amounts" Data.Aeson.Types.ToJSON..= invoiceTotalTaxAmounts obj : "webhooks_delivered_at" Data.Aeson.Types.ToJSON..= invoiceWebhooksDeliveredAt obj : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "invoice" : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("account_country" Data.Aeson.Types.ToJSON..= invoiceAccountCountry obj) GHC.Base.<> (("account_name" Data.Aeson.Types.ToJSON..= invoiceAccountName obj) GHC.Base.<> (("amount_due" Data.Aeson.Types.ToJSON..= invoiceAmountDue obj) GHC.Base.<> (("amount_paid" Data.Aeson.Types.ToJSON..= invoiceAmountPaid obj) GHC.Base.<> (("amount_remaining" Data.Aeson.Types.ToJSON..= invoiceAmountRemaining obj) GHC.Base.<> (("application_fee_amount" Data.Aeson.Types.ToJSON..= invoiceApplicationFeeAmount obj) GHC.Base.<> (("attempt_count" Data.Aeson.Types.ToJSON..= invoiceAttemptCount obj) GHC.Base.<> (("attempted" Data.Aeson.Types.ToJSON..= invoiceAttempted obj) GHC.Base.<> (("auto_advance" Data.Aeson.Types.ToJSON..= invoiceAutoAdvance obj) GHC.Base.<> (("billing_reason" Data.Aeson.Types.ToJSON..= invoiceBillingReason obj) GHC.Base.<> (("charge" Data.Aeson.Types.ToJSON..= invoiceCharge obj) GHC.Base.<> (("collection_method" Data.Aeson.Types.ToJSON..= invoiceCollectionMethod obj) GHC.Base.<> (("created" Data.Aeson.Types.ToJSON..= invoiceCreated obj) GHC.Base.<> (("currency" Data.Aeson.Types.ToJSON..= invoiceCurrency obj) GHC.Base.<> (("custom_fields" Data.Aeson.Types.ToJSON..= invoiceCustomFields obj) GHC.Base.<> (("customer" Data.Aeson.Types.ToJSON..= invoiceCustomer obj) GHC.Base.<> (("customer_address" Data.Aeson.Types.ToJSON..= invoiceCustomerAddress obj) GHC.Base.<> (("customer_email" Data.Aeson.Types.ToJSON..= invoiceCustomerEmail obj) GHC.Base.<> (("customer_name" Data.Aeson.Types.ToJSON..= invoiceCustomerName obj) GHC.Base.<> (("customer_phone" Data.Aeson.Types.ToJSON..= invoiceCustomerPhone obj) GHC.Base.<> (("customer_shipping" Data.Aeson.Types.ToJSON..= invoiceCustomerShipping obj) GHC.Base.<> (("customer_tax_exempt" Data.Aeson.Types.ToJSON..= invoiceCustomerTaxExempt obj) GHC.Base.<> (("customer_tax_ids" Data.Aeson.Types.ToJSON..= invoiceCustomerTaxIds obj) GHC.Base.<> (("default_payment_method" Data.Aeson.Types.ToJSON..= invoiceDefaultPaymentMethod obj) GHC.Base.<> (("default_source" Data.Aeson.Types.ToJSON..= invoiceDefaultSource obj) GHC.Base.<> (("default_tax_rates" Data.Aeson.Types.ToJSON..= invoiceDefaultTaxRates obj) GHC.Base.<> (("description" Data.Aeson.Types.ToJSON..= invoiceDescription obj) GHC.Base.<> (("discount" Data.Aeson.Types.ToJSON..= invoiceDiscount obj) GHC.Base.<> (("due_date" Data.Aeson.Types.ToJSON..= invoiceDueDate obj) GHC.Base.<> (("ending_balance" Data.Aeson.Types.ToJSON..= invoiceEndingBalance obj) GHC.Base.<> (("footer" Data.Aeson.Types.ToJSON..= invoiceFooter obj) GHC.Base.<> (("hosted_invoice_url" Data.Aeson.Types.ToJSON..= invoiceHostedInvoiceUrl obj) GHC.Base.<> (("id" Data.Aeson.Types.ToJSON..= invoiceId obj) GHC.Base.<> (("invoice_pdf" Data.Aeson.Types.ToJSON..= invoiceInvoicePdf obj) GHC.Base.<> (("lines" Data.Aeson.Types.ToJSON..= invoiceLines obj) GHC.Base.<> (("livemode" Data.Aeson.Types.ToJSON..= invoiceLivemode obj) GHC.Base.<> (("metadata" Data.Aeson.Types.ToJSON..= invoiceMetadata obj) GHC.Base.<> (("next_payment_attempt" Data.Aeson.Types.ToJSON..= invoiceNextPaymentAttempt obj) GHC.Base.<> (("number" Data.Aeson.Types.ToJSON..= invoiceNumber obj) GHC.Base.<> (("paid" Data.Aeson.Types.ToJSON..= invoicePaid obj) GHC.Base.<> (("payment_intent" Data.Aeson.Types.ToJSON..= invoicePaymentIntent obj) GHC.Base.<> (("period_end" Data.Aeson.Types.ToJSON..= invoicePeriodEnd obj) GHC.Base.<> (("period_start" Data.Aeson.Types.ToJSON..= invoicePeriodStart obj) GHC.Base.<> (("post_payment_credit_notes_amount" Data.Aeson.Types.ToJSON..= invoicePostPaymentCreditNotesAmount obj) GHC.Base.<> (("pre_payment_credit_notes_amount" Data.Aeson.Types.ToJSON..= invoicePrePaymentCreditNotesAmount obj) GHC.Base.<> (("receipt_number" Data.Aeson.Types.ToJSON..= invoiceReceiptNumber obj) GHC.Base.<> (("starting_balance" Data.Aeson.Types.ToJSON..= invoiceStartingBalance obj) GHC.Base.<> (("statement_descriptor" Data.Aeson.Types.ToJSON..= invoiceStatementDescriptor obj) GHC.Base.<> (("status" Data.Aeson.Types.ToJSON..= invoiceStatus obj) GHC.Base.<> (("status_transitions" Data.Aeson.Types.ToJSON..= invoiceStatusTransitions obj) GHC.Base.<> (("subscription" Data.Aeson.Types.ToJSON..= invoiceSubscription obj) GHC.Base.<> (("subscription_proration_date" Data.Aeson.Types.ToJSON..= invoiceSubscriptionProrationDate obj) GHC.Base.<> (("subtotal" Data.Aeson.Types.ToJSON..= invoiceSubtotal obj) GHC.Base.<> (("tax" Data.Aeson.Types.ToJSON..= invoiceTax obj) GHC.Base.<> (("tax_percent" Data.Aeson.Types.ToJSON..= invoiceTaxPercent obj) GHC.Base.<> (("threshold_reason" Data.Aeson.Types.ToJSON..= invoiceThresholdReason obj) GHC.Base.<> (("total" Data.Aeson.Types.ToJSON..= invoiceTotal obj) GHC.Base.<> (("total_tax_amounts" Data.Aeson.Types.ToJSON..= invoiceTotalTaxAmounts obj) GHC.Base.<> (("webhooks_delivered_at" Data.Aeson.Types.ToJSON..= invoiceWebhooksDeliveredAt obj) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "invoice"))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON Invoice where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "Invoice" (\obj -> (((((((((((((((((((((((((((((((((((((((((((((((((((((((((((GHC.Base.pure Invoice GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "account_country")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "account_name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "amount_due")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "amount_paid")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "amount_remaining")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "application_fee_amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "attempt_count")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "attempted")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "auto_advance")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "billing_reason")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "charge")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "collection_method")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "created")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "custom_fields")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "customer")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "customer_address")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "customer_email")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "customer_name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "customer_phone")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "customer_shipping")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "customer_tax_exempt")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "customer_tax_ids")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "default_payment_method")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "default_source")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "default_tax_rates")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "description")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "discount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "due_date")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "ending_balance")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "footer")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "hosted_invoice_url")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "invoice_pdf")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "lines")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "livemode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "next_payment_attempt")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "number")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "object")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "paid")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "payment_intent")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "period_end")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "period_start")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "post_payment_credit_notes_amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pre_payment_credit_notes_amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "receipt_number")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "starting_balance")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "statement_descriptor")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "status")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "status_transitions")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "subscription")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "subscription_proration_date")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "subtotal")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "tax")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "tax_percent")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "threshold_reason")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "total")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "total_tax_amounts")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "webhooks_delivered_at"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "Invoice" (\obj -> ((((((((((((((((((((((((((((((((((((((((((((((((((((((((((GHC.Base.pure Invoice GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "account_country")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "account_name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "amount_due")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "amount_paid")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "amount_remaining")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "application_fee_amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "attempt_count")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "attempted")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "auto_advance")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "billing_reason")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "charge")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "collection_method")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "created")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "custom_fields")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "customer")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "customer_address")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "customer_email")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "customer_name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "customer_phone")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "customer_shipping")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "customer_tax_exempt")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "customer_tax_ids")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "default_payment_method")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "default_source")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "default_tax_rates")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "description")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "discount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "due_date")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "ending_balance")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "footer")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "hosted_invoice_url")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "invoice_pdf")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "lines")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "livemode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "next_payment_attempt")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "number")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "paid")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "payment_intent")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "period_end")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "period_start")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "post_payment_credit_notes_amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pre_payment_credit_notes_amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "receipt_number")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "starting_balance")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "statement_descriptor")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "status")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "status_transitions")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "subscription")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "subscription_proration_date")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "subtotal")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "tax")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "tax_percent")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "threshold_reason")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "total")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "total_tax_amounts")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "webhooks_delivered_at"))
 
--- | Defines the enum schema invoiceBilling_reason\'
+-- | Create a new 'Invoice' with all required fields.
+mkInvoice ::
+  -- | 'invoiceAmountDue'
+  GHC.Types.Int ->
+  -- | 'invoiceAmountPaid'
+  GHC.Types.Int ->
+  -- | 'invoiceAmountRemaining'
+  GHC.Types.Int ->
+  -- | 'invoiceAttemptCount'
+  GHC.Types.Int ->
+  -- | 'invoiceAttempted'
+  GHC.Types.Bool ->
+  -- | 'invoiceCreated'
+  GHC.Types.Int ->
+  -- | 'invoiceCurrency'
+  Data.Text.Internal.Text ->
+  -- | 'invoiceCustomer'
+  InvoiceCustomer'Variants ->
+  -- | 'invoiceLines'
+  InvoiceLines' ->
+  -- | 'invoiceLivemode'
+  GHC.Types.Bool ->
+  -- | 'invoicePaid'
+  GHC.Types.Bool ->
+  -- | 'invoicePeriodEnd'
+  GHC.Types.Int ->
+  -- | 'invoicePeriodStart'
+  GHC.Types.Int ->
+  -- | 'invoicePostPaymentCreditNotesAmount'
+  GHC.Types.Int ->
+  -- | 'invoicePrePaymentCreditNotesAmount'
+  GHC.Types.Int ->
+  -- | 'invoiceStartingBalance'
+  GHC.Types.Int ->
+  -- | 'invoiceStatusTransitions'
+  InvoicesStatusTransitions ->
+  -- | 'invoiceSubtotal'
+  GHC.Types.Int ->
+  -- | 'invoiceTotal'
+  GHC.Types.Int ->
+  Invoice
+mkInvoice invoiceAmountDue invoiceAmountPaid invoiceAmountRemaining invoiceAttemptCount invoiceAttempted invoiceCreated invoiceCurrency invoiceCustomer invoiceLines invoiceLivemode invoicePaid invoicePeriodEnd invoicePeriodStart invoicePostPaymentCreditNotesAmount invoicePrePaymentCreditNotesAmount invoiceStartingBalance invoiceStatusTransitions invoiceSubtotal invoiceTotal =
+  Invoice
+    { invoiceAccountCountry = GHC.Maybe.Nothing,
+      invoiceAccountName = GHC.Maybe.Nothing,
+      invoiceAmountDue = invoiceAmountDue,
+      invoiceAmountPaid = invoiceAmountPaid,
+      invoiceAmountRemaining = invoiceAmountRemaining,
+      invoiceApplicationFeeAmount = GHC.Maybe.Nothing,
+      invoiceAttemptCount = invoiceAttemptCount,
+      invoiceAttempted = invoiceAttempted,
+      invoiceAutoAdvance = GHC.Maybe.Nothing,
+      invoiceBillingReason = GHC.Maybe.Nothing,
+      invoiceCharge = GHC.Maybe.Nothing,
+      invoiceCollectionMethod = GHC.Maybe.Nothing,
+      invoiceCreated = invoiceCreated,
+      invoiceCurrency = invoiceCurrency,
+      invoiceCustomFields = GHC.Maybe.Nothing,
+      invoiceCustomer = invoiceCustomer,
+      invoiceCustomerAddress = GHC.Maybe.Nothing,
+      invoiceCustomerEmail = GHC.Maybe.Nothing,
+      invoiceCustomerName = GHC.Maybe.Nothing,
+      invoiceCustomerPhone = GHC.Maybe.Nothing,
+      invoiceCustomerShipping = GHC.Maybe.Nothing,
+      invoiceCustomerTaxExempt = GHC.Maybe.Nothing,
+      invoiceCustomerTaxIds = GHC.Maybe.Nothing,
+      invoiceDefaultPaymentMethod = GHC.Maybe.Nothing,
+      invoiceDefaultSource = GHC.Maybe.Nothing,
+      invoiceDefaultTaxRates = GHC.Maybe.Nothing,
+      invoiceDescription = GHC.Maybe.Nothing,
+      invoiceDiscount = GHC.Maybe.Nothing,
+      invoiceDueDate = GHC.Maybe.Nothing,
+      invoiceEndingBalance = GHC.Maybe.Nothing,
+      invoiceFooter = GHC.Maybe.Nothing,
+      invoiceHostedInvoiceUrl = GHC.Maybe.Nothing,
+      invoiceId = GHC.Maybe.Nothing,
+      invoiceInvoicePdf = GHC.Maybe.Nothing,
+      invoiceLines = invoiceLines,
+      invoiceLivemode = invoiceLivemode,
+      invoiceMetadata = GHC.Maybe.Nothing,
+      invoiceNextPaymentAttempt = GHC.Maybe.Nothing,
+      invoiceNumber = GHC.Maybe.Nothing,
+      invoicePaid = invoicePaid,
+      invoicePaymentIntent = GHC.Maybe.Nothing,
+      invoicePeriodEnd = invoicePeriodEnd,
+      invoicePeriodStart = invoicePeriodStart,
+      invoicePostPaymentCreditNotesAmount = invoicePostPaymentCreditNotesAmount,
+      invoicePrePaymentCreditNotesAmount = invoicePrePaymentCreditNotesAmount,
+      invoiceReceiptNumber = GHC.Maybe.Nothing,
+      invoiceStartingBalance = invoiceStartingBalance,
+      invoiceStatementDescriptor = GHC.Maybe.Nothing,
+      invoiceStatus = GHC.Maybe.Nothing,
+      invoiceStatusTransitions = invoiceStatusTransitions,
+      invoiceSubscription = GHC.Maybe.Nothing,
+      invoiceSubscriptionProrationDate = GHC.Maybe.Nothing,
+      invoiceSubtotal = invoiceSubtotal,
+      invoiceTax = GHC.Maybe.Nothing,
+      invoiceTaxPercent = GHC.Maybe.Nothing,
+      invoiceThresholdReason = GHC.Maybe.Nothing,
+      invoiceTotal = invoiceTotal,
+      invoiceTotalTaxAmounts = GHC.Maybe.Nothing,
+      invoiceWebhooksDeliveredAt = GHC.Maybe.Nothing
+    }
+
+-- | Defines the enum schema located at @components.schemas.invoice.properties.billing_reason@ in the specification.
 --
 -- Indicates the reason why the invoice was created. \`subscription_cycle\` indicates an invoice created by a subscription advancing into a new period. \`subscription_create\` indicates an invoice created due to creating a subscription. \`subscription_update\` indicates an invoice created due to updating a subscription. \`subscription\` is set for all old invoices to indicate either a change to a subscription or a period advancement. \`manual\` is set for all invoices unrelated to a subscription (for example: created via the invoice editor). The \`upcoming\` value is reserved for simulated invoices per the upcoming invoice endpoint. \`subscription_threshold\` indicates an invoice created due to a billing threshold being reached.
 data InvoiceBillingReason'
-  = InvoiceBillingReason'EnumOther Data.Aeson.Types.Internal.Value
-  | InvoiceBillingReason'EnumTyped Data.Text.Internal.Text
-  | InvoiceBillingReason'EnumStringAutomaticPendingInvoiceItemInvoice
-  | InvoiceBillingReason'EnumStringManual
-  | InvoiceBillingReason'EnumStringSubscription
-  | InvoiceBillingReason'EnumStringSubscriptionCreate
-  | InvoiceBillingReason'EnumStringSubscriptionCycle
-  | InvoiceBillingReason'EnumStringSubscriptionThreshold
-  | InvoiceBillingReason'EnumStringSubscriptionUpdate
-  | InvoiceBillingReason'EnumStringUpcoming
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    InvoiceBillingReason'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    InvoiceBillingReason'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"automatic_pending_invoice_item_invoice"@
+    InvoiceBillingReason'EnumAutomaticPendingInvoiceItemInvoice
+  | -- | Represents the JSON value @"manual"@
+    InvoiceBillingReason'EnumManual
+  | -- | Represents the JSON value @"subscription"@
+    InvoiceBillingReason'EnumSubscription
+  | -- | Represents the JSON value @"subscription_create"@
+    InvoiceBillingReason'EnumSubscriptionCreate
+  | -- | Represents the JSON value @"subscription_cycle"@
+    InvoiceBillingReason'EnumSubscriptionCycle
+  | -- | Represents the JSON value @"subscription_threshold"@
+    InvoiceBillingReason'EnumSubscriptionThreshold
+  | -- | Represents the JSON value @"subscription_update"@
+    InvoiceBillingReason'EnumSubscriptionUpdate
+  | -- | Represents the JSON value @"upcoming"@
+    InvoiceBillingReason'EnumUpcoming
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
 instance Data.Aeson.Types.ToJSON.ToJSON InvoiceBillingReason' where
-  toJSON (InvoiceBillingReason'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (InvoiceBillingReason'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (InvoiceBillingReason'EnumStringAutomaticPendingInvoiceItemInvoice) = "automatic_pending_invoice_item_invoice"
-  toJSON (InvoiceBillingReason'EnumStringManual) = "manual"
-  toJSON (InvoiceBillingReason'EnumStringSubscription) = "subscription"
-  toJSON (InvoiceBillingReason'EnumStringSubscriptionCreate) = "subscription_create"
-  toJSON (InvoiceBillingReason'EnumStringSubscriptionCycle) = "subscription_cycle"
-  toJSON (InvoiceBillingReason'EnumStringSubscriptionThreshold) = "subscription_threshold"
-  toJSON (InvoiceBillingReason'EnumStringSubscriptionUpdate) = "subscription_update"
-  toJSON (InvoiceBillingReason'EnumStringUpcoming) = "upcoming"
+  toJSON (InvoiceBillingReason'Other val) = val
+  toJSON (InvoiceBillingReason'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (InvoiceBillingReason'EnumAutomaticPendingInvoiceItemInvoice) = "automatic_pending_invoice_item_invoice"
+  toJSON (InvoiceBillingReason'EnumManual) = "manual"
+  toJSON (InvoiceBillingReason'EnumSubscription) = "subscription"
+  toJSON (InvoiceBillingReason'EnumSubscriptionCreate) = "subscription_create"
+  toJSON (InvoiceBillingReason'EnumSubscriptionCycle) = "subscription_cycle"
+  toJSON (InvoiceBillingReason'EnumSubscriptionThreshold) = "subscription_threshold"
+  toJSON (InvoiceBillingReason'EnumSubscriptionUpdate) = "subscription_update"
+  toJSON (InvoiceBillingReason'EnumUpcoming) = "upcoming"
 
 instance Data.Aeson.Types.FromJSON.FromJSON InvoiceBillingReason' where
   parseJSON val =
     GHC.Base.pure
-      ( if  | val GHC.Classes.== "automatic_pending_invoice_item_invoice" -> InvoiceBillingReason'EnumStringAutomaticPendingInvoiceItemInvoice
-            | val GHC.Classes.== "manual" -> InvoiceBillingReason'EnumStringManual
-            | val GHC.Classes.== "subscription" -> InvoiceBillingReason'EnumStringSubscription
-            | val GHC.Classes.== "subscription_create" -> InvoiceBillingReason'EnumStringSubscriptionCreate
-            | val GHC.Classes.== "subscription_cycle" -> InvoiceBillingReason'EnumStringSubscriptionCycle
-            | val GHC.Classes.== "subscription_threshold" -> InvoiceBillingReason'EnumStringSubscriptionThreshold
-            | val GHC.Classes.== "subscription_update" -> InvoiceBillingReason'EnumStringSubscriptionUpdate
-            | val GHC.Classes.== "upcoming" -> InvoiceBillingReason'EnumStringUpcoming
-            | GHC.Base.otherwise -> InvoiceBillingReason'EnumOther val
+      ( if  | val GHC.Classes.== "automatic_pending_invoice_item_invoice" -> InvoiceBillingReason'EnumAutomaticPendingInvoiceItemInvoice
+            | val GHC.Classes.== "manual" -> InvoiceBillingReason'EnumManual
+            | val GHC.Classes.== "subscription" -> InvoiceBillingReason'EnumSubscription
+            | val GHC.Classes.== "subscription_create" -> InvoiceBillingReason'EnumSubscriptionCreate
+            | val GHC.Classes.== "subscription_cycle" -> InvoiceBillingReason'EnumSubscriptionCycle
+            | val GHC.Classes.== "subscription_threshold" -> InvoiceBillingReason'EnumSubscriptionThreshold
+            | val GHC.Classes.== "subscription_update" -> InvoiceBillingReason'EnumSubscriptionUpdate
+            | val GHC.Classes.== "upcoming" -> InvoiceBillingReason'EnumUpcoming
+            | GHC.Base.otherwise -> InvoiceBillingReason'Other val
       )
 
--- | Define the one-of schema invoiceCharge\'
+-- | Defines the oneOf schema located at @components.schemas.invoice.properties.charge.anyOf@ in the specification.
 --
 -- ID of the latest charge generated for this invoice, if any.
 data InvoiceCharge'Variants
@@ -328,37 +441,39 @@ instance Data.Aeson.Types.ToJSON.ToJSON InvoiceCharge'Variants where
   toJSON (InvoiceCharge'Text a) = Data.Aeson.Types.ToJSON.toJSON a
 
 instance Data.Aeson.Types.FromJSON.FromJSON InvoiceCharge'Variants where
-  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
-    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ InvoiceCharge'Charge a
-    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ InvoiceCharge'Text a
-      Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+  parseJSON val = case (InvoiceCharge'Charge Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((InvoiceCharge'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched") of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+    Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
--- | Defines the enum schema invoiceCollection_method\'
+-- | Defines the enum schema located at @components.schemas.invoice.properties.collection_method@ in the specification.
 --
 -- Either \`charge_automatically\`, or \`send_invoice\`. When charging automatically, Stripe will attempt to pay this invoice using the default source attached to the customer. When sending an invoice, Stripe will email this invoice to the customer with payment instructions.
 data InvoiceCollectionMethod'
-  = InvoiceCollectionMethod'EnumOther Data.Aeson.Types.Internal.Value
-  | InvoiceCollectionMethod'EnumTyped Data.Text.Internal.Text
-  | InvoiceCollectionMethod'EnumStringChargeAutomatically
-  | InvoiceCollectionMethod'EnumStringSendInvoice
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    InvoiceCollectionMethod'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    InvoiceCollectionMethod'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"charge_automatically"@
+    InvoiceCollectionMethod'EnumChargeAutomatically
+  | -- | Represents the JSON value @"send_invoice"@
+    InvoiceCollectionMethod'EnumSendInvoice
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
 instance Data.Aeson.Types.ToJSON.ToJSON InvoiceCollectionMethod' where
-  toJSON (InvoiceCollectionMethod'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (InvoiceCollectionMethod'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (InvoiceCollectionMethod'EnumStringChargeAutomatically) = "charge_automatically"
-  toJSON (InvoiceCollectionMethod'EnumStringSendInvoice) = "send_invoice"
+  toJSON (InvoiceCollectionMethod'Other val) = val
+  toJSON (InvoiceCollectionMethod'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (InvoiceCollectionMethod'EnumChargeAutomatically) = "charge_automatically"
+  toJSON (InvoiceCollectionMethod'EnumSendInvoice) = "send_invoice"
 
 instance Data.Aeson.Types.FromJSON.FromJSON InvoiceCollectionMethod' where
   parseJSON val =
     GHC.Base.pure
-      ( if  | val GHC.Classes.== "charge_automatically" -> InvoiceCollectionMethod'EnumStringChargeAutomatically
-            | val GHC.Classes.== "send_invoice" -> InvoiceCollectionMethod'EnumStringSendInvoice
-            | GHC.Base.otherwise -> InvoiceCollectionMethod'EnumOther val
+      ( if  | val GHC.Classes.== "charge_automatically" -> InvoiceCollectionMethod'EnumChargeAutomatically
+            | val GHC.Classes.== "send_invoice" -> InvoiceCollectionMethod'EnumSendInvoice
+            | GHC.Base.otherwise -> InvoiceCollectionMethod'Other val
       )
 
--- | Define the one-of schema invoiceCustomer\'
+-- | Defines the oneOf schema located at @components.schemas.invoice.properties.customer.anyOf@ in the specification.
 --
 -- The ID of the customer who will be billed.
 data InvoiceCustomer'Variants
@@ -373,15 +488,11 @@ instance Data.Aeson.Types.ToJSON.ToJSON InvoiceCustomer'Variants where
   toJSON (InvoiceCustomer'Text a) = Data.Aeson.Types.ToJSON.toJSON a
 
 instance Data.Aeson.Types.FromJSON.FromJSON InvoiceCustomer'Variants where
-  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
-    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ InvoiceCustomer'Customer a
-    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ InvoiceCustomer'DeletedCustomer a
-      Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-        Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ InvoiceCustomer'Text a
-        Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+  parseJSON val = case (InvoiceCustomer'Customer Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((InvoiceCustomer'DeletedCustomer Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((InvoiceCustomer'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched")) of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+    Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
--- | Defines the data type for the schema invoiceCustomer_address\'
+-- | Defines the object schema located at @components.schemas.invoice.properties.customer_address.anyOf@ in the specification.
 --
 -- The customer\\\'s address. Until the invoice is finalized, this field will equal \\\`customer.address\\\`. Once the invoice is finalized, this field will no longer be updated.
 data InvoiceCustomerAddress'
@@ -429,13 +540,25 @@ data InvoiceCustomerAddress'
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON InvoiceCustomerAddress' where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "city" (invoiceCustomerAddress'City obj) : (Data.Aeson..=) "country" (invoiceCustomerAddress'Country obj) : (Data.Aeson..=) "line1" (invoiceCustomerAddress'Line1 obj) : (Data.Aeson..=) "line2" (invoiceCustomerAddress'Line2 obj) : (Data.Aeson..=) "postal_code" (invoiceCustomerAddress'PostalCode obj) : (Data.Aeson..=) "state" (invoiceCustomerAddress'State obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "city" (invoiceCustomerAddress'City obj) GHC.Base.<> ((Data.Aeson..=) "country" (invoiceCustomerAddress'Country obj) GHC.Base.<> ((Data.Aeson..=) "line1" (invoiceCustomerAddress'Line1 obj) GHC.Base.<> ((Data.Aeson..=) "line2" (invoiceCustomerAddress'Line2 obj) GHC.Base.<> ((Data.Aeson..=) "postal_code" (invoiceCustomerAddress'PostalCode obj) GHC.Base.<> (Data.Aeson..=) "state" (invoiceCustomerAddress'State obj))))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("city" Data.Aeson.Types.ToJSON..= invoiceCustomerAddress'City obj : "country" Data.Aeson.Types.ToJSON..= invoiceCustomerAddress'Country obj : "line1" Data.Aeson.Types.ToJSON..= invoiceCustomerAddress'Line1 obj : "line2" Data.Aeson.Types.ToJSON..= invoiceCustomerAddress'Line2 obj : "postal_code" Data.Aeson.Types.ToJSON..= invoiceCustomerAddress'PostalCode obj : "state" Data.Aeson.Types.ToJSON..= invoiceCustomerAddress'State obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("city" Data.Aeson.Types.ToJSON..= invoiceCustomerAddress'City obj) GHC.Base.<> (("country" Data.Aeson.Types.ToJSON..= invoiceCustomerAddress'Country obj) GHC.Base.<> (("line1" Data.Aeson.Types.ToJSON..= invoiceCustomerAddress'Line1 obj) GHC.Base.<> (("line2" Data.Aeson.Types.ToJSON..= invoiceCustomerAddress'Line2 obj) GHC.Base.<> (("postal_code" Data.Aeson.Types.ToJSON..= invoiceCustomerAddress'PostalCode obj) GHC.Base.<> ("state" Data.Aeson.Types.ToJSON..= invoiceCustomerAddress'State obj))))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON InvoiceCustomerAddress' where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "InvoiceCustomerAddress'" (\obj -> (((((GHC.Base.pure InvoiceCustomerAddress' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "city")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "country")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "line1")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "line2")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "postal_code")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "state"))
 
--- | Defines the data type for the schema invoiceCustomer_shipping\'
+-- | Create a new 'InvoiceCustomerAddress'' with all required fields.
+mkInvoiceCustomerAddress' :: InvoiceCustomerAddress'
+mkInvoiceCustomerAddress' =
+  InvoiceCustomerAddress'
+    { invoiceCustomerAddress'City = GHC.Maybe.Nothing,
+      invoiceCustomerAddress'Country = GHC.Maybe.Nothing,
+      invoiceCustomerAddress'Line1 = GHC.Maybe.Nothing,
+      invoiceCustomerAddress'Line2 = GHC.Maybe.Nothing,
+      invoiceCustomerAddress'PostalCode = GHC.Maybe.Nothing,
+      invoiceCustomerAddress'State = GHC.Maybe.Nothing
+    }
+
+-- | Defines the object schema located at @components.schemas.invoice.properties.customer_shipping.anyOf@ in the specification.
 --
 -- The customer\\\'s shipping information. Until the invoice is finalized, this field will equal \\\`customer.shipping\\\`. Once the invoice is finalized, this field will no longer be updated.
 data InvoiceCustomerShipping'
@@ -473,40 +596,56 @@ data InvoiceCustomerShipping'
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON InvoiceCustomerShipping' where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "address" (invoiceCustomerShipping'Address obj) : (Data.Aeson..=) "carrier" (invoiceCustomerShipping'Carrier obj) : (Data.Aeson..=) "name" (invoiceCustomerShipping'Name obj) : (Data.Aeson..=) "phone" (invoiceCustomerShipping'Phone obj) : (Data.Aeson..=) "tracking_number" (invoiceCustomerShipping'TrackingNumber obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "address" (invoiceCustomerShipping'Address obj) GHC.Base.<> ((Data.Aeson..=) "carrier" (invoiceCustomerShipping'Carrier obj) GHC.Base.<> ((Data.Aeson..=) "name" (invoiceCustomerShipping'Name obj) GHC.Base.<> ((Data.Aeson..=) "phone" (invoiceCustomerShipping'Phone obj) GHC.Base.<> (Data.Aeson..=) "tracking_number" (invoiceCustomerShipping'TrackingNumber obj)))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("address" Data.Aeson.Types.ToJSON..= invoiceCustomerShipping'Address obj : "carrier" Data.Aeson.Types.ToJSON..= invoiceCustomerShipping'Carrier obj : "name" Data.Aeson.Types.ToJSON..= invoiceCustomerShipping'Name obj : "phone" Data.Aeson.Types.ToJSON..= invoiceCustomerShipping'Phone obj : "tracking_number" Data.Aeson.Types.ToJSON..= invoiceCustomerShipping'TrackingNumber obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("address" Data.Aeson.Types.ToJSON..= invoiceCustomerShipping'Address obj) GHC.Base.<> (("carrier" Data.Aeson.Types.ToJSON..= invoiceCustomerShipping'Carrier obj) GHC.Base.<> (("name" Data.Aeson.Types.ToJSON..= invoiceCustomerShipping'Name obj) GHC.Base.<> (("phone" Data.Aeson.Types.ToJSON..= invoiceCustomerShipping'Phone obj) GHC.Base.<> ("tracking_number" Data.Aeson.Types.ToJSON..= invoiceCustomerShipping'TrackingNumber obj)))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON InvoiceCustomerShipping' where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "InvoiceCustomerShipping'" (\obj -> ((((GHC.Base.pure InvoiceCustomerShipping' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "address")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "carrier")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "phone")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "tracking_number"))
 
--- | Defines the enum schema invoiceCustomer_tax_exempt\'
+-- | Create a new 'InvoiceCustomerShipping'' with all required fields.
+mkInvoiceCustomerShipping' :: InvoiceCustomerShipping'
+mkInvoiceCustomerShipping' =
+  InvoiceCustomerShipping'
+    { invoiceCustomerShipping'Address = GHC.Maybe.Nothing,
+      invoiceCustomerShipping'Carrier = GHC.Maybe.Nothing,
+      invoiceCustomerShipping'Name = GHC.Maybe.Nothing,
+      invoiceCustomerShipping'Phone = GHC.Maybe.Nothing,
+      invoiceCustomerShipping'TrackingNumber = GHC.Maybe.Nothing
+    }
+
+-- | Defines the enum schema located at @components.schemas.invoice.properties.customer_tax_exempt@ in the specification.
 --
 -- The customer\'s tax exempt status. Until the invoice is finalized, this field will equal \`customer.tax_exempt\`. Once the invoice is finalized, this field will no longer be updated.
 data InvoiceCustomerTaxExempt'
-  = InvoiceCustomerTaxExempt'EnumOther Data.Aeson.Types.Internal.Value
-  | InvoiceCustomerTaxExempt'EnumTyped Data.Text.Internal.Text
-  | InvoiceCustomerTaxExempt'EnumStringExempt
-  | InvoiceCustomerTaxExempt'EnumStringNone
-  | InvoiceCustomerTaxExempt'EnumStringReverse
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    InvoiceCustomerTaxExempt'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    InvoiceCustomerTaxExempt'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"exempt"@
+    InvoiceCustomerTaxExempt'EnumExempt
+  | -- | Represents the JSON value @"none"@
+    InvoiceCustomerTaxExempt'EnumNone
+  | -- | Represents the JSON value @"reverse"@
+    InvoiceCustomerTaxExempt'EnumReverse
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
 instance Data.Aeson.Types.ToJSON.ToJSON InvoiceCustomerTaxExempt' where
-  toJSON (InvoiceCustomerTaxExempt'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (InvoiceCustomerTaxExempt'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (InvoiceCustomerTaxExempt'EnumStringExempt) = "exempt"
-  toJSON (InvoiceCustomerTaxExempt'EnumStringNone) = "none"
-  toJSON (InvoiceCustomerTaxExempt'EnumStringReverse) = "reverse"
+  toJSON (InvoiceCustomerTaxExempt'Other val) = val
+  toJSON (InvoiceCustomerTaxExempt'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (InvoiceCustomerTaxExempt'EnumExempt) = "exempt"
+  toJSON (InvoiceCustomerTaxExempt'EnumNone) = "none"
+  toJSON (InvoiceCustomerTaxExempt'EnumReverse) = "reverse"
 
 instance Data.Aeson.Types.FromJSON.FromJSON InvoiceCustomerTaxExempt' where
   parseJSON val =
     GHC.Base.pure
-      ( if  | val GHC.Classes.== "exempt" -> InvoiceCustomerTaxExempt'EnumStringExempt
-            | val GHC.Classes.== "none" -> InvoiceCustomerTaxExempt'EnumStringNone
-            | val GHC.Classes.== "reverse" -> InvoiceCustomerTaxExempt'EnumStringReverse
-            | GHC.Base.otherwise -> InvoiceCustomerTaxExempt'EnumOther val
+      ( if  | val GHC.Classes.== "exempt" -> InvoiceCustomerTaxExempt'EnumExempt
+            | val GHC.Classes.== "none" -> InvoiceCustomerTaxExempt'EnumNone
+            | val GHC.Classes.== "reverse" -> InvoiceCustomerTaxExempt'EnumReverse
+            | GHC.Base.otherwise -> InvoiceCustomerTaxExempt'Other val
       )
 
--- | Define the one-of schema invoiceDefault_payment_method\'
+-- | Defines the oneOf schema located at @components.schemas.invoice.properties.default_payment_method.anyOf@ in the specification.
 --
 -- ID of the default payment method for the invoice. It must belong to the customer associated with the invoice. If not set, defaults to the subscription\'s default payment method, if any, or to the default payment method in the customer\'s invoice settings.
 data InvoiceDefaultPaymentMethod'Variants
@@ -519,13 +658,11 @@ instance Data.Aeson.Types.ToJSON.ToJSON InvoiceDefaultPaymentMethod'Variants whe
   toJSON (InvoiceDefaultPaymentMethod'Text a) = Data.Aeson.Types.ToJSON.toJSON a
 
 instance Data.Aeson.Types.FromJSON.FromJSON InvoiceDefaultPaymentMethod'Variants where
-  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
-    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ InvoiceDefaultPaymentMethod'PaymentMethod a
-    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ InvoiceDefaultPaymentMethod'Text a
-      Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+  parseJSON val = case (InvoiceDefaultPaymentMethod'PaymentMethod Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((InvoiceDefaultPaymentMethod'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched") of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+    Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
--- | Define the one-of schema invoiceDefault_source\'
+-- | Defines the oneOf schema located at @components.schemas.invoice.properties.default_source.anyOf@ in the specification.
 --
 -- ID of the default payment source for the invoice. It must belong to the customer associated with the invoice and be in a chargeable state. If not set, defaults to the subscription\'s default source, if any, or to the customer\'s default source.
 data InvoiceDefaultSource'Variants
@@ -546,21 +683,11 @@ instance Data.Aeson.Types.ToJSON.ToJSON InvoiceDefaultSource'Variants where
   toJSON (InvoiceDefaultSource'Text a) = Data.Aeson.Types.ToJSON.toJSON a
 
 instance Data.Aeson.Types.FromJSON.FromJSON InvoiceDefaultSource'Variants where
-  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
-    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ InvoiceDefaultSource'AlipayAccount a
-    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ InvoiceDefaultSource'BankAccount a
-      Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-        Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ InvoiceDefaultSource'BitcoinReceiver a
-        Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-          Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ InvoiceDefaultSource'Card a
-          Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-            Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ InvoiceDefaultSource'Source a
-            Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-              Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ InvoiceDefaultSource'Text a
-              Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+  parseJSON val = case (InvoiceDefaultSource'AlipayAccount Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((InvoiceDefaultSource'BankAccount Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((InvoiceDefaultSource'BitcoinReceiver Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((InvoiceDefaultSource'Card Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((InvoiceDefaultSource'Source Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((InvoiceDefaultSource'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched"))))) of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+    Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
--- | Defines the data type for the schema invoiceDiscount\'
+-- | Defines the object schema located at @components.schemas.invoice.properties.discount.anyOf@ in the specification.
 --
 -- Describes the current discount applied to this invoice, if there is one.
 data InvoiceDiscount'
@@ -573,8 +700,6 @@ data InvoiceDiscount'
         invoiceDiscount'Customer :: (GHC.Maybe.Maybe InvoiceDiscount'Customer'Variants),
         -- | end: If the coupon has a duration of \`repeating\`, the date that this discount will end. If the coupon has a duration of \`once\` or \`forever\`, this attribute will be null.
         invoiceDiscount'End :: (GHC.Maybe.Maybe GHC.Types.Int),
-        -- | object: String representing the object\'s type. Objects of the same type share the same value.
-        invoiceDiscount'Object :: (GHC.Maybe.Maybe InvoiceDiscount'Object'),
         -- | start: Date that the coupon was applied.
         invoiceDiscount'Start :: (GHC.Maybe.Maybe GHC.Types.Int),
         -- | subscription: The subscription that this coupon is applied to, if it is applied to a particular subscription.
@@ -590,13 +715,24 @@ data InvoiceDiscount'
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON InvoiceDiscount' where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "coupon" (invoiceDiscount'Coupon obj) : (Data.Aeson..=) "customer" (invoiceDiscount'Customer obj) : (Data.Aeson..=) "end" (invoiceDiscount'End obj) : (Data.Aeson..=) "object" (invoiceDiscount'Object obj) : (Data.Aeson..=) "start" (invoiceDiscount'Start obj) : (Data.Aeson..=) "subscription" (invoiceDiscount'Subscription obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "coupon" (invoiceDiscount'Coupon obj) GHC.Base.<> ((Data.Aeson..=) "customer" (invoiceDiscount'Customer obj) GHC.Base.<> ((Data.Aeson..=) "end" (invoiceDiscount'End obj) GHC.Base.<> ((Data.Aeson..=) "object" (invoiceDiscount'Object obj) GHC.Base.<> ((Data.Aeson..=) "start" (invoiceDiscount'Start obj) GHC.Base.<> (Data.Aeson..=) "subscription" (invoiceDiscount'Subscription obj))))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("coupon" Data.Aeson.Types.ToJSON..= invoiceDiscount'Coupon obj : "customer" Data.Aeson.Types.ToJSON..= invoiceDiscount'Customer obj : "end" Data.Aeson.Types.ToJSON..= invoiceDiscount'End obj : "start" Data.Aeson.Types.ToJSON..= invoiceDiscount'Start obj : "subscription" Data.Aeson.Types.ToJSON..= invoiceDiscount'Subscription obj : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "discount" : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("coupon" Data.Aeson.Types.ToJSON..= invoiceDiscount'Coupon obj) GHC.Base.<> (("customer" Data.Aeson.Types.ToJSON..= invoiceDiscount'Customer obj) GHC.Base.<> (("end" Data.Aeson.Types.ToJSON..= invoiceDiscount'End obj) GHC.Base.<> (("start" Data.Aeson.Types.ToJSON..= invoiceDiscount'Start obj) GHC.Base.<> (("subscription" Data.Aeson.Types.ToJSON..= invoiceDiscount'Subscription obj) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "discount"))))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON InvoiceDiscount' where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "InvoiceDiscount'" (\obj -> (((((GHC.Base.pure InvoiceDiscount' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "coupon")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "customer")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "end")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "object")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "start")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "subscription"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "InvoiceDiscount'" (\obj -> ((((GHC.Base.pure InvoiceDiscount' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "coupon")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "customer")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "end")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "start")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "subscription"))
 
--- | Define the one-of schema invoiceDiscount\'Customer\'
+-- | Create a new 'InvoiceDiscount'' with all required fields.
+mkInvoiceDiscount' :: InvoiceDiscount'
+mkInvoiceDiscount' =
+  InvoiceDiscount'
+    { invoiceDiscount'Coupon = GHC.Maybe.Nothing,
+      invoiceDiscount'Customer = GHC.Maybe.Nothing,
+      invoiceDiscount'End = GHC.Maybe.Nothing,
+      invoiceDiscount'Start = GHC.Maybe.Nothing,
+      invoiceDiscount'Subscription = GHC.Maybe.Nothing
+    }
+
+-- | Defines the oneOf schema located at @components.schemas.invoice.properties.discount.anyOf.properties.customer.anyOf@ in the specification.
 --
 -- The ID of the customer associated with this discount.
 data InvoiceDiscount'Customer'Variants
@@ -611,36 +747,11 @@ instance Data.Aeson.Types.ToJSON.ToJSON InvoiceDiscount'Customer'Variants where
   toJSON (InvoiceDiscount'Customer'Text a) = Data.Aeson.Types.ToJSON.toJSON a
 
 instance Data.Aeson.Types.FromJSON.FromJSON InvoiceDiscount'Customer'Variants where
-  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
-    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ InvoiceDiscount'Customer'Customer a
-    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ InvoiceDiscount'Customer'DeletedCustomer a
-      Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-        Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ InvoiceDiscount'Customer'Text a
-        Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+  parseJSON val = case (InvoiceDiscount'Customer'Customer Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((InvoiceDiscount'Customer'DeletedCustomer Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((InvoiceDiscount'Customer'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched")) of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+    Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
--- | Defines the enum schema invoiceDiscount\'Object\'
---
--- String representing the object\'s type. Objects of the same type share the same value.
-data InvoiceDiscount'Object'
-  = InvoiceDiscount'Object'EnumOther Data.Aeson.Types.Internal.Value
-  | InvoiceDiscount'Object'EnumTyped Data.Text.Internal.Text
-  | InvoiceDiscount'Object'EnumStringDiscount
-  deriving (GHC.Show.Show, GHC.Classes.Eq)
-
-instance Data.Aeson.Types.ToJSON.ToJSON InvoiceDiscount'Object' where
-  toJSON (InvoiceDiscount'Object'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (InvoiceDiscount'Object'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (InvoiceDiscount'Object'EnumStringDiscount) = "discount"
-
-instance Data.Aeson.Types.FromJSON.FromJSON InvoiceDiscount'Object' where
-  parseJSON val =
-    GHC.Base.pure
-      ( if  | val GHC.Classes.== "discount" -> InvoiceDiscount'Object'EnumStringDiscount
-            | GHC.Base.otherwise -> InvoiceDiscount'Object'EnumOther val
-      )
-
--- | Defines the data type for the schema invoiceLines\'
+-- | Defines the object schema located at @components.schemas.invoice.properties.lines@ in the specification.
 --
 -- The individual line items that make up the invoice. \`lines\` is sorted as follows: invoice items in reverse chronological order, followed by the subscription, if any.
 data InvoiceLines'
@@ -649,8 +760,6 @@ data InvoiceLines'
         invoiceLines'Data :: ([LineItem]),
         -- | has_more: True if this list has another page of items after this one that can be fetched.
         invoiceLines'HasMore :: GHC.Types.Bool,
-        -- | object: String representing the object\'s type. Objects of the same type share the same value. Always has the value \`list\`.
-        invoiceLines'Object :: InvoiceLines'Object',
         -- | url: The URL where this list can be accessed.
         --
         -- Constraints:
@@ -664,55 +773,29 @@ data InvoiceLines'
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON InvoiceLines' where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "data" (invoiceLines'Data obj) : (Data.Aeson..=) "has_more" (invoiceLines'HasMore obj) : (Data.Aeson..=) "object" (invoiceLines'Object obj) : (Data.Aeson..=) "url" (invoiceLines'Url obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "data" (invoiceLines'Data obj) GHC.Base.<> ((Data.Aeson..=) "has_more" (invoiceLines'HasMore obj) GHC.Base.<> ((Data.Aeson..=) "object" (invoiceLines'Object obj) GHC.Base.<> (Data.Aeson..=) "url" (invoiceLines'Url obj))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("data" Data.Aeson.Types.ToJSON..= invoiceLines'Data obj : "has_more" Data.Aeson.Types.ToJSON..= invoiceLines'HasMore obj : "url" Data.Aeson.Types.ToJSON..= invoiceLines'Url obj : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "list" : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("data" Data.Aeson.Types.ToJSON..= invoiceLines'Data obj) GHC.Base.<> (("has_more" Data.Aeson.Types.ToJSON..= invoiceLines'HasMore obj) GHC.Base.<> (("url" Data.Aeson.Types.ToJSON..= invoiceLines'Url obj) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "list"))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON InvoiceLines' where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "InvoiceLines'" (\obj -> (((GHC.Base.pure InvoiceLines' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "has_more")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "object")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "url"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "InvoiceLines'" (\obj -> ((GHC.Base.pure InvoiceLines' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "has_more")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "url"))
 
--- | Defines the enum schema invoiceLines\'Object\'
---
--- String representing the object\'s type. Objects of the same type share the same value. Always has the value \`list\`.
-data InvoiceLines'Object'
-  = InvoiceLines'Object'EnumOther Data.Aeson.Types.Internal.Value
-  | InvoiceLines'Object'EnumTyped Data.Text.Internal.Text
-  | InvoiceLines'Object'EnumStringList
-  deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Create a new 'InvoiceLines'' with all required fields.
+mkInvoiceLines' ::
+  -- | 'invoiceLines'Data'
+  [LineItem] ->
+  -- | 'invoiceLines'HasMore'
+  GHC.Types.Bool ->
+  -- | 'invoiceLines'Url'
+  Data.Text.Internal.Text ->
+  InvoiceLines'
+mkInvoiceLines' invoiceLines'Data invoiceLines'HasMore invoiceLines'Url =
+  InvoiceLines'
+    { invoiceLines'Data = invoiceLines'Data,
+      invoiceLines'HasMore = invoiceLines'HasMore,
+      invoiceLines'Url = invoiceLines'Url
+    }
 
-instance Data.Aeson.Types.ToJSON.ToJSON InvoiceLines'Object' where
-  toJSON (InvoiceLines'Object'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (InvoiceLines'Object'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (InvoiceLines'Object'EnumStringList) = "list"
-
-instance Data.Aeson.Types.FromJSON.FromJSON InvoiceLines'Object' where
-  parseJSON val =
-    GHC.Base.pure
-      ( if  | val GHC.Classes.== "list" -> InvoiceLines'Object'EnumStringList
-            | GHC.Base.otherwise -> InvoiceLines'Object'EnumOther val
-      )
-
--- | Defines the enum schema invoiceObject\'
---
--- String representing the object\'s type. Objects of the same type share the same value.
-data InvoiceObject'
-  = InvoiceObject'EnumOther Data.Aeson.Types.Internal.Value
-  | InvoiceObject'EnumTyped Data.Text.Internal.Text
-  | InvoiceObject'EnumStringInvoice
-  deriving (GHC.Show.Show, GHC.Classes.Eq)
-
-instance Data.Aeson.Types.ToJSON.ToJSON InvoiceObject' where
-  toJSON (InvoiceObject'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (InvoiceObject'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (InvoiceObject'EnumStringInvoice) = "invoice"
-
-instance Data.Aeson.Types.FromJSON.FromJSON InvoiceObject' where
-  parseJSON val =
-    GHC.Base.pure
-      ( if  | val GHC.Classes.== "invoice" -> InvoiceObject'EnumStringInvoice
-            | GHC.Base.otherwise -> InvoiceObject'EnumOther val
-      )
-
--- | Define the one-of schema invoicePayment_intent\'
+-- | Defines the oneOf schema located at @components.schemas.invoice.properties.payment_intent.anyOf@ in the specification.
 --
 -- The PaymentIntent associated with this invoice. The PaymentIntent is generated when the invoice is finalized, and can then be used to pay the invoice. Note that voiding an invoice will cancel the PaymentIntent.
 data InvoicePaymentIntent'Variants
@@ -725,49 +808,55 @@ instance Data.Aeson.Types.ToJSON.ToJSON InvoicePaymentIntent'Variants where
   toJSON (InvoicePaymentIntent'Text a) = Data.Aeson.Types.ToJSON.toJSON a
 
 instance Data.Aeson.Types.FromJSON.FromJSON InvoicePaymentIntent'Variants where
-  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
-    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ InvoicePaymentIntent'PaymentIntent a
-    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ InvoicePaymentIntent'Text a
-      Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+  parseJSON val = case (InvoicePaymentIntent'PaymentIntent Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((InvoicePaymentIntent'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched") of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+    Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
--- | Defines the enum schema invoiceStatus\'
+-- | Defines the enum schema located at @components.schemas.invoice.properties.status@ in the specification.
 --
 -- The status of the invoice, one of \`draft\`, \`open\`, \`paid\`, \`uncollectible\`, or \`void\`. [Learn more](https:\/\/stripe.com\/docs\/billing\/invoices\/workflow\#workflow-overview)
 data InvoiceStatus'
-  = InvoiceStatus'EnumOther Data.Aeson.Types.Internal.Value
-  | InvoiceStatus'EnumTyped Data.Text.Internal.Text
-  | InvoiceStatus'EnumStringDeleted
-  | InvoiceStatus'EnumStringDraft
-  | InvoiceStatus'EnumStringOpen
-  | InvoiceStatus'EnumStringPaid
-  | InvoiceStatus'EnumStringUncollectible
-  | InvoiceStatus'EnumStringVoid
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    InvoiceStatus'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    InvoiceStatus'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"deleted"@
+    InvoiceStatus'EnumDeleted
+  | -- | Represents the JSON value @"draft"@
+    InvoiceStatus'EnumDraft
+  | -- | Represents the JSON value @"open"@
+    InvoiceStatus'EnumOpen
+  | -- | Represents the JSON value @"paid"@
+    InvoiceStatus'EnumPaid
+  | -- | Represents the JSON value @"uncollectible"@
+    InvoiceStatus'EnumUncollectible
+  | -- | Represents the JSON value @"void"@
+    InvoiceStatus'EnumVoid
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
 instance Data.Aeson.Types.ToJSON.ToJSON InvoiceStatus' where
-  toJSON (InvoiceStatus'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (InvoiceStatus'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (InvoiceStatus'EnumStringDeleted) = "deleted"
-  toJSON (InvoiceStatus'EnumStringDraft) = "draft"
-  toJSON (InvoiceStatus'EnumStringOpen) = "open"
-  toJSON (InvoiceStatus'EnumStringPaid) = "paid"
-  toJSON (InvoiceStatus'EnumStringUncollectible) = "uncollectible"
-  toJSON (InvoiceStatus'EnumStringVoid) = "void"
+  toJSON (InvoiceStatus'Other val) = val
+  toJSON (InvoiceStatus'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (InvoiceStatus'EnumDeleted) = "deleted"
+  toJSON (InvoiceStatus'EnumDraft) = "draft"
+  toJSON (InvoiceStatus'EnumOpen) = "open"
+  toJSON (InvoiceStatus'EnumPaid) = "paid"
+  toJSON (InvoiceStatus'EnumUncollectible) = "uncollectible"
+  toJSON (InvoiceStatus'EnumVoid) = "void"
 
 instance Data.Aeson.Types.FromJSON.FromJSON InvoiceStatus' where
   parseJSON val =
     GHC.Base.pure
-      ( if  | val GHC.Classes.== "deleted" -> InvoiceStatus'EnumStringDeleted
-            | val GHC.Classes.== "draft" -> InvoiceStatus'EnumStringDraft
-            | val GHC.Classes.== "open" -> InvoiceStatus'EnumStringOpen
-            | val GHC.Classes.== "paid" -> InvoiceStatus'EnumStringPaid
-            | val GHC.Classes.== "uncollectible" -> InvoiceStatus'EnumStringUncollectible
-            | val GHC.Classes.== "void" -> InvoiceStatus'EnumStringVoid
-            | GHC.Base.otherwise -> InvoiceStatus'EnumOther val
+      ( if  | val GHC.Classes.== "deleted" -> InvoiceStatus'EnumDeleted
+            | val GHC.Classes.== "draft" -> InvoiceStatus'EnumDraft
+            | val GHC.Classes.== "open" -> InvoiceStatus'EnumOpen
+            | val GHC.Classes.== "paid" -> InvoiceStatus'EnumPaid
+            | val GHC.Classes.== "uncollectible" -> InvoiceStatus'EnumUncollectible
+            | val GHC.Classes.== "void" -> InvoiceStatus'EnumVoid
+            | GHC.Base.otherwise -> InvoiceStatus'Other val
       )
 
--- | Define the one-of schema invoiceSubscription\'
+-- | Defines the oneOf schema located at @components.schemas.invoice.properties.subscription.anyOf@ in the specification.
 --
 -- The subscription that this invoice was prepared for, if any.
 data InvoiceSubscription'Variants
@@ -780,8 +869,6 @@ instance Data.Aeson.Types.ToJSON.ToJSON InvoiceSubscription'Variants where
   toJSON (InvoiceSubscription'Text a) = Data.Aeson.Types.ToJSON.toJSON a
 
 instance Data.Aeson.Types.FromJSON.FromJSON InvoiceSubscription'Variants where
-  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
-    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ InvoiceSubscription'Subscription a
-    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ InvoiceSubscription'Text a
-      Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+  parseJSON val = case (InvoiceSubscription'Subscription Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((InvoiceSubscription'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched") of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+    Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a

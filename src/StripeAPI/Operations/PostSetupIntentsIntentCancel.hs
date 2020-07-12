@@ -10,6 +10,7 @@ module StripeAPI.Operations.PostSetupIntentsIntentCancel where
 import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -83,7 +84,7 @@ postSetupIntentsIntentCancel
       )
       (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack ("/v1/setup_intents/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel intent)) GHC.Base.++ "/cancel"))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
 
--- | Defines the data type for the schema postSetupIntentsIntentCancelRequestBody
+-- | Defines the object schema located at @paths.\/v1\/setup_intents\/{intent}\/cancel.POST.requestBody.content.application\/x-www-form-urlencoded.schema@ in the specification.
 data PostSetupIntentsIntentCancelRequestBody
   = PostSetupIntentsIntentCancelRequestBody
       { -- | cancellation_reason: Reason for canceling this SetupIntent. Possible values are \`abandoned\`, \`requested_by_customer\`, or \`duplicate\`
@@ -101,37 +102,50 @@ data PostSetupIntentsIntentCancelRequestBody
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostSetupIntentsIntentCancelRequestBody where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "cancellation_reason" (postSetupIntentsIntentCancelRequestBodyCancellationReason obj) : (Data.Aeson..=) "expand" (postSetupIntentsIntentCancelRequestBodyExpand obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "cancellation_reason" (postSetupIntentsIntentCancelRequestBodyCancellationReason obj) GHC.Base.<> (Data.Aeson..=) "expand" (postSetupIntentsIntentCancelRequestBodyExpand obj))
+  toJSON obj = Data.Aeson.Types.Internal.object ("cancellation_reason" Data.Aeson.Types.ToJSON..= postSetupIntentsIntentCancelRequestBodyCancellationReason obj : "expand" Data.Aeson.Types.ToJSON..= postSetupIntentsIntentCancelRequestBodyExpand obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("cancellation_reason" Data.Aeson.Types.ToJSON..= postSetupIntentsIntentCancelRequestBodyCancellationReason obj) GHC.Base.<> ("expand" Data.Aeson.Types.ToJSON..= postSetupIntentsIntentCancelRequestBodyExpand obj))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostSetupIntentsIntentCancelRequestBody where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PostSetupIntentsIntentCancelRequestBody" (\obj -> (GHC.Base.pure PostSetupIntentsIntentCancelRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "cancellation_reason")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "expand"))
 
--- | Defines the enum schema postSetupIntentsIntentCancelRequestBodyCancellation_reason\'
+-- | Create a new 'PostSetupIntentsIntentCancelRequestBody' with all required fields.
+mkPostSetupIntentsIntentCancelRequestBody :: PostSetupIntentsIntentCancelRequestBody
+mkPostSetupIntentsIntentCancelRequestBody =
+  PostSetupIntentsIntentCancelRequestBody
+    { postSetupIntentsIntentCancelRequestBodyCancellationReason = GHC.Maybe.Nothing,
+      postSetupIntentsIntentCancelRequestBodyExpand = GHC.Maybe.Nothing
+    }
+
+-- | Defines the enum schema located at @paths.\/v1\/setup_intents\/{intent}\/cancel.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.cancellation_reason@ in the specification.
 --
 -- Reason for canceling this SetupIntent. Possible values are \`abandoned\`, \`requested_by_customer\`, or \`duplicate\`
 data PostSetupIntentsIntentCancelRequestBodyCancellationReason'
-  = PostSetupIntentsIntentCancelRequestBodyCancellationReason'EnumOther Data.Aeson.Types.Internal.Value
-  | PostSetupIntentsIntentCancelRequestBodyCancellationReason'EnumTyped Data.Text.Internal.Text
-  | PostSetupIntentsIntentCancelRequestBodyCancellationReason'EnumStringAbandoned
-  | PostSetupIntentsIntentCancelRequestBodyCancellationReason'EnumStringDuplicate
-  | PostSetupIntentsIntentCancelRequestBodyCancellationReason'EnumStringRequestedByCustomer
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    PostSetupIntentsIntentCancelRequestBodyCancellationReason'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    PostSetupIntentsIntentCancelRequestBodyCancellationReason'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"abandoned"@
+    PostSetupIntentsIntentCancelRequestBodyCancellationReason'EnumAbandoned
+  | -- | Represents the JSON value @"duplicate"@
+    PostSetupIntentsIntentCancelRequestBodyCancellationReason'EnumDuplicate
+  | -- | Represents the JSON value @"requested_by_customer"@
+    PostSetupIntentsIntentCancelRequestBodyCancellationReason'EnumRequestedByCustomer
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostSetupIntentsIntentCancelRequestBodyCancellationReason' where
-  toJSON (PostSetupIntentsIntentCancelRequestBodyCancellationReason'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostSetupIntentsIntentCancelRequestBodyCancellationReason'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostSetupIntentsIntentCancelRequestBodyCancellationReason'EnumStringAbandoned) = "abandoned"
-  toJSON (PostSetupIntentsIntentCancelRequestBodyCancellationReason'EnumStringDuplicate) = "duplicate"
-  toJSON (PostSetupIntentsIntentCancelRequestBodyCancellationReason'EnumStringRequestedByCustomer) = "requested_by_customer"
+  toJSON (PostSetupIntentsIntentCancelRequestBodyCancellationReason'Other val) = val
+  toJSON (PostSetupIntentsIntentCancelRequestBodyCancellationReason'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PostSetupIntentsIntentCancelRequestBodyCancellationReason'EnumAbandoned) = "abandoned"
+  toJSON (PostSetupIntentsIntentCancelRequestBodyCancellationReason'EnumDuplicate) = "duplicate"
+  toJSON (PostSetupIntentsIntentCancelRequestBodyCancellationReason'EnumRequestedByCustomer) = "requested_by_customer"
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostSetupIntentsIntentCancelRequestBodyCancellationReason' where
   parseJSON val =
     GHC.Base.pure
-      ( if  | val GHC.Classes.== "abandoned" -> PostSetupIntentsIntentCancelRequestBodyCancellationReason'EnumStringAbandoned
-            | val GHC.Classes.== "duplicate" -> PostSetupIntentsIntentCancelRequestBodyCancellationReason'EnumStringDuplicate
-            | val GHC.Classes.== "requested_by_customer" -> PostSetupIntentsIntentCancelRequestBodyCancellationReason'EnumStringRequestedByCustomer
-            | GHC.Base.otherwise -> PostSetupIntentsIntentCancelRequestBodyCancellationReason'EnumOther val
+      ( if  | val GHC.Classes.== "abandoned" -> PostSetupIntentsIntentCancelRequestBodyCancellationReason'EnumAbandoned
+            | val GHC.Classes.== "duplicate" -> PostSetupIntentsIntentCancelRequestBodyCancellationReason'EnumDuplicate
+            | val GHC.Classes.== "requested_by_customer" -> PostSetupIntentsIntentCancelRequestBodyCancellationReason'EnumRequestedByCustomer
+            | GHC.Base.otherwise -> PostSetupIntentsIntentCancelRequestBodyCancellationReason'Other val
       )
 
 -- | Represents a response of the operation 'postSetupIntentsIntentCancel'.

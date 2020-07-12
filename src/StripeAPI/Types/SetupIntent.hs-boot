@@ -1,11 +1,11 @@
 module StripeAPI.Types.SetupIntent where
 import Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Types.Internal
-data SetupIntent 
-instance Show SetupIntent 
-instance Eq SetupIntent 
-instance FromJSON SetupIntent 
-instance ToJSON SetupIntent 
+data SetupIntent
+instance Show SetupIntent
+instance Eq SetupIntent
+instance FromJSON SetupIntent
+instance ToJSON SetupIntent
 data SetupIntentApplication'Variants
 instance Show SetupIntentApplication'Variants
 instance Eq SetupIntentApplication'Variants
@@ -21,16 +21,16 @@ instance Show SetupIntentCustomer'Variants
 instance Eq SetupIntentCustomer'Variants
 instance FromJSON SetupIntentCustomer'Variants
 instance ToJSON SetupIntentCustomer'Variants
-data SetupIntentLastSetupError' 
-instance Show SetupIntentLastSetupError' 
-instance Eq SetupIntentLastSetupError' 
-instance FromJSON SetupIntentLastSetupError' 
-instance ToJSON SetupIntentLastSetupError' 
-data SetupIntentLastSetupError'Source' 
-instance Show SetupIntentLastSetupError'Source' 
-instance Eq SetupIntentLastSetupError'Source' 
-instance FromJSON SetupIntentLastSetupError'Source' 
-instance ToJSON SetupIntentLastSetupError'Source' 
+data SetupIntentLastSetupError'
+instance Show SetupIntentLastSetupError'
+instance Eq SetupIntentLastSetupError'
+instance FromJSON SetupIntentLastSetupError'
+instance ToJSON SetupIntentLastSetupError'
+data SetupIntentLastSetupError'Source'
+instance Show SetupIntentLastSetupError'Source'
+instance Eq SetupIntentLastSetupError'Source'
+instance FromJSON SetupIntentLastSetupError'Source'
+instance ToJSON SetupIntentLastSetupError'Source'
 data SetupIntentLastSetupError'Source'Account'Variants
 instance Show SetupIntentLastSetupError'Source'Account'Variants
 instance Eq SetupIntentLastSetupError'Source'Account'Variants
@@ -46,26 +46,21 @@ instance Show SetupIntentLastSetupError'Source'Customer'Variants
 instance Eq SetupIntentLastSetupError'Source'Customer'Variants
 instance FromJSON SetupIntentLastSetupError'Source'Customer'Variants
 instance ToJSON SetupIntentLastSetupError'Source'Customer'Variants
-data SetupIntentLastSetupError'Source'Object'
-instance Show SetupIntentLastSetupError'Source'Object'
-instance Eq SetupIntentLastSetupError'Source'Object'
-instance FromJSON SetupIntentLastSetupError'Source'Object'
-instance ToJSON SetupIntentLastSetupError'Source'Object'
-data SetupIntentLastSetupError'Source'Owner' 
-instance Show SetupIntentLastSetupError'Source'Owner' 
-instance Eq SetupIntentLastSetupError'Source'Owner' 
-instance FromJSON SetupIntentLastSetupError'Source'Owner' 
-instance ToJSON SetupIntentLastSetupError'Source'Owner' 
-data SetupIntentLastSetupError'Source'Owner'Address' 
-instance Show SetupIntentLastSetupError'Source'Owner'Address' 
-instance Eq SetupIntentLastSetupError'Source'Owner'Address' 
-instance FromJSON SetupIntentLastSetupError'Source'Owner'Address' 
-instance ToJSON SetupIntentLastSetupError'Source'Owner'Address' 
-data SetupIntentLastSetupError'Source'Owner'VerifiedAddress' 
-instance Show SetupIntentLastSetupError'Source'Owner'VerifiedAddress' 
-instance Eq SetupIntentLastSetupError'Source'Owner'VerifiedAddress' 
-instance FromJSON SetupIntentLastSetupError'Source'Owner'VerifiedAddress' 
-instance ToJSON SetupIntentLastSetupError'Source'Owner'VerifiedAddress' 
+data SetupIntentLastSetupError'Source'Owner'
+instance Show SetupIntentLastSetupError'Source'Owner'
+instance Eq SetupIntentLastSetupError'Source'Owner'
+instance FromJSON SetupIntentLastSetupError'Source'Owner'
+instance ToJSON SetupIntentLastSetupError'Source'Owner'
+data SetupIntentLastSetupError'Source'Owner'Address'
+instance Show SetupIntentLastSetupError'Source'Owner'Address'
+instance Eq SetupIntentLastSetupError'Source'Owner'Address'
+instance FromJSON SetupIntentLastSetupError'Source'Owner'Address'
+instance ToJSON SetupIntentLastSetupError'Source'Owner'Address'
+data SetupIntentLastSetupError'Source'Owner'VerifiedAddress'
+instance Show SetupIntentLastSetupError'Source'Owner'VerifiedAddress'
+instance Eq SetupIntentLastSetupError'Source'Owner'VerifiedAddress'
+instance FromJSON SetupIntentLastSetupError'Source'Owner'VerifiedAddress'
+instance ToJSON SetupIntentLastSetupError'Source'Owner'VerifiedAddress'
 data SetupIntentLastSetupError'Source'Recipient'Variants
 instance Show SetupIntentLastSetupError'Source'Recipient'Variants
 instance Eq SetupIntentLastSetupError'Source'Recipient'Variants
@@ -86,16 +81,11 @@ instance Show SetupIntentMandate'Variants
 instance Eq SetupIntentMandate'Variants
 instance FromJSON SetupIntentMandate'Variants
 instance ToJSON SetupIntentMandate'Variants
-data SetupIntentNextAction' 
-instance Show SetupIntentNextAction' 
-instance Eq SetupIntentNextAction' 
-instance FromJSON SetupIntentNextAction' 
-instance ToJSON SetupIntentNextAction' 
-data SetupIntentObject'
-instance Show SetupIntentObject'
-instance Eq SetupIntentObject'
-instance FromJSON SetupIntentObject'
-instance ToJSON SetupIntentObject'
+data SetupIntentNextAction'
+instance Show SetupIntentNextAction'
+instance Eq SetupIntentNextAction'
+instance FromJSON SetupIntentNextAction'
+instance ToJSON SetupIntentNextAction'
 data SetupIntentOnBehalfOf'Variants
 instance Show SetupIntentOnBehalfOf'Variants
 instance Eq SetupIntentOnBehalfOf'Variants
@@ -106,11 +96,11 @@ instance Show SetupIntentPaymentMethod'Variants
 instance Eq SetupIntentPaymentMethod'Variants
 instance FromJSON SetupIntentPaymentMethod'Variants
 instance ToJSON SetupIntentPaymentMethod'Variants
-data SetupIntentPaymentMethodOptions' 
-instance Show SetupIntentPaymentMethodOptions' 
-instance Eq SetupIntentPaymentMethodOptions' 
-instance FromJSON SetupIntentPaymentMethodOptions' 
-instance ToJSON SetupIntentPaymentMethodOptions' 
+data SetupIntentPaymentMethodOptions'
+instance Show SetupIntentPaymentMethodOptions'
+instance Eq SetupIntentPaymentMethodOptions'
+instance FromJSON SetupIntentPaymentMethodOptions'
+instance ToJSON SetupIntentPaymentMethodOptions'
 data SetupIntentSingleUseMandate'Variants
 instance Show SetupIntentSingleUseMandate'Variants
 instance Eq SetupIntentSingleUseMandate'Variants

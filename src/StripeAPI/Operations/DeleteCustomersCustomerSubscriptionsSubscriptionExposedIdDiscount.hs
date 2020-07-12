@@ -10,6 +10,7 @@ module StripeAPI.Operations.DeleteCustomersCustomerSubscriptionsSubscriptionExpo
 import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -77,7 +78,7 @@ deleteCustomersCustomerSubscriptionsSubscriptionExposedIdDiscount parameters =
     )
     (StripeAPI.Common.doCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "DELETE") (Data.Text.pack ("/v1/customers/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel (deleteCustomersCustomerSubscriptionsSubscriptionExposedIdDiscountParametersPathCustomer parameters))) GHC.Base.++ ("/subscriptions/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel (deleteCustomersCustomerSubscriptionsSubscriptionExposedIdDiscountParametersPathSubscriptionExposedId parameters))) GHC.Base.++ "/discount"))))) [])
 
--- | Defines the data type for the schema deleteCustomersCustomerSubscriptionsSubscriptionExposedIdDiscountParameters
+-- | Defines the object schema located at @paths.\/v1\/customers\/{customer}\/subscriptions\/{subscription_exposed_id}\/discount.DELETE.parameters@ in the specification.
 data DeleteCustomersCustomerSubscriptionsSubscriptionExposedIdDiscountParameters
   = DeleteCustomersCustomerSubscriptionsSubscriptionExposedIdDiscountParameters
       { -- | pathCustomer: Represents the parameter named \'customer\'
@@ -99,11 +100,24 @@ data DeleteCustomersCustomerSubscriptionsSubscriptionExposedIdDiscountParameters
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON DeleteCustomersCustomerSubscriptionsSubscriptionExposedIdDiscountParameters where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "pathCustomer" (deleteCustomersCustomerSubscriptionsSubscriptionExposedIdDiscountParametersPathCustomer obj) : (Data.Aeson..=) "pathSubscription_exposed_id" (deleteCustomersCustomerSubscriptionsSubscriptionExposedIdDiscountParametersPathSubscriptionExposedId obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "pathCustomer" (deleteCustomersCustomerSubscriptionsSubscriptionExposedIdDiscountParametersPathCustomer obj) GHC.Base.<> (Data.Aeson..=) "pathSubscription_exposed_id" (deleteCustomersCustomerSubscriptionsSubscriptionExposedIdDiscountParametersPathSubscriptionExposedId obj))
+  toJSON obj = Data.Aeson.Types.Internal.object ("pathCustomer" Data.Aeson.Types.ToJSON..= deleteCustomersCustomerSubscriptionsSubscriptionExposedIdDiscountParametersPathCustomer obj : "pathSubscription_exposed_id" Data.Aeson.Types.ToJSON..= deleteCustomersCustomerSubscriptionsSubscriptionExposedIdDiscountParametersPathSubscriptionExposedId obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("pathCustomer" Data.Aeson.Types.ToJSON..= deleteCustomersCustomerSubscriptionsSubscriptionExposedIdDiscountParametersPathCustomer obj) GHC.Base.<> ("pathSubscription_exposed_id" Data.Aeson.Types.ToJSON..= deleteCustomersCustomerSubscriptionsSubscriptionExposedIdDiscountParametersPathSubscriptionExposedId obj))
 
 instance Data.Aeson.Types.FromJSON.FromJSON DeleteCustomersCustomerSubscriptionsSubscriptionExposedIdDiscountParameters where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "DeleteCustomersCustomerSubscriptionsSubscriptionExposedIdDiscountParameters" (\obj -> (GHC.Base.pure DeleteCustomersCustomerSubscriptionsSubscriptionExposedIdDiscountParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathCustomer")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathSubscription_exposed_id"))
+
+-- | Create a new 'DeleteCustomersCustomerSubscriptionsSubscriptionExposedIdDiscountParameters' with all required fields.
+mkDeleteCustomersCustomerSubscriptionsSubscriptionExposedIdDiscountParameters ::
+  -- | 'deleteCustomersCustomerSubscriptionsSubscriptionExposedIdDiscountParametersPathCustomer'
+  Data.Text.Internal.Text ->
+  -- | 'deleteCustomersCustomerSubscriptionsSubscriptionExposedIdDiscountParametersPathSubscriptionExposedId'
+  Data.Text.Internal.Text ->
+  DeleteCustomersCustomerSubscriptionsSubscriptionExposedIdDiscountParameters
+mkDeleteCustomersCustomerSubscriptionsSubscriptionExposedIdDiscountParameters deleteCustomersCustomerSubscriptionsSubscriptionExposedIdDiscountParametersPathCustomer deleteCustomersCustomerSubscriptionsSubscriptionExposedIdDiscountParametersPathSubscriptionExposedId =
+  DeleteCustomersCustomerSubscriptionsSubscriptionExposedIdDiscountParameters
+    { deleteCustomersCustomerSubscriptionsSubscriptionExposedIdDiscountParametersPathCustomer = deleteCustomersCustomerSubscriptionsSubscriptionExposedIdDiscountParametersPathCustomer,
+      deleteCustomersCustomerSubscriptionsSubscriptionExposedIdDiscountParametersPathSubscriptionExposedId = deleteCustomersCustomerSubscriptionsSubscriptionExposedIdDiscountParametersPathSubscriptionExposedId
+    }
 
 -- | Represents a response of the operation 'deleteCustomersCustomerSubscriptionsSubscriptionExposedIdDiscount'.
 --

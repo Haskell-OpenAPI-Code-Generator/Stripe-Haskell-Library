@@ -8,6 +8,7 @@ module StripeAPI.Types.PaymentMethodDetailsCardWallet where
 
 import qualified Control.Monad.Fail
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -32,7 +33,7 @@ import {-# SOURCE #-} StripeAPI.Types.PaymentMethodDetailsCardWalletVisaCheckout
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
--- | Defines the data type for the schema payment_method_details_card_wallet
+-- | Defines the object schema located at @components.schemas.payment_method_details_card_wallet@ in the specification.
 data PaymentMethodDetailsCardWallet
   = PaymentMethodDetailsCardWallet
       { -- | amex_express_checkout:
@@ -62,44 +63,69 @@ data PaymentMethodDetailsCardWallet
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PaymentMethodDetailsCardWallet where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "amex_express_checkout" (paymentMethodDetailsCardWalletAmexExpressCheckout obj) : (Data.Aeson..=) "apple_pay" (paymentMethodDetailsCardWalletApplePay obj) : (Data.Aeson..=) "dynamic_last4" (paymentMethodDetailsCardWalletDynamicLast4 obj) : (Data.Aeson..=) "google_pay" (paymentMethodDetailsCardWalletGooglePay obj) : (Data.Aeson..=) "masterpass" (paymentMethodDetailsCardWalletMasterpass obj) : (Data.Aeson..=) "samsung_pay" (paymentMethodDetailsCardWalletSamsungPay obj) : (Data.Aeson..=) "type" (paymentMethodDetailsCardWalletType obj) : (Data.Aeson..=) "visa_checkout" (paymentMethodDetailsCardWalletVisaCheckout obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "amex_express_checkout" (paymentMethodDetailsCardWalletAmexExpressCheckout obj) GHC.Base.<> ((Data.Aeson..=) "apple_pay" (paymentMethodDetailsCardWalletApplePay obj) GHC.Base.<> ((Data.Aeson..=) "dynamic_last4" (paymentMethodDetailsCardWalletDynamicLast4 obj) GHC.Base.<> ((Data.Aeson..=) "google_pay" (paymentMethodDetailsCardWalletGooglePay obj) GHC.Base.<> ((Data.Aeson..=) "masterpass" (paymentMethodDetailsCardWalletMasterpass obj) GHC.Base.<> ((Data.Aeson..=) "samsung_pay" (paymentMethodDetailsCardWalletSamsungPay obj) GHC.Base.<> ((Data.Aeson..=) "type" (paymentMethodDetailsCardWalletType obj) GHC.Base.<> (Data.Aeson..=) "visa_checkout" (paymentMethodDetailsCardWalletVisaCheckout obj))))))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("amex_express_checkout" Data.Aeson.Types.ToJSON..= paymentMethodDetailsCardWalletAmexExpressCheckout obj : "apple_pay" Data.Aeson.Types.ToJSON..= paymentMethodDetailsCardWalletApplePay obj : "dynamic_last4" Data.Aeson.Types.ToJSON..= paymentMethodDetailsCardWalletDynamicLast4 obj : "google_pay" Data.Aeson.Types.ToJSON..= paymentMethodDetailsCardWalletGooglePay obj : "masterpass" Data.Aeson.Types.ToJSON..= paymentMethodDetailsCardWalletMasterpass obj : "samsung_pay" Data.Aeson.Types.ToJSON..= paymentMethodDetailsCardWalletSamsungPay obj : "type" Data.Aeson.Types.ToJSON..= paymentMethodDetailsCardWalletType obj : "visa_checkout" Data.Aeson.Types.ToJSON..= paymentMethodDetailsCardWalletVisaCheckout obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("amex_express_checkout" Data.Aeson.Types.ToJSON..= paymentMethodDetailsCardWalletAmexExpressCheckout obj) GHC.Base.<> (("apple_pay" Data.Aeson.Types.ToJSON..= paymentMethodDetailsCardWalletApplePay obj) GHC.Base.<> (("dynamic_last4" Data.Aeson.Types.ToJSON..= paymentMethodDetailsCardWalletDynamicLast4 obj) GHC.Base.<> (("google_pay" Data.Aeson.Types.ToJSON..= paymentMethodDetailsCardWalletGooglePay obj) GHC.Base.<> (("masterpass" Data.Aeson.Types.ToJSON..= paymentMethodDetailsCardWalletMasterpass obj) GHC.Base.<> (("samsung_pay" Data.Aeson.Types.ToJSON..= paymentMethodDetailsCardWalletSamsungPay obj) GHC.Base.<> (("type" Data.Aeson.Types.ToJSON..= paymentMethodDetailsCardWalletType obj) GHC.Base.<> ("visa_checkout" Data.Aeson.Types.ToJSON..= paymentMethodDetailsCardWalletVisaCheckout obj))))))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PaymentMethodDetailsCardWallet where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PaymentMethodDetailsCardWallet" (\obj -> (((((((GHC.Base.pure PaymentMethodDetailsCardWallet GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "amex_express_checkout")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "apple_pay")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "dynamic_last4")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "google_pay")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "masterpass")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "samsung_pay")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "type")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "visa_checkout"))
 
--- | Defines the enum schema payment_method_details_card_walletType\'
+-- | Create a new 'PaymentMethodDetailsCardWallet' with all required fields.
+mkPaymentMethodDetailsCardWallet ::
+  -- | 'paymentMethodDetailsCardWalletType'
+  PaymentMethodDetailsCardWalletType' ->
+  PaymentMethodDetailsCardWallet
+mkPaymentMethodDetailsCardWallet paymentMethodDetailsCardWalletType =
+  PaymentMethodDetailsCardWallet
+    { paymentMethodDetailsCardWalletAmexExpressCheckout = GHC.Maybe.Nothing,
+      paymentMethodDetailsCardWalletApplePay = GHC.Maybe.Nothing,
+      paymentMethodDetailsCardWalletDynamicLast4 = GHC.Maybe.Nothing,
+      paymentMethodDetailsCardWalletGooglePay = GHC.Maybe.Nothing,
+      paymentMethodDetailsCardWalletMasterpass = GHC.Maybe.Nothing,
+      paymentMethodDetailsCardWalletSamsungPay = GHC.Maybe.Nothing,
+      paymentMethodDetailsCardWalletType = paymentMethodDetailsCardWalletType,
+      paymentMethodDetailsCardWalletVisaCheckout = GHC.Maybe.Nothing
+    }
+
+-- | Defines the enum schema located at @components.schemas.payment_method_details_card_wallet.properties.type@ in the specification.
 --
 -- The type of the card wallet, one of \`amex_express_checkout\`, \`apple_pay\`, \`google_pay\`, \`masterpass\`, \`samsung_pay\`, or \`visa_checkout\`. An additional hash is included on the Wallet subhash with a name matching this value. It contains additional information specific to the card wallet type.
 data PaymentMethodDetailsCardWalletType'
-  = PaymentMethodDetailsCardWalletType'EnumOther Data.Aeson.Types.Internal.Value
-  | PaymentMethodDetailsCardWalletType'EnumTyped Data.Text.Internal.Text
-  | PaymentMethodDetailsCardWalletType'EnumStringAmexExpressCheckout
-  | PaymentMethodDetailsCardWalletType'EnumStringApplePay
-  | PaymentMethodDetailsCardWalletType'EnumStringGooglePay
-  | PaymentMethodDetailsCardWalletType'EnumStringMasterpass
-  | PaymentMethodDetailsCardWalletType'EnumStringSamsungPay
-  | PaymentMethodDetailsCardWalletType'EnumStringVisaCheckout
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    PaymentMethodDetailsCardWalletType'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    PaymentMethodDetailsCardWalletType'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"amex_express_checkout"@
+    PaymentMethodDetailsCardWalletType'EnumAmexExpressCheckout
+  | -- | Represents the JSON value @"apple_pay"@
+    PaymentMethodDetailsCardWalletType'EnumApplePay
+  | -- | Represents the JSON value @"google_pay"@
+    PaymentMethodDetailsCardWalletType'EnumGooglePay
+  | -- | Represents the JSON value @"masterpass"@
+    PaymentMethodDetailsCardWalletType'EnumMasterpass
+  | -- | Represents the JSON value @"samsung_pay"@
+    PaymentMethodDetailsCardWalletType'EnumSamsungPay
+  | -- | Represents the JSON value @"visa_checkout"@
+    PaymentMethodDetailsCardWalletType'EnumVisaCheckout
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
 instance Data.Aeson.Types.ToJSON.ToJSON PaymentMethodDetailsCardWalletType' where
-  toJSON (PaymentMethodDetailsCardWalletType'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PaymentMethodDetailsCardWalletType'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PaymentMethodDetailsCardWalletType'EnumStringAmexExpressCheckout) = "amex_express_checkout"
-  toJSON (PaymentMethodDetailsCardWalletType'EnumStringApplePay) = "apple_pay"
-  toJSON (PaymentMethodDetailsCardWalletType'EnumStringGooglePay) = "google_pay"
-  toJSON (PaymentMethodDetailsCardWalletType'EnumStringMasterpass) = "masterpass"
-  toJSON (PaymentMethodDetailsCardWalletType'EnumStringSamsungPay) = "samsung_pay"
-  toJSON (PaymentMethodDetailsCardWalletType'EnumStringVisaCheckout) = "visa_checkout"
+  toJSON (PaymentMethodDetailsCardWalletType'Other val) = val
+  toJSON (PaymentMethodDetailsCardWalletType'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PaymentMethodDetailsCardWalletType'EnumAmexExpressCheckout) = "amex_express_checkout"
+  toJSON (PaymentMethodDetailsCardWalletType'EnumApplePay) = "apple_pay"
+  toJSON (PaymentMethodDetailsCardWalletType'EnumGooglePay) = "google_pay"
+  toJSON (PaymentMethodDetailsCardWalletType'EnumMasterpass) = "masterpass"
+  toJSON (PaymentMethodDetailsCardWalletType'EnumSamsungPay) = "samsung_pay"
+  toJSON (PaymentMethodDetailsCardWalletType'EnumVisaCheckout) = "visa_checkout"
 
 instance Data.Aeson.Types.FromJSON.FromJSON PaymentMethodDetailsCardWalletType' where
   parseJSON val =
     GHC.Base.pure
-      ( if  | val GHC.Classes.== "amex_express_checkout" -> PaymentMethodDetailsCardWalletType'EnumStringAmexExpressCheckout
-            | val GHC.Classes.== "apple_pay" -> PaymentMethodDetailsCardWalletType'EnumStringApplePay
-            | val GHC.Classes.== "google_pay" -> PaymentMethodDetailsCardWalletType'EnumStringGooglePay
-            | val GHC.Classes.== "masterpass" -> PaymentMethodDetailsCardWalletType'EnumStringMasterpass
-            | val GHC.Classes.== "samsung_pay" -> PaymentMethodDetailsCardWalletType'EnumStringSamsungPay
-            | val GHC.Classes.== "visa_checkout" -> PaymentMethodDetailsCardWalletType'EnumStringVisaCheckout
-            | GHC.Base.otherwise -> PaymentMethodDetailsCardWalletType'EnumOther val
+      ( if  | val GHC.Classes.== "amex_express_checkout" -> PaymentMethodDetailsCardWalletType'EnumAmexExpressCheckout
+            | val GHC.Classes.== "apple_pay" -> PaymentMethodDetailsCardWalletType'EnumApplePay
+            | val GHC.Classes.== "google_pay" -> PaymentMethodDetailsCardWalletType'EnumGooglePay
+            | val GHC.Classes.== "masterpass" -> PaymentMethodDetailsCardWalletType'EnumMasterpass
+            | val GHC.Classes.== "samsung_pay" -> PaymentMethodDetailsCardWalletType'EnumSamsungPay
+            | val GHC.Classes.== "visa_checkout" -> PaymentMethodDetailsCardWalletType'EnumVisaCheckout
+            | GHC.Base.otherwise -> PaymentMethodDetailsCardWalletType'Other val
       )

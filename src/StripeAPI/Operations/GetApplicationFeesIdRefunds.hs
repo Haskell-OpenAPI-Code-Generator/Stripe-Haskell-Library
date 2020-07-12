@@ -10,6 +10,7 @@ module StripeAPI.Operations.GetApplicationFeesIdRefunds where
 import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -85,7 +86,7 @@ getApplicationFeesIdRefunds parameters =
         ]
     )
 
--- | Defines the data type for the schema getApplicationFeesIdRefundsParameters
+-- | Defines the object schema located at @paths.\/v1\/application_fees\/{id}\/refunds.GET.parameters@ in the specification.
 data GetApplicationFeesIdRefundsParameters
   = GetApplicationFeesIdRefundsParameters
       { -- | pathId: Represents the parameter named \'id\'
@@ -125,11 +126,25 @@ data GetApplicationFeesIdRefundsParameters
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetApplicationFeesIdRefundsParameters where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "pathId" (getApplicationFeesIdRefundsParametersPathId obj) : (Data.Aeson..=) "queryEnding_before" (getApplicationFeesIdRefundsParametersQueryEndingBefore obj) : (Data.Aeson..=) "queryExpand" (getApplicationFeesIdRefundsParametersQueryExpand obj) : (Data.Aeson..=) "queryLimit" (getApplicationFeesIdRefundsParametersQueryLimit obj) : (Data.Aeson..=) "queryStarting_after" (getApplicationFeesIdRefundsParametersQueryStartingAfter obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "pathId" (getApplicationFeesIdRefundsParametersPathId obj) GHC.Base.<> ((Data.Aeson..=) "queryEnding_before" (getApplicationFeesIdRefundsParametersQueryEndingBefore obj) GHC.Base.<> ((Data.Aeson..=) "queryExpand" (getApplicationFeesIdRefundsParametersQueryExpand obj) GHC.Base.<> ((Data.Aeson..=) "queryLimit" (getApplicationFeesIdRefundsParametersQueryLimit obj) GHC.Base.<> (Data.Aeson..=) "queryStarting_after" (getApplicationFeesIdRefundsParametersQueryStartingAfter obj)))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("pathId" Data.Aeson.Types.ToJSON..= getApplicationFeesIdRefundsParametersPathId obj : "queryEnding_before" Data.Aeson.Types.ToJSON..= getApplicationFeesIdRefundsParametersQueryEndingBefore obj : "queryExpand" Data.Aeson.Types.ToJSON..= getApplicationFeesIdRefundsParametersQueryExpand obj : "queryLimit" Data.Aeson.Types.ToJSON..= getApplicationFeesIdRefundsParametersQueryLimit obj : "queryStarting_after" Data.Aeson.Types.ToJSON..= getApplicationFeesIdRefundsParametersQueryStartingAfter obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("pathId" Data.Aeson.Types.ToJSON..= getApplicationFeesIdRefundsParametersPathId obj) GHC.Base.<> (("queryEnding_before" Data.Aeson.Types.ToJSON..= getApplicationFeesIdRefundsParametersQueryEndingBefore obj) GHC.Base.<> (("queryExpand" Data.Aeson.Types.ToJSON..= getApplicationFeesIdRefundsParametersQueryExpand obj) GHC.Base.<> (("queryLimit" Data.Aeson.Types.ToJSON..= getApplicationFeesIdRefundsParametersQueryLimit obj) GHC.Base.<> ("queryStarting_after" Data.Aeson.Types.ToJSON..= getApplicationFeesIdRefundsParametersQueryStartingAfter obj)))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetApplicationFeesIdRefundsParameters where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "GetApplicationFeesIdRefundsParameters" (\obj -> ((((GHC.Base.pure GetApplicationFeesIdRefundsParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathId")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryEnding_before")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryExpand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryLimit")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryStarting_after"))
+
+-- | Create a new 'GetApplicationFeesIdRefundsParameters' with all required fields.
+mkGetApplicationFeesIdRefundsParameters ::
+  -- | 'getApplicationFeesIdRefundsParametersPathId'
+  Data.Text.Internal.Text ->
+  GetApplicationFeesIdRefundsParameters
+mkGetApplicationFeesIdRefundsParameters getApplicationFeesIdRefundsParametersPathId =
+  GetApplicationFeesIdRefundsParameters
+    { getApplicationFeesIdRefundsParametersPathId = getApplicationFeesIdRefundsParametersPathId,
+      getApplicationFeesIdRefundsParametersQueryEndingBefore = GHC.Maybe.Nothing,
+      getApplicationFeesIdRefundsParametersQueryExpand = GHC.Maybe.Nothing,
+      getApplicationFeesIdRefundsParametersQueryLimit = GHC.Maybe.Nothing,
+      getApplicationFeesIdRefundsParametersQueryStartingAfter = GHC.Maybe.Nothing
+    }
 
 -- | Represents a response of the operation 'getApplicationFeesIdRefunds'.
 --
@@ -143,15 +158,13 @@ data GetApplicationFeesIdRefundsResponse
     GetApplicationFeesIdRefundsResponseDefault Error
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
--- | Defines the data type for the schema GetApplicationFeesIdRefundsResponseBody200
+-- | Defines the object schema located at @paths.\/v1\/application_fees\/{id}\/refunds.GET.responses.200.content.application\/json.schema@ in the specification.
 data GetApplicationFeesIdRefundsResponseBody200
   = GetApplicationFeesIdRefundsResponseBody200
       { -- | data: Details about each object.
         getApplicationFeesIdRefundsResponseBody200Data :: ([FeeRefund]),
         -- | has_more: True if this list has another page of items after this one that can be fetched.
         getApplicationFeesIdRefundsResponseBody200HasMore :: GHC.Types.Bool,
-        -- | object: String representing the object\'s type. Objects of the same type share the same value. Always has the value \`list\`.
-        getApplicationFeesIdRefundsResponseBody200Object :: GetApplicationFeesIdRefundsResponseBody200Object',
         -- | url: The URL where this list can be accessed.
         --
         -- Constraints:
@@ -165,29 +178,24 @@ data GetApplicationFeesIdRefundsResponseBody200
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetApplicationFeesIdRefundsResponseBody200 where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "data" (getApplicationFeesIdRefundsResponseBody200Data obj) : (Data.Aeson..=) "has_more" (getApplicationFeesIdRefundsResponseBody200HasMore obj) : (Data.Aeson..=) "object" (getApplicationFeesIdRefundsResponseBody200Object obj) : (Data.Aeson..=) "url" (getApplicationFeesIdRefundsResponseBody200Url obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "data" (getApplicationFeesIdRefundsResponseBody200Data obj) GHC.Base.<> ((Data.Aeson..=) "has_more" (getApplicationFeesIdRefundsResponseBody200HasMore obj) GHC.Base.<> ((Data.Aeson..=) "object" (getApplicationFeesIdRefundsResponseBody200Object obj) GHC.Base.<> (Data.Aeson..=) "url" (getApplicationFeesIdRefundsResponseBody200Url obj))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("data" Data.Aeson.Types.ToJSON..= getApplicationFeesIdRefundsResponseBody200Data obj : "has_more" Data.Aeson.Types.ToJSON..= getApplicationFeesIdRefundsResponseBody200HasMore obj : "url" Data.Aeson.Types.ToJSON..= getApplicationFeesIdRefundsResponseBody200Url obj : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "list" : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("data" Data.Aeson.Types.ToJSON..= getApplicationFeesIdRefundsResponseBody200Data obj) GHC.Base.<> (("has_more" Data.Aeson.Types.ToJSON..= getApplicationFeesIdRefundsResponseBody200HasMore obj) GHC.Base.<> (("url" Data.Aeson.Types.ToJSON..= getApplicationFeesIdRefundsResponseBody200Url obj) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "list"))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetApplicationFeesIdRefundsResponseBody200 where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetApplicationFeesIdRefundsResponseBody200" (\obj -> (((GHC.Base.pure GetApplicationFeesIdRefundsResponseBody200 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "has_more")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "object")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "url"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetApplicationFeesIdRefundsResponseBody200" (\obj -> ((GHC.Base.pure GetApplicationFeesIdRefundsResponseBody200 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "has_more")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "url"))
 
--- | Defines the enum schema GetApplicationFeesIdRefundsResponseBody200Object\'
---
--- String representing the object\'s type. Objects of the same type share the same value. Always has the value \`list\`.
-data GetApplicationFeesIdRefundsResponseBody200Object'
-  = GetApplicationFeesIdRefundsResponseBody200Object'EnumOther Data.Aeson.Types.Internal.Value
-  | GetApplicationFeesIdRefundsResponseBody200Object'EnumTyped Data.Text.Internal.Text
-  | GetApplicationFeesIdRefundsResponseBody200Object'EnumStringList
-  deriving (GHC.Show.Show, GHC.Classes.Eq)
-
-instance Data.Aeson.Types.ToJSON.ToJSON GetApplicationFeesIdRefundsResponseBody200Object' where
-  toJSON (GetApplicationFeesIdRefundsResponseBody200Object'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (GetApplicationFeesIdRefundsResponseBody200Object'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (GetApplicationFeesIdRefundsResponseBody200Object'EnumStringList) = "list"
-
-instance Data.Aeson.Types.FromJSON.FromJSON GetApplicationFeesIdRefundsResponseBody200Object' where
-  parseJSON val =
-    GHC.Base.pure
-      ( if  | val GHC.Classes.== "list" -> GetApplicationFeesIdRefundsResponseBody200Object'EnumStringList
-            | GHC.Base.otherwise -> GetApplicationFeesIdRefundsResponseBody200Object'EnumOther val
-      )
+-- | Create a new 'GetApplicationFeesIdRefundsResponseBody200' with all required fields.
+mkGetApplicationFeesIdRefundsResponseBody200 ::
+  -- | 'getApplicationFeesIdRefundsResponseBody200Data'
+  [FeeRefund] ->
+  -- | 'getApplicationFeesIdRefundsResponseBody200HasMore'
+  GHC.Types.Bool ->
+  -- | 'getApplicationFeesIdRefundsResponseBody200Url'
+  Data.Text.Internal.Text ->
+  GetApplicationFeesIdRefundsResponseBody200
+mkGetApplicationFeesIdRefundsResponseBody200 getApplicationFeesIdRefundsResponseBody200Data getApplicationFeesIdRefundsResponseBody200HasMore getApplicationFeesIdRefundsResponseBody200Url =
+  GetApplicationFeesIdRefundsResponseBody200
+    { getApplicationFeesIdRefundsResponseBody200Data = getApplicationFeesIdRefundsResponseBody200Data,
+      getApplicationFeesIdRefundsResponseBody200HasMore = getApplicationFeesIdRefundsResponseBody200HasMore,
+      getApplicationFeesIdRefundsResponseBody200Url = getApplicationFeesIdRefundsResponseBody200Url
+    }

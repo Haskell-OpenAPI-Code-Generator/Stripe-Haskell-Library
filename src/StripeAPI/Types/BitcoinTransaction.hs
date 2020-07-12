@@ -8,6 +8,7 @@ module StripeAPI.Types.BitcoinTransaction where
 
 import qualified Control.Monad.Fail
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -30,7 +31,7 @@ import StripeAPI.TypeAlias
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
--- | Defines the data type for the schema bitcoin_transaction
+-- | Defines the object schema located at @components.schemas.bitcoin_transaction@ in the specification.
 data BitcoinTransaction
   = BitcoinTransaction
       { -- | amount: The amount of \`currency\` that the transaction was converted to in real-time.
@@ -47,8 +48,6 @@ data BitcoinTransaction
         --
         -- * Maximum length of 5000
         bitcoinTransactionId :: Data.Text.Internal.Text,
-        -- | object: String representing the object\'s type. Objects of the same type share the same value.
-        bitcoinTransactionObject :: BitcoinTransactionObject',
         -- | receiver: The receiver to which this transaction was sent.
         --
         -- Constraints:
@@ -62,29 +61,33 @@ data BitcoinTransaction
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON BitcoinTransaction where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "amount" (bitcoinTransactionAmount obj) : (Data.Aeson..=) "bitcoin_amount" (bitcoinTransactionBitcoinAmount obj) : (Data.Aeson..=) "created" (bitcoinTransactionCreated obj) : (Data.Aeson..=) "currency" (bitcoinTransactionCurrency obj) : (Data.Aeson..=) "id" (bitcoinTransactionId obj) : (Data.Aeson..=) "object" (bitcoinTransactionObject obj) : (Data.Aeson..=) "receiver" (bitcoinTransactionReceiver obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "amount" (bitcoinTransactionAmount obj) GHC.Base.<> ((Data.Aeson..=) "bitcoin_amount" (bitcoinTransactionBitcoinAmount obj) GHC.Base.<> ((Data.Aeson..=) "created" (bitcoinTransactionCreated obj) GHC.Base.<> ((Data.Aeson..=) "currency" (bitcoinTransactionCurrency obj) GHC.Base.<> ((Data.Aeson..=) "id" (bitcoinTransactionId obj) GHC.Base.<> ((Data.Aeson..=) "object" (bitcoinTransactionObject obj) GHC.Base.<> (Data.Aeson..=) "receiver" (bitcoinTransactionReceiver obj)))))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("amount" Data.Aeson.Types.ToJSON..= bitcoinTransactionAmount obj : "bitcoin_amount" Data.Aeson.Types.ToJSON..= bitcoinTransactionBitcoinAmount obj : "created" Data.Aeson.Types.ToJSON..= bitcoinTransactionCreated obj : "currency" Data.Aeson.Types.ToJSON..= bitcoinTransactionCurrency obj : "id" Data.Aeson.Types.ToJSON..= bitcoinTransactionId obj : "receiver" Data.Aeson.Types.ToJSON..= bitcoinTransactionReceiver obj : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "bitcoin_transaction" : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("amount" Data.Aeson.Types.ToJSON..= bitcoinTransactionAmount obj) GHC.Base.<> (("bitcoin_amount" Data.Aeson.Types.ToJSON..= bitcoinTransactionBitcoinAmount obj) GHC.Base.<> (("created" Data.Aeson.Types.ToJSON..= bitcoinTransactionCreated obj) GHC.Base.<> (("currency" Data.Aeson.Types.ToJSON..= bitcoinTransactionCurrency obj) GHC.Base.<> (("id" Data.Aeson.Types.ToJSON..= bitcoinTransactionId obj) GHC.Base.<> (("receiver" Data.Aeson.Types.ToJSON..= bitcoinTransactionReceiver obj) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "bitcoin_transaction")))))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON BitcoinTransaction where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "BitcoinTransaction" (\obj -> ((((((GHC.Base.pure BitcoinTransaction GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "bitcoin_amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "created")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "object")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "receiver"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "BitcoinTransaction" (\obj -> (((((GHC.Base.pure BitcoinTransaction GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "bitcoin_amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "created")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "receiver"))
 
--- | Defines the enum schema bitcoin_transactionObject\'
---
--- String representing the object\'s type. Objects of the same type share the same value.
-data BitcoinTransactionObject'
-  = BitcoinTransactionObject'EnumOther Data.Aeson.Types.Internal.Value
-  | BitcoinTransactionObject'EnumTyped Data.Text.Internal.Text
-  | BitcoinTransactionObject'EnumStringBitcoinTransaction
-  deriving (GHC.Show.Show, GHC.Classes.Eq)
-
-instance Data.Aeson.Types.ToJSON.ToJSON BitcoinTransactionObject' where
-  toJSON (BitcoinTransactionObject'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (BitcoinTransactionObject'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (BitcoinTransactionObject'EnumStringBitcoinTransaction) = "bitcoin_transaction"
-
-instance Data.Aeson.Types.FromJSON.FromJSON BitcoinTransactionObject' where
-  parseJSON val =
-    GHC.Base.pure
-      ( if  | val GHC.Classes.== "bitcoin_transaction" -> BitcoinTransactionObject'EnumStringBitcoinTransaction
-            | GHC.Base.otherwise -> BitcoinTransactionObject'EnumOther val
-      )
+-- | Create a new 'BitcoinTransaction' with all required fields.
+mkBitcoinTransaction ::
+  -- | 'bitcoinTransactionAmount'
+  GHC.Types.Int ->
+  -- | 'bitcoinTransactionBitcoinAmount'
+  GHC.Types.Int ->
+  -- | 'bitcoinTransactionCreated'
+  GHC.Types.Int ->
+  -- | 'bitcoinTransactionCurrency'
+  Data.Text.Internal.Text ->
+  -- | 'bitcoinTransactionId'
+  Data.Text.Internal.Text ->
+  -- | 'bitcoinTransactionReceiver'
+  Data.Text.Internal.Text ->
+  BitcoinTransaction
+mkBitcoinTransaction bitcoinTransactionAmount bitcoinTransactionBitcoinAmount bitcoinTransactionCreated bitcoinTransactionCurrency bitcoinTransactionId bitcoinTransactionReceiver =
+  BitcoinTransaction
+    { bitcoinTransactionAmount = bitcoinTransactionAmount,
+      bitcoinTransactionBitcoinAmount = bitcoinTransactionBitcoinAmount,
+      bitcoinTransactionCreated = bitcoinTransactionCreated,
+      bitcoinTransactionCurrency = bitcoinTransactionCurrency,
+      bitcoinTransactionId = bitcoinTransactionId,
+      bitcoinTransactionReceiver = bitcoinTransactionReceiver
+    }

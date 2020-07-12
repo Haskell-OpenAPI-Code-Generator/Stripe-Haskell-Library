@@ -10,6 +10,7 @@ module StripeAPI.Operations.GetSubscriptionSchedulesSchedule where
 import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -77,7 +78,7 @@ getSubscriptionSchedulesSchedule parameters =
     )
     (StripeAPI.Common.doCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET") (Data.Text.pack ("/v1/subscription_schedules/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel (getSubscriptionSchedulesScheduleParametersPathSchedule parameters))) GHC.Base.++ ""))) [StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getSubscriptionSchedulesScheduleParametersQueryExpand parameters) (Data.Text.pack "deepObject") GHC.Types.True])
 
--- | Defines the data type for the schema getSubscriptionSchedulesScheduleParameters
+-- | Defines the object schema located at @paths.\/v1\/subscription_schedules\/{schedule}.GET.parameters@ in the specification.
 data GetSubscriptionSchedulesScheduleParameters
   = GetSubscriptionSchedulesScheduleParameters
       { -- | pathSchedule: Represents the parameter named \'schedule\'
@@ -97,11 +98,22 @@ data GetSubscriptionSchedulesScheduleParameters
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetSubscriptionSchedulesScheduleParameters where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "pathSchedule" (getSubscriptionSchedulesScheduleParametersPathSchedule obj) : (Data.Aeson..=) "queryExpand" (getSubscriptionSchedulesScheduleParametersQueryExpand obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "pathSchedule" (getSubscriptionSchedulesScheduleParametersPathSchedule obj) GHC.Base.<> (Data.Aeson..=) "queryExpand" (getSubscriptionSchedulesScheduleParametersQueryExpand obj))
+  toJSON obj = Data.Aeson.Types.Internal.object ("pathSchedule" Data.Aeson.Types.ToJSON..= getSubscriptionSchedulesScheduleParametersPathSchedule obj : "queryExpand" Data.Aeson.Types.ToJSON..= getSubscriptionSchedulesScheduleParametersQueryExpand obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("pathSchedule" Data.Aeson.Types.ToJSON..= getSubscriptionSchedulesScheduleParametersPathSchedule obj) GHC.Base.<> ("queryExpand" Data.Aeson.Types.ToJSON..= getSubscriptionSchedulesScheduleParametersQueryExpand obj))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetSubscriptionSchedulesScheduleParameters where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "GetSubscriptionSchedulesScheduleParameters" (\obj -> (GHC.Base.pure GetSubscriptionSchedulesScheduleParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathSchedule")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryExpand"))
+
+-- | Create a new 'GetSubscriptionSchedulesScheduleParameters' with all required fields.
+mkGetSubscriptionSchedulesScheduleParameters ::
+  -- | 'getSubscriptionSchedulesScheduleParametersPathSchedule'
+  Data.Text.Internal.Text ->
+  GetSubscriptionSchedulesScheduleParameters
+mkGetSubscriptionSchedulesScheduleParameters getSubscriptionSchedulesScheduleParametersPathSchedule =
+  GetSubscriptionSchedulesScheduleParameters
+    { getSubscriptionSchedulesScheduleParametersPathSchedule = getSubscriptionSchedulesScheduleParametersPathSchedule,
+      getSubscriptionSchedulesScheduleParametersQueryExpand = GHC.Maybe.Nothing
+    }
 
 -- | Represents a response of the operation 'getSubscriptionSchedulesSchedule'.
 --

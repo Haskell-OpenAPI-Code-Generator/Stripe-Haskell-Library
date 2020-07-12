@@ -8,6 +8,7 @@ module StripeAPI.Types.ThreeDSecureUsage where
 
 import qualified Control.Monad.Fail
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -30,7 +31,7 @@ import StripeAPI.TypeAlias
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
--- | Defines the data type for the schema three_d_secure_usage
+-- | Defines the object schema located at @components.schemas.three_d_secure_usage@ in the specification.
 data ThreeDSecureUsage
   = ThreeDSecureUsage
       { -- | supported: Whether 3D Secure is supported on this card.
@@ -42,8 +43,15 @@ data ThreeDSecureUsage
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON ThreeDSecureUsage where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "supported" (threeDSecureUsageSupported obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "supported" (threeDSecureUsageSupported obj))
+  toJSON obj = Data.Aeson.Types.Internal.object ("supported" Data.Aeson.Types.ToJSON..= threeDSecureUsageSupported obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs ("supported" Data.Aeson.Types.ToJSON..= threeDSecureUsageSupported obj)
 
 instance Data.Aeson.Types.FromJSON.FromJSON ThreeDSecureUsage where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "ThreeDSecureUsage" (\obj -> GHC.Base.pure ThreeDSecureUsage GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "supported"))
+
+-- | Create a new 'ThreeDSecureUsage' with all required fields.
+mkThreeDSecureUsage ::
+  -- | 'threeDSecureUsageSupported'
+  GHC.Types.Bool ->
+  ThreeDSecureUsage
+mkThreeDSecureUsage threeDSecureUsageSupported = ThreeDSecureUsage {threeDSecureUsageSupported = threeDSecureUsageSupported}

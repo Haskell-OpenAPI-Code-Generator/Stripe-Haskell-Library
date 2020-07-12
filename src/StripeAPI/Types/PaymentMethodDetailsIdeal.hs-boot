@@ -1,11 +1,11 @@
 module StripeAPI.Types.PaymentMethodDetailsIdeal where
 import Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Types.Internal
-data PaymentMethodDetailsIdeal 
-instance Show PaymentMethodDetailsIdeal 
-instance Eq PaymentMethodDetailsIdeal 
-instance FromJSON PaymentMethodDetailsIdeal 
-instance ToJSON PaymentMethodDetailsIdeal 
+data PaymentMethodDetailsIdeal
+instance Show PaymentMethodDetailsIdeal
+instance Eq PaymentMethodDetailsIdeal
+instance FromJSON PaymentMethodDetailsIdeal
+instance ToJSON PaymentMethodDetailsIdeal
 data PaymentMethodDetailsIdealBank'
 instance Show PaymentMethodDetailsIdealBank'
 instance Eq PaymentMethodDetailsIdealBank'

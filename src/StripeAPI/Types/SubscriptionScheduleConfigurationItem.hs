@@ -8,6 +8,7 @@ module StripeAPI.Types.SubscriptionScheduleConfigurationItem where
 
 import qualified Control.Monad.Fail
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -34,7 +35,7 @@ import {-# SOURCE #-} StripeAPI.Types.TaxRate
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
--- | Defines the data type for the schema subscription_schedule_configuration_item
+-- | Defines the object schema located at @components.schemas.subscription_schedule_configuration_item@ in the specification.
 --
 -- A phase item describes the plan and quantity of a phase.
 data SubscriptionScheduleConfigurationItem
@@ -54,13 +55,26 @@ data SubscriptionScheduleConfigurationItem
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON SubscriptionScheduleConfigurationItem where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "billing_thresholds" (subscriptionScheduleConfigurationItemBillingThresholds obj) : (Data.Aeson..=) "plan" (subscriptionScheduleConfigurationItemPlan obj) : (Data.Aeson..=) "quantity" (subscriptionScheduleConfigurationItemQuantity obj) : (Data.Aeson..=) "tax_rates" (subscriptionScheduleConfigurationItemTaxRates obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "billing_thresholds" (subscriptionScheduleConfigurationItemBillingThresholds obj) GHC.Base.<> ((Data.Aeson..=) "plan" (subscriptionScheduleConfigurationItemPlan obj) GHC.Base.<> ((Data.Aeson..=) "quantity" (subscriptionScheduleConfigurationItemQuantity obj) GHC.Base.<> (Data.Aeson..=) "tax_rates" (subscriptionScheduleConfigurationItemTaxRates obj))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("billing_thresholds" Data.Aeson.Types.ToJSON..= subscriptionScheduleConfigurationItemBillingThresholds obj : "plan" Data.Aeson.Types.ToJSON..= subscriptionScheduleConfigurationItemPlan obj : "quantity" Data.Aeson.Types.ToJSON..= subscriptionScheduleConfigurationItemQuantity obj : "tax_rates" Data.Aeson.Types.ToJSON..= subscriptionScheduleConfigurationItemTaxRates obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("billing_thresholds" Data.Aeson.Types.ToJSON..= subscriptionScheduleConfigurationItemBillingThresholds obj) GHC.Base.<> (("plan" Data.Aeson.Types.ToJSON..= subscriptionScheduleConfigurationItemPlan obj) GHC.Base.<> (("quantity" Data.Aeson.Types.ToJSON..= subscriptionScheduleConfigurationItemQuantity obj) GHC.Base.<> ("tax_rates" Data.Aeson.Types.ToJSON..= subscriptionScheduleConfigurationItemTaxRates obj))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON SubscriptionScheduleConfigurationItem where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "SubscriptionScheduleConfigurationItem" (\obj -> (((GHC.Base.pure SubscriptionScheduleConfigurationItem GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "billing_thresholds")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "plan")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "quantity")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "tax_rates"))
 
--- | Defines the data type for the schema subscription_schedule_configuration_itemBilling_thresholds\'
+-- | Create a new 'SubscriptionScheduleConfigurationItem' with all required fields.
+mkSubscriptionScheduleConfigurationItem ::
+  -- | 'subscriptionScheduleConfigurationItemPlan'
+  SubscriptionScheduleConfigurationItemPlan'Variants ->
+  SubscriptionScheduleConfigurationItem
+mkSubscriptionScheduleConfigurationItem subscriptionScheduleConfigurationItemPlan =
+  SubscriptionScheduleConfigurationItem
+    { subscriptionScheduleConfigurationItemBillingThresholds = GHC.Maybe.Nothing,
+      subscriptionScheduleConfigurationItemPlan = subscriptionScheduleConfigurationItemPlan,
+      subscriptionScheduleConfigurationItemQuantity = GHC.Maybe.Nothing,
+      subscriptionScheduleConfigurationItemTaxRates = GHC.Maybe.Nothing
+    }
+
+-- | Defines the object schema located at @components.schemas.subscription_schedule_configuration_item.properties.billing_thresholds.anyOf@ in the specification.
 --
 -- Define thresholds at which an invoice will be sent, and the related subscription advanced to a new billing period
 data SubscriptionScheduleConfigurationItemBillingThresholds'
@@ -74,13 +88,17 @@ data SubscriptionScheduleConfigurationItemBillingThresholds'
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON SubscriptionScheduleConfigurationItemBillingThresholds' where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "usage_gte" (subscriptionScheduleConfigurationItemBillingThresholds'UsageGte obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "usage_gte" (subscriptionScheduleConfigurationItemBillingThresholds'UsageGte obj))
+  toJSON obj = Data.Aeson.Types.Internal.object ("usage_gte" Data.Aeson.Types.ToJSON..= subscriptionScheduleConfigurationItemBillingThresholds'UsageGte obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs ("usage_gte" Data.Aeson.Types.ToJSON..= subscriptionScheduleConfigurationItemBillingThresholds'UsageGte obj)
 
 instance Data.Aeson.Types.FromJSON.FromJSON SubscriptionScheduleConfigurationItemBillingThresholds' where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "SubscriptionScheduleConfigurationItemBillingThresholds'" (\obj -> GHC.Base.pure SubscriptionScheduleConfigurationItemBillingThresholds' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "usage_gte"))
 
--- | Define the one-of schema subscription_schedule_configuration_itemPlan\'
+-- | Create a new 'SubscriptionScheduleConfigurationItemBillingThresholds'' with all required fields.
+mkSubscriptionScheduleConfigurationItemBillingThresholds' :: SubscriptionScheduleConfigurationItemBillingThresholds'
+mkSubscriptionScheduleConfigurationItemBillingThresholds' = SubscriptionScheduleConfigurationItemBillingThresholds' {subscriptionScheduleConfigurationItemBillingThresholds'UsageGte = GHC.Maybe.Nothing}
+
+-- | Defines the oneOf schema located at @components.schemas.subscription_schedule_configuration_item.properties.plan.anyOf@ in the specification.
 --
 -- ID of the plan to which the customer should be subscribed.
 data SubscriptionScheduleConfigurationItemPlan'Variants
@@ -95,10 +113,6 @@ instance Data.Aeson.Types.ToJSON.ToJSON SubscriptionScheduleConfigurationItemPla
   toJSON (SubscriptionScheduleConfigurationItemPlan'Text a) = Data.Aeson.Types.ToJSON.toJSON a
 
 instance Data.Aeson.Types.FromJSON.FromJSON SubscriptionScheduleConfigurationItemPlan'Variants where
-  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
-    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ SubscriptionScheduleConfigurationItemPlan'DeletedPlan a
-    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ SubscriptionScheduleConfigurationItemPlan'Plan a
-      Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-        Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ SubscriptionScheduleConfigurationItemPlan'Text a
-        Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+  parseJSON val = case (SubscriptionScheduleConfigurationItemPlan'DeletedPlan Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((SubscriptionScheduleConfigurationItemPlan'Plan Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((SubscriptionScheduleConfigurationItemPlan'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched")) of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+    Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a

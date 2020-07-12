@@ -1,8 +1,8 @@
 module StripeAPI.Types.SetupIntentNextActionRedirectToUrl where
 import Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Types.Internal
-data SetupIntentNextActionRedirectToUrl 
-instance Show SetupIntentNextActionRedirectToUrl 
-instance Eq SetupIntentNextActionRedirectToUrl 
-instance FromJSON SetupIntentNextActionRedirectToUrl 
-instance ToJSON SetupIntentNextActionRedirectToUrl 
+data SetupIntentNextActionRedirectToUrl
+instance Show SetupIntentNextActionRedirectToUrl
+instance Eq SetupIntentNextActionRedirectToUrl
+instance FromJSON SetupIntentNextActionRedirectToUrl
+instance ToJSON SetupIntentNextActionRedirectToUrl

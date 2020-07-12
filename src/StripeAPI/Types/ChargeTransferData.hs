@@ -8,6 +8,7 @@ module StripeAPI.Types.ChargeTransferData where
 
 import qualified Control.Monad.Fail
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -31,7 +32,7 @@ import {-# SOURCE #-} StripeAPI.Types.Account
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
--- | Defines the data type for the schema charge_transfer_data
+-- | Defines the object schema located at @components.schemas.charge_transfer_data@ in the specification.
 data ChargeTransferData
   = ChargeTransferData
       { -- | amount: The amount transferred to the destination account, if specified. By default, the entire charge amount is transferred to the destination account.
@@ -45,13 +46,24 @@ data ChargeTransferData
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON ChargeTransferData where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "amount" (chargeTransferDataAmount obj) : (Data.Aeson..=) "destination" (chargeTransferDataDestination obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "amount" (chargeTransferDataAmount obj) GHC.Base.<> (Data.Aeson..=) "destination" (chargeTransferDataDestination obj))
+  toJSON obj = Data.Aeson.Types.Internal.object ("amount" Data.Aeson.Types.ToJSON..= chargeTransferDataAmount obj : "destination" Data.Aeson.Types.ToJSON..= chargeTransferDataDestination obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("amount" Data.Aeson.Types.ToJSON..= chargeTransferDataAmount obj) GHC.Base.<> ("destination" Data.Aeson.Types.ToJSON..= chargeTransferDataDestination obj))
 
 instance Data.Aeson.Types.FromJSON.FromJSON ChargeTransferData where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "ChargeTransferData" (\obj -> (GHC.Base.pure ChargeTransferData GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "destination"))
 
--- | Define the one-of schema charge_transfer_dataDestination\'
+-- | Create a new 'ChargeTransferData' with all required fields.
+mkChargeTransferData ::
+  -- | 'chargeTransferDataDestination'
+  ChargeTransferDataDestination'Variants ->
+  ChargeTransferData
+mkChargeTransferData chargeTransferDataDestination =
+  ChargeTransferData
+    { chargeTransferDataAmount = GHC.Maybe.Nothing,
+      chargeTransferDataDestination = chargeTransferDataDestination
+    }
+
+-- | Defines the oneOf schema located at @components.schemas.charge_transfer_data.properties.destination.anyOf@ in the specification.
 --
 -- ID of an existing, connected Stripe account to transfer funds to if \`transfer_data\` was specified in the charge request.
 data ChargeTransferDataDestination'Variants
@@ -64,8 +76,6 @@ instance Data.Aeson.Types.ToJSON.ToJSON ChargeTransferDataDestination'Variants w
   toJSON (ChargeTransferDataDestination'Text a) = Data.Aeson.Types.ToJSON.toJSON a
 
 instance Data.Aeson.Types.FromJSON.FromJSON ChargeTransferDataDestination'Variants where
-  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
-    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ ChargeTransferDataDestination'Account a
-    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ ChargeTransferDataDestination'Text a
-      Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+  parseJSON val = case (ChargeTransferDataDestination'Account Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((ChargeTransferDataDestination'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched") of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+    Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a

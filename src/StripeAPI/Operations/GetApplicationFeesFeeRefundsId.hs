@@ -10,6 +10,7 @@ module StripeAPI.Operations.GetApplicationFeesFeeRefundsId where
 import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -77,7 +78,7 @@ getApplicationFeesFeeRefundsId parameters =
     )
     (StripeAPI.Common.doCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET") (Data.Text.pack ("/v1/application_fees/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel (getApplicationFeesFeeRefundsIdParametersPathFee parameters))) GHC.Base.++ ("/refunds/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel (getApplicationFeesFeeRefundsIdParametersPathId parameters))) GHC.Base.++ ""))))) [StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getApplicationFeesFeeRefundsIdParametersQueryExpand parameters) (Data.Text.pack "deepObject") GHC.Types.True])
 
--- | Defines the data type for the schema getApplicationFeesFeeRefundsIdParameters
+-- | Defines the object schema located at @paths.\/v1\/application_fees\/{fee}\/refunds\/{id}.GET.parameters@ in the specification.
 data GetApplicationFeesFeeRefundsIdParameters
   = GetApplicationFeesFeeRefundsIdParameters
       { -- | pathFee: Represents the parameter named \'fee\'
@@ -103,11 +104,25 @@ data GetApplicationFeesFeeRefundsIdParameters
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetApplicationFeesFeeRefundsIdParameters where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "pathFee" (getApplicationFeesFeeRefundsIdParametersPathFee obj) : (Data.Aeson..=) "pathId" (getApplicationFeesFeeRefundsIdParametersPathId obj) : (Data.Aeson..=) "queryExpand" (getApplicationFeesFeeRefundsIdParametersQueryExpand obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "pathFee" (getApplicationFeesFeeRefundsIdParametersPathFee obj) GHC.Base.<> ((Data.Aeson..=) "pathId" (getApplicationFeesFeeRefundsIdParametersPathId obj) GHC.Base.<> (Data.Aeson..=) "queryExpand" (getApplicationFeesFeeRefundsIdParametersQueryExpand obj)))
+  toJSON obj = Data.Aeson.Types.Internal.object ("pathFee" Data.Aeson.Types.ToJSON..= getApplicationFeesFeeRefundsIdParametersPathFee obj : "pathId" Data.Aeson.Types.ToJSON..= getApplicationFeesFeeRefundsIdParametersPathId obj : "queryExpand" Data.Aeson.Types.ToJSON..= getApplicationFeesFeeRefundsIdParametersQueryExpand obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("pathFee" Data.Aeson.Types.ToJSON..= getApplicationFeesFeeRefundsIdParametersPathFee obj) GHC.Base.<> (("pathId" Data.Aeson.Types.ToJSON..= getApplicationFeesFeeRefundsIdParametersPathId obj) GHC.Base.<> ("queryExpand" Data.Aeson.Types.ToJSON..= getApplicationFeesFeeRefundsIdParametersQueryExpand obj)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetApplicationFeesFeeRefundsIdParameters where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "GetApplicationFeesFeeRefundsIdParameters" (\obj -> ((GHC.Base.pure GetApplicationFeesFeeRefundsIdParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathFee")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathId")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryExpand"))
+
+-- | Create a new 'GetApplicationFeesFeeRefundsIdParameters' with all required fields.
+mkGetApplicationFeesFeeRefundsIdParameters ::
+  -- | 'getApplicationFeesFeeRefundsIdParametersPathFee'
+  Data.Text.Internal.Text ->
+  -- | 'getApplicationFeesFeeRefundsIdParametersPathId'
+  Data.Text.Internal.Text ->
+  GetApplicationFeesFeeRefundsIdParameters
+mkGetApplicationFeesFeeRefundsIdParameters getApplicationFeesFeeRefundsIdParametersPathFee getApplicationFeesFeeRefundsIdParametersPathId =
+  GetApplicationFeesFeeRefundsIdParameters
+    { getApplicationFeesFeeRefundsIdParametersPathFee = getApplicationFeesFeeRefundsIdParametersPathFee,
+      getApplicationFeesFeeRefundsIdParametersPathId = getApplicationFeesFeeRefundsIdParametersPathId,
+      getApplicationFeesFeeRefundsIdParametersQueryExpand = GHC.Maybe.Nothing
+    }
 
 -- | Represents a response of the operation 'getApplicationFeesFeeRefundsId'.
 --

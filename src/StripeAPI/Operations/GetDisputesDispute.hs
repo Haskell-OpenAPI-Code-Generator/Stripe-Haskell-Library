@@ -10,6 +10,7 @@ module StripeAPI.Operations.GetDisputesDispute where
 import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -77,7 +78,7 @@ getDisputesDispute parameters =
     )
     (StripeAPI.Common.doCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET") (Data.Text.pack ("/v1/disputes/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel (getDisputesDisputeParametersPathDispute parameters))) GHC.Base.++ ""))) [StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getDisputesDisputeParametersQueryExpand parameters) (Data.Text.pack "deepObject") GHC.Types.True])
 
--- | Defines the data type for the schema getDisputesDisputeParameters
+-- | Defines the object schema located at @paths.\/v1\/disputes\/{dispute}.GET.parameters@ in the specification.
 data GetDisputesDisputeParameters
   = GetDisputesDisputeParameters
       { -- | pathDispute: Represents the parameter named \'dispute\'
@@ -97,11 +98,22 @@ data GetDisputesDisputeParameters
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetDisputesDisputeParameters where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "pathDispute" (getDisputesDisputeParametersPathDispute obj) : (Data.Aeson..=) "queryExpand" (getDisputesDisputeParametersQueryExpand obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "pathDispute" (getDisputesDisputeParametersPathDispute obj) GHC.Base.<> (Data.Aeson..=) "queryExpand" (getDisputesDisputeParametersQueryExpand obj))
+  toJSON obj = Data.Aeson.Types.Internal.object ("pathDispute" Data.Aeson.Types.ToJSON..= getDisputesDisputeParametersPathDispute obj : "queryExpand" Data.Aeson.Types.ToJSON..= getDisputesDisputeParametersQueryExpand obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("pathDispute" Data.Aeson.Types.ToJSON..= getDisputesDisputeParametersPathDispute obj) GHC.Base.<> ("queryExpand" Data.Aeson.Types.ToJSON..= getDisputesDisputeParametersQueryExpand obj))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetDisputesDisputeParameters where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "GetDisputesDisputeParameters" (\obj -> (GHC.Base.pure GetDisputesDisputeParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathDispute")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryExpand"))
+
+-- | Create a new 'GetDisputesDisputeParameters' with all required fields.
+mkGetDisputesDisputeParameters ::
+  -- | 'getDisputesDisputeParametersPathDispute'
+  Data.Text.Internal.Text ->
+  GetDisputesDisputeParameters
+mkGetDisputesDisputeParameters getDisputesDisputeParametersPathDispute =
+  GetDisputesDisputeParameters
+    { getDisputesDisputeParametersPathDispute = getDisputesDisputeParametersPathDispute,
+      getDisputesDisputeParametersQueryExpand = GHC.Maybe.Nothing
+    }
 
 -- | Represents a response of the operation 'getDisputesDispute'.
 --

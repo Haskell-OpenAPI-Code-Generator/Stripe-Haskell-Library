@@ -8,6 +8,7 @@ module StripeAPI.Types.SourceRedirectFlow where
 
 import qualified Control.Monad.Fail
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -30,7 +31,7 @@ import StripeAPI.TypeAlias
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
--- | Defines the data type for the schema source_redirect_flow
+-- | Defines the object schema located at @components.schemas.source_redirect_flow@ in the specification.
 data SourceRedirectFlow
   = SourceRedirectFlow
       { -- | failure_reason: The failure reason for the redirect, either \`user_abort\` (the customer aborted or dropped out of the redirect flow), \`declined\` (the authentication failed or the transaction was declined), or \`processing_error\` (the redirect failed due to a technical error). Present only if the redirect status is \`failed\`.
@@ -64,8 +65,25 @@ data SourceRedirectFlow
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON SourceRedirectFlow where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "failure_reason" (sourceRedirectFlowFailureReason obj) : (Data.Aeson..=) "return_url" (sourceRedirectFlowReturnUrl obj) : (Data.Aeson..=) "status" (sourceRedirectFlowStatus obj) : (Data.Aeson..=) "url" (sourceRedirectFlowUrl obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "failure_reason" (sourceRedirectFlowFailureReason obj) GHC.Base.<> ((Data.Aeson..=) "return_url" (sourceRedirectFlowReturnUrl obj) GHC.Base.<> ((Data.Aeson..=) "status" (sourceRedirectFlowStatus obj) GHC.Base.<> (Data.Aeson..=) "url" (sourceRedirectFlowUrl obj))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("failure_reason" Data.Aeson.Types.ToJSON..= sourceRedirectFlowFailureReason obj : "return_url" Data.Aeson.Types.ToJSON..= sourceRedirectFlowReturnUrl obj : "status" Data.Aeson.Types.ToJSON..= sourceRedirectFlowStatus obj : "url" Data.Aeson.Types.ToJSON..= sourceRedirectFlowUrl obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("failure_reason" Data.Aeson.Types.ToJSON..= sourceRedirectFlowFailureReason obj) GHC.Base.<> (("return_url" Data.Aeson.Types.ToJSON..= sourceRedirectFlowReturnUrl obj) GHC.Base.<> (("status" Data.Aeson.Types.ToJSON..= sourceRedirectFlowStatus obj) GHC.Base.<> ("url" Data.Aeson.Types.ToJSON..= sourceRedirectFlowUrl obj))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON SourceRedirectFlow where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "SourceRedirectFlow" (\obj -> (((GHC.Base.pure SourceRedirectFlow GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "failure_reason")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "return_url")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "status")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "url"))
+
+-- | Create a new 'SourceRedirectFlow' with all required fields.
+mkSourceRedirectFlow ::
+  -- | 'sourceRedirectFlowReturnUrl'
+  Data.Text.Internal.Text ->
+  -- | 'sourceRedirectFlowStatus'
+  Data.Text.Internal.Text ->
+  -- | 'sourceRedirectFlowUrl'
+  Data.Text.Internal.Text ->
+  SourceRedirectFlow
+mkSourceRedirectFlow sourceRedirectFlowReturnUrl sourceRedirectFlowStatus sourceRedirectFlowUrl =
+  SourceRedirectFlow
+    { sourceRedirectFlowFailureReason = GHC.Maybe.Nothing,
+      sourceRedirectFlowReturnUrl = sourceRedirectFlowReturnUrl,
+      sourceRedirectFlowStatus = sourceRedirectFlowStatus,
+      sourceRedirectFlowUrl = sourceRedirectFlowUrl
+    }

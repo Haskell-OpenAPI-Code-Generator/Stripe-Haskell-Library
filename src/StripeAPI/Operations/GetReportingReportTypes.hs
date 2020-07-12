@@ -10,6 +10,7 @@ module StripeAPI.Operations.GetReportingReportTypes where
 import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -89,15 +90,13 @@ data GetReportingReportTypesResponse
     GetReportingReportTypesResponseDefault Error
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
--- | Defines the data type for the schema GetReportingReportTypesResponseBody200
+-- | Defines the object schema located at @paths.\/v1\/reporting\/report_types.GET.responses.200.content.application\/json.schema@ in the specification.
 data GetReportingReportTypesResponseBody200
   = GetReportingReportTypesResponseBody200
       { -- | data
         getReportingReportTypesResponseBody200Data :: ([Reporting'reportType]),
         -- | has_more: True if this list has another page of items after this one that can be fetched.
         getReportingReportTypesResponseBody200HasMore :: GHC.Types.Bool,
-        -- | object: String representing the object\'s type. Objects of the same type share the same value. Always has the value \`list\`.
-        getReportingReportTypesResponseBody200Object :: GetReportingReportTypesResponseBody200Object',
         -- | url: The URL where this list can be accessed.
         --
         -- Constraints:
@@ -111,29 +110,24 @@ data GetReportingReportTypesResponseBody200
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetReportingReportTypesResponseBody200 where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "data" (getReportingReportTypesResponseBody200Data obj) : (Data.Aeson..=) "has_more" (getReportingReportTypesResponseBody200HasMore obj) : (Data.Aeson..=) "object" (getReportingReportTypesResponseBody200Object obj) : (Data.Aeson..=) "url" (getReportingReportTypesResponseBody200Url obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "data" (getReportingReportTypesResponseBody200Data obj) GHC.Base.<> ((Data.Aeson..=) "has_more" (getReportingReportTypesResponseBody200HasMore obj) GHC.Base.<> ((Data.Aeson..=) "object" (getReportingReportTypesResponseBody200Object obj) GHC.Base.<> (Data.Aeson..=) "url" (getReportingReportTypesResponseBody200Url obj))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("data" Data.Aeson.Types.ToJSON..= getReportingReportTypesResponseBody200Data obj : "has_more" Data.Aeson.Types.ToJSON..= getReportingReportTypesResponseBody200HasMore obj : "url" Data.Aeson.Types.ToJSON..= getReportingReportTypesResponseBody200Url obj : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "list" : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("data" Data.Aeson.Types.ToJSON..= getReportingReportTypesResponseBody200Data obj) GHC.Base.<> (("has_more" Data.Aeson.Types.ToJSON..= getReportingReportTypesResponseBody200HasMore obj) GHC.Base.<> (("url" Data.Aeson.Types.ToJSON..= getReportingReportTypesResponseBody200Url obj) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "list"))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetReportingReportTypesResponseBody200 where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetReportingReportTypesResponseBody200" (\obj -> (((GHC.Base.pure GetReportingReportTypesResponseBody200 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "has_more")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "object")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "url"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetReportingReportTypesResponseBody200" (\obj -> ((GHC.Base.pure GetReportingReportTypesResponseBody200 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "has_more")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "url"))
 
--- | Defines the enum schema GetReportingReportTypesResponseBody200Object\'
---
--- String representing the object\'s type. Objects of the same type share the same value. Always has the value \`list\`.
-data GetReportingReportTypesResponseBody200Object'
-  = GetReportingReportTypesResponseBody200Object'EnumOther Data.Aeson.Types.Internal.Value
-  | GetReportingReportTypesResponseBody200Object'EnumTyped Data.Text.Internal.Text
-  | GetReportingReportTypesResponseBody200Object'EnumStringList
-  deriving (GHC.Show.Show, GHC.Classes.Eq)
-
-instance Data.Aeson.Types.ToJSON.ToJSON GetReportingReportTypesResponseBody200Object' where
-  toJSON (GetReportingReportTypesResponseBody200Object'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (GetReportingReportTypesResponseBody200Object'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (GetReportingReportTypesResponseBody200Object'EnumStringList) = "list"
-
-instance Data.Aeson.Types.FromJSON.FromJSON GetReportingReportTypesResponseBody200Object' where
-  parseJSON val =
-    GHC.Base.pure
-      ( if  | val GHC.Classes.== "list" -> GetReportingReportTypesResponseBody200Object'EnumStringList
-            | GHC.Base.otherwise -> GetReportingReportTypesResponseBody200Object'EnumOther val
-      )
+-- | Create a new 'GetReportingReportTypesResponseBody200' with all required fields.
+mkGetReportingReportTypesResponseBody200 ::
+  -- | 'getReportingReportTypesResponseBody200Data'
+  [Reporting'reportType] ->
+  -- | 'getReportingReportTypesResponseBody200HasMore'
+  GHC.Types.Bool ->
+  -- | 'getReportingReportTypesResponseBody200Url'
+  Data.Text.Internal.Text ->
+  GetReportingReportTypesResponseBody200
+mkGetReportingReportTypesResponseBody200 getReportingReportTypesResponseBody200Data getReportingReportTypesResponseBody200HasMore getReportingReportTypesResponseBody200Url =
+  GetReportingReportTypesResponseBody200
+    { getReportingReportTypesResponseBody200Data = getReportingReportTypesResponseBody200Data,
+      getReportingReportTypesResponseBody200HasMore = getReportingReportTypesResponseBody200HasMore,
+      getReportingReportTypesResponseBody200Url = getReportingReportTypesResponseBody200Url
+    }

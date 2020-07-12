@@ -8,6 +8,7 @@ module StripeAPI.Types.PackageDimensions where
 
 import qualified Control.Monad.Fail
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -30,7 +31,7 @@ import StripeAPI.TypeAlias
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
--- | Defines the data type for the schema package_dimensions
+-- | Defines the object schema located at @components.schemas.package_dimensions@ in the specification.
 data PackageDimensions
   = PackageDimensions
       { -- | height: Height, in inches.
@@ -48,8 +49,27 @@ data PackageDimensions
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PackageDimensions where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "height" (packageDimensionsHeight obj) : (Data.Aeson..=) "length" (packageDimensionsLength obj) : (Data.Aeson..=) "weight" (packageDimensionsWeight obj) : (Data.Aeson..=) "width" (packageDimensionsWidth obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "height" (packageDimensionsHeight obj) GHC.Base.<> ((Data.Aeson..=) "length" (packageDimensionsLength obj) GHC.Base.<> ((Data.Aeson..=) "weight" (packageDimensionsWeight obj) GHC.Base.<> (Data.Aeson..=) "width" (packageDimensionsWidth obj))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("height" Data.Aeson.Types.ToJSON..= packageDimensionsHeight obj : "length" Data.Aeson.Types.ToJSON..= packageDimensionsLength obj : "weight" Data.Aeson.Types.ToJSON..= packageDimensionsWeight obj : "width" Data.Aeson.Types.ToJSON..= packageDimensionsWidth obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("height" Data.Aeson.Types.ToJSON..= packageDimensionsHeight obj) GHC.Base.<> (("length" Data.Aeson.Types.ToJSON..= packageDimensionsLength obj) GHC.Base.<> (("weight" Data.Aeson.Types.ToJSON..= packageDimensionsWeight obj) GHC.Base.<> ("width" Data.Aeson.Types.ToJSON..= packageDimensionsWidth obj))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PackageDimensions where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PackageDimensions" (\obj -> (((GHC.Base.pure PackageDimensions GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "height")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "length")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "weight")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "width"))
+
+-- | Create a new 'PackageDimensions' with all required fields.
+mkPackageDimensions ::
+  -- | 'packageDimensionsHeight'
+  GHC.Types.Double ->
+  -- | 'packageDimensionsLength'
+  GHC.Types.Double ->
+  -- | 'packageDimensionsWeight'
+  GHC.Types.Double ->
+  -- | 'packageDimensionsWidth'
+  GHC.Types.Double ->
+  PackageDimensions
+mkPackageDimensions packageDimensionsHeight packageDimensionsLength packageDimensionsWeight packageDimensionsWidth =
+  PackageDimensions
+    { packageDimensionsHeight = packageDimensionsHeight,
+      packageDimensionsLength = packageDimensionsLength,
+      packageDimensionsWeight = packageDimensionsWeight,
+      packageDimensionsWidth = packageDimensionsWidth
+    }

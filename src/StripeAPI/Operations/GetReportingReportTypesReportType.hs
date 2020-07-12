@@ -10,6 +10,7 @@ module StripeAPI.Operations.GetReportingReportTypesReportType where
 import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -77,7 +78,7 @@ getReportingReportTypesReportType parameters =
     )
     (StripeAPI.Common.doCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET") (Data.Text.pack ("/v1/reporting/report_types/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel (getReportingReportTypesReportTypeParametersPathReportType parameters))) GHC.Base.++ ""))) [StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getReportingReportTypesReportTypeParametersQueryExpand parameters) (Data.Text.pack "deepObject") GHC.Types.True])
 
--- | Defines the data type for the schema getReportingReportTypesReportTypeParameters
+-- | Defines the object schema located at @paths.\/v1\/reporting\/report_types\/{report_type}.GET.parameters@ in the specification.
 data GetReportingReportTypesReportTypeParameters
   = GetReportingReportTypesReportTypeParameters
       { -- | pathReport_type: Represents the parameter named \'report_type\'
@@ -93,11 +94,22 @@ data GetReportingReportTypesReportTypeParameters
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetReportingReportTypesReportTypeParameters where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "pathReport_type" (getReportingReportTypesReportTypeParametersPathReportType obj) : (Data.Aeson..=) "queryExpand" (getReportingReportTypesReportTypeParametersQueryExpand obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "pathReport_type" (getReportingReportTypesReportTypeParametersPathReportType obj) GHC.Base.<> (Data.Aeson..=) "queryExpand" (getReportingReportTypesReportTypeParametersQueryExpand obj))
+  toJSON obj = Data.Aeson.Types.Internal.object ("pathReport_type" Data.Aeson.Types.ToJSON..= getReportingReportTypesReportTypeParametersPathReportType obj : "queryExpand" Data.Aeson.Types.ToJSON..= getReportingReportTypesReportTypeParametersQueryExpand obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("pathReport_type" Data.Aeson.Types.ToJSON..= getReportingReportTypesReportTypeParametersPathReportType obj) GHC.Base.<> ("queryExpand" Data.Aeson.Types.ToJSON..= getReportingReportTypesReportTypeParametersQueryExpand obj))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetReportingReportTypesReportTypeParameters where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "GetReportingReportTypesReportTypeParameters" (\obj -> (GHC.Base.pure GetReportingReportTypesReportTypeParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathReport_type")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryExpand"))
+
+-- | Create a new 'GetReportingReportTypesReportTypeParameters' with all required fields.
+mkGetReportingReportTypesReportTypeParameters ::
+  -- | 'getReportingReportTypesReportTypeParametersPathReportType'
+  Data.Text.Internal.Text ->
+  GetReportingReportTypesReportTypeParameters
+mkGetReportingReportTypesReportTypeParameters getReportingReportTypesReportTypeParametersPathReportType =
+  GetReportingReportTypesReportTypeParameters
+    { getReportingReportTypesReportTypeParametersPathReportType = getReportingReportTypesReportTypeParametersPathReportType,
+      getReportingReportTypesReportTypeParametersQueryExpand = GHC.Maybe.Nothing
+    }
 
 -- | Represents a response of the operation 'getReportingReportTypesReportType'.
 --

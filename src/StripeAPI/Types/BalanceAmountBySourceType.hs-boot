@@ -1,8 +1,8 @@
 module StripeAPI.Types.BalanceAmountBySourceType where
 import Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Types.Internal
-data BalanceAmountBySourceType 
-instance Show BalanceAmountBySourceType 
-instance Eq BalanceAmountBySourceType 
-instance FromJSON BalanceAmountBySourceType 
-instance ToJSON BalanceAmountBySourceType 
+data BalanceAmountBySourceType
+instance Show BalanceAmountBySourceType
+instance Eq BalanceAmountBySourceType
+instance FromJSON BalanceAmountBySourceType
+instance ToJSON BalanceAmountBySourceType

@@ -8,6 +8,7 @@ module StripeAPI.Types.DeletedCustomer where
 
 import qualified Control.Monad.Fail
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -30,19 +31,15 @@ import StripeAPI.TypeAlias
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
--- | Defines the data type for the schema deleted_customer
+-- | Defines the object schema located at @components.schemas.deleted_customer@ in the specification.
 data DeletedCustomer
   = DeletedCustomer
-      { -- | deleted: Always true for a deleted object
-        deletedCustomerDeleted :: DeletedCustomerDeleted',
-        -- | id: Unique identifier for the object.
+      { -- | id: Unique identifier for the object.
         --
         -- Constraints:
         --
         -- * Maximum length of 5000
-        deletedCustomerId :: Data.Text.Internal.Text,
-        -- | object: String representing the object\'s type. Objects of the same type share the same value.
-        deletedCustomerObject :: DeletedCustomerObject'
+        deletedCustomerId :: Data.Text.Internal.Text
       }
   deriving
     ( GHC.Show.Show,
@@ -50,50 +47,15 @@ data DeletedCustomer
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON DeletedCustomer where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "deleted" (deletedCustomerDeleted obj) : (Data.Aeson..=) "id" (deletedCustomerId obj) : (Data.Aeson..=) "object" (deletedCustomerObject obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "deleted" (deletedCustomerDeleted obj) GHC.Base.<> ((Data.Aeson..=) "id" (deletedCustomerId obj) GHC.Base.<> (Data.Aeson..=) "object" (deletedCustomerObject obj)))
+  toJSON obj = Data.Aeson.Types.Internal.object ("id" Data.Aeson.Types.ToJSON..= deletedCustomerId obj : "deleted" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.Bool GHC.Types.True : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "customer" : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("id" Data.Aeson.Types.ToJSON..= deletedCustomerId obj) GHC.Base.<> (("deleted" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.Bool GHC.Types.True) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "customer")))
 
 instance Data.Aeson.Types.FromJSON.FromJSON DeletedCustomer where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "DeletedCustomer" (\obj -> ((GHC.Base.pure DeletedCustomer GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "deleted")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "object"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "DeletedCustomer" (\obj -> GHC.Base.pure DeletedCustomer GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id"))
 
--- | Defines the enum schema deleted_customerDeleted\'
---
--- Always true for a deleted object
-data DeletedCustomerDeleted'
-  = DeletedCustomerDeleted'EnumOther Data.Aeson.Types.Internal.Value
-  | DeletedCustomerDeleted'EnumTyped GHC.Types.Bool
-  | DeletedCustomerDeleted'EnumBoolTrue
-  deriving (GHC.Show.Show, GHC.Classes.Eq)
-
-instance Data.Aeson.Types.ToJSON.ToJSON DeletedCustomerDeleted' where
-  toJSON (DeletedCustomerDeleted'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (DeletedCustomerDeleted'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (DeletedCustomerDeleted'EnumBoolTrue) = Data.Aeson.Types.Internal.Bool GHC.Types.True
-
-instance Data.Aeson.Types.FromJSON.FromJSON DeletedCustomerDeleted' where
-  parseJSON val =
-    GHC.Base.pure
-      ( if  | val GHC.Classes.== Data.Aeson.Types.Internal.Bool GHC.Types.True -> DeletedCustomerDeleted'EnumBoolTrue
-            | GHC.Base.otherwise -> DeletedCustomerDeleted'EnumOther val
-      )
-
--- | Defines the enum schema deleted_customerObject\'
---
--- String representing the object\'s type. Objects of the same type share the same value.
-data DeletedCustomerObject'
-  = DeletedCustomerObject'EnumOther Data.Aeson.Types.Internal.Value
-  | DeletedCustomerObject'EnumTyped Data.Text.Internal.Text
-  | DeletedCustomerObject'EnumStringCustomer
-  deriving (GHC.Show.Show, GHC.Classes.Eq)
-
-instance Data.Aeson.Types.ToJSON.ToJSON DeletedCustomerObject' where
-  toJSON (DeletedCustomerObject'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (DeletedCustomerObject'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (DeletedCustomerObject'EnumStringCustomer) = "customer"
-
-instance Data.Aeson.Types.FromJSON.FromJSON DeletedCustomerObject' where
-  parseJSON val =
-    GHC.Base.pure
-      ( if  | val GHC.Classes.== "customer" -> DeletedCustomerObject'EnumStringCustomer
-            | GHC.Base.otherwise -> DeletedCustomerObject'EnumOther val
-      )
+-- | Create a new 'DeletedCustomer' with all required fields.
+mkDeletedCustomer ::
+  -- | 'deletedCustomerId'
+  Data.Text.Internal.Text ->
+  DeletedCustomer
+mkDeletedCustomer deletedCustomerId = DeletedCustomer {deletedCustomerId = deletedCustomerId}

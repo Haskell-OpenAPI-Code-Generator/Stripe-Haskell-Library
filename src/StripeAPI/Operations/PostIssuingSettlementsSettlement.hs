@@ -10,6 +10,7 @@ module StripeAPI.Operations.PostIssuingSettlementsSettlement where
 import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -81,7 +82,7 @@ postIssuingSettlementsSettlement
       )
       (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack ("/v1/issuing/settlements/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel settlement)) GHC.Base.++ ""))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
 
--- | Defines the data type for the schema postIssuingSettlementsSettlementRequestBody
+-- | Defines the object schema located at @paths.\/v1\/issuing\/settlements\/{settlement}.POST.requestBody.content.application\/x-www-form-urlencoded.schema@ in the specification.
 data PostIssuingSettlementsSettlementRequestBody
   = PostIssuingSettlementsSettlementRequestBody
       { -- | expand: Specifies which fields in the response should be expanded.
@@ -95,11 +96,19 @@ data PostIssuingSettlementsSettlementRequestBody
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostIssuingSettlementsSettlementRequestBody where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "expand" (postIssuingSettlementsSettlementRequestBodyExpand obj) : (Data.Aeson..=) "metadata" (postIssuingSettlementsSettlementRequestBodyMetadata obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "expand" (postIssuingSettlementsSettlementRequestBodyExpand obj) GHC.Base.<> (Data.Aeson..=) "metadata" (postIssuingSettlementsSettlementRequestBodyMetadata obj))
+  toJSON obj = Data.Aeson.Types.Internal.object ("expand" Data.Aeson.Types.ToJSON..= postIssuingSettlementsSettlementRequestBodyExpand obj : "metadata" Data.Aeson.Types.ToJSON..= postIssuingSettlementsSettlementRequestBodyMetadata obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("expand" Data.Aeson.Types.ToJSON..= postIssuingSettlementsSettlementRequestBodyExpand obj) GHC.Base.<> ("metadata" Data.Aeson.Types.ToJSON..= postIssuingSettlementsSettlementRequestBodyMetadata obj))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostIssuingSettlementsSettlementRequestBody where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PostIssuingSettlementsSettlementRequestBody" (\obj -> (GHC.Base.pure PostIssuingSettlementsSettlementRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "metadata"))
+
+-- | Create a new 'PostIssuingSettlementsSettlementRequestBody' with all required fields.
+mkPostIssuingSettlementsSettlementRequestBody :: PostIssuingSettlementsSettlementRequestBody
+mkPostIssuingSettlementsSettlementRequestBody =
+  PostIssuingSettlementsSettlementRequestBody
+    { postIssuingSettlementsSettlementRequestBodyExpand = GHC.Maybe.Nothing,
+      postIssuingSettlementsSettlementRequestBodyMetadata = GHC.Maybe.Nothing
+    }
 
 -- | Represents a response of the operation 'postIssuingSettlementsSettlement'.
 --

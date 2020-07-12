@@ -10,6 +10,7 @@ module StripeAPI.Operations.PostIssuingVerifications where
 import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -77,7 +78,7 @@ postIssuingVerifications body =
     )
     (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack "/v1/issuing/verifications") [] (GHC.Maybe.Just body) StripeAPI.Common.RequestBodyEncodingFormData)
 
--- | Defines the data type for the schema postIssuingVerificationsRequestBody
+-- | Defines the object schema located at @paths.\/v1\/issuing\/verifications.POST.requestBody.content.application\/x-www-form-urlencoded.schema@ in the specification.
 data PostIssuingVerificationsRequestBody
   = PostIssuingVerificationsRequestBody
       { -- | card: The \`Card\` for which a verification is requested
@@ -107,58 +108,83 @@ data PostIssuingVerificationsRequestBody
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostIssuingVerificationsRequestBody where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "card" (postIssuingVerificationsRequestBodyCard obj) : (Data.Aeson..=) "expand" (postIssuingVerificationsRequestBodyExpand obj) : (Data.Aeson..=) "scope" (postIssuingVerificationsRequestBodyScope obj) : (Data.Aeson..=) "verification_method" (postIssuingVerificationsRequestBodyVerificationMethod obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "card" (postIssuingVerificationsRequestBodyCard obj) GHC.Base.<> ((Data.Aeson..=) "expand" (postIssuingVerificationsRequestBodyExpand obj) GHC.Base.<> ((Data.Aeson..=) "scope" (postIssuingVerificationsRequestBodyScope obj) GHC.Base.<> (Data.Aeson..=) "verification_method" (postIssuingVerificationsRequestBodyVerificationMethod obj))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("card" Data.Aeson.Types.ToJSON..= postIssuingVerificationsRequestBodyCard obj : "expand" Data.Aeson.Types.ToJSON..= postIssuingVerificationsRequestBodyExpand obj : "scope" Data.Aeson.Types.ToJSON..= postIssuingVerificationsRequestBodyScope obj : "verification_method" Data.Aeson.Types.ToJSON..= postIssuingVerificationsRequestBodyVerificationMethod obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("card" Data.Aeson.Types.ToJSON..= postIssuingVerificationsRequestBodyCard obj) GHC.Base.<> (("expand" Data.Aeson.Types.ToJSON..= postIssuingVerificationsRequestBodyExpand obj) GHC.Base.<> (("scope" Data.Aeson.Types.ToJSON..= postIssuingVerificationsRequestBodyScope obj) GHC.Base.<> ("verification_method" Data.Aeson.Types.ToJSON..= postIssuingVerificationsRequestBodyVerificationMethod obj))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostIssuingVerificationsRequestBody where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PostIssuingVerificationsRequestBody" (\obj -> (((GHC.Base.pure PostIssuingVerificationsRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "card")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "scope")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "verification_method"))
 
--- | Defines the enum schema postIssuingVerificationsRequestBodyScope\'
+-- | Create a new 'PostIssuingVerificationsRequestBody' with all required fields.
+mkPostIssuingVerificationsRequestBody ::
+  -- | 'postIssuingVerificationsRequestBodyCard'
+  Data.Text.Internal.Text ->
+  -- | 'postIssuingVerificationsRequestBodyScope'
+  PostIssuingVerificationsRequestBodyScope' ->
+  -- | 'postIssuingVerificationsRequestBodyVerificationMethod'
+  PostIssuingVerificationsRequestBodyVerificationMethod' ->
+  PostIssuingVerificationsRequestBody
+mkPostIssuingVerificationsRequestBody postIssuingVerificationsRequestBodyCard postIssuingVerificationsRequestBodyScope postIssuingVerificationsRequestBodyVerificationMethod =
+  PostIssuingVerificationsRequestBody
+    { postIssuingVerificationsRequestBodyCard = postIssuingVerificationsRequestBodyCard,
+      postIssuingVerificationsRequestBodyExpand = GHC.Maybe.Nothing,
+      postIssuingVerificationsRequestBodyScope = postIssuingVerificationsRequestBodyScope,
+      postIssuingVerificationsRequestBodyVerificationMethod = postIssuingVerificationsRequestBodyVerificationMethod
+    }
+
+-- | Defines the enum schema located at @paths.\/v1\/issuing\/verifications.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.scope@ in the specification.
 --
 -- The scope of the verification (one of \`card_pin_retrieve\` or \`card_pin_update\`)
 data PostIssuingVerificationsRequestBodyScope'
-  = PostIssuingVerificationsRequestBodyScope'EnumOther Data.Aeson.Types.Internal.Value
-  | PostIssuingVerificationsRequestBodyScope'EnumTyped Data.Text.Internal.Text
-  | PostIssuingVerificationsRequestBodyScope'EnumStringCardPinRetrieve
-  | PostIssuingVerificationsRequestBodyScope'EnumStringCardPinUpdate
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    PostIssuingVerificationsRequestBodyScope'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    PostIssuingVerificationsRequestBodyScope'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"card_pin_retrieve"@
+    PostIssuingVerificationsRequestBodyScope'EnumCardPinRetrieve
+  | -- | Represents the JSON value @"card_pin_update"@
+    PostIssuingVerificationsRequestBodyScope'EnumCardPinUpdate
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostIssuingVerificationsRequestBodyScope' where
-  toJSON (PostIssuingVerificationsRequestBodyScope'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostIssuingVerificationsRequestBodyScope'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostIssuingVerificationsRequestBodyScope'EnumStringCardPinRetrieve) = "card_pin_retrieve"
-  toJSON (PostIssuingVerificationsRequestBodyScope'EnumStringCardPinUpdate) = "card_pin_update"
+  toJSON (PostIssuingVerificationsRequestBodyScope'Other val) = val
+  toJSON (PostIssuingVerificationsRequestBodyScope'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PostIssuingVerificationsRequestBodyScope'EnumCardPinRetrieve) = "card_pin_retrieve"
+  toJSON (PostIssuingVerificationsRequestBodyScope'EnumCardPinUpdate) = "card_pin_update"
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostIssuingVerificationsRequestBodyScope' where
   parseJSON val =
     GHC.Base.pure
-      ( if  | val GHC.Classes.== "card_pin_retrieve" -> PostIssuingVerificationsRequestBodyScope'EnumStringCardPinRetrieve
-            | val GHC.Classes.== "card_pin_update" -> PostIssuingVerificationsRequestBodyScope'EnumStringCardPinUpdate
-            | GHC.Base.otherwise -> PostIssuingVerificationsRequestBodyScope'EnumOther val
+      ( if  | val GHC.Classes.== "card_pin_retrieve" -> PostIssuingVerificationsRequestBodyScope'EnumCardPinRetrieve
+            | val GHC.Classes.== "card_pin_update" -> PostIssuingVerificationsRequestBodyScope'EnumCardPinUpdate
+            | GHC.Base.otherwise -> PostIssuingVerificationsRequestBodyScope'Other val
       )
 
--- | Defines the enum schema postIssuingVerificationsRequestBodyVerification_method\'
+-- | Defines the enum schema located at @paths.\/v1\/issuing\/verifications.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.verification_method@ in the specification.
 --
 -- The method used to send the cardholder the verification (one of \`email\` or \`sms\`)
 data PostIssuingVerificationsRequestBodyVerificationMethod'
-  = PostIssuingVerificationsRequestBodyVerificationMethod'EnumOther Data.Aeson.Types.Internal.Value
-  | PostIssuingVerificationsRequestBodyVerificationMethod'EnumTyped Data.Text.Internal.Text
-  | PostIssuingVerificationsRequestBodyVerificationMethod'EnumStringEmail
-  | PostIssuingVerificationsRequestBodyVerificationMethod'EnumStringSms
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    PostIssuingVerificationsRequestBodyVerificationMethod'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    PostIssuingVerificationsRequestBodyVerificationMethod'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"email"@
+    PostIssuingVerificationsRequestBodyVerificationMethod'EnumEmail
+  | -- | Represents the JSON value @"sms"@
+    PostIssuingVerificationsRequestBodyVerificationMethod'EnumSms
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostIssuingVerificationsRequestBodyVerificationMethod' where
-  toJSON (PostIssuingVerificationsRequestBodyVerificationMethod'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostIssuingVerificationsRequestBodyVerificationMethod'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostIssuingVerificationsRequestBodyVerificationMethod'EnumStringEmail) = "email"
-  toJSON (PostIssuingVerificationsRequestBodyVerificationMethod'EnumStringSms) = "sms"
+  toJSON (PostIssuingVerificationsRequestBodyVerificationMethod'Other val) = val
+  toJSON (PostIssuingVerificationsRequestBodyVerificationMethod'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PostIssuingVerificationsRequestBodyVerificationMethod'EnumEmail) = "email"
+  toJSON (PostIssuingVerificationsRequestBodyVerificationMethod'EnumSms) = "sms"
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostIssuingVerificationsRequestBodyVerificationMethod' where
   parseJSON val =
     GHC.Base.pure
-      ( if  | val GHC.Classes.== "email" -> PostIssuingVerificationsRequestBodyVerificationMethod'EnumStringEmail
-            | val GHC.Classes.== "sms" -> PostIssuingVerificationsRequestBodyVerificationMethod'EnumStringSms
-            | GHC.Base.otherwise -> PostIssuingVerificationsRequestBodyVerificationMethod'EnumOther val
+      ( if  | val GHC.Classes.== "email" -> PostIssuingVerificationsRequestBodyVerificationMethod'EnumEmail
+            | val GHC.Classes.== "sms" -> PostIssuingVerificationsRequestBodyVerificationMethod'EnumSms
+            | GHC.Base.otherwise -> PostIssuingVerificationsRequestBodyVerificationMethod'Other val
       )
 
 -- | Represents a response of the operation 'postIssuingVerifications'.

@@ -10,6 +10,7 @@ module StripeAPI.Operations.PostPayouts where
 import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -81,7 +82,7 @@ postPayouts body =
     )
     (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack "/v1/payouts") [] (GHC.Maybe.Just body) StripeAPI.Common.RequestBodyEncodingFormData)
 
--- | Defines the data type for the schema postPayoutsRequestBody
+-- | Defines the object schema located at @paths.\/v1\/payouts.POST.requestBody.content.application\/x-www-form-urlencoded.schema@ in the specification.
 data PostPayoutsRequestBody
   = PostPayoutsRequestBody
       { -- | amount: A positive integer in cents representing how much to payout.
@@ -125,61 +126,90 @@ data PostPayoutsRequestBody
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostPayoutsRequestBody where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "amount" (postPayoutsRequestBodyAmount obj) : (Data.Aeson..=) "currency" (postPayoutsRequestBodyCurrency obj) : (Data.Aeson..=) "description" (postPayoutsRequestBodyDescription obj) : (Data.Aeson..=) "destination" (postPayoutsRequestBodyDestination obj) : (Data.Aeson..=) "expand" (postPayoutsRequestBodyExpand obj) : (Data.Aeson..=) "metadata" (postPayoutsRequestBodyMetadata obj) : (Data.Aeson..=) "method" (postPayoutsRequestBodyMethod obj) : (Data.Aeson..=) "source_type" (postPayoutsRequestBodySourceType obj) : (Data.Aeson..=) "statement_descriptor" (postPayoutsRequestBodyStatementDescriptor obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "amount" (postPayoutsRequestBodyAmount obj) GHC.Base.<> ((Data.Aeson..=) "currency" (postPayoutsRequestBodyCurrency obj) GHC.Base.<> ((Data.Aeson..=) "description" (postPayoutsRequestBodyDescription obj) GHC.Base.<> ((Data.Aeson..=) "destination" (postPayoutsRequestBodyDestination obj) GHC.Base.<> ((Data.Aeson..=) "expand" (postPayoutsRequestBodyExpand obj) GHC.Base.<> ((Data.Aeson..=) "metadata" (postPayoutsRequestBodyMetadata obj) GHC.Base.<> ((Data.Aeson..=) "method" (postPayoutsRequestBodyMethod obj) GHC.Base.<> ((Data.Aeson..=) "source_type" (postPayoutsRequestBodySourceType obj) GHC.Base.<> (Data.Aeson..=) "statement_descriptor" (postPayoutsRequestBodyStatementDescriptor obj)))))))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("amount" Data.Aeson.Types.ToJSON..= postPayoutsRequestBodyAmount obj : "currency" Data.Aeson.Types.ToJSON..= postPayoutsRequestBodyCurrency obj : "description" Data.Aeson.Types.ToJSON..= postPayoutsRequestBodyDescription obj : "destination" Data.Aeson.Types.ToJSON..= postPayoutsRequestBodyDestination obj : "expand" Data.Aeson.Types.ToJSON..= postPayoutsRequestBodyExpand obj : "metadata" Data.Aeson.Types.ToJSON..= postPayoutsRequestBodyMetadata obj : "method" Data.Aeson.Types.ToJSON..= postPayoutsRequestBodyMethod obj : "source_type" Data.Aeson.Types.ToJSON..= postPayoutsRequestBodySourceType obj : "statement_descriptor" Data.Aeson.Types.ToJSON..= postPayoutsRequestBodyStatementDescriptor obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("amount" Data.Aeson.Types.ToJSON..= postPayoutsRequestBodyAmount obj) GHC.Base.<> (("currency" Data.Aeson.Types.ToJSON..= postPayoutsRequestBodyCurrency obj) GHC.Base.<> (("description" Data.Aeson.Types.ToJSON..= postPayoutsRequestBodyDescription obj) GHC.Base.<> (("destination" Data.Aeson.Types.ToJSON..= postPayoutsRequestBodyDestination obj) GHC.Base.<> (("expand" Data.Aeson.Types.ToJSON..= postPayoutsRequestBodyExpand obj) GHC.Base.<> (("metadata" Data.Aeson.Types.ToJSON..= postPayoutsRequestBodyMetadata obj) GHC.Base.<> (("method" Data.Aeson.Types.ToJSON..= postPayoutsRequestBodyMethod obj) GHC.Base.<> (("source_type" Data.Aeson.Types.ToJSON..= postPayoutsRequestBodySourceType obj) GHC.Base.<> ("statement_descriptor" Data.Aeson.Types.ToJSON..= postPayoutsRequestBodyStatementDescriptor obj)))))))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostPayoutsRequestBody where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PostPayoutsRequestBody" (\obj -> ((((((((GHC.Base.pure PostPayoutsRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "description")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "destination")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "method")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "source_type")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "statement_descriptor"))
 
--- | Defines the enum schema postPayoutsRequestBodyMethod\'
+-- | Create a new 'PostPayoutsRequestBody' with all required fields.
+mkPostPayoutsRequestBody ::
+  -- | 'postPayoutsRequestBodyAmount'
+  GHC.Types.Int ->
+  -- | 'postPayoutsRequestBodyCurrency'
+  Data.Text.Internal.Text ->
+  PostPayoutsRequestBody
+mkPostPayoutsRequestBody postPayoutsRequestBodyAmount postPayoutsRequestBodyCurrency =
+  PostPayoutsRequestBody
+    { postPayoutsRequestBodyAmount = postPayoutsRequestBodyAmount,
+      postPayoutsRequestBodyCurrency = postPayoutsRequestBodyCurrency,
+      postPayoutsRequestBodyDescription = GHC.Maybe.Nothing,
+      postPayoutsRequestBodyDestination = GHC.Maybe.Nothing,
+      postPayoutsRequestBodyExpand = GHC.Maybe.Nothing,
+      postPayoutsRequestBodyMetadata = GHC.Maybe.Nothing,
+      postPayoutsRequestBodyMethod = GHC.Maybe.Nothing,
+      postPayoutsRequestBodySourceType = GHC.Maybe.Nothing,
+      postPayoutsRequestBodyStatementDescriptor = GHC.Maybe.Nothing
+    }
+
+-- | Defines the enum schema located at @paths.\/v1\/payouts.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.method@ in the specification.
 --
 -- The method used to send this payout, which can be \`standard\` or \`instant\`. \`instant\` is only supported for payouts to debit cards. (See [Instant payouts for marketplaces for more information](https:\/\/stripe.com\/blog\/instant-payouts-for-marketplaces).)
 data PostPayoutsRequestBodyMethod'
-  = PostPayoutsRequestBodyMethod'EnumOther Data.Aeson.Types.Internal.Value
-  | PostPayoutsRequestBodyMethod'EnumTyped Data.Text.Internal.Text
-  | PostPayoutsRequestBodyMethod'EnumStringInstant
-  | PostPayoutsRequestBodyMethod'EnumStringStandard
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    PostPayoutsRequestBodyMethod'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    PostPayoutsRequestBodyMethod'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"instant"@
+    PostPayoutsRequestBodyMethod'EnumInstant
+  | -- | Represents the JSON value @"standard"@
+    PostPayoutsRequestBodyMethod'EnumStandard
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostPayoutsRequestBodyMethod' where
-  toJSON (PostPayoutsRequestBodyMethod'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostPayoutsRequestBodyMethod'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostPayoutsRequestBodyMethod'EnumStringInstant) = "instant"
-  toJSON (PostPayoutsRequestBodyMethod'EnumStringStandard) = "standard"
+  toJSON (PostPayoutsRequestBodyMethod'Other val) = val
+  toJSON (PostPayoutsRequestBodyMethod'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PostPayoutsRequestBodyMethod'EnumInstant) = "instant"
+  toJSON (PostPayoutsRequestBodyMethod'EnumStandard) = "standard"
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostPayoutsRequestBodyMethod' where
   parseJSON val =
     GHC.Base.pure
-      ( if  | val GHC.Classes.== "instant" -> PostPayoutsRequestBodyMethod'EnumStringInstant
-            | val GHC.Classes.== "standard" -> PostPayoutsRequestBodyMethod'EnumStringStandard
-            | GHC.Base.otherwise -> PostPayoutsRequestBodyMethod'EnumOther val
+      ( if  | val GHC.Classes.== "instant" -> PostPayoutsRequestBodyMethod'EnumInstant
+            | val GHC.Classes.== "standard" -> PostPayoutsRequestBodyMethod'EnumStandard
+            | GHC.Base.otherwise -> PostPayoutsRequestBodyMethod'Other val
       )
 
--- | Defines the enum schema postPayoutsRequestBodySource_type\'
+-- | Defines the enum schema located at @paths.\/v1\/payouts.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.source_type@ in the specification.
 --
 -- The balance type of your Stripe balance to draw this payout from. Balances for different payment sources are kept separately. You can find the amounts with the balances API. One of \`bank_account\`, \`card\`, or \`fpx\`.
 data PostPayoutsRequestBodySourceType'
-  = PostPayoutsRequestBodySourceType'EnumOther Data.Aeson.Types.Internal.Value
-  | PostPayoutsRequestBodySourceType'EnumTyped Data.Text.Internal.Text
-  | PostPayoutsRequestBodySourceType'EnumStringBankAccount
-  | PostPayoutsRequestBodySourceType'EnumStringCard
-  | PostPayoutsRequestBodySourceType'EnumStringFpx
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    PostPayoutsRequestBodySourceType'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    PostPayoutsRequestBodySourceType'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"bank_account"@
+    PostPayoutsRequestBodySourceType'EnumBankAccount
+  | -- | Represents the JSON value @"card"@
+    PostPayoutsRequestBodySourceType'EnumCard
+  | -- | Represents the JSON value @"fpx"@
+    PostPayoutsRequestBodySourceType'EnumFpx
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostPayoutsRequestBodySourceType' where
-  toJSON (PostPayoutsRequestBodySourceType'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostPayoutsRequestBodySourceType'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostPayoutsRequestBodySourceType'EnumStringBankAccount) = "bank_account"
-  toJSON (PostPayoutsRequestBodySourceType'EnumStringCard) = "card"
-  toJSON (PostPayoutsRequestBodySourceType'EnumStringFpx) = "fpx"
+  toJSON (PostPayoutsRequestBodySourceType'Other val) = val
+  toJSON (PostPayoutsRequestBodySourceType'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PostPayoutsRequestBodySourceType'EnumBankAccount) = "bank_account"
+  toJSON (PostPayoutsRequestBodySourceType'EnumCard) = "card"
+  toJSON (PostPayoutsRequestBodySourceType'EnumFpx) = "fpx"
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostPayoutsRequestBodySourceType' where
   parseJSON val =
     GHC.Base.pure
-      ( if  | val GHC.Classes.== "bank_account" -> PostPayoutsRequestBodySourceType'EnumStringBankAccount
-            | val GHC.Classes.== "card" -> PostPayoutsRequestBodySourceType'EnumStringCard
-            | val GHC.Classes.== "fpx" -> PostPayoutsRequestBodySourceType'EnumStringFpx
-            | GHC.Base.otherwise -> PostPayoutsRequestBodySourceType'EnumOther val
+      ( if  | val GHC.Classes.== "bank_account" -> PostPayoutsRequestBodySourceType'EnumBankAccount
+            | val GHC.Classes.== "card" -> PostPayoutsRequestBodySourceType'EnumCard
+            | val GHC.Classes.== "fpx" -> PostPayoutsRequestBodySourceType'EnumFpx
+            | GHC.Base.otherwise -> PostPayoutsRequestBodySourceType'Other val
       )
 
 -- | Represents a response of the operation 'postPayouts'.

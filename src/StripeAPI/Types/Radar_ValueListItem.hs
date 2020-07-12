@@ -8,6 +8,7 @@ module StripeAPI.Types.Radar_ValueListItem where
 
 import qualified Control.Monad.Fail
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -30,7 +31,7 @@ import StripeAPI.TypeAlias
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
--- | Defines the data type for the schema radar.value_list_item
+-- | Defines the object schema located at @components.schemas.radar.value_list_item@ in the specification.
 --
 -- Value list items allow you to add specific values to a given Radar value list, which can then be used in rules.
 --
@@ -53,8 +54,6 @@ data Radar'valueListItem
         radar'valueListItemId :: Data.Text.Internal.Text,
         -- | livemode: Has the value \`true\` if the object exists in live mode or the value \`false\` if the object exists in test mode.
         radar'valueListItemLivemode :: GHC.Types.Bool,
-        -- | object: String representing the object\'s type. Objects of the same type share the same value.
-        radar'valueListItemObject :: Radar'valueListItemObject',
         -- | value: The value of the item.
         --
         -- Constraints:
@@ -74,29 +73,33 @@ data Radar'valueListItem
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON Radar'valueListItem where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "created" (radar'valueListItemCreated obj) : (Data.Aeson..=) "created_by" (radar'valueListItemCreatedBy obj) : (Data.Aeson..=) "id" (radar'valueListItemId obj) : (Data.Aeson..=) "livemode" (radar'valueListItemLivemode obj) : (Data.Aeson..=) "object" (radar'valueListItemObject obj) : (Data.Aeson..=) "value" (radar'valueListItemValue obj) : (Data.Aeson..=) "value_list" (radar'valueListItemValueList obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "created" (radar'valueListItemCreated obj) GHC.Base.<> ((Data.Aeson..=) "created_by" (radar'valueListItemCreatedBy obj) GHC.Base.<> ((Data.Aeson..=) "id" (radar'valueListItemId obj) GHC.Base.<> ((Data.Aeson..=) "livemode" (radar'valueListItemLivemode obj) GHC.Base.<> ((Data.Aeson..=) "object" (radar'valueListItemObject obj) GHC.Base.<> ((Data.Aeson..=) "value" (radar'valueListItemValue obj) GHC.Base.<> (Data.Aeson..=) "value_list" (radar'valueListItemValueList obj)))))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("created" Data.Aeson.Types.ToJSON..= radar'valueListItemCreated obj : "created_by" Data.Aeson.Types.ToJSON..= radar'valueListItemCreatedBy obj : "id" Data.Aeson.Types.ToJSON..= radar'valueListItemId obj : "livemode" Data.Aeson.Types.ToJSON..= radar'valueListItemLivemode obj : "value" Data.Aeson.Types.ToJSON..= radar'valueListItemValue obj : "value_list" Data.Aeson.Types.ToJSON..= radar'valueListItemValueList obj : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "radar.value_list_item" : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("created" Data.Aeson.Types.ToJSON..= radar'valueListItemCreated obj) GHC.Base.<> (("created_by" Data.Aeson.Types.ToJSON..= radar'valueListItemCreatedBy obj) GHC.Base.<> (("id" Data.Aeson.Types.ToJSON..= radar'valueListItemId obj) GHC.Base.<> (("livemode" Data.Aeson.Types.ToJSON..= radar'valueListItemLivemode obj) GHC.Base.<> (("value" Data.Aeson.Types.ToJSON..= radar'valueListItemValue obj) GHC.Base.<> (("value_list" Data.Aeson.Types.ToJSON..= radar'valueListItemValueList obj) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "radar.value_list_item")))))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON Radar'valueListItem where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "Radar'valueListItem" (\obj -> ((((((GHC.Base.pure Radar'valueListItem GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "created")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "created_by")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "livemode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "object")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "value")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "value_list"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "Radar'valueListItem" (\obj -> (((((GHC.Base.pure Radar'valueListItem GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "created")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "created_by")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "livemode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "value")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "value_list"))
 
--- | Defines the enum schema radar.value_list_itemObject\'
---
--- String representing the object\'s type. Objects of the same type share the same value.
-data Radar'valueListItemObject'
-  = Radar'valueListItemObject'EnumOther Data.Aeson.Types.Internal.Value
-  | Radar'valueListItemObject'EnumTyped Data.Text.Internal.Text
-  | Radar'valueListItemObject'EnumStringRadar'valueListItem
-  deriving (GHC.Show.Show, GHC.Classes.Eq)
-
-instance Data.Aeson.Types.ToJSON.ToJSON Radar'valueListItemObject' where
-  toJSON (Radar'valueListItemObject'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (Radar'valueListItemObject'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (Radar'valueListItemObject'EnumStringRadar'valueListItem) = "radar.value_list_item"
-
-instance Data.Aeson.Types.FromJSON.FromJSON Radar'valueListItemObject' where
-  parseJSON val =
-    GHC.Base.pure
-      ( if  | val GHC.Classes.== "radar.value_list_item" -> Radar'valueListItemObject'EnumStringRadar'valueListItem
-            | GHC.Base.otherwise -> Radar'valueListItemObject'EnumOther val
-      )
+-- | Create a new 'Radar'valueListItem' with all required fields.
+mkRadar'valueListItem ::
+  -- | 'radar'valueListItemCreated'
+  GHC.Types.Int ->
+  -- | 'radar'valueListItemCreatedBy'
+  Data.Text.Internal.Text ->
+  -- | 'radar'valueListItemId'
+  Data.Text.Internal.Text ->
+  -- | 'radar'valueListItemLivemode'
+  GHC.Types.Bool ->
+  -- | 'radar'valueListItemValue'
+  Data.Text.Internal.Text ->
+  -- | 'radar'valueListItemValueList'
+  Data.Text.Internal.Text ->
+  Radar'valueListItem
+mkRadar'valueListItem radar'valueListItemCreated radar'valueListItemCreatedBy radar'valueListItemId radar'valueListItemLivemode radar'valueListItemValue radar'valueListItemValueList =
+  Radar'valueListItem
+    { radar'valueListItemCreated = radar'valueListItemCreated,
+      radar'valueListItemCreatedBy = radar'valueListItemCreatedBy,
+      radar'valueListItemId = radar'valueListItemId,
+      radar'valueListItemLivemode = radar'valueListItemLivemode,
+      radar'valueListItemValue = radar'valueListItemValue,
+      radar'valueListItemValueList = radar'valueListItemValueList
+    }

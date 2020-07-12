@@ -8,6 +8,7 @@ module StripeAPI.Types.SubscriptionSchedulesResourceDefaultSettings where
 
 import qualified Control.Monad.Fail
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -33,7 +34,7 @@ import {-# SOURCE #-} StripeAPI.Types.SubscriptionBillingThresholds
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
--- | Defines the data type for the schema subscription_schedules_resource_default_settings
+-- | Defines the object schema located at @components.schemas.subscription_schedules_resource_default_settings@ in the specification.
 data SubscriptionSchedulesResourceDefaultSettings
   = SubscriptionSchedulesResourceDefaultSettings
       { -- | billing_thresholds: Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period
@@ -51,13 +52,23 @@ data SubscriptionSchedulesResourceDefaultSettings
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON SubscriptionSchedulesResourceDefaultSettings where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "billing_thresholds" (subscriptionSchedulesResourceDefaultSettingsBillingThresholds obj) : (Data.Aeson..=) "collection_method" (subscriptionSchedulesResourceDefaultSettingsCollectionMethod obj) : (Data.Aeson..=) "default_payment_method" (subscriptionSchedulesResourceDefaultSettingsDefaultPaymentMethod obj) : (Data.Aeson..=) "invoice_settings" (subscriptionSchedulesResourceDefaultSettingsInvoiceSettings obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "billing_thresholds" (subscriptionSchedulesResourceDefaultSettingsBillingThresholds obj) GHC.Base.<> ((Data.Aeson..=) "collection_method" (subscriptionSchedulesResourceDefaultSettingsCollectionMethod obj) GHC.Base.<> ((Data.Aeson..=) "default_payment_method" (subscriptionSchedulesResourceDefaultSettingsDefaultPaymentMethod obj) GHC.Base.<> (Data.Aeson..=) "invoice_settings" (subscriptionSchedulesResourceDefaultSettingsInvoiceSettings obj))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("billing_thresholds" Data.Aeson.Types.ToJSON..= subscriptionSchedulesResourceDefaultSettingsBillingThresholds obj : "collection_method" Data.Aeson.Types.ToJSON..= subscriptionSchedulesResourceDefaultSettingsCollectionMethod obj : "default_payment_method" Data.Aeson.Types.ToJSON..= subscriptionSchedulesResourceDefaultSettingsDefaultPaymentMethod obj : "invoice_settings" Data.Aeson.Types.ToJSON..= subscriptionSchedulesResourceDefaultSettingsInvoiceSettings obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("billing_thresholds" Data.Aeson.Types.ToJSON..= subscriptionSchedulesResourceDefaultSettingsBillingThresholds obj) GHC.Base.<> (("collection_method" Data.Aeson.Types.ToJSON..= subscriptionSchedulesResourceDefaultSettingsCollectionMethod obj) GHC.Base.<> (("default_payment_method" Data.Aeson.Types.ToJSON..= subscriptionSchedulesResourceDefaultSettingsDefaultPaymentMethod obj) GHC.Base.<> ("invoice_settings" Data.Aeson.Types.ToJSON..= subscriptionSchedulesResourceDefaultSettingsInvoiceSettings obj))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON SubscriptionSchedulesResourceDefaultSettings where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "SubscriptionSchedulesResourceDefaultSettings" (\obj -> (((GHC.Base.pure SubscriptionSchedulesResourceDefaultSettings GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "billing_thresholds")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "collection_method")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "default_payment_method")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "invoice_settings"))
 
--- | Defines the data type for the schema subscription_schedules_resource_default_settingsBilling_thresholds\'
+-- | Create a new 'SubscriptionSchedulesResourceDefaultSettings' with all required fields.
+mkSubscriptionSchedulesResourceDefaultSettings :: SubscriptionSchedulesResourceDefaultSettings
+mkSubscriptionSchedulesResourceDefaultSettings =
+  SubscriptionSchedulesResourceDefaultSettings
+    { subscriptionSchedulesResourceDefaultSettingsBillingThresholds = GHC.Maybe.Nothing,
+      subscriptionSchedulesResourceDefaultSettingsCollectionMethod = GHC.Maybe.Nothing,
+      subscriptionSchedulesResourceDefaultSettingsDefaultPaymentMethod = GHC.Maybe.Nothing,
+      subscriptionSchedulesResourceDefaultSettingsInvoiceSettings = GHC.Maybe.Nothing
+    }
+
+-- | Defines the object schema located at @components.schemas.subscription_schedules_resource_default_settings.properties.billing_thresholds.anyOf@ in the specification.
 --
 -- Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period
 data SubscriptionSchedulesResourceDefaultSettingsBillingThresholds'
@@ -73,37 +84,49 @@ data SubscriptionSchedulesResourceDefaultSettingsBillingThresholds'
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON SubscriptionSchedulesResourceDefaultSettingsBillingThresholds' where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "amount_gte" (subscriptionSchedulesResourceDefaultSettingsBillingThresholds'AmountGte obj) : (Data.Aeson..=) "reset_billing_cycle_anchor" (subscriptionSchedulesResourceDefaultSettingsBillingThresholds'ResetBillingCycleAnchor obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "amount_gte" (subscriptionSchedulesResourceDefaultSettingsBillingThresholds'AmountGte obj) GHC.Base.<> (Data.Aeson..=) "reset_billing_cycle_anchor" (subscriptionSchedulesResourceDefaultSettingsBillingThresholds'ResetBillingCycleAnchor obj))
+  toJSON obj = Data.Aeson.Types.Internal.object ("amount_gte" Data.Aeson.Types.ToJSON..= subscriptionSchedulesResourceDefaultSettingsBillingThresholds'AmountGte obj : "reset_billing_cycle_anchor" Data.Aeson.Types.ToJSON..= subscriptionSchedulesResourceDefaultSettingsBillingThresholds'ResetBillingCycleAnchor obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("amount_gte" Data.Aeson.Types.ToJSON..= subscriptionSchedulesResourceDefaultSettingsBillingThresholds'AmountGte obj) GHC.Base.<> ("reset_billing_cycle_anchor" Data.Aeson.Types.ToJSON..= subscriptionSchedulesResourceDefaultSettingsBillingThresholds'ResetBillingCycleAnchor obj))
 
 instance Data.Aeson.Types.FromJSON.FromJSON SubscriptionSchedulesResourceDefaultSettingsBillingThresholds' where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "SubscriptionSchedulesResourceDefaultSettingsBillingThresholds'" (\obj -> (GHC.Base.pure SubscriptionSchedulesResourceDefaultSettingsBillingThresholds' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "amount_gte")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "reset_billing_cycle_anchor"))
 
--- | Defines the enum schema subscription_schedules_resource_default_settingsCollection_method\'
+-- | Create a new 'SubscriptionSchedulesResourceDefaultSettingsBillingThresholds'' with all required fields.
+mkSubscriptionSchedulesResourceDefaultSettingsBillingThresholds' :: SubscriptionSchedulesResourceDefaultSettingsBillingThresholds'
+mkSubscriptionSchedulesResourceDefaultSettingsBillingThresholds' =
+  SubscriptionSchedulesResourceDefaultSettingsBillingThresholds'
+    { subscriptionSchedulesResourceDefaultSettingsBillingThresholds'AmountGte = GHC.Maybe.Nothing,
+      subscriptionSchedulesResourceDefaultSettingsBillingThresholds'ResetBillingCycleAnchor = GHC.Maybe.Nothing
+    }
+
+-- | Defines the enum schema located at @components.schemas.subscription_schedules_resource_default_settings.properties.collection_method@ in the specification.
 --
 -- Either \`charge_automatically\`, or \`send_invoice\`. When charging automatically, Stripe will attempt to pay the underlying subscription at the end of each billing cycle using the default source attached to the customer. When sending an invoice, Stripe will email your customer an invoice with payment instructions.
 data SubscriptionSchedulesResourceDefaultSettingsCollectionMethod'
-  = SubscriptionSchedulesResourceDefaultSettingsCollectionMethod'EnumOther Data.Aeson.Types.Internal.Value
-  | SubscriptionSchedulesResourceDefaultSettingsCollectionMethod'EnumTyped Data.Text.Internal.Text
-  | SubscriptionSchedulesResourceDefaultSettingsCollectionMethod'EnumStringChargeAutomatically
-  | SubscriptionSchedulesResourceDefaultSettingsCollectionMethod'EnumStringSendInvoice
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    SubscriptionSchedulesResourceDefaultSettingsCollectionMethod'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    SubscriptionSchedulesResourceDefaultSettingsCollectionMethod'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"charge_automatically"@
+    SubscriptionSchedulesResourceDefaultSettingsCollectionMethod'EnumChargeAutomatically
+  | -- | Represents the JSON value @"send_invoice"@
+    SubscriptionSchedulesResourceDefaultSettingsCollectionMethod'EnumSendInvoice
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
 instance Data.Aeson.Types.ToJSON.ToJSON SubscriptionSchedulesResourceDefaultSettingsCollectionMethod' where
-  toJSON (SubscriptionSchedulesResourceDefaultSettingsCollectionMethod'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (SubscriptionSchedulesResourceDefaultSettingsCollectionMethod'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (SubscriptionSchedulesResourceDefaultSettingsCollectionMethod'EnumStringChargeAutomatically) = "charge_automatically"
-  toJSON (SubscriptionSchedulesResourceDefaultSettingsCollectionMethod'EnumStringSendInvoice) = "send_invoice"
+  toJSON (SubscriptionSchedulesResourceDefaultSettingsCollectionMethod'Other val) = val
+  toJSON (SubscriptionSchedulesResourceDefaultSettingsCollectionMethod'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (SubscriptionSchedulesResourceDefaultSettingsCollectionMethod'EnumChargeAutomatically) = "charge_automatically"
+  toJSON (SubscriptionSchedulesResourceDefaultSettingsCollectionMethod'EnumSendInvoice) = "send_invoice"
 
 instance Data.Aeson.Types.FromJSON.FromJSON SubscriptionSchedulesResourceDefaultSettingsCollectionMethod' where
   parseJSON val =
     GHC.Base.pure
-      ( if  | val GHC.Classes.== "charge_automatically" -> SubscriptionSchedulesResourceDefaultSettingsCollectionMethod'EnumStringChargeAutomatically
-            | val GHC.Classes.== "send_invoice" -> SubscriptionSchedulesResourceDefaultSettingsCollectionMethod'EnumStringSendInvoice
-            | GHC.Base.otherwise -> SubscriptionSchedulesResourceDefaultSettingsCollectionMethod'EnumOther val
+      ( if  | val GHC.Classes.== "charge_automatically" -> SubscriptionSchedulesResourceDefaultSettingsCollectionMethod'EnumChargeAutomatically
+            | val GHC.Classes.== "send_invoice" -> SubscriptionSchedulesResourceDefaultSettingsCollectionMethod'EnumSendInvoice
+            | GHC.Base.otherwise -> SubscriptionSchedulesResourceDefaultSettingsCollectionMethod'Other val
       )
 
--- | Define the one-of schema subscription_schedules_resource_default_settingsDefault_payment_method\'
+-- | Defines the oneOf schema located at @components.schemas.subscription_schedules_resource_default_settings.properties.default_payment_method.anyOf@ in the specification.
 --
 -- ID of the default payment method for the subscription schedule. If not set, invoices will use the default payment method in the customer\'s invoice settings.
 data SubscriptionSchedulesResourceDefaultSettingsDefaultPaymentMethod'Variants
@@ -116,13 +139,11 @@ instance Data.Aeson.Types.ToJSON.ToJSON SubscriptionSchedulesResourceDefaultSett
   toJSON (SubscriptionSchedulesResourceDefaultSettingsDefaultPaymentMethod'Text a) = Data.Aeson.Types.ToJSON.toJSON a
 
 instance Data.Aeson.Types.FromJSON.FromJSON SubscriptionSchedulesResourceDefaultSettingsDefaultPaymentMethod'Variants where
-  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
-    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ SubscriptionSchedulesResourceDefaultSettingsDefaultPaymentMethod'PaymentMethod a
-    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ SubscriptionSchedulesResourceDefaultSettingsDefaultPaymentMethod'Text a
-      Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+  parseJSON val = case (SubscriptionSchedulesResourceDefaultSettingsDefaultPaymentMethod'PaymentMethod Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((SubscriptionSchedulesResourceDefaultSettingsDefaultPaymentMethod'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched") of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+    Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
--- | Defines the data type for the schema subscription_schedules_resource_default_settingsInvoice_settings\'
+-- | Defines the object schema located at @components.schemas.subscription_schedules_resource_default_settings.properties.invoice_settings.anyOf@ in the specification.
 --
 -- The subscription schedule\\\'s default invoice settings.
 data SubscriptionSchedulesResourceDefaultSettingsInvoiceSettings'
@@ -136,8 +157,12 @@ data SubscriptionSchedulesResourceDefaultSettingsInvoiceSettings'
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON SubscriptionSchedulesResourceDefaultSettingsInvoiceSettings' where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "days_until_due" (subscriptionSchedulesResourceDefaultSettingsInvoiceSettings'DaysUntilDue obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "days_until_due" (subscriptionSchedulesResourceDefaultSettingsInvoiceSettings'DaysUntilDue obj))
+  toJSON obj = Data.Aeson.Types.Internal.object ("days_until_due" Data.Aeson.Types.ToJSON..= subscriptionSchedulesResourceDefaultSettingsInvoiceSettings'DaysUntilDue obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs ("days_until_due" Data.Aeson.Types.ToJSON..= subscriptionSchedulesResourceDefaultSettingsInvoiceSettings'DaysUntilDue obj)
 
 instance Data.Aeson.Types.FromJSON.FromJSON SubscriptionSchedulesResourceDefaultSettingsInvoiceSettings' where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "SubscriptionSchedulesResourceDefaultSettingsInvoiceSettings'" (\obj -> GHC.Base.pure SubscriptionSchedulesResourceDefaultSettingsInvoiceSettings' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "days_until_due"))
+
+-- | Create a new 'SubscriptionSchedulesResourceDefaultSettingsInvoiceSettings'' with all required fields.
+mkSubscriptionSchedulesResourceDefaultSettingsInvoiceSettings' :: SubscriptionSchedulesResourceDefaultSettingsInvoiceSettings'
+mkSubscriptionSchedulesResourceDefaultSettingsInvoiceSettings' = SubscriptionSchedulesResourceDefaultSettingsInvoiceSettings' {subscriptionSchedulesResourceDefaultSettingsInvoiceSettings'DaysUntilDue = GHC.Maybe.Nothing}

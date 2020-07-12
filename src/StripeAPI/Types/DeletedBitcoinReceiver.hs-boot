@@ -1,18 +1,8 @@
 module StripeAPI.Types.DeletedBitcoinReceiver where
 import Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Types.Internal
-data DeletedBitcoinReceiver 
-instance Show DeletedBitcoinReceiver 
-instance Eq DeletedBitcoinReceiver 
-instance FromJSON DeletedBitcoinReceiver 
-instance ToJSON DeletedBitcoinReceiver 
-data DeletedBitcoinReceiverDeleted'
-instance Show DeletedBitcoinReceiverDeleted'
-instance Eq DeletedBitcoinReceiverDeleted'
-instance FromJSON DeletedBitcoinReceiverDeleted'
-instance ToJSON DeletedBitcoinReceiverDeleted'
-data DeletedBitcoinReceiverObject'
-instance Show DeletedBitcoinReceiverObject'
-instance Eq DeletedBitcoinReceiverObject'
-instance FromJSON DeletedBitcoinReceiverObject'
-instance ToJSON DeletedBitcoinReceiverObject'
+data DeletedBitcoinReceiver
+instance Show DeletedBitcoinReceiver
+instance Eq DeletedBitcoinReceiver
+instance FromJSON DeletedBitcoinReceiver
+instance ToJSON DeletedBitcoinReceiver

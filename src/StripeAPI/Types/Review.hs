@@ -8,6 +8,7 @@ module StripeAPI.Types.Review where
 
 import qualified Control.Monad.Fail
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -34,7 +35,7 @@ import {-# SOURCE #-} StripeAPI.Types.RadarReviewResourceSession
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
--- | Defines the data type for the schema review
+-- | Defines the object schema located at @components.schemas.review@ in the specification.
 --
 -- Reviews can be used to supplement automated fraud detection with human expertise.
 --
@@ -70,8 +71,6 @@ data Review
         reviewIpAddressLocation :: (GHC.Maybe.Maybe ReviewIpAddressLocation'),
         -- | livemode: Has the value \`true\` if the object exists in live mode or the value \`false\` if the object exists in test mode.
         reviewLivemode :: GHC.Types.Bool,
-        -- | object: String representing the object\'s type. Objects of the same type share the same value.
-        reviewObject :: ReviewObject',
         -- | open: If \`true\`, the review needs action.
         reviewOpen :: GHC.Types.Bool,
         -- | opened_reason: The reason the review was opened. One of \`rule\` or \`manual\`.
@@ -93,13 +92,45 @@ data Review
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON Review where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "billing_zip" (reviewBillingZip obj) : (Data.Aeson..=) "charge" (reviewCharge obj) : (Data.Aeson..=) "closed_reason" (reviewClosedReason obj) : (Data.Aeson..=) "created" (reviewCreated obj) : (Data.Aeson..=) "id" (reviewId obj) : (Data.Aeson..=) "ip_address" (reviewIpAddress obj) : (Data.Aeson..=) "ip_address_location" (reviewIpAddressLocation obj) : (Data.Aeson..=) "livemode" (reviewLivemode obj) : (Data.Aeson..=) "object" (reviewObject obj) : (Data.Aeson..=) "open" (reviewOpen obj) : (Data.Aeson..=) "opened_reason" (reviewOpenedReason obj) : (Data.Aeson..=) "payment_intent" (reviewPaymentIntent obj) : (Data.Aeson..=) "reason" (reviewReason obj) : (Data.Aeson..=) "session" (reviewSession obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "billing_zip" (reviewBillingZip obj) GHC.Base.<> ((Data.Aeson..=) "charge" (reviewCharge obj) GHC.Base.<> ((Data.Aeson..=) "closed_reason" (reviewClosedReason obj) GHC.Base.<> ((Data.Aeson..=) "created" (reviewCreated obj) GHC.Base.<> ((Data.Aeson..=) "id" (reviewId obj) GHC.Base.<> ((Data.Aeson..=) "ip_address" (reviewIpAddress obj) GHC.Base.<> ((Data.Aeson..=) "ip_address_location" (reviewIpAddressLocation obj) GHC.Base.<> ((Data.Aeson..=) "livemode" (reviewLivemode obj) GHC.Base.<> ((Data.Aeson..=) "object" (reviewObject obj) GHC.Base.<> ((Data.Aeson..=) "open" (reviewOpen obj) GHC.Base.<> ((Data.Aeson..=) "opened_reason" (reviewOpenedReason obj) GHC.Base.<> ((Data.Aeson..=) "payment_intent" (reviewPaymentIntent obj) GHC.Base.<> ((Data.Aeson..=) "reason" (reviewReason obj) GHC.Base.<> (Data.Aeson..=) "session" (reviewSession obj))))))))))))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("billing_zip" Data.Aeson.Types.ToJSON..= reviewBillingZip obj : "charge" Data.Aeson.Types.ToJSON..= reviewCharge obj : "closed_reason" Data.Aeson.Types.ToJSON..= reviewClosedReason obj : "created" Data.Aeson.Types.ToJSON..= reviewCreated obj : "id" Data.Aeson.Types.ToJSON..= reviewId obj : "ip_address" Data.Aeson.Types.ToJSON..= reviewIpAddress obj : "ip_address_location" Data.Aeson.Types.ToJSON..= reviewIpAddressLocation obj : "livemode" Data.Aeson.Types.ToJSON..= reviewLivemode obj : "open" Data.Aeson.Types.ToJSON..= reviewOpen obj : "opened_reason" Data.Aeson.Types.ToJSON..= reviewOpenedReason obj : "payment_intent" Data.Aeson.Types.ToJSON..= reviewPaymentIntent obj : "reason" Data.Aeson.Types.ToJSON..= reviewReason obj : "session" Data.Aeson.Types.ToJSON..= reviewSession obj : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "review" : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("billing_zip" Data.Aeson.Types.ToJSON..= reviewBillingZip obj) GHC.Base.<> (("charge" Data.Aeson.Types.ToJSON..= reviewCharge obj) GHC.Base.<> (("closed_reason" Data.Aeson.Types.ToJSON..= reviewClosedReason obj) GHC.Base.<> (("created" Data.Aeson.Types.ToJSON..= reviewCreated obj) GHC.Base.<> (("id" Data.Aeson.Types.ToJSON..= reviewId obj) GHC.Base.<> (("ip_address" Data.Aeson.Types.ToJSON..= reviewIpAddress obj) GHC.Base.<> (("ip_address_location" Data.Aeson.Types.ToJSON..= reviewIpAddressLocation obj) GHC.Base.<> (("livemode" Data.Aeson.Types.ToJSON..= reviewLivemode obj) GHC.Base.<> (("open" Data.Aeson.Types.ToJSON..= reviewOpen obj) GHC.Base.<> (("opened_reason" Data.Aeson.Types.ToJSON..= reviewOpenedReason obj) GHC.Base.<> (("payment_intent" Data.Aeson.Types.ToJSON..= reviewPaymentIntent obj) GHC.Base.<> (("reason" Data.Aeson.Types.ToJSON..= reviewReason obj) GHC.Base.<> (("session" Data.Aeson.Types.ToJSON..= reviewSession obj) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "review"))))))))))))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON Review where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "Review" (\obj -> (((((((((((((GHC.Base.pure Review GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "billing_zip")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "charge")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "closed_reason")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "created")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "ip_address")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "ip_address_location")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "livemode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "object")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "open")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "opened_reason")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "payment_intent")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "reason")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "session"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "Review" (\obj -> ((((((((((((GHC.Base.pure Review GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "billing_zip")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "charge")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "closed_reason")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "created")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "ip_address")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "ip_address_location")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "livemode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "open")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "opened_reason")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "payment_intent")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "reason")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "session"))
 
--- | Define the one-of schema reviewCharge\'
+-- | Create a new 'Review' with all required fields.
+mkReview ::
+  -- | 'reviewCreated'
+  GHC.Types.Int ->
+  -- | 'reviewId'
+  Data.Text.Internal.Text ->
+  -- | 'reviewLivemode'
+  GHC.Types.Bool ->
+  -- | 'reviewOpen'
+  GHC.Types.Bool ->
+  -- | 'reviewOpenedReason'
+  ReviewOpenedReason' ->
+  -- | 'reviewReason'
+  Data.Text.Internal.Text ->
+  Review
+mkReview reviewCreated reviewId reviewLivemode reviewOpen reviewOpenedReason reviewReason =
+  Review
+    { reviewBillingZip = GHC.Maybe.Nothing,
+      reviewCharge = GHC.Maybe.Nothing,
+      reviewClosedReason = GHC.Maybe.Nothing,
+      reviewCreated = reviewCreated,
+      reviewId = reviewId,
+      reviewIpAddress = GHC.Maybe.Nothing,
+      reviewIpAddressLocation = GHC.Maybe.Nothing,
+      reviewLivemode = reviewLivemode,
+      reviewOpen = reviewOpen,
+      reviewOpenedReason = reviewOpenedReason,
+      reviewPaymentIntent = GHC.Maybe.Nothing,
+      reviewReason = reviewReason,
+      reviewSession = GHC.Maybe.Nothing
+    }
+
+-- | Defines the oneOf schema located at @components.schemas.review.properties.charge.anyOf@ in the specification.
 --
 -- The charge associated with this review.
 data ReviewCharge'Variants
@@ -112,43 +143,47 @@ instance Data.Aeson.Types.ToJSON.ToJSON ReviewCharge'Variants where
   toJSON (ReviewCharge'Text a) = Data.Aeson.Types.ToJSON.toJSON a
 
 instance Data.Aeson.Types.FromJSON.FromJSON ReviewCharge'Variants where
-  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
-    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ ReviewCharge'Charge a
-    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ ReviewCharge'Text a
-      Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+  parseJSON val = case (ReviewCharge'Charge Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((ReviewCharge'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched") of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+    Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
--- | Defines the enum schema reviewClosed_reason\'
+-- | Defines the enum schema located at @components.schemas.review.properties.closed_reason@ in the specification.
 --
 -- The reason the review was closed, or null if it has not yet been closed. One of \`approved\`, \`refunded\`, \`refunded_as_fraud\`, or \`disputed\`.
 data ReviewClosedReason'
-  = ReviewClosedReason'EnumOther Data.Aeson.Types.Internal.Value
-  | ReviewClosedReason'EnumTyped Data.Text.Internal.Text
-  | ReviewClosedReason'EnumStringApproved
-  | ReviewClosedReason'EnumStringDisputed
-  | ReviewClosedReason'EnumStringRefunded
-  | ReviewClosedReason'EnumStringRefundedAsFraud
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    ReviewClosedReason'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    ReviewClosedReason'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"approved"@
+    ReviewClosedReason'EnumApproved
+  | -- | Represents the JSON value @"disputed"@
+    ReviewClosedReason'EnumDisputed
+  | -- | Represents the JSON value @"refunded"@
+    ReviewClosedReason'EnumRefunded
+  | -- | Represents the JSON value @"refunded_as_fraud"@
+    ReviewClosedReason'EnumRefundedAsFraud
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
 instance Data.Aeson.Types.ToJSON.ToJSON ReviewClosedReason' where
-  toJSON (ReviewClosedReason'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (ReviewClosedReason'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (ReviewClosedReason'EnumStringApproved) = "approved"
-  toJSON (ReviewClosedReason'EnumStringDisputed) = "disputed"
-  toJSON (ReviewClosedReason'EnumStringRefunded) = "refunded"
-  toJSON (ReviewClosedReason'EnumStringRefundedAsFraud) = "refunded_as_fraud"
+  toJSON (ReviewClosedReason'Other val) = val
+  toJSON (ReviewClosedReason'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (ReviewClosedReason'EnumApproved) = "approved"
+  toJSON (ReviewClosedReason'EnumDisputed) = "disputed"
+  toJSON (ReviewClosedReason'EnumRefunded) = "refunded"
+  toJSON (ReviewClosedReason'EnumRefundedAsFraud) = "refunded_as_fraud"
 
 instance Data.Aeson.Types.FromJSON.FromJSON ReviewClosedReason' where
   parseJSON val =
     GHC.Base.pure
-      ( if  | val GHC.Classes.== "approved" -> ReviewClosedReason'EnumStringApproved
-            | val GHC.Classes.== "disputed" -> ReviewClosedReason'EnumStringDisputed
-            | val GHC.Classes.== "refunded" -> ReviewClosedReason'EnumStringRefunded
-            | val GHC.Classes.== "refunded_as_fraud" -> ReviewClosedReason'EnumStringRefundedAsFraud
-            | GHC.Base.otherwise -> ReviewClosedReason'EnumOther val
+      ( if  | val GHC.Classes.== "approved" -> ReviewClosedReason'EnumApproved
+            | val GHC.Classes.== "disputed" -> ReviewClosedReason'EnumDisputed
+            | val GHC.Classes.== "refunded" -> ReviewClosedReason'EnumRefunded
+            | val GHC.Classes.== "refunded_as_fraud" -> ReviewClosedReason'EnumRefundedAsFraud
+            | GHC.Base.otherwise -> ReviewClosedReason'Other val
       )
 
--- | Defines the data type for the schema reviewIp_address_location\'
+-- | Defines the object schema located at @components.schemas.review.properties.ip_address_location.anyOf@ in the specification.
 --
 -- Information related to the location of the payment. Note that this information is an approximation and attempts to locate the nearest population center - it should not be used to determine a specific address.
 data ReviewIpAddressLocation'
@@ -182,58 +217,52 @@ data ReviewIpAddressLocation'
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON ReviewIpAddressLocation' where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "city" (reviewIpAddressLocation'City obj) : (Data.Aeson..=) "country" (reviewIpAddressLocation'Country obj) : (Data.Aeson..=) "latitude" (reviewIpAddressLocation'Latitude obj) : (Data.Aeson..=) "longitude" (reviewIpAddressLocation'Longitude obj) : (Data.Aeson..=) "region" (reviewIpAddressLocation'Region obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "city" (reviewIpAddressLocation'City obj) GHC.Base.<> ((Data.Aeson..=) "country" (reviewIpAddressLocation'Country obj) GHC.Base.<> ((Data.Aeson..=) "latitude" (reviewIpAddressLocation'Latitude obj) GHC.Base.<> ((Data.Aeson..=) "longitude" (reviewIpAddressLocation'Longitude obj) GHC.Base.<> (Data.Aeson..=) "region" (reviewIpAddressLocation'Region obj)))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("city" Data.Aeson.Types.ToJSON..= reviewIpAddressLocation'City obj : "country" Data.Aeson.Types.ToJSON..= reviewIpAddressLocation'Country obj : "latitude" Data.Aeson.Types.ToJSON..= reviewIpAddressLocation'Latitude obj : "longitude" Data.Aeson.Types.ToJSON..= reviewIpAddressLocation'Longitude obj : "region" Data.Aeson.Types.ToJSON..= reviewIpAddressLocation'Region obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("city" Data.Aeson.Types.ToJSON..= reviewIpAddressLocation'City obj) GHC.Base.<> (("country" Data.Aeson.Types.ToJSON..= reviewIpAddressLocation'Country obj) GHC.Base.<> (("latitude" Data.Aeson.Types.ToJSON..= reviewIpAddressLocation'Latitude obj) GHC.Base.<> (("longitude" Data.Aeson.Types.ToJSON..= reviewIpAddressLocation'Longitude obj) GHC.Base.<> ("region" Data.Aeson.Types.ToJSON..= reviewIpAddressLocation'Region obj)))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON ReviewIpAddressLocation' where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "ReviewIpAddressLocation'" (\obj -> ((((GHC.Base.pure ReviewIpAddressLocation' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "city")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "country")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "latitude")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "longitude")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "region"))
 
--- | Defines the enum schema reviewObject\'
---
--- String representing the object\'s type. Objects of the same type share the same value.
-data ReviewObject'
-  = ReviewObject'EnumOther Data.Aeson.Types.Internal.Value
-  | ReviewObject'EnumTyped Data.Text.Internal.Text
-  | ReviewObject'EnumStringReview
-  deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Create a new 'ReviewIpAddressLocation'' with all required fields.
+mkReviewIpAddressLocation' :: ReviewIpAddressLocation'
+mkReviewIpAddressLocation' =
+  ReviewIpAddressLocation'
+    { reviewIpAddressLocation'City = GHC.Maybe.Nothing,
+      reviewIpAddressLocation'Country = GHC.Maybe.Nothing,
+      reviewIpAddressLocation'Latitude = GHC.Maybe.Nothing,
+      reviewIpAddressLocation'Longitude = GHC.Maybe.Nothing,
+      reviewIpAddressLocation'Region = GHC.Maybe.Nothing
+    }
 
-instance Data.Aeson.Types.ToJSON.ToJSON ReviewObject' where
-  toJSON (ReviewObject'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (ReviewObject'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (ReviewObject'EnumStringReview) = "review"
-
-instance Data.Aeson.Types.FromJSON.FromJSON ReviewObject' where
-  parseJSON val =
-    GHC.Base.pure
-      ( if  | val GHC.Classes.== "review" -> ReviewObject'EnumStringReview
-            | GHC.Base.otherwise -> ReviewObject'EnumOther val
-      )
-
--- | Defines the enum schema reviewOpened_reason\'
+-- | Defines the enum schema located at @components.schemas.review.properties.opened_reason@ in the specification.
 --
 -- The reason the review was opened. One of \`rule\` or \`manual\`.
 data ReviewOpenedReason'
-  = ReviewOpenedReason'EnumOther Data.Aeson.Types.Internal.Value
-  | ReviewOpenedReason'EnumTyped Data.Text.Internal.Text
-  | ReviewOpenedReason'EnumStringManual
-  | ReviewOpenedReason'EnumStringRule
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    ReviewOpenedReason'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    ReviewOpenedReason'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"manual"@
+    ReviewOpenedReason'EnumManual
+  | -- | Represents the JSON value @"rule"@
+    ReviewOpenedReason'EnumRule
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
 instance Data.Aeson.Types.ToJSON.ToJSON ReviewOpenedReason' where
-  toJSON (ReviewOpenedReason'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (ReviewOpenedReason'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (ReviewOpenedReason'EnumStringManual) = "manual"
-  toJSON (ReviewOpenedReason'EnumStringRule) = "rule"
+  toJSON (ReviewOpenedReason'Other val) = val
+  toJSON (ReviewOpenedReason'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (ReviewOpenedReason'EnumManual) = "manual"
+  toJSON (ReviewOpenedReason'EnumRule) = "rule"
 
 instance Data.Aeson.Types.FromJSON.FromJSON ReviewOpenedReason' where
   parseJSON val =
     GHC.Base.pure
-      ( if  | val GHC.Classes.== "manual" -> ReviewOpenedReason'EnumStringManual
-            | val GHC.Classes.== "rule" -> ReviewOpenedReason'EnumStringRule
-            | GHC.Base.otherwise -> ReviewOpenedReason'EnumOther val
+      ( if  | val GHC.Classes.== "manual" -> ReviewOpenedReason'EnumManual
+            | val GHC.Classes.== "rule" -> ReviewOpenedReason'EnumRule
+            | GHC.Base.otherwise -> ReviewOpenedReason'Other val
       )
 
--- | Define the one-of schema reviewPayment_intent\'
+-- | Defines the oneOf schema located at @components.schemas.review.properties.payment_intent.anyOf@ in the specification.
 --
 -- The PaymentIntent ID associated with this review, if one exists.
 data ReviewPaymentIntent'Variants
@@ -246,13 +275,11 @@ instance Data.Aeson.Types.ToJSON.ToJSON ReviewPaymentIntent'Variants where
   toJSON (ReviewPaymentIntent'Text a) = Data.Aeson.Types.ToJSON.toJSON a
 
 instance Data.Aeson.Types.FromJSON.FromJSON ReviewPaymentIntent'Variants where
-  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
-    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ ReviewPaymentIntent'PaymentIntent a
-    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ ReviewPaymentIntent'Text a
-      Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+  parseJSON val = case (ReviewPaymentIntent'PaymentIntent Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((ReviewPaymentIntent'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched") of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+    Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
--- | Defines the data type for the schema reviewSession\'
+-- | Defines the object schema located at @components.schemas.review.properties.session.anyOf@ in the specification.
 --
 -- Information related to the browsing session of the user who initiated the payment.
 data ReviewSession'
@@ -288,8 +315,18 @@ data ReviewSession'
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON ReviewSession' where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "browser" (reviewSession'Browser obj) : (Data.Aeson..=) "device" (reviewSession'Device obj) : (Data.Aeson..=) "platform" (reviewSession'Platform obj) : (Data.Aeson..=) "version" (reviewSession'Version obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "browser" (reviewSession'Browser obj) GHC.Base.<> ((Data.Aeson..=) "device" (reviewSession'Device obj) GHC.Base.<> ((Data.Aeson..=) "platform" (reviewSession'Platform obj) GHC.Base.<> (Data.Aeson..=) "version" (reviewSession'Version obj))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("browser" Data.Aeson.Types.ToJSON..= reviewSession'Browser obj : "device" Data.Aeson.Types.ToJSON..= reviewSession'Device obj : "platform" Data.Aeson.Types.ToJSON..= reviewSession'Platform obj : "version" Data.Aeson.Types.ToJSON..= reviewSession'Version obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("browser" Data.Aeson.Types.ToJSON..= reviewSession'Browser obj) GHC.Base.<> (("device" Data.Aeson.Types.ToJSON..= reviewSession'Device obj) GHC.Base.<> (("platform" Data.Aeson.Types.ToJSON..= reviewSession'Platform obj) GHC.Base.<> ("version" Data.Aeson.Types.ToJSON..= reviewSession'Version obj))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON ReviewSession' where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "ReviewSession'" (\obj -> (((GHC.Base.pure ReviewSession' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "browser")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "device")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "platform")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "version"))
+
+-- | Create a new 'ReviewSession'' with all required fields.
+mkReviewSession' :: ReviewSession'
+mkReviewSession' =
+  ReviewSession'
+    { reviewSession'Browser = GHC.Maybe.Nothing,
+      reviewSession'Device = GHC.Maybe.Nothing,
+      reviewSession'Platform = GHC.Maybe.Nothing,
+      reviewSession'Version = GHC.Maybe.Nothing
+    }

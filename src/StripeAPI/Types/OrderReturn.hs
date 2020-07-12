@@ -8,6 +8,7 @@ module StripeAPI.Types.OrderReturn where
 
 import qualified Control.Monad.Fail
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -33,7 +34,7 @@ import {-# SOURCE #-} StripeAPI.Types.Refund
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
--- | Defines the data type for the schema order_return
+-- | Defines the object schema located at @components.schemas.order_return@ in the specification.
 --
 -- A return represents the full or partial return of a number of [order items](https:\/\/stripe.com\/docs\/api\#order_items).
 -- Returns always belong to an order, and may optionally contain a refund.
@@ -57,8 +58,6 @@ data OrderReturn
         orderReturnItems :: ([OrderItem]),
         -- | livemode: Has the value \`true\` if the object exists in live mode or the value \`false\` if the object exists in test mode.
         orderReturnLivemode :: GHC.Types.Bool,
-        -- | object: String representing the object\'s type. Objects of the same type share the same value.
-        orderReturnObject :: OrderReturnObject',
         -- | order: The order that this return includes items from.
         orderReturnOrder :: (GHC.Maybe.Maybe OrderReturnOrder'Variants),
         -- | refund: The ID of the refund issued for this return.
@@ -70,34 +69,40 @@ data OrderReturn
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON OrderReturn where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "amount" (orderReturnAmount obj) : (Data.Aeson..=) "created" (orderReturnCreated obj) : (Data.Aeson..=) "currency" (orderReturnCurrency obj) : (Data.Aeson..=) "id" (orderReturnId obj) : (Data.Aeson..=) "items" (orderReturnItems obj) : (Data.Aeson..=) "livemode" (orderReturnLivemode obj) : (Data.Aeson..=) "object" (orderReturnObject obj) : (Data.Aeson..=) "order" (orderReturnOrder obj) : (Data.Aeson..=) "refund" (orderReturnRefund obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "amount" (orderReturnAmount obj) GHC.Base.<> ((Data.Aeson..=) "created" (orderReturnCreated obj) GHC.Base.<> ((Data.Aeson..=) "currency" (orderReturnCurrency obj) GHC.Base.<> ((Data.Aeson..=) "id" (orderReturnId obj) GHC.Base.<> ((Data.Aeson..=) "items" (orderReturnItems obj) GHC.Base.<> ((Data.Aeson..=) "livemode" (orderReturnLivemode obj) GHC.Base.<> ((Data.Aeson..=) "object" (orderReturnObject obj) GHC.Base.<> ((Data.Aeson..=) "order" (orderReturnOrder obj) GHC.Base.<> (Data.Aeson..=) "refund" (orderReturnRefund obj)))))))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("amount" Data.Aeson.Types.ToJSON..= orderReturnAmount obj : "created" Data.Aeson.Types.ToJSON..= orderReturnCreated obj : "currency" Data.Aeson.Types.ToJSON..= orderReturnCurrency obj : "id" Data.Aeson.Types.ToJSON..= orderReturnId obj : "items" Data.Aeson.Types.ToJSON..= orderReturnItems obj : "livemode" Data.Aeson.Types.ToJSON..= orderReturnLivemode obj : "order" Data.Aeson.Types.ToJSON..= orderReturnOrder obj : "refund" Data.Aeson.Types.ToJSON..= orderReturnRefund obj : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "order_return" : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("amount" Data.Aeson.Types.ToJSON..= orderReturnAmount obj) GHC.Base.<> (("created" Data.Aeson.Types.ToJSON..= orderReturnCreated obj) GHC.Base.<> (("currency" Data.Aeson.Types.ToJSON..= orderReturnCurrency obj) GHC.Base.<> (("id" Data.Aeson.Types.ToJSON..= orderReturnId obj) GHC.Base.<> (("items" Data.Aeson.Types.ToJSON..= orderReturnItems obj) GHC.Base.<> (("livemode" Data.Aeson.Types.ToJSON..= orderReturnLivemode obj) GHC.Base.<> (("order" Data.Aeson.Types.ToJSON..= orderReturnOrder obj) GHC.Base.<> (("refund" Data.Aeson.Types.ToJSON..= orderReturnRefund obj) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "order_return")))))))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON OrderReturn where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "OrderReturn" (\obj -> ((((((((GHC.Base.pure OrderReturn GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "created")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "items")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "livemode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "object")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "order")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "refund"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "OrderReturn" (\obj -> (((((((GHC.Base.pure OrderReturn GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "created")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "items")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "livemode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "order")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "refund"))
 
--- | Defines the enum schema order_returnObject\'
---
--- String representing the object\'s type. Objects of the same type share the same value.
-data OrderReturnObject'
-  = OrderReturnObject'EnumOther Data.Aeson.Types.Internal.Value
-  | OrderReturnObject'EnumTyped Data.Text.Internal.Text
-  | OrderReturnObject'EnumStringOrderReturn
-  deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Create a new 'OrderReturn' with all required fields.
+mkOrderReturn ::
+  -- | 'orderReturnAmount'
+  GHC.Types.Int ->
+  -- | 'orderReturnCreated'
+  GHC.Types.Int ->
+  -- | 'orderReturnCurrency'
+  Data.Text.Internal.Text ->
+  -- | 'orderReturnId'
+  Data.Text.Internal.Text ->
+  -- | 'orderReturnItems'
+  [OrderItem] ->
+  -- | 'orderReturnLivemode'
+  GHC.Types.Bool ->
+  OrderReturn
+mkOrderReturn orderReturnAmount orderReturnCreated orderReturnCurrency orderReturnId orderReturnItems orderReturnLivemode =
+  OrderReturn
+    { orderReturnAmount = orderReturnAmount,
+      orderReturnCreated = orderReturnCreated,
+      orderReturnCurrency = orderReturnCurrency,
+      orderReturnId = orderReturnId,
+      orderReturnItems = orderReturnItems,
+      orderReturnLivemode = orderReturnLivemode,
+      orderReturnOrder = GHC.Maybe.Nothing,
+      orderReturnRefund = GHC.Maybe.Nothing
+    }
 
-instance Data.Aeson.Types.ToJSON.ToJSON OrderReturnObject' where
-  toJSON (OrderReturnObject'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (OrderReturnObject'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (OrderReturnObject'EnumStringOrderReturn) = "order_return"
-
-instance Data.Aeson.Types.FromJSON.FromJSON OrderReturnObject' where
-  parseJSON val =
-    GHC.Base.pure
-      ( if  | val GHC.Classes.== "order_return" -> OrderReturnObject'EnumStringOrderReturn
-            | GHC.Base.otherwise -> OrderReturnObject'EnumOther val
-      )
-
--- | Define the one-of schema order_returnOrder\'
+-- | Defines the oneOf schema located at @components.schemas.order_return.properties.order.anyOf@ in the specification.
 --
 -- The order that this return includes items from.
 data OrderReturnOrder'Variants
@@ -110,13 +115,11 @@ instance Data.Aeson.Types.ToJSON.ToJSON OrderReturnOrder'Variants where
   toJSON (OrderReturnOrder'Text a) = Data.Aeson.Types.ToJSON.toJSON a
 
 instance Data.Aeson.Types.FromJSON.FromJSON OrderReturnOrder'Variants where
-  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
-    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ OrderReturnOrder'Order a
-    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ OrderReturnOrder'Text a
-      Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+  parseJSON val = case (OrderReturnOrder'Order Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((OrderReturnOrder'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched") of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+    Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
--- | Define the one-of schema order_returnRefund\'
+-- | Defines the oneOf schema located at @components.schemas.order_return.properties.refund.anyOf@ in the specification.
 --
 -- The ID of the refund issued for this return.
 data OrderReturnRefund'Variants
@@ -129,8 +132,6 @@ instance Data.Aeson.Types.ToJSON.ToJSON OrderReturnRefund'Variants where
   toJSON (OrderReturnRefund'Text a) = Data.Aeson.Types.ToJSON.toJSON a
 
 instance Data.Aeson.Types.FromJSON.FromJSON OrderReturnRefund'Variants where
-  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
-    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ OrderReturnRefund'Refund a
-    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ OrderReturnRefund'Text a
-      Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+  parseJSON val = case (OrderReturnRefund'Refund Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((OrderReturnRefund'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched") of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+    Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a

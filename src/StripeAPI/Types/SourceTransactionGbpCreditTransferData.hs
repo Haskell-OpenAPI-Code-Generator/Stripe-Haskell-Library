@@ -8,6 +8,7 @@ module StripeAPI.Types.SourceTransactionGbpCreditTransferData where
 
 import qualified Control.Monad.Fail
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -30,7 +31,7 @@ import StripeAPI.TypeAlias
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
--- | Defines the data type for the schema source_transaction_gbp_credit_transfer_data
+-- | Defines the object schema located at @components.schemas.source_transaction_gbp_credit_transfer_data@ in the specification.
 data SourceTransactionGbpCreditTransferData
   = SourceTransactionGbpCreditTransferData
       { -- | fingerprint: Bank account fingerprint associated with the Stripe owned bank account receiving the transfer.
@@ -82,8 +83,21 @@ data SourceTransactionGbpCreditTransferData
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON SourceTransactionGbpCreditTransferData where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "fingerprint" (sourceTransactionGbpCreditTransferDataFingerprint obj) : (Data.Aeson..=) "funding_method" (sourceTransactionGbpCreditTransferDataFundingMethod obj) : (Data.Aeson..=) "last4" (sourceTransactionGbpCreditTransferDataLast4 obj) : (Data.Aeson..=) "reference" (sourceTransactionGbpCreditTransferDataReference obj) : (Data.Aeson..=) "sender_account_number" (sourceTransactionGbpCreditTransferDataSenderAccountNumber obj) : (Data.Aeson..=) "sender_name" (sourceTransactionGbpCreditTransferDataSenderName obj) : (Data.Aeson..=) "sender_sort_code" (sourceTransactionGbpCreditTransferDataSenderSortCode obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "fingerprint" (sourceTransactionGbpCreditTransferDataFingerprint obj) GHC.Base.<> ((Data.Aeson..=) "funding_method" (sourceTransactionGbpCreditTransferDataFundingMethod obj) GHC.Base.<> ((Data.Aeson..=) "last4" (sourceTransactionGbpCreditTransferDataLast4 obj) GHC.Base.<> ((Data.Aeson..=) "reference" (sourceTransactionGbpCreditTransferDataReference obj) GHC.Base.<> ((Data.Aeson..=) "sender_account_number" (sourceTransactionGbpCreditTransferDataSenderAccountNumber obj) GHC.Base.<> ((Data.Aeson..=) "sender_name" (sourceTransactionGbpCreditTransferDataSenderName obj) GHC.Base.<> (Data.Aeson..=) "sender_sort_code" (sourceTransactionGbpCreditTransferDataSenderSortCode obj)))))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("fingerprint" Data.Aeson.Types.ToJSON..= sourceTransactionGbpCreditTransferDataFingerprint obj : "funding_method" Data.Aeson.Types.ToJSON..= sourceTransactionGbpCreditTransferDataFundingMethod obj : "last4" Data.Aeson.Types.ToJSON..= sourceTransactionGbpCreditTransferDataLast4 obj : "reference" Data.Aeson.Types.ToJSON..= sourceTransactionGbpCreditTransferDataReference obj : "sender_account_number" Data.Aeson.Types.ToJSON..= sourceTransactionGbpCreditTransferDataSenderAccountNumber obj : "sender_name" Data.Aeson.Types.ToJSON..= sourceTransactionGbpCreditTransferDataSenderName obj : "sender_sort_code" Data.Aeson.Types.ToJSON..= sourceTransactionGbpCreditTransferDataSenderSortCode obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("fingerprint" Data.Aeson.Types.ToJSON..= sourceTransactionGbpCreditTransferDataFingerprint obj) GHC.Base.<> (("funding_method" Data.Aeson.Types.ToJSON..= sourceTransactionGbpCreditTransferDataFundingMethod obj) GHC.Base.<> (("last4" Data.Aeson.Types.ToJSON..= sourceTransactionGbpCreditTransferDataLast4 obj) GHC.Base.<> (("reference" Data.Aeson.Types.ToJSON..= sourceTransactionGbpCreditTransferDataReference obj) GHC.Base.<> (("sender_account_number" Data.Aeson.Types.ToJSON..= sourceTransactionGbpCreditTransferDataSenderAccountNumber obj) GHC.Base.<> (("sender_name" Data.Aeson.Types.ToJSON..= sourceTransactionGbpCreditTransferDataSenderName obj) GHC.Base.<> ("sender_sort_code" Data.Aeson.Types.ToJSON..= sourceTransactionGbpCreditTransferDataSenderSortCode obj)))))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON SourceTransactionGbpCreditTransferData where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "SourceTransactionGbpCreditTransferData" (\obj -> ((((((GHC.Base.pure SourceTransactionGbpCreditTransferData GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "fingerprint")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "funding_method")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "last4")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "reference")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "sender_account_number")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "sender_name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "sender_sort_code"))
+
+-- | Create a new 'SourceTransactionGbpCreditTransferData' with all required fields.
+mkSourceTransactionGbpCreditTransferData :: SourceTransactionGbpCreditTransferData
+mkSourceTransactionGbpCreditTransferData =
+  SourceTransactionGbpCreditTransferData
+    { sourceTransactionGbpCreditTransferDataFingerprint = GHC.Maybe.Nothing,
+      sourceTransactionGbpCreditTransferDataFundingMethod = GHC.Maybe.Nothing,
+      sourceTransactionGbpCreditTransferDataLast4 = GHC.Maybe.Nothing,
+      sourceTransactionGbpCreditTransferDataReference = GHC.Maybe.Nothing,
+      sourceTransactionGbpCreditTransferDataSenderAccountNumber = GHC.Maybe.Nothing,
+      sourceTransactionGbpCreditTransferDataSenderName = GHC.Maybe.Nothing,
+      sourceTransactionGbpCreditTransferDataSenderSortCode = GHC.Maybe.Nothing
+    }

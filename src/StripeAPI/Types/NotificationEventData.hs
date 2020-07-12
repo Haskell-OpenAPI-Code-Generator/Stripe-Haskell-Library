@@ -8,6 +8,7 @@ module StripeAPI.Types.NotificationEventData where
 
 import qualified Control.Monad.Fail
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -30,7 +31,7 @@ import StripeAPI.TypeAlias
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
--- | Defines the data type for the schema notification_event_data
+-- | Defines the object schema located at @components.schemas.notification_event_data@ in the specification.
 data NotificationEventData
   = NotificationEventData
       { -- | object: Object containing the API resource relevant to the event. For example, an \`invoice.created\` event will have a full [invoice object](https:\/\/stripe.com\/docs\/api\#invoice_object) as the value of the object key.
@@ -44,8 +45,19 @@ data NotificationEventData
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON NotificationEventData where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "object" (notificationEventDataObject obj) : (Data.Aeson..=) "previous_attributes" (notificationEventDataPreviousAttributes obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "object" (notificationEventDataObject obj) GHC.Base.<> (Data.Aeson..=) "previous_attributes" (notificationEventDataPreviousAttributes obj))
+  toJSON obj = Data.Aeson.Types.Internal.object ("object" Data.Aeson.Types.ToJSON..= notificationEventDataObject obj : "previous_attributes" Data.Aeson.Types.ToJSON..= notificationEventDataPreviousAttributes obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("object" Data.Aeson.Types.ToJSON..= notificationEventDataObject obj) GHC.Base.<> ("previous_attributes" Data.Aeson.Types.ToJSON..= notificationEventDataPreviousAttributes obj))
 
 instance Data.Aeson.Types.FromJSON.FromJSON NotificationEventData where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "NotificationEventData" (\obj -> (GHC.Base.pure NotificationEventData GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "object")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "previous_attributes"))
+
+-- | Create a new 'NotificationEventData' with all required fields.
+mkNotificationEventData ::
+  -- | 'notificationEventDataObject'
+  Data.Aeson.Types.Internal.Object ->
+  NotificationEventData
+mkNotificationEventData notificationEventDataObject =
+  NotificationEventData
+    { notificationEventDataObject = notificationEventDataObject,
+      notificationEventDataPreviousAttributes = GHC.Maybe.Nothing
+    }

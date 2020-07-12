@@ -1,11 +1,11 @@
 module StripeAPI.Types.PaymentMethodDetailsBancontact where
 import Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Types.Internal
-data PaymentMethodDetailsBancontact 
-instance Show PaymentMethodDetailsBancontact 
-instance Eq PaymentMethodDetailsBancontact 
-instance FromJSON PaymentMethodDetailsBancontact 
-instance ToJSON PaymentMethodDetailsBancontact 
+data PaymentMethodDetailsBancontact
+instance Show PaymentMethodDetailsBancontact
+instance Eq PaymentMethodDetailsBancontact
+instance FromJSON PaymentMethodDetailsBancontact
+instance ToJSON PaymentMethodDetailsBancontact
 data PaymentMethodDetailsBancontactPreferredLanguage'
 instance Show PaymentMethodDetailsBancontactPreferredLanguage'
 instance Eq PaymentMethodDetailsBancontactPreferredLanguage'

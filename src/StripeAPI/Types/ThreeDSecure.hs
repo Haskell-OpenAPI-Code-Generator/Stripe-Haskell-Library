@@ -8,6 +8,7 @@ module StripeAPI.Types.ThreeDSecure where
 
 import qualified Control.Monad.Fail
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -31,7 +32,7 @@ import {-# SOURCE #-} StripeAPI.Types.Card
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
--- | Defines the data type for the schema three_d_secure
+-- | Defines the object schema located at @components.schemas.three_d_secure@ in the specification.
 --
 -- Cardholder authentication via 3D Secure is initiated by creating a \`3D Secure\`
 -- object. Once the object has been created, you can use it to authenticate the
@@ -64,8 +65,6 @@ data ThreeDSecure
         threeDSecureId :: Data.Text.Internal.Text,
         -- | livemode: Has the value \`true\` if the object exists in live mode or the value \`false\` if the object exists in test mode.
         threeDSecureLivemode :: GHC.Types.Bool,
-        -- | object: String representing the object\'s type. Objects of the same type share the same value.
-        threeDSecureObject :: ThreeDSecureObject',
         -- | redirect_url: If present, this is the URL that you should send the cardholder to for authentication. If you are going to use Stripe.js to display the authentication page in an iframe, you should use the value \"_callback\".
         --
         -- Constraints:
@@ -85,29 +84,40 @@ data ThreeDSecure
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON ThreeDSecure where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "amount" (threeDSecureAmount obj) : (Data.Aeson..=) "authenticated" (threeDSecureAuthenticated obj) : (Data.Aeson..=) "card" (threeDSecureCard obj) : (Data.Aeson..=) "created" (threeDSecureCreated obj) : (Data.Aeson..=) "currency" (threeDSecureCurrency obj) : (Data.Aeson..=) "id" (threeDSecureId obj) : (Data.Aeson..=) "livemode" (threeDSecureLivemode obj) : (Data.Aeson..=) "object" (threeDSecureObject obj) : (Data.Aeson..=) "redirect_url" (threeDSecureRedirectUrl obj) : (Data.Aeson..=) "status" (threeDSecureStatus obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "amount" (threeDSecureAmount obj) GHC.Base.<> ((Data.Aeson..=) "authenticated" (threeDSecureAuthenticated obj) GHC.Base.<> ((Data.Aeson..=) "card" (threeDSecureCard obj) GHC.Base.<> ((Data.Aeson..=) "created" (threeDSecureCreated obj) GHC.Base.<> ((Data.Aeson..=) "currency" (threeDSecureCurrency obj) GHC.Base.<> ((Data.Aeson..=) "id" (threeDSecureId obj) GHC.Base.<> ((Data.Aeson..=) "livemode" (threeDSecureLivemode obj) GHC.Base.<> ((Data.Aeson..=) "object" (threeDSecureObject obj) GHC.Base.<> ((Data.Aeson..=) "redirect_url" (threeDSecureRedirectUrl obj) GHC.Base.<> (Data.Aeson..=) "status" (threeDSecureStatus obj))))))))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("amount" Data.Aeson.Types.ToJSON..= threeDSecureAmount obj : "authenticated" Data.Aeson.Types.ToJSON..= threeDSecureAuthenticated obj : "card" Data.Aeson.Types.ToJSON..= threeDSecureCard obj : "created" Data.Aeson.Types.ToJSON..= threeDSecureCreated obj : "currency" Data.Aeson.Types.ToJSON..= threeDSecureCurrency obj : "id" Data.Aeson.Types.ToJSON..= threeDSecureId obj : "livemode" Data.Aeson.Types.ToJSON..= threeDSecureLivemode obj : "redirect_url" Data.Aeson.Types.ToJSON..= threeDSecureRedirectUrl obj : "status" Data.Aeson.Types.ToJSON..= threeDSecureStatus obj : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "three_d_secure" : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("amount" Data.Aeson.Types.ToJSON..= threeDSecureAmount obj) GHC.Base.<> (("authenticated" Data.Aeson.Types.ToJSON..= threeDSecureAuthenticated obj) GHC.Base.<> (("card" Data.Aeson.Types.ToJSON..= threeDSecureCard obj) GHC.Base.<> (("created" Data.Aeson.Types.ToJSON..= threeDSecureCreated obj) GHC.Base.<> (("currency" Data.Aeson.Types.ToJSON..= threeDSecureCurrency obj) GHC.Base.<> (("id" Data.Aeson.Types.ToJSON..= threeDSecureId obj) GHC.Base.<> (("livemode" Data.Aeson.Types.ToJSON..= threeDSecureLivemode obj) GHC.Base.<> (("redirect_url" Data.Aeson.Types.ToJSON..= threeDSecureRedirectUrl obj) GHC.Base.<> (("status" Data.Aeson.Types.ToJSON..= threeDSecureStatus obj) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "three_d_secure"))))))))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON ThreeDSecure where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "ThreeDSecure" (\obj -> (((((((((GHC.Base.pure ThreeDSecure GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "authenticated")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "card")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "created")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "livemode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "object")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "redirect_url")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "status"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "ThreeDSecure" (\obj -> ((((((((GHC.Base.pure ThreeDSecure GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "authenticated")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "card")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "created")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "livemode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "redirect_url")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "status"))
 
--- | Defines the enum schema three_d_secureObject\'
---
--- String representing the object\'s type. Objects of the same type share the same value.
-data ThreeDSecureObject'
-  = ThreeDSecureObject'EnumOther Data.Aeson.Types.Internal.Value
-  | ThreeDSecureObject'EnumTyped Data.Text.Internal.Text
-  | ThreeDSecureObject'EnumStringThreeDSecure
-  deriving (GHC.Show.Show, GHC.Classes.Eq)
-
-instance Data.Aeson.Types.ToJSON.ToJSON ThreeDSecureObject' where
-  toJSON (ThreeDSecureObject'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (ThreeDSecureObject'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (ThreeDSecureObject'EnumStringThreeDSecure) = "three_d_secure"
-
-instance Data.Aeson.Types.FromJSON.FromJSON ThreeDSecureObject' where
-  parseJSON val =
-    GHC.Base.pure
-      ( if  | val GHC.Classes.== "three_d_secure" -> ThreeDSecureObject'EnumStringThreeDSecure
-            | GHC.Base.otherwise -> ThreeDSecureObject'EnumOther val
-      )
+-- | Create a new 'ThreeDSecure' with all required fields.
+mkThreeDSecure ::
+  -- | 'threeDSecureAmount'
+  GHC.Types.Int ->
+  -- | 'threeDSecureAuthenticated'
+  GHC.Types.Bool ->
+  -- | 'threeDSecureCard'
+  Card ->
+  -- | 'threeDSecureCreated'
+  GHC.Types.Int ->
+  -- | 'threeDSecureCurrency'
+  Data.Text.Internal.Text ->
+  -- | 'threeDSecureId'
+  Data.Text.Internal.Text ->
+  -- | 'threeDSecureLivemode'
+  GHC.Types.Bool ->
+  -- | 'threeDSecureStatus'
+  Data.Text.Internal.Text ->
+  ThreeDSecure
+mkThreeDSecure threeDSecureAmount threeDSecureAuthenticated threeDSecureCard threeDSecureCreated threeDSecureCurrency threeDSecureId threeDSecureLivemode threeDSecureStatus =
+  ThreeDSecure
+    { threeDSecureAmount = threeDSecureAmount,
+      threeDSecureAuthenticated = threeDSecureAuthenticated,
+      threeDSecureCard = threeDSecureCard,
+      threeDSecureCreated = threeDSecureCreated,
+      threeDSecureCurrency = threeDSecureCurrency,
+      threeDSecureId = threeDSecureId,
+      threeDSecureLivemode = threeDSecureLivemode,
+      threeDSecureRedirectUrl = GHC.Maybe.Nothing,
+      threeDSecureStatus = threeDSecureStatus
+    }

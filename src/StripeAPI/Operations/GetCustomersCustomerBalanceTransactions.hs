@@ -10,6 +10,7 @@ module StripeAPI.Operations.GetCustomersCustomerBalanceTransactions where
 import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -85,7 +86,7 @@ getCustomersCustomerBalanceTransactions parameters =
         ]
     )
 
--- | Defines the data type for the schema getCustomersCustomerBalanceTransactionsParameters
+-- | Defines the object schema located at @paths.\/v1\/customers\/{customer}\/balance_transactions.GET.parameters@ in the specification.
 data GetCustomersCustomerBalanceTransactionsParameters
   = GetCustomersCustomerBalanceTransactionsParameters
       { -- | pathCustomer: Represents the parameter named \'customer\'
@@ -125,11 +126,25 @@ data GetCustomersCustomerBalanceTransactionsParameters
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetCustomersCustomerBalanceTransactionsParameters where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "pathCustomer" (getCustomersCustomerBalanceTransactionsParametersPathCustomer obj) : (Data.Aeson..=) "queryEnding_before" (getCustomersCustomerBalanceTransactionsParametersQueryEndingBefore obj) : (Data.Aeson..=) "queryExpand" (getCustomersCustomerBalanceTransactionsParametersQueryExpand obj) : (Data.Aeson..=) "queryLimit" (getCustomersCustomerBalanceTransactionsParametersQueryLimit obj) : (Data.Aeson..=) "queryStarting_after" (getCustomersCustomerBalanceTransactionsParametersQueryStartingAfter obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "pathCustomer" (getCustomersCustomerBalanceTransactionsParametersPathCustomer obj) GHC.Base.<> ((Data.Aeson..=) "queryEnding_before" (getCustomersCustomerBalanceTransactionsParametersQueryEndingBefore obj) GHC.Base.<> ((Data.Aeson..=) "queryExpand" (getCustomersCustomerBalanceTransactionsParametersQueryExpand obj) GHC.Base.<> ((Data.Aeson..=) "queryLimit" (getCustomersCustomerBalanceTransactionsParametersQueryLimit obj) GHC.Base.<> (Data.Aeson..=) "queryStarting_after" (getCustomersCustomerBalanceTransactionsParametersQueryStartingAfter obj)))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("pathCustomer" Data.Aeson.Types.ToJSON..= getCustomersCustomerBalanceTransactionsParametersPathCustomer obj : "queryEnding_before" Data.Aeson.Types.ToJSON..= getCustomersCustomerBalanceTransactionsParametersQueryEndingBefore obj : "queryExpand" Data.Aeson.Types.ToJSON..= getCustomersCustomerBalanceTransactionsParametersQueryExpand obj : "queryLimit" Data.Aeson.Types.ToJSON..= getCustomersCustomerBalanceTransactionsParametersQueryLimit obj : "queryStarting_after" Data.Aeson.Types.ToJSON..= getCustomersCustomerBalanceTransactionsParametersQueryStartingAfter obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("pathCustomer" Data.Aeson.Types.ToJSON..= getCustomersCustomerBalanceTransactionsParametersPathCustomer obj) GHC.Base.<> (("queryEnding_before" Data.Aeson.Types.ToJSON..= getCustomersCustomerBalanceTransactionsParametersQueryEndingBefore obj) GHC.Base.<> (("queryExpand" Data.Aeson.Types.ToJSON..= getCustomersCustomerBalanceTransactionsParametersQueryExpand obj) GHC.Base.<> (("queryLimit" Data.Aeson.Types.ToJSON..= getCustomersCustomerBalanceTransactionsParametersQueryLimit obj) GHC.Base.<> ("queryStarting_after" Data.Aeson.Types.ToJSON..= getCustomersCustomerBalanceTransactionsParametersQueryStartingAfter obj)))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetCustomersCustomerBalanceTransactionsParameters where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "GetCustomersCustomerBalanceTransactionsParameters" (\obj -> ((((GHC.Base.pure GetCustomersCustomerBalanceTransactionsParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathCustomer")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryEnding_before")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryExpand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryLimit")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryStarting_after"))
+
+-- | Create a new 'GetCustomersCustomerBalanceTransactionsParameters' with all required fields.
+mkGetCustomersCustomerBalanceTransactionsParameters ::
+  -- | 'getCustomersCustomerBalanceTransactionsParametersPathCustomer'
+  Data.Text.Internal.Text ->
+  GetCustomersCustomerBalanceTransactionsParameters
+mkGetCustomersCustomerBalanceTransactionsParameters getCustomersCustomerBalanceTransactionsParametersPathCustomer =
+  GetCustomersCustomerBalanceTransactionsParameters
+    { getCustomersCustomerBalanceTransactionsParametersPathCustomer = getCustomersCustomerBalanceTransactionsParametersPathCustomer,
+      getCustomersCustomerBalanceTransactionsParametersQueryEndingBefore = GHC.Maybe.Nothing,
+      getCustomersCustomerBalanceTransactionsParametersQueryExpand = GHC.Maybe.Nothing,
+      getCustomersCustomerBalanceTransactionsParametersQueryLimit = GHC.Maybe.Nothing,
+      getCustomersCustomerBalanceTransactionsParametersQueryStartingAfter = GHC.Maybe.Nothing
+    }
 
 -- | Represents a response of the operation 'getCustomersCustomerBalanceTransactions'.
 --
@@ -143,15 +158,13 @@ data GetCustomersCustomerBalanceTransactionsResponse
     GetCustomersCustomerBalanceTransactionsResponseDefault Error
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
--- | Defines the data type for the schema GetCustomersCustomerBalanceTransactionsResponseBody200
+-- | Defines the object schema located at @paths.\/v1\/customers\/{customer}\/balance_transactions.GET.responses.200.content.application\/json.schema@ in the specification.
 data GetCustomersCustomerBalanceTransactionsResponseBody200
   = GetCustomersCustomerBalanceTransactionsResponseBody200
       { -- | data: Details about each object.
         getCustomersCustomerBalanceTransactionsResponseBody200Data :: ([CustomerBalanceTransaction]),
         -- | has_more: True if this list has another page of items after this one that can be fetched.
         getCustomersCustomerBalanceTransactionsResponseBody200HasMore :: GHC.Types.Bool,
-        -- | object: String representing the object\'s type. Objects of the same type share the same value. Always has the value \`list\`.
-        getCustomersCustomerBalanceTransactionsResponseBody200Object :: GetCustomersCustomerBalanceTransactionsResponseBody200Object',
         -- | url: The URL where this list can be accessed.
         --
         -- Constraints:
@@ -165,29 +178,24 @@ data GetCustomersCustomerBalanceTransactionsResponseBody200
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetCustomersCustomerBalanceTransactionsResponseBody200 where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "data" (getCustomersCustomerBalanceTransactionsResponseBody200Data obj) : (Data.Aeson..=) "has_more" (getCustomersCustomerBalanceTransactionsResponseBody200HasMore obj) : (Data.Aeson..=) "object" (getCustomersCustomerBalanceTransactionsResponseBody200Object obj) : (Data.Aeson..=) "url" (getCustomersCustomerBalanceTransactionsResponseBody200Url obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "data" (getCustomersCustomerBalanceTransactionsResponseBody200Data obj) GHC.Base.<> ((Data.Aeson..=) "has_more" (getCustomersCustomerBalanceTransactionsResponseBody200HasMore obj) GHC.Base.<> ((Data.Aeson..=) "object" (getCustomersCustomerBalanceTransactionsResponseBody200Object obj) GHC.Base.<> (Data.Aeson..=) "url" (getCustomersCustomerBalanceTransactionsResponseBody200Url obj))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("data" Data.Aeson.Types.ToJSON..= getCustomersCustomerBalanceTransactionsResponseBody200Data obj : "has_more" Data.Aeson.Types.ToJSON..= getCustomersCustomerBalanceTransactionsResponseBody200HasMore obj : "url" Data.Aeson.Types.ToJSON..= getCustomersCustomerBalanceTransactionsResponseBody200Url obj : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "list" : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("data" Data.Aeson.Types.ToJSON..= getCustomersCustomerBalanceTransactionsResponseBody200Data obj) GHC.Base.<> (("has_more" Data.Aeson.Types.ToJSON..= getCustomersCustomerBalanceTransactionsResponseBody200HasMore obj) GHC.Base.<> (("url" Data.Aeson.Types.ToJSON..= getCustomersCustomerBalanceTransactionsResponseBody200Url obj) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "list"))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetCustomersCustomerBalanceTransactionsResponseBody200 where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetCustomersCustomerBalanceTransactionsResponseBody200" (\obj -> (((GHC.Base.pure GetCustomersCustomerBalanceTransactionsResponseBody200 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "has_more")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "object")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "url"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetCustomersCustomerBalanceTransactionsResponseBody200" (\obj -> ((GHC.Base.pure GetCustomersCustomerBalanceTransactionsResponseBody200 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "has_more")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "url"))
 
--- | Defines the enum schema GetCustomersCustomerBalanceTransactionsResponseBody200Object\'
---
--- String representing the object\'s type. Objects of the same type share the same value. Always has the value \`list\`.
-data GetCustomersCustomerBalanceTransactionsResponseBody200Object'
-  = GetCustomersCustomerBalanceTransactionsResponseBody200Object'EnumOther Data.Aeson.Types.Internal.Value
-  | GetCustomersCustomerBalanceTransactionsResponseBody200Object'EnumTyped Data.Text.Internal.Text
-  | GetCustomersCustomerBalanceTransactionsResponseBody200Object'EnumStringList
-  deriving (GHC.Show.Show, GHC.Classes.Eq)
-
-instance Data.Aeson.Types.ToJSON.ToJSON GetCustomersCustomerBalanceTransactionsResponseBody200Object' where
-  toJSON (GetCustomersCustomerBalanceTransactionsResponseBody200Object'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (GetCustomersCustomerBalanceTransactionsResponseBody200Object'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (GetCustomersCustomerBalanceTransactionsResponseBody200Object'EnumStringList) = "list"
-
-instance Data.Aeson.Types.FromJSON.FromJSON GetCustomersCustomerBalanceTransactionsResponseBody200Object' where
-  parseJSON val =
-    GHC.Base.pure
-      ( if  | val GHC.Classes.== "list" -> GetCustomersCustomerBalanceTransactionsResponseBody200Object'EnumStringList
-            | GHC.Base.otherwise -> GetCustomersCustomerBalanceTransactionsResponseBody200Object'EnumOther val
-      )
+-- | Create a new 'GetCustomersCustomerBalanceTransactionsResponseBody200' with all required fields.
+mkGetCustomersCustomerBalanceTransactionsResponseBody200 ::
+  -- | 'getCustomersCustomerBalanceTransactionsResponseBody200Data'
+  [CustomerBalanceTransaction] ->
+  -- | 'getCustomersCustomerBalanceTransactionsResponseBody200HasMore'
+  GHC.Types.Bool ->
+  -- | 'getCustomersCustomerBalanceTransactionsResponseBody200Url'
+  Data.Text.Internal.Text ->
+  GetCustomersCustomerBalanceTransactionsResponseBody200
+mkGetCustomersCustomerBalanceTransactionsResponseBody200 getCustomersCustomerBalanceTransactionsResponseBody200Data getCustomersCustomerBalanceTransactionsResponseBody200HasMore getCustomersCustomerBalanceTransactionsResponseBody200Url =
+  GetCustomersCustomerBalanceTransactionsResponseBody200
+    { getCustomersCustomerBalanceTransactionsResponseBody200Data = getCustomersCustomerBalanceTransactionsResponseBody200Data,
+      getCustomersCustomerBalanceTransactionsResponseBody200HasMore = getCustomersCustomerBalanceTransactionsResponseBody200HasMore,
+      getCustomersCustomerBalanceTransactionsResponseBody200Url = getCustomersCustomerBalanceTransactionsResponseBody200Url
+    }

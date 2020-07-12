@@ -10,6 +10,7 @@ module StripeAPI.Operations.PostTaxRatesTaxRate where
 import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -81,7 +82,7 @@ postTaxRatesTaxRate
       )
       (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack ("/v1/tax_rates/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel taxRate)) GHC.Base.++ ""))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
 
--- | Defines the data type for the schema postTaxRatesTaxRateRequestBody
+-- | Defines the object schema located at @paths.\/v1\/tax_rates\/{tax_rate}.POST.requestBody.content.application\/x-www-form-urlencoded.schema@ in the specification.
 data PostTaxRatesTaxRateRequestBody
   = PostTaxRatesTaxRateRequestBody
       { -- | active: Flag determining whether the tax rate is active or inactive. Inactive tax rates continue to work where they are currently applied however they cannot be used for new applications.
@@ -115,11 +116,23 @@ data PostTaxRatesTaxRateRequestBody
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostTaxRatesTaxRateRequestBody where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "active" (postTaxRatesTaxRateRequestBodyActive obj) : (Data.Aeson..=) "description" (postTaxRatesTaxRateRequestBodyDescription obj) : (Data.Aeson..=) "display_name" (postTaxRatesTaxRateRequestBodyDisplayName obj) : (Data.Aeson..=) "expand" (postTaxRatesTaxRateRequestBodyExpand obj) : (Data.Aeson..=) "jurisdiction" (postTaxRatesTaxRateRequestBodyJurisdiction obj) : (Data.Aeson..=) "metadata" (postTaxRatesTaxRateRequestBodyMetadata obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "active" (postTaxRatesTaxRateRequestBodyActive obj) GHC.Base.<> ((Data.Aeson..=) "description" (postTaxRatesTaxRateRequestBodyDescription obj) GHC.Base.<> ((Data.Aeson..=) "display_name" (postTaxRatesTaxRateRequestBodyDisplayName obj) GHC.Base.<> ((Data.Aeson..=) "expand" (postTaxRatesTaxRateRequestBodyExpand obj) GHC.Base.<> ((Data.Aeson..=) "jurisdiction" (postTaxRatesTaxRateRequestBodyJurisdiction obj) GHC.Base.<> (Data.Aeson..=) "metadata" (postTaxRatesTaxRateRequestBodyMetadata obj))))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("active" Data.Aeson.Types.ToJSON..= postTaxRatesTaxRateRequestBodyActive obj : "description" Data.Aeson.Types.ToJSON..= postTaxRatesTaxRateRequestBodyDescription obj : "display_name" Data.Aeson.Types.ToJSON..= postTaxRatesTaxRateRequestBodyDisplayName obj : "expand" Data.Aeson.Types.ToJSON..= postTaxRatesTaxRateRequestBodyExpand obj : "jurisdiction" Data.Aeson.Types.ToJSON..= postTaxRatesTaxRateRequestBodyJurisdiction obj : "metadata" Data.Aeson.Types.ToJSON..= postTaxRatesTaxRateRequestBodyMetadata obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("active" Data.Aeson.Types.ToJSON..= postTaxRatesTaxRateRequestBodyActive obj) GHC.Base.<> (("description" Data.Aeson.Types.ToJSON..= postTaxRatesTaxRateRequestBodyDescription obj) GHC.Base.<> (("display_name" Data.Aeson.Types.ToJSON..= postTaxRatesTaxRateRequestBodyDisplayName obj) GHC.Base.<> (("expand" Data.Aeson.Types.ToJSON..= postTaxRatesTaxRateRequestBodyExpand obj) GHC.Base.<> (("jurisdiction" Data.Aeson.Types.ToJSON..= postTaxRatesTaxRateRequestBodyJurisdiction obj) GHC.Base.<> ("metadata" Data.Aeson.Types.ToJSON..= postTaxRatesTaxRateRequestBodyMetadata obj))))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostTaxRatesTaxRateRequestBody where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PostTaxRatesTaxRateRequestBody" (\obj -> (((((GHC.Base.pure PostTaxRatesTaxRateRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "active")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "description")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "display_name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "jurisdiction")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "metadata"))
+
+-- | Create a new 'PostTaxRatesTaxRateRequestBody' with all required fields.
+mkPostTaxRatesTaxRateRequestBody :: PostTaxRatesTaxRateRequestBody
+mkPostTaxRatesTaxRateRequestBody =
+  PostTaxRatesTaxRateRequestBody
+    { postTaxRatesTaxRateRequestBodyActive = GHC.Maybe.Nothing,
+      postTaxRatesTaxRateRequestBodyDescription = GHC.Maybe.Nothing,
+      postTaxRatesTaxRateRequestBodyDisplayName = GHC.Maybe.Nothing,
+      postTaxRatesTaxRateRequestBodyExpand = GHC.Maybe.Nothing,
+      postTaxRatesTaxRateRequestBodyJurisdiction = GHC.Maybe.Nothing,
+      postTaxRatesTaxRateRequestBodyMetadata = GHC.Maybe.Nothing
+    }
 
 -- | Represents a response of the operation 'postTaxRatesTaxRate'.
 --

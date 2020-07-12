@@ -10,6 +10,7 @@ module StripeAPI.Operations.GetRadarEarlyFraudWarnings where
 import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -86,7 +87,7 @@ getRadarEarlyFraudWarnings parameters =
         ]
     )
 
--- | Defines the data type for the schema getRadarEarlyFraudWarningsParameters
+-- | Defines the object schema located at @paths.\/v1\/radar\/early_fraud_warnings.GET.parameters@ in the specification.
 data GetRadarEarlyFraudWarningsParameters
   = GetRadarEarlyFraudWarningsParameters
       { -- | queryCharge: Represents the parameter named \'charge\'
@@ -124,11 +125,22 @@ data GetRadarEarlyFraudWarningsParameters
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetRadarEarlyFraudWarningsParameters where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "queryCharge" (getRadarEarlyFraudWarningsParametersQueryCharge obj) : (Data.Aeson..=) "queryEnding_before" (getRadarEarlyFraudWarningsParametersQueryEndingBefore obj) : (Data.Aeson..=) "queryExpand" (getRadarEarlyFraudWarningsParametersQueryExpand obj) : (Data.Aeson..=) "queryLimit" (getRadarEarlyFraudWarningsParametersQueryLimit obj) : (Data.Aeson..=) "queryStarting_after" (getRadarEarlyFraudWarningsParametersQueryStartingAfter obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "queryCharge" (getRadarEarlyFraudWarningsParametersQueryCharge obj) GHC.Base.<> ((Data.Aeson..=) "queryEnding_before" (getRadarEarlyFraudWarningsParametersQueryEndingBefore obj) GHC.Base.<> ((Data.Aeson..=) "queryExpand" (getRadarEarlyFraudWarningsParametersQueryExpand obj) GHC.Base.<> ((Data.Aeson..=) "queryLimit" (getRadarEarlyFraudWarningsParametersQueryLimit obj) GHC.Base.<> (Data.Aeson..=) "queryStarting_after" (getRadarEarlyFraudWarningsParametersQueryStartingAfter obj)))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("queryCharge" Data.Aeson.Types.ToJSON..= getRadarEarlyFraudWarningsParametersQueryCharge obj : "queryEnding_before" Data.Aeson.Types.ToJSON..= getRadarEarlyFraudWarningsParametersQueryEndingBefore obj : "queryExpand" Data.Aeson.Types.ToJSON..= getRadarEarlyFraudWarningsParametersQueryExpand obj : "queryLimit" Data.Aeson.Types.ToJSON..= getRadarEarlyFraudWarningsParametersQueryLimit obj : "queryStarting_after" Data.Aeson.Types.ToJSON..= getRadarEarlyFraudWarningsParametersQueryStartingAfter obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("queryCharge" Data.Aeson.Types.ToJSON..= getRadarEarlyFraudWarningsParametersQueryCharge obj) GHC.Base.<> (("queryEnding_before" Data.Aeson.Types.ToJSON..= getRadarEarlyFraudWarningsParametersQueryEndingBefore obj) GHC.Base.<> (("queryExpand" Data.Aeson.Types.ToJSON..= getRadarEarlyFraudWarningsParametersQueryExpand obj) GHC.Base.<> (("queryLimit" Data.Aeson.Types.ToJSON..= getRadarEarlyFraudWarningsParametersQueryLimit obj) GHC.Base.<> ("queryStarting_after" Data.Aeson.Types.ToJSON..= getRadarEarlyFraudWarningsParametersQueryStartingAfter obj)))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetRadarEarlyFraudWarningsParameters where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "GetRadarEarlyFraudWarningsParameters" (\obj -> ((((GHC.Base.pure GetRadarEarlyFraudWarningsParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryCharge")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryEnding_before")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryExpand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryLimit")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryStarting_after"))
+
+-- | Create a new 'GetRadarEarlyFraudWarningsParameters' with all required fields.
+mkGetRadarEarlyFraudWarningsParameters :: GetRadarEarlyFraudWarningsParameters
+mkGetRadarEarlyFraudWarningsParameters =
+  GetRadarEarlyFraudWarningsParameters
+    { getRadarEarlyFraudWarningsParametersQueryCharge = GHC.Maybe.Nothing,
+      getRadarEarlyFraudWarningsParametersQueryEndingBefore = GHC.Maybe.Nothing,
+      getRadarEarlyFraudWarningsParametersQueryExpand = GHC.Maybe.Nothing,
+      getRadarEarlyFraudWarningsParametersQueryLimit = GHC.Maybe.Nothing,
+      getRadarEarlyFraudWarningsParametersQueryStartingAfter = GHC.Maybe.Nothing
+    }
 
 -- | Represents a response of the operation 'getRadarEarlyFraudWarnings'.
 --
@@ -142,15 +154,13 @@ data GetRadarEarlyFraudWarningsResponse
     GetRadarEarlyFraudWarningsResponseDefault Error
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
--- | Defines the data type for the schema GetRadarEarlyFraudWarningsResponseBody200
+-- | Defines the object schema located at @paths.\/v1\/radar\/early_fraud_warnings.GET.responses.200.content.application\/json.schema@ in the specification.
 data GetRadarEarlyFraudWarningsResponseBody200
   = GetRadarEarlyFraudWarningsResponseBody200
       { -- | data
         getRadarEarlyFraudWarningsResponseBody200Data :: ([Radar'earlyFraudWarning]),
         -- | has_more: True if this list has another page of items after this one that can be fetched.
         getRadarEarlyFraudWarningsResponseBody200HasMore :: GHC.Types.Bool,
-        -- | object: String representing the object\'s type. Objects of the same type share the same value. Always has the value \`list\`.
-        getRadarEarlyFraudWarningsResponseBody200Object :: GetRadarEarlyFraudWarningsResponseBody200Object',
         -- | url: The URL where this list can be accessed.
         --
         -- Constraints:
@@ -165,29 +175,24 @@ data GetRadarEarlyFraudWarningsResponseBody200
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetRadarEarlyFraudWarningsResponseBody200 where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "data" (getRadarEarlyFraudWarningsResponseBody200Data obj) : (Data.Aeson..=) "has_more" (getRadarEarlyFraudWarningsResponseBody200HasMore obj) : (Data.Aeson..=) "object" (getRadarEarlyFraudWarningsResponseBody200Object obj) : (Data.Aeson..=) "url" (getRadarEarlyFraudWarningsResponseBody200Url obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "data" (getRadarEarlyFraudWarningsResponseBody200Data obj) GHC.Base.<> ((Data.Aeson..=) "has_more" (getRadarEarlyFraudWarningsResponseBody200HasMore obj) GHC.Base.<> ((Data.Aeson..=) "object" (getRadarEarlyFraudWarningsResponseBody200Object obj) GHC.Base.<> (Data.Aeson..=) "url" (getRadarEarlyFraudWarningsResponseBody200Url obj))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("data" Data.Aeson.Types.ToJSON..= getRadarEarlyFraudWarningsResponseBody200Data obj : "has_more" Data.Aeson.Types.ToJSON..= getRadarEarlyFraudWarningsResponseBody200HasMore obj : "url" Data.Aeson.Types.ToJSON..= getRadarEarlyFraudWarningsResponseBody200Url obj : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "list" : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("data" Data.Aeson.Types.ToJSON..= getRadarEarlyFraudWarningsResponseBody200Data obj) GHC.Base.<> (("has_more" Data.Aeson.Types.ToJSON..= getRadarEarlyFraudWarningsResponseBody200HasMore obj) GHC.Base.<> (("url" Data.Aeson.Types.ToJSON..= getRadarEarlyFraudWarningsResponseBody200Url obj) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "list"))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetRadarEarlyFraudWarningsResponseBody200 where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetRadarEarlyFraudWarningsResponseBody200" (\obj -> (((GHC.Base.pure GetRadarEarlyFraudWarningsResponseBody200 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "has_more")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "object")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "url"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetRadarEarlyFraudWarningsResponseBody200" (\obj -> ((GHC.Base.pure GetRadarEarlyFraudWarningsResponseBody200 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "has_more")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "url"))
 
--- | Defines the enum schema GetRadarEarlyFraudWarningsResponseBody200Object\'
---
--- String representing the object\'s type. Objects of the same type share the same value. Always has the value \`list\`.
-data GetRadarEarlyFraudWarningsResponseBody200Object'
-  = GetRadarEarlyFraudWarningsResponseBody200Object'EnumOther Data.Aeson.Types.Internal.Value
-  | GetRadarEarlyFraudWarningsResponseBody200Object'EnumTyped Data.Text.Internal.Text
-  | GetRadarEarlyFraudWarningsResponseBody200Object'EnumStringList
-  deriving (GHC.Show.Show, GHC.Classes.Eq)
-
-instance Data.Aeson.Types.ToJSON.ToJSON GetRadarEarlyFraudWarningsResponseBody200Object' where
-  toJSON (GetRadarEarlyFraudWarningsResponseBody200Object'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (GetRadarEarlyFraudWarningsResponseBody200Object'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (GetRadarEarlyFraudWarningsResponseBody200Object'EnumStringList) = "list"
-
-instance Data.Aeson.Types.FromJSON.FromJSON GetRadarEarlyFraudWarningsResponseBody200Object' where
-  parseJSON val =
-    GHC.Base.pure
-      ( if  | val GHC.Classes.== "list" -> GetRadarEarlyFraudWarningsResponseBody200Object'EnumStringList
-            | GHC.Base.otherwise -> GetRadarEarlyFraudWarningsResponseBody200Object'EnumOther val
-      )
+-- | Create a new 'GetRadarEarlyFraudWarningsResponseBody200' with all required fields.
+mkGetRadarEarlyFraudWarningsResponseBody200 ::
+  -- | 'getRadarEarlyFraudWarningsResponseBody200Data'
+  [Radar'earlyFraudWarning] ->
+  -- | 'getRadarEarlyFraudWarningsResponseBody200HasMore'
+  GHC.Types.Bool ->
+  -- | 'getRadarEarlyFraudWarningsResponseBody200Url'
+  Data.Text.Internal.Text ->
+  GetRadarEarlyFraudWarningsResponseBody200
+mkGetRadarEarlyFraudWarningsResponseBody200 getRadarEarlyFraudWarningsResponseBody200Data getRadarEarlyFraudWarningsResponseBody200HasMore getRadarEarlyFraudWarningsResponseBody200Url =
+  GetRadarEarlyFraudWarningsResponseBody200
+    { getRadarEarlyFraudWarningsResponseBody200Data = getRadarEarlyFraudWarningsResponseBody200Data,
+      getRadarEarlyFraudWarningsResponseBody200HasMore = getRadarEarlyFraudWarningsResponseBody200HasMore,
+      getRadarEarlyFraudWarningsResponseBody200Url = getRadarEarlyFraudWarningsResponseBody200Url
+    }

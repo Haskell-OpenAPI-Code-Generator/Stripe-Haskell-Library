@@ -10,6 +10,7 @@ module StripeAPI.Operations.PostRefundsRefund where
 import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -83,7 +84,7 @@ postRefundsRefund
       )
       (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack ("/v1/refunds/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel refund)) GHC.Base.++ ""))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
 
--- | Defines the data type for the schema postRefundsRefundRequestBody
+-- | Defines the object schema located at @paths.\/v1\/refunds\/{refund}.POST.requestBody.content.application\/x-www-form-urlencoded.schema@ in the specification.
 data PostRefundsRefundRequestBody
   = PostRefundsRefundRequestBody
       { -- | expand: Specifies which fields in the response should be expanded.
@@ -97,11 +98,19 @@ data PostRefundsRefundRequestBody
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostRefundsRefundRequestBody where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "expand" (postRefundsRefundRequestBodyExpand obj) : (Data.Aeson..=) "metadata" (postRefundsRefundRequestBodyMetadata obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "expand" (postRefundsRefundRequestBodyExpand obj) GHC.Base.<> (Data.Aeson..=) "metadata" (postRefundsRefundRequestBodyMetadata obj))
+  toJSON obj = Data.Aeson.Types.Internal.object ("expand" Data.Aeson.Types.ToJSON..= postRefundsRefundRequestBodyExpand obj : "metadata" Data.Aeson.Types.ToJSON..= postRefundsRefundRequestBodyMetadata obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("expand" Data.Aeson.Types.ToJSON..= postRefundsRefundRequestBodyExpand obj) GHC.Base.<> ("metadata" Data.Aeson.Types.ToJSON..= postRefundsRefundRequestBodyMetadata obj))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostRefundsRefundRequestBody where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PostRefundsRefundRequestBody" (\obj -> (GHC.Base.pure PostRefundsRefundRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "metadata"))
+
+-- | Create a new 'PostRefundsRefundRequestBody' with all required fields.
+mkPostRefundsRefundRequestBody :: PostRefundsRefundRequestBody
+mkPostRefundsRefundRequestBody =
+  PostRefundsRefundRequestBody
+    { postRefundsRefundRequestBodyExpand = GHC.Maybe.Nothing,
+      postRefundsRefundRequestBodyMetadata = GHC.Maybe.Nothing
+    }
 
 -- | Represents a response of the operation 'postRefundsRefund'.
 --

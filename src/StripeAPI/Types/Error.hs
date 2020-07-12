@@ -8,6 +8,7 @@ module StripeAPI.Types.Error where
 
 import qualified Control.Monad.Fail
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -31,7 +32,7 @@ import {-# SOURCE #-} StripeAPI.Types.ApiErrors
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
--- | Defines the data type for the schema error
+-- | Defines the object schema located at @components.schemas.error@ in the specification.
 --
 -- An error response from the Stripe API
 data Error
@@ -45,8 +46,15 @@ data Error
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON Error where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "error" (errorError obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "error" (errorError obj))
+  toJSON obj = Data.Aeson.Types.Internal.object ("error" Data.Aeson.Types.ToJSON..= errorError obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs ("error" Data.Aeson.Types.ToJSON..= errorError obj)
 
 instance Data.Aeson.Types.FromJSON.FromJSON Error where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "Error" (\obj -> GHC.Base.pure Error GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "error"))
+
+-- | Create a new 'Error' with all required fields.
+mkError ::
+  -- | 'errorError'
+  ApiErrors ->
+  Error
+mkError errorError = Error {errorError = errorError}

@@ -10,6 +10,7 @@ module StripeAPI.Operations.GetFileLinks where
 import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -88,7 +89,7 @@ getFileLinks parameters =
         ]
     )
 
--- | Defines the data type for the schema getFileLinksParameters
+-- | Defines the object schema located at @paths.\/v1\/file_links.GET.parameters@ in the specification.
 data GetFileLinksParameters
   = GetFileLinksParameters
       { -- | queryCreated: Represents the parameter named \'created\'
@@ -128,13 +129,26 @@ data GetFileLinksParameters
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetFileLinksParameters where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "queryCreated" (getFileLinksParametersQueryCreated obj) : (Data.Aeson..=) "queryEnding_before" (getFileLinksParametersQueryEndingBefore obj) : (Data.Aeson..=) "queryExpand" (getFileLinksParametersQueryExpand obj) : (Data.Aeson..=) "queryExpired" (getFileLinksParametersQueryExpired obj) : (Data.Aeson..=) "queryFile" (getFileLinksParametersQueryFile obj) : (Data.Aeson..=) "queryLimit" (getFileLinksParametersQueryLimit obj) : (Data.Aeson..=) "queryStarting_after" (getFileLinksParametersQueryStartingAfter obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "queryCreated" (getFileLinksParametersQueryCreated obj) GHC.Base.<> ((Data.Aeson..=) "queryEnding_before" (getFileLinksParametersQueryEndingBefore obj) GHC.Base.<> ((Data.Aeson..=) "queryExpand" (getFileLinksParametersQueryExpand obj) GHC.Base.<> ((Data.Aeson..=) "queryExpired" (getFileLinksParametersQueryExpired obj) GHC.Base.<> ((Data.Aeson..=) "queryFile" (getFileLinksParametersQueryFile obj) GHC.Base.<> ((Data.Aeson..=) "queryLimit" (getFileLinksParametersQueryLimit obj) GHC.Base.<> (Data.Aeson..=) "queryStarting_after" (getFileLinksParametersQueryStartingAfter obj)))))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("queryCreated" Data.Aeson.Types.ToJSON..= getFileLinksParametersQueryCreated obj : "queryEnding_before" Data.Aeson.Types.ToJSON..= getFileLinksParametersQueryEndingBefore obj : "queryExpand" Data.Aeson.Types.ToJSON..= getFileLinksParametersQueryExpand obj : "queryExpired" Data.Aeson.Types.ToJSON..= getFileLinksParametersQueryExpired obj : "queryFile" Data.Aeson.Types.ToJSON..= getFileLinksParametersQueryFile obj : "queryLimit" Data.Aeson.Types.ToJSON..= getFileLinksParametersQueryLimit obj : "queryStarting_after" Data.Aeson.Types.ToJSON..= getFileLinksParametersQueryStartingAfter obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("queryCreated" Data.Aeson.Types.ToJSON..= getFileLinksParametersQueryCreated obj) GHC.Base.<> (("queryEnding_before" Data.Aeson.Types.ToJSON..= getFileLinksParametersQueryEndingBefore obj) GHC.Base.<> (("queryExpand" Data.Aeson.Types.ToJSON..= getFileLinksParametersQueryExpand obj) GHC.Base.<> (("queryExpired" Data.Aeson.Types.ToJSON..= getFileLinksParametersQueryExpired obj) GHC.Base.<> (("queryFile" Data.Aeson.Types.ToJSON..= getFileLinksParametersQueryFile obj) GHC.Base.<> (("queryLimit" Data.Aeson.Types.ToJSON..= getFileLinksParametersQueryLimit obj) GHC.Base.<> ("queryStarting_after" Data.Aeson.Types.ToJSON..= getFileLinksParametersQueryStartingAfter obj)))))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetFileLinksParameters where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "GetFileLinksParameters" (\obj -> ((((((GHC.Base.pure GetFileLinksParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryCreated")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryEnding_before")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryExpand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryExpired")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryFile")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryLimit")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryStarting_after"))
 
--- | Defines the data type for the schema getFileLinksParametersQueryCreated\'OneOf2
+-- | Create a new 'GetFileLinksParameters' with all required fields.
+mkGetFileLinksParameters :: GetFileLinksParameters
+mkGetFileLinksParameters =
+  GetFileLinksParameters
+    { getFileLinksParametersQueryCreated = GHC.Maybe.Nothing,
+      getFileLinksParametersQueryEndingBefore = GHC.Maybe.Nothing,
+      getFileLinksParametersQueryExpand = GHC.Maybe.Nothing,
+      getFileLinksParametersQueryExpired = GHC.Maybe.Nothing,
+      getFileLinksParametersQueryFile = GHC.Maybe.Nothing,
+      getFileLinksParametersQueryLimit = GHC.Maybe.Nothing,
+      getFileLinksParametersQueryStartingAfter = GHC.Maybe.Nothing
+    }
+
+-- | Defines the object schema located at @paths.\/v1\/file_links.GET.parameters.properties.queryCreated.anyOf@ in the specification.
 data GetFileLinksParametersQueryCreated'OneOf2
   = GetFileLinksParametersQueryCreated'OneOf2
       { -- | gt
@@ -152,13 +166,23 @@ data GetFileLinksParametersQueryCreated'OneOf2
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetFileLinksParametersQueryCreated'OneOf2 where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "gt" (getFileLinksParametersQueryCreated'OneOf2Gt obj) : (Data.Aeson..=) "gte" (getFileLinksParametersQueryCreated'OneOf2Gte obj) : (Data.Aeson..=) "lt" (getFileLinksParametersQueryCreated'OneOf2Lt obj) : (Data.Aeson..=) "lte" (getFileLinksParametersQueryCreated'OneOf2Lte obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "gt" (getFileLinksParametersQueryCreated'OneOf2Gt obj) GHC.Base.<> ((Data.Aeson..=) "gte" (getFileLinksParametersQueryCreated'OneOf2Gte obj) GHC.Base.<> ((Data.Aeson..=) "lt" (getFileLinksParametersQueryCreated'OneOf2Lt obj) GHC.Base.<> (Data.Aeson..=) "lte" (getFileLinksParametersQueryCreated'OneOf2Lte obj))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("gt" Data.Aeson.Types.ToJSON..= getFileLinksParametersQueryCreated'OneOf2Gt obj : "gte" Data.Aeson.Types.ToJSON..= getFileLinksParametersQueryCreated'OneOf2Gte obj : "lt" Data.Aeson.Types.ToJSON..= getFileLinksParametersQueryCreated'OneOf2Lt obj : "lte" Data.Aeson.Types.ToJSON..= getFileLinksParametersQueryCreated'OneOf2Lte obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("gt" Data.Aeson.Types.ToJSON..= getFileLinksParametersQueryCreated'OneOf2Gt obj) GHC.Base.<> (("gte" Data.Aeson.Types.ToJSON..= getFileLinksParametersQueryCreated'OneOf2Gte obj) GHC.Base.<> (("lt" Data.Aeson.Types.ToJSON..= getFileLinksParametersQueryCreated'OneOf2Lt obj) GHC.Base.<> ("lte" Data.Aeson.Types.ToJSON..= getFileLinksParametersQueryCreated'OneOf2Lte obj))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetFileLinksParametersQueryCreated'OneOf2 where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "GetFileLinksParametersQueryCreated'OneOf2" (\obj -> (((GHC.Base.pure GetFileLinksParametersQueryCreated'OneOf2 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "gt")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "gte")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "lt")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "lte"))
 
--- | Define the one-of schema getFileLinksParametersQueryCreated\'
+-- | Create a new 'GetFileLinksParametersQueryCreated'OneOf2' with all required fields.
+mkGetFileLinksParametersQueryCreated'OneOf2 :: GetFileLinksParametersQueryCreated'OneOf2
+mkGetFileLinksParametersQueryCreated'OneOf2 =
+  GetFileLinksParametersQueryCreated'OneOf2
+    { getFileLinksParametersQueryCreated'OneOf2Gt = GHC.Maybe.Nothing,
+      getFileLinksParametersQueryCreated'OneOf2Gte = GHC.Maybe.Nothing,
+      getFileLinksParametersQueryCreated'OneOf2Lt = GHC.Maybe.Nothing,
+      getFileLinksParametersQueryCreated'OneOf2Lte = GHC.Maybe.Nothing
+    }
+
+-- | Defines the oneOf schema located at @paths.\/v1\/file_links.GET.parameters.properties.queryCreated.anyOf@ in the specification.
 --
 -- Represents the parameter named \'created\'
 data GetFileLinksParametersQueryCreated'Variants
@@ -171,11 +195,9 @@ instance Data.Aeson.Types.ToJSON.ToJSON GetFileLinksParametersQueryCreated'Varia
   toJSON (GetFileLinksParametersQueryCreated'GetFileLinksParametersQueryCreated'OneOf2 a) = Data.Aeson.Types.ToJSON.toJSON a
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetFileLinksParametersQueryCreated'Variants where
-  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
-    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ GetFileLinksParametersQueryCreated'Int a
-    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ GetFileLinksParametersQueryCreated'GetFileLinksParametersQueryCreated'OneOf2 a
-      Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+  parseJSON val = case (GetFileLinksParametersQueryCreated'Int Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((GetFileLinksParametersQueryCreated'GetFileLinksParametersQueryCreated'OneOf2 Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched") of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+    Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
 -- | Represents a response of the operation 'getFileLinks'.
 --
@@ -189,15 +211,13 @@ data GetFileLinksResponse
     GetFileLinksResponseDefault Error
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
--- | Defines the data type for the schema GetFileLinksResponseBody200
+-- | Defines the object schema located at @paths.\/v1\/file_links.GET.responses.200.content.application\/json.schema@ in the specification.
 data GetFileLinksResponseBody200
   = GetFileLinksResponseBody200
       { -- | data
         getFileLinksResponseBody200Data :: ([FileLink]),
         -- | has_more: True if this list has another page of items after this one that can be fetched.
         getFileLinksResponseBody200HasMore :: GHC.Types.Bool,
-        -- | object: String representing the object\'s type. Objects of the same type share the same value. Always has the value \`list\`.
-        getFileLinksResponseBody200Object :: GetFileLinksResponseBody200Object',
         -- | url: The URL where this list can be accessed.
         --
         -- Constraints:
@@ -212,29 +232,24 @@ data GetFileLinksResponseBody200
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetFileLinksResponseBody200 where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "data" (getFileLinksResponseBody200Data obj) : (Data.Aeson..=) "has_more" (getFileLinksResponseBody200HasMore obj) : (Data.Aeson..=) "object" (getFileLinksResponseBody200Object obj) : (Data.Aeson..=) "url" (getFileLinksResponseBody200Url obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "data" (getFileLinksResponseBody200Data obj) GHC.Base.<> ((Data.Aeson..=) "has_more" (getFileLinksResponseBody200HasMore obj) GHC.Base.<> ((Data.Aeson..=) "object" (getFileLinksResponseBody200Object obj) GHC.Base.<> (Data.Aeson..=) "url" (getFileLinksResponseBody200Url obj))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("data" Data.Aeson.Types.ToJSON..= getFileLinksResponseBody200Data obj : "has_more" Data.Aeson.Types.ToJSON..= getFileLinksResponseBody200HasMore obj : "url" Data.Aeson.Types.ToJSON..= getFileLinksResponseBody200Url obj : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "list" : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("data" Data.Aeson.Types.ToJSON..= getFileLinksResponseBody200Data obj) GHC.Base.<> (("has_more" Data.Aeson.Types.ToJSON..= getFileLinksResponseBody200HasMore obj) GHC.Base.<> (("url" Data.Aeson.Types.ToJSON..= getFileLinksResponseBody200Url obj) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "list"))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetFileLinksResponseBody200 where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetFileLinksResponseBody200" (\obj -> (((GHC.Base.pure GetFileLinksResponseBody200 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "has_more")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "object")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "url"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetFileLinksResponseBody200" (\obj -> ((GHC.Base.pure GetFileLinksResponseBody200 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "has_more")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "url"))
 
--- | Defines the enum schema GetFileLinksResponseBody200Object\'
---
--- String representing the object\'s type. Objects of the same type share the same value. Always has the value \`list\`.
-data GetFileLinksResponseBody200Object'
-  = GetFileLinksResponseBody200Object'EnumOther Data.Aeson.Types.Internal.Value
-  | GetFileLinksResponseBody200Object'EnumTyped Data.Text.Internal.Text
-  | GetFileLinksResponseBody200Object'EnumStringList
-  deriving (GHC.Show.Show, GHC.Classes.Eq)
-
-instance Data.Aeson.Types.ToJSON.ToJSON GetFileLinksResponseBody200Object' where
-  toJSON (GetFileLinksResponseBody200Object'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (GetFileLinksResponseBody200Object'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (GetFileLinksResponseBody200Object'EnumStringList) = "list"
-
-instance Data.Aeson.Types.FromJSON.FromJSON GetFileLinksResponseBody200Object' where
-  parseJSON val =
-    GHC.Base.pure
-      ( if  | val GHC.Classes.== "list" -> GetFileLinksResponseBody200Object'EnumStringList
-            | GHC.Base.otherwise -> GetFileLinksResponseBody200Object'EnumOther val
-      )
+-- | Create a new 'GetFileLinksResponseBody200' with all required fields.
+mkGetFileLinksResponseBody200 ::
+  -- | 'getFileLinksResponseBody200Data'
+  [FileLink] ->
+  -- | 'getFileLinksResponseBody200HasMore'
+  GHC.Types.Bool ->
+  -- | 'getFileLinksResponseBody200Url'
+  Data.Text.Internal.Text ->
+  GetFileLinksResponseBody200
+mkGetFileLinksResponseBody200 getFileLinksResponseBody200Data getFileLinksResponseBody200HasMore getFileLinksResponseBody200Url =
+  GetFileLinksResponseBody200
+    { getFileLinksResponseBody200Data = getFileLinksResponseBody200Data,
+      getFileLinksResponseBody200HasMore = getFileLinksResponseBody200HasMore,
+      getFileLinksResponseBody200Url = getFileLinksResponseBody200Url
+    }

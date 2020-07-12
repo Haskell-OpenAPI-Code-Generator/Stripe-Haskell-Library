@@ -10,6 +10,7 @@ module StripeAPI.Operations.GetPlansPlan where
 import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -77,7 +78,7 @@ getPlansPlan parameters =
     )
     (StripeAPI.Common.doCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET") (Data.Text.pack ("/v1/plans/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel (getPlansPlanParametersPathPlan parameters))) GHC.Base.++ ""))) [StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getPlansPlanParametersQueryExpand parameters) (Data.Text.pack "deepObject") GHC.Types.True])
 
--- | Defines the data type for the schema getPlansPlanParameters
+-- | Defines the object schema located at @paths.\/v1\/plans\/{plan}.GET.parameters@ in the specification.
 data GetPlansPlanParameters
   = GetPlansPlanParameters
       { -- | pathPlan: Represents the parameter named \'plan\'
@@ -97,11 +98,22 @@ data GetPlansPlanParameters
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetPlansPlanParameters where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "pathPlan" (getPlansPlanParametersPathPlan obj) : (Data.Aeson..=) "queryExpand" (getPlansPlanParametersQueryExpand obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "pathPlan" (getPlansPlanParametersPathPlan obj) GHC.Base.<> (Data.Aeson..=) "queryExpand" (getPlansPlanParametersQueryExpand obj))
+  toJSON obj = Data.Aeson.Types.Internal.object ("pathPlan" Data.Aeson.Types.ToJSON..= getPlansPlanParametersPathPlan obj : "queryExpand" Data.Aeson.Types.ToJSON..= getPlansPlanParametersQueryExpand obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("pathPlan" Data.Aeson.Types.ToJSON..= getPlansPlanParametersPathPlan obj) GHC.Base.<> ("queryExpand" Data.Aeson.Types.ToJSON..= getPlansPlanParametersQueryExpand obj))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetPlansPlanParameters where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "GetPlansPlanParameters" (\obj -> (GHC.Base.pure GetPlansPlanParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathPlan")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryExpand"))
+
+-- | Create a new 'GetPlansPlanParameters' with all required fields.
+mkGetPlansPlanParameters ::
+  -- | 'getPlansPlanParametersPathPlan'
+  Data.Text.Internal.Text ->
+  GetPlansPlanParameters
+mkGetPlansPlanParameters getPlansPlanParametersPathPlan =
+  GetPlansPlanParameters
+    { getPlansPlanParametersPathPlan = getPlansPlanParametersPathPlan,
+      getPlansPlanParametersQueryExpand = GHC.Maybe.Nothing
+    }
 
 -- | Represents a response of the operation 'getPlansPlan'.
 --

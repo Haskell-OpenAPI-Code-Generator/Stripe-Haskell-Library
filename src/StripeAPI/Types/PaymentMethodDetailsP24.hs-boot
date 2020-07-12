@@ -1,8 +1,8 @@
 module StripeAPI.Types.PaymentMethodDetailsP24 where
 import Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Types.Internal
-data PaymentMethodDetailsP24 
-instance Show PaymentMethodDetailsP24 
-instance Eq PaymentMethodDetailsP24 
-instance FromJSON PaymentMethodDetailsP24 
-instance ToJSON PaymentMethodDetailsP24 
+data PaymentMethodDetailsP24
+instance Show PaymentMethodDetailsP24
+instance Eq PaymentMethodDetailsP24
+instance FromJSON PaymentMethodDetailsP24
+instance ToJSON PaymentMethodDetailsP24

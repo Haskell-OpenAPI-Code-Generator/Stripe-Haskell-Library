@@ -8,6 +8,7 @@ module StripeAPI.Types.RadarReviewResourceLocation where
 
 import qualified Control.Monad.Fail
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -30,7 +31,7 @@ import StripeAPI.TypeAlias
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
--- | Defines the data type for the schema radar_review_resource_location
+-- | Defines the object schema located at @components.schemas.radar_review_resource_location@ in the specification.
 data RadarReviewResourceLocation
   = RadarReviewResourceLocation
       { -- | city: The city where the payment originated.
@@ -62,8 +63,19 @@ data RadarReviewResourceLocation
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON RadarReviewResourceLocation where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "city" (radarReviewResourceLocationCity obj) : (Data.Aeson..=) "country" (radarReviewResourceLocationCountry obj) : (Data.Aeson..=) "latitude" (radarReviewResourceLocationLatitude obj) : (Data.Aeson..=) "longitude" (radarReviewResourceLocationLongitude obj) : (Data.Aeson..=) "region" (radarReviewResourceLocationRegion obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "city" (radarReviewResourceLocationCity obj) GHC.Base.<> ((Data.Aeson..=) "country" (radarReviewResourceLocationCountry obj) GHC.Base.<> ((Data.Aeson..=) "latitude" (radarReviewResourceLocationLatitude obj) GHC.Base.<> ((Data.Aeson..=) "longitude" (radarReviewResourceLocationLongitude obj) GHC.Base.<> (Data.Aeson..=) "region" (radarReviewResourceLocationRegion obj)))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("city" Data.Aeson.Types.ToJSON..= radarReviewResourceLocationCity obj : "country" Data.Aeson.Types.ToJSON..= radarReviewResourceLocationCountry obj : "latitude" Data.Aeson.Types.ToJSON..= radarReviewResourceLocationLatitude obj : "longitude" Data.Aeson.Types.ToJSON..= radarReviewResourceLocationLongitude obj : "region" Data.Aeson.Types.ToJSON..= radarReviewResourceLocationRegion obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("city" Data.Aeson.Types.ToJSON..= radarReviewResourceLocationCity obj) GHC.Base.<> (("country" Data.Aeson.Types.ToJSON..= radarReviewResourceLocationCountry obj) GHC.Base.<> (("latitude" Data.Aeson.Types.ToJSON..= radarReviewResourceLocationLatitude obj) GHC.Base.<> (("longitude" Data.Aeson.Types.ToJSON..= radarReviewResourceLocationLongitude obj) GHC.Base.<> ("region" Data.Aeson.Types.ToJSON..= radarReviewResourceLocationRegion obj)))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON RadarReviewResourceLocation where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "RadarReviewResourceLocation" (\obj -> ((((GHC.Base.pure RadarReviewResourceLocation GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "city")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "country")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "latitude")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "longitude")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "region"))
+
+-- | Create a new 'RadarReviewResourceLocation' with all required fields.
+mkRadarReviewResourceLocation :: RadarReviewResourceLocation
+mkRadarReviewResourceLocation =
+  RadarReviewResourceLocation
+    { radarReviewResourceLocationCity = GHC.Maybe.Nothing,
+      radarReviewResourceLocationCountry = GHC.Maybe.Nothing,
+      radarReviewResourceLocationLatitude = GHC.Maybe.Nothing,
+      radarReviewResourceLocationLongitude = GHC.Maybe.Nothing,
+      radarReviewResourceLocationRegion = GHC.Maybe.Nothing
+    }

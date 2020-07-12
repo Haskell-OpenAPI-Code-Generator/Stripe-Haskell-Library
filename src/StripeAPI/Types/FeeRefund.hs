@@ -8,6 +8,7 @@ module StripeAPI.Types.FeeRefund where
 
 import qualified Control.Monad.Fail
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -32,7 +33,7 @@ import {-# SOURCE #-} StripeAPI.Types.BalanceTransaction
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
--- | Defines the data type for the schema fee_refund
+-- | Defines the object schema located at @components.schemas.fee_refund@ in the specification.
 --
 -- \`Application Fee Refund\` objects allow you to refund an application fee that
 -- has previously been created but not yet refunded. Funds will be refunded to
@@ -58,9 +59,7 @@ data FeeRefund
         -- * Maximum length of 5000
         feeRefundId :: Data.Text.Internal.Text,
         -- | metadata: Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
-        feeRefundMetadata :: Data.Aeson.Types.Internal.Object,
-        -- | object: String representing the object\'s type. Objects of the same type share the same value.
-        feeRefundObject :: FeeRefundObject'
+        feeRefundMetadata :: Data.Aeson.Types.Internal.Object
       }
   deriving
     ( GHC.Show.Show,
@@ -68,13 +67,39 @@ data FeeRefund
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON FeeRefund where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "amount" (feeRefundAmount obj) : (Data.Aeson..=) "balance_transaction" (feeRefundBalanceTransaction obj) : (Data.Aeson..=) "created" (feeRefundCreated obj) : (Data.Aeson..=) "currency" (feeRefundCurrency obj) : (Data.Aeson..=) "fee" (feeRefundFee obj) : (Data.Aeson..=) "id" (feeRefundId obj) : (Data.Aeson..=) "metadata" (feeRefundMetadata obj) : (Data.Aeson..=) "object" (feeRefundObject obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "amount" (feeRefundAmount obj) GHC.Base.<> ((Data.Aeson..=) "balance_transaction" (feeRefundBalanceTransaction obj) GHC.Base.<> ((Data.Aeson..=) "created" (feeRefundCreated obj) GHC.Base.<> ((Data.Aeson..=) "currency" (feeRefundCurrency obj) GHC.Base.<> ((Data.Aeson..=) "fee" (feeRefundFee obj) GHC.Base.<> ((Data.Aeson..=) "id" (feeRefundId obj) GHC.Base.<> ((Data.Aeson..=) "metadata" (feeRefundMetadata obj) GHC.Base.<> (Data.Aeson..=) "object" (feeRefundObject obj))))))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("amount" Data.Aeson.Types.ToJSON..= feeRefundAmount obj : "balance_transaction" Data.Aeson.Types.ToJSON..= feeRefundBalanceTransaction obj : "created" Data.Aeson.Types.ToJSON..= feeRefundCreated obj : "currency" Data.Aeson.Types.ToJSON..= feeRefundCurrency obj : "fee" Data.Aeson.Types.ToJSON..= feeRefundFee obj : "id" Data.Aeson.Types.ToJSON..= feeRefundId obj : "metadata" Data.Aeson.Types.ToJSON..= feeRefundMetadata obj : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "fee_refund" : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("amount" Data.Aeson.Types.ToJSON..= feeRefundAmount obj) GHC.Base.<> (("balance_transaction" Data.Aeson.Types.ToJSON..= feeRefundBalanceTransaction obj) GHC.Base.<> (("created" Data.Aeson.Types.ToJSON..= feeRefundCreated obj) GHC.Base.<> (("currency" Data.Aeson.Types.ToJSON..= feeRefundCurrency obj) GHC.Base.<> (("fee" Data.Aeson.Types.ToJSON..= feeRefundFee obj) GHC.Base.<> (("id" Data.Aeson.Types.ToJSON..= feeRefundId obj) GHC.Base.<> (("metadata" Data.Aeson.Types.ToJSON..= feeRefundMetadata obj) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "fee_refund"))))))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON FeeRefund where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "FeeRefund" (\obj -> (((((((GHC.Base.pure FeeRefund GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "balance_transaction")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "created")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "fee")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "object"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "FeeRefund" (\obj -> ((((((GHC.Base.pure FeeRefund GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "balance_transaction")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "created")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "fee")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "metadata"))
 
--- | Define the one-of schema fee_refundBalance_transaction\'
+-- | Create a new 'FeeRefund' with all required fields.
+mkFeeRefund ::
+  -- | 'feeRefundAmount'
+  GHC.Types.Int ->
+  -- | 'feeRefundCreated'
+  GHC.Types.Int ->
+  -- | 'feeRefundCurrency'
+  Data.Text.Internal.Text ->
+  -- | 'feeRefundFee'
+  FeeRefundFee'Variants ->
+  -- | 'feeRefundId'
+  Data.Text.Internal.Text ->
+  -- | 'feeRefundMetadata'
+  Data.Aeson.Types.Internal.Object ->
+  FeeRefund
+mkFeeRefund feeRefundAmount feeRefundCreated feeRefundCurrency feeRefundFee feeRefundId feeRefundMetadata =
+  FeeRefund
+    { feeRefundAmount = feeRefundAmount,
+      feeRefundBalanceTransaction = GHC.Maybe.Nothing,
+      feeRefundCreated = feeRefundCreated,
+      feeRefundCurrency = feeRefundCurrency,
+      feeRefundFee = feeRefundFee,
+      feeRefundId = feeRefundId,
+      feeRefundMetadata = feeRefundMetadata
+    }
+
+-- | Defines the oneOf schema located at @components.schemas.fee_refund.properties.balance_transaction.anyOf@ in the specification.
 --
 -- Balance transaction that describes the impact on your account balance.
 data FeeRefundBalanceTransaction'Variants
@@ -87,13 +112,11 @@ instance Data.Aeson.Types.ToJSON.ToJSON FeeRefundBalanceTransaction'Variants whe
   toJSON (FeeRefundBalanceTransaction'Text a) = Data.Aeson.Types.ToJSON.toJSON a
 
 instance Data.Aeson.Types.FromJSON.FromJSON FeeRefundBalanceTransaction'Variants where
-  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
-    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ FeeRefundBalanceTransaction'BalanceTransaction a
-    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ FeeRefundBalanceTransaction'Text a
-      Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+  parseJSON val = case (FeeRefundBalanceTransaction'BalanceTransaction Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((FeeRefundBalanceTransaction'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched") of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+    Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
--- | Define the one-of schema fee_refundFee\'
+-- | Defines the oneOf schema located at @components.schemas.fee_refund.properties.fee.anyOf@ in the specification.
 --
 -- ID of the application fee that was refunded.
 data FeeRefundFee'Variants
@@ -106,29 +129,6 @@ instance Data.Aeson.Types.ToJSON.ToJSON FeeRefundFee'Variants where
   toJSON (FeeRefundFee'Text a) = Data.Aeson.Types.ToJSON.toJSON a
 
 instance Data.Aeson.Types.FromJSON.FromJSON FeeRefundFee'Variants where
-  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
-    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ FeeRefundFee'ApplicationFee a
-    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ FeeRefundFee'Text a
-      Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
-
--- | Defines the enum schema fee_refundObject\'
---
--- String representing the object\'s type. Objects of the same type share the same value.
-data FeeRefundObject'
-  = FeeRefundObject'EnumOther Data.Aeson.Types.Internal.Value
-  | FeeRefundObject'EnumTyped Data.Text.Internal.Text
-  | FeeRefundObject'EnumStringFeeRefund
-  deriving (GHC.Show.Show, GHC.Classes.Eq)
-
-instance Data.Aeson.Types.ToJSON.ToJSON FeeRefundObject' where
-  toJSON (FeeRefundObject'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (FeeRefundObject'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (FeeRefundObject'EnumStringFeeRefund) = "fee_refund"
-
-instance Data.Aeson.Types.FromJSON.FromJSON FeeRefundObject' where
-  parseJSON val =
-    GHC.Base.pure
-      ( if  | val GHC.Classes.== "fee_refund" -> FeeRefundObject'EnumStringFeeRefund
-            | GHC.Base.otherwise -> FeeRefundObject'EnumOther val
-      )
+  parseJSON val = case (FeeRefundFee'ApplicationFee Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((FeeRefundFee'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched") of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+    Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a

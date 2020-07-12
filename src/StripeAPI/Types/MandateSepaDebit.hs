@@ -8,6 +8,7 @@ module StripeAPI.Types.MandateSepaDebit where
 
 import qualified Control.Monad.Fail
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -30,7 +31,7 @@ import StripeAPI.TypeAlias
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
--- | Defines the data type for the schema mandate_sepa_debit
+-- | Defines the object schema located at @components.schemas.mandate_sepa_debit@ in the specification.
 data MandateSepaDebit
   = MandateSepaDebit
       { -- | reference: The unique reference of the mandate.
@@ -52,8 +53,21 @@ data MandateSepaDebit
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON MandateSepaDebit where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "reference" (mandateSepaDebitReference obj) : (Data.Aeson..=) "url" (mandateSepaDebitUrl obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "reference" (mandateSepaDebitReference obj) GHC.Base.<> (Data.Aeson..=) "url" (mandateSepaDebitUrl obj))
+  toJSON obj = Data.Aeson.Types.Internal.object ("reference" Data.Aeson.Types.ToJSON..= mandateSepaDebitReference obj : "url" Data.Aeson.Types.ToJSON..= mandateSepaDebitUrl obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("reference" Data.Aeson.Types.ToJSON..= mandateSepaDebitReference obj) GHC.Base.<> ("url" Data.Aeson.Types.ToJSON..= mandateSepaDebitUrl obj))
 
 instance Data.Aeson.Types.FromJSON.FromJSON MandateSepaDebit where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "MandateSepaDebit" (\obj -> (GHC.Base.pure MandateSepaDebit GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "reference")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "url"))
+
+-- | Create a new 'MandateSepaDebit' with all required fields.
+mkMandateSepaDebit ::
+  -- | 'mandateSepaDebitReference'
+  Data.Text.Internal.Text ->
+  -- | 'mandateSepaDebitUrl'
+  Data.Text.Internal.Text ->
+  MandateSepaDebit
+mkMandateSepaDebit mandateSepaDebitReference mandateSepaDebitUrl =
+  MandateSepaDebit
+    { mandateSepaDebitReference = mandateSepaDebitReference,
+      mandateSepaDebitUrl = mandateSepaDebitUrl
+    }

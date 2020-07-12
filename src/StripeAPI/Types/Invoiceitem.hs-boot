@@ -1,11 +1,11 @@
 module StripeAPI.Types.Invoiceitem where
 import Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Types.Internal
-data Invoiceitem 
-instance Show Invoiceitem 
-instance Eq Invoiceitem 
-instance FromJSON Invoiceitem 
-instance ToJSON Invoiceitem 
+data Invoiceitem
+instance Show Invoiceitem
+instance Eq Invoiceitem
+instance FromJSON Invoiceitem
+instance ToJSON Invoiceitem
 data InvoiceitemCustomer'Variants
 instance Show InvoiceitemCustomer'Variants
 instance Eq InvoiceitemCustomer'Variants
@@ -16,16 +16,11 @@ instance Show InvoiceitemInvoice'Variants
 instance Eq InvoiceitemInvoice'Variants
 instance FromJSON InvoiceitemInvoice'Variants
 instance ToJSON InvoiceitemInvoice'Variants
-data InvoiceitemObject'
-instance Show InvoiceitemObject'
-instance Eq InvoiceitemObject'
-instance FromJSON InvoiceitemObject'
-instance ToJSON InvoiceitemObject'
-data InvoiceitemPlan' 
-instance Show InvoiceitemPlan' 
-instance Eq InvoiceitemPlan' 
-instance FromJSON InvoiceitemPlan' 
-instance ToJSON InvoiceitemPlan' 
+data InvoiceitemPlan'
+instance Show InvoiceitemPlan'
+instance Eq InvoiceitemPlan'
+instance FromJSON InvoiceitemPlan'
+instance ToJSON InvoiceitemPlan'
 data InvoiceitemPlan'AggregateUsage'
 instance Show InvoiceitemPlan'AggregateUsage'
 instance Eq InvoiceitemPlan'AggregateUsage'
@@ -41,11 +36,6 @@ instance Show InvoiceitemPlan'Interval'
 instance Eq InvoiceitemPlan'Interval'
 instance FromJSON InvoiceitemPlan'Interval'
 instance ToJSON InvoiceitemPlan'Interval'
-data InvoiceitemPlan'Object'
-instance Show InvoiceitemPlan'Object'
-instance Eq InvoiceitemPlan'Object'
-instance FromJSON InvoiceitemPlan'Object'
-instance ToJSON InvoiceitemPlan'Object'
 data InvoiceitemPlan'Product'Variants
 instance Show InvoiceitemPlan'Product'Variants
 instance Eq InvoiceitemPlan'Product'Variants
@@ -56,11 +46,11 @@ instance Show InvoiceitemPlan'TiersMode'
 instance Eq InvoiceitemPlan'TiersMode'
 instance FromJSON InvoiceitemPlan'TiersMode'
 instance ToJSON InvoiceitemPlan'TiersMode'
-data InvoiceitemPlan'TransformUsage' 
-instance Show InvoiceitemPlan'TransformUsage' 
-instance Eq InvoiceitemPlan'TransformUsage' 
-instance FromJSON InvoiceitemPlan'TransformUsage' 
-instance ToJSON InvoiceitemPlan'TransformUsage' 
+data InvoiceitemPlan'TransformUsage'
+instance Show InvoiceitemPlan'TransformUsage'
+instance Eq InvoiceitemPlan'TransformUsage'
+instance FromJSON InvoiceitemPlan'TransformUsage'
+instance ToJSON InvoiceitemPlan'TransformUsage'
 data InvoiceitemPlan'TransformUsage'Round'
 instance Show InvoiceitemPlan'TransformUsage'Round'
 instance Eq InvoiceitemPlan'TransformUsage'Round'

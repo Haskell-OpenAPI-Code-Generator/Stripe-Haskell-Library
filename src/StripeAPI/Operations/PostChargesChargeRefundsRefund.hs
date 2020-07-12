@@ -10,6 +10,7 @@ module StripeAPI.Operations.PostChargesChargeRefundsRefund where
 import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -81,7 +82,7 @@ postChargesChargeRefundsRefund
       )
       (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack ("/v1/charges/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel (postChargesChargeRefundsRefundParametersPathCharge parameters))) GHC.Base.++ ("/refunds/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel (postChargesChargeRefundsRefundParametersPathRefund parameters))) GHC.Base.++ ""))))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
 
--- | Defines the data type for the schema postChargesChargeRefundsRefundParameters
+-- | Defines the object schema located at @paths.\/v1\/charges\/{charge}\/refunds\/{refund}.POST.parameters@ in the specification.
 data PostChargesChargeRefundsRefundParameters
   = PostChargesChargeRefundsRefundParameters
       { -- | pathCharge: Represents the parameter named \'charge\'
@@ -95,13 +96,26 @@ data PostChargesChargeRefundsRefundParameters
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostChargesChargeRefundsRefundParameters where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "pathCharge" (postChargesChargeRefundsRefundParametersPathCharge obj) : (Data.Aeson..=) "pathRefund" (postChargesChargeRefundsRefundParametersPathRefund obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "pathCharge" (postChargesChargeRefundsRefundParametersPathCharge obj) GHC.Base.<> (Data.Aeson..=) "pathRefund" (postChargesChargeRefundsRefundParametersPathRefund obj))
+  toJSON obj = Data.Aeson.Types.Internal.object ("pathCharge" Data.Aeson.Types.ToJSON..= postChargesChargeRefundsRefundParametersPathCharge obj : "pathRefund" Data.Aeson.Types.ToJSON..= postChargesChargeRefundsRefundParametersPathRefund obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("pathCharge" Data.Aeson.Types.ToJSON..= postChargesChargeRefundsRefundParametersPathCharge obj) GHC.Base.<> ("pathRefund" Data.Aeson.Types.ToJSON..= postChargesChargeRefundsRefundParametersPathRefund obj))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostChargesChargeRefundsRefundParameters where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PostChargesChargeRefundsRefundParameters" (\obj -> (GHC.Base.pure PostChargesChargeRefundsRefundParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathCharge")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathRefund"))
 
--- | Defines the data type for the schema postChargesChargeRefundsRefundRequestBody
+-- | Create a new 'PostChargesChargeRefundsRefundParameters' with all required fields.
+mkPostChargesChargeRefundsRefundParameters ::
+  -- | 'postChargesChargeRefundsRefundParametersPathCharge'
+  Data.Text.Internal.Text ->
+  -- | 'postChargesChargeRefundsRefundParametersPathRefund'
+  Data.Text.Internal.Text ->
+  PostChargesChargeRefundsRefundParameters
+mkPostChargesChargeRefundsRefundParameters postChargesChargeRefundsRefundParametersPathCharge postChargesChargeRefundsRefundParametersPathRefund =
+  PostChargesChargeRefundsRefundParameters
+    { postChargesChargeRefundsRefundParametersPathCharge = postChargesChargeRefundsRefundParametersPathCharge,
+      postChargesChargeRefundsRefundParametersPathRefund = postChargesChargeRefundsRefundParametersPathRefund
+    }
+
+-- | Defines the object schema located at @paths.\/v1\/charges\/{charge}\/refunds\/{refund}.POST.requestBody.content.application\/x-www-form-urlencoded.schema@ in the specification.
 data PostChargesChargeRefundsRefundRequestBody
   = PostChargesChargeRefundsRefundRequestBody
       { -- | expand: Specifies which fields in the response should be expanded.
@@ -115,11 +129,19 @@ data PostChargesChargeRefundsRefundRequestBody
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostChargesChargeRefundsRefundRequestBody where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "expand" (postChargesChargeRefundsRefundRequestBodyExpand obj) : (Data.Aeson..=) "metadata" (postChargesChargeRefundsRefundRequestBodyMetadata obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "expand" (postChargesChargeRefundsRefundRequestBodyExpand obj) GHC.Base.<> (Data.Aeson..=) "metadata" (postChargesChargeRefundsRefundRequestBodyMetadata obj))
+  toJSON obj = Data.Aeson.Types.Internal.object ("expand" Data.Aeson.Types.ToJSON..= postChargesChargeRefundsRefundRequestBodyExpand obj : "metadata" Data.Aeson.Types.ToJSON..= postChargesChargeRefundsRefundRequestBodyMetadata obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("expand" Data.Aeson.Types.ToJSON..= postChargesChargeRefundsRefundRequestBodyExpand obj) GHC.Base.<> ("metadata" Data.Aeson.Types.ToJSON..= postChargesChargeRefundsRefundRequestBodyMetadata obj))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostChargesChargeRefundsRefundRequestBody where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PostChargesChargeRefundsRefundRequestBody" (\obj -> (GHC.Base.pure PostChargesChargeRefundsRefundRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "metadata"))
+
+-- | Create a new 'PostChargesChargeRefundsRefundRequestBody' with all required fields.
+mkPostChargesChargeRefundsRefundRequestBody :: PostChargesChargeRefundsRefundRequestBody
+mkPostChargesChargeRefundsRefundRequestBody =
+  PostChargesChargeRefundsRefundRequestBody
+    { postChargesChargeRefundsRefundRequestBodyExpand = GHC.Maybe.Nothing,
+      postChargesChargeRefundsRefundRequestBodyMetadata = GHC.Maybe.Nothing
+    }
 
 -- | Represents a response of the operation 'postChargesChargeRefundsRefund'.
 --

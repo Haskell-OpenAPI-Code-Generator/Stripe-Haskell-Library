@@ -8,6 +8,7 @@ module StripeAPI.Types.PaymentSource where
 
 import qualified Control.Monad.Fail
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -74,7 +75,7 @@ import {-# SOURCE #-} StripeAPI.Types.SourceTypeWechat
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
--- | Defines the data type for the schema payment_source
+-- | Defines the object schema located at @components.schemas.payment_source.anyOf@ in the specification.
 data PaymentSource
   = PaymentSource
       { -- | account: The ID of the account that the bank account is associated with.
@@ -313,8 +314,6 @@ data PaymentSource
         --
         -- * Maximum length of 5000
         paymentSourceName :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
-        -- | object: String representing the object\'s type. Objects of the same type share the same value.
-        paymentSourceObject :: (GHC.Maybe.Maybe PaymentSourceObject'),
         -- | owner: Information about the owner of the payment instrument that may be used or required by particular source types.
         paymentSourceOwner :: (GHC.Maybe.Maybe PaymentSourceOwner'),
         -- | p24
@@ -416,13 +415,112 @@ data PaymentSource
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PaymentSource where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "account" (paymentSourceAccount obj) : (Data.Aeson..=) "account_holder_name" (paymentSourceAccountHolderName obj) : (Data.Aeson..=) "account_holder_type" (paymentSourceAccountHolderType obj) : (Data.Aeson..=) "ach_credit_transfer" (paymentSourceAchCreditTransfer obj) : (Data.Aeson..=) "ach_debit" (paymentSourceAchDebit obj) : (Data.Aeson..=) "active" (paymentSourceActive obj) : (Data.Aeson..=) "address_city" (paymentSourceAddressCity obj) : (Data.Aeson..=) "address_country" (paymentSourceAddressCountry obj) : (Data.Aeson..=) "address_line1" (paymentSourceAddressLine1 obj) : (Data.Aeson..=) "address_line1_check" (paymentSourceAddressLine1Check obj) : (Data.Aeson..=) "address_line2" (paymentSourceAddressLine2 obj) : (Data.Aeson..=) "address_state" (paymentSourceAddressState obj) : (Data.Aeson..=) "address_zip" (paymentSourceAddressZip obj) : (Data.Aeson..=) "address_zip_check" (paymentSourceAddressZipCheck obj) : (Data.Aeson..=) "alipay" (paymentSourceAlipay obj) : (Data.Aeson..=) "amount" (paymentSourceAmount obj) : (Data.Aeson..=) "amount_received" (paymentSourceAmountReceived obj) : (Data.Aeson..=) "available_payout_methods" (paymentSourceAvailablePayoutMethods obj) : (Data.Aeson..=) "bancontact" (paymentSourceBancontact obj) : (Data.Aeson..=) "bank_name" (paymentSourceBankName obj) : (Data.Aeson..=) "bitcoin_amount" (paymentSourceBitcoinAmount obj) : (Data.Aeson..=) "bitcoin_amount_received" (paymentSourceBitcoinAmountReceived obj) : (Data.Aeson..=) "bitcoin_uri" (paymentSourceBitcoinUri obj) : (Data.Aeson..=) "brand" (paymentSourceBrand obj) : (Data.Aeson..=) "business_profile" (paymentSourceBusinessProfile obj) : (Data.Aeson..=) "business_type" (paymentSourceBusinessType obj) : (Data.Aeson..=) "capabilities" (paymentSourceCapabilities obj) : (Data.Aeson..=) "card" (paymentSourceCard obj) : (Data.Aeson..=) "card_present" (paymentSourceCardPresent obj) : (Data.Aeson..=) "charges_enabled" (paymentSourceChargesEnabled obj) : (Data.Aeson..=) "client_secret" (paymentSourceClientSecret obj) : (Data.Aeson..=) "code_verification" (paymentSourceCodeVerification obj) : (Data.Aeson..=) "company" (paymentSourceCompany obj) : (Data.Aeson..=) "country" (paymentSourceCountry obj) : (Data.Aeson..=) "created" (paymentSourceCreated obj) : (Data.Aeson..=) "currency" (paymentSourceCurrency obj) : (Data.Aeson..=) "customer" (paymentSourceCustomer obj) : (Data.Aeson..=) "cvc_check" (paymentSourceCvcCheck obj) : (Data.Aeson..=) "default_currency" (paymentSourceDefaultCurrency obj) : (Data.Aeson..=) "default_for_currency" (paymentSourceDefaultForCurrency obj) : (Data.Aeson..=) "description" (paymentSourceDescription obj) : (Data.Aeson..=) "details_submitted" (paymentSourceDetailsSubmitted obj) : (Data.Aeson..=) "dynamic_last4" (paymentSourceDynamicLast4 obj) : (Data.Aeson..=) "email" (paymentSourceEmail obj) : (Data.Aeson..=) "eps" (paymentSourceEps obj) : (Data.Aeson..=) "exp_month" (paymentSourceExpMonth obj) : (Data.Aeson..=) "exp_year" (paymentSourceExpYear obj) : (Data.Aeson..=) "external_accounts" (paymentSourceExternalAccounts obj) : (Data.Aeson..=) "filled" (paymentSourceFilled obj) : (Data.Aeson..=) "fingerprint" (paymentSourceFingerprint obj) : (Data.Aeson..=) "flow" (paymentSourceFlow obj) : (Data.Aeson..=) "funding" (paymentSourceFunding obj) : (Data.Aeson..=) "giropay" (paymentSourceGiropay obj) : (Data.Aeson..=) "id" (paymentSourceId obj) : (Data.Aeson..=) "ideal" (paymentSourceIdeal obj) : (Data.Aeson..=) "inbound_address" (paymentSourceInboundAddress obj) : (Data.Aeson..=) "individual" (paymentSourceIndividual obj) : (Data.Aeson..=) "klarna" (paymentSourceKlarna obj) : (Data.Aeson..=) "last4" (paymentSourceLast4 obj) : (Data.Aeson..=) "livemode" (paymentSourceLivemode obj) : (Data.Aeson..=) "metadata" (paymentSourceMetadata obj) : (Data.Aeson..=) "multibanco" (paymentSourceMultibanco obj) : (Data.Aeson..=) "name" (paymentSourceName obj) : (Data.Aeson..=) "object" (paymentSourceObject obj) : (Data.Aeson..=) "owner" (paymentSourceOwner obj) : (Data.Aeson..=) "p24" (paymentSourceP24 obj) : (Data.Aeson..=) "payment" (paymentSourcePayment obj) : (Data.Aeson..=) "payment_amount" (paymentSourcePaymentAmount obj) : (Data.Aeson..=) "payment_currency" (paymentSourcePaymentCurrency obj) : (Data.Aeson..=) "payouts_enabled" (paymentSourcePayoutsEnabled obj) : (Data.Aeson..=) "receiver" (paymentSourceReceiver obj) : (Data.Aeson..=) "recipient" (paymentSourceRecipient obj) : (Data.Aeson..=) "redirect" (paymentSourceRedirect obj) : (Data.Aeson..=) "refund_address" (paymentSourceRefundAddress obj) : (Data.Aeson..=) "requirements" (paymentSourceRequirements obj) : (Data.Aeson..=) "reusable" (paymentSourceReusable obj) : (Data.Aeson..=) "routing_number" (paymentSourceRoutingNumber obj) : (Data.Aeson..=) "sepa_debit" (paymentSourceSepaDebit obj) : (Data.Aeson..=) "settings" (paymentSourceSettings obj) : (Data.Aeson..=) "sofort" (paymentSourceSofort obj) : (Data.Aeson..=) "source_order" (paymentSourceSourceOrder obj) : (Data.Aeson..=) "statement_descriptor" (paymentSourceStatementDescriptor obj) : (Data.Aeson..=) "status" (paymentSourceStatus obj) : (Data.Aeson..=) "three_d_secure" (paymentSourceThreeDSecure obj) : (Data.Aeson..=) "tokenization_method" (paymentSourceTokenizationMethod obj) : (Data.Aeson..=) "tos_acceptance" (paymentSourceTosAcceptance obj) : (Data.Aeson..=) "transactions" (paymentSourceTransactions obj) : (Data.Aeson..=) "type" (paymentSourceType obj) : (Data.Aeson..=) "uncaptured_funds" (paymentSourceUncapturedFunds obj) : (Data.Aeson..=) "usage" (paymentSourceUsage obj) : (Data.Aeson..=) "used" (paymentSourceUsed obj) : (Data.Aeson..=) "used_for_payment" (paymentSourceUsedForPayment obj) : (Data.Aeson..=) "username" (paymentSourceUsername obj) : (Data.Aeson..=) "wechat" (paymentSourceWechat obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "account" (paymentSourceAccount obj) GHC.Base.<> ((Data.Aeson..=) "account_holder_name" (paymentSourceAccountHolderName obj) GHC.Base.<> ((Data.Aeson..=) "account_holder_type" (paymentSourceAccountHolderType obj) GHC.Base.<> ((Data.Aeson..=) "ach_credit_transfer" (paymentSourceAchCreditTransfer obj) GHC.Base.<> ((Data.Aeson..=) "ach_debit" (paymentSourceAchDebit obj) GHC.Base.<> ((Data.Aeson..=) "active" (paymentSourceActive obj) GHC.Base.<> ((Data.Aeson..=) "address_city" (paymentSourceAddressCity obj) GHC.Base.<> ((Data.Aeson..=) "address_country" (paymentSourceAddressCountry obj) GHC.Base.<> ((Data.Aeson..=) "address_line1" (paymentSourceAddressLine1 obj) GHC.Base.<> ((Data.Aeson..=) "address_line1_check" (paymentSourceAddressLine1Check obj) GHC.Base.<> ((Data.Aeson..=) "address_line2" (paymentSourceAddressLine2 obj) GHC.Base.<> ((Data.Aeson..=) "address_state" (paymentSourceAddressState obj) GHC.Base.<> ((Data.Aeson..=) "address_zip" (paymentSourceAddressZip obj) GHC.Base.<> ((Data.Aeson..=) "address_zip_check" (paymentSourceAddressZipCheck obj) GHC.Base.<> ((Data.Aeson..=) "alipay" (paymentSourceAlipay obj) GHC.Base.<> ((Data.Aeson..=) "amount" (paymentSourceAmount obj) GHC.Base.<> ((Data.Aeson..=) "amount_received" (paymentSourceAmountReceived obj) GHC.Base.<> ((Data.Aeson..=) "available_payout_methods" (paymentSourceAvailablePayoutMethods obj) GHC.Base.<> ((Data.Aeson..=) "bancontact" (paymentSourceBancontact obj) GHC.Base.<> ((Data.Aeson..=) "bank_name" (paymentSourceBankName obj) GHC.Base.<> ((Data.Aeson..=) "bitcoin_amount" (paymentSourceBitcoinAmount obj) GHC.Base.<> ((Data.Aeson..=) "bitcoin_amount_received" (paymentSourceBitcoinAmountReceived obj) GHC.Base.<> ((Data.Aeson..=) "bitcoin_uri" (paymentSourceBitcoinUri obj) GHC.Base.<> ((Data.Aeson..=) "brand" (paymentSourceBrand obj) GHC.Base.<> ((Data.Aeson..=) "business_profile" (paymentSourceBusinessProfile obj) GHC.Base.<> ((Data.Aeson..=) "business_type" (paymentSourceBusinessType obj) GHC.Base.<> ((Data.Aeson..=) "capabilities" (paymentSourceCapabilities obj) GHC.Base.<> ((Data.Aeson..=) "card" (paymentSourceCard obj) GHC.Base.<> ((Data.Aeson..=) "card_present" (paymentSourceCardPresent obj) GHC.Base.<> ((Data.Aeson..=) "charges_enabled" (paymentSourceChargesEnabled obj) GHC.Base.<> ((Data.Aeson..=) "client_secret" (paymentSourceClientSecret obj) GHC.Base.<> ((Data.Aeson..=) "code_verification" (paymentSourceCodeVerification obj) GHC.Base.<> ((Data.Aeson..=) "company" (paymentSourceCompany obj) GHC.Base.<> ((Data.Aeson..=) "country" (paymentSourceCountry obj) GHC.Base.<> ((Data.Aeson..=) "created" (paymentSourceCreated obj) GHC.Base.<> ((Data.Aeson..=) "currency" (paymentSourceCurrency obj) GHC.Base.<> ((Data.Aeson..=) "customer" (paymentSourceCustomer obj) GHC.Base.<> ((Data.Aeson..=) "cvc_check" (paymentSourceCvcCheck obj) GHC.Base.<> ((Data.Aeson..=) "default_currency" (paymentSourceDefaultCurrency obj) GHC.Base.<> ((Data.Aeson..=) "default_for_currency" (paymentSourceDefaultForCurrency obj) GHC.Base.<> ((Data.Aeson..=) "description" (paymentSourceDescription obj) GHC.Base.<> ((Data.Aeson..=) "details_submitted" (paymentSourceDetailsSubmitted obj) GHC.Base.<> ((Data.Aeson..=) "dynamic_last4" (paymentSourceDynamicLast4 obj) GHC.Base.<> ((Data.Aeson..=) "email" (paymentSourceEmail obj) GHC.Base.<> ((Data.Aeson..=) "eps" (paymentSourceEps obj) GHC.Base.<> ((Data.Aeson..=) "exp_month" (paymentSourceExpMonth obj) GHC.Base.<> ((Data.Aeson..=) "exp_year" (paymentSourceExpYear obj) GHC.Base.<> ((Data.Aeson..=) "external_accounts" (paymentSourceExternalAccounts obj) GHC.Base.<> ((Data.Aeson..=) "filled" (paymentSourceFilled obj) GHC.Base.<> ((Data.Aeson..=) "fingerprint" (paymentSourceFingerprint obj) GHC.Base.<> ((Data.Aeson..=) "flow" (paymentSourceFlow obj) GHC.Base.<> ((Data.Aeson..=) "funding" (paymentSourceFunding obj) GHC.Base.<> ((Data.Aeson..=) "giropay" (paymentSourceGiropay obj) GHC.Base.<> ((Data.Aeson..=) "id" (paymentSourceId obj) GHC.Base.<> ((Data.Aeson..=) "ideal" (paymentSourceIdeal obj) GHC.Base.<> ((Data.Aeson..=) "inbound_address" (paymentSourceInboundAddress obj) GHC.Base.<> ((Data.Aeson..=) "individual" (paymentSourceIndividual obj) GHC.Base.<> ((Data.Aeson..=) "klarna" (paymentSourceKlarna obj) GHC.Base.<> ((Data.Aeson..=) "last4" (paymentSourceLast4 obj) GHC.Base.<> ((Data.Aeson..=) "livemode" (paymentSourceLivemode obj) GHC.Base.<> ((Data.Aeson..=) "metadata" (paymentSourceMetadata obj) GHC.Base.<> ((Data.Aeson..=) "multibanco" (paymentSourceMultibanco obj) GHC.Base.<> ((Data.Aeson..=) "name" (paymentSourceName obj) GHC.Base.<> ((Data.Aeson..=) "object" (paymentSourceObject obj) GHC.Base.<> ((Data.Aeson..=) "owner" (paymentSourceOwner obj) GHC.Base.<> ((Data.Aeson..=) "p24" (paymentSourceP24 obj) GHC.Base.<> ((Data.Aeson..=) "payment" (paymentSourcePayment obj) GHC.Base.<> ((Data.Aeson..=) "payment_amount" (paymentSourcePaymentAmount obj) GHC.Base.<> ((Data.Aeson..=) "payment_currency" (paymentSourcePaymentCurrency obj) GHC.Base.<> ((Data.Aeson..=) "payouts_enabled" (paymentSourcePayoutsEnabled obj) GHC.Base.<> ((Data.Aeson..=) "receiver" (paymentSourceReceiver obj) GHC.Base.<> ((Data.Aeson..=) "recipient" (paymentSourceRecipient obj) GHC.Base.<> ((Data.Aeson..=) "redirect" (paymentSourceRedirect obj) GHC.Base.<> ((Data.Aeson..=) "refund_address" (paymentSourceRefundAddress obj) GHC.Base.<> ((Data.Aeson..=) "requirements" (paymentSourceRequirements obj) GHC.Base.<> ((Data.Aeson..=) "reusable" (paymentSourceReusable obj) GHC.Base.<> ((Data.Aeson..=) "routing_number" (paymentSourceRoutingNumber obj) GHC.Base.<> ((Data.Aeson..=) "sepa_debit" (paymentSourceSepaDebit obj) GHC.Base.<> ((Data.Aeson..=) "settings" (paymentSourceSettings obj) GHC.Base.<> ((Data.Aeson..=) "sofort" (paymentSourceSofort obj) GHC.Base.<> ((Data.Aeson..=) "source_order" (paymentSourceSourceOrder obj) GHC.Base.<> ((Data.Aeson..=) "statement_descriptor" (paymentSourceStatementDescriptor obj) GHC.Base.<> ((Data.Aeson..=) "status" (paymentSourceStatus obj) GHC.Base.<> ((Data.Aeson..=) "three_d_secure" (paymentSourceThreeDSecure obj) GHC.Base.<> ((Data.Aeson..=) "tokenization_method" (paymentSourceTokenizationMethod obj) GHC.Base.<> ((Data.Aeson..=) "tos_acceptance" (paymentSourceTosAcceptance obj) GHC.Base.<> ((Data.Aeson..=) "transactions" (paymentSourceTransactions obj) GHC.Base.<> ((Data.Aeson..=) "type" (paymentSourceType obj) GHC.Base.<> ((Data.Aeson..=) "uncaptured_funds" (paymentSourceUncapturedFunds obj) GHC.Base.<> ((Data.Aeson..=) "usage" (paymentSourceUsage obj) GHC.Base.<> ((Data.Aeson..=) "used" (paymentSourceUsed obj) GHC.Base.<> ((Data.Aeson..=) "used_for_payment" (paymentSourceUsedForPayment obj) GHC.Base.<> ((Data.Aeson..=) "username" (paymentSourceUsername obj) GHC.Base.<> (Data.Aeson..=) "wechat" (paymentSourceWechat obj))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("account" Data.Aeson.Types.ToJSON..= paymentSourceAccount obj : "account_holder_name" Data.Aeson.Types.ToJSON..= paymentSourceAccountHolderName obj : "account_holder_type" Data.Aeson.Types.ToJSON..= paymentSourceAccountHolderType obj : "ach_credit_transfer" Data.Aeson.Types.ToJSON..= paymentSourceAchCreditTransfer obj : "ach_debit" Data.Aeson.Types.ToJSON..= paymentSourceAchDebit obj : "active" Data.Aeson.Types.ToJSON..= paymentSourceActive obj : "address_city" Data.Aeson.Types.ToJSON..= paymentSourceAddressCity obj : "address_country" Data.Aeson.Types.ToJSON..= paymentSourceAddressCountry obj : "address_line1" Data.Aeson.Types.ToJSON..= paymentSourceAddressLine1 obj : "address_line1_check" Data.Aeson.Types.ToJSON..= paymentSourceAddressLine1Check obj : "address_line2" Data.Aeson.Types.ToJSON..= paymentSourceAddressLine2 obj : "address_state" Data.Aeson.Types.ToJSON..= paymentSourceAddressState obj : "address_zip" Data.Aeson.Types.ToJSON..= paymentSourceAddressZip obj : "address_zip_check" Data.Aeson.Types.ToJSON..= paymentSourceAddressZipCheck obj : "alipay" Data.Aeson.Types.ToJSON..= paymentSourceAlipay obj : "amount" Data.Aeson.Types.ToJSON..= paymentSourceAmount obj : "amount_received" Data.Aeson.Types.ToJSON..= paymentSourceAmountReceived obj : "available_payout_methods" Data.Aeson.Types.ToJSON..= paymentSourceAvailablePayoutMethods obj : "bancontact" Data.Aeson.Types.ToJSON..= paymentSourceBancontact obj : "bank_name" Data.Aeson.Types.ToJSON..= paymentSourceBankName obj : "bitcoin_amount" Data.Aeson.Types.ToJSON..= paymentSourceBitcoinAmount obj : "bitcoin_amount_received" Data.Aeson.Types.ToJSON..= paymentSourceBitcoinAmountReceived obj : "bitcoin_uri" Data.Aeson.Types.ToJSON..= paymentSourceBitcoinUri obj : "brand" Data.Aeson.Types.ToJSON..= paymentSourceBrand obj : "business_profile" Data.Aeson.Types.ToJSON..= paymentSourceBusinessProfile obj : "business_type" Data.Aeson.Types.ToJSON..= paymentSourceBusinessType obj : "capabilities" Data.Aeson.Types.ToJSON..= paymentSourceCapabilities obj : "card" Data.Aeson.Types.ToJSON..= paymentSourceCard obj : "card_present" Data.Aeson.Types.ToJSON..= paymentSourceCardPresent obj : "charges_enabled" Data.Aeson.Types.ToJSON..= paymentSourceChargesEnabled obj : "client_secret" Data.Aeson.Types.ToJSON..= paymentSourceClientSecret obj : "code_verification" Data.Aeson.Types.ToJSON..= paymentSourceCodeVerification obj : "company" Data.Aeson.Types.ToJSON..= paymentSourceCompany obj : "country" Data.Aeson.Types.ToJSON..= paymentSourceCountry obj : "created" Data.Aeson.Types.ToJSON..= paymentSourceCreated obj : "currency" Data.Aeson.Types.ToJSON..= paymentSourceCurrency obj : "customer" Data.Aeson.Types.ToJSON..= paymentSourceCustomer obj : "cvc_check" Data.Aeson.Types.ToJSON..= paymentSourceCvcCheck obj : "default_currency" Data.Aeson.Types.ToJSON..= paymentSourceDefaultCurrency obj : "default_for_currency" Data.Aeson.Types.ToJSON..= paymentSourceDefaultForCurrency obj : "description" Data.Aeson.Types.ToJSON..= paymentSourceDescription obj : "details_submitted" Data.Aeson.Types.ToJSON..= paymentSourceDetailsSubmitted obj : "dynamic_last4" Data.Aeson.Types.ToJSON..= paymentSourceDynamicLast4 obj : "email" Data.Aeson.Types.ToJSON..= paymentSourceEmail obj : "eps" Data.Aeson.Types.ToJSON..= paymentSourceEps obj : "exp_month" Data.Aeson.Types.ToJSON..= paymentSourceExpMonth obj : "exp_year" Data.Aeson.Types.ToJSON..= paymentSourceExpYear obj : "external_accounts" Data.Aeson.Types.ToJSON..= paymentSourceExternalAccounts obj : "filled" Data.Aeson.Types.ToJSON..= paymentSourceFilled obj : "fingerprint" Data.Aeson.Types.ToJSON..= paymentSourceFingerprint obj : "flow" Data.Aeson.Types.ToJSON..= paymentSourceFlow obj : "funding" Data.Aeson.Types.ToJSON..= paymentSourceFunding obj : "giropay" Data.Aeson.Types.ToJSON..= paymentSourceGiropay obj : "id" Data.Aeson.Types.ToJSON..= paymentSourceId obj : "ideal" Data.Aeson.Types.ToJSON..= paymentSourceIdeal obj : "inbound_address" Data.Aeson.Types.ToJSON..= paymentSourceInboundAddress obj : "individual" Data.Aeson.Types.ToJSON..= paymentSourceIndividual obj : "klarna" Data.Aeson.Types.ToJSON..= paymentSourceKlarna obj : "last4" Data.Aeson.Types.ToJSON..= paymentSourceLast4 obj : "livemode" Data.Aeson.Types.ToJSON..= paymentSourceLivemode obj : "metadata" Data.Aeson.Types.ToJSON..= paymentSourceMetadata obj : "multibanco" Data.Aeson.Types.ToJSON..= paymentSourceMultibanco obj : "name" Data.Aeson.Types.ToJSON..= paymentSourceName obj : "owner" Data.Aeson.Types.ToJSON..= paymentSourceOwner obj : "p24" Data.Aeson.Types.ToJSON..= paymentSourceP24 obj : "payment" Data.Aeson.Types.ToJSON..= paymentSourcePayment obj : "payment_amount" Data.Aeson.Types.ToJSON..= paymentSourcePaymentAmount obj : "payment_currency" Data.Aeson.Types.ToJSON..= paymentSourcePaymentCurrency obj : "payouts_enabled" Data.Aeson.Types.ToJSON..= paymentSourcePayoutsEnabled obj : "receiver" Data.Aeson.Types.ToJSON..= paymentSourceReceiver obj : "recipient" Data.Aeson.Types.ToJSON..= paymentSourceRecipient obj : "redirect" Data.Aeson.Types.ToJSON..= paymentSourceRedirect obj : "refund_address" Data.Aeson.Types.ToJSON..= paymentSourceRefundAddress obj : "requirements" Data.Aeson.Types.ToJSON..= paymentSourceRequirements obj : "reusable" Data.Aeson.Types.ToJSON..= paymentSourceReusable obj : "routing_number" Data.Aeson.Types.ToJSON..= paymentSourceRoutingNumber obj : "sepa_debit" Data.Aeson.Types.ToJSON..= paymentSourceSepaDebit obj : "settings" Data.Aeson.Types.ToJSON..= paymentSourceSettings obj : "sofort" Data.Aeson.Types.ToJSON..= paymentSourceSofort obj : "source_order" Data.Aeson.Types.ToJSON..= paymentSourceSourceOrder obj : "statement_descriptor" Data.Aeson.Types.ToJSON..= paymentSourceStatementDescriptor obj : "status" Data.Aeson.Types.ToJSON..= paymentSourceStatus obj : "three_d_secure" Data.Aeson.Types.ToJSON..= paymentSourceThreeDSecure obj : "tokenization_method" Data.Aeson.Types.ToJSON..= paymentSourceTokenizationMethod obj : "tos_acceptance" Data.Aeson.Types.ToJSON..= paymentSourceTosAcceptance obj : "transactions" Data.Aeson.Types.ToJSON..= paymentSourceTransactions obj : "type" Data.Aeson.Types.ToJSON..= paymentSourceType obj : "uncaptured_funds" Data.Aeson.Types.ToJSON..= paymentSourceUncapturedFunds obj : "usage" Data.Aeson.Types.ToJSON..= paymentSourceUsage obj : "used" Data.Aeson.Types.ToJSON..= paymentSourceUsed obj : "used_for_payment" Data.Aeson.Types.ToJSON..= paymentSourceUsedForPayment obj : "username" Data.Aeson.Types.ToJSON..= paymentSourceUsername obj : "wechat" Data.Aeson.Types.ToJSON..= paymentSourceWechat obj : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "account" : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("account" Data.Aeson.Types.ToJSON..= paymentSourceAccount obj) GHC.Base.<> (("account_holder_name" Data.Aeson.Types.ToJSON..= paymentSourceAccountHolderName obj) GHC.Base.<> (("account_holder_type" Data.Aeson.Types.ToJSON..= paymentSourceAccountHolderType obj) GHC.Base.<> (("ach_credit_transfer" Data.Aeson.Types.ToJSON..= paymentSourceAchCreditTransfer obj) GHC.Base.<> (("ach_debit" Data.Aeson.Types.ToJSON..= paymentSourceAchDebit obj) GHC.Base.<> (("active" Data.Aeson.Types.ToJSON..= paymentSourceActive obj) GHC.Base.<> (("address_city" Data.Aeson.Types.ToJSON..= paymentSourceAddressCity obj) GHC.Base.<> (("address_country" Data.Aeson.Types.ToJSON..= paymentSourceAddressCountry obj) GHC.Base.<> (("address_line1" Data.Aeson.Types.ToJSON..= paymentSourceAddressLine1 obj) GHC.Base.<> (("address_line1_check" Data.Aeson.Types.ToJSON..= paymentSourceAddressLine1Check obj) GHC.Base.<> (("address_line2" Data.Aeson.Types.ToJSON..= paymentSourceAddressLine2 obj) GHC.Base.<> (("address_state" Data.Aeson.Types.ToJSON..= paymentSourceAddressState obj) GHC.Base.<> (("address_zip" Data.Aeson.Types.ToJSON..= paymentSourceAddressZip obj) GHC.Base.<> (("address_zip_check" Data.Aeson.Types.ToJSON..= paymentSourceAddressZipCheck obj) GHC.Base.<> (("alipay" Data.Aeson.Types.ToJSON..= paymentSourceAlipay obj) GHC.Base.<> (("amount" Data.Aeson.Types.ToJSON..= paymentSourceAmount obj) GHC.Base.<> (("amount_received" Data.Aeson.Types.ToJSON..= paymentSourceAmountReceived obj) GHC.Base.<> (("available_payout_methods" Data.Aeson.Types.ToJSON..= paymentSourceAvailablePayoutMethods obj) GHC.Base.<> (("bancontact" Data.Aeson.Types.ToJSON..= paymentSourceBancontact obj) GHC.Base.<> (("bank_name" Data.Aeson.Types.ToJSON..= paymentSourceBankName obj) GHC.Base.<> (("bitcoin_amount" Data.Aeson.Types.ToJSON..= paymentSourceBitcoinAmount obj) GHC.Base.<> (("bitcoin_amount_received" Data.Aeson.Types.ToJSON..= paymentSourceBitcoinAmountReceived obj) GHC.Base.<> (("bitcoin_uri" Data.Aeson.Types.ToJSON..= paymentSourceBitcoinUri obj) GHC.Base.<> (("brand" Data.Aeson.Types.ToJSON..= paymentSourceBrand obj) GHC.Base.<> (("business_profile" Data.Aeson.Types.ToJSON..= paymentSourceBusinessProfile obj) GHC.Base.<> (("business_type" Data.Aeson.Types.ToJSON..= paymentSourceBusinessType obj) GHC.Base.<> (("capabilities" Data.Aeson.Types.ToJSON..= paymentSourceCapabilities obj) GHC.Base.<> (("card" Data.Aeson.Types.ToJSON..= paymentSourceCard obj) GHC.Base.<> (("card_present" Data.Aeson.Types.ToJSON..= paymentSourceCardPresent obj) GHC.Base.<> (("charges_enabled" Data.Aeson.Types.ToJSON..= paymentSourceChargesEnabled obj) GHC.Base.<> (("client_secret" Data.Aeson.Types.ToJSON..= paymentSourceClientSecret obj) GHC.Base.<> (("code_verification" Data.Aeson.Types.ToJSON..= paymentSourceCodeVerification obj) GHC.Base.<> (("company" Data.Aeson.Types.ToJSON..= paymentSourceCompany obj) GHC.Base.<> (("country" Data.Aeson.Types.ToJSON..= paymentSourceCountry obj) GHC.Base.<> (("created" Data.Aeson.Types.ToJSON..= paymentSourceCreated obj) GHC.Base.<> (("currency" Data.Aeson.Types.ToJSON..= paymentSourceCurrency obj) GHC.Base.<> (("customer" Data.Aeson.Types.ToJSON..= paymentSourceCustomer obj) GHC.Base.<> (("cvc_check" Data.Aeson.Types.ToJSON..= paymentSourceCvcCheck obj) GHC.Base.<> (("default_currency" Data.Aeson.Types.ToJSON..= paymentSourceDefaultCurrency obj) GHC.Base.<> (("default_for_currency" Data.Aeson.Types.ToJSON..= paymentSourceDefaultForCurrency obj) GHC.Base.<> (("description" Data.Aeson.Types.ToJSON..= paymentSourceDescription obj) GHC.Base.<> (("details_submitted" Data.Aeson.Types.ToJSON..= paymentSourceDetailsSubmitted obj) GHC.Base.<> (("dynamic_last4" Data.Aeson.Types.ToJSON..= paymentSourceDynamicLast4 obj) GHC.Base.<> (("email" Data.Aeson.Types.ToJSON..= paymentSourceEmail obj) GHC.Base.<> (("eps" Data.Aeson.Types.ToJSON..= paymentSourceEps obj) GHC.Base.<> (("exp_month" Data.Aeson.Types.ToJSON..= paymentSourceExpMonth obj) GHC.Base.<> (("exp_year" Data.Aeson.Types.ToJSON..= paymentSourceExpYear obj) GHC.Base.<> (("external_accounts" Data.Aeson.Types.ToJSON..= paymentSourceExternalAccounts obj) GHC.Base.<> (("filled" Data.Aeson.Types.ToJSON..= paymentSourceFilled obj) GHC.Base.<> (("fingerprint" Data.Aeson.Types.ToJSON..= paymentSourceFingerprint obj) GHC.Base.<> (("flow" Data.Aeson.Types.ToJSON..= paymentSourceFlow obj) GHC.Base.<> (("funding" Data.Aeson.Types.ToJSON..= paymentSourceFunding obj) GHC.Base.<> (("giropay" Data.Aeson.Types.ToJSON..= paymentSourceGiropay obj) GHC.Base.<> (("id" Data.Aeson.Types.ToJSON..= paymentSourceId obj) GHC.Base.<> (("ideal" Data.Aeson.Types.ToJSON..= paymentSourceIdeal obj) GHC.Base.<> (("inbound_address" Data.Aeson.Types.ToJSON..= paymentSourceInboundAddress obj) GHC.Base.<> (("individual" Data.Aeson.Types.ToJSON..= paymentSourceIndividual obj) GHC.Base.<> (("klarna" Data.Aeson.Types.ToJSON..= paymentSourceKlarna obj) GHC.Base.<> (("last4" Data.Aeson.Types.ToJSON..= paymentSourceLast4 obj) GHC.Base.<> (("livemode" Data.Aeson.Types.ToJSON..= paymentSourceLivemode obj) GHC.Base.<> (("metadata" Data.Aeson.Types.ToJSON..= paymentSourceMetadata obj) GHC.Base.<> (("multibanco" Data.Aeson.Types.ToJSON..= paymentSourceMultibanco obj) GHC.Base.<> (("name" Data.Aeson.Types.ToJSON..= paymentSourceName obj) GHC.Base.<> (("owner" Data.Aeson.Types.ToJSON..= paymentSourceOwner obj) GHC.Base.<> (("p24" Data.Aeson.Types.ToJSON..= paymentSourceP24 obj) GHC.Base.<> (("payment" Data.Aeson.Types.ToJSON..= paymentSourcePayment obj) GHC.Base.<> (("payment_amount" Data.Aeson.Types.ToJSON..= paymentSourcePaymentAmount obj) GHC.Base.<> (("payment_currency" Data.Aeson.Types.ToJSON..= paymentSourcePaymentCurrency obj) GHC.Base.<> (("payouts_enabled" Data.Aeson.Types.ToJSON..= paymentSourcePayoutsEnabled obj) GHC.Base.<> (("receiver" Data.Aeson.Types.ToJSON..= paymentSourceReceiver obj) GHC.Base.<> (("recipient" Data.Aeson.Types.ToJSON..= paymentSourceRecipient obj) GHC.Base.<> (("redirect" Data.Aeson.Types.ToJSON..= paymentSourceRedirect obj) GHC.Base.<> (("refund_address" Data.Aeson.Types.ToJSON..= paymentSourceRefundAddress obj) GHC.Base.<> (("requirements" Data.Aeson.Types.ToJSON..= paymentSourceRequirements obj) GHC.Base.<> (("reusable" Data.Aeson.Types.ToJSON..= paymentSourceReusable obj) GHC.Base.<> (("routing_number" Data.Aeson.Types.ToJSON..= paymentSourceRoutingNumber obj) GHC.Base.<> (("sepa_debit" Data.Aeson.Types.ToJSON..= paymentSourceSepaDebit obj) GHC.Base.<> (("settings" Data.Aeson.Types.ToJSON..= paymentSourceSettings obj) GHC.Base.<> (("sofort" Data.Aeson.Types.ToJSON..= paymentSourceSofort obj) GHC.Base.<> (("source_order" Data.Aeson.Types.ToJSON..= paymentSourceSourceOrder obj) GHC.Base.<> (("statement_descriptor" Data.Aeson.Types.ToJSON..= paymentSourceStatementDescriptor obj) GHC.Base.<> (("status" Data.Aeson.Types.ToJSON..= paymentSourceStatus obj) GHC.Base.<> (("three_d_secure" Data.Aeson.Types.ToJSON..= paymentSourceThreeDSecure obj) GHC.Base.<> (("tokenization_method" Data.Aeson.Types.ToJSON..= paymentSourceTokenizationMethod obj) GHC.Base.<> (("tos_acceptance" Data.Aeson.Types.ToJSON..= paymentSourceTosAcceptance obj) GHC.Base.<> (("transactions" Data.Aeson.Types.ToJSON..= paymentSourceTransactions obj) GHC.Base.<> (("type" Data.Aeson.Types.ToJSON..= paymentSourceType obj) GHC.Base.<> (("uncaptured_funds" Data.Aeson.Types.ToJSON..= paymentSourceUncapturedFunds obj) GHC.Base.<> (("usage" Data.Aeson.Types.ToJSON..= paymentSourceUsage obj) GHC.Base.<> (("used" Data.Aeson.Types.ToJSON..= paymentSourceUsed obj) GHC.Base.<> (("used_for_payment" Data.Aeson.Types.ToJSON..= paymentSourceUsedForPayment obj) GHC.Base.<> (("username" Data.Aeson.Types.ToJSON..= paymentSourceUsername obj) GHC.Base.<> (("wechat" Data.Aeson.Types.ToJSON..= paymentSourceWechat obj) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "account"))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PaymentSource where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PaymentSource" (\obj -> (((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((GHC.Base.pure PaymentSource GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "account")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "account_holder_name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "account_holder_type")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "ach_credit_transfer")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "ach_debit")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "active")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "address_city")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "address_country")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "address_line1")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "address_line1_check")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "address_line2")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "address_state")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "address_zip")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "address_zip_check")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "alipay")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "amount_received")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "available_payout_methods")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "bancontact")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "bank_name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "bitcoin_amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "bitcoin_amount_received")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "bitcoin_uri")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "brand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "business_profile")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "business_type")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "capabilities")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "card")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "card_present")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "charges_enabled")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "client_secret")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "code_verification")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "company")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "country")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "created")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "customer")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "cvc_check")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "default_currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "default_for_currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "description")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "details_submitted")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "dynamic_last4")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "email")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "eps")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "exp_month")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "exp_year")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "external_accounts")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "filled")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "fingerprint")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "flow")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "funding")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "giropay")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "ideal")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "inbound_address")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "individual")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "klarna")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "last4")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "livemode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "multibanco")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "object")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "owner")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "p24")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "payment")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "payment_amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "payment_currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "payouts_enabled")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "receiver")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "recipient")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "redirect")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "refund_address")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "requirements")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "reusable")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "routing_number")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "sepa_debit")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "settings")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "sofort")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "source_order")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "statement_descriptor")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "status")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "three_d_secure")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "tokenization_method")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "tos_acceptance")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "transactions")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "type")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "uncaptured_funds")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "usage")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "used")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "used_for_payment")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "username")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "wechat"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PaymentSource" (\obj -> ((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((GHC.Base.pure PaymentSource GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "account")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "account_holder_name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "account_holder_type")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "ach_credit_transfer")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "ach_debit")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "active")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "address_city")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "address_country")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "address_line1")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "address_line1_check")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "address_line2")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "address_state")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "address_zip")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "address_zip_check")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "alipay")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "amount_received")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "available_payout_methods")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "bancontact")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "bank_name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "bitcoin_amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "bitcoin_amount_received")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "bitcoin_uri")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "brand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "business_profile")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "business_type")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "capabilities")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "card")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "card_present")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "charges_enabled")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "client_secret")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "code_verification")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "company")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "country")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "created")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "customer")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "cvc_check")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "default_currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "default_for_currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "description")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "details_submitted")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "dynamic_last4")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "email")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "eps")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "exp_month")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "exp_year")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "external_accounts")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "filled")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "fingerprint")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "flow")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "funding")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "giropay")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "ideal")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "inbound_address")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "individual")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "klarna")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "last4")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "livemode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "multibanco")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "owner")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "p24")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "payment")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "payment_amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "payment_currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "payouts_enabled")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "receiver")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "recipient")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "redirect")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "refund_address")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "requirements")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "reusable")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "routing_number")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "sepa_debit")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "settings")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "sofort")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "source_order")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "statement_descriptor")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "status")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "three_d_secure")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "tokenization_method")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "tos_acceptance")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "transactions")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "type")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "uncaptured_funds")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "usage")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "used")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "used_for_payment")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "username")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "wechat"))
 
--- | Define the one-of schema payment_sourceAccount\'
+-- | Create a new 'PaymentSource' with all required fields.
+mkPaymentSource :: PaymentSource
+mkPaymentSource =
+  PaymentSource
+    { paymentSourceAccount = GHC.Maybe.Nothing,
+      paymentSourceAccountHolderName = GHC.Maybe.Nothing,
+      paymentSourceAccountHolderType = GHC.Maybe.Nothing,
+      paymentSourceAchCreditTransfer = GHC.Maybe.Nothing,
+      paymentSourceAchDebit = GHC.Maybe.Nothing,
+      paymentSourceActive = GHC.Maybe.Nothing,
+      paymentSourceAddressCity = GHC.Maybe.Nothing,
+      paymentSourceAddressCountry = GHC.Maybe.Nothing,
+      paymentSourceAddressLine1 = GHC.Maybe.Nothing,
+      paymentSourceAddressLine1Check = GHC.Maybe.Nothing,
+      paymentSourceAddressLine2 = GHC.Maybe.Nothing,
+      paymentSourceAddressState = GHC.Maybe.Nothing,
+      paymentSourceAddressZip = GHC.Maybe.Nothing,
+      paymentSourceAddressZipCheck = GHC.Maybe.Nothing,
+      paymentSourceAlipay = GHC.Maybe.Nothing,
+      paymentSourceAmount = GHC.Maybe.Nothing,
+      paymentSourceAmountReceived = GHC.Maybe.Nothing,
+      paymentSourceAvailablePayoutMethods = GHC.Maybe.Nothing,
+      paymentSourceBancontact = GHC.Maybe.Nothing,
+      paymentSourceBankName = GHC.Maybe.Nothing,
+      paymentSourceBitcoinAmount = GHC.Maybe.Nothing,
+      paymentSourceBitcoinAmountReceived = GHC.Maybe.Nothing,
+      paymentSourceBitcoinUri = GHC.Maybe.Nothing,
+      paymentSourceBrand = GHC.Maybe.Nothing,
+      paymentSourceBusinessProfile = GHC.Maybe.Nothing,
+      paymentSourceBusinessType = GHC.Maybe.Nothing,
+      paymentSourceCapabilities = GHC.Maybe.Nothing,
+      paymentSourceCard = GHC.Maybe.Nothing,
+      paymentSourceCardPresent = GHC.Maybe.Nothing,
+      paymentSourceChargesEnabled = GHC.Maybe.Nothing,
+      paymentSourceClientSecret = GHC.Maybe.Nothing,
+      paymentSourceCodeVerification = GHC.Maybe.Nothing,
+      paymentSourceCompany = GHC.Maybe.Nothing,
+      paymentSourceCountry = GHC.Maybe.Nothing,
+      paymentSourceCreated = GHC.Maybe.Nothing,
+      paymentSourceCurrency = GHC.Maybe.Nothing,
+      paymentSourceCustomer = GHC.Maybe.Nothing,
+      paymentSourceCvcCheck = GHC.Maybe.Nothing,
+      paymentSourceDefaultCurrency = GHC.Maybe.Nothing,
+      paymentSourceDefaultForCurrency = GHC.Maybe.Nothing,
+      paymentSourceDescription = GHC.Maybe.Nothing,
+      paymentSourceDetailsSubmitted = GHC.Maybe.Nothing,
+      paymentSourceDynamicLast4 = GHC.Maybe.Nothing,
+      paymentSourceEmail = GHC.Maybe.Nothing,
+      paymentSourceEps = GHC.Maybe.Nothing,
+      paymentSourceExpMonth = GHC.Maybe.Nothing,
+      paymentSourceExpYear = GHC.Maybe.Nothing,
+      paymentSourceExternalAccounts = GHC.Maybe.Nothing,
+      paymentSourceFilled = GHC.Maybe.Nothing,
+      paymentSourceFingerprint = GHC.Maybe.Nothing,
+      paymentSourceFlow = GHC.Maybe.Nothing,
+      paymentSourceFunding = GHC.Maybe.Nothing,
+      paymentSourceGiropay = GHC.Maybe.Nothing,
+      paymentSourceId = GHC.Maybe.Nothing,
+      paymentSourceIdeal = GHC.Maybe.Nothing,
+      paymentSourceInboundAddress = GHC.Maybe.Nothing,
+      paymentSourceIndividual = GHC.Maybe.Nothing,
+      paymentSourceKlarna = GHC.Maybe.Nothing,
+      paymentSourceLast4 = GHC.Maybe.Nothing,
+      paymentSourceLivemode = GHC.Maybe.Nothing,
+      paymentSourceMetadata = GHC.Maybe.Nothing,
+      paymentSourceMultibanco = GHC.Maybe.Nothing,
+      paymentSourceName = GHC.Maybe.Nothing,
+      paymentSourceOwner = GHC.Maybe.Nothing,
+      paymentSourceP24 = GHC.Maybe.Nothing,
+      paymentSourcePayment = GHC.Maybe.Nothing,
+      paymentSourcePaymentAmount = GHC.Maybe.Nothing,
+      paymentSourcePaymentCurrency = GHC.Maybe.Nothing,
+      paymentSourcePayoutsEnabled = GHC.Maybe.Nothing,
+      paymentSourceReceiver = GHC.Maybe.Nothing,
+      paymentSourceRecipient = GHC.Maybe.Nothing,
+      paymentSourceRedirect = GHC.Maybe.Nothing,
+      paymentSourceRefundAddress = GHC.Maybe.Nothing,
+      paymentSourceRequirements = GHC.Maybe.Nothing,
+      paymentSourceReusable = GHC.Maybe.Nothing,
+      paymentSourceRoutingNumber = GHC.Maybe.Nothing,
+      paymentSourceSepaDebit = GHC.Maybe.Nothing,
+      paymentSourceSettings = GHC.Maybe.Nothing,
+      paymentSourceSofort = GHC.Maybe.Nothing,
+      paymentSourceSourceOrder = GHC.Maybe.Nothing,
+      paymentSourceStatementDescriptor = GHC.Maybe.Nothing,
+      paymentSourceStatus = GHC.Maybe.Nothing,
+      paymentSourceThreeDSecure = GHC.Maybe.Nothing,
+      paymentSourceTokenizationMethod = GHC.Maybe.Nothing,
+      paymentSourceTosAcceptance = GHC.Maybe.Nothing,
+      paymentSourceTransactions = GHC.Maybe.Nothing,
+      paymentSourceType = GHC.Maybe.Nothing,
+      paymentSourceUncapturedFunds = GHC.Maybe.Nothing,
+      paymentSourceUsage = GHC.Maybe.Nothing,
+      paymentSourceUsed = GHC.Maybe.Nothing,
+      paymentSourceUsedForPayment = GHC.Maybe.Nothing,
+      paymentSourceUsername = GHC.Maybe.Nothing,
+      paymentSourceWechat = GHC.Maybe.Nothing
+    }
+
+-- | Defines the oneOf schema located at @components.schemas.payment_source.anyOf.properties.account.anyOf@ in the specification.
 --
 -- The ID of the account that the bank account is associated with.
 data PaymentSourceAccount'Variants
@@ -435,35 +533,37 @@ instance Data.Aeson.Types.ToJSON.ToJSON PaymentSourceAccount'Variants where
   toJSON (PaymentSourceAccount'Text a) = Data.Aeson.Types.ToJSON.toJSON a
 
 instance Data.Aeson.Types.FromJSON.FromJSON PaymentSourceAccount'Variants where
-  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
-    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ PaymentSourceAccount'Account a
-    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ PaymentSourceAccount'Text a
-      Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+  parseJSON val = case (PaymentSourceAccount'Account Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((PaymentSourceAccount'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched") of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+    Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
--- | Defines the enum schema payment_sourceAvailable_payout_methods\'
+-- | Defines the enum schema located at @components.schemas.payment_source.anyOf.properties.available_payout_methods.items@ in the specification.
 data PaymentSourceAvailablePayoutMethods'
-  = PaymentSourceAvailablePayoutMethods'EnumOther Data.Aeson.Types.Internal.Value
-  | PaymentSourceAvailablePayoutMethods'EnumTyped Data.Text.Internal.Text
-  | PaymentSourceAvailablePayoutMethods'EnumStringInstant
-  | PaymentSourceAvailablePayoutMethods'EnumStringStandard
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    PaymentSourceAvailablePayoutMethods'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    PaymentSourceAvailablePayoutMethods'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"instant"@
+    PaymentSourceAvailablePayoutMethods'EnumInstant
+  | -- | Represents the JSON value @"standard"@
+    PaymentSourceAvailablePayoutMethods'EnumStandard
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
 instance Data.Aeson.Types.ToJSON.ToJSON PaymentSourceAvailablePayoutMethods' where
-  toJSON (PaymentSourceAvailablePayoutMethods'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PaymentSourceAvailablePayoutMethods'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PaymentSourceAvailablePayoutMethods'EnumStringInstant) = "instant"
-  toJSON (PaymentSourceAvailablePayoutMethods'EnumStringStandard) = "standard"
+  toJSON (PaymentSourceAvailablePayoutMethods'Other val) = val
+  toJSON (PaymentSourceAvailablePayoutMethods'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PaymentSourceAvailablePayoutMethods'EnumInstant) = "instant"
+  toJSON (PaymentSourceAvailablePayoutMethods'EnumStandard) = "standard"
 
 instance Data.Aeson.Types.FromJSON.FromJSON PaymentSourceAvailablePayoutMethods' where
   parseJSON val =
     GHC.Base.pure
-      ( if  | val GHC.Classes.== "instant" -> PaymentSourceAvailablePayoutMethods'EnumStringInstant
-            | val GHC.Classes.== "standard" -> PaymentSourceAvailablePayoutMethods'EnumStringStandard
-            | GHC.Base.otherwise -> PaymentSourceAvailablePayoutMethods'EnumOther val
+      ( if  | val GHC.Classes.== "instant" -> PaymentSourceAvailablePayoutMethods'EnumInstant
+            | val GHC.Classes.== "standard" -> PaymentSourceAvailablePayoutMethods'EnumStandard
+            | GHC.Base.otherwise -> PaymentSourceAvailablePayoutMethods'Other val
       )
 
--- | Defines the data type for the schema payment_sourceBusiness_profile\'
+-- | Defines the object schema located at @components.schemas.payment_source.anyOf.properties.business_profile.anyOf@ in the specification.
 --
 -- Business information about the account.
 data PaymentSourceBusinessProfile'
@@ -519,13 +619,27 @@ data PaymentSourceBusinessProfile'
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PaymentSourceBusinessProfile' where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "mcc" (paymentSourceBusinessProfile'Mcc obj) : (Data.Aeson..=) "name" (paymentSourceBusinessProfile'Name obj) : (Data.Aeson..=) "product_description" (paymentSourceBusinessProfile'ProductDescription obj) : (Data.Aeson..=) "support_address" (paymentSourceBusinessProfile'SupportAddress obj) : (Data.Aeson..=) "support_email" (paymentSourceBusinessProfile'SupportEmail obj) : (Data.Aeson..=) "support_phone" (paymentSourceBusinessProfile'SupportPhone obj) : (Data.Aeson..=) "support_url" (paymentSourceBusinessProfile'SupportUrl obj) : (Data.Aeson..=) "url" (paymentSourceBusinessProfile'Url obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "mcc" (paymentSourceBusinessProfile'Mcc obj) GHC.Base.<> ((Data.Aeson..=) "name" (paymentSourceBusinessProfile'Name obj) GHC.Base.<> ((Data.Aeson..=) "product_description" (paymentSourceBusinessProfile'ProductDescription obj) GHC.Base.<> ((Data.Aeson..=) "support_address" (paymentSourceBusinessProfile'SupportAddress obj) GHC.Base.<> ((Data.Aeson..=) "support_email" (paymentSourceBusinessProfile'SupportEmail obj) GHC.Base.<> ((Data.Aeson..=) "support_phone" (paymentSourceBusinessProfile'SupportPhone obj) GHC.Base.<> ((Data.Aeson..=) "support_url" (paymentSourceBusinessProfile'SupportUrl obj) GHC.Base.<> (Data.Aeson..=) "url" (paymentSourceBusinessProfile'Url obj))))))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("mcc" Data.Aeson.Types.ToJSON..= paymentSourceBusinessProfile'Mcc obj : "name" Data.Aeson.Types.ToJSON..= paymentSourceBusinessProfile'Name obj : "product_description" Data.Aeson.Types.ToJSON..= paymentSourceBusinessProfile'ProductDescription obj : "support_address" Data.Aeson.Types.ToJSON..= paymentSourceBusinessProfile'SupportAddress obj : "support_email" Data.Aeson.Types.ToJSON..= paymentSourceBusinessProfile'SupportEmail obj : "support_phone" Data.Aeson.Types.ToJSON..= paymentSourceBusinessProfile'SupportPhone obj : "support_url" Data.Aeson.Types.ToJSON..= paymentSourceBusinessProfile'SupportUrl obj : "url" Data.Aeson.Types.ToJSON..= paymentSourceBusinessProfile'Url obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("mcc" Data.Aeson.Types.ToJSON..= paymentSourceBusinessProfile'Mcc obj) GHC.Base.<> (("name" Data.Aeson.Types.ToJSON..= paymentSourceBusinessProfile'Name obj) GHC.Base.<> (("product_description" Data.Aeson.Types.ToJSON..= paymentSourceBusinessProfile'ProductDescription obj) GHC.Base.<> (("support_address" Data.Aeson.Types.ToJSON..= paymentSourceBusinessProfile'SupportAddress obj) GHC.Base.<> (("support_email" Data.Aeson.Types.ToJSON..= paymentSourceBusinessProfile'SupportEmail obj) GHC.Base.<> (("support_phone" Data.Aeson.Types.ToJSON..= paymentSourceBusinessProfile'SupportPhone obj) GHC.Base.<> (("support_url" Data.Aeson.Types.ToJSON..= paymentSourceBusinessProfile'SupportUrl obj) GHC.Base.<> ("url" Data.Aeson.Types.ToJSON..= paymentSourceBusinessProfile'Url obj))))))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PaymentSourceBusinessProfile' where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PaymentSourceBusinessProfile'" (\obj -> (((((((GHC.Base.pure PaymentSourceBusinessProfile' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "mcc")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "product_description")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "support_address")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "support_email")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "support_phone")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "support_url")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "url"))
 
--- | Defines the data type for the schema payment_sourceBusiness_profile\'Support_address\'
+-- | Create a new 'PaymentSourceBusinessProfile'' with all required fields.
+mkPaymentSourceBusinessProfile' :: PaymentSourceBusinessProfile'
+mkPaymentSourceBusinessProfile' =
+  PaymentSourceBusinessProfile'
+    { paymentSourceBusinessProfile'Mcc = GHC.Maybe.Nothing,
+      paymentSourceBusinessProfile'Name = GHC.Maybe.Nothing,
+      paymentSourceBusinessProfile'ProductDescription = GHC.Maybe.Nothing,
+      paymentSourceBusinessProfile'SupportAddress = GHC.Maybe.Nothing,
+      paymentSourceBusinessProfile'SupportEmail = GHC.Maybe.Nothing,
+      paymentSourceBusinessProfile'SupportPhone = GHC.Maybe.Nothing,
+      paymentSourceBusinessProfile'SupportUrl = GHC.Maybe.Nothing,
+      paymentSourceBusinessProfile'Url = GHC.Maybe.Nothing
+    }
+
+-- | Defines the object schema located at @components.schemas.payment_source.anyOf.properties.business_profile.anyOf.properties.support_address.anyOf@ in the specification.
 --
 -- A publicly available mailing address for sending support issues to.
 data PaymentSourceBusinessProfile'SupportAddress'
@@ -573,43 +687,61 @@ data PaymentSourceBusinessProfile'SupportAddress'
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PaymentSourceBusinessProfile'SupportAddress' where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "city" (paymentSourceBusinessProfile'SupportAddress'City obj) : (Data.Aeson..=) "country" (paymentSourceBusinessProfile'SupportAddress'Country obj) : (Data.Aeson..=) "line1" (paymentSourceBusinessProfile'SupportAddress'Line1 obj) : (Data.Aeson..=) "line2" (paymentSourceBusinessProfile'SupportAddress'Line2 obj) : (Data.Aeson..=) "postal_code" (paymentSourceBusinessProfile'SupportAddress'PostalCode obj) : (Data.Aeson..=) "state" (paymentSourceBusinessProfile'SupportAddress'State obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "city" (paymentSourceBusinessProfile'SupportAddress'City obj) GHC.Base.<> ((Data.Aeson..=) "country" (paymentSourceBusinessProfile'SupportAddress'Country obj) GHC.Base.<> ((Data.Aeson..=) "line1" (paymentSourceBusinessProfile'SupportAddress'Line1 obj) GHC.Base.<> ((Data.Aeson..=) "line2" (paymentSourceBusinessProfile'SupportAddress'Line2 obj) GHC.Base.<> ((Data.Aeson..=) "postal_code" (paymentSourceBusinessProfile'SupportAddress'PostalCode obj) GHC.Base.<> (Data.Aeson..=) "state" (paymentSourceBusinessProfile'SupportAddress'State obj))))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("city" Data.Aeson.Types.ToJSON..= paymentSourceBusinessProfile'SupportAddress'City obj : "country" Data.Aeson.Types.ToJSON..= paymentSourceBusinessProfile'SupportAddress'Country obj : "line1" Data.Aeson.Types.ToJSON..= paymentSourceBusinessProfile'SupportAddress'Line1 obj : "line2" Data.Aeson.Types.ToJSON..= paymentSourceBusinessProfile'SupportAddress'Line2 obj : "postal_code" Data.Aeson.Types.ToJSON..= paymentSourceBusinessProfile'SupportAddress'PostalCode obj : "state" Data.Aeson.Types.ToJSON..= paymentSourceBusinessProfile'SupportAddress'State obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("city" Data.Aeson.Types.ToJSON..= paymentSourceBusinessProfile'SupportAddress'City obj) GHC.Base.<> (("country" Data.Aeson.Types.ToJSON..= paymentSourceBusinessProfile'SupportAddress'Country obj) GHC.Base.<> (("line1" Data.Aeson.Types.ToJSON..= paymentSourceBusinessProfile'SupportAddress'Line1 obj) GHC.Base.<> (("line2" Data.Aeson.Types.ToJSON..= paymentSourceBusinessProfile'SupportAddress'Line2 obj) GHC.Base.<> (("postal_code" Data.Aeson.Types.ToJSON..= paymentSourceBusinessProfile'SupportAddress'PostalCode obj) GHC.Base.<> ("state" Data.Aeson.Types.ToJSON..= paymentSourceBusinessProfile'SupportAddress'State obj))))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PaymentSourceBusinessProfile'SupportAddress' where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PaymentSourceBusinessProfile'SupportAddress'" (\obj -> (((((GHC.Base.pure PaymentSourceBusinessProfile'SupportAddress' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "city")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "country")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "line1")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "line2")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "postal_code")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "state"))
 
--- | Defines the enum schema payment_sourceBusiness_type\'
+-- | Create a new 'PaymentSourceBusinessProfile'SupportAddress'' with all required fields.
+mkPaymentSourceBusinessProfile'SupportAddress' :: PaymentSourceBusinessProfile'SupportAddress'
+mkPaymentSourceBusinessProfile'SupportAddress' =
+  PaymentSourceBusinessProfile'SupportAddress'
+    { paymentSourceBusinessProfile'SupportAddress'City = GHC.Maybe.Nothing,
+      paymentSourceBusinessProfile'SupportAddress'Country = GHC.Maybe.Nothing,
+      paymentSourceBusinessProfile'SupportAddress'Line1 = GHC.Maybe.Nothing,
+      paymentSourceBusinessProfile'SupportAddress'Line2 = GHC.Maybe.Nothing,
+      paymentSourceBusinessProfile'SupportAddress'PostalCode = GHC.Maybe.Nothing,
+      paymentSourceBusinessProfile'SupportAddress'State = GHC.Maybe.Nothing
+    }
+
+-- | Defines the enum schema located at @components.schemas.payment_source.anyOf.properties.business_type@ in the specification.
 --
 -- The business type.
 data PaymentSourceBusinessType'
-  = PaymentSourceBusinessType'EnumOther Data.Aeson.Types.Internal.Value
-  | PaymentSourceBusinessType'EnumTyped Data.Text.Internal.Text
-  | PaymentSourceBusinessType'EnumStringCompany
-  | PaymentSourceBusinessType'EnumStringGovernmentEntity
-  | PaymentSourceBusinessType'EnumStringIndividual
-  | PaymentSourceBusinessType'EnumStringNonProfit
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    PaymentSourceBusinessType'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    PaymentSourceBusinessType'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"company"@
+    PaymentSourceBusinessType'EnumCompany
+  | -- | Represents the JSON value @"government_entity"@
+    PaymentSourceBusinessType'EnumGovernmentEntity
+  | -- | Represents the JSON value @"individual"@
+    PaymentSourceBusinessType'EnumIndividual
+  | -- | Represents the JSON value @"non_profit"@
+    PaymentSourceBusinessType'EnumNonProfit
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
 instance Data.Aeson.Types.ToJSON.ToJSON PaymentSourceBusinessType' where
-  toJSON (PaymentSourceBusinessType'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PaymentSourceBusinessType'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PaymentSourceBusinessType'EnumStringCompany) = "company"
-  toJSON (PaymentSourceBusinessType'EnumStringGovernmentEntity) = "government_entity"
-  toJSON (PaymentSourceBusinessType'EnumStringIndividual) = "individual"
-  toJSON (PaymentSourceBusinessType'EnumStringNonProfit) = "non_profit"
+  toJSON (PaymentSourceBusinessType'Other val) = val
+  toJSON (PaymentSourceBusinessType'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PaymentSourceBusinessType'EnumCompany) = "company"
+  toJSON (PaymentSourceBusinessType'EnumGovernmentEntity) = "government_entity"
+  toJSON (PaymentSourceBusinessType'EnumIndividual) = "individual"
+  toJSON (PaymentSourceBusinessType'EnumNonProfit) = "non_profit"
 
 instance Data.Aeson.Types.FromJSON.FromJSON PaymentSourceBusinessType' where
   parseJSON val =
     GHC.Base.pure
-      ( if  | val GHC.Classes.== "company" -> PaymentSourceBusinessType'EnumStringCompany
-            | val GHC.Classes.== "government_entity" -> PaymentSourceBusinessType'EnumStringGovernmentEntity
-            | val GHC.Classes.== "individual" -> PaymentSourceBusinessType'EnumStringIndividual
-            | val GHC.Classes.== "non_profit" -> PaymentSourceBusinessType'EnumStringNonProfit
-            | GHC.Base.otherwise -> PaymentSourceBusinessType'EnumOther val
+      ( if  | val GHC.Classes.== "company" -> PaymentSourceBusinessType'EnumCompany
+            | val GHC.Classes.== "government_entity" -> PaymentSourceBusinessType'EnumGovernmentEntity
+            | val GHC.Classes.== "individual" -> PaymentSourceBusinessType'EnumIndividual
+            | val GHC.Classes.== "non_profit" -> PaymentSourceBusinessType'EnumNonProfit
+            | GHC.Base.otherwise -> PaymentSourceBusinessType'Other val
       )
 
--- | Define the one-of schema payment_sourceCustomer\'
+-- | Defines the oneOf schema located at @components.schemas.payment_source.anyOf.properties.customer.anyOf@ in the specification.
 --
 -- The ID of the customer associated with this Alipay Account.
 data PaymentSourceCustomer'Variants
@@ -624,15 +756,11 @@ instance Data.Aeson.Types.ToJSON.ToJSON PaymentSourceCustomer'Variants where
   toJSON (PaymentSourceCustomer'Text a) = Data.Aeson.Types.ToJSON.toJSON a
 
 instance Data.Aeson.Types.FromJSON.FromJSON PaymentSourceCustomer'Variants where
-  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
-    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ PaymentSourceCustomer'Customer a
-    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ PaymentSourceCustomer'DeletedCustomer a
-      Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-        Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ PaymentSourceCustomer'Text a
-        Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+  parseJSON val = case (PaymentSourceCustomer'Customer Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((PaymentSourceCustomer'DeletedCustomer Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((PaymentSourceCustomer'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched")) of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+    Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
--- | Defines the data type for the schema payment_sourceExternal_accounts\'
+-- | Defines the object schema located at @components.schemas.payment_source.anyOf.properties.external_accounts@ in the specification.
 --
 -- External accounts (bank accounts and debit cards) currently attached to this account
 data PaymentSourceExternalAccounts'
@@ -641,8 +769,6 @@ data PaymentSourceExternalAccounts'
         paymentSourceExternalAccounts'Data :: ([PaymentSourceExternalAccounts'Data']),
         -- | has_more: True if this list has another page of items after this one that can be fetched.
         paymentSourceExternalAccounts'HasMore :: GHC.Types.Bool,
-        -- | object: String representing the object\'s type. Objects of the same type share the same value. Always has the value \`list\`.
-        paymentSourceExternalAccounts'Object :: PaymentSourceExternalAccounts'Object',
         -- | url: The URL where this list can be accessed.
         --
         -- Constraints:
@@ -656,13 +782,29 @@ data PaymentSourceExternalAccounts'
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PaymentSourceExternalAccounts' where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "data" (paymentSourceExternalAccounts'Data obj) : (Data.Aeson..=) "has_more" (paymentSourceExternalAccounts'HasMore obj) : (Data.Aeson..=) "object" (paymentSourceExternalAccounts'Object obj) : (Data.Aeson..=) "url" (paymentSourceExternalAccounts'Url obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "data" (paymentSourceExternalAccounts'Data obj) GHC.Base.<> ((Data.Aeson..=) "has_more" (paymentSourceExternalAccounts'HasMore obj) GHC.Base.<> ((Data.Aeson..=) "object" (paymentSourceExternalAccounts'Object obj) GHC.Base.<> (Data.Aeson..=) "url" (paymentSourceExternalAccounts'Url obj))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("data" Data.Aeson.Types.ToJSON..= paymentSourceExternalAccounts'Data obj : "has_more" Data.Aeson.Types.ToJSON..= paymentSourceExternalAccounts'HasMore obj : "url" Data.Aeson.Types.ToJSON..= paymentSourceExternalAccounts'Url obj : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "list" : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("data" Data.Aeson.Types.ToJSON..= paymentSourceExternalAccounts'Data obj) GHC.Base.<> (("has_more" Data.Aeson.Types.ToJSON..= paymentSourceExternalAccounts'HasMore obj) GHC.Base.<> (("url" Data.Aeson.Types.ToJSON..= paymentSourceExternalAccounts'Url obj) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "list"))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PaymentSourceExternalAccounts' where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PaymentSourceExternalAccounts'" (\obj -> (((GHC.Base.pure PaymentSourceExternalAccounts' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "has_more")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "object")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "url"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PaymentSourceExternalAccounts'" (\obj -> ((GHC.Base.pure PaymentSourceExternalAccounts' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "has_more")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "url"))
 
--- | Defines the data type for the schema payment_sourceExternal_accounts\'Data\'
+-- | Create a new 'PaymentSourceExternalAccounts'' with all required fields.
+mkPaymentSourceExternalAccounts' ::
+  -- | 'paymentSourceExternalAccounts'Data'
+  [PaymentSourceExternalAccounts'Data'] ->
+  -- | 'paymentSourceExternalAccounts'HasMore'
+  GHC.Types.Bool ->
+  -- | 'paymentSourceExternalAccounts'Url'
+  Data.Text.Internal.Text ->
+  PaymentSourceExternalAccounts'
+mkPaymentSourceExternalAccounts' paymentSourceExternalAccounts'Data paymentSourceExternalAccounts'HasMore paymentSourceExternalAccounts'Url =
+  PaymentSourceExternalAccounts'
+    { paymentSourceExternalAccounts'Data = paymentSourceExternalAccounts'Data,
+      paymentSourceExternalAccounts'HasMore = paymentSourceExternalAccounts'HasMore,
+      paymentSourceExternalAccounts'Url = paymentSourceExternalAccounts'Url
+    }
+
+-- | Defines the object schema located at @components.schemas.payment_source.anyOf.properties.external_accounts.properties.data.items.anyOf@ in the specification.
 data PaymentSourceExternalAccounts'Data'
   = PaymentSourceExternalAccounts'Data'
       { -- | account: The ID of the account that the bank account is associated with.
@@ -801,8 +943,6 @@ data PaymentSourceExternalAccounts'Data'
         --
         -- * Maximum length of 5000
         paymentSourceExternalAccounts'Data'Name :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
-        -- | object: String representing the object\'s type. Objects of the same type share the same value.
-        paymentSourceExternalAccounts'Data'Object :: (GHC.Maybe.Maybe PaymentSourceExternalAccounts'Data'Object'),
         -- | recipient: The recipient that this card belongs to. This attribute will not be in the card object if the card belongs to a customer or account instead.
         paymentSourceExternalAccounts'Data'Recipient :: (GHC.Maybe.Maybe PaymentSourceExternalAccounts'Data'Recipient'Variants),
         -- | routing_number: The routing transit number for the bank account.
@@ -832,13 +972,51 @@ data PaymentSourceExternalAccounts'Data'
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PaymentSourceExternalAccounts'Data' where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "account" (paymentSourceExternalAccounts'Data'Account obj) : (Data.Aeson..=) "account_holder_name" (paymentSourceExternalAccounts'Data'AccountHolderName obj) : (Data.Aeson..=) "account_holder_type" (paymentSourceExternalAccounts'Data'AccountHolderType obj) : (Data.Aeson..=) "address_city" (paymentSourceExternalAccounts'Data'AddressCity obj) : (Data.Aeson..=) "address_country" (paymentSourceExternalAccounts'Data'AddressCountry obj) : (Data.Aeson..=) "address_line1" (paymentSourceExternalAccounts'Data'AddressLine1 obj) : (Data.Aeson..=) "address_line1_check" (paymentSourceExternalAccounts'Data'AddressLine1Check obj) : (Data.Aeson..=) "address_line2" (paymentSourceExternalAccounts'Data'AddressLine2 obj) : (Data.Aeson..=) "address_state" (paymentSourceExternalAccounts'Data'AddressState obj) : (Data.Aeson..=) "address_zip" (paymentSourceExternalAccounts'Data'AddressZip obj) : (Data.Aeson..=) "address_zip_check" (paymentSourceExternalAccounts'Data'AddressZipCheck obj) : (Data.Aeson..=) "available_payout_methods" (paymentSourceExternalAccounts'Data'AvailablePayoutMethods obj) : (Data.Aeson..=) "bank_name" (paymentSourceExternalAccounts'Data'BankName obj) : (Data.Aeson..=) "brand" (paymentSourceExternalAccounts'Data'Brand obj) : (Data.Aeson..=) "country" (paymentSourceExternalAccounts'Data'Country obj) : (Data.Aeson..=) "currency" (paymentSourceExternalAccounts'Data'Currency obj) : (Data.Aeson..=) "customer" (paymentSourceExternalAccounts'Data'Customer obj) : (Data.Aeson..=) "cvc_check" (paymentSourceExternalAccounts'Data'CvcCheck obj) : (Data.Aeson..=) "default_for_currency" (paymentSourceExternalAccounts'Data'DefaultForCurrency obj) : (Data.Aeson..=) "dynamic_last4" (paymentSourceExternalAccounts'Data'DynamicLast4 obj) : (Data.Aeson..=) "exp_month" (paymentSourceExternalAccounts'Data'ExpMonth obj) : (Data.Aeson..=) "exp_year" (paymentSourceExternalAccounts'Data'ExpYear obj) : (Data.Aeson..=) "fingerprint" (paymentSourceExternalAccounts'Data'Fingerprint obj) : (Data.Aeson..=) "funding" (paymentSourceExternalAccounts'Data'Funding obj) : (Data.Aeson..=) "id" (paymentSourceExternalAccounts'Data'Id obj) : (Data.Aeson..=) "last4" (paymentSourceExternalAccounts'Data'Last4 obj) : (Data.Aeson..=) "metadata" (paymentSourceExternalAccounts'Data'Metadata obj) : (Data.Aeson..=) "name" (paymentSourceExternalAccounts'Data'Name obj) : (Data.Aeson..=) "object" (paymentSourceExternalAccounts'Data'Object obj) : (Data.Aeson..=) "recipient" (paymentSourceExternalAccounts'Data'Recipient obj) : (Data.Aeson..=) "routing_number" (paymentSourceExternalAccounts'Data'RoutingNumber obj) : (Data.Aeson..=) "status" (paymentSourceExternalAccounts'Data'Status obj) : (Data.Aeson..=) "tokenization_method" (paymentSourceExternalAccounts'Data'TokenizationMethod obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "account" (paymentSourceExternalAccounts'Data'Account obj) GHC.Base.<> ((Data.Aeson..=) "account_holder_name" (paymentSourceExternalAccounts'Data'AccountHolderName obj) GHC.Base.<> ((Data.Aeson..=) "account_holder_type" (paymentSourceExternalAccounts'Data'AccountHolderType obj) GHC.Base.<> ((Data.Aeson..=) "address_city" (paymentSourceExternalAccounts'Data'AddressCity obj) GHC.Base.<> ((Data.Aeson..=) "address_country" (paymentSourceExternalAccounts'Data'AddressCountry obj) GHC.Base.<> ((Data.Aeson..=) "address_line1" (paymentSourceExternalAccounts'Data'AddressLine1 obj) GHC.Base.<> ((Data.Aeson..=) "address_line1_check" (paymentSourceExternalAccounts'Data'AddressLine1Check obj) GHC.Base.<> ((Data.Aeson..=) "address_line2" (paymentSourceExternalAccounts'Data'AddressLine2 obj) GHC.Base.<> ((Data.Aeson..=) "address_state" (paymentSourceExternalAccounts'Data'AddressState obj) GHC.Base.<> ((Data.Aeson..=) "address_zip" (paymentSourceExternalAccounts'Data'AddressZip obj) GHC.Base.<> ((Data.Aeson..=) "address_zip_check" (paymentSourceExternalAccounts'Data'AddressZipCheck obj) GHC.Base.<> ((Data.Aeson..=) "available_payout_methods" (paymentSourceExternalAccounts'Data'AvailablePayoutMethods obj) GHC.Base.<> ((Data.Aeson..=) "bank_name" (paymentSourceExternalAccounts'Data'BankName obj) GHC.Base.<> ((Data.Aeson..=) "brand" (paymentSourceExternalAccounts'Data'Brand obj) GHC.Base.<> ((Data.Aeson..=) "country" (paymentSourceExternalAccounts'Data'Country obj) GHC.Base.<> ((Data.Aeson..=) "currency" (paymentSourceExternalAccounts'Data'Currency obj) GHC.Base.<> ((Data.Aeson..=) "customer" (paymentSourceExternalAccounts'Data'Customer obj) GHC.Base.<> ((Data.Aeson..=) "cvc_check" (paymentSourceExternalAccounts'Data'CvcCheck obj) GHC.Base.<> ((Data.Aeson..=) "default_for_currency" (paymentSourceExternalAccounts'Data'DefaultForCurrency obj) GHC.Base.<> ((Data.Aeson..=) "dynamic_last4" (paymentSourceExternalAccounts'Data'DynamicLast4 obj) GHC.Base.<> ((Data.Aeson..=) "exp_month" (paymentSourceExternalAccounts'Data'ExpMonth obj) GHC.Base.<> ((Data.Aeson..=) "exp_year" (paymentSourceExternalAccounts'Data'ExpYear obj) GHC.Base.<> ((Data.Aeson..=) "fingerprint" (paymentSourceExternalAccounts'Data'Fingerprint obj) GHC.Base.<> ((Data.Aeson..=) "funding" (paymentSourceExternalAccounts'Data'Funding obj) GHC.Base.<> ((Data.Aeson..=) "id" (paymentSourceExternalAccounts'Data'Id obj) GHC.Base.<> ((Data.Aeson..=) "last4" (paymentSourceExternalAccounts'Data'Last4 obj) GHC.Base.<> ((Data.Aeson..=) "metadata" (paymentSourceExternalAccounts'Data'Metadata obj) GHC.Base.<> ((Data.Aeson..=) "name" (paymentSourceExternalAccounts'Data'Name obj) GHC.Base.<> ((Data.Aeson..=) "object" (paymentSourceExternalAccounts'Data'Object obj) GHC.Base.<> ((Data.Aeson..=) "recipient" (paymentSourceExternalAccounts'Data'Recipient obj) GHC.Base.<> ((Data.Aeson..=) "routing_number" (paymentSourceExternalAccounts'Data'RoutingNumber obj) GHC.Base.<> ((Data.Aeson..=) "status" (paymentSourceExternalAccounts'Data'Status obj) GHC.Base.<> (Data.Aeson..=) "tokenization_method" (paymentSourceExternalAccounts'Data'TokenizationMethod obj)))))))))))))))))))))))))))))))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("account" Data.Aeson.Types.ToJSON..= paymentSourceExternalAccounts'Data'Account obj : "account_holder_name" Data.Aeson.Types.ToJSON..= paymentSourceExternalAccounts'Data'AccountHolderName obj : "account_holder_type" Data.Aeson.Types.ToJSON..= paymentSourceExternalAccounts'Data'AccountHolderType obj : "address_city" Data.Aeson.Types.ToJSON..= paymentSourceExternalAccounts'Data'AddressCity obj : "address_country" Data.Aeson.Types.ToJSON..= paymentSourceExternalAccounts'Data'AddressCountry obj : "address_line1" Data.Aeson.Types.ToJSON..= paymentSourceExternalAccounts'Data'AddressLine1 obj : "address_line1_check" Data.Aeson.Types.ToJSON..= paymentSourceExternalAccounts'Data'AddressLine1Check obj : "address_line2" Data.Aeson.Types.ToJSON..= paymentSourceExternalAccounts'Data'AddressLine2 obj : "address_state" Data.Aeson.Types.ToJSON..= paymentSourceExternalAccounts'Data'AddressState obj : "address_zip" Data.Aeson.Types.ToJSON..= paymentSourceExternalAccounts'Data'AddressZip obj : "address_zip_check" Data.Aeson.Types.ToJSON..= paymentSourceExternalAccounts'Data'AddressZipCheck obj : "available_payout_methods" Data.Aeson.Types.ToJSON..= paymentSourceExternalAccounts'Data'AvailablePayoutMethods obj : "bank_name" Data.Aeson.Types.ToJSON..= paymentSourceExternalAccounts'Data'BankName obj : "brand" Data.Aeson.Types.ToJSON..= paymentSourceExternalAccounts'Data'Brand obj : "country" Data.Aeson.Types.ToJSON..= paymentSourceExternalAccounts'Data'Country obj : "currency" Data.Aeson.Types.ToJSON..= paymentSourceExternalAccounts'Data'Currency obj : "customer" Data.Aeson.Types.ToJSON..= paymentSourceExternalAccounts'Data'Customer obj : "cvc_check" Data.Aeson.Types.ToJSON..= paymentSourceExternalAccounts'Data'CvcCheck obj : "default_for_currency" Data.Aeson.Types.ToJSON..= paymentSourceExternalAccounts'Data'DefaultForCurrency obj : "dynamic_last4" Data.Aeson.Types.ToJSON..= paymentSourceExternalAccounts'Data'DynamicLast4 obj : "exp_month" Data.Aeson.Types.ToJSON..= paymentSourceExternalAccounts'Data'ExpMonth obj : "exp_year" Data.Aeson.Types.ToJSON..= paymentSourceExternalAccounts'Data'ExpYear obj : "fingerprint" Data.Aeson.Types.ToJSON..= paymentSourceExternalAccounts'Data'Fingerprint obj : "funding" Data.Aeson.Types.ToJSON..= paymentSourceExternalAccounts'Data'Funding obj : "id" Data.Aeson.Types.ToJSON..= paymentSourceExternalAccounts'Data'Id obj : "last4" Data.Aeson.Types.ToJSON..= paymentSourceExternalAccounts'Data'Last4 obj : "metadata" Data.Aeson.Types.ToJSON..= paymentSourceExternalAccounts'Data'Metadata obj : "name" Data.Aeson.Types.ToJSON..= paymentSourceExternalAccounts'Data'Name obj : "recipient" Data.Aeson.Types.ToJSON..= paymentSourceExternalAccounts'Data'Recipient obj : "routing_number" Data.Aeson.Types.ToJSON..= paymentSourceExternalAccounts'Data'RoutingNumber obj : "status" Data.Aeson.Types.ToJSON..= paymentSourceExternalAccounts'Data'Status obj : "tokenization_method" Data.Aeson.Types.ToJSON..= paymentSourceExternalAccounts'Data'TokenizationMethod obj : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "bank_account" : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("account" Data.Aeson.Types.ToJSON..= paymentSourceExternalAccounts'Data'Account obj) GHC.Base.<> (("account_holder_name" Data.Aeson.Types.ToJSON..= paymentSourceExternalAccounts'Data'AccountHolderName obj) GHC.Base.<> (("account_holder_type" Data.Aeson.Types.ToJSON..= paymentSourceExternalAccounts'Data'AccountHolderType obj) GHC.Base.<> (("address_city" Data.Aeson.Types.ToJSON..= paymentSourceExternalAccounts'Data'AddressCity obj) GHC.Base.<> (("address_country" Data.Aeson.Types.ToJSON..= paymentSourceExternalAccounts'Data'AddressCountry obj) GHC.Base.<> (("address_line1" Data.Aeson.Types.ToJSON..= paymentSourceExternalAccounts'Data'AddressLine1 obj) GHC.Base.<> (("address_line1_check" Data.Aeson.Types.ToJSON..= paymentSourceExternalAccounts'Data'AddressLine1Check obj) GHC.Base.<> (("address_line2" Data.Aeson.Types.ToJSON..= paymentSourceExternalAccounts'Data'AddressLine2 obj) GHC.Base.<> (("address_state" Data.Aeson.Types.ToJSON..= paymentSourceExternalAccounts'Data'AddressState obj) GHC.Base.<> (("address_zip" Data.Aeson.Types.ToJSON..= paymentSourceExternalAccounts'Data'AddressZip obj) GHC.Base.<> (("address_zip_check" Data.Aeson.Types.ToJSON..= paymentSourceExternalAccounts'Data'AddressZipCheck obj) GHC.Base.<> (("available_payout_methods" Data.Aeson.Types.ToJSON..= paymentSourceExternalAccounts'Data'AvailablePayoutMethods obj) GHC.Base.<> (("bank_name" Data.Aeson.Types.ToJSON..= paymentSourceExternalAccounts'Data'BankName obj) GHC.Base.<> (("brand" Data.Aeson.Types.ToJSON..= paymentSourceExternalAccounts'Data'Brand obj) GHC.Base.<> (("country" Data.Aeson.Types.ToJSON..= paymentSourceExternalAccounts'Data'Country obj) GHC.Base.<> (("currency" Data.Aeson.Types.ToJSON..= paymentSourceExternalAccounts'Data'Currency obj) GHC.Base.<> (("customer" Data.Aeson.Types.ToJSON..= paymentSourceExternalAccounts'Data'Customer obj) GHC.Base.<> (("cvc_check" Data.Aeson.Types.ToJSON..= paymentSourceExternalAccounts'Data'CvcCheck obj) GHC.Base.<> (("default_for_currency" Data.Aeson.Types.ToJSON..= paymentSourceExternalAccounts'Data'DefaultForCurrency obj) GHC.Base.<> (("dynamic_last4" Data.Aeson.Types.ToJSON..= paymentSourceExternalAccounts'Data'DynamicLast4 obj) GHC.Base.<> (("exp_month" Data.Aeson.Types.ToJSON..= paymentSourceExternalAccounts'Data'ExpMonth obj) GHC.Base.<> (("exp_year" Data.Aeson.Types.ToJSON..= paymentSourceExternalAccounts'Data'ExpYear obj) GHC.Base.<> (("fingerprint" Data.Aeson.Types.ToJSON..= paymentSourceExternalAccounts'Data'Fingerprint obj) GHC.Base.<> (("funding" Data.Aeson.Types.ToJSON..= paymentSourceExternalAccounts'Data'Funding obj) GHC.Base.<> (("id" Data.Aeson.Types.ToJSON..= paymentSourceExternalAccounts'Data'Id obj) GHC.Base.<> (("last4" Data.Aeson.Types.ToJSON..= paymentSourceExternalAccounts'Data'Last4 obj) GHC.Base.<> (("metadata" Data.Aeson.Types.ToJSON..= paymentSourceExternalAccounts'Data'Metadata obj) GHC.Base.<> (("name" Data.Aeson.Types.ToJSON..= paymentSourceExternalAccounts'Data'Name obj) GHC.Base.<> (("recipient" Data.Aeson.Types.ToJSON..= paymentSourceExternalAccounts'Data'Recipient obj) GHC.Base.<> (("routing_number" Data.Aeson.Types.ToJSON..= paymentSourceExternalAccounts'Data'RoutingNumber obj) GHC.Base.<> (("status" Data.Aeson.Types.ToJSON..= paymentSourceExternalAccounts'Data'Status obj) GHC.Base.<> (("tokenization_method" Data.Aeson.Types.ToJSON..= paymentSourceExternalAccounts'Data'TokenizationMethod obj) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "bank_account")))))))))))))))))))))))))))))))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PaymentSourceExternalAccounts'Data' where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PaymentSourceExternalAccounts'Data'" (\obj -> ((((((((((((((((((((((((((((((((GHC.Base.pure PaymentSourceExternalAccounts'Data' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "account")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "account_holder_name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "account_holder_type")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "address_city")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "address_country")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "address_line1")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "address_line1_check")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "address_line2")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "address_state")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "address_zip")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "address_zip_check")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "available_payout_methods")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "bank_name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "brand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "country")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "customer")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "cvc_check")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "default_for_currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "dynamic_last4")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "exp_month")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "exp_year")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "fingerprint")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "funding")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "last4")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "object")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "recipient")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "routing_number")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "status")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "tokenization_method"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PaymentSourceExternalAccounts'Data'" (\obj -> (((((((((((((((((((((((((((((((GHC.Base.pure PaymentSourceExternalAccounts'Data' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "account")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "account_holder_name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "account_holder_type")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "address_city")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "address_country")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "address_line1")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "address_line1_check")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "address_line2")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "address_state")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "address_zip")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "address_zip_check")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "available_payout_methods")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "bank_name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "brand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "country")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "customer")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "cvc_check")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "default_for_currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "dynamic_last4")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "exp_month")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "exp_year")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "fingerprint")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "funding")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "last4")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "recipient")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "routing_number")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "status")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "tokenization_method"))
 
--- | Define the one-of schema payment_sourceExternal_accounts\'Data\'Account\'
+-- | Create a new 'PaymentSourceExternalAccounts'Data'' with all required fields.
+mkPaymentSourceExternalAccounts'Data' :: PaymentSourceExternalAccounts'Data'
+mkPaymentSourceExternalAccounts'Data' =
+  PaymentSourceExternalAccounts'Data'
+    { paymentSourceExternalAccounts'Data'Account = GHC.Maybe.Nothing,
+      paymentSourceExternalAccounts'Data'AccountHolderName = GHC.Maybe.Nothing,
+      paymentSourceExternalAccounts'Data'AccountHolderType = GHC.Maybe.Nothing,
+      paymentSourceExternalAccounts'Data'AddressCity = GHC.Maybe.Nothing,
+      paymentSourceExternalAccounts'Data'AddressCountry = GHC.Maybe.Nothing,
+      paymentSourceExternalAccounts'Data'AddressLine1 = GHC.Maybe.Nothing,
+      paymentSourceExternalAccounts'Data'AddressLine1Check = GHC.Maybe.Nothing,
+      paymentSourceExternalAccounts'Data'AddressLine2 = GHC.Maybe.Nothing,
+      paymentSourceExternalAccounts'Data'AddressState = GHC.Maybe.Nothing,
+      paymentSourceExternalAccounts'Data'AddressZip = GHC.Maybe.Nothing,
+      paymentSourceExternalAccounts'Data'AddressZipCheck = GHC.Maybe.Nothing,
+      paymentSourceExternalAccounts'Data'AvailablePayoutMethods = GHC.Maybe.Nothing,
+      paymentSourceExternalAccounts'Data'BankName = GHC.Maybe.Nothing,
+      paymentSourceExternalAccounts'Data'Brand = GHC.Maybe.Nothing,
+      paymentSourceExternalAccounts'Data'Country = GHC.Maybe.Nothing,
+      paymentSourceExternalAccounts'Data'Currency = GHC.Maybe.Nothing,
+      paymentSourceExternalAccounts'Data'Customer = GHC.Maybe.Nothing,
+      paymentSourceExternalAccounts'Data'CvcCheck = GHC.Maybe.Nothing,
+      paymentSourceExternalAccounts'Data'DefaultForCurrency = GHC.Maybe.Nothing,
+      paymentSourceExternalAccounts'Data'DynamicLast4 = GHC.Maybe.Nothing,
+      paymentSourceExternalAccounts'Data'ExpMonth = GHC.Maybe.Nothing,
+      paymentSourceExternalAccounts'Data'ExpYear = GHC.Maybe.Nothing,
+      paymentSourceExternalAccounts'Data'Fingerprint = GHC.Maybe.Nothing,
+      paymentSourceExternalAccounts'Data'Funding = GHC.Maybe.Nothing,
+      paymentSourceExternalAccounts'Data'Id = GHC.Maybe.Nothing,
+      paymentSourceExternalAccounts'Data'Last4 = GHC.Maybe.Nothing,
+      paymentSourceExternalAccounts'Data'Metadata = GHC.Maybe.Nothing,
+      paymentSourceExternalAccounts'Data'Name = GHC.Maybe.Nothing,
+      paymentSourceExternalAccounts'Data'Recipient = GHC.Maybe.Nothing,
+      paymentSourceExternalAccounts'Data'RoutingNumber = GHC.Maybe.Nothing,
+      paymentSourceExternalAccounts'Data'Status = GHC.Maybe.Nothing,
+      paymentSourceExternalAccounts'Data'TokenizationMethod = GHC.Maybe.Nothing
+    }
+
+-- | Defines the oneOf schema located at @components.schemas.payment_source.anyOf.properties.external_accounts.properties.data.items.anyOf.properties.account.anyOf@ in the specification.
 --
 -- The ID of the account that the bank account is associated with.
 data PaymentSourceExternalAccounts'Data'Account'Variants
@@ -851,35 +1029,37 @@ instance Data.Aeson.Types.ToJSON.ToJSON PaymentSourceExternalAccounts'Data'Accou
   toJSON (PaymentSourceExternalAccounts'Data'Account'Text a) = Data.Aeson.Types.ToJSON.toJSON a
 
 instance Data.Aeson.Types.FromJSON.FromJSON PaymentSourceExternalAccounts'Data'Account'Variants where
-  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
-    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ PaymentSourceExternalAccounts'Data'Account'Account a
-    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ PaymentSourceExternalAccounts'Data'Account'Text a
-      Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+  parseJSON val = case (PaymentSourceExternalAccounts'Data'Account'Account Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((PaymentSourceExternalAccounts'Data'Account'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched") of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+    Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
--- | Defines the enum schema payment_sourceExternal_accounts\'Data\'Available_payout_methods\'
+-- | Defines the enum schema located at @components.schemas.payment_source.anyOf.properties.external_accounts.properties.data.items.anyOf.properties.available_payout_methods.items@ in the specification.
 data PaymentSourceExternalAccounts'Data'AvailablePayoutMethods'
-  = PaymentSourceExternalAccounts'Data'AvailablePayoutMethods'EnumOther Data.Aeson.Types.Internal.Value
-  | PaymentSourceExternalAccounts'Data'AvailablePayoutMethods'EnumTyped Data.Text.Internal.Text
-  | PaymentSourceExternalAccounts'Data'AvailablePayoutMethods'EnumStringInstant
-  | PaymentSourceExternalAccounts'Data'AvailablePayoutMethods'EnumStringStandard
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    PaymentSourceExternalAccounts'Data'AvailablePayoutMethods'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    PaymentSourceExternalAccounts'Data'AvailablePayoutMethods'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"instant"@
+    PaymentSourceExternalAccounts'Data'AvailablePayoutMethods'EnumInstant
+  | -- | Represents the JSON value @"standard"@
+    PaymentSourceExternalAccounts'Data'AvailablePayoutMethods'EnumStandard
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
 instance Data.Aeson.Types.ToJSON.ToJSON PaymentSourceExternalAccounts'Data'AvailablePayoutMethods' where
-  toJSON (PaymentSourceExternalAccounts'Data'AvailablePayoutMethods'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PaymentSourceExternalAccounts'Data'AvailablePayoutMethods'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PaymentSourceExternalAccounts'Data'AvailablePayoutMethods'EnumStringInstant) = "instant"
-  toJSON (PaymentSourceExternalAccounts'Data'AvailablePayoutMethods'EnumStringStandard) = "standard"
+  toJSON (PaymentSourceExternalAccounts'Data'AvailablePayoutMethods'Other val) = val
+  toJSON (PaymentSourceExternalAccounts'Data'AvailablePayoutMethods'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PaymentSourceExternalAccounts'Data'AvailablePayoutMethods'EnumInstant) = "instant"
+  toJSON (PaymentSourceExternalAccounts'Data'AvailablePayoutMethods'EnumStandard) = "standard"
 
 instance Data.Aeson.Types.FromJSON.FromJSON PaymentSourceExternalAccounts'Data'AvailablePayoutMethods' where
   parseJSON val =
     GHC.Base.pure
-      ( if  | val GHC.Classes.== "instant" -> PaymentSourceExternalAccounts'Data'AvailablePayoutMethods'EnumStringInstant
-            | val GHC.Classes.== "standard" -> PaymentSourceExternalAccounts'Data'AvailablePayoutMethods'EnumStringStandard
-            | GHC.Base.otherwise -> PaymentSourceExternalAccounts'Data'AvailablePayoutMethods'EnumOther val
+      ( if  | val GHC.Classes.== "instant" -> PaymentSourceExternalAccounts'Data'AvailablePayoutMethods'EnumInstant
+            | val GHC.Classes.== "standard" -> PaymentSourceExternalAccounts'Data'AvailablePayoutMethods'EnumStandard
+            | GHC.Base.otherwise -> PaymentSourceExternalAccounts'Data'AvailablePayoutMethods'Other val
       )
 
--- | Define the one-of schema payment_sourceExternal_accounts\'Data\'Customer\'
+-- | Defines the oneOf schema located at @components.schemas.payment_source.anyOf.properties.external_accounts.properties.data.items.anyOf.properties.customer.anyOf@ in the specification.
 --
 -- The ID of the customer that the bank account is associated with.
 data PaymentSourceExternalAccounts'Data'Customer'Variants
@@ -894,36 +1074,11 @@ instance Data.Aeson.Types.ToJSON.ToJSON PaymentSourceExternalAccounts'Data'Custo
   toJSON (PaymentSourceExternalAccounts'Data'Customer'Text a) = Data.Aeson.Types.ToJSON.toJSON a
 
 instance Data.Aeson.Types.FromJSON.FromJSON PaymentSourceExternalAccounts'Data'Customer'Variants where
-  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
-    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ PaymentSourceExternalAccounts'Data'Customer'Customer a
-    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ PaymentSourceExternalAccounts'Data'Customer'DeletedCustomer a
-      Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-        Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ PaymentSourceExternalAccounts'Data'Customer'Text a
-        Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+  parseJSON val = case (PaymentSourceExternalAccounts'Data'Customer'Customer Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((PaymentSourceExternalAccounts'Data'Customer'DeletedCustomer Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((PaymentSourceExternalAccounts'Data'Customer'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched")) of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+    Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
--- | Defines the enum schema payment_sourceExternal_accounts\'Data\'Object\'
---
--- String representing the object\'s type. Objects of the same type share the same value.
-data PaymentSourceExternalAccounts'Data'Object'
-  = PaymentSourceExternalAccounts'Data'Object'EnumOther Data.Aeson.Types.Internal.Value
-  | PaymentSourceExternalAccounts'Data'Object'EnumTyped Data.Text.Internal.Text
-  | PaymentSourceExternalAccounts'Data'Object'EnumStringBankAccount
-  deriving (GHC.Show.Show, GHC.Classes.Eq)
-
-instance Data.Aeson.Types.ToJSON.ToJSON PaymentSourceExternalAccounts'Data'Object' where
-  toJSON (PaymentSourceExternalAccounts'Data'Object'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PaymentSourceExternalAccounts'Data'Object'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PaymentSourceExternalAccounts'Data'Object'EnumStringBankAccount) = "bank_account"
-
-instance Data.Aeson.Types.FromJSON.FromJSON PaymentSourceExternalAccounts'Data'Object' where
-  parseJSON val =
-    GHC.Base.pure
-      ( if  | val GHC.Classes.== "bank_account" -> PaymentSourceExternalAccounts'Data'Object'EnumStringBankAccount
-            | GHC.Base.otherwise -> PaymentSourceExternalAccounts'Data'Object'EnumOther val
-      )
-
--- | Define the one-of schema payment_sourceExternal_accounts\'Data\'Recipient\'
+-- | Defines the oneOf schema located at @components.schemas.payment_source.anyOf.properties.external_accounts.properties.data.items.anyOf.properties.recipient.anyOf@ in the specification.
 --
 -- The recipient that this card belongs to. This attribute will not be in the card object if the card belongs to a customer or account instead.
 data PaymentSourceExternalAccounts'Data'Recipient'Variants
@@ -936,55 +1091,11 @@ instance Data.Aeson.Types.ToJSON.ToJSON PaymentSourceExternalAccounts'Data'Recip
   toJSON (PaymentSourceExternalAccounts'Data'Recipient'Text a) = Data.Aeson.Types.ToJSON.toJSON a
 
 instance Data.Aeson.Types.FromJSON.FromJSON PaymentSourceExternalAccounts'Data'Recipient'Variants where
-  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
-    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ PaymentSourceExternalAccounts'Data'Recipient'Recipient a
-    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ PaymentSourceExternalAccounts'Data'Recipient'Text a
-      Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+  parseJSON val = case (PaymentSourceExternalAccounts'Data'Recipient'Recipient Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((PaymentSourceExternalAccounts'Data'Recipient'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched") of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+    Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
--- | Defines the enum schema payment_sourceExternal_accounts\'Object\'
---
--- String representing the object\'s type. Objects of the same type share the same value. Always has the value \`list\`.
-data PaymentSourceExternalAccounts'Object'
-  = PaymentSourceExternalAccounts'Object'EnumOther Data.Aeson.Types.Internal.Value
-  | PaymentSourceExternalAccounts'Object'EnumTyped Data.Text.Internal.Text
-  | PaymentSourceExternalAccounts'Object'EnumStringList
-  deriving (GHC.Show.Show, GHC.Classes.Eq)
-
-instance Data.Aeson.Types.ToJSON.ToJSON PaymentSourceExternalAccounts'Object' where
-  toJSON (PaymentSourceExternalAccounts'Object'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PaymentSourceExternalAccounts'Object'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PaymentSourceExternalAccounts'Object'EnumStringList) = "list"
-
-instance Data.Aeson.Types.FromJSON.FromJSON PaymentSourceExternalAccounts'Object' where
-  parseJSON val =
-    GHC.Base.pure
-      ( if  | val GHC.Classes.== "list" -> PaymentSourceExternalAccounts'Object'EnumStringList
-            | GHC.Base.otherwise -> PaymentSourceExternalAccounts'Object'EnumOther val
-      )
-
--- | Defines the enum schema payment_sourceObject\'
---
--- String representing the object\'s type. Objects of the same type share the same value.
-data PaymentSourceObject'
-  = PaymentSourceObject'EnumOther Data.Aeson.Types.Internal.Value
-  | PaymentSourceObject'EnumTyped Data.Text.Internal.Text
-  | PaymentSourceObject'EnumStringAccount
-  deriving (GHC.Show.Show, GHC.Classes.Eq)
-
-instance Data.Aeson.Types.ToJSON.ToJSON PaymentSourceObject' where
-  toJSON (PaymentSourceObject'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PaymentSourceObject'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PaymentSourceObject'EnumStringAccount) = "account"
-
-instance Data.Aeson.Types.FromJSON.FromJSON PaymentSourceObject' where
-  parseJSON val =
-    GHC.Base.pure
-      ( if  | val GHC.Classes.== "account" -> PaymentSourceObject'EnumStringAccount
-            | GHC.Base.otherwise -> PaymentSourceObject'EnumOther val
-      )
-
--- | Defines the data type for the schema payment_sourceOwner\'
+-- | Defines the object schema located at @components.schemas.payment_source.anyOf.properties.owner.anyOf@ in the specification.
 --
 -- Information about the owner of the payment instrument that may be used or required by particular source types.
 data PaymentSourceOwner'
@@ -1036,13 +1147,27 @@ data PaymentSourceOwner'
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PaymentSourceOwner' where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "address" (paymentSourceOwner'Address obj) : (Data.Aeson..=) "email" (paymentSourceOwner'Email obj) : (Data.Aeson..=) "name" (paymentSourceOwner'Name obj) : (Data.Aeson..=) "phone" (paymentSourceOwner'Phone obj) : (Data.Aeson..=) "verified_address" (paymentSourceOwner'VerifiedAddress obj) : (Data.Aeson..=) "verified_email" (paymentSourceOwner'VerifiedEmail obj) : (Data.Aeson..=) "verified_name" (paymentSourceOwner'VerifiedName obj) : (Data.Aeson..=) "verified_phone" (paymentSourceOwner'VerifiedPhone obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "address" (paymentSourceOwner'Address obj) GHC.Base.<> ((Data.Aeson..=) "email" (paymentSourceOwner'Email obj) GHC.Base.<> ((Data.Aeson..=) "name" (paymentSourceOwner'Name obj) GHC.Base.<> ((Data.Aeson..=) "phone" (paymentSourceOwner'Phone obj) GHC.Base.<> ((Data.Aeson..=) "verified_address" (paymentSourceOwner'VerifiedAddress obj) GHC.Base.<> ((Data.Aeson..=) "verified_email" (paymentSourceOwner'VerifiedEmail obj) GHC.Base.<> ((Data.Aeson..=) "verified_name" (paymentSourceOwner'VerifiedName obj) GHC.Base.<> (Data.Aeson..=) "verified_phone" (paymentSourceOwner'VerifiedPhone obj))))))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("address" Data.Aeson.Types.ToJSON..= paymentSourceOwner'Address obj : "email" Data.Aeson.Types.ToJSON..= paymentSourceOwner'Email obj : "name" Data.Aeson.Types.ToJSON..= paymentSourceOwner'Name obj : "phone" Data.Aeson.Types.ToJSON..= paymentSourceOwner'Phone obj : "verified_address" Data.Aeson.Types.ToJSON..= paymentSourceOwner'VerifiedAddress obj : "verified_email" Data.Aeson.Types.ToJSON..= paymentSourceOwner'VerifiedEmail obj : "verified_name" Data.Aeson.Types.ToJSON..= paymentSourceOwner'VerifiedName obj : "verified_phone" Data.Aeson.Types.ToJSON..= paymentSourceOwner'VerifiedPhone obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("address" Data.Aeson.Types.ToJSON..= paymentSourceOwner'Address obj) GHC.Base.<> (("email" Data.Aeson.Types.ToJSON..= paymentSourceOwner'Email obj) GHC.Base.<> (("name" Data.Aeson.Types.ToJSON..= paymentSourceOwner'Name obj) GHC.Base.<> (("phone" Data.Aeson.Types.ToJSON..= paymentSourceOwner'Phone obj) GHC.Base.<> (("verified_address" Data.Aeson.Types.ToJSON..= paymentSourceOwner'VerifiedAddress obj) GHC.Base.<> (("verified_email" Data.Aeson.Types.ToJSON..= paymentSourceOwner'VerifiedEmail obj) GHC.Base.<> (("verified_name" Data.Aeson.Types.ToJSON..= paymentSourceOwner'VerifiedName obj) GHC.Base.<> ("verified_phone" Data.Aeson.Types.ToJSON..= paymentSourceOwner'VerifiedPhone obj))))))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PaymentSourceOwner' where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PaymentSourceOwner'" (\obj -> (((((((GHC.Base.pure PaymentSourceOwner' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "address")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "email")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "phone")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "verified_address")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "verified_email")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "verified_name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "verified_phone"))
 
--- | Defines the data type for the schema payment_sourceOwner\'Address\'
+-- | Create a new 'PaymentSourceOwner'' with all required fields.
+mkPaymentSourceOwner' :: PaymentSourceOwner'
+mkPaymentSourceOwner' =
+  PaymentSourceOwner'
+    { paymentSourceOwner'Address = GHC.Maybe.Nothing,
+      paymentSourceOwner'Email = GHC.Maybe.Nothing,
+      paymentSourceOwner'Name = GHC.Maybe.Nothing,
+      paymentSourceOwner'Phone = GHC.Maybe.Nothing,
+      paymentSourceOwner'VerifiedAddress = GHC.Maybe.Nothing,
+      paymentSourceOwner'VerifiedEmail = GHC.Maybe.Nothing,
+      paymentSourceOwner'VerifiedName = GHC.Maybe.Nothing,
+      paymentSourceOwner'VerifiedPhone = GHC.Maybe.Nothing
+    }
+
+-- | Defines the object schema located at @components.schemas.payment_source.anyOf.properties.owner.anyOf.properties.address.anyOf@ in the specification.
 --
 -- Owner\\\'s address.
 data PaymentSourceOwner'Address'
@@ -1090,13 +1215,25 @@ data PaymentSourceOwner'Address'
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PaymentSourceOwner'Address' where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "city" (paymentSourceOwner'Address'City obj) : (Data.Aeson..=) "country" (paymentSourceOwner'Address'Country obj) : (Data.Aeson..=) "line1" (paymentSourceOwner'Address'Line1 obj) : (Data.Aeson..=) "line2" (paymentSourceOwner'Address'Line2 obj) : (Data.Aeson..=) "postal_code" (paymentSourceOwner'Address'PostalCode obj) : (Data.Aeson..=) "state" (paymentSourceOwner'Address'State obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "city" (paymentSourceOwner'Address'City obj) GHC.Base.<> ((Data.Aeson..=) "country" (paymentSourceOwner'Address'Country obj) GHC.Base.<> ((Data.Aeson..=) "line1" (paymentSourceOwner'Address'Line1 obj) GHC.Base.<> ((Data.Aeson..=) "line2" (paymentSourceOwner'Address'Line2 obj) GHC.Base.<> ((Data.Aeson..=) "postal_code" (paymentSourceOwner'Address'PostalCode obj) GHC.Base.<> (Data.Aeson..=) "state" (paymentSourceOwner'Address'State obj))))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("city" Data.Aeson.Types.ToJSON..= paymentSourceOwner'Address'City obj : "country" Data.Aeson.Types.ToJSON..= paymentSourceOwner'Address'Country obj : "line1" Data.Aeson.Types.ToJSON..= paymentSourceOwner'Address'Line1 obj : "line2" Data.Aeson.Types.ToJSON..= paymentSourceOwner'Address'Line2 obj : "postal_code" Data.Aeson.Types.ToJSON..= paymentSourceOwner'Address'PostalCode obj : "state" Data.Aeson.Types.ToJSON..= paymentSourceOwner'Address'State obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("city" Data.Aeson.Types.ToJSON..= paymentSourceOwner'Address'City obj) GHC.Base.<> (("country" Data.Aeson.Types.ToJSON..= paymentSourceOwner'Address'Country obj) GHC.Base.<> (("line1" Data.Aeson.Types.ToJSON..= paymentSourceOwner'Address'Line1 obj) GHC.Base.<> (("line2" Data.Aeson.Types.ToJSON..= paymentSourceOwner'Address'Line2 obj) GHC.Base.<> (("postal_code" Data.Aeson.Types.ToJSON..= paymentSourceOwner'Address'PostalCode obj) GHC.Base.<> ("state" Data.Aeson.Types.ToJSON..= paymentSourceOwner'Address'State obj))))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PaymentSourceOwner'Address' where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PaymentSourceOwner'Address'" (\obj -> (((((GHC.Base.pure PaymentSourceOwner'Address' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "city")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "country")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "line1")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "line2")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "postal_code")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "state"))
 
--- | Defines the data type for the schema payment_sourceOwner\'Verified_address\'
+-- | Create a new 'PaymentSourceOwner'Address'' with all required fields.
+mkPaymentSourceOwner'Address' :: PaymentSourceOwner'Address'
+mkPaymentSourceOwner'Address' =
+  PaymentSourceOwner'Address'
+    { paymentSourceOwner'Address'City = GHC.Maybe.Nothing,
+      paymentSourceOwner'Address'Country = GHC.Maybe.Nothing,
+      paymentSourceOwner'Address'Line1 = GHC.Maybe.Nothing,
+      paymentSourceOwner'Address'Line2 = GHC.Maybe.Nothing,
+      paymentSourceOwner'Address'PostalCode = GHC.Maybe.Nothing,
+      paymentSourceOwner'Address'State = GHC.Maybe.Nothing
+    }
+
+-- | Defines the object schema located at @components.schemas.payment_source.anyOf.properties.owner.anyOf.properties.verified_address.anyOf@ in the specification.
 --
 -- Verified owner\\\'s address. Verified values are verified or provided by the payment method directly (and if supported) at the time of authorization or settlement. They cannot be set or mutated.
 data PaymentSourceOwner'VerifiedAddress'
@@ -1144,13 +1281,25 @@ data PaymentSourceOwner'VerifiedAddress'
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PaymentSourceOwner'VerifiedAddress' where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "city" (paymentSourceOwner'VerifiedAddress'City obj) : (Data.Aeson..=) "country" (paymentSourceOwner'VerifiedAddress'Country obj) : (Data.Aeson..=) "line1" (paymentSourceOwner'VerifiedAddress'Line1 obj) : (Data.Aeson..=) "line2" (paymentSourceOwner'VerifiedAddress'Line2 obj) : (Data.Aeson..=) "postal_code" (paymentSourceOwner'VerifiedAddress'PostalCode obj) : (Data.Aeson..=) "state" (paymentSourceOwner'VerifiedAddress'State obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "city" (paymentSourceOwner'VerifiedAddress'City obj) GHC.Base.<> ((Data.Aeson..=) "country" (paymentSourceOwner'VerifiedAddress'Country obj) GHC.Base.<> ((Data.Aeson..=) "line1" (paymentSourceOwner'VerifiedAddress'Line1 obj) GHC.Base.<> ((Data.Aeson..=) "line2" (paymentSourceOwner'VerifiedAddress'Line2 obj) GHC.Base.<> ((Data.Aeson..=) "postal_code" (paymentSourceOwner'VerifiedAddress'PostalCode obj) GHC.Base.<> (Data.Aeson..=) "state" (paymentSourceOwner'VerifiedAddress'State obj))))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("city" Data.Aeson.Types.ToJSON..= paymentSourceOwner'VerifiedAddress'City obj : "country" Data.Aeson.Types.ToJSON..= paymentSourceOwner'VerifiedAddress'Country obj : "line1" Data.Aeson.Types.ToJSON..= paymentSourceOwner'VerifiedAddress'Line1 obj : "line2" Data.Aeson.Types.ToJSON..= paymentSourceOwner'VerifiedAddress'Line2 obj : "postal_code" Data.Aeson.Types.ToJSON..= paymentSourceOwner'VerifiedAddress'PostalCode obj : "state" Data.Aeson.Types.ToJSON..= paymentSourceOwner'VerifiedAddress'State obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("city" Data.Aeson.Types.ToJSON..= paymentSourceOwner'VerifiedAddress'City obj) GHC.Base.<> (("country" Data.Aeson.Types.ToJSON..= paymentSourceOwner'VerifiedAddress'Country obj) GHC.Base.<> (("line1" Data.Aeson.Types.ToJSON..= paymentSourceOwner'VerifiedAddress'Line1 obj) GHC.Base.<> (("line2" Data.Aeson.Types.ToJSON..= paymentSourceOwner'VerifiedAddress'Line2 obj) GHC.Base.<> (("postal_code" Data.Aeson.Types.ToJSON..= paymentSourceOwner'VerifiedAddress'PostalCode obj) GHC.Base.<> ("state" Data.Aeson.Types.ToJSON..= paymentSourceOwner'VerifiedAddress'State obj))))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PaymentSourceOwner'VerifiedAddress' where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PaymentSourceOwner'VerifiedAddress'" (\obj -> (((((GHC.Base.pure PaymentSourceOwner'VerifiedAddress' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "city")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "country")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "line1")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "line2")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "postal_code")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "state"))
 
--- | Define the one-of schema payment_sourceRecipient\'
+-- | Create a new 'PaymentSourceOwner'VerifiedAddress'' with all required fields.
+mkPaymentSourceOwner'VerifiedAddress' :: PaymentSourceOwner'VerifiedAddress'
+mkPaymentSourceOwner'VerifiedAddress' =
+  PaymentSourceOwner'VerifiedAddress'
+    { paymentSourceOwner'VerifiedAddress'City = GHC.Maybe.Nothing,
+      paymentSourceOwner'VerifiedAddress'Country = GHC.Maybe.Nothing,
+      paymentSourceOwner'VerifiedAddress'Line1 = GHC.Maybe.Nothing,
+      paymentSourceOwner'VerifiedAddress'Line2 = GHC.Maybe.Nothing,
+      paymentSourceOwner'VerifiedAddress'PostalCode = GHC.Maybe.Nothing,
+      paymentSourceOwner'VerifiedAddress'State = GHC.Maybe.Nothing
+    }
+
+-- | Defines the oneOf schema located at @components.schemas.payment_source.anyOf.properties.recipient.anyOf@ in the specification.
 --
 -- The recipient that this card belongs to. This attribute will not be in the card object if the card belongs to a customer or account instead.
 data PaymentSourceRecipient'Variants
@@ -1163,13 +1312,11 @@ instance Data.Aeson.Types.ToJSON.ToJSON PaymentSourceRecipient'Variants where
   toJSON (PaymentSourceRecipient'Text a) = Data.Aeson.Types.ToJSON.toJSON a
 
 instance Data.Aeson.Types.FromJSON.FromJSON PaymentSourceRecipient'Variants where
-  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
-    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ PaymentSourceRecipient'Recipient a
-    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ PaymentSourceRecipient'Text a
-      Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+  parseJSON val = case (PaymentSourceRecipient'Recipient Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((PaymentSourceRecipient'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched") of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+    Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
--- | Defines the data type for the schema payment_sourceSettings\'
+-- | Defines the object schema located at @components.schemas.payment_source.anyOf.properties.settings.anyOf@ in the specification.
 --
 -- Options for customizing how the account functions within Stripe.
 data PaymentSourceSettings'
@@ -1191,13 +1338,24 @@ data PaymentSourceSettings'
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PaymentSourceSettings' where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "branding" (paymentSourceSettings'Branding obj) : (Data.Aeson..=) "card_payments" (paymentSourceSettings'CardPayments obj) : (Data.Aeson..=) "dashboard" (paymentSourceSettings'Dashboard obj) : (Data.Aeson..=) "payments" (paymentSourceSettings'Payments obj) : (Data.Aeson..=) "payouts" (paymentSourceSettings'Payouts obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "branding" (paymentSourceSettings'Branding obj) GHC.Base.<> ((Data.Aeson..=) "card_payments" (paymentSourceSettings'CardPayments obj) GHC.Base.<> ((Data.Aeson..=) "dashboard" (paymentSourceSettings'Dashboard obj) GHC.Base.<> ((Data.Aeson..=) "payments" (paymentSourceSettings'Payments obj) GHC.Base.<> (Data.Aeson..=) "payouts" (paymentSourceSettings'Payouts obj)))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("branding" Data.Aeson.Types.ToJSON..= paymentSourceSettings'Branding obj : "card_payments" Data.Aeson.Types.ToJSON..= paymentSourceSettings'CardPayments obj : "dashboard" Data.Aeson.Types.ToJSON..= paymentSourceSettings'Dashboard obj : "payments" Data.Aeson.Types.ToJSON..= paymentSourceSettings'Payments obj : "payouts" Data.Aeson.Types.ToJSON..= paymentSourceSettings'Payouts obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("branding" Data.Aeson.Types.ToJSON..= paymentSourceSettings'Branding obj) GHC.Base.<> (("card_payments" Data.Aeson.Types.ToJSON..= paymentSourceSettings'CardPayments obj) GHC.Base.<> (("dashboard" Data.Aeson.Types.ToJSON..= paymentSourceSettings'Dashboard obj) GHC.Base.<> (("payments" Data.Aeson.Types.ToJSON..= paymentSourceSettings'Payments obj) GHC.Base.<> ("payouts" Data.Aeson.Types.ToJSON..= paymentSourceSettings'Payouts obj)))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PaymentSourceSettings' where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PaymentSourceSettings'" (\obj -> ((((GHC.Base.pure PaymentSourceSettings' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "branding")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "card_payments")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "dashboard")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "payments")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "payouts"))
 
--- | Defines the data type for the schema payment_sourceTransactions\'
+-- | Create a new 'PaymentSourceSettings'' with all required fields.
+mkPaymentSourceSettings' :: PaymentSourceSettings'
+mkPaymentSourceSettings' =
+  PaymentSourceSettings'
+    { paymentSourceSettings'Branding = GHC.Maybe.Nothing,
+      paymentSourceSettings'CardPayments = GHC.Maybe.Nothing,
+      paymentSourceSettings'Dashboard = GHC.Maybe.Nothing,
+      paymentSourceSettings'Payments = GHC.Maybe.Nothing,
+      paymentSourceSettings'Payouts = GHC.Maybe.Nothing
+    }
+
+-- | Defines the object schema located at @components.schemas.payment_source.anyOf.properties.transactions@ in the specification.
 --
 -- A list with one entry for each time that the customer sent bitcoin to the receiver. Hidden when viewing the receiver with a publishable key.
 data PaymentSourceTransactions'
@@ -1206,8 +1364,6 @@ data PaymentSourceTransactions'
         paymentSourceTransactions'Data :: ([BitcoinTransaction]),
         -- | has_more: True if this list has another page of items after this one that can be fetched.
         paymentSourceTransactions'HasMore :: GHC.Types.Bool,
-        -- | object: String representing the object\'s type. Objects of the same type share the same value. Always has the value \`list\`.
-        paymentSourceTransactions'Object :: PaymentSourceTransactions'Object',
         -- | url: The URL where this list can be accessed.
         --
         -- Constraints:
@@ -1221,56 +1377,56 @@ data PaymentSourceTransactions'
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PaymentSourceTransactions' where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "data" (paymentSourceTransactions'Data obj) : (Data.Aeson..=) "has_more" (paymentSourceTransactions'HasMore obj) : (Data.Aeson..=) "object" (paymentSourceTransactions'Object obj) : (Data.Aeson..=) "url" (paymentSourceTransactions'Url obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "data" (paymentSourceTransactions'Data obj) GHC.Base.<> ((Data.Aeson..=) "has_more" (paymentSourceTransactions'HasMore obj) GHC.Base.<> ((Data.Aeson..=) "object" (paymentSourceTransactions'Object obj) GHC.Base.<> (Data.Aeson..=) "url" (paymentSourceTransactions'Url obj))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("data" Data.Aeson.Types.ToJSON..= paymentSourceTransactions'Data obj : "has_more" Data.Aeson.Types.ToJSON..= paymentSourceTransactions'HasMore obj : "url" Data.Aeson.Types.ToJSON..= paymentSourceTransactions'Url obj : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "list" : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("data" Data.Aeson.Types.ToJSON..= paymentSourceTransactions'Data obj) GHC.Base.<> (("has_more" Data.Aeson.Types.ToJSON..= paymentSourceTransactions'HasMore obj) GHC.Base.<> (("url" Data.Aeson.Types.ToJSON..= paymentSourceTransactions'Url obj) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "list"))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PaymentSourceTransactions' where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PaymentSourceTransactions'" (\obj -> (((GHC.Base.pure PaymentSourceTransactions' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "has_more")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "object")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "url"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PaymentSourceTransactions'" (\obj -> ((GHC.Base.pure PaymentSourceTransactions' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "has_more")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "url"))
 
--- | Defines the enum schema payment_sourceTransactions\'Object\'
---
--- String representing the object\'s type. Objects of the same type share the same value. Always has the value \`list\`.
-data PaymentSourceTransactions'Object'
-  = PaymentSourceTransactions'Object'EnumOther Data.Aeson.Types.Internal.Value
-  | PaymentSourceTransactions'Object'EnumTyped Data.Text.Internal.Text
-  | PaymentSourceTransactions'Object'EnumStringList
-  deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Create a new 'PaymentSourceTransactions'' with all required fields.
+mkPaymentSourceTransactions' ::
+  -- | 'paymentSourceTransactions'Data'
+  [BitcoinTransaction] ->
+  -- | 'paymentSourceTransactions'HasMore'
+  GHC.Types.Bool ->
+  -- | 'paymentSourceTransactions'Url'
+  Data.Text.Internal.Text ->
+  PaymentSourceTransactions'
+mkPaymentSourceTransactions' paymentSourceTransactions'Data paymentSourceTransactions'HasMore paymentSourceTransactions'Url =
+  PaymentSourceTransactions'
+    { paymentSourceTransactions'Data = paymentSourceTransactions'Data,
+      paymentSourceTransactions'HasMore = paymentSourceTransactions'HasMore,
+      paymentSourceTransactions'Url = paymentSourceTransactions'Url
+    }
 
-instance Data.Aeson.Types.ToJSON.ToJSON PaymentSourceTransactions'Object' where
-  toJSON (PaymentSourceTransactions'Object'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PaymentSourceTransactions'Object'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PaymentSourceTransactions'Object'EnumStringList) = "list"
-
-instance Data.Aeson.Types.FromJSON.FromJSON PaymentSourceTransactions'Object' where
-  parseJSON val =
-    GHC.Base.pure
-      ( if  | val GHC.Classes.== "list" -> PaymentSourceTransactions'Object'EnumStringList
-            | GHC.Base.otherwise -> PaymentSourceTransactions'Object'EnumOther val
-      )
-
--- | Defines the enum schema payment_sourceType\'
+-- | Defines the enum schema located at @components.schemas.payment_source.anyOf.properties.type@ in the specification.
 --
 -- The Stripe account type. Can be \`standard\`, \`express\`, or \`custom\`.
 data PaymentSourceType'
-  = PaymentSourceType'EnumOther Data.Aeson.Types.Internal.Value
-  | PaymentSourceType'EnumTyped Data.Text.Internal.Text
-  | PaymentSourceType'EnumStringCustom
-  | PaymentSourceType'EnumStringExpress
-  | PaymentSourceType'EnumStringStandard
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    PaymentSourceType'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    PaymentSourceType'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"custom"@
+    PaymentSourceType'EnumCustom
+  | -- | Represents the JSON value @"express"@
+    PaymentSourceType'EnumExpress
+  | -- | Represents the JSON value @"standard"@
+    PaymentSourceType'EnumStandard
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
 instance Data.Aeson.Types.ToJSON.ToJSON PaymentSourceType' where
-  toJSON (PaymentSourceType'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PaymentSourceType'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PaymentSourceType'EnumStringCustom) = "custom"
-  toJSON (PaymentSourceType'EnumStringExpress) = "express"
-  toJSON (PaymentSourceType'EnumStringStandard) = "standard"
+  toJSON (PaymentSourceType'Other val) = val
+  toJSON (PaymentSourceType'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PaymentSourceType'EnumCustom) = "custom"
+  toJSON (PaymentSourceType'EnumExpress) = "express"
+  toJSON (PaymentSourceType'EnumStandard) = "standard"
 
 instance Data.Aeson.Types.FromJSON.FromJSON PaymentSourceType' where
   parseJSON val =
     GHC.Base.pure
-      ( if  | val GHC.Classes.== "custom" -> PaymentSourceType'EnumStringCustom
-            | val GHC.Classes.== "express" -> PaymentSourceType'EnumStringExpress
-            | val GHC.Classes.== "standard" -> PaymentSourceType'EnumStringStandard
-            | GHC.Base.otherwise -> PaymentSourceType'EnumOther val
+      ( if  | val GHC.Classes.== "custom" -> PaymentSourceType'EnumCustom
+            | val GHC.Classes.== "express" -> PaymentSourceType'EnumExpress
+            | val GHC.Classes.== "standard" -> PaymentSourceType'EnumStandard
+            | GHC.Base.otherwise -> PaymentSourceType'Other val
       )

@@ -8,6 +8,7 @@ module StripeAPI.Types.Issuing_CardPin where
 
 import qualified Control.Monad.Fail
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -31,15 +32,13 @@ import {-# SOURCE #-} StripeAPI.Types.Issuing_Card
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
--- | Defines the data type for the schema issuing.card_pin
+-- | Defines the object schema located at @components.schemas.issuing.card_pin@ in the specification.
 --
 -- The PIN of a \`Card\` object
 data Issuing'cardPin
   = Issuing'cardPin
       { -- | card: You can [create physical or virtual cards](https:\/\/stripe.com\/docs\/issuing\/cards) that are issued to cardholders.
         issuing'cardPinCard :: Issuing'card,
-        -- | object: String representing the object\'s type. Objects of the same type share the same value.
-        issuing'cardPinObject :: Issuing'cardPinObject',
         -- | pin: The PIN (4 digits number)
         --
         -- Constraints:
@@ -53,29 +52,19 @@ data Issuing'cardPin
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON Issuing'cardPin where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "card" (issuing'cardPinCard obj) : (Data.Aeson..=) "object" (issuing'cardPinObject obj) : (Data.Aeson..=) "pin" (issuing'cardPinPin obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "card" (issuing'cardPinCard obj) GHC.Base.<> ((Data.Aeson..=) "object" (issuing'cardPinObject obj) GHC.Base.<> (Data.Aeson..=) "pin" (issuing'cardPinPin obj)))
+  toJSON obj = Data.Aeson.Types.Internal.object ("card" Data.Aeson.Types.ToJSON..= issuing'cardPinCard obj : "pin" Data.Aeson.Types.ToJSON..= issuing'cardPinPin obj : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "issuing.card_pin" : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("card" Data.Aeson.Types.ToJSON..= issuing'cardPinCard obj) GHC.Base.<> (("pin" Data.Aeson.Types.ToJSON..= issuing'cardPinPin obj) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "issuing.card_pin")))
 
 instance Data.Aeson.Types.FromJSON.FromJSON Issuing'cardPin where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "Issuing'cardPin" (\obj -> ((GHC.Base.pure Issuing'cardPin GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "card")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "object")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "pin"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "Issuing'cardPin" (\obj -> (GHC.Base.pure Issuing'cardPin GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "card")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "pin"))
 
--- | Defines the enum schema issuing.card_pinObject\'
---
--- String representing the object\'s type. Objects of the same type share the same value.
-data Issuing'cardPinObject'
-  = Issuing'cardPinObject'EnumOther Data.Aeson.Types.Internal.Value
-  | Issuing'cardPinObject'EnumTyped Data.Text.Internal.Text
-  | Issuing'cardPinObject'EnumStringIssuing'cardPin
-  deriving (GHC.Show.Show, GHC.Classes.Eq)
-
-instance Data.Aeson.Types.ToJSON.ToJSON Issuing'cardPinObject' where
-  toJSON (Issuing'cardPinObject'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (Issuing'cardPinObject'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (Issuing'cardPinObject'EnumStringIssuing'cardPin) = "issuing.card_pin"
-
-instance Data.Aeson.Types.FromJSON.FromJSON Issuing'cardPinObject' where
-  parseJSON val =
-    GHC.Base.pure
-      ( if  | val GHC.Classes.== "issuing.card_pin" -> Issuing'cardPinObject'EnumStringIssuing'cardPin
-            | GHC.Base.otherwise -> Issuing'cardPinObject'EnumOther val
-      )
+-- | Create a new 'Issuing'cardPin' with all required fields.
+mkIssuing'cardPin ::
+  -- | 'issuing'cardPinCard'
+  Issuing'card ->
+  Issuing'cardPin
+mkIssuing'cardPin issuing'cardPinCard =
+  Issuing'cardPin
+    { issuing'cardPinCard = issuing'cardPinCard,
+      issuing'cardPinPin = GHC.Maybe.Nothing
+    }

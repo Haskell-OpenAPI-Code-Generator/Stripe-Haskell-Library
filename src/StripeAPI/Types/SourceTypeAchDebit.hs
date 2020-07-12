@@ -8,6 +8,7 @@ module StripeAPI.Types.SourceTypeAchDebit where
 
 import qualified Control.Monad.Fail
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -30,7 +31,7 @@ import StripeAPI.TypeAlias
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
--- | Defines the data type for the schema source_type_ach_debit
+-- | Defines the object schema located at @components.schemas.source_type_ach_debit@ in the specification.
 data SourceTypeAchDebit
   = SourceTypeAchDebit
       { -- | bank_name
@@ -52,8 +53,20 @@ data SourceTypeAchDebit
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON SourceTypeAchDebit where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "bank_name" (sourceTypeAchDebitBankName obj) : (Data.Aeson..=) "country" (sourceTypeAchDebitCountry obj) : (Data.Aeson..=) "fingerprint" (sourceTypeAchDebitFingerprint obj) : (Data.Aeson..=) "last4" (sourceTypeAchDebitLast4 obj) : (Data.Aeson..=) "routing_number" (sourceTypeAchDebitRoutingNumber obj) : (Data.Aeson..=) "type" (sourceTypeAchDebitType obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "bank_name" (sourceTypeAchDebitBankName obj) GHC.Base.<> ((Data.Aeson..=) "country" (sourceTypeAchDebitCountry obj) GHC.Base.<> ((Data.Aeson..=) "fingerprint" (sourceTypeAchDebitFingerprint obj) GHC.Base.<> ((Data.Aeson..=) "last4" (sourceTypeAchDebitLast4 obj) GHC.Base.<> ((Data.Aeson..=) "routing_number" (sourceTypeAchDebitRoutingNumber obj) GHC.Base.<> (Data.Aeson..=) "type" (sourceTypeAchDebitType obj))))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("bank_name" Data.Aeson.Types.ToJSON..= sourceTypeAchDebitBankName obj : "country" Data.Aeson.Types.ToJSON..= sourceTypeAchDebitCountry obj : "fingerprint" Data.Aeson.Types.ToJSON..= sourceTypeAchDebitFingerprint obj : "last4" Data.Aeson.Types.ToJSON..= sourceTypeAchDebitLast4 obj : "routing_number" Data.Aeson.Types.ToJSON..= sourceTypeAchDebitRoutingNumber obj : "type" Data.Aeson.Types.ToJSON..= sourceTypeAchDebitType obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("bank_name" Data.Aeson.Types.ToJSON..= sourceTypeAchDebitBankName obj) GHC.Base.<> (("country" Data.Aeson.Types.ToJSON..= sourceTypeAchDebitCountry obj) GHC.Base.<> (("fingerprint" Data.Aeson.Types.ToJSON..= sourceTypeAchDebitFingerprint obj) GHC.Base.<> (("last4" Data.Aeson.Types.ToJSON..= sourceTypeAchDebitLast4 obj) GHC.Base.<> (("routing_number" Data.Aeson.Types.ToJSON..= sourceTypeAchDebitRoutingNumber obj) GHC.Base.<> ("type" Data.Aeson.Types.ToJSON..= sourceTypeAchDebitType obj))))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON SourceTypeAchDebit where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "SourceTypeAchDebit" (\obj -> (((((GHC.Base.pure SourceTypeAchDebit GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "bank_name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "country")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "fingerprint")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "last4")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "routing_number")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "type"))
+
+-- | Create a new 'SourceTypeAchDebit' with all required fields.
+mkSourceTypeAchDebit :: SourceTypeAchDebit
+mkSourceTypeAchDebit =
+  SourceTypeAchDebit
+    { sourceTypeAchDebitBankName = GHC.Maybe.Nothing,
+      sourceTypeAchDebitCountry = GHC.Maybe.Nothing,
+      sourceTypeAchDebitFingerprint = GHC.Maybe.Nothing,
+      sourceTypeAchDebitLast4 = GHC.Maybe.Nothing,
+      sourceTypeAchDebitRoutingNumber = GHC.Maybe.Nothing,
+      sourceTypeAchDebitType = GHC.Maybe.Nothing
+    }

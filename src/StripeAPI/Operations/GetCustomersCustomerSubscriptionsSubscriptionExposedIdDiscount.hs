@@ -10,6 +10,7 @@ module StripeAPI.Operations.GetCustomersCustomerSubscriptionsSubscriptionExposed
 import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -75,7 +76,7 @@ getCustomersCustomerSubscriptionsSubscriptionExposedIdDiscount parameters =
     )
     (StripeAPI.Common.doCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET") (Data.Text.pack ("/v1/customers/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel (getCustomersCustomerSubscriptionsSubscriptionExposedIdDiscountParametersPathCustomer parameters))) GHC.Base.++ ("/subscriptions/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel (getCustomersCustomerSubscriptionsSubscriptionExposedIdDiscountParametersPathSubscriptionExposedId parameters))) GHC.Base.++ "/discount"))))) [StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getCustomersCustomerSubscriptionsSubscriptionExposedIdDiscountParametersQueryExpand parameters) (Data.Text.pack "deepObject") GHC.Types.True])
 
--- | Defines the data type for the schema getCustomersCustomerSubscriptionsSubscriptionExposedIdDiscountParameters
+-- | Defines the object schema located at @paths.\/v1\/customers\/{customer}\/subscriptions\/{subscription_exposed_id}\/discount.GET.parameters@ in the specification.
 data GetCustomersCustomerSubscriptionsSubscriptionExposedIdDiscountParameters
   = GetCustomersCustomerSubscriptionsSubscriptionExposedIdDiscountParameters
       { -- | pathCustomer: Represents the parameter named \'customer\'
@@ -101,11 +102,25 @@ data GetCustomersCustomerSubscriptionsSubscriptionExposedIdDiscountParameters
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetCustomersCustomerSubscriptionsSubscriptionExposedIdDiscountParameters where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "pathCustomer" (getCustomersCustomerSubscriptionsSubscriptionExposedIdDiscountParametersPathCustomer obj) : (Data.Aeson..=) "pathSubscription_exposed_id" (getCustomersCustomerSubscriptionsSubscriptionExposedIdDiscountParametersPathSubscriptionExposedId obj) : (Data.Aeson..=) "queryExpand" (getCustomersCustomerSubscriptionsSubscriptionExposedIdDiscountParametersQueryExpand obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "pathCustomer" (getCustomersCustomerSubscriptionsSubscriptionExposedIdDiscountParametersPathCustomer obj) GHC.Base.<> ((Data.Aeson..=) "pathSubscription_exposed_id" (getCustomersCustomerSubscriptionsSubscriptionExposedIdDiscountParametersPathSubscriptionExposedId obj) GHC.Base.<> (Data.Aeson..=) "queryExpand" (getCustomersCustomerSubscriptionsSubscriptionExposedIdDiscountParametersQueryExpand obj)))
+  toJSON obj = Data.Aeson.Types.Internal.object ("pathCustomer" Data.Aeson.Types.ToJSON..= getCustomersCustomerSubscriptionsSubscriptionExposedIdDiscountParametersPathCustomer obj : "pathSubscription_exposed_id" Data.Aeson.Types.ToJSON..= getCustomersCustomerSubscriptionsSubscriptionExposedIdDiscountParametersPathSubscriptionExposedId obj : "queryExpand" Data.Aeson.Types.ToJSON..= getCustomersCustomerSubscriptionsSubscriptionExposedIdDiscountParametersQueryExpand obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("pathCustomer" Data.Aeson.Types.ToJSON..= getCustomersCustomerSubscriptionsSubscriptionExposedIdDiscountParametersPathCustomer obj) GHC.Base.<> (("pathSubscription_exposed_id" Data.Aeson.Types.ToJSON..= getCustomersCustomerSubscriptionsSubscriptionExposedIdDiscountParametersPathSubscriptionExposedId obj) GHC.Base.<> ("queryExpand" Data.Aeson.Types.ToJSON..= getCustomersCustomerSubscriptionsSubscriptionExposedIdDiscountParametersQueryExpand obj)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetCustomersCustomerSubscriptionsSubscriptionExposedIdDiscountParameters where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "GetCustomersCustomerSubscriptionsSubscriptionExposedIdDiscountParameters" (\obj -> ((GHC.Base.pure GetCustomersCustomerSubscriptionsSubscriptionExposedIdDiscountParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathCustomer")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathSubscription_exposed_id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryExpand"))
+
+-- | Create a new 'GetCustomersCustomerSubscriptionsSubscriptionExposedIdDiscountParameters' with all required fields.
+mkGetCustomersCustomerSubscriptionsSubscriptionExposedIdDiscountParameters ::
+  -- | 'getCustomersCustomerSubscriptionsSubscriptionExposedIdDiscountParametersPathCustomer'
+  Data.Text.Internal.Text ->
+  -- | 'getCustomersCustomerSubscriptionsSubscriptionExposedIdDiscountParametersPathSubscriptionExposedId'
+  Data.Text.Internal.Text ->
+  GetCustomersCustomerSubscriptionsSubscriptionExposedIdDiscountParameters
+mkGetCustomersCustomerSubscriptionsSubscriptionExposedIdDiscountParameters getCustomersCustomerSubscriptionsSubscriptionExposedIdDiscountParametersPathCustomer getCustomersCustomerSubscriptionsSubscriptionExposedIdDiscountParametersPathSubscriptionExposedId =
+  GetCustomersCustomerSubscriptionsSubscriptionExposedIdDiscountParameters
+    { getCustomersCustomerSubscriptionsSubscriptionExposedIdDiscountParametersPathCustomer = getCustomersCustomerSubscriptionsSubscriptionExposedIdDiscountParametersPathCustomer,
+      getCustomersCustomerSubscriptionsSubscriptionExposedIdDiscountParametersPathSubscriptionExposedId = getCustomersCustomerSubscriptionsSubscriptionExposedIdDiscountParametersPathSubscriptionExposedId,
+      getCustomersCustomerSubscriptionsSubscriptionExposedIdDiscountParametersQueryExpand = GHC.Maybe.Nothing
+    }
 
 -- | Represents a response of the operation 'getCustomersCustomerSubscriptionsSubscriptionExposedIdDiscount'.
 --

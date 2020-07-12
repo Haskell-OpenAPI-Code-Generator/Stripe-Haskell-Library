@@ -8,6 +8,7 @@ module StripeAPI.Types.AccountPaymentsSettings where
 
 import qualified Control.Monad.Fail
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -30,7 +31,7 @@ import StripeAPI.TypeAlias
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
--- | Defines the data type for the schema account_payments_settings
+-- | Defines the object schema located at @components.schemas.account_payments_settings@ in the specification.
 data AccountPaymentsSettings
   = AccountPaymentsSettings
       { -- | statement_descriptor: The default text that appears on credit card statements when a charge is made. This field prefixes any dynamic \`statement_descriptor\` specified on the charge.
@@ -58,8 +59,17 @@ data AccountPaymentsSettings
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON AccountPaymentsSettings where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "statement_descriptor" (accountPaymentsSettingsStatementDescriptor obj) : (Data.Aeson..=) "statement_descriptor_kana" (accountPaymentsSettingsStatementDescriptorKana obj) : (Data.Aeson..=) "statement_descriptor_kanji" (accountPaymentsSettingsStatementDescriptorKanji obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "statement_descriptor" (accountPaymentsSettingsStatementDescriptor obj) GHC.Base.<> ((Data.Aeson..=) "statement_descriptor_kana" (accountPaymentsSettingsStatementDescriptorKana obj) GHC.Base.<> (Data.Aeson..=) "statement_descriptor_kanji" (accountPaymentsSettingsStatementDescriptorKanji obj)))
+  toJSON obj = Data.Aeson.Types.Internal.object ("statement_descriptor" Data.Aeson.Types.ToJSON..= accountPaymentsSettingsStatementDescriptor obj : "statement_descriptor_kana" Data.Aeson.Types.ToJSON..= accountPaymentsSettingsStatementDescriptorKana obj : "statement_descriptor_kanji" Data.Aeson.Types.ToJSON..= accountPaymentsSettingsStatementDescriptorKanji obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("statement_descriptor" Data.Aeson.Types.ToJSON..= accountPaymentsSettingsStatementDescriptor obj) GHC.Base.<> (("statement_descriptor_kana" Data.Aeson.Types.ToJSON..= accountPaymentsSettingsStatementDescriptorKana obj) GHC.Base.<> ("statement_descriptor_kanji" Data.Aeson.Types.ToJSON..= accountPaymentsSettingsStatementDescriptorKanji obj)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON AccountPaymentsSettings where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "AccountPaymentsSettings" (\obj -> ((GHC.Base.pure AccountPaymentsSettings GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "statement_descriptor")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "statement_descriptor_kana")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "statement_descriptor_kanji"))
+
+-- | Create a new 'AccountPaymentsSettings' with all required fields.
+mkAccountPaymentsSettings :: AccountPaymentsSettings
+mkAccountPaymentsSettings =
+  AccountPaymentsSettings
+    { accountPaymentsSettingsStatementDescriptor = GHC.Maybe.Nothing,
+      accountPaymentsSettingsStatementDescriptorKana = GHC.Maybe.Nothing,
+      accountPaymentsSettingsStatementDescriptorKanji = GHC.Maybe.Nothing
+    }

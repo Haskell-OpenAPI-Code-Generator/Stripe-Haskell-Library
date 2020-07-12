@@ -8,6 +8,7 @@ module StripeAPI.Types.NotificationEventRequest where
 
 import qualified Control.Monad.Fail
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -30,7 +31,7 @@ import StripeAPI.TypeAlias
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
--- | Defines the data type for the schema notification_event_request
+-- | Defines the object schema located at @components.schemas.notification_event_request@ in the specification.
 data NotificationEventRequest
   = NotificationEventRequest
       { -- | id: ID of the API request that caused the event. If null, the event was automatic (e.g., Stripe\'s automatic subscription handling). Request logs are available in the [dashboard](https:\/\/dashboard.stripe.com\/logs), but currently not in the API.
@@ -52,8 +53,16 @@ data NotificationEventRequest
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON NotificationEventRequest where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "id" (notificationEventRequestId obj) : (Data.Aeson..=) "idempotency_key" (notificationEventRequestIdempotencyKey obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "id" (notificationEventRequestId obj) GHC.Base.<> (Data.Aeson..=) "idempotency_key" (notificationEventRequestIdempotencyKey obj))
+  toJSON obj = Data.Aeson.Types.Internal.object ("id" Data.Aeson.Types.ToJSON..= notificationEventRequestId obj : "idempotency_key" Data.Aeson.Types.ToJSON..= notificationEventRequestIdempotencyKey obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("id" Data.Aeson.Types.ToJSON..= notificationEventRequestId obj) GHC.Base.<> ("idempotency_key" Data.Aeson.Types.ToJSON..= notificationEventRequestIdempotencyKey obj))
 
 instance Data.Aeson.Types.FromJSON.FromJSON NotificationEventRequest where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "NotificationEventRequest" (\obj -> (GHC.Base.pure NotificationEventRequest GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "idempotency_key"))
+
+-- | Create a new 'NotificationEventRequest' with all required fields.
+mkNotificationEventRequest :: NotificationEventRequest
+mkNotificationEventRequest =
+  NotificationEventRequest
+    { notificationEventRequestId = GHC.Maybe.Nothing,
+      notificationEventRequestIdempotencyKey = GHC.Maybe.Nothing
+    }

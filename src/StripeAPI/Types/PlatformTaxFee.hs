@@ -8,6 +8,7 @@ module StripeAPI.Types.PlatformTaxFee where
 
 import qualified Control.Monad.Fail
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -30,7 +31,7 @@ import StripeAPI.TypeAlias
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
--- | Defines the data type for the schema platform_tax_fee
+-- | Defines the object schema located at @components.schemas.platform_tax_fee@ in the specification.
 data PlatformTaxFee
   = PlatformTaxFee
       { -- | account: The Connected account that incurred this charge.
@@ -45,8 +46,6 @@ data PlatformTaxFee
         --
         -- * Maximum length of 5000
         platformTaxFeeId :: Data.Text.Internal.Text,
-        -- | object: String representing the object\'s type. Objects of the same type share the same value.
-        platformTaxFeeObject :: PlatformTaxFeeObject',
         -- | source_transaction: The payment object that caused this tax to be inflicted.
         --
         -- Constraints:
@@ -66,29 +65,27 @@ data PlatformTaxFee
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PlatformTaxFee where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "account" (platformTaxFeeAccount obj) : (Data.Aeson..=) "id" (platformTaxFeeId obj) : (Data.Aeson..=) "object" (platformTaxFeeObject obj) : (Data.Aeson..=) "source_transaction" (platformTaxFeeSourceTransaction obj) : (Data.Aeson..=) "type" (platformTaxFeeType obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "account" (platformTaxFeeAccount obj) GHC.Base.<> ((Data.Aeson..=) "id" (platformTaxFeeId obj) GHC.Base.<> ((Data.Aeson..=) "object" (platformTaxFeeObject obj) GHC.Base.<> ((Data.Aeson..=) "source_transaction" (platformTaxFeeSourceTransaction obj) GHC.Base.<> (Data.Aeson..=) "type" (platformTaxFeeType obj)))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("account" Data.Aeson.Types.ToJSON..= platformTaxFeeAccount obj : "id" Data.Aeson.Types.ToJSON..= platformTaxFeeId obj : "source_transaction" Data.Aeson.Types.ToJSON..= platformTaxFeeSourceTransaction obj : "type" Data.Aeson.Types.ToJSON..= platformTaxFeeType obj : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "platform_tax_fee" : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("account" Data.Aeson.Types.ToJSON..= platformTaxFeeAccount obj) GHC.Base.<> (("id" Data.Aeson.Types.ToJSON..= platformTaxFeeId obj) GHC.Base.<> (("source_transaction" Data.Aeson.Types.ToJSON..= platformTaxFeeSourceTransaction obj) GHC.Base.<> (("type" Data.Aeson.Types.ToJSON..= platformTaxFeeType obj) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "platform_tax_fee")))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PlatformTaxFee where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PlatformTaxFee" (\obj -> ((((GHC.Base.pure PlatformTaxFee GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "account")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "object")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "source_transaction")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "type"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PlatformTaxFee" (\obj -> (((GHC.Base.pure PlatformTaxFee GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "account")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "source_transaction")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "type"))
 
--- | Defines the enum schema platform_tax_feeObject\'
---
--- String representing the object\'s type. Objects of the same type share the same value.
-data PlatformTaxFeeObject'
-  = PlatformTaxFeeObject'EnumOther Data.Aeson.Types.Internal.Value
-  | PlatformTaxFeeObject'EnumTyped Data.Text.Internal.Text
-  | PlatformTaxFeeObject'EnumStringPlatformTaxFee
-  deriving (GHC.Show.Show, GHC.Classes.Eq)
-
-instance Data.Aeson.Types.ToJSON.ToJSON PlatformTaxFeeObject' where
-  toJSON (PlatformTaxFeeObject'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PlatformTaxFeeObject'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PlatformTaxFeeObject'EnumStringPlatformTaxFee) = "platform_tax_fee"
-
-instance Data.Aeson.Types.FromJSON.FromJSON PlatformTaxFeeObject' where
-  parseJSON val =
-    GHC.Base.pure
-      ( if  | val GHC.Classes.== "platform_tax_fee" -> PlatformTaxFeeObject'EnumStringPlatformTaxFee
-            | GHC.Base.otherwise -> PlatformTaxFeeObject'EnumOther val
-      )
+-- | Create a new 'PlatformTaxFee' with all required fields.
+mkPlatformTaxFee ::
+  -- | 'platformTaxFeeAccount'
+  Data.Text.Internal.Text ->
+  -- | 'platformTaxFeeId'
+  Data.Text.Internal.Text ->
+  -- | 'platformTaxFeeSourceTransaction'
+  Data.Text.Internal.Text ->
+  -- | 'platformTaxFeeType'
+  Data.Text.Internal.Text ->
+  PlatformTaxFee
+mkPlatformTaxFee platformTaxFeeAccount platformTaxFeeId platformTaxFeeSourceTransaction platformTaxFeeType =
+  PlatformTaxFee
+    { platformTaxFeeAccount = platformTaxFeeAccount,
+      platformTaxFeeId = platformTaxFeeId,
+      platformTaxFeeSourceTransaction = platformTaxFeeSourceTransaction,
+      platformTaxFeeType = platformTaxFeeType
+    }

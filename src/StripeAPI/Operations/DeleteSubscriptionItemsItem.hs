@@ -10,6 +10,7 @@ module StripeAPI.Operations.DeleteSubscriptionItemsItem where
 import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -81,7 +82,7 @@ deleteSubscriptionItemsItem
       )
       (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "DELETE") (Data.Text.pack ("/v1/subscription_items/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel item)) GHC.Base.++ ""))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
 
--- | Defines the data type for the schema deleteSubscriptionItemsItemRequestBody
+-- | Defines the object schema located at @paths.\/v1\/subscription_items\/{item}.DELETE.requestBody.content.application\/x-www-form-urlencoded.schema@ in the specification.
 data DeleteSubscriptionItemsItemRequestBody
   = DeleteSubscriptionItemsItemRequestBody
       { -- | clear_usage: Delete all usage for the given subscription item. Allowed only when the current plan\'s \`usage_type\` is \`metered\`.
@@ -103,13 +104,23 @@ data DeleteSubscriptionItemsItemRequestBody
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON DeleteSubscriptionItemsItemRequestBody where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "clear_usage" (deleteSubscriptionItemsItemRequestBodyClearUsage obj) : (Data.Aeson..=) "prorate" (deleteSubscriptionItemsItemRequestBodyProrate obj) : (Data.Aeson..=) "proration_behavior" (deleteSubscriptionItemsItemRequestBodyProrationBehavior obj) : (Data.Aeson..=) "proration_date" (deleteSubscriptionItemsItemRequestBodyProrationDate obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "clear_usage" (deleteSubscriptionItemsItemRequestBodyClearUsage obj) GHC.Base.<> ((Data.Aeson..=) "prorate" (deleteSubscriptionItemsItemRequestBodyProrate obj) GHC.Base.<> ((Data.Aeson..=) "proration_behavior" (deleteSubscriptionItemsItemRequestBodyProrationBehavior obj) GHC.Base.<> (Data.Aeson..=) "proration_date" (deleteSubscriptionItemsItemRequestBodyProrationDate obj))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("clear_usage" Data.Aeson.Types.ToJSON..= deleteSubscriptionItemsItemRequestBodyClearUsage obj : "prorate" Data.Aeson.Types.ToJSON..= deleteSubscriptionItemsItemRequestBodyProrate obj : "proration_behavior" Data.Aeson.Types.ToJSON..= deleteSubscriptionItemsItemRequestBodyProrationBehavior obj : "proration_date" Data.Aeson.Types.ToJSON..= deleteSubscriptionItemsItemRequestBodyProrationDate obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("clear_usage" Data.Aeson.Types.ToJSON..= deleteSubscriptionItemsItemRequestBodyClearUsage obj) GHC.Base.<> (("prorate" Data.Aeson.Types.ToJSON..= deleteSubscriptionItemsItemRequestBodyProrate obj) GHC.Base.<> (("proration_behavior" Data.Aeson.Types.ToJSON..= deleteSubscriptionItemsItemRequestBodyProrationBehavior obj) GHC.Base.<> ("proration_date" Data.Aeson.Types.ToJSON..= deleteSubscriptionItemsItemRequestBodyProrationDate obj))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON DeleteSubscriptionItemsItemRequestBody where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "DeleteSubscriptionItemsItemRequestBody" (\obj -> (((GHC.Base.pure DeleteSubscriptionItemsItemRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "clear_usage")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "prorate")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "proration_behavior")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "proration_date"))
 
--- | Defines the enum schema deleteSubscriptionItemsItemRequestBodyProration_behavior\'
+-- | Create a new 'DeleteSubscriptionItemsItemRequestBody' with all required fields.
+mkDeleteSubscriptionItemsItemRequestBody :: DeleteSubscriptionItemsItemRequestBody
+mkDeleteSubscriptionItemsItemRequestBody =
+  DeleteSubscriptionItemsItemRequestBody
+    { deleteSubscriptionItemsItemRequestBodyClearUsage = GHC.Maybe.Nothing,
+      deleteSubscriptionItemsItemRequestBodyProrate = GHC.Maybe.Nothing,
+      deleteSubscriptionItemsItemRequestBodyProrationBehavior = GHC.Maybe.Nothing,
+      deleteSubscriptionItemsItemRequestBodyProrationDate = GHC.Maybe.Nothing
+    }
+
+-- | Defines the enum schema located at @paths.\/v1\/subscription_items\/{item}.DELETE.requestBody.content.application\/x-www-form-urlencoded.schema.properties.proration_behavior@ in the specification.
 --
 -- Determines how to handle [prorations](https:\/\/stripe.com\/docs\/subscriptions\/billing-cycle\#prorations) when the billing cycle changes (e.g., when switching plans, resetting \`billing_cycle_anchor=now\`, or starting a trial), or if an item\'s \`quantity\` changes. Valid values are \`create_prorations\`, \`none\`, or \`always_invoice\`.
 --
@@ -117,27 +128,32 @@ instance Data.Aeson.Types.FromJSON.FromJSON DeleteSubscriptionItemsItemRequestBo
 --
 -- Prorations can be disabled by passing \`none\`.
 data DeleteSubscriptionItemsItemRequestBodyProrationBehavior'
-  = DeleteSubscriptionItemsItemRequestBodyProrationBehavior'EnumOther Data.Aeson.Types.Internal.Value
-  | DeleteSubscriptionItemsItemRequestBodyProrationBehavior'EnumTyped Data.Text.Internal.Text
-  | DeleteSubscriptionItemsItemRequestBodyProrationBehavior'EnumStringAlwaysInvoice
-  | DeleteSubscriptionItemsItemRequestBodyProrationBehavior'EnumStringCreateProrations
-  | DeleteSubscriptionItemsItemRequestBodyProrationBehavior'EnumStringNone
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    DeleteSubscriptionItemsItemRequestBodyProrationBehavior'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    DeleteSubscriptionItemsItemRequestBodyProrationBehavior'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"always_invoice"@
+    DeleteSubscriptionItemsItemRequestBodyProrationBehavior'EnumAlwaysInvoice
+  | -- | Represents the JSON value @"create_prorations"@
+    DeleteSubscriptionItemsItemRequestBodyProrationBehavior'EnumCreateProrations
+  | -- | Represents the JSON value @"none"@
+    DeleteSubscriptionItemsItemRequestBodyProrationBehavior'EnumNone
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
 instance Data.Aeson.Types.ToJSON.ToJSON DeleteSubscriptionItemsItemRequestBodyProrationBehavior' where
-  toJSON (DeleteSubscriptionItemsItemRequestBodyProrationBehavior'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (DeleteSubscriptionItemsItemRequestBodyProrationBehavior'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (DeleteSubscriptionItemsItemRequestBodyProrationBehavior'EnumStringAlwaysInvoice) = "always_invoice"
-  toJSON (DeleteSubscriptionItemsItemRequestBodyProrationBehavior'EnumStringCreateProrations) = "create_prorations"
-  toJSON (DeleteSubscriptionItemsItemRequestBodyProrationBehavior'EnumStringNone) = "none"
+  toJSON (DeleteSubscriptionItemsItemRequestBodyProrationBehavior'Other val) = val
+  toJSON (DeleteSubscriptionItemsItemRequestBodyProrationBehavior'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (DeleteSubscriptionItemsItemRequestBodyProrationBehavior'EnumAlwaysInvoice) = "always_invoice"
+  toJSON (DeleteSubscriptionItemsItemRequestBodyProrationBehavior'EnumCreateProrations) = "create_prorations"
+  toJSON (DeleteSubscriptionItemsItemRequestBodyProrationBehavior'EnumNone) = "none"
 
 instance Data.Aeson.Types.FromJSON.FromJSON DeleteSubscriptionItemsItemRequestBodyProrationBehavior' where
   parseJSON val =
     GHC.Base.pure
-      ( if  | val GHC.Classes.== "always_invoice" -> DeleteSubscriptionItemsItemRequestBodyProrationBehavior'EnumStringAlwaysInvoice
-            | val GHC.Classes.== "create_prorations" -> DeleteSubscriptionItemsItemRequestBodyProrationBehavior'EnumStringCreateProrations
-            | val GHC.Classes.== "none" -> DeleteSubscriptionItemsItemRequestBodyProrationBehavior'EnumStringNone
-            | GHC.Base.otherwise -> DeleteSubscriptionItemsItemRequestBodyProrationBehavior'EnumOther val
+      ( if  | val GHC.Classes.== "always_invoice" -> DeleteSubscriptionItemsItemRequestBodyProrationBehavior'EnumAlwaysInvoice
+            | val GHC.Classes.== "create_prorations" -> DeleteSubscriptionItemsItemRequestBodyProrationBehavior'EnumCreateProrations
+            | val GHC.Classes.== "none" -> DeleteSubscriptionItemsItemRequestBodyProrationBehavior'EnumNone
+            | GHC.Base.otherwise -> DeleteSubscriptionItemsItemRequestBodyProrationBehavior'Other val
       )
 
 -- | Represents a response of the operation 'deleteSubscriptionItemsItem'.

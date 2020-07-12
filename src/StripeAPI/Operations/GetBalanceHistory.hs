@@ -10,6 +10,7 @@ module StripeAPI.Operations.GetBalanceHistory where
 import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -93,7 +94,7 @@ getBalanceHistory parameters =
         ]
     )
 
--- | Defines the data type for the schema getBalanceHistoryParameters
+-- | Defines the object schema located at @paths.\/v1\/balance\/history.GET.parameters@ in the specification.
 data GetBalanceHistoryParameters
   = GetBalanceHistoryParameters
       { -- | queryAvailable_on: Represents the parameter named \'available_on\'
@@ -159,13 +160,29 @@ data GetBalanceHistoryParameters
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetBalanceHistoryParameters where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "queryAvailable_on" (getBalanceHistoryParametersQueryAvailableOn obj) : (Data.Aeson..=) "queryCreated" (getBalanceHistoryParametersQueryCreated obj) : (Data.Aeson..=) "queryCurrency" (getBalanceHistoryParametersQueryCurrency obj) : (Data.Aeson..=) "queryEnding_before" (getBalanceHistoryParametersQueryEndingBefore obj) : (Data.Aeson..=) "queryExpand" (getBalanceHistoryParametersQueryExpand obj) : (Data.Aeson..=) "queryLimit" (getBalanceHistoryParametersQueryLimit obj) : (Data.Aeson..=) "queryPayout" (getBalanceHistoryParametersQueryPayout obj) : (Data.Aeson..=) "querySource" (getBalanceHistoryParametersQuerySource obj) : (Data.Aeson..=) "queryStarting_after" (getBalanceHistoryParametersQueryStartingAfter obj) : (Data.Aeson..=) "queryType" (getBalanceHistoryParametersQueryType obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "queryAvailable_on" (getBalanceHistoryParametersQueryAvailableOn obj) GHC.Base.<> ((Data.Aeson..=) "queryCreated" (getBalanceHistoryParametersQueryCreated obj) GHC.Base.<> ((Data.Aeson..=) "queryCurrency" (getBalanceHistoryParametersQueryCurrency obj) GHC.Base.<> ((Data.Aeson..=) "queryEnding_before" (getBalanceHistoryParametersQueryEndingBefore obj) GHC.Base.<> ((Data.Aeson..=) "queryExpand" (getBalanceHistoryParametersQueryExpand obj) GHC.Base.<> ((Data.Aeson..=) "queryLimit" (getBalanceHistoryParametersQueryLimit obj) GHC.Base.<> ((Data.Aeson..=) "queryPayout" (getBalanceHistoryParametersQueryPayout obj) GHC.Base.<> ((Data.Aeson..=) "querySource" (getBalanceHistoryParametersQuerySource obj) GHC.Base.<> ((Data.Aeson..=) "queryStarting_after" (getBalanceHistoryParametersQueryStartingAfter obj) GHC.Base.<> (Data.Aeson..=) "queryType" (getBalanceHistoryParametersQueryType obj))))))))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("queryAvailable_on" Data.Aeson.Types.ToJSON..= getBalanceHistoryParametersQueryAvailableOn obj : "queryCreated" Data.Aeson.Types.ToJSON..= getBalanceHistoryParametersQueryCreated obj : "queryCurrency" Data.Aeson.Types.ToJSON..= getBalanceHistoryParametersQueryCurrency obj : "queryEnding_before" Data.Aeson.Types.ToJSON..= getBalanceHistoryParametersQueryEndingBefore obj : "queryExpand" Data.Aeson.Types.ToJSON..= getBalanceHistoryParametersQueryExpand obj : "queryLimit" Data.Aeson.Types.ToJSON..= getBalanceHistoryParametersQueryLimit obj : "queryPayout" Data.Aeson.Types.ToJSON..= getBalanceHistoryParametersQueryPayout obj : "querySource" Data.Aeson.Types.ToJSON..= getBalanceHistoryParametersQuerySource obj : "queryStarting_after" Data.Aeson.Types.ToJSON..= getBalanceHistoryParametersQueryStartingAfter obj : "queryType" Data.Aeson.Types.ToJSON..= getBalanceHistoryParametersQueryType obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("queryAvailable_on" Data.Aeson.Types.ToJSON..= getBalanceHistoryParametersQueryAvailableOn obj) GHC.Base.<> (("queryCreated" Data.Aeson.Types.ToJSON..= getBalanceHistoryParametersQueryCreated obj) GHC.Base.<> (("queryCurrency" Data.Aeson.Types.ToJSON..= getBalanceHistoryParametersQueryCurrency obj) GHC.Base.<> (("queryEnding_before" Data.Aeson.Types.ToJSON..= getBalanceHistoryParametersQueryEndingBefore obj) GHC.Base.<> (("queryExpand" Data.Aeson.Types.ToJSON..= getBalanceHistoryParametersQueryExpand obj) GHC.Base.<> (("queryLimit" Data.Aeson.Types.ToJSON..= getBalanceHistoryParametersQueryLimit obj) GHC.Base.<> (("queryPayout" Data.Aeson.Types.ToJSON..= getBalanceHistoryParametersQueryPayout obj) GHC.Base.<> (("querySource" Data.Aeson.Types.ToJSON..= getBalanceHistoryParametersQuerySource obj) GHC.Base.<> (("queryStarting_after" Data.Aeson.Types.ToJSON..= getBalanceHistoryParametersQueryStartingAfter obj) GHC.Base.<> ("queryType" Data.Aeson.Types.ToJSON..= getBalanceHistoryParametersQueryType obj))))))))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetBalanceHistoryParameters where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "GetBalanceHistoryParameters" (\obj -> (((((((((GHC.Base.pure GetBalanceHistoryParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryAvailable_on")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryCreated")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryCurrency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryEnding_before")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryExpand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryLimit")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryPayout")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "querySource")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryStarting_after")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryType"))
 
--- | Defines the data type for the schema getBalanceHistoryParametersQueryAvailable_on\'OneOf2
+-- | Create a new 'GetBalanceHistoryParameters' with all required fields.
+mkGetBalanceHistoryParameters :: GetBalanceHistoryParameters
+mkGetBalanceHistoryParameters =
+  GetBalanceHistoryParameters
+    { getBalanceHistoryParametersQueryAvailableOn = GHC.Maybe.Nothing,
+      getBalanceHistoryParametersQueryCreated = GHC.Maybe.Nothing,
+      getBalanceHistoryParametersQueryCurrency = GHC.Maybe.Nothing,
+      getBalanceHistoryParametersQueryEndingBefore = GHC.Maybe.Nothing,
+      getBalanceHistoryParametersQueryExpand = GHC.Maybe.Nothing,
+      getBalanceHistoryParametersQueryLimit = GHC.Maybe.Nothing,
+      getBalanceHistoryParametersQueryPayout = GHC.Maybe.Nothing,
+      getBalanceHistoryParametersQuerySource = GHC.Maybe.Nothing,
+      getBalanceHistoryParametersQueryStartingAfter = GHC.Maybe.Nothing,
+      getBalanceHistoryParametersQueryType = GHC.Maybe.Nothing
+    }
+
+-- | Defines the object schema located at @paths.\/v1\/balance\/history.GET.parameters.properties.queryAvailable_on.anyOf@ in the specification.
 data GetBalanceHistoryParametersQueryAvailableOn'OneOf2
   = GetBalanceHistoryParametersQueryAvailableOn'OneOf2
       { -- | gt
@@ -183,13 +200,23 @@ data GetBalanceHistoryParametersQueryAvailableOn'OneOf2
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetBalanceHistoryParametersQueryAvailableOn'OneOf2 where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "gt" (getBalanceHistoryParametersQueryAvailableOn'OneOf2Gt obj) : (Data.Aeson..=) "gte" (getBalanceHistoryParametersQueryAvailableOn'OneOf2Gte obj) : (Data.Aeson..=) "lt" (getBalanceHistoryParametersQueryAvailableOn'OneOf2Lt obj) : (Data.Aeson..=) "lte" (getBalanceHistoryParametersQueryAvailableOn'OneOf2Lte obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "gt" (getBalanceHistoryParametersQueryAvailableOn'OneOf2Gt obj) GHC.Base.<> ((Data.Aeson..=) "gte" (getBalanceHistoryParametersQueryAvailableOn'OneOf2Gte obj) GHC.Base.<> ((Data.Aeson..=) "lt" (getBalanceHistoryParametersQueryAvailableOn'OneOf2Lt obj) GHC.Base.<> (Data.Aeson..=) "lte" (getBalanceHistoryParametersQueryAvailableOn'OneOf2Lte obj))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("gt" Data.Aeson.Types.ToJSON..= getBalanceHistoryParametersQueryAvailableOn'OneOf2Gt obj : "gte" Data.Aeson.Types.ToJSON..= getBalanceHistoryParametersQueryAvailableOn'OneOf2Gte obj : "lt" Data.Aeson.Types.ToJSON..= getBalanceHistoryParametersQueryAvailableOn'OneOf2Lt obj : "lte" Data.Aeson.Types.ToJSON..= getBalanceHistoryParametersQueryAvailableOn'OneOf2Lte obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("gt" Data.Aeson.Types.ToJSON..= getBalanceHistoryParametersQueryAvailableOn'OneOf2Gt obj) GHC.Base.<> (("gte" Data.Aeson.Types.ToJSON..= getBalanceHistoryParametersQueryAvailableOn'OneOf2Gte obj) GHC.Base.<> (("lt" Data.Aeson.Types.ToJSON..= getBalanceHistoryParametersQueryAvailableOn'OneOf2Lt obj) GHC.Base.<> ("lte" Data.Aeson.Types.ToJSON..= getBalanceHistoryParametersQueryAvailableOn'OneOf2Lte obj))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetBalanceHistoryParametersQueryAvailableOn'OneOf2 where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "GetBalanceHistoryParametersQueryAvailableOn'OneOf2" (\obj -> (((GHC.Base.pure GetBalanceHistoryParametersQueryAvailableOn'OneOf2 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "gt")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "gte")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "lt")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "lte"))
 
--- | Define the one-of schema getBalanceHistoryParametersQueryAvailable_on\'
+-- | Create a new 'GetBalanceHistoryParametersQueryAvailableOn'OneOf2' with all required fields.
+mkGetBalanceHistoryParametersQueryAvailableOn'OneOf2 :: GetBalanceHistoryParametersQueryAvailableOn'OneOf2
+mkGetBalanceHistoryParametersQueryAvailableOn'OneOf2 =
+  GetBalanceHistoryParametersQueryAvailableOn'OneOf2
+    { getBalanceHistoryParametersQueryAvailableOn'OneOf2Gt = GHC.Maybe.Nothing,
+      getBalanceHistoryParametersQueryAvailableOn'OneOf2Gte = GHC.Maybe.Nothing,
+      getBalanceHistoryParametersQueryAvailableOn'OneOf2Lt = GHC.Maybe.Nothing,
+      getBalanceHistoryParametersQueryAvailableOn'OneOf2Lte = GHC.Maybe.Nothing
+    }
+
+-- | Defines the oneOf schema located at @paths.\/v1\/balance\/history.GET.parameters.properties.queryAvailable_on.anyOf@ in the specification.
 --
 -- Represents the parameter named \'available_on\'
 data GetBalanceHistoryParametersQueryAvailableOn'Variants
@@ -202,13 +229,11 @@ instance Data.Aeson.Types.ToJSON.ToJSON GetBalanceHistoryParametersQueryAvailabl
   toJSON (GetBalanceHistoryParametersQueryAvailableOn'GetBalanceHistoryParametersQueryAvailableOn'OneOf2 a) = Data.Aeson.Types.ToJSON.toJSON a
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetBalanceHistoryParametersQueryAvailableOn'Variants where
-  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
-    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ GetBalanceHistoryParametersQueryAvailableOn'Int a
-    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ GetBalanceHistoryParametersQueryAvailableOn'GetBalanceHistoryParametersQueryAvailableOn'OneOf2 a
-      Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+  parseJSON val = case (GetBalanceHistoryParametersQueryAvailableOn'Int Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((GetBalanceHistoryParametersQueryAvailableOn'GetBalanceHistoryParametersQueryAvailableOn'OneOf2 Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched") of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+    Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
--- | Defines the data type for the schema getBalanceHistoryParametersQueryCreated\'OneOf2
+-- | Defines the object schema located at @paths.\/v1\/balance\/history.GET.parameters.properties.queryCreated.anyOf@ in the specification.
 data GetBalanceHistoryParametersQueryCreated'OneOf2
   = GetBalanceHistoryParametersQueryCreated'OneOf2
       { -- | gt
@@ -226,13 +251,23 @@ data GetBalanceHistoryParametersQueryCreated'OneOf2
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetBalanceHistoryParametersQueryCreated'OneOf2 where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "gt" (getBalanceHistoryParametersQueryCreated'OneOf2Gt obj) : (Data.Aeson..=) "gte" (getBalanceHistoryParametersQueryCreated'OneOf2Gte obj) : (Data.Aeson..=) "lt" (getBalanceHistoryParametersQueryCreated'OneOf2Lt obj) : (Data.Aeson..=) "lte" (getBalanceHistoryParametersQueryCreated'OneOf2Lte obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "gt" (getBalanceHistoryParametersQueryCreated'OneOf2Gt obj) GHC.Base.<> ((Data.Aeson..=) "gte" (getBalanceHistoryParametersQueryCreated'OneOf2Gte obj) GHC.Base.<> ((Data.Aeson..=) "lt" (getBalanceHistoryParametersQueryCreated'OneOf2Lt obj) GHC.Base.<> (Data.Aeson..=) "lte" (getBalanceHistoryParametersQueryCreated'OneOf2Lte obj))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("gt" Data.Aeson.Types.ToJSON..= getBalanceHistoryParametersQueryCreated'OneOf2Gt obj : "gte" Data.Aeson.Types.ToJSON..= getBalanceHistoryParametersQueryCreated'OneOf2Gte obj : "lt" Data.Aeson.Types.ToJSON..= getBalanceHistoryParametersQueryCreated'OneOf2Lt obj : "lte" Data.Aeson.Types.ToJSON..= getBalanceHistoryParametersQueryCreated'OneOf2Lte obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("gt" Data.Aeson.Types.ToJSON..= getBalanceHistoryParametersQueryCreated'OneOf2Gt obj) GHC.Base.<> (("gte" Data.Aeson.Types.ToJSON..= getBalanceHistoryParametersQueryCreated'OneOf2Gte obj) GHC.Base.<> (("lt" Data.Aeson.Types.ToJSON..= getBalanceHistoryParametersQueryCreated'OneOf2Lt obj) GHC.Base.<> ("lte" Data.Aeson.Types.ToJSON..= getBalanceHistoryParametersQueryCreated'OneOf2Lte obj))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetBalanceHistoryParametersQueryCreated'OneOf2 where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "GetBalanceHistoryParametersQueryCreated'OneOf2" (\obj -> (((GHC.Base.pure GetBalanceHistoryParametersQueryCreated'OneOf2 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "gt")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "gte")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "lt")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "lte"))
 
--- | Define the one-of schema getBalanceHistoryParametersQueryCreated\'
+-- | Create a new 'GetBalanceHistoryParametersQueryCreated'OneOf2' with all required fields.
+mkGetBalanceHistoryParametersQueryCreated'OneOf2 :: GetBalanceHistoryParametersQueryCreated'OneOf2
+mkGetBalanceHistoryParametersQueryCreated'OneOf2 =
+  GetBalanceHistoryParametersQueryCreated'OneOf2
+    { getBalanceHistoryParametersQueryCreated'OneOf2Gt = GHC.Maybe.Nothing,
+      getBalanceHistoryParametersQueryCreated'OneOf2Gte = GHC.Maybe.Nothing,
+      getBalanceHistoryParametersQueryCreated'OneOf2Lt = GHC.Maybe.Nothing,
+      getBalanceHistoryParametersQueryCreated'OneOf2Lte = GHC.Maybe.Nothing
+    }
+
+-- | Defines the oneOf schema located at @paths.\/v1\/balance\/history.GET.parameters.properties.queryCreated.anyOf@ in the specification.
 --
 -- Represents the parameter named \'created\'
 data GetBalanceHistoryParametersQueryCreated'Variants
@@ -245,11 +280,9 @@ instance Data.Aeson.Types.ToJSON.ToJSON GetBalanceHistoryParametersQueryCreated'
   toJSON (GetBalanceHistoryParametersQueryCreated'GetBalanceHistoryParametersQueryCreated'OneOf2 a) = Data.Aeson.Types.ToJSON.toJSON a
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetBalanceHistoryParametersQueryCreated'Variants where
-  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
-    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ GetBalanceHistoryParametersQueryCreated'Int a
-    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ GetBalanceHistoryParametersQueryCreated'GetBalanceHistoryParametersQueryCreated'OneOf2 a
-      Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+  parseJSON val = case (GetBalanceHistoryParametersQueryCreated'Int Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((GetBalanceHistoryParametersQueryCreated'GetBalanceHistoryParametersQueryCreated'OneOf2 Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched") of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+    Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
 -- | Represents a response of the operation 'getBalanceHistory'.
 --
@@ -263,15 +296,13 @@ data GetBalanceHistoryResponse
     GetBalanceHistoryResponseDefault Error
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
--- | Defines the data type for the schema GetBalanceHistoryResponseBody200
+-- | Defines the object schema located at @paths.\/v1\/balance\/history.GET.responses.200.content.application\/json.schema@ in the specification.
 data GetBalanceHistoryResponseBody200
   = GetBalanceHistoryResponseBody200
       { -- | data
         getBalanceHistoryResponseBody200Data :: ([BalanceTransaction]),
         -- | has_more: True if this list has another page of items after this one that can be fetched.
         getBalanceHistoryResponseBody200HasMore :: GHC.Types.Bool,
-        -- | object: String representing the object\'s type. Objects of the same type share the same value. Always has the value \`list\`.
-        getBalanceHistoryResponseBody200Object :: GetBalanceHistoryResponseBody200Object',
         -- | url: The URL where this list can be accessed.
         --
         -- Constraints:
@@ -286,29 +317,24 @@ data GetBalanceHistoryResponseBody200
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetBalanceHistoryResponseBody200 where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "data" (getBalanceHistoryResponseBody200Data obj) : (Data.Aeson..=) "has_more" (getBalanceHistoryResponseBody200HasMore obj) : (Data.Aeson..=) "object" (getBalanceHistoryResponseBody200Object obj) : (Data.Aeson..=) "url" (getBalanceHistoryResponseBody200Url obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "data" (getBalanceHistoryResponseBody200Data obj) GHC.Base.<> ((Data.Aeson..=) "has_more" (getBalanceHistoryResponseBody200HasMore obj) GHC.Base.<> ((Data.Aeson..=) "object" (getBalanceHistoryResponseBody200Object obj) GHC.Base.<> (Data.Aeson..=) "url" (getBalanceHistoryResponseBody200Url obj))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("data" Data.Aeson.Types.ToJSON..= getBalanceHistoryResponseBody200Data obj : "has_more" Data.Aeson.Types.ToJSON..= getBalanceHistoryResponseBody200HasMore obj : "url" Data.Aeson.Types.ToJSON..= getBalanceHistoryResponseBody200Url obj : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "list" : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("data" Data.Aeson.Types.ToJSON..= getBalanceHistoryResponseBody200Data obj) GHC.Base.<> (("has_more" Data.Aeson.Types.ToJSON..= getBalanceHistoryResponseBody200HasMore obj) GHC.Base.<> (("url" Data.Aeson.Types.ToJSON..= getBalanceHistoryResponseBody200Url obj) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "list"))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetBalanceHistoryResponseBody200 where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetBalanceHistoryResponseBody200" (\obj -> (((GHC.Base.pure GetBalanceHistoryResponseBody200 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "has_more")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "object")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "url"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetBalanceHistoryResponseBody200" (\obj -> ((GHC.Base.pure GetBalanceHistoryResponseBody200 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "has_more")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "url"))
 
--- | Defines the enum schema GetBalanceHistoryResponseBody200Object\'
---
--- String representing the object\'s type. Objects of the same type share the same value. Always has the value \`list\`.
-data GetBalanceHistoryResponseBody200Object'
-  = GetBalanceHistoryResponseBody200Object'EnumOther Data.Aeson.Types.Internal.Value
-  | GetBalanceHistoryResponseBody200Object'EnumTyped Data.Text.Internal.Text
-  | GetBalanceHistoryResponseBody200Object'EnumStringList
-  deriving (GHC.Show.Show, GHC.Classes.Eq)
-
-instance Data.Aeson.Types.ToJSON.ToJSON GetBalanceHistoryResponseBody200Object' where
-  toJSON (GetBalanceHistoryResponseBody200Object'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (GetBalanceHistoryResponseBody200Object'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (GetBalanceHistoryResponseBody200Object'EnumStringList) = "list"
-
-instance Data.Aeson.Types.FromJSON.FromJSON GetBalanceHistoryResponseBody200Object' where
-  parseJSON val =
-    GHC.Base.pure
-      ( if  | val GHC.Classes.== "list" -> GetBalanceHistoryResponseBody200Object'EnumStringList
-            | GHC.Base.otherwise -> GetBalanceHistoryResponseBody200Object'EnumOther val
-      )
+-- | Create a new 'GetBalanceHistoryResponseBody200' with all required fields.
+mkGetBalanceHistoryResponseBody200 ::
+  -- | 'getBalanceHistoryResponseBody200Data'
+  [BalanceTransaction] ->
+  -- | 'getBalanceHistoryResponseBody200HasMore'
+  GHC.Types.Bool ->
+  -- | 'getBalanceHistoryResponseBody200Url'
+  Data.Text.Internal.Text ->
+  GetBalanceHistoryResponseBody200
+mkGetBalanceHistoryResponseBody200 getBalanceHistoryResponseBody200Data getBalanceHistoryResponseBody200HasMore getBalanceHistoryResponseBody200Url =
+  GetBalanceHistoryResponseBody200
+    { getBalanceHistoryResponseBody200Data = getBalanceHistoryResponseBody200Data,
+      getBalanceHistoryResponseBody200HasMore = getBalanceHistoryResponseBody200HasMore,
+      getBalanceHistoryResponseBody200Url = getBalanceHistoryResponseBody200Url
+    }

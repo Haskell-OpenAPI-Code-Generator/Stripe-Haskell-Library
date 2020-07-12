@@ -8,6 +8,7 @@ module StripeAPI.Types.SourceCodeVerificationFlow where
 
 import qualified Control.Monad.Fail
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -30,7 +31,7 @@ import StripeAPI.TypeAlias
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
--- | Defines the data type for the schema source_code_verification_flow
+-- | Defines the object schema located at @components.schemas.source_code_verification_flow@ in the specification.
 data SourceCodeVerificationFlow
   = SourceCodeVerificationFlow
       { -- | attempts_remaining: The number of attempts remaining to authenticate the source object with a verification code.
@@ -48,8 +49,21 @@ data SourceCodeVerificationFlow
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON SourceCodeVerificationFlow where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "attempts_remaining" (sourceCodeVerificationFlowAttemptsRemaining obj) : (Data.Aeson..=) "status" (sourceCodeVerificationFlowStatus obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "attempts_remaining" (sourceCodeVerificationFlowAttemptsRemaining obj) GHC.Base.<> (Data.Aeson..=) "status" (sourceCodeVerificationFlowStatus obj))
+  toJSON obj = Data.Aeson.Types.Internal.object ("attempts_remaining" Data.Aeson.Types.ToJSON..= sourceCodeVerificationFlowAttemptsRemaining obj : "status" Data.Aeson.Types.ToJSON..= sourceCodeVerificationFlowStatus obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("attempts_remaining" Data.Aeson.Types.ToJSON..= sourceCodeVerificationFlowAttemptsRemaining obj) GHC.Base.<> ("status" Data.Aeson.Types.ToJSON..= sourceCodeVerificationFlowStatus obj))
 
 instance Data.Aeson.Types.FromJSON.FromJSON SourceCodeVerificationFlow where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "SourceCodeVerificationFlow" (\obj -> (GHC.Base.pure SourceCodeVerificationFlow GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "attempts_remaining")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "status"))
+
+-- | Create a new 'SourceCodeVerificationFlow' with all required fields.
+mkSourceCodeVerificationFlow ::
+  -- | 'sourceCodeVerificationFlowAttemptsRemaining'
+  GHC.Types.Int ->
+  -- | 'sourceCodeVerificationFlowStatus'
+  Data.Text.Internal.Text ->
+  SourceCodeVerificationFlow
+mkSourceCodeVerificationFlow sourceCodeVerificationFlowAttemptsRemaining sourceCodeVerificationFlowStatus =
+  SourceCodeVerificationFlow
+    { sourceCodeVerificationFlowAttemptsRemaining = sourceCodeVerificationFlowAttemptsRemaining,
+      sourceCodeVerificationFlowStatus = sourceCodeVerificationFlowStatus
+    }

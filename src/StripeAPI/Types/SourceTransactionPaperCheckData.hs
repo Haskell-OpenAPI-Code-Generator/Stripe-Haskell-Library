@@ -8,6 +8,7 @@ module StripeAPI.Types.SourceTransactionPaperCheckData where
 
 import qualified Control.Monad.Fail
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -30,7 +31,7 @@ import StripeAPI.TypeAlias
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
--- | Defines the data type for the schema source_transaction_paper_check_data
+-- | Defines the object schema located at @components.schemas.source_transaction_paper_check_data@ in the specification.
 data SourceTransactionPaperCheckData
   = SourceTransactionPaperCheckData
       { -- | available_at: Time at which the deposited funds will be available for use. Measured in seconds since the Unix epoch.
@@ -52,8 +53,16 @@ data SourceTransactionPaperCheckData
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON SourceTransactionPaperCheckData where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "available_at" (sourceTransactionPaperCheckDataAvailableAt obj) : (Data.Aeson..=) "invoices" (sourceTransactionPaperCheckDataInvoices obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "available_at" (sourceTransactionPaperCheckDataAvailableAt obj) GHC.Base.<> (Data.Aeson..=) "invoices" (sourceTransactionPaperCheckDataInvoices obj))
+  toJSON obj = Data.Aeson.Types.Internal.object ("available_at" Data.Aeson.Types.ToJSON..= sourceTransactionPaperCheckDataAvailableAt obj : "invoices" Data.Aeson.Types.ToJSON..= sourceTransactionPaperCheckDataInvoices obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("available_at" Data.Aeson.Types.ToJSON..= sourceTransactionPaperCheckDataAvailableAt obj) GHC.Base.<> ("invoices" Data.Aeson.Types.ToJSON..= sourceTransactionPaperCheckDataInvoices obj))
 
 instance Data.Aeson.Types.FromJSON.FromJSON SourceTransactionPaperCheckData where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "SourceTransactionPaperCheckData" (\obj -> (GHC.Base.pure SourceTransactionPaperCheckData GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "available_at")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "invoices"))
+
+-- | Create a new 'SourceTransactionPaperCheckData' with all required fields.
+mkSourceTransactionPaperCheckData :: SourceTransactionPaperCheckData
+mkSourceTransactionPaperCheckData =
+  SourceTransactionPaperCheckData
+    { sourceTransactionPaperCheckDataAvailableAt = GHC.Maybe.Nothing,
+      sourceTransactionPaperCheckDataInvoices = GHC.Maybe.Nothing
+    }

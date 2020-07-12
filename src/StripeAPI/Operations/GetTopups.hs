@@ -10,6 +10,7 @@ module StripeAPI.Operations.GetTopups where
 import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -88,7 +89,7 @@ getTopups parameters =
         ]
     )
 
--- | Defines the data type for the schema getTopupsParameters
+-- | Defines the object schema located at @paths.\/v1\/topups.GET.parameters@ in the specification.
 data GetTopupsParameters
   = GetTopupsParameters
       { -- | queryAmount: Represents the parameter named \'amount\'
@@ -138,13 +139,26 @@ data GetTopupsParameters
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetTopupsParameters where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "queryAmount" (getTopupsParametersQueryAmount obj) : (Data.Aeson..=) "queryCreated" (getTopupsParametersQueryCreated obj) : (Data.Aeson..=) "queryEnding_before" (getTopupsParametersQueryEndingBefore obj) : (Data.Aeson..=) "queryExpand" (getTopupsParametersQueryExpand obj) : (Data.Aeson..=) "queryLimit" (getTopupsParametersQueryLimit obj) : (Data.Aeson..=) "queryStarting_after" (getTopupsParametersQueryStartingAfter obj) : (Data.Aeson..=) "queryStatus" (getTopupsParametersQueryStatus obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "queryAmount" (getTopupsParametersQueryAmount obj) GHC.Base.<> ((Data.Aeson..=) "queryCreated" (getTopupsParametersQueryCreated obj) GHC.Base.<> ((Data.Aeson..=) "queryEnding_before" (getTopupsParametersQueryEndingBefore obj) GHC.Base.<> ((Data.Aeson..=) "queryExpand" (getTopupsParametersQueryExpand obj) GHC.Base.<> ((Data.Aeson..=) "queryLimit" (getTopupsParametersQueryLimit obj) GHC.Base.<> ((Data.Aeson..=) "queryStarting_after" (getTopupsParametersQueryStartingAfter obj) GHC.Base.<> (Data.Aeson..=) "queryStatus" (getTopupsParametersQueryStatus obj)))))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("queryAmount" Data.Aeson.Types.ToJSON..= getTopupsParametersQueryAmount obj : "queryCreated" Data.Aeson.Types.ToJSON..= getTopupsParametersQueryCreated obj : "queryEnding_before" Data.Aeson.Types.ToJSON..= getTopupsParametersQueryEndingBefore obj : "queryExpand" Data.Aeson.Types.ToJSON..= getTopupsParametersQueryExpand obj : "queryLimit" Data.Aeson.Types.ToJSON..= getTopupsParametersQueryLimit obj : "queryStarting_after" Data.Aeson.Types.ToJSON..= getTopupsParametersQueryStartingAfter obj : "queryStatus" Data.Aeson.Types.ToJSON..= getTopupsParametersQueryStatus obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("queryAmount" Data.Aeson.Types.ToJSON..= getTopupsParametersQueryAmount obj) GHC.Base.<> (("queryCreated" Data.Aeson.Types.ToJSON..= getTopupsParametersQueryCreated obj) GHC.Base.<> (("queryEnding_before" Data.Aeson.Types.ToJSON..= getTopupsParametersQueryEndingBefore obj) GHC.Base.<> (("queryExpand" Data.Aeson.Types.ToJSON..= getTopupsParametersQueryExpand obj) GHC.Base.<> (("queryLimit" Data.Aeson.Types.ToJSON..= getTopupsParametersQueryLimit obj) GHC.Base.<> (("queryStarting_after" Data.Aeson.Types.ToJSON..= getTopupsParametersQueryStartingAfter obj) GHC.Base.<> ("queryStatus" Data.Aeson.Types.ToJSON..= getTopupsParametersQueryStatus obj)))))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetTopupsParameters where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "GetTopupsParameters" (\obj -> ((((((GHC.Base.pure GetTopupsParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryAmount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryCreated")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryEnding_before")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryExpand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryLimit")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryStarting_after")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryStatus"))
 
--- | Defines the data type for the schema getTopupsParametersQueryAmount\'OneOf2
+-- | Create a new 'GetTopupsParameters' with all required fields.
+mkGetTopupsParameters :: GetTopupsParameters
+mkGetTopupsParameters =
+  GetTopupsParameters
+    { getTopupsParametersQueryAmount = GHC.Maybe.Nothing,
+      getTopupsParametersQueryCreated = GHC.Maybe.Nothing,
+      getTopupsParametersQueryEndingBefore = GHC.Maybe.Nothing,
+      getTopupsParametersQueryExpand = GHC.Maybe.Nothing,
+      getTopupsParametersQueryLimit = GHC.Maybe.Nothing,
+      getTopupsParametersQueryStartingAfter = GHC.Maybe.Nothing,
+      getTopupsParametersQueryStatus = GHC.Maybe.Nothing
+    }
+
+-- | Defines the object schema located at @paths.\/v1\/topups.GET.parameters.properties.queryAmount.anyOf@ in the specification.
 data GetTopupsParametersQueryAmount'OneOf2
   = GetTopupsParametersQueryAmount'OneOf2
       { -- | gt
@@ -162,13 +176,23 @@ data GetTopupsParametersQueryAmount'OneOf2
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetTopupsParametersQueryAmount'OneOf2 where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "gt" (getTopupsParametersQueryAmount'OneOf2Gt obj) : (Data.Aeson..=) "gte" (getTopupsParametersQueryAmount'OneOf2Gte obj) : (Data.Aeson..=) "lt" (getTopupsParametersQueryAmount'OneOf2Lt obj) : (Data.Aeson..=) "lte" (getTopupsParametersQueryAmount'OneOf2Lte obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "gt" (getTopupsParametersQueryAmount'OneOf2Gt obj) GHC.Base.<> ((Data.Aeson..=) "gte" (getTopupsParametersQueryAmount'OneOf2Gte obj) GHC.Base.<> ((Data.Aeson..=) "lt" (getTopupsParametersQueryAmount'OneOf2Lt obj) GHC.Base.<> (Data.Aeson..=) "lte" (getTopupsParametersQueryAmount'OneOf2Lte obj))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("gt" Data.Aeson.Types.ToJSON..= getTopupsParametersQueryAmount'OneOf2Gt obj : "gte" Data.Aeson.Types.ToJSON..= getTopupsParametersQueryAmount'OneOf2Gte obj : "lt" Data.Aeson.Types.ToJSON..= getTopupsParametersQueryAmount'OneOf2Lt obj : "lte" Data.Aeson.Types.ToJSON..= getTopupsParametersQueryAmount'OneOf2Lte obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("gt" Data.Aeson.Types.ToJSON..= getTopupsParametersQueryAmount'OneOf2Gt obj) GHC.Base.<> (("gte" Data.Aeson.Types.ToJSON..= getTopupsParametersQueryAmount'OneOf2Gte obj) GHC.Base.<> (("lt" Data.Aeson.Types.ToJSON..= getTopupsParametersQueryAmount'OneOf2Lt obj) GHC.Base.<> ("lte" Data.Aeson.Types.ToJSON..= getTopupsParametersQueryAmount'OneOf2Lte obj))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetTopupsParametersQueryAmount'OneOf2 where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "GetTopupsParametersQueryAmount'OneOf2" (\obj -> (((GHC.Base.pure GetTopupsParametersQueryAmount'OneOf2 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "gt")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "gte")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "lt")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "lte"))
 
--- | Define the one-of schema getTopupsParametersQueryAmount\'
+-- | Create a new 'GetTopupsParametersQueryAmount'OneOf2' with all required fields.
+mkGetTopupsParametersQueryAmount'OneOf2 :: GetTopupsParametersQueryAmount'OneOf2
+mkGetTopupsParametersQueryAmount'OneOf2 =
+  GetTopupsParametersQueryAmount'OneOf2
+    { getTopupsParametersQueryAmount'OneOf2Gt = GHC.Maybe.Nothing,
+      getTopupsParametersQueryAmount'OneOf2Gte = GHC.Maybe.Nothing,
+      getTopupsParametersQueryAmount'OneOf2Lt = GHC.Maybe.Nothing,
+      getTopupsParametersQueryAmount'OneOf2Lte = GHC.Maybe.Nothing
+    }
+
+-- | Defines the oneOf schema located at @paths.\/v1\/topups.GET.parameters.properties.queryAmount.anyOf@ in the specification.
 --
 -- Represents the parameter named \'amount\'
 --
@@ -183,13 +207,11 @@ instance Data.Aeson.Types.ToJSON.ToJSON GetTopupsParametersQueryAmount'Variants 
   toJSON (GetTopupsParametersQueryAmount'GetTopupsParametersQueryAmount'OneOf2 a) = Data.Aeson.Types.ToJSON.toJSON a
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetTopupsParametersQueryAmount'Variants where
-  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
-    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ GetTopupsParametersQueryAmount'Int a
-    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ GetTopupsParametersQueryAmount'GetTopupsParametersQueryAmount'OneOf2 a
-      Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+  parseJSON val = case (GetTopupsParametersQueryAmount'Int Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((GetTopupsParametersQueryAmount'GetTopupsParametersQueryAmount'OneOf2 Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched") of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+    Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
--- | Defines the data type for the schema getTopupsParametersQueryCreated\'OneOf2
+-- | Defines the object schema located at @paths.\/v1\/topups.GET.parameters.properties.queryCreated.anyOf@ in the specification.
 data GetTopupsParametersQueryCreated'OneOf2
   = GetTopupsParametersQueryCreated'OneOf2
       { -- | gt
@@ -207,13 +229,23 @@ data GetTopupsParametersQueryCreated'OneOf2
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetTopupsParametersQueryCreated'OneOf2 where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "gt" (getTopupsParametersQueryCreated'OneOf2Gt obj) : (Data.Aeson..=) "gte" (getTopupsParametersQueryCreated'OneOf2Gte obj) : (Data.Aeson..=) "lt" (getTopupsParametersQueryCreated'OneOf2Lt obj) : (Data.Aeson..=) "lte" (getTopupsParametersQueryCreated'OneOf2Lte obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "gt" (getTopupsParametersQueryCreated'OneOf2Gt obj) GHC.Base.<> ((Data.Aeson..=) "gte" (getTopupsParametersQueryCreated'OneOf2Gte obj) GHC.Base.<> ((Data.Aeson..=) "lt" (getTopupsParametersQueryCreated'OneOf2Lt obj) GHC.Base.<> (Data.Aeson..=) "lte" (getTopupsParametersQueryCreated'OneOf2Lte obj))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("gt" Data.Aeson.Types.ToJSON..= getTopupsParametersQueryCreated'OneOf2Gt obj : "gte" Data.Aeson.Types.ToJSON..= getTopupsParametersQueryCreated'OneOf2Gte obj : "lt" Data.Aeson.Types.ToJSON..= getTopupsParametersQueryCreated'OneOf2Lt obj : "lte" Data.Aeson.Types.ToJSON..= getTopupsParametersQueryCreated'OneOf2Lte obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("gt" Data.Aeson.Types.ToJSON..= getTopupsParametersQueryCreated'OneOf2Gt obj) GHC.Base.<> (("gte" Data.Aeson.Types.ToJSON..= getTopupsParametersQueryCreated'OneOf2Gte obj) GHC.Base.<> (("lt" Data.Aeson.Types.ToJSON..= getTopupsParametersQueryCreated'OneOf2Lt obj) GHC.Base.<> ("lte" Data.Aeson.Types.ToJSON..= getTopupsParametersQueryCreated'OneOf2Lte obj))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetTopupsParametersQueryCreated'OneOf2 where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "GetTopupsParametersQueryCreated'OneOf2" (\obj -> (((GHC.Base.pure GetTopupsParametersQueryCreated'OneOf2 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "gt")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "gte")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "lt")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "lte"))
 
--- | Define the one-of schema getTopupsParametersQueryCreated\'
+-- | Create a new 'GetTopupsParametersQueryCreated'OneOf2' with all required fields.
+mkGetTopupsParametersQueryCreated'OneOf2 :: GetTopupsParametersQueryCreated'OneOf2
+mkGetTopupsParametersQueryCreated'OneOf2 =
+  GetTopupsParametersQueryCreated'OneOf2
+    { getTopupsParametersQueryCreated'OneOf2Gt = GHC.Maybe.Nothing,
+      getTopupsParametersQueryCreated'OneOf2Gte = GHC.Maybe.Nothing,
+      getTopupsParametersQueryCreated'OneOf2Lt = GHC.Maybe.Nothing,
+      getTopupsParametersQueryCreated'OneOf2Lte = GHC.Maybe.Nothing
+    }
+
+-- | Defines the oneOf schema located at @paths.\/v1\/topups.GET.parameters.properties.queryCreated.anyOf@ in the specification.
 --
 -- Represents the parameter named \'created\'
 --
@@ -228,42 +260,46 @@ instance Data.Aeson.Types.ToJSON.ToJSON GetTopupsParametersQueryCreated'Variants
   toJSON (GetTopupsParametersQueryCreated'GetTopupsParametersQueryCreated'OneOf2 a) = Data.Aeson.Types.ToJSON.toJSON a
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetTopupsParametersQueryCreated'Variants where
-  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
-    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ GetTopupsParametersQueryCreated'Int a
-    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ GetTopupsParametersQueryCreated'GetTopupsParametersQueryCreated'OneOf2 a
-      Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+  parseJSON val = case (GetTopupsParametersQueryCreated'Int Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((GetTopupsParametersQueryCreated'GetTopupsParametersQueryCreated'OneOf2 Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched") of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+    Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
--- | Defines the enum schema getTopupsParametersQueryStatus\'
+-- | Defines the enum schema located at @paths.\/v1\/topups.GET.parameters.properties.queryStatus@ in the specification.
 --
 -- Represents the parameter named \'status\'
 --
 -- Only return top-ups that have the given status. One of \`canceled\`, \`failed\`, \`pending\` or \`succeeded\`.
 data GetTopupsParametersQueryStatus'
-  = GetTopupsParametersQueryStatus'EnumOther Data.Aeson.Types.Internal.Value
-  | GetTopupsParametersQueryStatus'EnumTyped Data.Text.Internal.Text
-  | GetTopupsParametersQueryStatus'EnumStringCanceled
-  | GetTopupsParametersQueryStatus'EnumStringFailed
-  | GetTopupsParametersQueryStatus'EnumStringPending
-  | GetTopupsParametersQueryStatus'EnumStringSucceeded
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    GetTopupsParametersQueryStatus'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    GetTopupsParametersQueryStatus'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"canceled"@
+    GetTopupsParametersQueryStatus'EnumCanceled
+  | -- | Represents the JSON value @"failed"@
+    GetTopupsParametersQueryStatus'EnumFailed
+  | -- | Represents the JSON value @"pending"@
+    GetTopupsParametersQueryStatus'EnumPending
+  | -- | Represents the JSON value @"succeeded"@
+    GetTopupsParametersQueryStatus'EnumSucceeded
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetTopupsParametersQueryStatus' where
-  toJSON (GetTopupsParametersQueryStatus'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (GetTopupsParametersQueryStatus'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (GetTopupsParametersQueryStatus'EnumStringCanceled) = "canceled"
-  toJSON (GetTopupsParametersQueryStatus'EnumStringFailed) = "failed"
-  toJSON (GetTopupsParametersQueryStatus'EnumStringPending) = "pending"
-  toJSON (GetTopupsParametersQueryStatus'EnumStringSucceeded) = "succeeded"
+  toJSON (GetTopupsParametersQueryStatus'Other val) = val
+  toJSON (GetTopupsParametersQueryStatus'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (GetTopupsParametersQueryStatus'EnumCanceled) = "canceled"
+  toJSON (GetTopupsParametersQueryStatus'EnumFailed) = "failed"
+  toJSON (GetTopupsParametersQueryStatus'EnumPending) = "pending"
+  toJSON (GetTopupsParametersQueryStatus'EnumSucceeded) = "succeeded"
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetTopupsParametersQueryStatus' where
   parseJSON val =
     GHC.Base.pure
-      ( if  | val GHC.Classes.== "canceled" -> GetTopupsParametersQueryStatus'EnumStringCanceled
-            | val GHC.Classes.== "failed" -> GetTopupsParametersQueryStatus'EnumStringFailed
-            | val GHC.Classes.== "pending" -> GetTopupsParametersQueryStatus'EnumStringPending
-            | val GHC.Classes.== "succeeded" -> GetTopupsParametersQueryStatus'EnumStringSucceeded
-            | GHC.Base.otherwise -> GetTopupsParametersQueryStatus'EnumOther val
+      ( if  | val GHC.Classes.== "canceled" -> GetTopupsParametersQueryStatus'EnumCanceled
+            | val GHC.Classes.== "failed" -> GetTopupsParametersQueryStatus'EnumFailed
+            | val GHC.Classes.== "pending" -> GetTopupsParametersQueryStatus'EnumPending
+            | val GHC.Classes.== "succeeded" -> GetTopupsParametersQueryStatus'EnumSucceeded
+            | GHC.Base.otherwise -> GetTopupsParametersQueryStatus'Other val
       )
 
 -- | Represents a response of the operation 'getTopups'.
@@ -278,15 +314,13 @@ data GetTopupsResponse
     GetTopupsResponseDefault Error
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
--- | Defines the data type for the schema GetTopupsResponseBody200
+-- | Defines the object schema located at @paths.\/v1\/topups.GET.responses.200.content.application\/json.schema@ in the specification.
 data GetTopupsResponseBody200
   = GetTopupsResponseBody200
       { -- | data
         getTopupsResponseBody200Data :: ([Topup]),
         -- | has_more: True if this list has another page of items after this one that can be fetched.
         getTopupsResponseBody200HasMore :: GHC.Types.Bool,
-        -- | object: String representing the object\'s type. Objects of the same type share the same value. Always has the value \`list\`.
-        getTopupsResponseBody200Object :: GetTopupsResponseBody200Object',
         -- | url: The URL where this list can be accessed.
         --
         -- Constraints:
@@ -301,29 +335,24 @@ data GetTopupsResponseBody200
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetTopupsResponseBody200 where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "data" (getTopupsResponseBody200Data obj) : (Data.Aeson..=) "has_more" (getTopupsResponseBody200HasMore obj) : (Data.Aeson..=) "object" (getTopupsResponseBody200Object obj) : (Data.Aeson..=) "url" (getTopupsResponseBody200Url obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "data" (getTopupsResponseBody200Data obj) GHC.Base.<> ((Data.Aeson..=) "has_more" (getTopupsResponseBody200HasMore obj) GHC.Base.<> ((Data.Aeson..=) "object" (getTopupsResponseBody200Object obj) GHC.Base.<> (Data.Aeson..=) "url" (getTopupsResponseBody200Url obj))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("data" Data.Aeson.Types.ToJSON..= getTopupsResponseBody200Data obj : "has_more" Data.Aeson.Types.ToJSON..= getTopupsResponseBody200HasMore obj : "url" Data.Aeson.Types.ToJSON..= getTopupsResponseBody200Url obj : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "list" : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("data" Data.Aeson.Types.ToJSON..= getTopupsResponseBody200Data obj) GHC.Base.<> (("has_more" Data.Aeson.Types.ToJSON..= getTopupsResponseBody200HasMore obj) GHC.Base.<> (("url" Data.Aeson.Types.ToJSON..= getTopupsResponseBody200Url obj) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "list"))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetTopupsResponseBody200 where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetTopupsResponseBody200" (\obj -> (((GHC.Base.pure GetTopupsResponseBody200 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "has_more")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "object")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "url"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetTopupsResponseBody200" (\obj -> ((GHC.Base.pure GetTopupsResponseBody200 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "has_more")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "url"))
 
--- | Defines the enum schema GetTopupsResponseBody200Object\'
---
--- String representing the object\'s type. Objects of the same type share the same value. Always has the value \`list\`.
-data GetTopupsResponseBody200Object'
-  = GetTopupsResponseBody200Object'EnumOther Data.Aeson.Types.Internal.Value
-  | GetTopupsResponseBody200Object'EnumTyped Data.Text.Internal.Text
-  | GetTopupsResponseBody200Object'EnumStringList
-  deriving (GHC.Show.Show, GHC.Classes.Eq)
-
-instance Data.Aeson.Types.ToJSON.ToJSON GetTopupsResponseBody200Object' where
-  toJSON (GetTopupsResponseBody200Object'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (GetTopupsResponseBody200Object'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (GetTopupsResponseBody200Object'EnumStringList) = "list"
-
-instance Data.Aeson.Types.FromJSON.FromJSON GetTopupsResponseBody200Object' where
-  parseJSON val =
-    GHC.Base.pure
-      ( if  | val GHC.Classes.== "list" -> GetTopupsResponseBody200Object'EnumStringList
-            | GHC.Base.otherwise -> GetTopupsResponseBody200Object'EnumOther val
-      )
+-- | Create a new 'GetTopupsResponseBody200' with all required fields.
+mkGetTopupsResponseBody200 ::
+  -- | 'getTopupsResponseBody200Data'
+  [Topup] ->
+  -- | 'getTopupsResponseBody200HasMore'
+  GHC.Types.Bool ->
+  -- | 'getTopupsResponseBody200Url'
+  Data.Text.Internal.Text ->
+  GetTopupsResponseBody200
+mkGetTopupsResponseBody200 getTopupsResponseBody200Data getTopupsResponseBody200HasMore getTopupsResponseBody200Url =
+  GetTopupsResponseBody200
+    { getTopupsResponseBody200Data = getTopupsResponseBody200Data,
+      getTopupsResponseBody200HasMore = getTopupsResponseBody200HasMore,
+      getTopupsResponseBody200Url = getTopupsResponseBody200Url
+    }

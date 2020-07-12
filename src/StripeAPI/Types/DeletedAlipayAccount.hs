@@ -8,6 +8,7 @@ module StripeAPI.Types.DeletedAlipayAccount where
 
 import qualified Control.Monad.Fail
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -30,19 +31,15 @@ import StripeAPI.TypeAlias
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
--- | Defines the data type for the schema deleted_alipay_account
+-- | Defines the object schema located at @components.schemas.deleted_alipay_account@ in the specification.
 data DeletedAlipayAccount
   = DeletedAlipayAccount
-      { -- | deleted: Always true for a deleted object
-        deletedAlipayAccountDeleted :: DeletedAlipayAccountDeleted',
-        -- | id: Unique identifier for the object.
+      { -- | id: Unique identifier for the object.
         --
         -- Constraints:
         --
         -- * Maximum length of 5000
-        deletedAlipayAccountId :: Data.Text.Internal.Text,
-        -- | object: String representing the object\'s type. Objects of the same type share the same value.
-        deletedAlipayAccountObject :: DeletedAlipayAccountObject'
+        deletedAlipayAccountId :: Data.Text.Internal.Text
       }
   deriving
     ( GHC.Show.Show,
@@ -50,50 +47,15 @@ data DeletedAlipayAccount
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON DeletedAlipayAccount where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "deleted" (deletedAlipayAccountDeleted obj) : (Data.Aeson..=) "id" (deletedAlipayAccountId obj) : (Data.Aeson..=) "object" (deletedAlipayAccountObject obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "deleted" (deletedAlipayAccountDeleted obj) GHC.Base.<> ((Data.Aeson..=) "id" (deletedAlipayAccountId obj) GHC.Base.<> (Data.Aeson..=) "object" (deletedAlipayAccountObject obj)))
+  toJSON obj = Data.Aeson.Types.Internal.object ("id" Data.Aeson.Types.ToJSON..= deletedAlipayAccountId obj : "deleted" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.Bool GHC.Types.True : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "alipay_account" : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("id" Data.Aeson.Types.ToJSON..= deletedAlipayAccountId obj) GHC.Base.<> (("deleted" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.Bool GHC.Types.True) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "alipay_account")))
 
 instance Data.Aeson.Types.FromJSON.FromJSON DeletedAlipayAccount where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "DeletedAlipayAccount" (\obj -> ((GHC.Base.pure DeletedAlipayAccount GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "deleted")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "object"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "DeletedAlipayAccount" (\obj -> GHC.Base.pure DeletedAlipayAccount GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id"))
 
--- | Defines the enum schema deleted_alipay_accountDeleted\'
---
--- Always true for a deleted object
-data DeletedAlipayAccountDeleted'
-  = DeletedAlipayAccountDeleted'EnumOther Data.Aeson.Types.Internal.Value
-  | DeletedAlipayAccountDeleted'EnumTyped GHC.Types.Bool
-  | DeletedAlipayAccountDeleted'EnumBoolTrue
-  deriving (GHC.Show.Show, GHC.Classes.Eq)
-
-instance Data.Aeson.Types.ToJSON.ToJSON DeletedAlipayAccountDeleted' where
-  toJSON (DeletedAlipayAccountDeleted'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (DeletedAlipayAccountDeleted'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (DeletedAlipayAccountDeleted'EnumBoolTrue) = Data.Aeson.Types.Internal.Bool GHC.Types.True
-
-instance Data.Aeson.Types.FromJSON.FromJSON DeletedAlipayAccountDeleted' where
-  parseJSON val =
-    GHC.Base.pure
-      ( if  | val GHC.Classes.== Data.Aeson.Types.Internal.Bool GHC.Types.True -> DeletedAlipayAccountDeleted'EnumBoolTrue
-            | GHC.Base.otherwise -> DeletedAlipayAccountDeleted'EnumOther val
-      )
-
--- | Defines the enum schema deleted_alipay_accountObject\'
---
--- String representing the object\'s type. Objects of the same type share the same value.
-data DeletedAlipayAccountObject'
-  = DeletedAlipayAccountObject'EnumOther Data.Aeson.Types.Internal.Value
-  | DeletedAlipayAccountObject'EnumTyped Data.Text.Internal.Text
-  | DeletedAlipayAccountObject'EnumStringAlipayAccount
-  deriving (GHC.Show.Show, GHC.Classes.Eq)
-
-instance Data.Aeson.Types.ToJSON.ToJSON DeletedAlipayAccountObject' where
-  toJSON (DeletedAlipayAccountObject'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (DeletedAlipayAccountObject'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (DeletedAlipayAccountObject'EnumStringAlipayAccount) = "alipay_account"
-
-instance Data.Aeson.Types.FromJSON.FromJSON DeletedAlipayAccountObject' where
-  parseJSON val =
-    GHC.Base.pure
-      ( if  | val GHC.Classes.== "alipay_account" -> DeletedAlipayAccountObject'EnumStringAlipayAccount
-            | GHC.Base.otherwise -> DeletedAlipayAccountObject'EnumOther val
-      )
+-- | Create a new 'DeletedAlipayAccount' with all required fields.
+mkDeletedAlipayAccount ::
+  -- | 'deletedAlipayAccountId'
+  Data.Text.Internal.Text ->
+  DeletedAlipayAccount
+mkDeletedAlipayAccount deletedAlipayAccountId = DeletedAlipayAccount {deletedAlipayAccountId = deletedAlipayAccountId}

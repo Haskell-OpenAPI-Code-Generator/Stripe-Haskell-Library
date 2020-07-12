@@ -8,6 +8,7 @@ module StripeAPI.Types.SubscriptionItem where
 
 import qualified Control.Monad.Fail
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -33,7 +34,7 @@ import {-# SOURCE #-} StripeAPI.Types.TaxRate
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
--- | Defines the data type for the schema subscription_item
+-- | Defines the object schema located at @components.schemas.subscription_item@ in the specification.
 --
 -- Subscription items allow you to create customer subscriptions with more than
 -- one plan, making it easy to represent complex billing relationships.
@@ -51,8 +52,6 @@ data SubscriptionItem
         subscriptionItemId :: Data.Text.Internal.Text,
         -- | metadata: Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
         subscriptionItemMetadata :: Data.Aeson.Types.Internal.Object,
-        -- | object: String representing the object\'s type. Objects of the same type share the same value.
-        subscriptionItemObject :: SubscriptionItemObject',
         -- | plan: Plans define the base price, currency, and billing cycle for subscriptions.
         -- For example, you might have a \<currency>5\<\/currency>\/month plan
         -- that provides limited access to your products, and a
@@ -77,13 +76,38 @@ data SubscriptionItem
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON SubscriptionItem where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "billing_thresholds" (subscriptionItemBillingThresholds obj) : (Data.Aeson..=) "created" (subscriptionItemCreated obj) : (Data.Aeson..=) "id" (subscriptionItemId obj) : (Data.Aeson..=) "metadata" (subscriptionItemMetadata obj) : (Data.Aeson..=) "object" (subscriptionItemObject obj) : (Data.Aeson..=) "plan" (subscriptionItemPlan obj) : (Data.Aeson..=) "quantity" (subscriptionItemQuantity obj) : (Data.Aeson..=) "subscription" (subscriptionItemSubscription obj) : (Data.Aeson..=) "tax_rates" (subscriptionItemTaxRates obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "billing_thresholds" (subscriptionItemBillingThresholds obj) GHC.Base.<> ((Data.Aeson..=) "created" (subscriptionItemCreated obj) GHC.Base.<> ((Data.Aeson..=) "id" (subscriptionItemId obj) GHC.Base.<> ((Data.Aeson..=) "metadata" (subscriptionItemMetadata obj) GHC.Base.<> ((Data.Aeson..=) "object" (subscriptionItemObject obj) GHC.Base.<> ((Data.Aeson..=) "plan" (subscriptionItemPlan obj) GHC.Base.<> ((Data.Aeson..=) "quantity" (subscriptionItemQuantity obj) GHC.Base.<> ((Data.Aeson..=) "subscription" (subscriptionItemSubscription obj) GHC.Base.<> (Data.Aeson..=) "tax_rates" (subscriptionItemTaxRates obj)))))))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("billing_thresholds" Data.Aeson.Types.ToJSON..= subscriptionItemBillingThresholds obj : "created" Data.Aeson.Types.ToJSON..= subscriptionItemCreated obj : "id" Data.Aeson.Types.ToJSON..= subscriptionItemId obj : "metadata" Data.Aeson.Types.ToJSON..= subscriptionItemMetadata obj : "plan" Data.Aeson.Types.ToJSON..= subscriptionItemPlan obj : "quantity" Data.Aeson.Types.ToJSON..= subscriptionItemQuantity obj : "subscription" Data.Aeson.Types.ToJSON..= subscriptionItemSubscription obj : "tax_rates" Data.Aeson.Types.ToJSON..= subscriptionItemTaxRates obj : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "subscription_item" : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("billing_thresholds" Data.Aeson.Types.ToJSON..= subscriptionItemBillingThresholds obj) GHC.Base.<> (("created" Data.Aeson.Types.ToJSON..= subscriptionItemCreated obj) GHC.Base.<> (("id" Data.Aeson.Types.ToJSON..= subscriptionItemId obj) GHC.Base.<> (("metadata" Data.Aeson.Types.ToJSON..= subscriptionItemMetadata obj) GHC.Base.<> (("plan" Data.Aeson.Types.ToJSON..= subscriptionItemPlan obj) GHC.Base.<> (("quantity" Data.Aeson.Types.ToJSON..= subscriptionItemQuantity obj) GHC.Base.<> (("subscription" Data.Aeson.Types.ToJSON..= subscriptionItemSubscription obj) GHC.Base.<> (("tax_rates" Data.Aeson.Types.ToJSON..= subscriptionItemTaxRates obj) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "subscription_item")))))))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON SubscriptionItem where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "SubscriptionItem" (\obj -> ((((((((GHC.Base.pure SubscriptionItem GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "billing_thresholds")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "created")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "object")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "plan")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "quantity")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "subscription")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "tax_rates"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "SubscriptionItem" (\obj -> (((((((GHC.Base.pure SubscriptionItem GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "billing_thresholds")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "created")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "plan")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "quantity")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "subscription")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "tax_rates"))
 
--- | Defines the data type for the schema subscription_itemBilling_thresholds\'
+-- | Create a new 'SubscriptionItem' with all required fields.
+mkSubscriptionItem ::
+  -- | 'subscriptionItemCreated'
+  GHC.Types.Int ->
+  -- | 'subscriptionItemId'
+  Data.Text.Internal.Text ->
+  -- | 'subscriptionItemMetadata'
+  Data.Aeson.Types.Internal.Object ->
+  -- | 'subscriptionItemPlan'
+  Plan ->
+  -- | 'subscriptionItemSubscription'
+  Data.Text.Internal.Text ->
+  SubscriptionItem
+mkSubscriptionItem subscriptionItemCreated subscriptionItemId subscriptionItemMetadata subscriptionItemPlan subscriptionItemSubscription =
+  SubscriptionItem
+    { subscriptionItemBillingThresholds = GHC.Maybe.Nothing,
+      subscriptionItemCreated = subscriptionItemCreated,
+      subscriptionItemId = subscriptionItemId,
+      subscriptionItemMetadata = subscriptionItemMetadata,
+      subscriptionItemPlan = subscriptionItemPlan,
+      subscriptionItemQuantity = GHC.Maybe.Nothing,
+      subscriptionItemSubscription = subscriptionItemSubscription,
+      subscriptionItemTaxRates = GHC.Maybe.Nothing
+    }
+
+-- | Defines the object schema located at @components.schemas.subscription_item.properties.billing_thresholds.anyOf@ in the specification.
 --
 -- Define thresholds at which an invoice will be sent, and the related subscription advanced to a new billing period
 data SubscriptionItemBillingThresholds'
@@ -97,29 +121,12 @@ data SubscriptionItemBillingThresholds'
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON SubscriptionItemBillingThresholds' where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "usage_gte" (subscriptionItemBillingThresholds'UsageGte obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "usage_gte" (subscriptionItemBillingThresholds'UsageGte obj))
+  toJSON obj = Data.Aeson.Types.Internal.object ("usage_gte" Data.Aeson.Types.ToJSON..= subscriptionItemBillingThresholds'UsageGte obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs ("usage_gte" Data.Aeson.Types.ToJSON..= subscriptionItemBillingThresholds'UsageGte obj)
 
 instance Data.Aeson.Types.FromJSON.FromJSON SubscriptionItemBillingThresholds' where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "SubscriptionItemBillingThresholds'" (\obj -> GHC.Base.pure SubscriptionItemBillingThresholds' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "usage_gte"))
 
--- | Defines the enum schema subscription_itemObject\'
---
--- String representing the object\'s type. Objects of the same type share the same value.
-data SubscriptionItemObject'
-  = SubscriptionItemObject'EnumOther Data.Aeson.Types.Internal.Value
-  | SubscriptionItemObject'EnumTyped Data.Text.Internal.Text
-  | SubscriptionItemObject'EnumStringSubscriptionItem
-  deriving (GHC.Show.Show, GHC.Classes.Eq)
-
-instance Data.Aeson.Types.ToJSON.ToJSON SubscriptionItemObject' where
-  toJSON (SubscriptionItemObject'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (SubscriptionItemObject'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (SubscriptionItemObject'EnumStringSubscriptionItem) = "subscription_item"
-
-instance Data.Aeson.Types.FromJSON.FromJSON SubscriptionItemObject' where
-  parseJSON val =
-    GHC.Base.pure
-      ( if  | val GHC.Classes.== "subscription_item" -> SubscriptionItemObject'EnumStringSubscriptionItem
-            | GHC.Base.otherwise -> SubscriptionItemObject'EnumOther val
-      )
+-- | Create a new 'SubscriptionItemBillingThresholds'' with all required fields.
+mkSubscriptionItemBillingThresholds' :: SubscriptionItemBillingThresholds'
+mkSubscriptionItemBillingThresholds' = SubscriptionItemBillingThresholds' {subscriptionItemBillingThresholds'UsageGte = GHC.Maybe.Nothing}

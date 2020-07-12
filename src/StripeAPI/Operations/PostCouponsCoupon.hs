@@ -10,6 +10,7 @@ module StripeAPI.Operations.PostCouponsCoupon where
 import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -81,7 +82,7 @@ postCouponsCoupon
       )
       (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack ("/v1/coupons/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel coupon)) GHC.Base.++ ""))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
 
--- | Defines the data type for the schema postCouponsCouponRequestBody
+-- | Defines the object schema located at @paths.\/v1\/coupons\/{coupon}.POST.requestBody.content.application\/x-www-form-urlencoded.schema@ in the specification.
 data PostCouponsCouponRequestBody
   = PostCouponsCouponRequestBody
       { -- | expand: Specifies which fields in the response should be expanded.
@@ -101,11 +102,20 @@ data PostCouponsCouponRequestBody
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostCouponsCouponRequestBody where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "expand" (postCouponsCouponRequestBodyExpand obj) : (Data.Aeson..=) "metadata" (postCouponsCouponRequestBodyMetadata obj) : (Data.Aeson..=) "name" (postCouponsCouponRequestBodyName obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "expand" (postCouponsCouponRequestBodyExpand obj) GHC.Base.<> ((Data.Aeson..=) "metadata" (postCouponsCouponRequestBodyMetadata obj) GHC.Base.<> (Data.Aeson..=) "name" (postCouponsCouponRequestBodyName obj)))
+  toJSON obj = Data.Aeson.Types.Internal.object ("expand" Data.Aeson.Types.ToJSON..= postCouponsCouponRequestBodyExpand obj : "metadata" Data.Aeson.Types.ToJSON..= postCouponsCouponRequestBodyMetadata obj : "name" Data.Aeson.Types.ToJSON..= postCouponsCouponRequestBodyName obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("expand" Data.Aeson.Types.ToJSON..= postCouponsCouponRequestBodyExpand obj) GHC.Base.<> (("metadata" Data.Aeson.Types.ToJSON..= postCouponsCouponRequestBodyMetadata obj) GHC.Base.<> ("name" Data.Aeson.Types.ToJSON..= postCouponsCouponRequestBodyName obj)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostCouponsCouponRequestBody where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PostCouponsCouponRequestBody" (\obj -> ((GHC.Base.pure PostCouponsCouponRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "name"))
+
+-- | Create a new 'PostCouponsCouponRequestBody' with all required fields.
+mkPostCouponsCouponRequestBody :: PostCouponsCouponRequestBody
+mkPostCouponsCouponRequestBody =
+  PostCouponsCouponRequestBody
+    { postCouponsCouponRequestBodyExpand = GHC.Maybe.Nothing,
+      postCouponsCouponRequestBodyMetadata = GHC.Maybe.Nothing,
+      postCouponsCouponRequestBodyName = GHC.Maybe.Nothing
+    }
 
 -- | Represents a response of the operation 'postCouponsCoupon'.
 --

@@ -10,6 +10,7 @@ module StripeAPI.Operations.GetInvoices where
 import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -91,7 +92,7 @@ getInvoices parameters =
         ]
     )
 
--- | Defines the data type for the schema getInvoicesParameters
+-- | Defines the object schema located at @paths.\/v1\/invoices.GET.parameters@ in the specification.
 data GetInvoicesParameters
   = GetInvoicesParameters
       { -- | queryCollection_method: Represents the parameter named \'collection_method\'
@@ -161,39 +162,59 @@ data GetInvoicesParameters
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetInvoicesParameters where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "queryCollection_method" (getInvoicesParametersQueryCollectionMethod obj) : (Data.Aeson..=) "queryCreated" (getInvoicesParametersQueryCreated obj) : (Data.Aeson..=) "queryCustomer" (getInvoicesParametersQueryCustomer obj) : (Data.Aeson..=) "queryDue_date" (getInvoicesParametersQueryDueDate obj) : (Data.Aeson..=) "queryEnding_before" (getInvoicesParametersQueryEndingBefore obj) : (Data.Aeson..=) "queryExpand" (getInvoicesParametersQueryExpand obj) : (Data.Aeson..=) "queryLimit" (getInvoicesParametersQueryLimit obj) : (Data.Aeson..=) "queryStarting_after" (getInvoicesParametersQueryStartingAfter obj) : (Data.Aeson..=) "queryStatus" (getInvoicesParametersQueryStatus obj) : (Data.Aeson..=) "querySubscription" (getInvoicesParametersQuerySubscription obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "queryCollection_method" (getInvoicesParametersQueryCollectionMethod obj) GHC.Base.<> ((Data.Aeson..=) "queryCreated" (getInvoicesParametersQueryCreated obj) GHC.Base.<> ((Data.Aeson..=) "queryCustomer" (getInvoicesParametersQueryCustomer obj) GHC.Base.<> ((Data.Aeson..=) "queryDue_date" (getInvoicesParametersQueryDueDate obj) GHC.Base.<> ((Data.Aeson..=) "queryEnding_before" (getInvoicesParametersQueryEndingBefore obj) GHC.Base.<> ((Data.Aeson..=) "queryExpand" (getInvoicesParametersQueryExpand obj) GHC.Base.<> ((Data.Aeson..=) "queryLimit" (getInvoicesParametersQueryLimit obj) GHC.Base.<> ((Data.Aeson..=) "queryStarting_after" (getInvoicesParametersQueryStartingAfter obj) GHC.Base.<> ((Data.Aeson..=) "queryStatus" (getInvoicesParametersQueryStatus obj) GHC.Base.<> (Data.Aeson..=) "querySubscription" (getInvoicesParametersQuerySubscription obj))))))))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("queryCollection_method" Data.Aeson.Types.ToJSON..= getInvoicesParametersQueryCollectionMethod obj : "queryCreated" Data.Aeson.Types.ToJSON..= getInvoicesParametersQueryCreated obj : "queryCustomer" Data.Aeson.Types.ToJSON..= getInvoicesParametersQueryCustomer obj : "queryDue_date" Data.Aeson.Types.ToJSON..= getInvoicesParametersQueryDueDate obj : "queryEnding_before" Data.Aeson.Types.ToJSON..= getInvoicesParametersQueryEndingBefore obj : "queryExpand" Data.Aeson.Types.ToJSON..= getInvoicesParametersQueryExpand obj : "queryLimit" Data.Aeson.Types.ToJSON..= getInvoicesParametersQueryLimit obj : "queryStarting_after" Data.Aeson.Types.ToJSON..= getInvoicesParametersQueryStartingAfter obj : "queryStatus" Data.Aeson.Types.ToJSON..= getInvoicesParametersQueryStatus obj : "querySubscription" Data.Aeson.Types.ToJSON..= getInvoicesParametersQuerySubscription obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("queryCollection_method" Data.Aeson.Types.ToJSON..= getInvoicesParametersQueryCollectionMethod obj) GHC.Base.<> (("queryCreated" Data.Aeson.Types.ToJSON..= getInvoicesParametersQueryCreated obj) GHC.Base.<> (("queryCustomer" Data.Aeson.Types.ToJSON..= getInvoicesParametersQueryCustomer obj) GHC.Base.<> (("queryDue_date" Data.Aeson.Types.ToJSON..= getInvoicesParametersQueryDueDate obj) GHC.Base.<> (("queryEnding_before" Data.Aeson.Types.ToJSON..= getInvoicesParametersQueryEndingBefore obj) GHC.Base.<> (("queryExpand" Data.Aeson.Types.ToJSON..= getInvoicesParametersQueryExpand obj) GHC.Base.<> (("queryLimit" Data.Aeson.Types.ToJSON..= getInvoicesParametersQueryLimit obj) GHC.Base.<> (("queryStarting_after" Data.Aeson.Types.ToJSON..= getInvoicesParametersQueryStartingAfter obj) GHC.Base.<> (("queryStatus" Data.Aeson.Types.ToJSON..= getInvoicesParametersQueryStatus obj) GHC.Base.<> ("querySubscription" Data.Aeson.Types.ToJSON..= getInvoicesParametersQuerySubscription obj))))))))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetInvoicesParameters where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "GetInvoicesParameters" (\obj -> (((((((((GHC.Base.pure GetInvoicesParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryCollection_method")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryCreated")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryCustomer")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryDue_date")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryEnding_before")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryExpand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryLimit")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryStarting_after")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryStatus")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "querySubscription"))
 
--- | Defines the enum schema getInvoicesParametersQueryCollection_method\'
+-- | Create a new 'GetInvoicesParameters' with all required fields.
+mkGetInvoicesParameters :: GetInvoicesParameters
+mkGetInvoicesParameters =
+  GetInvoicesParameters
+    { getInvoicesParametersQueryCollectionMethod = GHC.Maybe.Nothing,
+      getInvoicesParametersQueryCreated = GHC.Maybe.Nothing,
+      getInvoicesParametersQueryCustomer = GHC.Maybe.Nothing,
+      getInvoicesParametersQueryDueDate = GHC.Maybe.Nothing,
+      getInvoicesParametersQueryEndingBefore = GHC.Maybe.Nothing,
+      getInvoicesParametersQueryExpand = GHC.Maybe.Nothing,
+      getInvoicesParametersQueryLimit = GHC.Maybe.Nothing,
+      getInvoicesParametersQueryStartingAfter = GHC.Maybe.Nothing,
+      getInvoicesParametersQueryStatus = GHC.Maybe.Nothing,
+      getInvoicesParametersQuerySubscription = GHC.Maybe.Nothing
+    }
+
+-- | Defines the enum schema located at @paths.\/v1\/invoices.GET.parameters.properties.queryCollection_method@ in the specification.
 --
 -- Represents the parameter named \'collection_method\'
 --
 -- The collection method of the invoice to retrieve. Either \`charge_automatically\` or \`send_invoice\`.
 data GetInvoicesParametersQueryCollectionMethod'
-  = GetInvoicesParametersQueryCollectionMethod'EnumOther Data.Aeson.Types.Internal.Value
-  | GetInvoicesParametersQueryCollectionMethod'EnumTyped Data.Text.Internal.Text
-  | GetInvoicesParametersQueryCollectionMethod'EnumStringChargeAutomatically
-  | GetInvoicesParametersQueryCollectionMethod'EnumStringSendInvoice
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    GetInvoicesParametersQueryCollectionMethod'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    GetInvoicesParametersQueryCollectionMethod'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"charge_automatically"@
+    GetInvoicesParametersQueryCollectionMethod'EnumChargeAutomatically
+  | -- | Represents the JSON value @"send_invoice"@
+    GetInvoicesParametersQueryCollectionMethod'EnumSendInvoice
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetInvoicesParametersQueryCollectionMethod' where
-  toJSON (GetInvoicesParametersQueryCollectionMethod'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (GetInvoicesParametersQueryCollectionMethod'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (GetInvoicesParametersQueryCollectionMethod'EnumStringChargeAutomatically) = "charge_automatically"
-  toJSON (GetInvoicesParametersQueryCollectionMethod'EnumStringSendInvoice) = "send_invoice"
+  toJSON (GetInvoicesParametersQueryCollectionMethod'Other val) = val
+  toJSON (GetInvoicesParametersQueryCollectionMethod'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (GetInvoicesParametersQueryCollectionMethod'EnumChargeAutomatically) = "charge_automatically"
+  toJSON (GetInvoicesParametersQueryCollectionMethod'EnumSendInvoice) = "send_invoice"
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetInvoicesParametersQueryCollectionMethod' where
   parseJSON val =
     GHC.Base.pure
-      ( if  | val GHC.Classes.== "charge_automatically" -> GetInvoicesParametersQueryCollectionMethod'EnumStringChargeAutomatically
-            | val GHC.Classes.== "send_invoice" -> GetInvoicesParametersQueryCollectionMethod'EnumStringSendInvoice
-            | GHC.Base.otherwise -> GetInvoicesParametersQueryCollectionMethod'EnumOther val
+      ( if  | val GHC.Classes.== "charge_automatically" -> GetInvoicesParametersQueryCollectionMethod'EnumChargeAutomatically
+            | val GHC.Classes.== "send_invoice" -> GetInvoicesParametersQueryCollectionMethod'EnumSendInvoice
+            | GHC.Base.otherwise -> GetInvoicesParametersQueryCollectionMethod'Other val
       )
 
--- | Defines the data type for the schema getInvoicesParametersQueryCreated\'OneOf2
+-- | Defines the object schema located at @paths.\/v1\/invoices.GET.parameters.properties.queryCreated.anyOf@ in the specification.
 data GetInvoicesParametersQueryCreated'OneOf2
   = GetInvoicesParametersQueryCreated'OneOf2
       { -- | gt
@@ -211,13 +232,23 @@ data GetInvoicesParametersQueryCreated'OneOf2
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetInvoicesParametersQueryCreated'OneOf2 where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "gt" (getInvoicesParametersQueryCreated'OneOf2Gt obj) : (Data.Aeson..=) "gte" (getInvoicesParametersQueryCreated'OneOf2Gte obj) : (Data.Aeson..=) "lt" (getInvoicesParametersQueryCreated'OneOf2Lt obj) : (Data.Aeson..=) "lte" (getInvoicesParametersQueryCreated'OneOf2Lte obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "gt" (getInvoicesParametersQueryCreated'OneOf2Gt obj) GHC.Base.<> ((Data.Aeson..=) "gte" (getInvoicesParametersQueryCreated'OneOf2Gte obj) GHC.Base.<> ((Data.Aeson..=) "lt" (getInvoicesParametersQueryCreated'OneOf2Lt obj) GHC.Base.<> (Data.Aeson..=) "lte" (getInvoicesParametersQueryCreated'OneOf2Lte obj))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("gt" Data.Aeson.Types.ToJSON..= getInvoicesParametersQueryCreated'OneOf2Gt obj : "gte" Data.Aeson.Types.ToJSON..= getInvoicesParametersQueryCreated'OneOf2Gte obj : "lt" Data.Aeson.Types.ToJSON..= getInvoicesParametersQueryCreated'OneOf2Lt obj : "lte" Data.Aeson.Types.ToJSON..= getInvoicesParametersQueryCreated'OneOf2Lte obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("gt" Data.Aeson.Types.ToJSON..= getInvoicesParametersQueryCreated'OneOf2Gt obj) GHC.Base.<> (("gte" Data.Aeson.Types.ToJSON..= getInvoicesParametersQueryCreated'OneOf2Gte obj) GHC.Base.<> (("lt" Data.Aeson.Types.ToJSON..= getInvoicesParametersQueryCreated'OneOf2Lt obj) GHC.Base.<> ("lte" Data.Aeson.Types.ToJSON..= getInvoicesParametersQueryCreated'OneOf2Lte obj))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetInvoicesParametersQueryCreated'OneOf2 where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "GetInvoicesParametersQueryCreated'OneOf2" (\obj -> (((GHC.Base.pure GetInvoicesParametersQueryCreated'OneOf2 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "gt")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "gte")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "lt")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "lte"))
 
--- | Define the one-of schema getInvoicesParametersQueryCreated\'
+-- | Create a new 'GetInvoicesParametersQueryCreated'OneOf2' with all required fields.
+mkGetInvoicesParametersQueryCreated'OneOf2 :: GetInvoicesParametersQueryCreated'OneOf2
+mkGetInvoicesParametersQueryCreated'OneOf2 =
+  GetInvoicesParametersQueryCreated'OneOf2
+    { getInvoicesParametersQueryCreated'OneOf2Gt = GHC.Maybe.Nothing,
+      getInvoicesParametersQueryCreated'OneOf2Gte = GHC.Maybe.Nothing,
+      getInvoicesParametersQueryCreated'OneOf2Lt = GHC.Maybe.Nothing,
+      getInvoicesParametersQueryCreated'OneOf2Lte = GHC.Maybe.Nothing
+    }
+
+-- | Defines the oneOf schema located at @paths.\/v1\/invoices.GET.parameters.properties.queryCreated.anyOf@ in the specification.
 --
 -- Represents the parameter named \'created\'
 data GetInvoicesParametersQueryCreated'Variants
@@ -230,13 +261,11 @@ instance Data.Aeson.Types.ToJSON.ToJSON GetInvoicesParametersQueryCreated'Varian
   toJSON (GetInvoicesParametersQueryCreated'GetInvoicesParametersQueryCreated'OneOf2 a) = Data.Aeson.Types.ToJSON.toJSON a
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetInvoicesParametersQueryCreated'Variants where
-  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
-    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ GetInvoicesParametersQueryCreated'Int a
-    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ GetInvoicesParametersQueryCreated'GetInvoicesParametersQueryCreated'OneOf2 a
-      Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+  parseJSON val = case (GetInvoicesParametersQueryCreated'Int Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((GetInvoicesParametersQueryCreated'GetInvoicesParametersQueryCreated'OneOf2 Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched") of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+    Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
--- | Defines the data type for the schema getInvoicesParametersQueryDue_date\'OneOf2
+-- | Defines the object schema located at @paths.\/v1\/invoices.GET.parameters.properties.queryDue_date.anyOf@ in the specification.
 data GetInvoicesParametersQueryDueDate'OneOf2
   = GetInvoicesParametersQueryDueDate'OneOf2
       { -- | gt
@@ -254,13 +283,23 @@ data GetInvoicesParametersQueryDueDate'OneOf2
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetInvoicesParametersQueryDueDate'OneOf2 where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "gt" (getInvoicesParametersQueryDueDate'OneOf2Gt obj) : (Data.Aeson..=) "gte" (getInvoicesParametersQueryDueDate'OneOf2Gte obj) : (Data.Aeson..=) "lt" (getInvoicesParametersQueryDueDate'OneOf2Lt obj) : (Data.Aeson..=) "lte" (getInvoicesParametersQueryDueDate'OneOf2Lte obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "gt" (getInvoicesParametersQueryDueDate'OneOf2Gt obj) GHC.Base.<> ((Data.Aeson..=) "gte" (getInvoicesParametersQueryDueDate'OneOf2Gte obj) GHC.Base.<> ((Data.Aeson..=) "lt" (getInvoicesParametersQueryDueDate'OneOf2Lt obj) GHC.Base.<> (Data.Aeson..=) "lte" (getInvoicesParametersQueryDueDate'OneOf2Lte obj))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("gt" Data.Aeson.Types.ToJSON..= getInvoicesParametersQueryDueDate'OneOf2Gt obj : "gte" Data.Aeson.Types.ToJSON..= getInvoicesParametersQueryDueDate'OneOf2Gte obj : "lt" Data.Aeson.Types.ToJSON..= getInvoicesParametersQueryDueDate'OneOf2Lt obj : "lte" Data.Aeson.Types.ToJSON..= getInvoicesParametersQueryDueDate'OneOf2Lte obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("gt" Data.Aeson.Types.ToJSON..= getInvoicesParametersQueryDueDate'OneOf2Gt obj) GHC.Base.<> (("gte" Data.Aeson.Types.ToJSON..= getInvoicesParametersQueryDueDate'OneOf2Gte obj) GHC.Base.<> (("lt" Data.Aeson.Types.ToJSON..= getInvoicesParametersQueryDueDate'OneOf2Lt obj) GHC.Base.<> ("lte" Data.Aeson.Types.ToJSON..= getInvoicesParametersQueryDueDate'OneOf2Lte obj))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetInvoicesParametersQueryDueDate'OneOf2 where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "GetInvoicesParametersQueryDueDate'OneOf2" (\obj -> (((GHC.Base.pure GetInvoicesParametersQueryDueDate'OneOf2 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "gt")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "gte")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "lt")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "lte"))
 
--- | Define the one-of schema getInvoicesParametersQueryDue_date\'
+-- | Create a new 'GetInvoicesParametersQueryDueDate'OneOf2' with all required fields.
+mkGetInvoicesParametersQueryDueDate'OneOf2 :: GetInvoicesParametersQueryDueDate'OneOf2
+mkGetInvoicesParametersQueryDueDate'OneOf2 =
+  GetInvoicesParametersQueryDueDate'OneOf2
+    { getInvoicesParametersQueryDueDate'OneOf2Gt = GHC.Maybe.Nothing,
+      getInvoicesParametersQueryDueDate'OneOf2Gte = GHC.Maybe.Nothing,
+      getInvoicesParametersQueryDueDate'OneOf2Lt = GHC.Maybe.Nothing,
+      getInvoicesParametersQueryDueDate'OneOf2Lte = GHC.Maybe.Nothing
+    }
+
+-- | Defines the oneOf schema located at @paths.\/v1\/invoices.GET.parameters.properties.queryDue_date.anyOf@ in the specification.
 --
 -- Represents the parameter named \'due_date\'
 data GetInvoicesParametersQueryDueDate'Variants
@@ -273,45 +312,50 @@ instance Data.Aeson.Types.ToJSON.ToJSON GetInvoicesParametersQueryDueDate'Varian
   toJSON (GetInvoicesParametersQueryDueDate'GetInvoicesParametersQueryDueDate'OneOf2 a) = Data.Aeson.Types.ToJSON.toJSON a
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetInvoicesParametersQueryDueDate'Variants where
-  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
-    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ GetInvoicesParametersQueryDueDate'Int a
-    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ GetInvoicesParametersQueryDueDate'GetInvoicesParametersQueryDueDate'OneOf2 a
-      Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+  parseJSON val = case (GetInvoicesParametersQueryDueDate'Int Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((GetInvoicesParametersQueryDueDate'GetInvoicesParametersQueryDueDate'OneOf2 Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched") of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+    Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
--- | Defines the enum schema getInvoicesParametersQueryStatus\'
+-- | Defines the enum schema located at @paths.\/v1\/invoices.GET.parameters.properties.queryStatus@ in the specification.
 --
 -- Represents the parameter named \'status\'
 --
 -- The status of the invoice, one of \`draft\`, \`open\`, \`paid\`, \`uncollectible\`, or \`void\`. [Learn more](https:\/\/stripe.com\/docs\/billing\/invoices\/workflow\#workflow-overview)
 data GetInvoicesParametersQueryStatus'
-  = GetInvoicesParametersQueryStatus'EnumOther Data.Aeson.Types.Internal.Value
-  | GetInvoicesParametersQueryStatus'EnumTyped Data.Text.Internal.Text
-  | GetInvoicesParametersQueryStatus'EnumStringDraft
-  | GetInvoicesParametersQueryStatus'EnumStringOpen
-  | GetInvoicesParametersQueryStatus'EnumStringPaid
-  | GetInvoicesParametersQueryStatus'EnumStringUncollectible
-  | GetInvoicesParametersQueryStatus'EnumStringVoid
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    GetInvoicesParametersQueryStatus'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    GetInvoicesParametersQueryStatus'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"draft"@
+    GetInvoicesParametersQueryStatus'EnumDraft
+  | -- | Represents the JSON value @"open"@
+    GetInvoicesParametersQueryStatus'EnumOpen
+  | -- | Represents the JSON value @"paid"@
+    GetInvoicesParametersQueryStatus'EnumPaid
+  | -- | Represents the JSON value @"uncollectible"@
+    GetInvoicesParametersQueryStatus'EnumUncollectible
+  | -- | Represents the JSON value @"void"@
+    GetInvoicesParametersQueryStatus'EnumVoid
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetInvoicesParametersQueryStatus' where
-  toJSON (GetInvoicesParametersQueryStatus'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (GetInvoicesParametersQueryStatus'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (GetInvoicesParametersQueryStatus'EnumStringDraft) = "draft"
-  toJSON (GetInvoicesParametersQueryStatus'EnumStringOpen) = "open"
-  toJSON (GetInvoicesParametersQueryStatus'EnumStringPaid) = "paid"
-  toJSON (GetInvoicesParametersQueryStatus'EnumStringUncollectible) = "uncollectible"
-  toJSON (GetInvoicesParametersQueryStatus'EnumStringVoid) = "void"
+  toJSON (GetInvoicesParametersQueryStatus'Other val) = val
+  toJSON (GetInvoicesParametersQueryStatus'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (GetInvoicesParametersQueryStatus'EnumDraft) = "draft"
+  toJSON (GetInvoicesParametersQueryStatus'EnumOpen) = "open"
+  toJSON (GetInvoicesParametersQueryStatus'EnumPaid) = "paid"
+  toJSON (GetInvoicesParametersQueryStatus'EnumUncollectible) = "uncollectible"
+  toJSON (GetInvoicesParametersQueryStatus'EnumVoid) = "void"
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetInvoicesParametersQueryStatus' where
   parseJSON val =
     GHC.Base.pure
-      ( if  | val GHC.Classes.== "draft" -> GetInvoicesParametersQueryStatus'EnumStringDraft
-            | val GHC.Classes.== "open" -> GetInvoicesParametersQueryStatus'EnumStringOpen
-            | val GHC.Classes.== "paid" -> GetInvoicesParametersQueryStatus'EnumStringPaid
-            | val GHC.Classes.== "uncollectible" -> GetInvoicesParametersQueryStatus'EnumStringUncollectible
-            | val GHC.Classes.== "void" -> GetInvoicesParametersQueryStatus'EnumStringVoid
-            | GHC.Base.otherwise -> GetInvoicesParametersQueryStatus'EnumOther val
+      ( if  | val GHC.Classes.== "draft" -> GetInvoicesParametersQueryStatus'EnumDraft
+            | val GHC.Classes.== "open" -> GetInvoicesParametersQueryStatus'EnumOpen
+            | val GHC.Classes.== "paid" -> GetInvoicesParametersQueryStatus'EnumPaid
+            | val GHC.Classes.== "uncollectible" -> GetInvoicesParametersQueryStatus'EnumUncollectible
+            | val GHC.Classes.== "void" -> GetInvoicesParametersQueryStatus'EnumVoid
+            | GHC.Base.otherwise -> GetInvoicesParametersQueryStatus'Other val
       )
 
 -- | Represents a response of the operation 'getInvoices'.
@@ -326,15 +370,13 @@ data GetInvoicesResponse
     GetInvoicesResponseDefault Error
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
--- | Defines the data type for the schema GetInvoicesResponseBody200
+-- | Defines the object schema located at @paths.\/v1\/invoices.GET.responses.200.content.application\/json.schema@ in the specification.
 data GetInvoicesResponseBody200
   = GetInvoicesResponseBody200
       { -- | data
         getInvoicesResponseBody200Data :: ([Invoice]),
         -- | has_more: True if this list has another page of items after this one that can be fetched.
         getInvoicesResponseBody200HasMore :: GHC.Types.Bool,
-        -- | object: String representing the object\'s type. Objects of the same type share the same value. Always has the value \`list\`.
-        getInvoicesResponseBody200Object :: GetInvoicesResponseBody200Object',
         -- | url: The URL where this list can be accessed.
         --
         -- Constraints:
@@ -349,29 +391,24 @@ data GetInvoicesResponseBody200
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetInvoicesResponseBody200 where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "data" (getInvoicesResponseBody200Data obj) : (Data.Aeson..=) "has_more" (getInvoicesResponseBody200HasMore obj) : (Data.Aeson..=) "object" (getInvoicesResponseBody200Object obj) : (Data.Aeson..=) "url" (getInvoicesResponseBody200Url obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "data" (getInvoicesResponseBody200Data obj) GHC.Base.<> ((Data.Aeson..=) "has_more" (getInvoicesResponseBody200HasMore obj) GHC.Base.<> ((Data.Aeson..=) "object" (getInvoicesResponseBody200Object obj) GHC.Base.<> (Data.Aeson..=) "url" (getInvoicesResponseBody200Url obj))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("data" Data.Aeson.Types.ToJSON..= getInvoicesResponseBody200Data obj : "has_more" Data.Aeson.Types.ToJSON..= getInvoicesResponseBody200HasMore obj : "url" Data.Aeson.Types.ToJSON..= getInvoicesResponseBody200Url obj : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "list" : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("data" Data.Aeson.Types.ToJSON..= getInvoicesResponseBody200Data obj) GHC.Base.<> (("has_more" Data.Aeson.Types.ToJSON..= getInvoicesResponseBody200HasMore obj) GHC.Base.<> (("url" Data.Aeson.Types.ToJSON..= getInvoicesResponseBody200Url obj) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "list"))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetInvoicesResponseBody200 where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetInvoicesResponseBody200" (\obj -> (((GHC.Base.pure GetInvoicesResponseBody200 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "has_more")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "object")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "url"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetInvoicesResponseBody200" (\obj -> ((GHC.Base.pure GetInvoicesResponseBody200 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "has_more")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "url"))
 
--- | Defines the enum schema GetInvoicesResponseBody200Object\'
---
--- String representing the object\'s type. Objects of the same type share the same value. Always has the value \`list\`.
-data GetInvoicesResponseBody200Object'
-  = GetInvoicesResponseBody200Object'EnumOther Data.Aeson.Types.Internal.Value
-  | GetInvoicesResponseBody200Object'EnumTyped Data.Text.Internal.Text
-  | GetInvoicesResponseBody200Object'EnumStringList
-  deriving (GHC.Show.Show, GHC.Classes.Eq)
-
-instance Data.Aeson.Types.ToJSON.ToJSON GetInvoicesResponseBody200Object' where
-  toJSON (GetInvoicesResponseBody200Object'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (GetInvoicesResponseBody200Object'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (GetInvoicesResponseBody200Object'EnumStringList) = "list"
-
-instance Data.Aeson.Types.FromJSON.FromJSON GetInvoicesResponseBody200Object' where
-  parseJSON val =
-    GHC.Base.pure
-      ( if  | val GHC.Classes.== "list" -> GetInvoicesResponseBody200Object'EnumStringList
-            | GHC.Base.otherwise -> GetInvoicesResponseBody200Object'EnumOther val
-      )
+-- | Create a new 'GetInvoicesResponseBody200' with all required fields.
+mkGetInvoicesResponseBody200 ::
+  -- | 'getInvoicesResponseBody200Data'
+  [Invoice] ->
+  -- | 'getInvoicesResponseBody200HasMore'
+  GHC.Types.Bool ->
+  -- | 'getInvoicesResponseBody200Url'
+  Data.Text.Internal.Text ->
+  GetInvoicesResponseBody200
+mkGetInvoicesResponseBody200 getInvoicesResponseBody200Data getInvoicesResponseBody200HasMore getInvoicesResponseBody200Url =
+  GetInvoicesResponseBody200
+    { getInvoicesResponseBody200Data = getInvoicesResponseBody200Data,
+      getInvoicesResponseBody200HasMore = getInvoicesResponseBody200HasMore,
+      getInvoicesResponseBody200Url = getInvoicesResponseBody200Url
+    }

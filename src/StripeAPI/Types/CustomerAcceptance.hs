@@ -8,6 +8,7 @@ module StripeAPI.Types.CustomerAcceptance where
 
 import qualified Control.Monad.Fail
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -31,7 +32,7 @@ import {-# SOURCE #-} StripeAPI.Types.OnlineAcceptance
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
--- | Defines the data type for the schema customer_acceptance
+-- | Defines the object schema located at @components.schemas.customer_acceptance@ in the specification.
 data CustomerAcceptance
   = CustomerAcceptance
       { -- | accepted_at: The time at which the customer accepted the Mandate.
@@ -49,32 +50,49 @@ data CustomerAcceptance
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON CustomerAcceptance where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "accepted_at" (customerAcceptanceAcceptedAt obj) : (Data.Aeson..=) "offline" (customerAcceptanceOffline obj) : (Data.Aeson..=) "online" (customerAcceptanceOnline obj) : (Data.Aeson..=) "type" (customerAcceptanceType obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "accepted_at" (customerAcceptanceAcceptedAt obj) GHC.Base.<> ((Data.Aeson..=) "offline" (customerAcceptanceOffline obj) GHC.Base.<> ((Data.Aeson..=) "online" (customerAcceptanceOnline obj) GHC.Base.<> (Data.Aeson..=) "type" (customerAcceptanceType obj))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("accepted_at" Data.Aeson.Types.ToJSON..= customerAcceptanceAcceptedAt obj : "offline" Data.Aeson.Types.ToJSON..= customerAcceptanceOffline obj : "online" Data.Aeson.Types.ToJSON..= customerAcceptanceOnline obj : "type" Data.Aeson.Types.ToJSON..= customerAcceptanceType obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("accepted_at" Data.Aeson.Types.ToJSON..= customerAcceptanceAcceptedAt obj) GHC.Base.<> (("offline" Data.Aeson.Types.ToJSON..= customerAcceptanceOffline obj) GHC.Base.<> (("online" Data.Aeson.Types.ToJSON..= customerAcceptanceOnline obj) GHC.Base.<> ("type" Data.Aeson.Types.ToJSON..= customerAcceptanceType obj))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON CustomerAcceptance where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "CustomerAcceptance" (\obj -> (((GHC.Base.pure CustomerAcceptance GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "accepted_at")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "offline")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "online")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "type"))
 
--- | Defines the enum schema customer_acceptanceType\'
+-- | Create a new 'CustomerAcceptance' with all required fields.
+mkCustomerAcceptance ::
+  -- | 'customerAcceptanceType'
+  CustomerAcceptanceType' ->
+  CustomerAcceptance
+mkCustomerAcceptance customerAcceptanceType =
+  CustomerAcceptance
+    { customerAcceptanceAcceptedAt = GHC.Maybe.Nothing,
+      customerAcceptanceOffline = GHC.Maybe.Nothing,
+      customerAcceptanceOnline = GHC.Maybe.Nothing,
+      customerAcceptanceType = customerAcceptanceType
+    }
+
+-- | Defines the enum schema located at @components.schemas.customer_acceptance.properties.type@ in the specification.
 --
 -- The type of customer acceptance information included with the Mandate. One of \`online\` or \`offline\`.
 data CustomerAcceptanceType'
-  = CustomerAcceptanceType'EnumOther Data.Aeson.Types.Internal.Value
-  | CustomerAcceptanceType'EnumTyped Data.Text.Internal.Text
-  | CustomerAcceptanceType'EnumStringOffline
-  | CustomerAcceptanceType'EnumStringOnline
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    CustomerAcceptanceType'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    CustomerAcceptanceType'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"offline"@
+    CustomerAcceptanceType'EnumOffline
+  | -- | Represents the JSON value @"online"@
+    CustomerAcceptanceType'EnumOnline
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
 instance Data.Aeson.Types.ToJSON.ToJSON CustomerAcceptanceType' where
-  toJSON (CustomerAcceptanceType'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (CustomerAcceptanceType'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (CustomerAcceptanceType'EnumStringOffline) = "offline"
-  toJSON (CustomerAcceptanceType'EnumStringOnline) = "online"
+  toJSON (CustomerAcceptanceType'Other val) = val
+  toJSON (CustomerAcceptanceType'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (CustomerAcceptanceType'EnumOffline) = "offline"
+  toJSON (CustomerAcceptanceType'EnumOnline) = "online"
 
 instance Data.Aeson.Types.FromJSON.FromJSON CustomerAcceptanceType' where
   parseJSON val =
     GHC.Base.pure
-      ( if  | val GHC.Classes.== "offline" -> CustomerAcceptanceType'EnumStringOffline
-            | val GHC.Classes.== "online" -> CustomerAcceptanceType'EnumStringOnline
-            | GHC.Base.otherwise -> CustomerAcceptanceType'EnumOther val
+      ( if  | val GHC.Classes.== "offline" -> CustomerAcceptanceType'EnumOffline
+            | val GHC.Classes.== "online" -> CustomerAcceptanceType'EnumOnline
+            | GHC.Base.otherwise -> CustomerAcceptanceType'Other val
       )

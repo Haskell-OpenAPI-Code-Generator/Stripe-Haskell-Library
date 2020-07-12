@@ -8,6 +8,7 @@ module StripeAPI.Types.LegalEntityPersonVerification where
 
 import qualified Control.Monad.Fail
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -32,7 +33,7 @@ import {-# SOURCE #-} StripeAPI.Types.LegalEntityPersonVerificationDocument
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
--- | Defines the data type for the schema legal_entity_person_verification
+-- | Defines the object schema located at @components.schemas.legal_entity_person_verification@ in the specification.
 data LegalEntityPersonVerification
   = LegalEntityPersonVerification
       { -- | additional_document: A document showing address, either a passport, local ID card, or utility bill from a well-known utility company.
@@ -64,13 +65,27 @@ data LegalEntityPersonVerification
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON LegalEntityPersonVerification where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "additional_document" (legalEntityPersonVerificationAdditionalDocument obj) : (Data.Aeson..=) "details" (legalEntityPersonVerificationDetails obj) : (Data.Aeson..=) "details_code" (legalEntityPersonVerificationDetailsCode obj) : (Data.Aeson..=) "document" (legalEntityPersonVerificationDocument obj) : (Data.Aeson..=) "status" (legalEntityPersonVerificationStatus obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "additional_document" (legalEntityPersonVerificationAdditionalDocument obj) GHC.Base.<> ((Data.Aeson..=) "details" (legalEntityPersonVerificationDetails obj) GHC.Base.<> ((Data.Aeson..=) "details_code" (legalEntityPersonVerificationDetailsCode obj) GHC.Base.<> ((Data.Aeson..=) "document" (legalEntityPersonVerificationDocument obj) GHC.Base.<> (Data.Aeson..=) "status" (legalEntityPersonVerificationStatus obj)))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("additional_document" Data.Aeson.Types.ToJSON..= legalEntityPersonVerificationAdditionalDocument obj : "details" Data.Aeson.Types.ToJSON..= legalEntityPersonVerificationDetails obj : "details_code" Data.Aeson.Types.ToJSON..= legalEntityPersonVerificationDetailsCode obj : "document" Data.Aeson.Types.ToJSON..= legalEntityPersonVerificationDocument obj : "status" Data.Aeson.Types.ToJSON..= legalEntityPersonVerificationStatus obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("additional_document" Data.Aeson.Types.ToJSON..= legalEntityPersonVerificationAdditionalDocument obj) GHC.Base.<> (("details" Data.Aeson.Types.ToJSON..= legalEntityPersonVerificationDetails obj) GHC.Base.<> (("details_code" Data.Aeson.Types.ToJSON..= legalEntityPersonVerificationDetailsCode obj) GHC.Base.<> (("document" Data.Aeson.Types.ToJSON..= legalEntityPersonVerificationDocument obj) GHC.Base.<> ("status" Data.Aeson.Types.ToJSON..= legalEntityPersonVerificationStatus obj)))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON LegalEntityPersonVerification where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "LegalEntityPersonVerification" (\obj -> ((((GHC.Base.pure LegalEntityPersonVerification GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "additional_document")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "details")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "details_code")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "document")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "status"))
 
--- | Defines the data type for the schema legal_entity_person_verificationAdditional_document\'
+-- | Create a new 'LegalEntityPersonVerification' with all required fields.
+mkLegalEntityPersonVerification ::
+  -- | 'legalEntityPersonVerificationStatus'
+  Data.Text.Internal.Text ->
+  LegalEntityPersonVerification
+mkLegalEntityPersonVerification legalEntityPersonVerificationStatus =
+  LegalEntityPersonVerification
+    { legalEntityPersonVerificationAdditionalDocument = GHC.Maybe.Nothing,
+      legalEntityPersonVerificationDetails = GHC.Maybe.Nothing,
+      legalEntityPersonVerificationDetailsCode = GHC.Maybe.Nothing,
+      legalEntityPersonVerificationDocument = GHC.Maybe.Nothing,
+      legalEntityPersonVerificationStatus = legalEntityPersonVerificationStatus
+    }
+
+-- | Defines the object schema located at @components.schemas.legal_entity_person_verification.properties.additional_document.anyOf@ in the specification.
 --
 -- A document showing address, either a passport, local ID card, or utility bill from a well-known utility company.
 data LegalEntityPersonVerificationAdditionalDocument'
@@ -98,13 +113,23 @@ data LegalEntityPersonVerificationAdditionalDocument'
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON LegalEntityPersonVerificationAdditionalDocument' where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "back" (legalEntityPersonVerificationAdditionalDocument'Back obj) : (Data.Aeson..=) "details" (legalEntityPersonVerificationAdditionalDocument'Details obj) : (Data.Aeson..=) "details_code" (legalEntityPersonVerificationAdditionalDocument'DetailsCode obj) : (Data.Aeson..=) "front" (legalEntityPersonVerificationAdditionalDocument'Front obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "back" (legalEntityPersonVerificationAdditionalDocument'Back obj) GHC.Base.<> ((Data.Aeson..=) "details" (legalEntityPersonVerificationAdditionalDocument'Details obj) GHC.Base.<> ((Data.Aeson..=) "details_code" (legalEntityPersonVerificationAdditionalDocument'DetailsCode obj) GHC.Base.<> (Data.Aeson..=) "front" (legalEntityPersonVerificationAdditionalDocument'Front obj))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("back" Data.Aeson.Types.ToJSON..= legalEntityPersonVerificationAdditionalDocument'Back obj : "details" Data.Aeson.Types.ToJSON..= legalEntityPersonVerificationAdditionalDocument'Details obj : "details_code" Data.Aeson.Types.ToJSON..= legalEntityPersonVerificationAdditionalDocument'DetailsCode obj : "front" Data.Aeson.Types.ToJSON..= legalEntityPersonVerificationAdditionalDocument'Front obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("back" Data.Aeson.Types.ToJSON..= legalEntityPersonVerificationAdditionalDocument'Back obj) GHC.Base.<> (("details" Data.Aeson.Types.ToJSON..= legalEntityPersonVerificationAdditionalDocument'Details obj) GHC.Base.<> (("details_code" Data.Aeson.Types.ToJSON..= legalEntityPersonVerificationAdditionalDocument'DetailsCode obj) GHC.Base.<> ("front" Data.Aeson.Types.ToJSON..= legalEntityPersonVerificationAdditionalDocument'Front obj))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON LegalEntityPersonVerificationAdditionalDocument' where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "LegalEntityPersonVerificationAdditionalDocument'" (\obj -> (((GHC.Base.pure LegalEntityPersonVerificationAdditionalDocument' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "back")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "details")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "details_code")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "front"))
 
--- | Define the one-of schema legal_entity_person_verificationAdditional_document\'Back\'
+-- | Create a new 'LegalEntityPersonVerificationAdditionalDocument'' with all required fields.
+mkLegalEntityPersonVerificationAdditionalDocument' :: LegalEntityPersonVerificationAdditionalDocument'
+mkLegalEntityPersonVerificationAdditionalDocument' =
+  LegalEntityPersonVerificationAdditionalDocument'
+    { legalEntityPersonVerificationAdditionalDocument'Back = GHC.Maybe.Nothing,
+      legalEntityPersonVerificationAdditionalDocument'Details = GHC.Maybe.Nothing,
+      legalEntityPersonVerificationAdditionalDocument'DetailsCode = GHC.Maybe.Nothing,
+      legalEntityPersonVerificationAdditionalDocument'Front = GHC.Maybe.Nothing
+    }
+
+-- | Defines the oneOf schema located at @components.schemas.legal_entity_person_verification.properties.additional_document.anyOf.properties.back.anyOf@ in the specification.
 --
 -- The back of an ID returned by a [file upload](https:\/\/stripe.com\/docs\/api\#create_file) with a \`purpose\` value of \`identity_document\`.
 data LegalEntityPersonVerificationAdditionalDocument'Back'Variants
@@ -117,13 +142,11 @@ instance Data.Aeson.Types.ToJSON.ToJSON LegalEntityPersonVerificationAdditionalD
   toJSON (LegalEntityPersonVerificationAdditionalDocument'Back'Text a) = Data.Aeson.Types.ToJSON.toJSON a
 
 instance Data.Aeson.Types.FromJSON.FromJSON LegalEntityPersonVerificationAdditionalDocument'Back'Variants where
-  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
-    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ LegalEntityPersonVerificationAdditionalDocument'Back'File a
-    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ LegalEntityPersonVerificationAdditionalDocument'Back'Text a
-      Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+  parseJSON val = case (LegalEntityPersonVerificationAdditionalDocument'Back'File Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((LegalEntityPersonVerificationAdditionalDocument'Back'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched") of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+    Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
--- | Define the one-of schema legal_entity_person_verificationAdditional_document\'Front\'
+-- | Defines the oneOf schema located at @components.schemas.legal_entity_person_verification.properties.additional_document.anyOf.properties.front.anyOf@ in the specification.
 --
 -- The front of an ID returned by a [file upload](https:\/\/stripe.com\/docs\/api\#create_file) with a \`purpose\` value of \`identity_document\`.
 data LegalEntityPersonVerificationAdditionalDocument'Front'Variants
@@ -136,8 +159,6 @@ instance Data.Aeson.Types.ToJSON.ToJSON LegalEntityPersonVerificationAdditionalD
   toJSON (LegalEntityPersonVerificationAdditionalDocument'Front'Text a) = Data.Aeson.Types.ToJSON.toJSON a
 
 instance Data.Aeson.Types.FromJSON.FromJSON LegalEntityPersonVerificationAdditionalDocument'Front'Variants where
-  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
-    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ LegalEntityPersonVerificationAdditionalDocument'Front'File a
-    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ LegalEntityPersonVerificationAdditionalDocument'Front'Text a
-      Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+  parseJSON val = case (LegalEntityPersonVerificationAdditionalDocument'Front'File Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((LegalEntityPersonVerificationAdditionalDocument'Front'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched") of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+    Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a

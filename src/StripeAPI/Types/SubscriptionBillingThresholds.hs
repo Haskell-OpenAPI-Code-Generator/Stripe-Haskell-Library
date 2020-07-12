@@ -8,6 +8,7 @@ module StripeAPI.Types.SubscriptionBillingThresholds where
 
 import qualified Control.Monad.Fail
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -30,7 +31,7 @@ import StripeAPI.TypeAlias
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
--- | Defines the data type for the schema subscription_billing_thresholds
+-- | Defines the object schema located at @components.schemas.subscription_billing_thresholds@ in the specification.
 data SubscriptionBillingThresholds
   = SubscriptionBillingThresholds
       { -- | amount_gte: Monetary threshold that triggers the subscription to create an invoice
@@ -44,8 +45,16 @@ data SubscriptionBillingThresholds
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON SubscriptionBillingThresholds where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "amount_gte" (subscriptionBillingThresholdsAmountGte obj) : (Data.Aeson..=) "reset_billing_cycle_anchor" (subscriptionBillingThresholdsResetBillingCycleAnchor obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "amount_gte" (subscriptionBillingThresholdsAmountGte obj) GHC.Base.<> (Data.Aeson..=) "reset_billing_cycle_anchor" (subscriptionBillingThresholdsResetBillingCycleAnchor obj))
+  toJSON obj = Data.Aeson.Types.Internal.object ("amount_gte" Data.Aeson.Types.ToJSON..= subscriptionBillingThresholdsAmountGte obj : "reset_billing_cycle_anchor" Data.Aeson.Types.ToJSON..= subscriptionBillingThresholdsResetBillingCycleAnchor obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("amount_gte" Data.Aeson.Types.ToJSON..= subscriptionBillingThresholdsAmountGte obj) GHC.Base.<> ("reset_billing_cycle_anchor" Data.Aeson.Types.ToJSON..= subscriptionBillingThresholdsResetBillingCycleAnchor obj))
 
 instance Data.Aeson.Types.FromJSON.FromJSON SubscriptionBillingThresholds where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "SubscriptionBillingThresholds" (\obj -> (GHC.Base.pure SubscriptionBillingThresholds GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "amount_gte")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "reset_billing_cycle_anchor"))
+
+-- | Create a new 'SubscriptionBillingThresholds' with all required fields.
+mkSubscriptionBillingThresholds :: SubscriptionBillingThresholds
+mkSubscriptionBillingThresholds =
+  SubscriptionBillingThresholds
+    { subscriptionBillingThresholdsAmountGte = GHC.Maybe.Nothing,
+      subscriptionBillingThresholdsResetBillingCycleAnchor = GHC.Maybe.Nothing
+    }

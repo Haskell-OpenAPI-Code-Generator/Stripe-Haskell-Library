@@ -10,6 +10,7 @@ module StripeAPI.Operations.GetTransfersIdReversals where
 import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -85,7 +86,7 @@ getTransfersIdReversals parameters =
         ]
     )
 
--- | Defines the data type for the schema getTransfersIdReversalsParameters
+-- | Defines the object schema located at @paths.\/v1\/transfers\/{id}\/reversals.GET.parameters@ in the specification.
 data GetTransfersIdReversalsParameters
   = GetTransfersIdReversalsParameters
       { -- | pathId: Represents the parameter named \'id\'
@@ -125,11 +126,25 @@ data GetTransfersIdReversalsParameters
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetTransfersIdReversalsParameters where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "pathId" (getTransfersIdReversalsParametersPathId obj) : (Data.Aeson..=) "queryEnding_before" (getTransfersIdReversalsParametersQueryEndingBefore obj) : (Data.Aeson..=) "queryExpand" (getTransfersIdReversalsParametersQueryExpand obj) : (Data.Aeson..=) "queryLimit" (getTransfersIdReversalsParametersQueryLimit obj) : (Data.Aeson..=) "queryStarting_after" (getTransfersIdReversalsParametersQueryStartingAfter obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "pathId" (getTransfersIdReversalsParametersPathId obj) GHC.Base.<> ((Data.Aeson..=) "queryEnding_before" (getTransfersIdReversalsParametersQueryEndingBefore obj) GHC.Base.<> ((Data.Aeson..=) "queryExpand" (getTransfersIdReversalsParametersQueryExpand obj) GHC.Base.<> ((Data.Aeson..=) "queryLimit" (getTransfersIdReversalsParametersQueryLimit obj) GHC.Base.<> (Data.Aeson..=) "queryStarting_after" (getTransfersIdReversalsParametersQueryStartingAfter obj)))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("pathId" Data.Aeson.Types.ToJSON..= getTransfersIdReversalsParametersPathId obj : "queryEnding_before" Data.Aeson.Types.ToJSON..= getTransfersIdReversalsParametersQueryEndingBefore obj : "queryExpand" Data.Aeson.Types.ToJSON..= getTransfersIdReversalsParametersQueryExpand obj : "queryLimit" Data.Aeson.Types.ToJSON..= getTransfersIdReversalsParametersQueryLimit obj : "queryStarting_after" Data.Aeson.Types.ToJSON..= getTransfersIdReversalsParametersQueryStartingAfter obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("pathId" Data.Aeson.Types.ToJSON..= getTransfersIdReversalsParametersPathId obj) GHC.Base.<> (("queryEnding_before" Data.Aeson.Types.ToJSON..= getTransfersIdReversalsParametersQueryEndingBefore obj) GHC.Base.<> (("queryExpand" Data.Aeson.Types.ToJSON..= getTransfersIdReversalsParametersQueryExpand obj) GHC.Base.<> (("queryLimit" Data.Aeson.Types.ToJSON..= getTransfersIdReversalsParametersQueryLimit obj) GHC.Base.<> ("queryStarting_after" Data.Aeson.Types.ToJSON..= getTransfersIdReversalsParametersQueryStartingAfter obj)))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetTransfersIdReversalsParameters where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "GetTransfersIdReversalsParameters" (\obj -> ((((GHC.Base.pure GetTransfersIdReversalsParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathId")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryEnding_before")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryExpand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryLimit")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryStarting_after"))
+
+-- | Create a new 'GetTransfersIdReversalsParameters' with all required fields.
+mkGetTransfersIdReversalsParameters ::
+  -- | 'getTransfersIdReversalsParametersPathId'
+  Data.Text.Internal.Text ->
+  GetTransfersIdReversalsParameters
+mkGetTransfersIdReversalsParameters getTransfersIdReversalsParametersPathId =
+  GetTransfersIdReversalsParameters
+    { getTransfersIdReversalsParametersPathId = getTransfersIdReversalsParametersPathId,
+      getTransfersIdReversalsParametersQueryEndingBefore = GHC.Maybe.Nothing,
+      getTransfersIdReversalsParametersQueryExpand = GHC.Maybe.Nothing,
+      getTransfersIdReversalsParametersQueryLimit = GHC.Maybe.Nothing,
+      getTransfersIdReversalsParametersQueryStartingAfter = GHC.Maybe.Nothing
+    }
 
 -- | Represents a response of the operation 'getTransfersIdReversals'.
 --
@@ -143,15 +158,13 @@ data GetTransfersIdReversalsResponse
     GetTransfersIdReversalsResponseDefault Error
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
--- | Defines the data type for the schema GetTransfersIdReversalsResponseBody200
+-- | Defines the object schema located at @paths.\/v1\/transfers\/{id}\/reversals.GET.responses.200.content.application\/json.schema@ in the specification.
 data GetTransfersIdReversalsResponseBody200
   = GetTransfersIdReversalsResponseBody200
       { -- | data: Details about each object.
         getTransfersIdReversalsResponseBody200Data :: ([TransferReversal]),
         -- | has_more: True if this list has another page of items after this one that can be fetched.
         getTransfersIdReversalsResponseBody200HasMore :: GHC.Types.Bool,
-        -- | object: String representing the object\'s type. Objects of the same type share the same value. Always has the value \`list\`.
-        getTransfersIdReversalsResponseBody200Object :: GetTransfersIdReversalsResponseBody200Object',
         -- | url: The URL where this list can be accessed.
         --
         -- Constraints:
@@ -165,29 +178,24 @@ data GetTransfersIdReversalsResponseBody200
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetTransfersIdReversalsResponseBody200 where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "data" (getTransfersIdReversalsResponseBody200Data obj) : (Data.Aeson..=) "has_more" (getTransfersIdReversalsResponseBody200HasMore obj) : (Data.Aeson..=) "object" (getTransfersIdReversalsResponseBody200Object obj) : (Data.Aeson..=) "url" (getTransfersIdReversalsResponseBody200Url obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "data" (getTransfersIdReversalsResponseBody200Data obj) GHC.Base.<> ((Data.Aeson..=) "has_more" (getTransfersIdReversalsResponseBody200HasMore obj) GHC.Base.<> ((Data.Aeson..=) "object" (getTransfersIdReversalsResponseBody200Object obj) GHC.Base.<> (Data.Aeson..=) "url" (getTransfersIdReversalsResponseBody200Url obj))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("data" Data.Aeson.Types.ToJSON..= getTransfersIdReversalsResponseBody200Data obj : "has_more" Data.Aeson.Types.ToJSON..= getTransfersIdReversalsResponseBody200HasMore obj : "url" Data.Aeson.Types.ToJSON..= getTransfersIdReversalsResponseBody200Url obj : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "list" : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("data" Data.Aeson.Types.ToJSON..= getTransfersIdReversalsResponseBody200Data obj) GHC.Base.<> (("has_more" Data.Aeson.Types.ToJSON..= getTransfersIdReversalsResponseBody200HasMore obj) GHC.Base.<> (("url" Data.Aeson.Types.ToJSON..= getTransfersIdReversalsResponseBody200Url obj) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "list"))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetTransfersIdReversalsResponseBody200 where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetTransfersIdReversalsResponseBody200" (\obj -> (((GHC.Base.pure GetTransfersIdReversalsResponseBody200 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "has_more")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "object")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "url"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetTransfersIdReversalsResponseBody200" (\obj -> ((GHC.Base.pure GetTransfersIdReversalsResponseBody200 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "has_more")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "url"))
 
--- | Defines the enum schema GetTransfersIdReversalsResponseBody200Object\'
---
--- String representing the object\'s type. Objects of the same type share the same value. Always has the value \`list\`.
-data GetTransfersIdReversalsResponseBody200Object'
-  = GetTransfersIdReversalsResponseBody200Object'EnumOther Data.Aeson.Types.Internal.Value
-  | GetTransfersIdReversalsResponseBody200Object'EnumTyped Data.Text.Internal.Text
-  | GetTransfersIdReversalsResponseBody200Object'EnumStringList
-  deriving (GHC.Show.Show, GHC.Classes.Eq)
-
-instance Data.Aeson.Types.ToJSON.ToJSON GetTransfersIdReversalsResponseBody200Object' where
-  toJSON (GetTransfersIdReversalsResponseBody200Object'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (GetTransfersIdReversalsResponseBody200Object'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (GetTransfersIdReversalsResponseBody200Object'EnumStringList) = "list"
-
-instance Data.Aeson.Types.FromJSON.FromJSON GetTransfersIdReversalsResponseBody200Object' where
-  parseJSON val =
-    GHC.Base.pure
-      ( if  | val GHC.Classes.== "list" -> GetTransfersIdReversalsResponseBody200Object'EnumStringList
-            | GHC.Base.otherwise -> GetTransfersIdReversalsResponseBody200Object'EnumOther val
-      )
+-- | Create a new 'GetTransfersIdReversalsResponseBody200' with all required fields.
+mkGetTransfersIdReversalsResponseBody200 ::
+  -- | 'getTransfersIdReversalsResponseBody200Data'
+  [TransferReversal] ->
+  -- | 'getTransfersIdReversalsResponseBody200HasMore'
+  GHC.Types.Bool ->
+  -- | 'getTransfersIdReversalsResponseBody200Url'
+  Data.Text.Internal.Text ->
+  GetTransfersIdReversalsResponseBody200
+mkGetTransfersIdReversalsResponseBody200 getTransfersIdReversalsResponseBody200Data getTransfersIdReversalsResponseBody200HasMore getTransfersIdReversalsResponseBody200Url =
+  GetTransfersIdReversalsResponseBody200
+    { getTransfersIdReversalsResponseBody200Data = getTransfersIdReversalsResponseBody200Data,
+      getTransfersIdReversalsResponseBody200HasMore = getTransfersIdReversalsResponseBody200HasMore,
+      getTransfersIdReversalsResponseBody200Url = getTransfersIdReversalsResponseBody200Url
+    }

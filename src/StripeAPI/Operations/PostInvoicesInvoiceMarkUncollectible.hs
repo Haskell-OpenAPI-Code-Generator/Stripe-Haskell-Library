@@ -10,6 +10,7 @@ module StripeAPI.Operations.PostInvoicesInvoiceMarkUncollectible where
 import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -81,7 +82,7 @@ postInvoicesInvoiceMarkUncollectible
       )
       (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack ("/v1/invoices/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel invoice)) GHC.Base.++ "/mark_uncollectible"))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
 
--- | Defines the data type for the schema postInvoicesInvoiceMarkUncollectibleRequestBody
+-- | Defines the object schema located at @paths.\/v1\/invoices\/{invoice}\/mark_uncollectible.POST.requestBody.content.application\/x-www-form-urlencoded.schema@ in the specification.
 data PostInvoicesInvoiceMarkUncollectibleRequestBody
   = PostInvoicesInvoiceMarkUncollectibleRequestBody
       { -- | expand: Specifies which fields in the response should be expanded.
@@ -93,11 +94,15 @@ data PostInvoicesInvoiceMarkUncollectibleRequestBody
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostInvoicesInvoiceMarkUncollectibleRequestBody where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "expand" (postInvoicesInvoiceMarkUncollectibleRequestBodyExpand obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "expand" (postInvoicesInvoiceMarkUncollectibleRequestBodyExpand obj))
+  toJSON obj = Data.Aeson.Types.Internal.object ("expand" Data.Aeson.Types.ToJSON..= postInvoicesInvoiceMarkUncollectibleRequestBodyExpand obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs ("expand" Data.Aeson.Types.ToJSON..= postInvoicesInvoiceMarkUncollectibleRequestBodyExpand obj)
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostInvoicesInvoiceMarkUncollectibleRequestBody where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PostInvoicesInvoiceMarkUncollectibleRequestBody" (\obj -> GHC.Base.pure PostInvoicesInvoiceMarkUncollectibleRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "expand"))
+
+-- | Create a new 'PostInvoicesInvoiceMarkUncollectibleRequestBody' with all required fields.
+mkPostInvoicesInvoiceMarkUncollectibleRequestBody :: PostInvoicesInvoiceMarkUncollectibleRequestBody
+mkPostInvoicesInvoiceMarkUncollectibleRequestBody = PostInvoicesInvoiceMarkUncollectibleRequestBody {postInvoicesInvoiceMarkUncollectibleRequestBodyExpand = GHC.Maybe.Nothing}
 
 -- | Represents a response of the operation 'postInvoicesInvoiceMarkUncollectible'.
 --

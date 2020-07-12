@@ -8,6 +8,7 @@ module StripeAPI.Types.AccountCardPaymentsSettings where
 
 import qualified Control.Monad.Fail
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -31,7 +32,7 @@ import {-# SOURCE #-} StripeAPI.Types.AccountDeclineChargeOn
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
--- | Defines the data type for the schema account_card_payments_settings
+-- | Defines the object schema located at @components.schemas.account_card_payments_settings@ in the specification.
 data AccountCardPaymentsSettings
   = AccountCardPaymentsSettings
       { -- | decline_on:
@@ -49,8 +50,16 @@ data AccountCardPaymentsSettings
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON AccountCardPaymentsSettings where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "decline_on" (accountCardPaymentsSettingsDeclineOn obj) : (Data.Aeson..=) "statement_descriptor_prefix" (accountCardPaymentsSettingsStatementDescriptorPrefix obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "decline_on" (accountCardPaymentsSettingsDeclineOn obj) GHC.Base.<> (Data.Aeson..=) "statement_descriptor_prefix" (accountCardPaymentsSettingsStatementDescriptorPrefix obj))
+  toJSON obj = Data.Aeson.Types.Internal.object ("decline_on" Data.Aeson.Types.ToJSON..= accountCardPaymentsSettingsDeclineOn obj : "statement_descriptor_prefix" Data.Aeson.Types.ToJSON..= accountCardPaymentsSettingsStatementDescriptorPrefix obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("decline_on" Data.Aeson.Types.ToJSON..= accountCardPaymentsSettingsDeclineOn obj) GHC.Base.<> ("statement_descriptor_prefix" Data.Aeson.Types.ToJSON..= accountCardPaymentsSettingsStatementDescriptorPrefix obj))
 
 instance Data.Aeson.Types.FromJSON.FromJSON AccountCardPaymentsSettings where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "AccountCardPaymentsSettings" (\obj -> (GHC.Base.pure AccountCardPaymentsSettings GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "decline_on")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "statement_descriptor_prefix"))
+
+-- | Create a new 'AccountCardPaymentsSettings' with all required fields.
+mkAccountCardPaymentsSettings :: AccountCardPaymentsSettings
+mkAccountCardPaymentsSettings =
+  AccountCardPaymentsSettings
+    { accountCardPaymentsSettingsDeclineOn = GHC.Maybe.Nothing,
+      accountCardPaymentsSettingsStatementDescriptorPrefix = GHC.Maybe.Nothing
+    }

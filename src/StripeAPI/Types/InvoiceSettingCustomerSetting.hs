@@ -8,6 +8,7 @@ module StripeAPI.Types.InvoiceSettingCustomerSetting where
 
 import qualified Control.Monad.Fail
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -32,7 +33,7 @@ import {-# SOURCE #-} StripeAPI.Types.PaymentMethod
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
--- | Defines the data type for the schema invoice_setting_customer_setting
+-- | Defines the object schema located at @components.schemas.invoice_setting_customer_setting@ in the specification.
 data InvoiceSettingCustomerSetting
   = InvoiceSettingCustomerSetting
       { -- | custom_fields: Default custom fields to be displayed on invoices for this customer.
@@ -52,13 +53,22 @@ data InvoiceSettingCustomerSetting
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON InvoiceSettingCustomerSetting where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "custom_fields" (invoiceSettingCustomerSettingCustomFields obj) : (Data.Aeson..=) "default_payment_method" (invoiceSettingCustomerSettingDefaultPaymentMethod obj) : (Data.Aeson..=) "footer" (invoiceSettingCustomerSettingFooter obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "custom_fields" (invoiceSettingCustomerSettingCustomFields obj) GHC.Base.<> ((Data.Aeson..=) "default_payment_method" (invoiceSettingCustomerSettingDefaultPaymentMethod obj) GHC.Base.<> (Data.Aeson..=) "footer" (invoiceSettingCustomerSettingFooter obj)))
+  toJSON obj = Data.Aeson.Types.Internal.object ("custom_fields" Data.Aeson.Types.ToJSON..= invoiceSettingCustomerSettingCustomFields obj : "default_payment_method" Data.Aeson.Types.ToJSON..= invoiceSettingCustomerSettingDefaultPaymentMethod obj : "footer" Data.Aeson.Types.ToJSON..= invoiceSettingCustomerSettingFooter obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("custom_fields" Data.Aeson.Types.ToJSON..= invoiceSettingCustomerSettingCustomFields obj) GHC.Base.<> (("default_payment_method" Data.Aeson.Types.ToJSON..= invoiceSettingCustomerSettingDefaultPaymentMethod obj) GHC.Base.<> ("footer" Data.Aeson.Types.ToJSON..= invoiceSettingCustomerSettingFooter obj)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON InvoiceSettingCustomerSetting where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "InvoiceSettingCustomerSetting" (\obj -> ((GHC.Base.pure InvoiceSettingCustomerSetting GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "custom_fields")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "default_payment_method")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "footer"))
 
--- | Define the one-of schema invoice_setting_customer_settingDefault_payment_method\'
+-- | Create a new 'InvoiceSettingCustomerSetting' with all required fields.
+mkInvoiceSettingCustomerSetting :: InvoiceSettingCustomerSetting
+mkInvoiceSettingCustomerSetting =
+  InvoiceSettingCustomerSetting
+    { invoiceSettingCustomerSettingCustomFields = GHC.Maybe.Nothing,
+      invoiceSettingCustomerSettingDefaultPaymentMethod = GHC.Maybe.Nothing,
+      invoiceSettingCustomerSettingFooter = GHC.Maybe.Nothing
+    }
+
+-- | Defines the oneOf schema located at @components.schemas.invoice_setting_customer_setting.properties.default_payment_method.anyOf@ in the specification.
 --
 -- ID of a payment method that\'s attached to the customer, to be used as the customer\'s default payment method for subscriptions and invoices.
 data InvoiceSettingCustomerSettingDefaultPaymentMethod'Variants
@@ -71,8 +81,6 @@ instance Data.Aeson.Types.ToJSON.ToJSON InvoiceSettingCustomerSettingDefaultPaym
   toJSON (InvoiceSettingCustomerSettingDefaultPaymentMethod'Text a) = Data.Aeson.Types.ToJSON.toJSON a
 
 instance Data.Aeson.Types.FromJSON.FromJSON InvoiceSettingCustomerSettingDefaultPaymentMethod'Variants where
-  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
-    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ InvoiceSettingCustomerSettingDefaultPaymentMethod'PaymentMethod a
-    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ InvoiceSettingCustomerSettingDefaultPaymentMethod'Text a
-      Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+  parseJSON val = case (InvoiceSettingCustomerSettingDefaultPaymentMethod'PaymentMethod Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((InvoiceSettingCustomerSettingDefaultPaymentMethod'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched") of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+    Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a

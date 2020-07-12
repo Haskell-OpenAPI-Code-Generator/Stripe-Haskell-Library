@@ -10,6 +10,7 @@ module StripeAPI.Operations.PostAccountCapabilitiesCapability where
 import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -81,7 +82,7 @@ postAccountCapabilitiesCapability
       )
       (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack ("/v1/account/capabilities/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel capability)) GHC.Base.++ ""))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
 
--- | Defines the data type for the schema postAccountCapabilitiesCapabilityRequestBody
+-- | Defines the object schema located at @paths.\/v1\/account\/capabilities\/{capability}.POST.requestBody.content.application\/x-www-form-urlencoded.schema@ in the specification.
 data PostAccountCapabilitiesCapabilityRequestBody
   = PostAccountCapabilitiesCapabilityRequestBody
       { -- | expand: Specifies which fields in the response should be expanded.
@@ -95,11 +96,19 @@ data PostAccountCapabilitiesCapabilityRequestBody
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostAccountCapabilitiesCapabilityRequestBody where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "expand" (postAccountCapabilitiesCapabilityRequestBodyExpand obj) : (Data.Aeson..=) "requested" (postAccountCapabilitiesCapabilityRequestBodyRequested obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "expand" (postAccountCapabilitiesCapabilityRequestBodyExpand obj) GHC.Base.<> (Data.Aeson..=) "requested" (postAccountCapabilitiesCapabilityRequestBodyRequested obj))
+  toJSON obj = Data.Aeson.Types.Internal.object ("expand" Data.Aeson.Types.ToJSON..= postAccountCapabilitiesCapabilityRequestBodyExpand obj : "requested" Data.Aeson.Types.ToJSON..= postAccountCapabilitiesCapabilityRequestBodyRequested obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("expand" Data.Aeson.Types.ToJSON..= postAccountCapabilitiesCapabilityRequestBodyExpand obj) GHC.Base.<> ("requested" Data.Aeson.Types.ToJSON..= postAccountCapabilitiesCapabilityRequestBodyRequested obj))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostAccountCapabilitiesCapabilityRequestBody where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PostAccountCapabilitiesCapabilityRequestBody" (\obj -> (GHC.Base.pure PostAccountCapabilitiesCapabilityRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "requested"))
+
+-- | Create a new 'PostAccountCapabilitiesCapabilityRequestBody' with all required fields.
+mkPostAccountCapabilitiesCapabilityRequestBody :: PostAccountCapabilitiesCapabilityRequestBody
+mkPostAccountCapabilitiesCapabilityRequestBody =
+  PostAccountCapabilitiesCapabilityRequestBody
+    { postAccountCapabilitiesCapabilityRequestBodyExpand = GHC.Maybe.Nothing,
+      postAccountCapabilitiesCapabilityRequestBodyRequested = GHC.Maybe.Nothing
+    }
 
 -- | Represents a response of the operation 'postAccountCapabilitiesCapability'.
 --

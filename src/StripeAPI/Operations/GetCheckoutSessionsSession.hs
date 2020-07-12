@@ -10,6 +10,7 @@ module StripeAPI.Operations.GetCheckoutSessionsSession where
 import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -77,7 +78,7 @@ getCheckoutSessionsSession parameters =
     )
     (StripeAPI.Common.doCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET") (Data.Text.pack ("/v1/checkout/sessions/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel (getCheckoutSessionsSessionParametersPathSession parameters))) GHC.Base.++ ""))) [StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getCheckoutSessionsSessionParametersQueryExpand parameters) (Data.Text.pack "deepObject") GHC.Types.True])
 
--- | Defines the data type for the schema getCheckoutSessionsSessionParameters
+-- | Defines the object schema located at @paths.\/v1\/checkout\/sessions\/{session}.GET.parameters@ in the specification.
 data GetCheckoutSessionsSessionParameters
   = GetCheckoutSessionsSessionParameters
       { -- | pathSession: Represents the parameter named \'session\'
@@ -97,11 +98,22 @@ data GetCheckoutSessionsSessionParameters
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetCheckoutSessionsSessionParameters where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "pathSession" (getCheckoutSessionsSessionParametersPathSession obj) : (Data.Aeson..=) "queryExpand" (getCheckoutSessionsSessionParametersQueryExpand obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "pathSession" (getCheckoutSessionsSessionParametersPathSession obj) GHC.Base.<> (Data.Aeson..=) "queryExpand" (getCheckoutSessionsSessionParametersQueryExpand obj))
+  toJSON obj = Data.Aeson.Types.Internal.object ("pathSession" Data.Aeson.Types.ToJSON..= getCheckoutSessionsSessionParametersPathSession obj : "queryExpand" Data.Aeson.Types.ToJSON..= getCheckoutSessionsSessionParametersQueryExpand obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("pathSession" Data.Aeson.Types.ToJSON..= getCheckoutSessionsSessionParametersPathSession obj) GHC.Base.<> ("queryExpand" Data.Aeson.Types.ToJSON..= getCheckoutSessionsSessionParametersQueryExpand obj))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetCheckoutSessionsSessionParameters where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "GetCheckoutSessionsSessionParameters" (\obj -> (GHC.Base.pure GetCheckoutSessionsSessionParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathSession")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryExpand"))
+
+-- | Create a new 'GetCheckoutSessionsSessionParameters' with all required fields.
+mkGetCheckoutSessionsSessionParameters ::
+  -- | 'getCheckoutSessionsSessionParametersPathSession'
+  Data.Text.Internal.Text ->
+  GetCheckoutSessionsSessionParameters
+mkGetCheckoutSessionsSessionParameters getCheckoutSessionsSessionParametersPathSession =
+  GetCheckoutSessionsSessionParameters
+    { getCheckoutSessionsSessionParametersPathSession = getCheckoutSessionsSessionParametersPathSession,
+      getCheckoutSessionsSessionParametersQueryExpand = GHC.Maybe.Nothing
+    }
 
 -- | Represents a response of the operation 'getCheckoutSessionsSession'.
 --

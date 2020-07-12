@@ -1,18 +1,8 @@
 module StripeAPI.Types.DeletedRadar_ValueListItem where
 import Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Types.Internal
-data DeletedRadar'valueListItem 
-instance Show DeletedRadar'valueListItem 
-instance Eq DeletedRadar'valueListItem 
-instance FromJSON DeletedRadar'valueListItem 
-instance ToJSON DeletedRadar'valueListItem 
-data DeletedRadar'valueListItemDeleted'
-instance Show DeletedRadar'valueListItemDeleted'
-instance Eq DeletedRadar'valueListItemDeleted'
-instance FromJSON DeletedRadar'valueListItemDeleted'
-instance ToJSON DeletedRadar'valueListItemDeleted'
-data DeletedRadar'valueListItemObject'
-instance Show DeletedRadar'valueListItemObject'
-instance Eq DeletedRadar'valueListItemObject'
-instance FromJSON DeletedRadar'valueListItemObject'
-instance ToJSON DeletedRadar'valueListItemObject'
+data DeletedRadar'valueListItem
+instance Show DeletedRadar'valueListItem
+instance Eq DeletedRadar'valueListItem
+instance FromJSON DeletedRadar'valueListItem
+instance ToJSON DeletedRadar'valueListItem

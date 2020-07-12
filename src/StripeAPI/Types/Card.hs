@@ -8,6 +8,7 @@ module StripeAPI.Types.Card where
 
 import qualified Control.Monad.Fail
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -34,7 +35,7 @@ import {-# SOURCE #-} StripeAPI.Types.Recipient
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
--- | Defines the data type for the schema card
+-- | Defines the object schema located at @components.schemas.card@ in the specification.
 --
 -- You can store multiple cards on a customer in order to charge the customer
 -- later. You can also store multiple debit cards on a recipient in order to
@@ -161,8 +162,6 @@ data Card
         --
         -- * Maximum length of 5000
         cardName :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
-        -- | object: String representing the object\'s type. Objects of the same type share the same value.
-        cardObject :: CardObject',
         -- | recipient: The recipient that this card belongs to. This attribute will not be in the card object if the card belongs to a customer or account instead.
         cardRecipient :: (GHC.Maybe.Maybe CardRecipient'Variants),
         -- | tokenization_method: If the card number is tokenized, this is the method that was used. Can be \`amex_express_checkout\`, \`android_pay\` (includes Google Pay), \`apple_pay\`, \`masterpass\`, \`visa_checkout\`, or null.
@@ -178,13 +177,61 @@ data Card
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON Card where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "account" (cardAccount obj) : (Data.Aeson..=) "address_city" (cardAddressCity obj) : (Data.Aeson..=) "address_country" (cardAddressCountry obj) : (Data.Aeson..=) "address_line1" (cardAddressLine1 obj) : (Data.Aeson..=) "address_line1_check" (cardAddressLine1Check obj) : (Data.Aeson..=) "address_line2" (cardAddressLine2 obj) : (Data.Aeson..=) "address_state" (cardAddressState obj) : (Data.Aeson..=) "address_zip" (cardAddressZip obj) : (Data.Aeson..=) "address_zip_check" (cardAddressZipCheck obj) : (Data.Aeson..=) "available_payout_methods" (cardAvailablePayoutMethods obj) : (Data.Aeson..=) "brand" (cardBrand obj) : (Data.Aeson..=) "country" (cardCountry obj) : (Data.Aeson..=) "currency" (cardCurrency obj) : (Data.Aeson..=) "customer" (cardCustomer obj) : (Data.Aeson..=) "cvc_check" (cardCvcCheck obj) : (Data.Aeson..=) "default_for_currency" (cardDefaultForCurrency obj) : (Data.Aeson..=) "dynamic_last4" (cardDynamicLast4 obj) : (Data.Aeson..=) "exp_month" (cardExpMonth obj) : (Data.Aeson..=) "exp_year" (cardExpYear obj) : (Data.Aeson..=) "fingerprint" (cardFingerprint obj) : (Data.Aeson..=) "funding" (cardFunding obj) : (Data.Aeson..=) "id" (cardId obj) : (Data.Aeson..=) "last4" (cardLast4 obj) : (Data.Aeson..=) "metadata" (cardMetadata obj) : (Data.Aeson..=) "name" (cardName obj) : (Data.Aeson..=) "object" (cardObject obj) : (Data.Aeson..=) "recipient" (cardRecipient obj) : (Data.Aeson..=) "tokenization_method" (cardTokenizationMethod obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "account" (cardAccount obj) GHC.Base.<> ((Data.Aeson..=) "address_city" (cardAddressCity obj) GHC.Base.<> ((Data.Aeson..=) "address_country" (cardAddressCountry obj) GHC.Base.<> ((Data.Aeson..=) "address_line1" (cardAddressLine1 obj) GHC.Base.<> ((Data.Aeson..=) "address_line1_check" (cardAddressLine1Check obj) GHC.Base.<> ((Data.Aeson..=) "address_line2" (cardAddressLine2 obj) GHC.Base.<> ((Data.Aeson..=) "address_state" (cardAddressState obj) GHC.Base.<> ((Data.Aeson..=) "address_zip" (cardAddressZip obj) GHC.Base.<> ((Data.Aeson..=) "address_zip_check" (cardAddressZipCheck obj) GHC.Base.<> ((Data.Aeson..=) "available_payout_methods" (cardAvailablePayoutMethods obj) GHC.Base.<> ((Data.Aeson..=) "brand" (cardBrand obj) GHC.Base.<> ((Data.Aeson..=) "country" (cardCountry obj) GHC.Base.<> ((Data.Aeson..=) "currency" (cardCurrency obj) GHC.Base.<> ((Data.Aeson..=) "customer" (cardCustomer obj) GHC.Base.<> ((Data.Aeson..=) "cvc_check" (cardCvcCheck obj) GHC.Base.<> ((Data.Aeson..=) "default_for_currency" (cardDefaultForCurrency obj) GHC.Base.<> ((Data.Aeson..=) "dynamic_last4" (cardDynamicLast4 obj) GHC.Base.<> ((Data.Aeson..=) "exp_month" (cardExpMonth obj) GHC.Base.<> ((Data.Aeson..=) "exp_year" (cardExpYear obj) GHC.Base.<> ((Data.Aeson..=) "fingerprint" (cardFingerprint obj) GHC.Base.<> ((Data.Aeson..=) "funding" (cardFunding obj) GHC.Base.<> ((Data.Aeson..=) "id" (cardId obj) GHC.Base.<> ((Data.Aeson..=) "last4" (cardLast4 obj) GHC.Base.<> ((Data.Aeson..=) "metadata" (cardMetadata obj) GHC.Base.<> ((Data.Aeson..=) "name" (cardName obj) GHC.Base.<> ((Data.Aeson..=) "object" (cardObject obj) GHC.Base.<> ((Data.Aeson..=) "recipient" (cardRecipient obj) GHC.Base.<> (Data.Aeson..=) "tokenization_method" (cardTokenizationMethod obj))))))))))))))))))))))))))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("account" Data.Aeson.Types.ToJSON..= cardAccount obj : "address_city" Data.Aeson.Types.ToJSON..= cardAddressCity obj : "address_country" Data.Aeson.Types.ToJSON..= cardAddressCountry obj : "address_line1" Data.Aeson.Types.ToJSON..= cardAddressLine1 obj : "address_line1_check" Data.Aeson.Types.ToJSON..= cardAddressLine1Check obj : "address_line2" Data.Aeson.Types.ToJSON..= cardAddressLine2 obj : "address_state" Data.Aeson.Types.ToJSON..= cardAddressState obj : "address_zip" Data.Aeson.Types.ToJSON..= cardAddressZip obj : "address_zip_check" Data.Aeson.Types.ToJSON..= cardAddressZipCheck obj : "available_payout_methods" Data.Aeson.Types.ToJSON..= cardAvailablePayoutMethods obj : "brand" Data.Aeson.Types.ToJSON..= cardBrand obj : "country" Data.Aeson.Types.ToJSON..= cardCountry obj : "currency" Data.Aeson.Types.ToJSON..= cardCurrency obj : "customer" Data.Aeson.Types.ToJSON..= cardCustomer obj : "cvc_check" Data.Aeson.Types.ToJSON..= cardCvcCheck obj : "default_for_currency" Data.Aeson.Types.ToJSON..= cardDefaultForCurrency obj : "dynamic_last4" Data.Aeson.Types.ToJSON..= cardDynamicLast4 obj : "exp_month" Data.Aeson.Types.ToJSON..= cardExpMonth obj : "exp_year" Data.Aeson.Types.ToJSON..= cardExpYear obj : "fingerprint" Data.Aeson.Types.ToJSON..= cardFingerprint obj : "funding" Data.Aeson.Types.ToJSON..= cardFunding obj : "id" Data.Aeson.Types.ToJSON..= cardId obj : "last4" Data.Aeson.Types.ToJSON..= cardLast4 obj : "metadata" Data.Aeson.Types.ToJSON..= cardMetadata obj : "name" Data.Aeson.Types.ToJSON..= cardName obj : "recipient" Data.Aeson.Types.ToJSON..= cardRecipient obj : "tokenization_method" Data.Aeson.Types.ToJSON..= cardTokenizationMethod obj : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "card" : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("account" Data.Aeson.Types.ToJSON..= cardAccount obj) GHC.Base.<> (("address_city" Data.Aeson.Types.ToJSON..= cardAddressCity obj) GHC.Base.<> (("address_country" Data.Aeson.Types.ToJSON..= cardAddressCountry obj) GHC.Base.<> (("address_line1" Data.Aeson.Types.ToJSON..= cardAddressLine1 obj) GHC.Base.<> (("address_line1_check" Data.Aeson.Types.ToJSON..= cardAddressLine1Check obj) GHC.Base.<> (("address_line2" Data.Aeson.Types.ToJSON..= cardAddressLine2 obj) GHC.Base.<> (("address_state" Data.Aeson.Types.ToJSON..= cardAddressState obj) GHC.Base.<> (("address_zip" Data.Aeson.Types.ToJSON..= cardAddressZip obj) GHC.Base.<> (("address_zip_check" Data.Aeson.Types.ToJSON..= cardAddressZipCheck obj) GHC.Base.<> (("available_payout_methods" Data.Aeson.Types.ToJSON..= cardAvailablePayoutMethods obj) GHC.Base.<> (("brand" Data.Aeson.Types.ToJSON..= cardBrand obj) GHC.Base.<> (("country" Data.Aeson.Types.ToJSON..= cardCountry obj) GHC.Base.<> (("currency" Data.Aeson.Types.ToJSON..= cardCurrency obj) GHC.Base.<> (("customer" Data.Aeson.Types.ToJSON..= cardCustomer obj) GHC.Base.<> (("cvc_check" Data.Aeson.Types.ToJSON..= cardCvcCheck obj) GHC.Base.<> (("default_for_currency" Data.Aeson.Types.ToJSON..= cardDefaultForCurrency obj) GHC.Base.<> (("dynamic_last4" Data.Aeson.Types.ToJSON..= cardDynamicLast4 obj) GHC.Base.<> (("exp_month" Data.Aeson.Types.ToJSON..= cardExpMonth obj) GHC.Base.<> (("exp_year" Data.Aeson.Types.ToJSON..= cardExpYear obj) GHC.Base.<> (("fingerprint" Data.Aeson.Types.ToJSON..= cardFingerprint obj) GHC.Base.<> (("funding" Data.Aeson.Types.ToJSON..= cardFunding obj) GHC.Base.<> (("id" Data.Aeson.Types.ToJSON..= cardId obj) GHC.Base.<> (("last4" Data.Aeson.Types.ToJSON..= cardLast4 obj) GHC.Base.<> (("metadata" Data.Aeson.Types.ToJSON..= cardMetadata obj) GHC.Base.<> (("name" Data.Aeson.Types.ToJSON..= cardName obj) GHC.Base.<> (("recipient" Data.Aeson.Types.ToJSON..= cardRecipient obj) GHC.Base.<> (("tokenization_method" Data.Aeson.Types.ToJSON..= cardTokenizationMethod obj) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "card"))))))))))))))))))))))))))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON Card where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "Card" (\obj -> (((((((((((((((((((((((((((GHC.Base.pure Card GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "account")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "address_city")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "address_country")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "address_line1")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "address_line1_check")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "address_line2")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "address_state")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "address_zip")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "address_zip_check")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "available_payout_methods")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "brand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "country")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "customer")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "cvc_check")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "default_for_currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "dynamic_last4")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "exp_month")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "exp_year")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "fingerprint")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "funding")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "last4")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "object")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "recipient")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "tokenization_method"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "Card" (\obj -> ((((((((((((((((((((((((((GHC.Base.pure Card GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "account")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "address_city")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "address_country")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "address_line1")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "address_line1_check")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "address_line2")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "address_state")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "address_zip")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "address_zip_check")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "available_payout_methods")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "brand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "country")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "customer")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "cvc_check")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "default_for_currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "dynamic_last4")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "exp_month")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "exp_year")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "fingerprint")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "funding")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "last4")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "recipient")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "tokenization_method"))
 
--- | Define the one-of schema cardAccount\'
+-- | Create a new 'Card' with all required fields.
+mkCard ::
+  -- | 'cardBrand'
+  Data.Text.Internal.Text ->
+  -- | 'cardExpMonth'
+  GHC.Types.Int ->
+  -- | 'cardExpYear'
+  GHC.Types.Int ->
+  -- | 'cardFunding'
+  Data.Text.Internal.Text ->
+  -- | 'cardId'
+  Data.Text.Internal.Text ->
+  -- | 'cardLast4'
+  Data.Text.Internal.Text ->
+  -- | 'cardMetadata'
+  Data.Aeson.Types.Internal.Object ->
+  Card
+mkCard cardBrand cardExpMonth cardExpYear cardFunding cardId cardLast4 cardMetadata =
+  Card
+    { cardAccount = GHC.Maybe.Nothing,
+      cardAddressCity = GHC.Maybe.Nothing,
+      cardAddressCountry = GHC.Maybe.Nothing,
+      cardAddressLine1 = GHC.Maybe.Nothing,
+      cardAddressLine1Check = GHC.Maybe.Nothing,
+      cardAddressLine2 = GHC.Maybe.Nothing,
+      cardAddressState = GHC.Maybe.Nothing,
+      cardAddressZip = GHC.Maybe.Nothing,
+      cardAddressZipCheck = GHC.Maybe.Nothing,
+      cardAvailablePayoutMethods = GHC.Maybe.Nothing,
+      cardBrand = cardBrand,
+      cardCountry = GHC.Maybe.Nothing,
+      cardCurrency = GHC.Maybe.Nothing,
+      cardCustomer = GHC.Maybe.Nothing,
+      cardCvcCheck = GHC.Maybe.Nothing,
+      cardDefaultForCurrency = GHC.Maybe.Nothing,
+      cardDynamicLast4 = GHC.Maybe.Nothing,
+      cardExpMonth = cardExpMonth,
+      cardExpYear = cardExpYear,
+      cardFingerprint = GHC.Maybe.Nothing,
+      cardFunding = cardFunding,
+      cardId = cardId,
+      cardLast4 = cardLast4,
+      cardMetadata = cardMetadata,
+      cardName = GHC.Maybe.Nothing,
+      cardRecipient = GHC.Maybe.Nothing,
+      cardTokenizationMethod = GHC.Maybe.Nothing
+    }
+
+-- | Defines the oneOf schema located at @components.schemas.card.properties.account.anyOf@ in the specification.
 --
 -- The account this card belongs to. This attribute will not be in the card object if the card belongs to a customer or recipient instead.
 data CardAccount'Variants
@@ -197,35 +244,37 @@ instance Data.Aeson.Types.ToJSON.ToJSON CardAccount'Variants where
   toJSON (CardAccount'Text a) = Data.Aeson.Types.ToJSON.toJSON a
 
 instance Data.Aeson.Types.FromJSON.FromJSON CardAccount'Variants where
-  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
-    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ CardAccount'Account a
-    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ CardAccount'Text a
-      Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+  parseJSON val = case (CardAccount'Account Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((CardAccount'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched") of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+    Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
--- | Defines the enum schema cardAvailable_payout_methods\'
+-- | Defines the enum schema located at @components.schemas.card.properties.available_payout_methods.items@ in the specification.
 data CardAvailablePayoutMethods'
-  = CardAvailablePayoutMethods'EnumOther Data.Aeson.Types.Internal.Value
-  | CardAvailablePayoutMethods'EnumTyped Data.Text.Internal.Text
-  | CardAvailablePayoutMethods'EnumStringInstant
-  | CardAvailablePayoutMethods'EnumStringStandard
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    CardAvailablePayoutMethods'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    CardAvailablePayoutMethods'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"instant"@
+    CardAvailablePayoutMethods'EnumInstant
+  | -- | Represents the JSON value @"standard"@
+    CardAvailablePayoutMethods'EnumStandard
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
 instance Data.Aeson.Types.ToJSON.ToJSON CardAvailablePayoutMethods' where
-  toJSON (CardAvailablePayoutMethods'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (CardAvailablePayoutMethods'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (CardAvailablePayoutMethods'EnumStringInstant) = "instant"
-  toJSON (CardAvailablePayoutMethods'EnumStringStandard) = "standard"
+  toJSON (CardAvailablePayoutMethods'Other val) = val
+  toJSON (CardAvailablePayoutMethods'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (CardAvailablePayoutMethods'EnumInstant) = "instant"
+  toJSON (CardAvailablePayoutMethods'EnumStandard) = "standard"
 
 instance Data.Aeson.Types.FromJSON.FromJSON CardAvailablePayoutMethods' where
   parseJSON val =
     GHC.Base.pure
-      ( if  | val GHC.Classes.== "instant" -> CardAvailablePayoutMethods'EnumStringInstant
-            | val GHC.Classes.== "standard" -> CardAvailablePayoutMethods'EnumStringStandard
-            | GHC.Base.otherwise -> CardAvailablePayoutMethods'EnumOther val
+      ( if  | val GHC.Classes.== "instant" -> CardAvailablePayoutMethods'EnumInstant
+            | val GHC.Classes.== "standard" -> CardAvailablePayoutMethods'EnumStandard
+            | GHC.Base.otherwise -> CardAvailablePayoutMethods'Other val
       )
 
--- | Define the one-of schema cardCustomer\'
+-- | Defines the oneOf schema located at @components.schemas.card.properties.customer.anyOf@ in the specification.
 --
 -- The customer that this card belongs to. This attribute will not be in the card object if the card belongs to an account or recipient instead.
 data CardCustomer'Variants
@@ -240,36 +289,11 @@ instance Data.Aeson.Types.ToJSON.ToJSON CardCustomer'Variants where
   toJSON (CardCustomer'Text a) = Data.Aeson.Types.ToJSON.toJSON a
 
 instance Data.Aeson.Types.FromJSON.FromJSON CardCustomer'Variants where
-  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
-    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ CardCustomer'Customer a
-    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ CardCustomer'DeletedCustomer a
-      Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-        Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ CardCustomer'Text a
-        Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+  parseJSON val = case (CardCustomer'Customer Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((CardCustomer'DeletedCustomer Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((CardCustomer'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched")) of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+    Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
--- | Defines the enum schema cardObject\'
---
--- String representing the object\'s type. Objects of the same type share the same value.
-data CardObject'
-  = CardObject'EnumOther Data.Aeson.Types.Internal.Value
-  | CardObject'EnumTyped Data.Text.Internal.Text
-  | CardObject'EnumStringCard
-  deriving (GHC.Show.Show, GHC.Classes.Eq)
-
-instance Data.Aeson.Types.ToJSON.ToJSON CardObject' where
-  toJSON (CardObject'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (CardObject'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (CardObject'EnumStringCard) = "card"
-
-instance Data.Aeson.Types.FromJSON.FromJSON CardObject' where
-  parseJSON val =
-    GHC.Base.pure
-      ( if  | val GHC.Classes.== "card" -> CardObject'EnumStringCard
-            | GHC.Base.otherwise -> CardObject'EnumOther val
-      )
-
--- | Define the one-of schema cardRecipient\'
+-- | Defines the oneOf schema located at @components.schemas.card.properties.recipient.anyOf@ in the specification.
 --
 -- The recipient that this card belongs to. This attribute will not be in the card object if the card belongs to a customer or account instead.
 data CardRecipient'Variants
@@ -282,8 +306,6 @@ instance Data.Aeson.Types.ToJSON.ToJSON CardRecipient'Variants where
   toJSON (CardRecipient'Text a) = Data.Aeson.Types.ToJSON.toJSON a
 
 instance Data.Aeson.Types.FromJSON.FromJSON CardRecipient'Variants where
-  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
-    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ CardRecipient'Recipient a
-    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ CardRecipient'Text a
-      Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+  parseJSON val = case (CardRecipient'Recipient Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((CardRecipient'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched") of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+    Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a

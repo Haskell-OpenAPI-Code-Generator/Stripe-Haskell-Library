@@ -8,6 +8,7 @@ module StripeAPI.Types.SourceTypeEps where
 
 import qualified Control.Monad.Fail
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -30,7 +31,7 @@ import StripeAPI.TypeAlias
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
--- | Defines the data type for the schema source_type_eps
+-- | Defines the object schema located at @components.schemas.source_type_eps@ in the specification.
 data SourceTypeEps
   = SourceTypeEps
       { -- | reference
@@ -44,8 +45,16 @@ data SourceTypeEps
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON SourceTypeEps where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "reference" (sourceTypeEpsReference obj) : (Data.Aeson..=) "statement_descriptor" (sourceTypeEpsStatementDescriptor obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "reference" (sourceTypeEpsReference obj) GHC.Base.<> (Data.Aeson..=) "statement_descriptor" (sourceTypeEpsStatementDescriptor obj))
+  toJSON obj = Data.Aeson.Types.Internal.object ("reference" Data.Aeson.Types.ToJSON..= sourceTypeEpsReference obj : "statement_descriptor" Data.Aeson.Types.ToJSON..= sourceTypeEpsStatementDescriptor obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("reference" Data.Aeson.Types.ToJSON..= sourceTypeEpsReference obj) GHC.Base.<> ("statement_descriptor" Data.Aeson.Types.ToJSON..= sourceTypeEpsStatementDescriptor obj))
 
 instance Data.Aeson.Types.FromJSON.FromJSON SourceTypeEps where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "SourceTypeEps" (\obj -> (GHC.Base.pure SourceTypeEps GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "reference")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "statement_descriptor"))
+
+-- | Create a new 'SourceTypeEps' with all required fields.
+mkSourceTypeEps :: SourceTypeEps
+mkSourceTypeEps =
+  SourceTypeEps
+    { sourceTypeEpsReference = GHC.Maybe.Nothing,
+      sourceTypeEpsStatementDescriptor = GHC.Maybe.Nothing
+    }

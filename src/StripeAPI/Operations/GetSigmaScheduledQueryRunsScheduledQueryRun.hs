@@ -10,6 +10,7 @@ module StripeAPI.Operations.GetSigmaScheduledQueryRunsScheduledQueryRun where
 import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -77,7 +78,7 @@ getSigmaScheduledQueryRunsScheduledQueryRun parameters =
     )
     (StripeAPI.Common.doCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET") (Data.Text.pack ("/v1/sigma/scheduled_query_runs/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel (getSigmaScheduledQueryRunsScheduledQueryRunParametersPathScheduledQueryRun parameters))) GHC.Base.++ ""))) [StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getSigmaScheduledQueryRunsScheduledQueryRunParametersQueryExpand parameters) (Data.Text.pack "deepObject") GHC.Types.True])
 
--- | Defines the data type for the schema getSigmaScheduledQueryRunsScheduledQueryRunParameters
+-- | Defines the object schema located at @paths.\/v1\/sigma\/scheduled_query_runs\/{scheduled_query_run}.GET.parameters@ in the specification.
 data GetSigmaScheduledQueryRunsScheduledQueryRunParameters
   = GetSigmaScheduledQueryRunsScheduledQueryRunParameters
       { -- | pathScheduled_query_run: Represents the parameter named \'scheduled_query_run\'
@@ -97,11 +98,22 @@ data GetSigmaScheduledQueryRunsScheduledQueryRunParameters
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetSigmaScheduledQueryRunsScheduledQueryRunParameters where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "pathScheduled_query_run" (getSigmaScheduledQueryRunsScheduledQueryRunParametersPathScheduledQueryRun obj) : (Data.Aeson..=) "queryExpand" (getSigmaScheduledQueryRunsScheduledQueryRunParametersQueryExpand obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "pathScheduled_query_run" (getSigmaScheduledQueryRunsScheduledQueryRunParametersPathScheduledQueryRun obj) GHC.Base.<> (Data.Aeson..=) "queryExpand" (getSigmaScheduledQueryRunsScheduledQueryRunParametersQueryExpand obj))
+  toJSON obj = Data.Aeson.Types.Internal.object ("pathScheduled_query_run" Data.Aeson.Types.ToJSON..= getSigmaScheduledQueryRunsScheduledQueryRunParametersPathScheduledQueryRun obj : "queryExpand" Data.Aeson.Types.ToJSON..= getSigmaScheduledQueryRunsScheduledQueryRunParametersQueryExpand obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("pathScheduled_query_run" Data.Aeson.Types.ToJSON..= getSigmaScheduledQueryRunsScheduledQueryRunParametersPathScheduledQueryRun obj) GHC.Base.<> ("queryExpand" Data.Aeson.Types.ToJSON..= getSigmaScheduledQueryRunsScheduledQueryRunParametersQueryExpand obj))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetSigmaScheduledQueryRunsScheduledQueryRunParameters where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "GetSigmaScheduledQueryRunsScheduledQueryRunParameters" (\obj -> (GHC.Base.pure GetSigmaScheduledQueryRunsScheduledQueryRunParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathScheduled_query_run")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryExpand"))
+
+-- | Create a new 'GetSigmaScheduledQueryRunsScheduledQueryRunParameters' with all required fields.
+mkGetSigmaScheduledQueryRunsScheduledQueryRunParameters ::
+  -- | 'getSigmaScheduledQueryRunsScheduledQueryRunParametersPathScheduledQueryRun'
+  Data.Text.Internal.Text ->
+  GetSigmaScheduledQueryRunsScheduledQueryRunParameters
+mkGetSigmaScheduledQueryRunsScheduledQueryRunParameters getSigmaScheduledQueryRunsScheduledQueryRunParametersPathScheduledQueryRun =
+  GetSigmaScheduledQueryRunsScheduledQueryRunParameters
+    { getSigmaScheduledQueryRunsScheduledQueryRunParametersPathScheduledQueryRun = getSigmaScheduledQueryRunsScheduledQueryRunParametersPathScheduledQueryRun,
+      getSigmaScheduledQueryRunsScheduledQueryRunParametersQueryExpand = GHC.Maybe.Nothing
+    }
 
 -- | Represents a response of the operation 'getSigmaScheduledQueryRunsScheduledQueryRun'.
 --

@@ -8,6 +8,7 @@ module StripeAPI.Types.CheckoutSessionDisplayItem where
 
 import qualified Control.Monad.Fail
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -33,7 +34,7 @@ import {-# SOURCE #-} StripeAPI.Types.Sku
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
--- | Defines the data type for the schema checkout_session_display_item
+-- | Defines the object schema located at @components.schemas.checkout_session_display_item@ in the specification.
 data CheckoutSessionDisplayItem
   = CheckoutSessionDisplayItem
       { -- | amount: Amount for the display item.
@@ -73,8 +74,21 @@ data CheckoutSessionDisplayItem
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON CheckoutSessionDisplayItem where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "amount" (checkoutSessionDisplayItemAmount obj) : (Data.Aeson..=) "currency" (checkoutSessionDisplayItemCurrency obj) : (Data.Aeson..=) "custom" (checkoutSessionDisplayItemCustom obj) : (Data.Aeson..=) "plan" (checkoutSessionDisplayItemPlan obj) : (Data.Aeson..=) "quantity" (checkoutSessionDisplayItemQuantity obj) : (Data.Aeson..=) "sku" (checkoutSessionDisplayItemSku obj) : (Data.Aeson..=) "type" (checkoutSessionDisplayItemType obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "amount" (checkoutSessionDisplayItemAmount obj) GHC.Base.<> ((Data.Aeson..=) "currency" (checkoutSessionDisplayItemCurrency obj) GHC.Base.<> ((Data.Aeson..=) "custom" (checkoutSessionDisplayItemCustom obj) GHC.Base.<> ((Data.Aeson..=) "plan" (checkoutSessionDisplayItemPlan obj) GHC.Base.<> ((Data.Aeson..=) "quantity" (checkoutSessionDisplayItemQuantity obj) GHC.Base.<> ((Data.Aeson..=) "sku" (checkoutSessionDisplayItemSku obj) GHC.Base.<> (Data.Aeson..=) "type" (checkoutSessionDisplayItemType obj)))))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("amount" Data.Aeson.Types.ToJSON..= checkoutSessionDisplayItemAmount obj : "currency" Data.Aeson.Types.ToJSON..= checkoutSessionDisplayItemCurrency obj : "custom" Data.Aeson.Types.ToJSON..= checkoutSessionDisplayItemCustom obj : "plan" Data.Aeson.Types.ToJSON..= checkoutSessionDisplayItemPlan obj : "quantity" Data.Aeson.Types.ToJSON..= checkoutSessionDisplayItemQuantity obj : "sku" Data.Aeson.Types.ToJSON..= checkoutSessionDisplayItemSku obj : "type" Data.Aeson.Types.ToJSON..= checkoutSessionDisplayItemType obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("amount" Data.Aeson.Types.ToJSON..= checkoutSessionDisplayItemAmount obj) GHC.Base.<> (("currency" Data.Aeson.Types.ToJSON..= checkoutSessionDisplayItemCurrency obj) GHC.Base.<> (("custom" Data.Aeson.Types.ToJSON..= checkoutSessionDisplayItemCustom obj) GHC.Base.<> (("plan" Data.Aeson.Types.ToJSON..= checkoutSessionDisplayItemPlan obj) GHC.Base.<> (("quantity" Data.Aeson.Types.ToJSON..= checkoutSessionDisplayItemQuantity obj) GHC.Base.<> (("sku" Data.Aeson.Types.ToJSON..= checkoutSessionDisplayItemSku obj) GHC.Base.<> ("type" Data.Aeson.Types.ToJSON..= checkoutSessionDisplayItemType obj)))))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON CheckoutSessionDisplayItem where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "CheckoutSessionDisplayItem" (\obj -> ((((((GHC.Base.pure CheckoutSessionDisplayItem GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "custom")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "plan")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "quantity")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "sku")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "type"))
+
+-- | Create a new 'CheckoutSessionDisplayItem' with all required fields.
+mkCheckoutSessionDisplayItem :: CheckoutSessionDisplayItem
+mkCheckoutSessionDisplayItem =
+  CheckoutSessionDisplayItem
+    { checkoutSessionDisplayItemAmount = GHC.Maybe.Nothing,
+      checkoutSessionDisplayItemCurrency = GHC.Maybe.Nothing,
+      checkoutSessionDisplayItemCustom = GHC.Maybe.Nothing,
+      checkoutSessionDisplayItemPlan = GHC.Maybe.Nothing,
+      checkoutSessionDisplayItemQuantity = GHC.Maybe.Nothing,
+      checkoutSessionDisplayItemSku = GHC.Maybe.Nothing,
+      checkoutSessionDisplayItemType = GHC.Maybe.Nothing
+    }

@@ -8,6 +8,7 @@ module StripeAPI.Types.SourceMandateNotification where
 
 import qualified Control.Monad.Fail
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -33,7 +34,7 @@ import {-# SOURCE #-} StripeAPI.Types.SourceMandateNotificationSepaDebitData
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
--- | Defines the data type for the schema source_mandate_notification
+-- | Defines the object schema located at @components.schemas.source_mandate_notification@ in the specification.
 --
 -- Source mandate notifications should be created when a notification related to
 -- a source mandate must be sent to the payer. They will trigger a webhook or
@@ -54,8 +55,6 @@ data SourceMandateNotification
         sourceMandateNotificationId :: Data.Text.Internal.Text,
         -- | livemode: Has the value \`true\` if the object exists in live mode or the value \`false\` if the object exists in test mode.
         sourceMandateNotificationLivemode :: GHC.Types.Bool,
-        -- | object: String representing the object\'s type. Objects of the same type share the same value.
-        sourceMandateNotificationObject :: SourceMandateNotificationObject',
         -- | reason: The reason of the mandate notification. Valid reasons are \`mandate_confirmed\` or \`debit_initiated\`.
         --
         -- Constraints:
@@ -90,29 +89,39 @@ data SourceMandateNotification
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON SourceMandateNotification where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "amount" (sourceMandateNotificationAmount obj) : (Data.Aeson..=) "bacs_debit" (sourceMandateNotificationBacsDebit obj) : (Data.Aeson..=) "created" (sourceMandateNotificationCreated obj) : (Data.Aeson..=) "id" (sourceMandateNotificationId obj) : (Data.Aeson..=) "livemode" (sourceMandateNotificationLivemode obj) : (Data.Aeson..=) "object" (sourceMandateNotificationObject obj) : (Data.Aeson..=) "reason" (sourceMandateNotificationReason obj) : (Data.Aeson..=) "sepa_debit" (sourceMandateNotificationSepaDebit obj) : (Data.Aeson..=) "source" (sourceMandateNotificationSource obj) : (Data.Aeson..=) "status" (sourceMandateNotificationStatus obj) : (Data.Aeson..=) "type" (sourceMandateNotificationType obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "amount" (sourceMandateNotificationAmount obj) GHC.Base.<> ((Data.Aeson..=) "bacs_debit" (sourceMandateNotificationBacsDebit obj) GHC.Base.<> ((Data.Aeson..=) "created" (sourceMandateNotificationCreated obj) GHC.Base.<> ((Data.Aeson..=) "id" (sourceMandateNotificationId obj) GHC.Base.<> ((Data.Aeson..=) "livemode" (sourceMandateNotificationLivemode obj) GHC.Base.<> ((Data.Aeson..=) "object" (sourceMandateNotificationObject obj) GHC.Base.<> ((Data.Aeson..=) "reason" (sourceMandateNotificationReason obj) GHC.Base.<> ((Data.Aeson..=) "sepa_debit" (sourceMandateNotificationSepaDebit obj) GHC.Base.<> ((Data.Aeson..=) "source" (sourceMandateNotificationSource obj) GHC.Base.<> ((Data.Aeson..=) "status" (sourceMandateNotificationStatus obj) GHC.Base.<> (Data.Aeson..=) "type" (sourceMandateNotificationType obj)))))))))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("amount" Data.Aeson.Types.ToJSON..= sourceMandateNotificationAmount obj : "bacs_debit" Data.Aeson.Types.ToJSON..= sourceMandateNotificationBacsDebit obj : "created" Data.Aeson.Types.ToJSON..= sourceMandateNotificationCreated obj : "id" Data.Aeson.Types.ToJSON..= sourceMandateNotificationId obj : "livemode" Data.Aeson.Types.ToJSON..= sourceMandateNotificationLivemode obj : "reason" Data.Aeson.Types.ToJSON..= sourceMandateNotificationReason obj : "sepa_debit" Data.Aeson.Types.ToJSON..= sourceMandateNotificationSepaDebit obj : "source" Data.Aeson.Types.ToJSON..= sourceMandateNotificationSource obj : "status" Data.Aeson.Types.ToJSON..= sourceMandateNotificationStatus obj : "type" Data.Aeson.Types.ToJSON..= sourceMandateNotificationType obj : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "source_mandate_notification" : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("amount" Data.Aeson.Types.ToJSON..= sourceMandateNotificationAmount obj) GHC.Base.<> (("bacs_debit" Data.Aeson.Types.ToJSON..= sourceMandateNotificationBacsDebit obj) GHC.Base.<> (("created" Data.Aeson.Types.ToJSON..= sourceMandateNotificationCreated obj) GHC.Base.<> (("id" Data.Aeson.Types.ToJSON..= sourceMandateNotificationId obj) GHC.Base.<> (("livemode" Data.Aeson.Types.ToJSON..= sourceMandateNotificationLivemode obj) GHC.Base.<> (("reason" Data.Aeson.Types.ToJSON..= sourceMandateNotificationReason obj) GHC.Base.<> (("sepa_debit" Data.Aeson.Types.ToJSON..= sourceMandateNotificationSepaDebit obj) GHC.Base.<> (("source" Data.Aeson.Types.ToJSON..= sourceMandateNotificationSource obj) GHC.Base.<> (("status" Data.Aeson.Types.ToJSON..= sourceMandateNotificationStatus obj) GHC.Base.<> (("type" Data.Aeson.Types.ToJSON..= sourceMandateNotificationType obj) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "source_mandate_notification")))))))))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON SourceMandateNotification where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "SourceMandateNotification" (\obj -> ((((((((((GHC.Base.pure SourceMandateNotification GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "bacs_debit")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "created")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "livemode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "object")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "reason")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "sepa_debit")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "source")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "status")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "type"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "SourceMandateNotification" (\obj -> (((((((((GHC.Base.pure SourceMandateNotification GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "bacs_debit")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "created")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "livemode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "reason")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "sepa_debit")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "source")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "status")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "type"))
 
--- | Defines the enum schema source_mandate_notificationObject\'
---
--- String representing the object\'s type. Objects of the same type share the same value.
-data SourceMandateNotificationObject'
-  = SourceMandateNotificationObject'EnumOther Data.Aeson.Types.Internal.Value
-  | SourceMandateNotificationObject'EnumTyped Data.Text.Internal.Text
-  | SourceMandateNotificationObject'EnumStringSourceMandateNotification
-  deriving (GHC.Show.Show, GHC.Classes.Eq)
-
-instance Data.Aeson.Types.ToJSON.ToJSON SourceMandateNotificationObject' where
-  toJSON (SourceMandateNotificationObject'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (SourceMandateNotificationObject'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (SourceMandateNotificationObject'EnumStringSourceMandateNotification) = "source_mandate_notification"
-
-instance Data.Aeson.Types.FromJSON.FromJSON SourceMandateNotificationObject' where
-  parseJSON val =
-    GHC.Base.pure
-      ( if  | val GHC.Classes.== "source_mandate_notification" -> SourceMandateNotificationObject'EnumStringSourceMandateNotification
-            | GHC.Base.otherwise -> SourceMandateNotificationObject'EnumOther val
-      )
+-- | Create a new 'SourceMandateNotification' with all required fields.
+mkSourceMandateNotification ::
+  -- | 'sourceMandateNotificationCreated'
+  GHC.Types.Int ->
+  -- | 'sourceMandateNotificationId'
+  Data.Text.Internal.Text ->
+  -- | 'sourceMandateNotificationLivemode'
+  GHC.Types.Bool ->
+  -- | 'sourceMandateNotificationReason'
+  Data.Text.Internal.Text ->
+  -- | 'sourceMandateNotificationSource'
+  Source ->
+  -- | 'sourceMandateNotificationStatus'
+  Data.Text.Internal.Text ->
+  -- | 'sourceMandateNotificationType'
+  Data.Text.Internal.Text ->
+  SourceMandateNotification
+mkSourceMandateNotification sourceMandateNotificationCreated sourceMandateNotificationId sourceMandateNotificationLivemode sourceMandateNotificationReason sourceMandateNotificationSource sourceMandateNotificationStatus sourceMandateNotificationType =
+  SourceMandateNotification
+    { sourceMandateNotificationAmount = GHC.Maybe.Nothing,
+      sourceMandateNotificationBacsDebit = GHC.Maybe.Nothing,
+      sourceMandateNotificationCreated = sourceMandateNotificationCreated,
+      sourceMandateNotificationId = sourceMandateNotificationId,
+      sourceMandateNotificationLivemode = sourceMandateNotificationLivemode,
+      sourceMandateNotificationReason = sourceMandateNotificationReason,
+      sourceMandateNotificationSepaDebit = GHC.Maybe.Nothing,
+      sourceMandateNotificationSource = sourceMandateNotificationSource,
+      sourceMandateNotificationStatus = sourceMandateNotificationStatus,
+      sourceMandateNotificationType = sourceMandateNotificationType
+    }

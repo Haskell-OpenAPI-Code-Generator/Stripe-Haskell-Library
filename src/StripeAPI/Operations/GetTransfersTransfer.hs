@@ -10,6 +10,7 @@ module StripeAPI.Operations.GetTransfersTransfer where
 import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -77,7 +78,7 @@ getTransfersTransfer parameters =
     )
     (StripeAPI.Common.doCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET") (Data.Text.pack ("/v1/transfers/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel (getTransfersTransferParametersPathTransfer parameters))) GHC.Base.++ ""))) [StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getTransfersTransferParametersQueryExpand parameters) (Data.Text.pack "deepObject") GHC.Types.True])
 
--- | Defines the data type for the schema getTransfersTransferParameters
+-- | Defines the object schema located at @paths.\/v1\/transfers\/{transfer}.GET.parameters@ in the specification.
 data GetTransfersTransferParameters
   = GetTransfersTransferParameters
       { -- | pathTransfer: Represents the parameter named \'transfer\'
@@ -97,11 +98,22 @@ data GetTransfersTransferParameters
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetTransfersTransferParameters where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "pathTransfer" (getTransfersTransferParametersPathTransfer obj) : (Data.Aeson..=) "queryExpand" (getTransfersTransferParametersQueryExpand obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "pathTransfer" (getTransfersTransferParametersPathTransfer obj) GHC.Base.<> (Data.Aeson..=) "queryExpand" (getTransfersTransferParametersQueryExpand obj))
+  toJSON obj = Data.Aeson.Types.Internal.object ("pathTransfer" Data.Aeson.Types.ToJSON..= getTransfersTransferParametersPathTransfer obj : "queryExpand" Data.Aeson.Types.ToJSON..= getTransfersTransferParametersQueryExpand obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("pathTransfer" Data.Aeson.Types.ToJSON..= getTransfersTransferParametersPathTransfer obj) GHC.Base.<> ("queryExpand" Data.Aeson.Types.ToJSON..= getTransfersTransferParametersQueryExpand obj))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetTransfersTransferParameters where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "GetTransfersTransferParameters" (\obj -> (GHC.Base.pure GetTransfersTransferParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathTransfer")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryExpand"))
+
+-- | Create a new 'GetTransfersTransferParameters' with all required fields.
+mkGetTransfersTransferParameters ::
+  -- | 'getTransfersTransferParametersPathTransfer'
+  Data.Text.Internal.Text ->
+  GetTransfersTransferParameters
+mkGetTransfersTransferParameters getTransfersTransferParametersPathTransfer =
+  GetTransfersTransferParameters
+    { getTransfersTransferParametersPathTransfer = getTransfersTransferParametersPathTransfer,
+      getTransfersTransferParametersQueryExpand = GHC.Maybe.Nothing
+    }
 
 -- | Represents a response of the operation 'getTransfersTransfer'.
 --

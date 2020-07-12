@@ -8,6 +8,7 @@ module StripeAPI.Types.BankAccount where
 
 import qualified Control.Monad.Fail
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -33,7 +34,7 @@ import {-# SOURCE #-} StripeAPI.Types.DeletedCustomer
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
--- | Defines the data type for the schema bank_account
+-- | Defines the object schema located at @components.schemas.bank_account@ in the specification.
 --
 -- These bank accounts are payment methods on \`Customer\` objects.
 --
@@ -96,8 +97,6 @@ data BankAccount
         bankAccountLast4 :: Data.Text.Internal.Text,
         -- | metadata: Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
         bankAccountMetadata :: (GHC.Maybe.Maybe Data.Aeson.Types.Internal.Object),
-        -- | object: String representing the object\'s type. Objects of the same type share the same value.
-        bankAccountObject :: BankAccountObject',
         -- | routing_number: The routing transit number for the bank account.
         --
         -- Constraints:
@@ -119,13 +118,44 @@ data BankAccount
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON BankAccount where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "account" (bankAccountAccount obj) : (Data.Aeson..=) "account_holder_name" (bankAccountAccountHolderName obj) : (Data.Aeson..=) "account_holder_type" (bankAccountAccountHolderType obj) : (Data.Aeson..=) "bank_name" (bankAccountBankName obj) : (Data.Aeson..=) "country" (bankAccountCountry obj) : (Data.Aeson..=) "currency" (bankAccountCurrency obj) : (Data.Aeson..=) "customer" (bankAccountCustomer obj) : (Data.Aeson..=) "default_for_currency" (bankAccountDefaultForCurrency obj) : (Data.Aeson..=) "fingerprint" (bankAccountFingerprint obj) : (Data.Aeson..=) "id" (bankAccountId obj) : (Data.Aeson..=) "last4" (bankAccountLast4 obj) : (Data.Aeson..=) "metadata" (bankAccountMetadata obj) : (Data.Aeson..=) "object" (bankAccountObject obj) : (Data.Aeson..=) "routing_number" (bankAccountRoutingNumber obj) : (Data.Aeson..=) "status" (bankAccountStatus obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "account" (bankAccountAccount obj) GHC.Base.<> ((Data.Aeson..=) "account_holder_name" (bankAccountAccountHolderName obj) GHC.Base.<> ((Data.Aeson..=) "account_holder_type" (bankAccountAccountHolderType obj) GHC.Base.<> ((Data.Aeson..=) "bank_name" (bankAccountBankName obj) GHC.Base.<> ((Data.Aeson..=) "country" (bankAccountCountry obj) GHC.Base.<> ((Data.Aeson..=) "currency" (bankAccountCurrency obj) GHC.Base.<> ((Data.Aeson..=) "customer" (bankAccountCustomer obj) GHC.Base.<> ((Data.Aeson..=) "default_for_currency" (bankAccountDefaultForCurrency obj) GHC.Base.<> ((Data.Aeson..=) "fingerprint" (bankAccountFingerprint obj) GHC.Base.<> ((Data.Aeson..=) "id" (bankAccountId obj) GHC.Base.<> ((Data.Aeson..=) "last4" (bankAccountLast4 obj) GHC.Base.<> ((Data.Aeson..=) "metadata" (bankAccountMetadata obj) GHC.Base.<> ((Data.Aeson..=) "object" (bankAccountObject obj) GHC.Base.<> ((Data.Aeson..=) "routing_number" (bankAccountRoutingNumber obj) GHC.Base.<> (Data.Aeson..=) "status" (bankAccountStatus obj)))))))))))))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("account" Data.Aeson.Types.ToJSON..= bankAccountAccount obj : "account_holder_name" Data.Aeson.Types.ToJSON..= bankAccountAccountHolderName obj : "account_holder_type" Data.Aeson.Types.ToJSON..= bankAccountAccountHolderType obj : "bank_name" Data.Aeson.Types.ToJSON..= bankAccountBankName obj : "country" Data.Aeson.Types.ToJSON..= bankAccountCountry obj : "currency" Data.Aeson.Types.ToJSON..= bankAccountCurrency obj : "customer" Data.Aeson.Types.ToJSON..= bankAccountCustomer obj : "default_for_currency" Data.Aeson.Types.ToJSON..= bankAccountDefaultForCurrency obj : "fingerprint" Data.Aeson.Types.ToJSON..= bankAccountFingerprint obj : "id" Data.Aeson.Types.ToJSON..= bankAccountId obj : "last4" Data.Aeson.Types.ToJSON..= bankAccountLast4 obj : "metadata" Data.Aeson.Types.ToJSON..= bankAccountMetadata obj : "routing_number" Data.Aeson.Types.ToJSON..= bankAccountRoutingNumber obj : "status" Data.Aeson.Types.ToJSON..= bankAccountStatus obj : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "bank_account" : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("account" Data.Aeson.Types.ToJSON..= bankAccountAccount obj) GHC.Base.<> (("account_holder_name" Data.Aeson.Types.ToJSON..= bankAccountAccountHolderName obj) GHC.Base.<> (("account_holder_type" Data.Aeson.Types.ToJSON..= bankAccountAccountHolderType obj) GHC.Base.<> (("bank_name" Data.Aeson.Types.ToJSON..= bankAccountBankName obj) GHC.Base.<> (("country" Data.Aeson.Types.ToJSON..= bankAccountCountry obj) GHC.Base.<> (("currency" Data.Aeson.Types.ToJSON..= bankAccountCurrency obj) GHC.Base.<> (("customer" Data.Aeson.Types.ToJSON..= bankAccountCustomer obj) GHC.Base.<> (("default_for_currency" Data.Aeson.Types.ToJSON..= bankAccountDefaultForCurrency obj) GHC.Base.<> (("fingerprint" Data.Aeson.Types.ToJSON..= bankAccountFingerprint obj) GHC.Base.<> (("id" Data.Aeson.Types.ToJSON..= bankAccountId obj) GHC.Base.<> (("last4" Data.Aeson.Types.ToJSON..= bankAccountLast4 obj) GHC.Base.<> (("metadata" Data.Aeson.Types.ToJSON..= bankAccountMetadata obj) GHC.Base.<> (("routing_number" Data.Aeson.Types.ToJSON..= bankAccountRoutingNumber obj) GHC.Base.<> (("status" Data.Aeson.Types.ToJSON..= bankAccountStatus obj) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "bank_account")))))))))))))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON BankAccount where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "BankAccount" (\obj -> ((((((((((((((GHC.Base.pure BankAccount GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "account")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "account_holder_name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "account_holder_type")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "bank_name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "country")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "customer")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "default_for_currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "fingerprint")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "last4")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "object")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "routing_number")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "status"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "BankAccount" (\obj -> (((((((((((((GHC.Base.pure BankAccount GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "account")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "account_holder_name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "account_holder_type")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "bank_name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "country")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "customer")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "default_for_currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "fingerprint")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "last4")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "routing_number")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "status"))
 
--- | Define the one-of schema bank_accountAccount\'
+-- | Create a new 'BankAccount' with all required fields.
+mkBankAccount ::
+  -- | 'bankAccountCountry'
+  Data.Text.Internal.Text ->
+  -- | 'bankAccountCurrency'
+  Data.Text.Internal.Text ->
+  -- | 'bankAccountId'
+  Data.Text.Internal.Text ->
+  -- | 'bankAccountLast4'
+  Data.Text.Internal.Text ->
+  -- | 'bankAccountStatus'
+  Data.Text.Internal.Text ->
+  BankAccount
+mkBankAccount bankAccountCountry bankAccountCurrency bankAccountId bankAccountLast4 bankAccountStatus =
+  BankAccount
+    { bankAccountAccount = GHC.Maybe.Nothing,
+      bankAccountAccountHolderName = GHC.Maybe.Nothing,
+      bankAccountAccountHolderType = GHC.Maybe.Nothing,
+      bankAccountBankName = GHC.Maybe.Nothing,
+      bankAccountCountry = bankAccountCountry,
+      bankAccountCurrency = bankAccountCurrency,
+      bankAccountCustomer = GHC.Maybe.Nothing,
+      bankAccountDefaultForCurrency = GHC.Maybe.Nothing,
+      bankAccountFingerprint = GHC.Maybe.Nothing,
+      bankAccountId = bankAccountId,
+      bankAccountLast4 = bankAccountLast4,
+      bankAccountMetadata = GHC.Maybe.Nothing,
+      bankAccountRoutingNumber = GHC.Maybe.Nothing,
+      bankAccountStatus = bankAccountStatus
+    }
+
+-- | Defines the oneOf schema located at @components.schemas.bank_account.properties.account.anyOf@ in the specification.
 --
 -- The ID of the account that the bank account is associated with.
 data BankAccountAccount'Variants
@@ -138,13 +168,11 @@ instance Data.Aeson.Types.ToJSON.ToJSON BankAccountAccount'Variants where
   toJSON (BankAccountAccount'Text a) = Data.Aeson.Types.ToJSON.toJSON a
 
 instance Data.Aeson.Types.FromJSON.FromJSON BankAccountAccount'Variants where
-  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
-    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ BankAccountAccount'Account a
-    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ BankAccountAccount'Text a
-      Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+  parseJSON val = case (BankAccountAccount'Account Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((BankAccountAccount'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched") of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+    Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
--- | Define the one-of schema bank_accountCustomer\'
+-- | Defines the oneOf schema located at @components.schemas.bank_account.properties.customer.anyOf@ in the specification.
 --
 -- The ID of the customer that the bank account is associated with.
 data BankAccountCustomer'Variants
@@ -159,31 +187,6 @@ instance Data.Aeson.Types.ToJSON.ToJSON BankAccountCustomer'Variants where
   toJSON (BankAccountCustomer'Text a) = Data.Aeson.Types.ToJSON.toJSON a
 
 instance Data.Aeson.Types.FromJSON.FromJSON BankAccountCustomer'Variants where
-  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
-    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ BankAccountCustomer'Customer a
-    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ BankAccountCustomer'DeletedCustomer a
-      Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
-        Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ BankAccountCustomer'Text a
-        Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
-
--- | Defines the enum schema bank_accountObject\'
---
--- String representing the object\'s type. Objects of the same type share the same value.
-data BankAccountObject'
-  = BankAccountObject'EnumOther Data.Aeson.Types.Internal.Value
-  | BankAccountObject'EnumTyped Data.Text.Internal.Text
-  | BankAccountObject'EnumStringBankAccount
-  deriving (GHC.Show.Show, GHC.Classes.Eq)
-
-instance Data.Aeson.Types.ToJSON.ToJSON BankAccountObject' where
-  toJSON (BankAccountObject'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (BankAccountObject'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (BankAccountObject'EnumStringBankAccount) = "bank_account"
-
-instance Data.Aeson.Types.FromJSON.FromJSON BankAccountObject' where
-  parseJSON val =
-    GHC.Base.pure
-      ( if  | val GHC.Classes.== "bank_account" -> BankAccountObject'EnumStringBankAccount
-            | GHC.Base.otherwise -> BankAccountObject'EnumOther val
-      )
+  parseJSON val = case (BankAccountCustomer'Customer Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((BankAccountCustomer'DeletedCustomer Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((BankAccountCustomer'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched")) of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+    Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a

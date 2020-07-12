@@ -8,6 +8,7 @@ module StripeAPI.Types.AccountBusinessProfile where
 
 import qualified Control.Monad.Fail
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -31,7 +32,7 @@ import {-# SOURCE #-} StripeAPI.Types.Address
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
--- | Defines the data type for the schema account_business_profile
+-- | Defines the object schema located at @components.schemas.account_business_profile@ in the specification.
 data AccountBusinessProfile
   = AccountBusinessProfile
       { -- | mcc: [The merchant category code for the account](https:\/\/stripe.com\/docs\/connect\/setting-mcc). MCCs are used to classify businesses based on the goods or services they provide.
@@ -85,13 +86,27 @@ data AccountBusinessProfile
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON AccountBusinessProfile where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "mcc" (accountBusinessProfileMcc obj) : (Data.Aeson..=) "name" (accountBusinessProfileName obj) : (Data.Aeson..=) "product_description" (accountBusinessProfileProductDescription obj) : (Data.Aeson..=) "support_address" (accountBusinessProfileSupportAddress obj) : (Data.Aeson..=) "support_email" (accountBusinessProfileSupportEmail obj) : (Data.Aeson..=) "support_phone" (accountBusinessProfileSupportPhone obj) : (Data.Aeson..=) "support_url" (accountBusinessProfileSupportUrl obj) : (Data.Aeson..=) "url" (accountBusinessProfileUrl obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "mcc" (accountBusinessProfileMcc obj) GHC.Base.<> ((Data.Aeson..=) "name" (accountBusinessProfileName obj) GHC.Base.<> ((Data.Aeson..=) "product_description" (accountBusinessProfileProductDescription obj) GHC.Base.<> ((Data.Aeson..=) "support_address" (accountBusinessProfileSupportAddress obj) GHC.Base.<> ((Data.Aeson..=) "support_email" (accountBusinessProfileSupportEmail obj) GHC.Base.<> ((Data.Aeson..=) "support_phone" (accountBusinessProfileSupportPhone obj) GHC.Base.<> ((Data.Aeson..=) "support_url" (accountBusinessProfileSupportUrl obj) GHC.Base.<> (Data.Aeson..=) "url" (accountBusinessProfileUrl obj))))))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("mcc" Data.Aeson.Types.ToJSON..= accountBusinessProfileMcc obj : "name" Data.Aeson.Types.ToJSON..= accountBusinessProfileName obj : "product_description" Data.Aeson.Types.ToJSON..= accountBusinessProfileProductDescription obj : "support_address" Data.Aeson.Types.ToJSON..= accountBusinessProfileSupportAddress obj : "support_email" Data.Aeson.Types.ToJSON..= accountBusinessProfileSupportEmail obj : "support_phone" Data.Aeson.Types.ToJSON..= accountBusinessProfileSupportPhone obj : "support_url" Data.Aeson.Types.ToJSON..= accountBusinessProfileSupportUrl obj : "url" Data.Aeson.Types.ToJSON..= accountBusinessProfileUrl obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("mcc" Data.Aeson.Types.ToJSON..= accountBusinessProfileMcc obj) GHC.Base.<> (("name" Data.Aeson.Types.ToJSON..= accountBusinessProfileName obj) GHC.Base.<> (("product_description" Data.Aeson.Types.ToJSON..= accountBusinessProfileProductDescription obj) GHC.Base.<> (("support_address" Data.Aeson.Types.ToJSON..= accountBusinessProfileSupportAddress obj) GHC.Base.<> (("support_email" Data.Aeson.Types.ToJSON..= accountBusinessProfileSupportEmail obj) GHC.Base.<> (("support_phone" Data.Aeson.Types.ToJSON..= accountBusinessProfileSupportPhone obj) GHC.Base.<> (("support_url" Data.Aeson.Types.ToJSON..= accountBusinessProfileSupportUrl obj) GHC.Base.<> ("url" Data.Aeson.Types.ToJSON..= accountBusinessProfileUrl obj))))))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON AccountBusinessProfile where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "AccountBusinessProfile" (\obj -> (((((((GHC.Base.pure AccountBusinessProfile GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "mcc")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "product_description")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "support_address")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "support_email")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "support_phone")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "support_url")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "url"))
 
--- | Defines the data type for the schema account_business_profileSupport_address\'
+-- | Create a new 'AccountBusinessProfile' with all required fields.
+mkAccountBusinessProfile :: AccountBusinessProfile
+mkAccountBusinessProfile =
+  AccountBusinessProfile
+    { accountBusinessProfileMcc = GHC.Maybe.Nothing,
+      accountBusinessProfileName = GHC.Maybe.Nothing,
+      accountBusinessProfileProductDescription = GHC.Maybe.Nothing,
+      accountBusinessProfileSupportAddress = GHC.Maybe.Nothing,
+      accountBusinessProfileSupportEmail = GHC.Maybe.Nothing,
+      accountBusinessProfileSupportPhone = GHC.Maybe.Nothing,
+      accountBusinessProfileSupportUrl = GHC.Maybe.Nothing,
+      accountBusinessProfileUrl = GHC.Maybe.Nothing
+    }
+
+-- | Defines the object schema located at @components.schemas.account_business_profile.properties.support_address.anyOf@ in the specification.
 --
 -- A publicly available mailing address for sending support issues to.
 data AccountBusinessProfileSupportAddress'
@@ -139,8 +154,20 @@ data AccountBusinessProfileSupportAddress'
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON AccountBusinessProfileSupportAddress' where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "city" (accountBusinessProfileSupportAddress'City obj) : (Data.Aeson..=) "country" (accountBusinessProfileSupportAddress'Country obj) : (Data.Aeson..=) "line1" (accountBusinessProfileSupportAddress'Line1 obj) : (Data.Aeson..=) "line2" (accountBusinessProfileSupportAddress'Line2 obj) : (Data.Aeson..=) "postal_code" (accountBusinessProfileSupportAddress'PostalCode obj) : (Data.Aeson..=) "state" (accountBusinessProfileSupportAddress'State obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "city" (accountBusinessProfileSupportAddress'City obj) GHC.Base.<> ((Data.Aeson..=) "country" (accountBusinessProfileSupportAddress'Country obj) GHC.Base.<> ((Data.Aeson..=) "line1" (accountBusinessProfileSupportAddress'Line1 obj) GHC.Base.<> ((Data.Aeson..=) "line2" (accountBusinessProfileSupportAddress'Line2 obj) GHC.Base.<> ((Data.Aeson..=) "postal_code" (accountBusinessProfileSupportAddress'PostalCode obj) GHC.Base.<> (Data.Aeson..=) "state" (accountBusinessProfileSupportAddress'State obj))))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("city" Data.Aeson.Types.ToJSON..= accountBusinessProfileSupportAddress'City obj : "country" Data.Aeson.Types.ToJSON..= accountBusinessProfileSupportAddress'Country obj : "line1" Data.Aeson.Types.ToJSON..= accountBusinessProfileSupportAddress'Line1 obj : "line2" Data.Aeson.Types.ToJSON..= accountBusinessProfileSupportAddress'Line2 obj : "postal_code" Data.Aeson.Types.ToJSON..= accountBusinessProfileSupportAddress'PostalCode obj : "state" Data.Aeson.Types.ToJSON..= accountBusinessProfileSupportAddress'State obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("city" Data.Aeson.Types.ToJSON..= accountBusinessProfileSupportAddress'City obj) GHC.Base.<> (("country" Data.Aeson.Types.ToJSON..= accountBusinessProfileSupportAddress'Country obj) GHC.Base.<> (("line1" Data.Aeson.Types.ToJSON..= accountBusinessProfileSupportAddress'Line1 obj) GHC.Base.<> (("line2" Data.Aeson.Types.ToJSON..= accountBusinessProfileSupportAddress'Line2 obj) GHC.Base.<> (("postal_code" Data.Aeson.Types.ToJSON..= accountBusinessProfileSupportAddress'PostalCode obj) GHC.Base.<> ("state" Data.Aeson.Types.ToJSON..= accountBusinessProfileSupportAddress'State obj))))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON AccountBusinessProfileSupportAddress' where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "AccountBusinessProfileSupportAddress'" (\obj -> (((((GHC.Base.pure AccountBusinessProfileSupportAddress' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "city")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "country")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "line1")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "line2")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "postal_code")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "state"))
+
+-- | Create a new 'AccountBusinessProfileSupportAddress'' with all required fields.
+mkAccountBusinessProfileSupportAddress' :: AccountBusinessProfileSupportAddress'
+mkAccountBusinessProfileSupportAddress' =
+  AccountBusinessProfileSupportAddress'
+    { accountBusinessProfileSupportAddress'City = GHC.Maybe.Nothing,
+      accountBusinessProfileSupportAddress'Country = GHC.Maybe.Nothing,
+      accountBusinessProfileSupportAddress'Line1 = GHC.Maybe.Nothing,
+      accountBusinessProfileSupportAddress'Line2 = GHC.Maybe.Nothing,
+      accountBusinessProfileSupportAddress'PostalCode = GHC.Maybe.Nothing,
+      accountBusinessProfileSupportAddress'State = GHC.Maybe.Nothing
+    }

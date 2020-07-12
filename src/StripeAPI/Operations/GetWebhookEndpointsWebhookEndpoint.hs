@@ -10,6 +10,7 @@ module StripeAPI.Operations.GetWebhookEndpointsWebhookEndpoint where
 import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -77,7 +78,7 @@ getWebhookEndpointsWebhookEndpoint parameters =
     )
     (StripeAPI.Common.doCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET") (Data.Text.pack ("/v1/webhook_endpoints/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel (getWebhookEndpointsWebhookEndpointParametersPathWebhookEndpoint parameters))) GHC.Base.++ ""))) [StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getWebhookEndpointsWebhookEndpointParametersQueryExpand parameters) (Data.Text.pack "deepObject") GHC.Types.True])
 
--- | Defines the data type for the schema getWebhookEndpointsWebhookEndpointParameters
+-- | Defines the object schema located at @paths.\/v1\/webhook_endpoints\/{webhook_endpoint}.GET.parameters@ in the specification.
 data GetWebhookEndpointsWebhookEndpointParameters
   = GetWebhookEndpointsWebhookEndpointParameters
       { -- | pathWebhook_endpoint: Represents the parameter named \'webhook_endpoint\'
@@ -97,11 +98,22 @@ data GetWebhookEndpointsWebhookEndpointParameters
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetWebhookEndpointsWebhookEndpointParameters where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "pathWebhook_endpoint" (getWebhookEndpointsWebhookEndpointParametersPathWebhookEndpoint obj) : (Data.Aeson..=) "queryExpand" (getWebhookEndpointsWebhookEndpointParametersQueryExpand obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "pathWebhook_endpoint" (getWebhookEndpointsWebhookEndpointParametersPathWebhookEndpoint obj) GHC.Base.<> (Data.Aeson..=) "queryExpand" (getWebhookEndpointsWebhookEndpointParametersQueryExpand obj))
+  toJSON obj = Data.Aeson.Types.Internal.object ("pathWebhook_endpoint" Data.Aeson.Types.ToJSON..= getWebhookEndpointsWebhookEndpointParametersPathWebhookEndpoint obj : "queryExpand" Data.Aeson.Types.ToJSON..= getWebhookEndpointsWebhookEndpointParametersQueryExpand obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("pathWebhook_endpoint" Data.Aeson.Types.ToJSON..= getWebhookEndpointsWebhookEndpointParametersPathWebhookEndpoint obj) GHC.Base.<> ("queryExpand" Data.Aeson.Types.ToJSON..= getWebhookEndpointsWebhookEndpointParametersQueryExpand obj))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetWebhookEndpointsWebhookEndpointParameters where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "GetWebhookEndpointsWebhookEndpointParameters" (\obj -> (GHC.Base.pure GetWebhookEndpointsWebhookEndpointParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathWebhook_endpoint")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryExpand"))
+
+-- | Create a new 'GetWebhookEndpointsWebhookEndpointParameters' with all required fields.
+mkGetWebhookEndpointsWebhookEndpointParameters ::
+  -- | 'getWebhookEndpointsWebhookEndpointParametersPathWebhookEndpoint'
+  Data.Text.Internal.Text ->
+  GetWebhookEndpointsWebhookEndpointParameters
+mkGetWebhookEndpointsWebhookEndpointParameters getWebhookEndpointsWebhookEndpointParametersPathWebhookEndpoint =
+  GetWebhookEndpointsWebhookEndpointParameters
+    { getWebhookEndpointsWebhookEndpointParametersPathWebhookEndpoint = getWebhookEndpointsWebhookEndpointParametersPathWebhookEndpoint,
+      getWebhookEndpointsWebhookEndpointParametersQueryExpand = GHC.Maybe.Nothing
+    }
 
 -- | Represents a response of the operation 'getWebhookEndpointsWebhookEndpoint'.
 --

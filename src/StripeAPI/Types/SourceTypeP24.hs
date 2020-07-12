@@ -8,6 +8,7 @@ module StripeAPI.Types.SourceTypeP24 where
 
 import qualified Control.Monad.Fail
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -30,7 +31,7 @@ import StripeAPI.TypeAlias
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
--- | Defines the data type for the schema source_type_p24
+-- | Defines the object schema located at @components.schemas.source_type_p24@ in the specification.
 data SourceTypeP24
   = SourceTypeP24
       { -- | reference
@@ -42,8 +43,12 @@ data SourceTypeP24
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON SourceTypeP24 where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "reference" (sourceTypeP24Reference obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "reference" (sourceTypeP24Reference obj))
+  toJSON obj = Data.Aeson.Types.Internal.object ("reference" Data.Aeson.Types.ToJSON..= sourceTypeP24Reference obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs ("reference" Data.Aeson.Types.ToJSON..= sourceTypeP24Reference obj)
 
 instance Data.Aeson.Types.FromJSON.FromJSON SourceTypeP24 where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "SourceTypeP24" (\obj -> GHC.Base.pure SourceTypeP24 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "reference"))
+
+-- | Create a new 'SourceTypeP24' with all required fields.
+mkSourceTypeP24 :: SourceTypeP24
+mkSourceTypeP24 = SourceTypeP24 {sourceTypeP24Reference = GHC.Maybe.Nothing}

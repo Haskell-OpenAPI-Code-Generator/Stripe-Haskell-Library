@@ -10,6 +10,7 @@ module StripeAPI.Operations.GetExchangeRatesCurrency where
 import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -77,7 +78,7 @@ getExchangeRatesCurrency parameters =
     )
     (StripeAPI.Common.doCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET") (Data.Text.pack ("/v1/exchange_rates/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel (getExchangeRatesCurrencyParametersPathCurrency parameters))) GHC.Base.++ ""))) [StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getExchangeRatesCurrencyParametersQueryExpand parameters) (Data.Text.pack "deepObject") GHC.Types.True])
 
--- | Defines the data type for the schema getExchangeRatesCurrencyParameters
+-- | Defines the object schema located at @paths.\/v1\/exchange_rates\/{currency}.GET.parameters@ in the specification.
 data GetExchangeRatesCurrencyParameters
   = GetExchangeRatesCurrencyParameters
       { -- | pathCurrency: Represents the parameter named \'currency\'
@@ -97,11 +98,22 @@ data GetExchangeRatesCurrencyParameters
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetExchangeRatesCurrencyParameters where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "pathCurrency" (getExchangeRatesCurrencyParametersPathCurrency obj) : (Data.Aeson..=) "queryExpand" (getExchangeRatesCurrencyParametersQueryExpand obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "pathCurrency" (getExchangeRatesCurrencyParametersPathCurrency obj) GHC.Base.<> (Data.Aeson..=) "queryExpand" (getExchangeRatesCurrencyParametersQueryExpand obj))
+  toJSON obj = Data.Aeson.Types.Internal.object ("pathCurrency" Data.Aeson.Types.ToJSON..= getExchangeRatesCurrencyParametersPathCurrency obj : "queryExpand" Data.Aeson.Types.ToJSON..= getExchangeRatesCurrencyParametersQueryExpand obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("pathCurrency" Data.Aeson.Types.ToJSON..= getExchangeRatesCurrencyParametersPathCurrency obj) GHC.Base.<> ("queryExpand" Data.Aeson.Types.ToJSON..= getExchangeRatesCurrencyParametersQueryExpand obj))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetExchangeRatesCurrencyParameters where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "GetExchangeRatesCurrencyParameters" (\obj -> (GHC.Base.pure GetExchangeRatesCurrencyParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathCurrency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryExpand"))
+
+-- | Create a new 'GetExchangeRatesCurrencyParameters' with all required fields.
+mkGetExchangeRatesCurrencyParameters ::
+  -- | 'getExchangeRatesCurrencyParametersPathCurrency'
+  Data.Text.Internal.Text ->
+  GetExchangeRatesCurrencyParameters
+mkGetExchangeRatesCurrencyParameters getExchangeRatesCurrencyParametersPathCurrency =
+  GetExchangeRatesCurrencyParameters
+    { getExchangeRatesCurrencyParametersPathCurrency = getExchangeRatesCurrencyParametersPathCurrency,
+      getExchangeRatesCurrencyParametersQueryExpand = GHC.Maybe.Nothing
+    }
 
 -- | Represents a response of the operation 'getExchangeRatesCurrency'.
 --

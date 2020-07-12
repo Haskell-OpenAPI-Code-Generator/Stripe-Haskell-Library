@@ -10,6 +10,7 @@ module StripeAPI.Operations.GetApplePayDomainsDomain where
 import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -77,7 +78,7 @@ getApplePayDomainsDomain parameters =
     )
     (StripeAPI.Common.doCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET") (Data.Text.pack ("/v1/apple_pay/domains/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel (getApplePayDomainsDomainParametersPathDomain parameters))) GHC.Base.++ ""))) [StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getApplePayDomainsDomainParametersQueryExpand parameters) (Data.Text.pack "deepObject") GHC.Types.True])
 
--- | Defines the data type for the schema getApplePayDomainsDomainParameters
+-- | Defines the object schema located at @paths.\/v1\/apple_pay\/domains\/{domain}.GET.parameters@ in the specification.
 data GetApplePayDomainsDomainParameters
   = GetApplePayDomainsDomainParameters
       { -- | pathDomain: Represents the parameter named \'domain\'
@@ -97,11 +98,22 @@ data GetApplePayDomainsDomainParameters
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetApplePayDomainsDomainParameters where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "pathDomain" (getApplePayDomainsDomainParametersPathDomain obj) : (Data.Aeson..=) "queryExpand" (getApplePayDomainsDomainParametersQueryExpand obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "pathDomain" (getApplePayDomainsDomainParametersPathDomain obj) GHC.Base.<> (Data.Aeson..=) "queryExpand" (getApplePayDomainsDomainParametersQueryExpand obj))
+  toJSON obj = Data.Aeson.Types.Internal.object ("pathDomain" Data.Aeson.Types.ToJSON..= getApplePayDomainsDomainParametersPathDomain obj : "queryExpand" Data.Aeson.Types.ToJSON..= getApplePayDomainsDomainParametersQueryExpand obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("pathDomain" Data.Aeson.Types.ToJSON..= getApplePayDomainsDomainParametersPathDomain obj) GHC.Base.<> ("queryExpand" Data.Aeson.Types.ToJSON..= getApplePayDomainsDomainParametersQueryExpand obj))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetApplePayDomainsDomainParameters where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "GetApplePayDomainsDomainParameters" (\obj -> (GHC.Base.pure GetApplePayDomainsDomainParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathDomain")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryExpand"))
+
+-- | Create a new 'GetApplePayDomainsDomainParameters' with all required fields.
+mkGetApplePayDomainsDomainParameters ::
+  -- | 'getApplePayDomainsDomainParametersPathDomain'
+  Data.Text.Internal.Text ->
+  GetApplePayDomainsDomainParameters
+mkGetApplePayDomainsDomainParameters getApplePayDomainsDomainParametersPathDomain =
+  GetApplePayDomainsDomainParameters
+    { getApplePayDomainsDomainParametersPathDomain = getApplePayDomainsDomainParametersPathDomain,
+      getApplePayDomainsDomainParametersQueryExpand = GHC.Maybe.Nothing
+    }
 
 -- | Represents a response of the operation 'getApplePayDomainsDomain'.
 --

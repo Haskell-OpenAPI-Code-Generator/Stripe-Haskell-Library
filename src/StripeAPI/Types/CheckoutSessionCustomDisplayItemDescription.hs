@@ -8,6 +8,7 @@ module StripeAPI.Types.CheckoutSessionCustomDisplayItemDescription where
 
 import qualified Control.Monad.Fail
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -30,7 +31,7 @@ import StripeAPI.TypeAlias
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
--- | Defines the data type for the schema checkout_session_custom_display_item_description
+-- | Defines the object schema located at @components.schemas.checkout_session_custom_display_item_description@ in the specification.
 data CheckoutSessionCustomDisplayItemDescription
   = CheckoutSessionCustomDisplayItemDescription
       { -- | description: The description of the line item.
@@ -54,8 +55,20 @@ data CheckoutSessionCustomDisplayItemDescription
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON CheckoutSessionCustomDisplayItemDescription where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "description" (checkoutSessionCustomDisplayItemDescriptionDescription obj) : (Data.Aeson..=) "images" (checkoutSessionCustomDisplayItemDescriptionImages obj) : (Data.Aeson..=) "name" (checkoutSessionCustomDisplayItemDescriptionName obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "description" (checkoutSessionCustomDisplayItemDescriptionDescription obj) GHC.Base.<> ((Data.Aeson..=) "images" (checkoutSessionCustomDisplayItemDescriptionImages obj) GHC.Base.<> (Data.Aeson..=) "name" (checkoutSessionCustomDisplayItemDescriptionName obj)))
+  toJSON obj = Data.Aeson.Types.Internal.object ("description" Data.Aeson.Types.ToJSON..= checkoutSessionCustomDisplayItemDescriptionDescription obj : "images" Data.Aeson.Types.ToJSON..= checkoutSessionCustomDisplayItemDescriptionImages obj : "name" Data.Aeson.Types.ToJSON..= checkoutSessionCustomDisplayItemDescriptionName obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("description" Data.Aeson.Types.ToJSON..= checkoutSessionCustomDisplayItemDescriptionDescription obj) GHC.Base.<> (("images" Data.Aeson.Types.ToJSON..= checkoutSessionCustomDisplayItemDescriptionImages obj) GHC.Base.<> ("name" Data.Aeson.Types.ToJSON..= checkoutSessionCustomDisplayItemDescriptionName obj)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON CheckoutSessionCustomDisplayItemDescription where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "CheckoutSessionCustomDisplayItemDescription" (\obj -> ((GHC.Base.pure CheckoutSessionCustomDisplayItemDescription GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "description")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "images")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "name"))
+
+-- | Create a new 'CheckoutSessionCustomDisplayItemDescription' with all required fields.
+mkCheckoutSessionCustomDisplayItemDescription ::
+  -- | 'checkoutSessionCustomDisplayItemDescriptionName'
+  Data.Text.Internal.Text ->
+  CheckoutSessionCustomDisplayItemDescription
+mkCheckoutSessionCustomDisplayItemDescription checkoutSessionCustomDisplayItemDescriptionName =
+  CheckoutSessionCustomDisplayItemDescription
+    { checkoutSessionCustomDisplayItemDescriptionDescription = GHC.Maybe.Nothing,
+      checkoutSessionCustomDisplayItemDescriptionImages = GHC.Maybe.Nothing,
+      checkoutSessionCustomDisplayItemDescriptionName = checkoutSessionCustomDisplayItemDescriptionName
+    }

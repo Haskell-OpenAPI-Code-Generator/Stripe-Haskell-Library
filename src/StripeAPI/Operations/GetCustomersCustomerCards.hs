@@ -10,6 +10,7 @@ module StripeAPI.Operations.GetCustomersCustomerCards where
 import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -87,7 +88,7 @@ getCustomersCustomerCards parameters =
         ]
     )
 
--- | Defines the data type for the schema getCustomersCustomerCardsParameters
+-- | Defines the object schema located at @paths.\/v1\/customers\/{customer}\/cards.GET.parameters@ in the specification.
 data GetCustomersCustomerCardsParameters
   = GetCustomersCustomerCardsParameters
       { -- | pathCustomer: Represents the parameter named \'customer\'
@@ -119,11 +120,25 @@ data GetCustomersCustomerCardsParameters
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetCustomersCustomerCardsParameters where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "pathCustomer" (getCustomersCustomerCardsParametersPathCustomer obj) : (Data.Aeson..=) "queryEnding_before" (getCustomersCustomerCardsParametersQueryEndingBefore obj) : (Data.Aeson..=) "queryExpand" (getCustomersCustomerCardsParametersQueryExpand obj) : (Data.Aeson..=) "queryLimit" (getCustomersCustomerCardsParametersQueryLimit obj) : (Data.Aeson..=) "queryStarting_after" (getCustomersCustomerCardsParametersQueryStartingAfter obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "pathCustomer" (getCustomersCustomerCardsParametersPathCustomer obj) GHC.Base.<> ((Data.Aeson..=) "queryEnding_before" (getCustomersCustomerCardsParametersQueryEndingBefore obj) GHC.Base.<> ((Data.Aeson..=) "queryExpand" (getCustomersCustomerCardsParametersQueryExpand obj) GHC.Base.<> ((Data.Aeson..=) "queryLimit" (getCustomersCustomerCardsParametersQueryLimit obj) GHC.Base.<> (Data.Aeson..=) "queryStarting_after" (getCustomersCustomerCardsParametersQueryStartingAfter obj)))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("pathCustomer" Data.Aeson.Types.ToJSON..= getCustomersCustomerCardsParametersPathCustomer obj : "queryEnding_before" Data.Aeson.Types.ToJSON..= getCustomersCustomerCardsParametersQueryEndingBefore obj : "queryExpand" Data.Aeson.Types.ToJSON..= getCustomersCustomerCardsParametersQueryExpand obj : "queryLimit" Data.Aeson.Types.ToJSON..= getCustomersCustomerCardsParametersQueryLimit obj : "queryStarting_after" Data.Aeson.Types.ToJSON..= getCustomersCustomerCardsParametersQueryStartingAfter obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("pathCustomer" Data.Aeson.Types.ToJSON..= getCustomersCustomerCardsParametersPathCustomer obj) GHC.Base.<> (("queryEnding_before" Data.Aeson.Types.ToJSON..= getCustomersCustomerCardsParametersQueryEndingBefore obj) GHC.Base.<> (("queryExpand" Data.Aeson.Types.ToJSON..= getCustomersCustomerCardsParametersQueryExpand obj) GHC.Base.<> (("queryLimit" Data.Aeson.Types.ToJSON..= getCustomersCustomerCardsParametersQueryLimit obj) GHC.Base.<> ("queryStarting_after" Data.Aeson.Types.ToJSON..= getCustomersCustomerCardsParametersQueryStartingAfter obj)))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetCustomersCustomerCardsParameters where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "GetCustomersCustomerCardsParameters" (\obj -> ((((GHC.Base.pure GetCustomersCustomerCardsParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathCustomer")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryEnding_before")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryExpand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryLimit")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryStarting_after"))
+
+-- | Create a new 'GetCustomersCustomerCardsParameters' with all required fields.
+mkGetCustomersCustomerCardsParameters ::
+  -- | 'getCustomersCustomerCardsParametersPathCustomer'
+  Data.Text.Internal.Text ->
+  GetCustomersCustomerCardsParameters
+mkGetCustomersCustomerCardsParameters getCustomersCustomerCardsParametersPathCustomer =
+  GetCustomersCustomerCardsParameters
+    { getCustomersCustomerCardsParametersPathCustomer = getCustomersCustomerCardsParametersPathCustomer,
+      getCustomersCustomerCardsParametersQueryEndingBefore = GHC.Maybe.Nothing,
+      getCustomersCustomerCardsParametersQueryExpand = GHC.Maybe.Nothing,
+      getCustomersCustomerCardsParametersQueryLimit = GHC.Maybe.Nothing,
+      getCustomersCustomerCardsParametersQueryStartingAfter = GHC.Maybe.Nothing
+    }
 
 -- | Represents a response of the operation 'getCustomersCustomerCards'.
 --
@@ -137,15 +152,13 @@ data GetCustomersCustomerCardsResponse
     GetCustomersCustomerCardsResponseDefault Error
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
--- | Defines the data type for the schema GetCustomersCustomerCardsResponseBody200
+-- | Defines the object schema located at @paths.\/v1\/customers\/{customer}\/cards.GET.responses.200.content.application\/json.schema@ in the specification.
 data GetCustomersCustomerCardsResponseBody200
   = GetCustomersCustomerCardsResponseBody200
       { -- | data
         getCustomersCustomerCardsResponseBody200Data :: ([Card]),
         -- | has_more: True if this list has another page of items after this one that can be fetched.
         getCustomersCustomerCardsResponseBody200HasMore :: GHC.Types.Bool,
-        -- | object: String representing the object\'s type. Objects of the same type share the same value. Always has the value \`list\`.
-        getCustomersCustomerCardsResponseBody200Object :: GetCustomersCustomerCardsResponseBody200Object',
         -- | url: The URL where this list can be accessed.
         --
         -- Constraints:
@@ -159,29 +172,24 @@ data GetCustomersCustomerCardsResponseBody200
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetCustomersCustomerCardsResponseBody200 where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "data" (getCustomersCustomerCardsResponseBody200Data obj) : (Data.Aeson..=) "has_more" (getCustomersCustomerCardsResponseBody200HasMore obj) : (Data.Aeson..=) "object" (getCustomersCustomerCardsResponseBody200Object obj) : (Data.Aeson..=) "url" (getCustomersCustomerCardsResponseBody200Url obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "data" (getCustomersCustomerCardsResponseBody200Data obj) GHC.Base.<> ((Data.Aeson..=) "has_more" (getCustomersCustomerCardsResponseBody200HasMore obj) GHC.Base.<> ((Data.Aeson..=) "object" (getCustomersCustomerCardsResponseBody200Object obj) GHC.Base.<> (Data.Aeson..=) "url" (getCustomersCustomerCardsResponseBody200Url obj))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("data" Data.Aeson.Types.ToJSON..= getCustomersCustomerCardsResponseBody200Data obj : "has_more" Data.Aeson.Types.ToJSON..= getCustomersCustomerCardsResponseBody200HasMore obj : "url" Data.Aeson.Types.ToJSON..= getCustomersCustomerCardsResponseBody200Url obj : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "list" : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("data" Data.Aeson.Types.ToJSON..= getCustomersCustomerCardsResponseBody200Data obj) GHC.Base.<> (("has_more" Data.Aeson.Types.ToJSON..= getCustomersCustomerCardsResponseBody200HasMore obj) GHC.Base.<> (("url" Data.Aeson.Types.ToJSON..= getCustomersCustomerCardsResponseBody200Url obj) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "list"))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetCustomersCustomerCardsResponseBody200 where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetCustomersCustomerCardsResponseBody200" (\obj -> (((GHC.Base.pure GetCustomersCustomerCardsResponseBody200 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "has_more")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "object")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "url"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetCustomersCustomerCardsResponseBody200" (\obj -> ((GHC.Base.pure GetCustomersCustomerCardsResponseBody200 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "has_more")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "url"))
 
--- | Defines the enum schema GetCustomersCustomerCardsResponseBody200Object\'
---
--- String representing the object\'s type. Objects of the same type share the same value. Always has the value \`list\`.
-data GetCustomersCustomerCardsResponseBody200Object'
-  = GetCustomersCustomerCardsResponseBody200Object'EnumOther Data.Aeson.Types.Internal.Value
-  | GetCustomersCustomerCardsResponseBody200Object'EnumTyped Data.Text.Internal.Text
-  | GetCustomersCustomerCardsResponseBody200Object'EnumStringList
-  deriving (GHC.Show.Show, GHC.Classes.Eq)
-
-instance Data.Aeson.Types.ToJSON.ToJSON GetCustomersCustomerCardsResponseBody200Object' where
-  toJSON (GetCustomersCustomerCardsResponseBody200Object'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (GetCustomersCustomerCardsResponseBody200Object'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (GetCustomersCustomerCardsResponseBody200Object'EnumStringList) = "list"
-
-instance Data.Aeson.Types.FromJSON.FromJSON GetCustomersCustomerCardsResponseBody200Object' where
-  parseJSON val =
-    GHC.Base.pure
-      ( if  | val GHC.Classes.== "list" -> GetCustomersCustomerCardsResponseBody200Object'EnumStringList
-            | GHC.Base.otherwise -> GetCustomersCustomerCardsResponseBody200Object'EnumOther val
-      )
+-- | Create a new 'GetCustomersCustomerCardsResponseBody200' with all required fields.
+mkGetCustomersCustomerCardsResponseBody200 ::
+  -- | 'getCustomersCustomerCardsResponseBody200Data'
+  [Card] ->
+  -- | 'getCustomersCustomerCardsResponseBody200HasMore'
+  GHC.Types.Bool ->
+  -- | 'getCustomersCustomerCardsResponseBody200Url'
+  Data.Text.Internal.Text ->
+  GetCustomersCustomerCardsResponseBody200
+mkGetCustomersCustomerCardsResponseBody200 getCustomersCustomerCardsResponseBody200Data getCustomersCustomerCardsResponseBody200HasMore getCustomersCustomerCardsResponseBody200Url =
+  GetCustomersCustomerCardsResponseBody200
+    { getCustomersCustomerCardsResponseBody200Data = getCustomersCustomerCardsResponseBody200Data,
+      getCustomersCustomerCardsResponseBody200HasMore = getCustomersCustomerCardsResponseBody200HasMore,
+      getCustomersCustomerCardsResponseBody200Url = getCustomersCustomerCardsResponseBody200Url
+    }

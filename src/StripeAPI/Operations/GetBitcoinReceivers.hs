@@ -10,6 +10,7 @@ module StripeAPI.Operations.GetBitcoinReceivers where
 import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -88,7 +89,7 @@ getBitcoinReceivers parameters =
         ]
     )
 
--- | Defines the data type for the schema getBitcoinReceiversParameters
+-- | Defines the object schema located at @paths.\/v1\/bitcoin\/receivers.GET.parameters@ in the specification.
 data GetBitcoinReceiversParameters
   = GetBitcoinReceiversParameters
       { -- | queryActive: Represents the parameter named \'active\'
@@ -134,11 +135,24 @@ data GetBitcoinReceiversParameters
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetBitcoinReceiversParameters where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "queryActive" (getBitcoinReceiversParametersQueryActive obj) : (Data.Aeson..=) "queryEnding_before" (getBitcoinReceiversParametersQueryEndingBefore obj) : (Data.Aeson..=) "queryExpand" (getBitcoinReceiversParametersQueryExpand obj) : (Data.Aeson..=) "queryFilled" (getBitcoinReceiversParametersQueryFilled obj) : (Data.Aeson..=) "queryLimit" (getBitcoinReceiversParametersQueryLimit obj) : (Data.Aeson..=) "queryStarting_after" (getBitcoinReceiversParametersQueryStartingAfter obj) : (Data.Aeson..=) "queryUncaptured_funds" (getBitcoinReceiversParametersQueryUncapturedFunds obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "queryActive" (getBitcoinReceiversParametersQueryActive obj) GHC.Base.<> ((Data.Aeson..=) "queryEnding_before" (getBitcoinReceiversParametersQueryEndingBefore obj) GHC.Base.<> ((Data.Aeson..=) "queryExpand" (getBitcoinReceiversParametersQueryExpand obj) GHC.Base.<> ((Data.Aeson..=) "queryFilled" (getBitcoinReceiversParametersQueryFilled obj) GHC.Base.<> ((Data.Aeson..=) "queryLimit" (getBitcoinReceiversParametersQueryLimit obj) GHC.Base.<> ((Data.Aeson..=) "queryStarting_after" (getBitcoinReceiversParametersQueryStartingAfter obj) GHC.Base.<> (Data.Aeson..=) "queryUncaptured_funds" (getBitcoinReceiversParametersQueryUncapturedFunds obj)))))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("queryActive" Data.Aeson.Types.ToJSON..= getBitcoinReceiversParametersQueryActive obj : "queryEnding_before" Data.Aeson.Types.ToJSON..= getBitcoinReceiversParametersQueryEndingBefore obj : "queryExpand" Data.Aeson.Types.ToJSON..= getBitcoinReceiversParametersQueryExpand obj : "queryFilled" Data.Aeson.Types.ToJSON..= getBitcoinReceiversParametersQueryFilled obj : "queryLimit" Data.Aeson.Types.ToJSON..= getBitcoinReceiversParametersQueryLimit obj : "queryStarting_after" Data.Aeson.Types.ToJSON..= getBitcoinReceiversParametersQueryStartingAfter obj : "queryUncaptured_funds" Data.Aeson.Types.ToJSON..= getBitcoinReceiversParametersQueryUncapturedFunds obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("queryActive" Data.Aeson.Types.ToJSON..= getBitcoinReceiversParametersQueryActive obj) GHC.Base.<> (("queryEnding_before" Data.Aeson.Types.ToJSON..= getBitcoinReceiversParametersQueryEndingBefore obj) GHC.Base.<> (("queryExpand" Data.Aeson.Types.ToJSON..= getBitcoinReceiversParametersQueryExpand obj) GHC.Base.<> (("queryFilled" Data.Aeson.Types.ToJSON..= getBitcoinReceiversParametersQueryFilled obj) GHC.Base.<> (("queryLimit" Data.Aeson.Types.ToJSON..= getBitcoinReceiversParametersQueryLimit obj) GHC.Base.<> (("queryStarting_after" Data.Aeson.Types.ToJSON..= getBitcoinReceiversParametersQueryStartingAfter obj) GHC.Base.<> ("queryUncaptured_funds" Data.Aeson.Types.ToJSON..= getBitcoinReceiversParametersQueryUncapturedFunds obj)))))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetBitcoinReceiversParameters where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "GetBitcoinReceiversParameters" (\obj -> ((((((GHC.Base.pure GetBitcoinReceiversParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryActive")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryEnding_before")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryExpand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryFilled")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryLimit")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryStarting_after")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryUncaptured_funds"))
+
+-- | Create a new 'GetBitcoinReceiversParameters' with all required fields.
+mkGetBitcoinReceiversParameters :: GetBitcoinReceiversParameters
+mkGetBitcoinReceiversParameters =
+  GetBitcoinReceiversParameters
+    { getBitcoinReceiversParametersQueryActive = GHC.Maybe.Nothing,
+      getBitcoinReceiversParametersQueryEndingBefore = GHC.Maybe.Nothing,
+      getBitcoinReceiversParametersQueryExpand = GHC.Maybe.Nothing,
+      getBitcoinReceiversParametersQueryFilled = GHC.Maybe.Nothing,
+      getBitcoinReceiversParametersQueryLimit = GHC.Maybe.Nothing,
+      getBitcoinReceiversParametersQueryStartingAfter = GHC.Maybe.Nothing,
+      getBitcoinReceiversParametersQueryUncapturedFunds = GHC.Maybe.Nothing
+    }
 
 -- | Represents a response of the operation 'getBitcoinReceivers'.
 --
@@ -152,15 +166,13 @@ data GetBitcoinReceiversResponse
     GetBitcoinReceiversResponseDefault Error
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
--- | Defines the data type for the schema GetBitcoinReceiversResponseBody200
+-- | Defines the object schema located at @paths.\/v1\/bitcoin\/receivers.GET.responses.200.content.application\/json.schema@ in the specification.
 data GetBitcoinReceiversResponseBody200
   = GetBitcoinReceiversResponseBody200
       { -- | data
         getBitcoinReceiversResponseBody200Data :: ([BitcoinReceiver]),
         -- | has_more: True if this list has another page of items after this one that can be fetched.
         getBitcoinReceiversResponseBody200HasMore :: GHC.Types.Bool,
-        -- | object: String representing the object\'s type. Objects of the same type share the same value. Always has the value \`list\`.
-        getBitcoinReceiversResponseBody200Object :: GetBitcoinReceiversResponseBody200Object',
         -- | url: The URL where this list can be accessed.
         --
         -- Constraints:
@@ -175,29 +187,24 @@ data GetBitcoinReceiversResponseBody200
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetBitcoinReceiversResponseBody200 where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "data" (getBitcoinReceiversResponseBody200Data obj) : (Data.Aeson..=) "has_more" (getBitcoinReceiversResponseBody200HasMore obj) : (Data.Aeson..=) "object" (getBitcoinReceiversResponseBody200Object obj) : (Data.Aeson..=) "url" (getBitcoinReceiversResponseBody200Url obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "data" (getBitcoinReceiversResponseBody200Data obj) GHC.Base.<> ((Data.Aeson..=) "has_more" (getBitcoinReceiversResponseBody200HasMore obj) GHC.Base.<> ((Data.Aeson..=) "object" (getBitcoinReceiversResponseBody200Object obj) GHC.Base.<> (Data.Aeson..=) "url" (getBitcoinReceiversResponseBody200Url obj))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("data" Data.Aeson.Types.ToJSON..= getBitcoinReceiversResponseBody200Data obj : "has_more" Data.Aeson.Types.ToJSON..= getBitcoinReceiversResponseBody200HasMore obj : "url" Data.Aeson.Types.ToJSON..= getBitcoinReceiversResponseBody200Url obj : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "list" : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("data" Data.Aeson.Types.ToJSON..= getBitcoinReceiversResponseBody200Data obj) GHC.Base.<> (("has_more" Data.Aeson.Types.ToJSON..= getBitcoinReceiversResponseBody200HasMore obj) GHC.Base.<> (("url" Data.Aeson.Types.ToJSON..= getBitcoinReceiversResponseBody200Url obj) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "list"))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetBitcoinReceiversResponseBody200 where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetBitcoinReceiversResponseBody200" (\obj -> (((GHC.Base.pure GetBitcoinReceiversResponseBody200 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "has_more")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "object")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "url"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetBitcoinReceiversResponseBody200" (\obj -> ((GHC.Base.pure GetBitcoinReceiversResponseBody200 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "has_more")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "url"))
 
--- | Defines the enum schema GetBitcoinReceiversResponseBody200Object\'
---
--- String representing the object\'s type. Objects of the same type share the same value. Always has the value \`list\`.
-data GetBitcoinReceiversResponseBody200Object'
-  = GetBitcoinReceiversResponseBody200Object'EnumOther Data.Aeson.Types.Internal.Value
-  | GetBitcoinReceiversResponseBody200Object'EnumTyped Data.Text.Internal.Text
-  | GetBitcoinReceiversResponseBody200Object'EnumStringList
-  deriving (GHC.Show.Show, GHC.Classes.Eq)
-
-instance Data.Aeson.Types.ToJSON.ToJSON GetBitcoinReceiversResponseBody200Object' where
-  toJSON (GetBitcoinReceiversResponseBody200Object'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (GetBitcoinReceiversResponseBody200Object'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (GetBitcoinReceiversResponseBody200Object'EnumStringList) = "list"
-
-instance Data.Aeson.Types.FromJSON.FromJSON GetBitcoinReceiversResponseBody200Object' where
-  parseJSON val =
-    GHC.Base.pure
-      ( if  | val GHC.Classes.== "list" -> GetBitcoinReceiversResponseBody200Object'EnumStringList
-            | GHC.Base.otherwise -> GetBitcoinReceiversResponseBody200Object'EnumOther val
-      )
+-- | Create a new 'GetBitcoinReceiversResponseBody200' with all required fields.
+mkGetBitcoinReceiversResponseBody200 ::
+  -- | 'getBitcoinReceiversResponseBody200Data'
+  [BitcoinReceiver] ->
+  -- | 'getBitcoinReceiversResponseBody200HasMore'
+  GHC.Types.Bool ->
+  -- | 'getBitcoinReceiversResponseBody200Url'
+  Data.Text.Internal.Text ->
+  GetBitcoinReceiversResponseBody200
+mkGetBitcoinReceiversResponseBody200 getBitcoinReceiversResponseBody200Data getBitcoinReceiversResponseBody200HasMore getBitcoinReceiversResponseBody200Url =
+  GetBitcoinReceiversResponseBody200
+    { getBitcoinReceiversResponseBody200Data = getBitcoinReceiversResponseBody200Data,
+      getBitcoinReceiversResponseBody200HasMore = getBitcoinReceiversResponseBody200HasMore,
+      getBitcoinReceiversResponseBody200Url = getBitcoinReceiversResponseBody200Url
+    }
