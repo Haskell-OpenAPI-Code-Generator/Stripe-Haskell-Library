@@ -4,7 +4,7 @@ name:           stripeapi
 version:        0.1.0.2
 synopsis:       Stripe-Library
 description:    Stripe-Library generated from https://github.com/Haskell-OpenAPI-Code-Generator/Haskell-OpenAPI-Client-Code-Generator
-maintainer:     Remo Dörig <remo.doerig@gmail.com> & Joel Fisch <jfisch@hsr.ch>
+maintainer:     Remo Dörig <remo.doerig@gmail.com> & Joel Fisch <joel.fisch96@gmail.com>
 license-file:   LICENSE
 category:       PSP
 build-type:     Simple
@@ -515,6 +515,7 @@ library
       StripeAPI.Types.MandateSepaDebit
       StripeAPI.Types.MandateSingleUse
       StripeAPI.Types.NotificationEventData
+      StripeAPI.Types.NotificationEventData.Extra
       StripeAPI.Types.NotificationEventRequest
       StripeAPI.Types.OnlineAcceptance
       StripeAPI.Types.Order

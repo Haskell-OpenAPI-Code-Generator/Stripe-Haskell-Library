@@ -21,6 +21,14 @@ cd example
 stack run --fast
 ```
 
+## Extra modules
+
+There are a few hand-written modules which are currently:
+
+- StripeAPI.Types.NotificationEventData.Extra
+
+As they are not reexported (to modify as little of the generated code as possible) you need to explicitly import them (see `example/src/StripeHandling.hs` for an example).
+
 ## On the package level
 ### From hackage
 -  install [cabal](https://www.haskell.org/cabal/)
