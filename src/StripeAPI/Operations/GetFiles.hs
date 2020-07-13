@@ -1,4 +1,3 @@
-{-# LANGUAGE DeriveGeneric #-}
 {-# LANGUAGE ExplicitForAll #-}
 {-# LANGUAGE MultiWayIf #-}
 {-# LANGUAGE OverloadedStrings #-}
@@ -8,8 +7,10 @@
 -- | Contains the different functions to run the operation getFiles
 module StripeAPI.Operations.GetFiles where
 
+import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -26,7 +27,6 @@ import qualified Data.Time.LocalTime as Data.Time.LocalTime.Internal.ZonedTime
 import qualified Data.Vector
 import qualified GHC.Base
 import qualified GHC.Classes
-import qualified GHC.Generics
 import qualified GHC.Int
 import qualified GHC.Show
 import qualified GHC.Types
@@ -46,318 +46,222 @@ import qualified Prelude as GHC.Maybe
 --
 -- \<p>Returns a list of the files that your account has access to. The files are returned sorted by creation date, with the most recently created files appearing first.\<\/p>
 getFiles ::
-  forall m s.
-  (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) =>
-  -- | The configuration to use in the request
-  StripeAPI.Common.Configuration s ->
-  -- | created
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  -- | ending_before: A cursor for use in pagination. \`ending_before\` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, starting with \`obj_bar\`, your subsequent call can include \`ending_before=obj_bar\` in order to fetch the previous page of the list. | Constraints: Maximum length of 5000
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  -- | expand: Specifies which fields in the response should be expanded.
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  -- | limit: A limit on the number of objects to be returned. Limit can range between 1 and 100, and the default is 10.
-  GHC.Maybe.Maybe GHC.Integer.Type.Integer ->
-  -- | purpose: The file purpose to filter queries by. If none is provided, files will not be filtered by purpose. | Constraints: Maximum length of 5000
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  -- | starting_after: A cursor for use in pagination. \`starting_after\` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with \`obj_foo\`, your subsequent call can include \`starting_after=obj_foo\` in order to fetch the next page of the list. | Constraints: Maximum length of 5000
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  -- | The request body to send
-  GHC.Maybe.Maybe GetFilesRequestBody ->
-  -- | Monad containing the result of the operation
-  m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response GetFilesResponse))
-getFiles
-  config
-  created
-  endingBefore
-  expand
-  limit
-  purpose
-  startingAfter
-  body =
-    GHC.Base.fmap
-      ( GHC.Base.fmap
-          ( \response_0 ->
-              GHC.Base.fmap
-                ( Data.Either.either GetFilesResponseError GHC.Base.id
-                    GHC.Base.. ( \response body ->
-                                   if  | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                         GetFilesResponse200
-                                           Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                                Data.Either.Either GHC.Base.String
-                                                                  GetFilesResponseBody200
-                                                            )
-                                       | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                         GetFilesResponseDefault
-                                           Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                                Data.Either.Either GHC.Base.String
-                                                                  Error
-                                                            )
-                                       | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
-                               )
-                      response_0
-                )
+  forall m.
+  StripeAPI.Common.MonadHTTP m =>
+  -- | Contains all available parameters of this operation (query and path parameters)
+  GetFilesParameters ->
+  -- | Monadic computation which returns the result of the operation
+  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response GetFilesResponse)
+getFiles parameters =
+  GHC.Base.fmap
+    ( \response_0 ->
+        GHC.Base.fmap
+          ( Data.Either.either GetFilesResponseError GHC.Base.id
+              GHC.Base.. ( \response body ->
+                             if  | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
+                                   GetFilesResponse200
+                                     Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                          Data.Either.Either GHC.Base.String
+                                                            GetFilesResponseBody200
+                                                      )
+                                 | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
+                                   GetFilesResponseDefault
+                                     Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                          Data.Either.Either GHC.Base.String
+                                                            Error
+                                                      )
+                                 | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
+                         )
                 response_0
           )
-      )
-      ( StripeAPI.Common.doBodyCallWithConfiguration
-          config
-          (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET")
-          (Data.Text.pack "/v1/files")
-          ( ( Data.Text.pack "created",
-              StripeAPI.Common.stringifyModel Data.Functor.<$> created
-            )
-              : ( ( Data.Text.pack "ending_before",
-                    StripeAPI.Common.stringifyModel Data.Functor.<$> endingBefore
-                  )
-                    : ( ( Data.Text.pack "expand",
-                          StripeAPI.Common.stringifyModel Data.Functor.<$> expand
-                        )
-                          : ( ( Data.Text.pack "limit",
-                                StripeAPI.Common.stringifyModel Data.Functor.<$> limit
-                              )
-                                : ( ( Data.Text.pack "purpose",
-                                      StripeAPI.Common.stringifyModel Data.Functor.<$> purpose
-                                    )
-                                      : ( ( Data.Text.pack "starting_after",
-                                            StripeAPI.Common.stringifyModel Data.Functor.<$> startingAfter
-                                          )
-                                            : []
-                                        )
-                                  )
-                            )
-                      )
-                )
-          )
-          body
-          StripeAPI.Common.RequestBodyEncodingFormData
-      )
-
--- | > GET /v1/files
---
--- The same as 'getFiles' but returns the raw 'Data.ByteString.Char8.ByteString'
-getFilesRaw ::
-  forall m s.
-  ( StripeAPI.Common.MonadHTTP m,
-    StripeAPI.Common.SecurityScheme s
-  ) =>
-  StripeAPI.Common.Configuration s ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe GHC.Integer.Type.Integer ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe GetFilesRequestBody ->
-  m
-    ( Data.Either.Either Network.HTTP.Client.Types.HttpException
-        (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
+          response_0
     )
-getFilesRaw
-  config
-  created
-  endingBefore
-  expand
-  limit
-  purpose
-  startingAfter
-  body =
-    GHC.Base.id
-      ( StripeAPI.Common.doBodyCallWithConfiguration
-          config
-          (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET")
-          (Data.Text.pack "/v1/files")
-          ( ( Data.Text.pack "created",
-              StripeAPI.Common.stringifyModel Data.Functor.<$> created
-            )
-              : ( ( Data.Text.pack "ending_before",
-                    StripeAPI.Common.stringifyModel Data.Functor.<$> endingBefore
-                  )
-                    : ( ( Data.Text.pack "expand",
-                          StripeAPI.Common.stringifyModel Data.Functor.<$> expand
-                        )
-                          : ( ( Data.Text.pack "limit",
-                                StripeAPI.Common.stringifyModel Data.Functor.<$> limit
-                              )
-                                : ( ( Data.Text.pack "purpose",
-                                      StripeAPI.Common.stringifyModel Data.Functor.<$> purpose
-                                    )
-                                      : ( ( Data.Text.pack "starting_after",
-                                            StripeAPI.Common.stringifyModel Data.Functor.<$> startingAfter
-                                          )
-                                            : []
-                                        )
-                                  )
-                            )
-                      )
-                )
-          )
-          body
-          StripeAPI.Common.RequestBodyEncodingFormData
-      )
-
--- | > GET /v1/files
---
--- Monadic version of 'getFiles' (use with 'StripeAPI.Common.runWithConfiguration')
-getFilesM ::
-  forall m s.
-  ( StripeAPI.Common.MonadHTTP m,
-    StripeAPI.Common.SecurityScheme s
-  ) =>
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe GHC.Integer.Type.Integer ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe GetFilesRequestBody ->
-  Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
-    m
-    ( Data.Either.Either Network.HTTP.Client.Types.HttpException
-        (Network.HTTP.Client.Types.Response GetFilesResponse)
+    ( StripeAPI.Common.doCallWithConfigurationM
+        (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET")
+        (Data.Text.pack "/v1/files")
+        [ StripeAPI.Common.QueryParameter (Data.Text.pack "created") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getFilesParametersQueryCreated parameters) (Data.Text.pack "deepObject") GHC.Types.True,
+          StripeAPI.Common.QueryParameter (Data.Text.pack "ending_before") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getFilesParametersQueryEndingBefore parameters) (Data.Text.pack "form") GHC.Types.True,
+          StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getFilesParametersQueryExpand parameters) (Data.Text.pack "deepObject") GHC.Types.True,
+          StripeAPI.Common.QueryParameter (Data.Text.pack "limit") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getFilesParametersQueryLimit parameters) (Data.Text.pack "form") GHC.Types.True,
+          StripeAPI.Common.QueryParameter (Data.Text.pack "purpose") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getFilesParametersQueryPurpose parameters) (Data.Text.pack "form") GHC.Types.True,
+          StripeAPI.Common.QueryParameter (Data.Text.pack "starting_after") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getFilesParametersQueryStartingAfter parameters) (Data.Text.pack "form") GHC.Types.True
+        ]
     )
-getFilesM
-  created
-  endingBefore
-  expand
-  limit
-  purpose
-  startingAfter
-  body =
-    GHC.Base.fmap
-      ( GHC.Base.fmap
-          ( \response_2 ->
-              GHC.Base.fmap
-                ( Data.Either.either GetFilesResponseError GHC.Base.id
-                    GHC.Base.. ( \response body ->
-                                   if  | (\status_3 -> Network.HTTP.Types.Status.statusCode status_3 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                         GetFilesResponse200
-                                           Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                                Data.Either.Either GHC.Base.String
-                                                                  GetFilesResponseBody200
-                                                            )
-                                       | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                         GetFilesResponseDefault
-                                           Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                                Data.Either.Either GHC.Base.String
-                                                                  Error
-                                                            )
-                                       | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
-                               )
-                      response_2
-                )
-                response_2
-          )
-      )
-      ( StripeAPI.Common.doBodyCallWithConfigurationM
-          (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET")
-          (Data.Text.pack "/v1/files")
-          ( ( Data.Text.pack "created",
-              StripeAPI.Common.stringifyModel Data.Functor.<$> created
-            )
-              : ( ( Data.Text.pack "ending_before",
-                    StripeAPI.Common.stringifyModel Data.Functor.<$> endingBefore
-                  )
-                    : ( ( Data.Text.pack "expand",
-                          StripeAPI.Common.stringifyModel Data.Functor.<$> expand
-                        )
-                          : ( ( Data.Text.pack "limit",
-                                StripeAPI.Common.stringifyModel Data.Functor.<$> limit
-                              )
-                                : ( ( Data.Text.pack "purpose",
-                                      StripeAPI.Common.stringifyModel Data.Functor.<$> purpose
-                                    )
-                                      : ( ( Data.Text.pack "starting_after",
-                                            StripeAPI.Common.stringifyModel Data.Functor.<$> startingAfter
-                                          )
-                                            : []
-                                        )
-                                  )
-                            )
-                      )
-                )
-          )
-          body
-          StripeAPI.Common.RequestBodyEncodingFormData
-      )
 
--- | > GET /v1/files
---
--- Monadic version of 'getFilesRaw' (use with 'StripeAPI.Common.runWithConfiguration')
-getFilesRawM ::
-  forall m s.
-  ( StripeAPI.Common.MonadHTTP m,
-    StripeAPI.Common.SecurityScheme s
-  ) =>
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe GHC.Integer.Type.Integer ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe GetFilesRequestBody ->
-  Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
-    m
-    ( Data.Either.Either Network.HTTP.Client.Types.HttpException
-        (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
-    )
-getFilesRawM
-  created
-  endingBefore
-  expand
-  limit
-  purpose
-  startingAfter
-  body =
-    GHC.Base.id
-      ( StripeAPI.Common.doBodyCallWithConfigurationM
-          (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET")
-          (Data.Text.pack "/v1/files")
-          ( ( Data.Text.pack "created",
-              StripeAPI.Common.stringifyModel Data.Functor.<$> created
-            )
-              : ( ( Data.Text.pack "ending_before",
-                    StripeAPI.Common.stringifyModel Data.Functor.<$> endingBefore
-                  )
-                    : ( ( Data.Text.pack "expand",
-                          StripeAPI.Common.stringifyModel Data.Functor.<$> expand
-                        )
-                          : ( ( Data.Text.pack "limit",
-                                StripeAPI.Common.stringifyModel Data.Functor.<$> limit
-                              )
-                                : ( ( Data.Text.pack "purpose",
-                                      StripeAPI.Common.stringifyModel Data.Functor.<$> purpose
-                                    )
-                                      : ( ( Data.Text.pack "starting_after",
-                                            StripeAPI.Common.stringifyModel Data.Functor.<$> startingAfter
-                                          )
-                                            : []
-                                        )
-                                  )
-                            )
-                      )
-                )
-          )
-          body
-          StripeAPI.Common.RequestBodyEncodingFormData
-      )
-
--- | Defines the data type for the schema getFilesRequestBody
-data GetFilesRequestBody
-  = GetFilesRequestBody
-      {
+-- | Defines the object schema located at @paths.\/v1\/files.GET.parameters@ in the specification.
+data GetFilesParameters
+  = GetFilesParameters
+      { -- | queryCreated: Represents the parameter named \'created\'
+        getFilesParametersQueryCreated :: (GHC.Maybe.Maybe GetFilesParametersQueryCreated'Variants),
+        -- | queryEnding_before: Represents the parameter named \'ending_before\'
+        --
+        -- A cursor for use in pagination. \`ending_before\` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, starting with \`obj_bar\`, your subsequent call can include \`ending_before=obj_bar\` in order to fetch the previous page of the list.
+        --
+        -- Constraints:
+        --
+        -- * Maximum length of 5000
+        getFilesParametersQueryEndingBefore :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+        -- | queryExpand: Represents the parameter named \'expand\'
+        --
+        -- Specifies which fields in the response should be expanded.
+        getFilesParametersQueryExpand :: (GHC.Maybe.Maybe ([Data.Text.Internal.Text])),
+        -- | queryLimit: Represents the parameter named \'limit\'
+        --
+        -- A limit on the number of objects to be returned. Limit can range between 1 and 100, and the default is 10.
+        getFilesParametersQueryLimit :: (GHC.Maybe.Maybe GHC.Types.Int),
+        -- | queryPurpose: Represents the parameter named \'purpose\'
+        --
+        -- The file purpose to filter queries by. If none is provided, files will not be filtered by purpose.
+        --
+        -- Constraints:
+        --
+        -- * Maximum length of 5000
+        getFilesParametersQueryPurpose :: (GHC.Maybe.Maybe GetFilesParametersQueryPurpose'),
+        -- | queryStarting_after: Represents the parameter named \'starting_after\'
+        --
+        -- A cursor for use in pagination. \`starting_after\` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with \`obj_foo\`, your subsequent call can include \`starting_after=obj_foo\` in order to fetch the next page of the list.
+        --
+        -- Constraints:
+        --
+        -- * Maximum length of 5000
+        getFilesParametersQueryStartingAfter :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
       }
   deriving
     ( GHC.Show.Show,
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON GetFilesRequestBody where
-  toJSON obj = Data.Aeson.object []
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "string" ("string" :: GHC.Base.String))
+instance Data.Aeson.Types.ToJSON.ToJSON GetFilesParameters where
+  toJSON obj = Data.Aeson.Types.Internal.object ("queryCreated" Data.Aeson.Types.ToJSON..= getFilesParametersQueryCreated obj : "queryEnding_before" Data.Aeson.Types.ToJSON..= getFilesParametersQueryEndingBefore obj : "queryExpand" Data.Aeson.Types.ToJSON..= getFilesParametersQueryExpand obj : "queryLimit" Data.Aeson.Types.ToJSON..= getFilesParametersQueryLimit obj : "queryPurpose" Data.Aeson.Types.ToJSON..= getFilesParametersQueryPurpose obj : "queryStarting_after" Data.Aeson.Types.ToJSON..= getFilesParametersQueryStartingAfter obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("queryCreated" Data.Aeson.Types.ToJSON..= getFilesParametersQueryCreated obj) GHC.Base.<> (("queryEnding_before" Data.Aeson.Types.ToJSON..= getFilesParametersQueryEndingBefore obj) GHC.Base.<> (("queryExpand" Data.Aeson.Types.ToJSON..= getFilesParametersQueryExpand obj) GHC.Base.<> (("queryLimit" Data.Aeson.Types.ToJSON..= getFilesParametersQueryLimit obj) GHC.Base.<> (("queryPurpose" Data.Aeson.Types.ToJSON..= getFilesParametersQueryPurpose obj) GHC.Base.<> ("queryStarting_after" Data.Aeson.Types.ToJSON..= getFilesParametersQueryStartingAfter obj))))))
 
-instance Data.Aeson.Types.FromJSON.FromJSON GetFilesRequestBody where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetFilesRequestBody" (\obj -> GHC.Base.pure GetFilesRequestBody)
+instance Data.Aeson.Types.FromJSON.FromJSON GetFilesParameters where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetFilesParameters" (\obj -> (((((GHC.Base.pure GetFilesParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryCreated")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryEnding_before")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryExpand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryLimit")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryPurpose")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryStarting_after"))
+
+-- | Create a new 'GetFilesParameters' with all required fields.
+mkGetFilesParameters :: GetFilesParameters
+mkGetFilesParameters =
+  GetFilesParameters
+    { getFilesParametersQueryCreated = GHC.Maybe.Nothing,
+      getFilesParametersQueryEndingBefore = GHC.Maybe.Nothing,
+      getFilesParametersQueryExpand = GHC.Maybe.Nothing,
+      getFilesParametersQueryLimit = GHC.Maybe.Nothing,
+      getFilesParametersQueryPurpose = GHC.Maybe.Nothing,
+      getFilesParametersQueryStartingAfter = GHC.Maybe.Nothing
+    }
+
+-- | Defines the object schema located at @paths.\/v1\/files.GET.parameters.properties.queryCreated.anyOf@ in the specification.
+data GetFilesParametersQueryCreated'OneOf2
+  = GetFilesParametersQueryCreated'OneOf2
+      { -- | gt
+        getFilesParametersQueryCreated'OneOf2Gt :: (GHC.Maybe.Maybe GHC.Types.Int),
+        -- | gte
+        getFilesParametersQueryCreated'OneOf2Gte :: (GHC.Maybe.Maybe GHC.Types.Int),
+        -- | lt
+        getFilesParametersQueryCreated'OneOf2Lt :: (GHC.Maybe.Maybe GHC.Types.Int),
+        -- | lte
+        getFilesParametersQueryCreated'OneOf2Lte :: (GHC.Maybe.Maybe GHC.Types.Int)
+      }
+  deriving
+    ( GHC.Show.Show,
+      GHC.Classes.Eq
+    )
+
+instance Data.Aeson.Types.ToJSON.ToJSON GetFilesParametersQueryCreated'OneOf2 where
+  toJSON obj = Data.Aeson.Types.Internal.object ("gt" Data.Aeson.Types.ToJSON..= getFilesParametersQueryCreated'OneOf2Gt obj : "gte" Data.Aeson.Types.ToJSON..= getFilesParametersQueryCreated'OneOf2Gte obj : "lt" Data.Aeson.Types.ToJSON..= getFilesParametersQueryCreated'OneOf2Lt obj : "lte" Data.Aeson.Types.ToJSON..= getFilesParametersQueryCreated'OneOf2Lte obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("gt" Data.Aeson.Types.ToJSON..= getFilesParametersQueryCreated'OneOf2Gt obj) GHC.Base.<> (("gte" Data.Aeson.Types.ToJSON..= getFilesParametersQueryCreated'OneOf2Gte obj) GHC.Base.<> (("lt" Data.Aeson.Types.ToJSON..= getFilesParametersQueryCreated'OneOf2Lt obj) GHC.Base.<> ("lte" Data.Aeson.Types.ToJSON..= getFilesParametersQueryCreated'OneOf2Lte obj))))
+
+instance Data.Aeson.Types.FromJSON.FromJSON GetFilesParametersQueryCreated'OneOf2 where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetFilesParametersQueryCreated'OneOf2" (\obj -> (((GHC.Base.pure GetFilesParametersQueryCreated'OneOf2 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "gt")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "gte")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "lt")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "lte"))
+
+-- | Create a new 'GetFilesParametersQueryCreated'OneOf2' with all required fields.
+mkGetFilesParametersQueryCreated'OneOf2 :: GetFilesParametersQueryCreated'OneOf2
+mkGetFilesParametersQueryCreated'OneOf2 =
+  GetFilesParametersQueryCreated'OneOf2
+    { getFilesParametersQueryCreated'OneOf2Gt = GHC.Maybe.Nothing,
+      getFilesParametersQueryCreated'OneOf2Gte = GHC.Maybe.Nothing,
+      getFilesParametersQueryCreated'OneOf2Lt = GHC.Maybe.Nothing,
+      getFilesParametersQueryCreated'OneOf2Lte = GHC.Maybe.Nothing
+    }
+
+-- | Defines the oneOf schema located at @paths.\/v1\/files.GET.parameters.properties.queryCreated.anyOf@ in the specification.
+--
+-- Represents the parameter named \'created\'
+data GetFilesParametersQueryCreated'Variants
+  = GetFilesParametersQueryCreated'Int GHC.Types.Int
+  | GetFilesParametersQueryCreated'GetFilesParametersQueryCreated'OneOf2 GetFilesParametersQueryCreated'OneOf2
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON GetFilesParametersQueryCreated'Variants where
+  toJSON (GetFilesParametersQueryCreated'Int a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (GetFilesParametersQueryCreated'GetFilesParametersQueryCreated'OneOf2 a) = Data.Aeson.Types.ToJSON.toJSON a
+
+instance Data.Aeson.Types.FromJSON.FromJSON GetFilesParametersQueryCreated'Variants where
+  parseJSON val = case (GetFilesParametersQueryCreated'Int Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((GetFilesParametersQueryCreated'GetFilesParametersQueryCreated'OneOf2 Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched") of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+    Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+
+-- | Defines the enum schema located at @paths.\/v1\/files.GET.parameters.properties.queryPurpose@ in the specification.
+--
+-- Represents the parameter named \'purpose\'
+--
+-- The file purpose to filter queries by. If none is provided, files will not be filtered by purpose.
+data GetFilesParametersQueryPurpose'
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    GetFilesParametersQueryPurpose'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    GetFilesParametersQueryPurpose'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"additional_verification"@
+    GetFilesParametersQueryPurpose'EnumAdditionalVerification
+  | -- | Represents the JSON value @"business_icon"@
+    GetFilesParametersQueryPurpose'EnumBusinessIcon
+  | -- | Represents the JSON value @"business_logo"@
+    GetFilesParametersQueryPurpose'EnumBusinessLogo
+  | -- | Represents the JSON value @"customer_signature"@
+    GetFilesParametersQueryPurpose'EnumCustomerSignature
+  | -- | Represents the JSON value @"dispute_evidence"@
+    GetFilesParametersQueryPurpose'EnumDisputeEvidence
+  | -- | Represents the JSON value @"finance_report_run"@
+    GetFilesParametersQueryPurpose'EnumFinanceReportRun
+  | -- | Represents the JSON value @"identity_document"@
+    GetFilesParametersQueryPurpose'EnumIdentityDocument
+  | -- | Represents the JSON value @"pci_document"@
+    GetFilesParametersQueryPurpose'EnumPciDocument
+  | -- | Represents the JSON value @"sigma_scheduled_query"@
+    GetFilesParametersQueryPurpose'EnumSigmaScheduledQuery
+  | -- | Represents the JSON value @"tax_document_user_upload"@
+    GetFilesParametersQueryPurpose'EnumTaxDocumentUserUpload
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON GetFilesParametersQueryPurpose' where
+  toJSON (GetFilesParametersQueryPurpose'Other val) = val
+  toJSON (GetFilesParametersQueryPurpose'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (GetFilesParametersQueryPurpose'EnumAdditionalVerification) = "additional_verification"
+  toJSON (GetFilesParametersQueryPurpose'EnumBusinessIcon) = "business_icon"
+  toJSON (GetFilesParametersQueryPurpose'EnumBusinessLogo) = "business_logo"
+  toJSON (GetFilesParametersQueryPurpose'EnumCustomerSignature) = "customer_signature"
+  toJSON (GetFilesParametersQueryPurpose'EnumDisputeEvidence) = "dispute_evidence"
+  toJSON (GetFilesParametersQueryPurpose'EnumFinanceReportRun) = "finance_report_run"
+  toJSON (GetFilesParametersQueryPurpose'EnumIdentityDocument) = "identity_document"
+  toJSON (GetFilesParametersQueryPurpose'EnumPciDocument) = "pci_document"
+  toJSON (GetFilesParametersQueryPurpose'EnumSigmaScheduledQuery) = "sigma_scheduled_query"
+  toJSON (GetFilesParametersQueryPurpose'EnumTaxDocumentUserUpload) = "tax_document_user_upload"
+
+instance Data.Aeson.Types.FromJSON.FromJSON GetFilesParametersQueryPurpose' where
+  parseJSON val =
+    GHC.Base.pure
+      ( if  | val GHC.Classes.== "additional_verification" -> GetFilesParametersQueryPurpose'EnumAdditionalVerification
+            | val GHC.Classes.== "business_icon" -> GetFilesParametersQueryPurpose'EnumBusinessIcon
+            | val GHC.Classes.== "business_logo" -> GetFilesParametersQueryPurpose'EnumBusinessLogo
+            | val GHC.Classes.== "customer_signature" -> GetFilesParametersQueryPurpose'EnumCustomerSignature
+            | val GHC.Classes.== "dispute_evidence" -> GetFilesParametersQueryPurpose'EnumDisputeEvidence
+            | val GHC.Classes.== "finance_report_run" -> GetFilesParametersQueryPurpose'EnumFinanceReportRun
+            | val GHC.Classes.== "identity_document" -> GetFilesParametersQueryPurpose'EnumIdentityDocument
+            | val GHC.Classes.== "pci_document" -> GetFilesParametersQueryPurpose'EnumPciDocument
+            | val GHC.Classes.== "sigma_scheduled_query" -> GetFilesParametersQueryPurpose'EnumSigmaScheduledQuery
+            | val GHC.Classes.== "tax_document_user_upload" -> GetFilesParametersQueryPurpose'EnumTaxDocumentUserUpload
+            | GHC.Base.otherwise -> GetFilesParametersQueryPurpose'Other val
+      )
 
 -- | Represents a response of the operation 'getFiles'.
 --
@@ -371,15 +275,13 @@ data GetFilesResponse
     GetFilesResponseDefault Error
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
--- | Defines the data type for the schema GetFilesResponseBody200
+-- | Defines the object schema located at @paths.\/v1\/files.GET.responses.200.content.application\/json.schema@ in the specification.
 data GetFilesResponseBody200
   = GetFilesResponseBody200
       { -- | data
-        getFilesResponseBody200Data :: ([] File),
+        getFilesResponseBody200Data :: ([File]),
         -- | has_more: True if this list has another page of items after this one that can be fetched.
         getFilesResponseBody200HasMore :: GHC.Types.Bool,
-        -- | object: String representing the object\'s type. Objects of the same type share the same value. Always has the value \`list\`.
-        getFilesResponseBody200Object :: GetFilesResponseBody200Object',
         -- | url: The URL where this list can be accessed.
         --
         -- Constraints:
@@ -393,31 +295,25 @@ data GetFilesResponseBody200
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON GetFilesResponseBody200 where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "data" (getFilesResponseBody200Data obj) : (Data.Aeson..=) "has_more" (getFilesResponseBody200HasMore obj) : (Data.Aeson..=) "object" (getFilesResponseBody200Object obj) : (Data.Aeson..=) "url" (getFilesResponseBody200Url obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "data" (getFilesResponseBody200Data obj) GHC.Base.<> ((Data.Aeson..=) "has_more" (getFilesResponseBody200HasMore obj) GHC.Base.<> ((Data.Aeson..=) "object" (getFilesResponseBody200Object obj) GHC.Base.<> (Data.Aeson..=) "url" (getFilesResponseBody200Url obj))))
+instance Data.Aeson.Types.ToJSON.ToJSON GetFilesResponseBody200 where
+  toJSON obj = Data.Aeson.Types.Internal.object ("data" Data.Aeson.Types.ToJSON..= getFilesResponseBody200Data obj : "has_more" Data.Aeson.Types.ToJSON..= getFilesResponseBody200HasMore obj : "url" Data.Aeson.Types.ToJSON..= getFilesResponseBody200Url obj : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "list" : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("data" Data.Aeson.Types.ToJSON..= getFilesResponseBody200Data obj) GHC.Base.<> (("has_more" Data.Aeson.Types.ToJSON..= getFilesResponseBody200HasMore obj) GHC.Base.<> (("url" Data.Aeson.Types.ToJSON..= getFilesResponseBody200Url obj) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "list"))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetFilesResponseBody200 where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetFilesResponseBody200" (\obj -> (((GHC.Base.pure GetFilesResponseBody200 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "has_more")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "object")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "url"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetFilesResponseBody200" (\obj -> ((GHC.Base.pure GetFilesResponseBody200 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "has_more")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "url"))
 
--- | Defines the enum schema GetFilesResponseBody200Object\'
---
--- String representing the object\'s type. Objects of the same type share the same value. Always has the value \`list\`.
-data GetFilesResponseBody200Object'
-  = GetFilesResponseBody200Object'EnumOther Data.Aeson.Types.Internal.Value
-  | GetFilesResponseBody200Object'EnumTyped Data.Text.Internal.Text
-  | GetFilesResponseBody200Object'EnumStringList
-  deriving (GHC.Show.Show, GHC.Classes.Eq)
-
-instance Data.Aeson.ToJSON GetFilesResponseBody200Object' where
-  toJSON (GetFilesResponseBody200Object'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (GetFilesResponseBody200Object'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (GetFilesResponseBody200Object'EnumStringList) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "list"
-
-instance Data.Aeson.FromJSON GetFilesResponseBody200Object' where
-  parseJSON val =
-    GHC.Base.pure
-      ( if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "list")
-          then GetFilesResponseBody200Object'EnumStringList
-          else GetFilesResponseBody200Object'EnumOther val
-      )
+-- | Create a new 'GetFilesResponseBody200' with all required fields.
+mkGetFilesResponseBody200 ::
+  -- | 'getFilesResponseBody200Data'
+  [File] ->
+  -- | 'getFilesResponseBody200HasMore'
+  GHC.Types.Bool ->
+  -- | 'getFilesResponseBody200Url'
+  Data.Text.Internal.Text ->
+  GetFilesResponseBody200
+mkGetFilesResponseBody200 getFilesResponseBody200Data getFilesResponseBody200HasMore getFilesResponseBody200Url =
+  GetFilesResponseBody200
+    { getFilesResponseBody200Data = getFilesResponseBody200Data,
+      getFilesResponseBody200HasMore = getFilesResponseBody200HasMore,
+      getFilesResponseBody200Url = getFilesResponseBody200Url
+    }

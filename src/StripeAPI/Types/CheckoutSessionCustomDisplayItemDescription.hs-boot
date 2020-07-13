@@ -1,0 +1,8 @@
+module StripeAPI.Types.CheckoutSessionCustomDisplayItemDescription where
+import Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Types.Internal
+data CheckoutSessionCustomDisplayItemDescription
+instance Show CheckoutSessionCustomDisplayItemDescription
+instance Eq CheckoutSessionCustomDisplayItemDescription
+instance FromJSON CheckoutSessionCustomDisplayItemDescription
+instance ToJSON CheckoutSessionCustomDisplayItemDescription

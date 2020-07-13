@@ -1,4 +1,3 @@
-{-# LANGUAGE DeriveGeneric #-}
 {-# LANGUAGE ExplicitForAll #-}
 {-# LANGUAGE MultiWayIf #-}
 {-# LANGUAGE OverloadedStrings #-}
@@ -8,8 +7,10 @@
 -- | Contains the different functions to run the operation getBitcoinReceiversReceiverTransactions
 module StripeAPI.Operations.GetBitcoinReceiversReceiverTransactions where
 
+import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -26,7 +27,6 @@ import qualified Data.Time.LocalTime as Data.Time.LocalTime.Internal.ZonedTime
 import qualified Data.Vector
 import qualified GHC.Base
 import qualified GHC.Classes
-import qualified GHC.Generics
 import qualified GHC.Int
 import qualified GHC.Show
 import qualified GHC.Types
@@ -46,302 +46,115 @@ import qualified Prelude as GHC.Maybe
 --
 -- \<p>List bitcoin transacitons for a given receiver.\<\/p>
 getBitcoinReceiversReceiverTransactions ::
-  forall m s.
-  (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) =>
-  -- | The configuration to use in the request
-  StripeAPI.Common.Configuration s ->
-  -- | customer: Only return transactions for the customer specified by this customer ID. | Constraints: Maximum length of 5000
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  -- | ending_before: A cursor for use in pagination. \`ending_before\` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, starting with \`obj_bar\`, your subsequent call can include \`ending_before=obj_bar\` in order to fetch the previous page of the list. | Constraints: Maximum length of 5000
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  -- | expand: Specifies which fields in the response should be expanded.
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  -- | limit: A limit on the number of objects to be returned. Limit can range between 1 and 100, and the default is 10.
-  GHC.Maybe.Maybe GHC.Integer.Type.Integer ->
-  -- | receiver | Constraints: Maximum length of 5000
-  Data.Text.Internal.Text ->
-  -- | starting_after: A cursor for use in pagination. \`starting_after\` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with \`obj_foo\`, your subsequent call can include \`starting_after=obj_foo\` in order to fetch the next page of the list. | Constraints: Maximum length of 5000
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  -- | The request body to send
-  GHC.Maybe.Maybe GetBitcoinReceiversReceiverTransactionsRequestBody ->
-  -- | Monad containing the result of the operation
-  m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response GetBitcoinReceiversReceiverTransactionsResponse))
-getBitcoinReceiversReceiverTransactions
-  config
-  customer
-  endingBefore
-  expand
-  limit
-  receiver
-  startingAfter
-  body =
-    GHC.Base.fmap
-      ( GHC.Base.fmap
-          ( \response_0 ->
-              GHC.Base.fmap
-                ( Data.Either.either GetBitcoinReceiversReceiverTransactionsResponseError GHC.Base.id
-                    GHC.Base.. ( \response body ->
-                                   if  | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                         GetBitcoinReceiversReceiverTransactionsResponse200
-                                           Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                                Data.Either.Either GHC.Base.String
-                                                                  GetBitcoinReceiversReceiverTransactionsResponseBody200
-                                                            )
-                                       | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                         GetBitcoinReceiversReceiverTransactionsResponseDefault
-                                           Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                                Data.Either.Either GHC.Base.String
-                                                                  Error
-                                                            )
-                                       | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
-                               )
-                      response_0
-                )
+  forall m.
+  StripeAPI.Common.MonadHTTP m =>
+  -- | Contains all available parameters of this operation (query and path parameters)
+  GetBitcoinReceiversReceiverTransactionsParameters ->
+  -- | Monadic computation which returns the result of the operation
+  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response GetBitcoinReceiversReceiverTransactionsResponse)
+getBitcoinReceiversReceiverTransactions parameters =
+  GHC.Base.fmap
+    ( \response_0 ->
+        GHC.Base.fmap
+          ( Data.Either.either GetBitcoinReceiversReceiverTransactionsResponseError GHC.Base.id
+              GHC.Base.. ( \response body ->
+                             if  | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
+                                   GetBitcoinReceiversReceiverTransactionsResponse200
+                                     Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                          Data.Either.Either GHC.Base.String
+                                                            GetBitcoinReceiversReceiverTransactionsResponseBody200
+                                                      )
+                                 | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
+                                   GetBitcoinReceiversReceiverTransactionsResponseDefault
+                                     Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                          Data.Either.Either GHC.Base.String
+                                                            Error
+                                                      )
+                                 | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
+                         )
                 response_0
           )
-      )
-      ( StripeAPI.Common.doBodyCallWithConfiguration
-          config
-          (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET")
-          (Data.Text.pack ("/v1/bitcoin/receivers/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel receiver)) GHC.Base.++ "/transactions")))
-          ( ( Data.Text.pack "customer",
-              StripeAPI.Common.stringifyModel Data.Functor.<$> customer
-            )
-              : ( ( Data.Text.pack "ending_before",
-                    StripeAPI.Common.stringifyModel Data.Functor.<$> endingBefore
-                  )
-                    : ( ( Data.Text.pack "expand",
-                          StripeAPI.Common.stringifyModel Data.Functor.<$> expand
-                        )
-                          : ( ( Data.Text.pack "limit",
-                                StripeAPI.Common.stringifyModel Data.Functor.<$> limit
-                              )
-                                : ( ( Data.Text.pack "starting_after",
-                                      StripeAPI.Common.stringifyModel Data.Functor.<$> startingAfter
-                                    )
-                                      : []
-                                  )
-                            )
-                      )
-                )
-          )
-          body
-          StripeAPI.Common.RequestBodyEncodingFormData
-      )
-
--- | > GET /v1/bitcoin/receivers/{receiver}/transactions
---
--- The same as 'getBitcoinReceiversReceiverTransactions' but returns the raw 'Data.ByteString.Char8.ByteString'
-getBitcoinReceiversReceiverTransactionsRaw ::
-  forall m s.
-  ( StripeAPI.Common.MonadHTTP m,
-    StripeAPI.Common.SecurityScheme s
-  ) =>
-  StripeAPI.Common.Configuration s ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe GHC.Integer.Type.Integer ->
-  Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe GetBitcoinReceiversReceiverTransactionsRequestBody ->
-  m
-    ( Data.Either.Either Network.HTTP.Client.Types.HttpException
-        (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
+          response_0
     )
-getBitcoinReceiversReceiverTransactionsRaw
-  config
-  customer
-  endingBefore
-  expand
-  limit
-  receiver
-  startingAfter
-  body =
-    GHC.Base.id
-      ( StripeAPI.Common.doBodyCallWithConfiguration
-          config
-          (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET")
-          (Data.Text.pack ("/v1/bitcoin/receivers/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel receiver)) GHC.Base.++ "/transactions")))
-          ( ( Data.Text.pack "customer",
-              StripeAPI.Common.stringifyModel Data.Functor.<$> customer
-            )
-              : ( ( Data.Text.pack "ending_before",
-                    StripeAPI.Common.stringifyModel Data.Functor.<$> endingBefore
-                  )
-                    : ( ( Data.Text.pack "expand",
-                          StripeAPI.Common.stringifyModel Data.Functor.<$> expand
-                        )
-                          : ( ( Data.Text.pack "limit",
-                                StripeAPI.Common.stringifyModel Data.Functor.<$> limit
-                              )
-                                : ( ( Data.Text.pack "starting_after",
-                                      StripeAPI.Common.stringifyModel Data.Functor.<$> startingAfter
-                                    )
-                                      : []
-                                  )
-                            )
-                      )
-                )
-          )
-          body
-          StripeAPI.Common.RequestBodyEncodingFormData
-      )
-
--- | > GET /v1/bitcoin/receivers/{receiver}/transactions
---
--- Monadic version of 'getBitcoinReceiversReceiverTransactions' (use with 'StripeAPI.Common.runWithConfiguration')
-getBitcoinReceiversReceiverTransactionsM ::
-  forall m s.
-  ( StripeAPI.Common.MonadHTTP m,
-    StripeAPI.Common.SecurityScheme s
-  ) =>
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe GHC.Integer.Type.Integer ->
-  Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe GetBitcoinReceiversReceiverTransactionsRequestBody ->
-  Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
-    m
-    ( Data.Either.Either Network.HTTP.Client.Types.HttpException
-        (Network.HTTP.Client.Types.Response GetBitcoinReceiversReceiverTransactionsResponse)
+    ( StripeAPI.Common.doCallWithConfigurationM
+        (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET")
+        (Data.Text.pack ("/v1/bitcoin/receivers/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel (getBitcoinReceiversReceiverTransactionsParametersPathReceiver parameters))) GHC.Base.++ "/transactions")))
+        [ StripeAPI.Common.QueryParameter (Data.Text.pack "customer") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getBitcoinReceiversReceiverTransactionsParametersQueryCustomer parameters) (Data.Text.pack "form") GHC.Types.True,
+          StripeAPI.Common.QueryParameter (Data.Text.pack "ending_before") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getBitcoinReceiversReceiverTransactionsParametersQueryEndingBefore parameters) (Data.Text.pack "form") GHC.Types.True,
+          StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getBitcoinReceiversReceiverTransactionsParametersQueryExpand parameters) (Data.Text.pack "deepObject") GHC.Types.True,
+          StripeAPI.Common.QueryParameter (Data.Text.pack "limit") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getBitcoinReceiversReceiverTransactionsParametersQueryLimit parameters) (Data.Text.pack "form") GHC.Types.True,
+          StripeAPI.Common.QueryParameter (Data.Text.pack "starting_after") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getBitcoinReceiversReceiverTransactionsParametersQueryStartingAfter parameters) (Data.Text.pack "form") GHC.Types.True
+        ]
     )
-getBitcoinReceiversReceiverTransactionsM
-  customer
-  endingBefore
-  expand
-  limit
-  receiver
-  startingAfter
-  body =
-    GHC.Base.fmap
-      ( GHC.Base.fmap
-          ( \response_2 ->
-              GHC.Base.fmap
-                ( Data.Either.either GetBitcoinReceiversReceiverTransactionsResponseError GHC.Base.id
-                    GHC.Base.. ( \response body ->
-                                   if  | (\status_3 -> Network.HTTP.Types.Status.statusCode status_3 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                         GetBitcoinReceiversReceiverTransactionsResponse200
-                                           Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                                Data.Either.Either GHC.Base.String
-                                                                  GetBitcoinReceiversReceiverTransactionsResponseBody200
-                                                            )
-                                       | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                         GetBitcoinReceiversReceiverTransactionsResponseDefault
-                                           Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                                Data.Either.Either GHC.Base.String
-                                                                  Error
-                                                            )
-                                       | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
-                               )
-                      response_2
-                )
-                response_2
-          )
-      )
-      ( StripeAPI.Common.doBodyCallWithConfigurationM
-          (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET")
-          (Data.Text.pack ("/v1/bitcoin/receivers/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel receiver)) GHC.Base.++ "/transactions")))
-          ( ( Data.Text.pack "customer",
-              StripeAPI.Common.stringifyModel Data.Functor.<$> customer
-            )
-              : ( ( Data.Text.pack "ending_before",
-                    StripeAPI.Common.stringifyModel Data.Functor.<$> endingBefore
-                  )
-                    : ( ( Data.Text.pack "expand",
-                          StripeAPI.Common.stringifyModel Data.Functor.<$> expand
-                        )
-                          : ( ( Data.Text.pack "limit",
-                                StripeAPI.Common.stringifyModel Data.Functor.<$> limit
-                              )
-                                : ( ( Data.Text.pack "starting_after",
-                                      StripeAPI.Common.stringifyModel Data.Functor.<$> startingAfter
-                                    )
-                                      : []
-                                  )
-                            )
-                      )
-                )
-          )
-          body
-          StripeAPI.Common.RequestBodyEncodingFormData
-      )
 
--- | > GET /v1/bitcoin/receivers/{receiver}/transactions
---
--- Monadic version of 'getBitcoinReceiversReceiverTransactionsRaw' (use with 'StripeAPI.Common.runWithConfiguration')
-getBitcoinReceiversReceiverTransactionsRawM ::
-  forall m s.
-  ( StripeAPI.Common.MonadHTTP m,
-    StripeAPI.Common.SecurityScheme s
-  ) =>
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe GHC.Integer.Type.Integer ->
-  Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe GetBitcoinReceiversReceiverTransactionsRequestBody ->
-  Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
-    m
-    ( Data.Either.Either Network.HTTP.Client.Types.HttpException
-        (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
-    )
-getBitcoinReceiversReceiverTransactionsRawM
-  customer
-  endingBefore
-  expand
-  limit
-  receiver
-  startingAfter
-  body =
-    GHC.Base.id
-      ( StripeAPI.Common.doBodyCallWithConfigurationM
-          (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET")
-          (Data.Text.pack ("/v1/bitcoin/receivers/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel receiver)) GHC.Base.++ "/transactions")))
-          ( ( Data.Text.pack "customer",
-              StripeAPI.Common.stringifyModel Data.Functor.<$> customer
-            )
-              : ( ( Data.Text.pack "ending_before",
-                    StripeAPI.Common.stringifyModel Data.Functor.<$> endingBefore
-                  )
-                    : ( ( Data.Text.pack "expand",
-                          StripeAPI.Common.stringifyModel Data.Functor.<$> expand
-                        )
-                          : ( ( Data.Text.pack "limit",
-                                StripeAPI.Common.stringifyModel Data.Functor.<$> limit
-                              )
-                                : ( ( Data.Text.pack "starting_after",
-                                      StripeAPI.Common.stringifyModel Data.Functor.<$> startingAfter
-                                    )
-                                      : []
-                                  )
-                            )
-                      )
-                )
-          )
-          body
-          StripeAPI.Common.RequestBodyEncodingFormData
-      )
-
--- | Defines the data type for the schema getBitcoinReceiversReceiverTransactionsRequestBody
-data GetBitcoinReceiversReceiverTransactionsRequestBody
-  = GetBitcoinReceiversReceiverTransactionsRequestBody
-      {
+-- | Defines the object schema located at @paths.\/v1\/bitcoin\/receivers\/{receiver}\/transactions.GET.parameters@ in the specification.
+data GetBitcoinReceiversReceiverTransactionsParameters
+  = GetBitcoinReceiversReceiverTransactionsParameters
+      { -- | pathReceiver: Represents the parameter named \'receiver\'
+        --
+        -- Constraints:
+        --
+        -- * Maximum length of 5000
+        getBitcoinReceiversReceiverTransactionsParametersPathReceiver :: Data.Text.Internal.Text,
+        -- | queryCustomer: Represents the parameter named \'customer\'
+        --
+        -- Only return transactions for the customer specified by this customer ID.
+        --
+        -- Constraints:
+        --
+        -- * Maximum length of 5000
+        getBitcoinReceiversReceiverTransactionsParametersQueryCustomer :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+        -- | queryEnding_before: Represents the parameter named \'ending_before\'
+        --
+        -- A cursor for use in pagination. \`ending_before\` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, starting with \`obj_bar\`, your subsequent call can include \`ending_before=obj_bar\` in order to fetch the previous page of the list.
+        --
+        -- Constraints:
+        --
+        -- * Maximum length of 5000
+        getBitcoinReceiversReceiverTransactionsParametersQueryEndingBefore :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+        -- | queryExpand: Represents the parameter named \'expand\'
+        --
+        -- Specifies which fields in the response should be expanded.
+        getBitcoinReceiversReceiverTransactionsParametersQueryExpand :: (GHC.Maybe.Maybe ([Data.Text.Internal.Text])),
+        -- | queryLimit: Represents the parameter named \'limit\'
+        --
+        -- A limit on the number of objects to be returned. Limit can range between 1 and 100, and the default is 10.
+        getBitcoinReceiversReceiverTransactionsParametersQueryLimit :: (GHC.Maybe.Maybe GHC.Types.Int),
+        -- | queryStarting_after: Represents the parameter named \'starting_after\'
+        --
+        -- A cursor for use in pagination. \`starting_after\` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with \`obj_foo\`, your subsequent call can include \`starting_after=obj_foo\` in order to fetch the next page of the list.
+        --
+        -- Constraints:
+        --
+        -- * Maximum length of 5000
+        getBitcoinReceiversReceiverTransactionsParametersQueryStartingAfter :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
       }
   deriving
     ( GHC.Show.Show,
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON GetBitcoinReceiversReceiverTransactionsRequestBody where
-  toJSON obj = Data.Aeson.object []
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "string" ("string" :: GHC.Base.String))
+instance Data.Aeson.Types.ToJSON.ToJSON GetBitcoinReceiversReceiverTransactionsParameters where
+  toJSON obj = Data.Aeson.Types.Internal.object ("pathReceiver" Data.Aeson.Types.ToJSON..= getBitcoinReceiversReceiverTransactionsParametersPathReceiver obj : "queryCustomer" Data.Aeson.Types.ToJSON..= getBitcoinReceiversReceiverTransactionsParametersQueryCustomer obj : "queryEnding_before" Data.Aeson.Types.ToJSON..= getBitcoinReceiversReceiverTransactionsParametersQueryEndingBefore obj : "queryExpand" Data.Aeson.Types.ToJSON..= getBitcoinReceiversReceiverTransactionsParametersQueryExpand obj : "queryLimit" Data.Aeson.Types.ToJSON..= getBitcoinReceiversReceiverTransactionsParametersQueryLimit obj : "queryStarting_after" Data.Aeson.Types.ToJSON..= getBitcoinReceiversReceiverTransactionsParametersQueryStartingAfter obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("pathReceiver" Data.Aeson.Types.ToJSON..= getBitcoinReceiversReceiverTransactionsParametersPathReceiver obj) GHC.Base.<> (("queryCustomer" Data.Aeson.Types.ToJSON..= getBitcoinReceiversReceiverTransactionsParametersQueryCustomer obj) GHC.Base.<> (("queryEnding_before" Data.Aeson.Types.ToJSON..= getBitcoinReceiversReceiverTransactionsParametersQueryEndingBefore obj) GHC.Base.<> (("queryExpand" Data.Aeson.Types.ToJSON..= getBitcoinReceiversReceiverTransactionsParametersQueryExpand obj) GHC.Base.<> (("queryLimit" Data.Aeson.Types.ToJSON..= getBitcoinReceiversReceiverTransactionsParametersQueryLimit obj) GHC.Base.<> ("queryStarting_after" Data.Aeson.Types.ToJSON..= getBitcoinReceiversReceiverTransactionsParametersQueryStartingAfter obj))))))
 
-instance Data.Aeson.Types.FromJSON.FromJSON GetBitcoinReceiversReceiverTransactionsRequestBody where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetBitcoinReceiversReceiverTransactionsRequestBody" (\obj -> GHC.Base.pure GetBitcoinReceiversReceiverTransactionsRequestBody)
+instance Data.Aeson.Types.FromJSON.FromJSON GetBitcoinReceiversReceiverTransactionsParameters where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetBitcoinReceiversReceiverTransactionsParameters" (\obj -> (((((GHC.Base.pure GetBitcoinReceiversReceiverTransactionsParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathReceiver")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryCustomer")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryEnding_before")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryExpand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryLimit")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryStarting_after"))
+
+-- | Create a new 'GetBitcoinReceiversReceiverTransactionsParameters' with all required fields.
+mkGetBitcoinReceiversReceiverTransactionsParameters ::
+  -- | 'getBitcoinReceiversReceiverTransactionsParametersPathReceiver'
+  Data.Text.Internal.Text ->
+  GetBitcoinReceiversReceiverTransactionsParameters
+mkGetBitcoinReceiversReceiverTransactionsParameters getBitcoinReceiversReceiverTransactionsParametersPathReceiver =
+  GetBitcoinReceiversReceiverTransactionsParameters
+    { getBitcoinReceiversReceiverTransactionsParametersPathReceiver = getBitcoinReceiversReceiverTransactionsParametersPathReceiver,
+      getBitcoinReceiversReceiverTransactionsParametersQueryCustomer = GHC.Maybe.Nothing,
+      getBitcoinReceiversReceiverTransactionsParametersQueryEndingBefore = GHC.Maybe.Nothing,
+      getBitcoinReceiversReceiverTransactionsParametersQueryExpand = GHC.Maybe.Nothing,
+      getBitcoinReceiversReceiverTransactionsParametersQueryLimit = GHC.Maybe.Nothing,
+      getBitcoinReceiversReceiverTransactionsParametersQueryStartingAfter = GHC.Maybe.Nothing
+    }
 
 -- | Represents a response of the operation 'getBitcoinReceiversReceiverTransactions'.
 --
@@ -355,15 +168,13 @@ data GetBitcoinReceiversReceiverTransactionsResponse
     GetBitcoinReceiversReceiverTransactionsResponseDefault Error
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
--- | Defines the data type for the schema GetBitcoinReceiversReceiverTransactionsResponseBody200
+-- | Defines the object schema located at @paths.\/v1\/bitcoin\/receivers\/{receiver}\/transactions.GET.responses.200.content.application\/json.schema@ in the specification.
 data GetBitcoinReceiversReceiverTransactionsResponseBody200
   = GetBitcoinReceiversReceiverTransactionsResponseBody200
       { -- | data: Details about each object.
-        getBitcoinReceiversReceiverTransactionsResponseBody200Data :: ([] BitcoinTransaction),
+        getBitcoinReceiversReceiverTransactionsResponseBody200Data :: ([BitcoinTransaction]),
         -- | has_more: True if this list has another page of items after this one that can be fetched.
         getBitcoinReceiversReceiverTransactionsResponseBody200HasMore :: GHC.Types.Bool,
-        -- | object: String representing the object\'s type. Objects of the same type share the same value. Always has the value \`list\`.
-        getBitcoinReceiversReceiverTransactionsResponseBody200Object :: GetBitcoinReceiversReceiverTransactionsResponseBody200Object',
         -- | url: The URL where this list can be accessed.
         --
         -- Constraints:
@@ -376,31 +187,25 @@ data GetBitcoinReceiversReceiverTransactionsResponseBody200
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON GetBitcoinReceiversReceiverTransactionsResponseBody200 where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "data" (getBitcoinReceiversReceiverTransactionsResponseBody200Data obj) : (Data.Aeson..=) "has_more" (getBitcoinReceiversReceiverTransactionsResponseBody200HasMore obj) : (Data.Aeson..=) "object" (getBitcoinReceiversReceiverTransactionsResponseBody200Object obj) : (Data.Aeson..=) "url" (getBitcoinReceiversReceiverTransactionsResponseBody200Url obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "data" (getBitcoinReceiversReceiverTransactionsResponseBody200Data obj) GHC.Base.<> ((Data.Aeson..=) "has_more" (getBitcoinReceiversReceiverTransactionsResponseBody200HasMore obj) GHC.Base.<> ((Data.Aeson..=) "object" (getBitcoinReceiversReceiverTransactionsResponseBody200Object obj) GHC.Base.<> (Data.Aeson..=) "url" (getBitcoinReceiversReceiverTransactionsResponseBody200Url obj))))
+instance Data.Aeson.Types.ToJSON.ToJSON GetBitcoinReceiversReceiverTransactionsResponseBody200 where
+  toJSON obj = Data.Aeson.Types.Internal.object ("data" Data.Aeson.Types.ToJSON..= getBitcoinReceiversReceiverTransactionsResponseBody200Data obj : "has_more" Data.Aeson.Types.ToJSON..= getBitcoinReceiversReceiverTransactionsResponseBody200HasMore obj : "url" Data.Aeson.Types.ToJSON..= getBitcoinReceiversReceiverTransactionsResponseBody200Url obj : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "list" : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("data" Data.Aeson.Types.ToJSON..= getBitcoinReceiversReceiverTransactionsResponseBody200Data obj) GHC.Base.<> (("has_more" Data.Aeson.Types.ToJSON..= getBitcoinReceiversReceiverTransactionsResponseBody200HasMore obj) GHC.Base.<> (("url" Data.Aeson.Types.ToJSON..= getBitcoinReceiversReceiverTransactionsResponseBody200Url obj) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "list"))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetBitcoinReceiversReceiverTransactionsResponseBody200 where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetBitcoinReceiversReceiverTransactionsResponseBody200" (\obj -> (((GHC.Base.pure GetBitcoinReceiversReceiverTransactionsResponseBody200 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "has_more")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "object")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "url"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetBitcoinReceiversReceiverTransactionsResponseBody200" (\obj -> ((GHC.Base.pure GetBitcoinReceiversReceiverTransactionsResponseBody200 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "has_more")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "url"))
 
--- | Defines the enum schema GetBitcoinReceiversReceiverTransactionsResponseBody200Object\'
---
--- String representing the object\'s type. Objects of the same type share the same value. Always has the value \`list\`.
-data GetBitcoinReceiversReceiverTransactionsResponseBody200Object'
-  = GetBitcoinReceiversReceiverTransactionsResponseBody200Object'EnumOther Data.Aeson.Types.Internal.Value
-  | GetBitcoinReceiversReceiverTransactionsResponseBody200Object'EnumTyped Data.Text.Internal.Text
-  | GetBitcoinReceiversReceiverTransactionsResponseBody200Object'EnumStringList
-  deriving (GHC.Show.Show, GHC.Classes.Eq)
-
-instance Data.Aeson.ToJSON GetBitcoinReceiversReceiverTransactionsResponseBody200Object' where
-  toJSON (GetBitcoinReceiversReceiverTransactionsResponseBody200Object'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (GetBitcoinReceiversReceiverTransactionsResponseBody200Object'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (GetBitcoinReceiversReceiverTransactionsResponseBody200Object'EnumStringList) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "list"
-
-instance Data.Aeson.FromJSON GetBitcoinReceiversReceiverTransactionsResponseBody200Object' where
-  parseJSON val =
-    GHC.Base.pure
-      ( if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "list")
-          then GetBitcoinReceiversReceiverTransactionsResponseBody200Object'EnumStringList
-          else GetBitcoinReceiversReceiverTransactionsResponseBody200Object'EnumOther val
-      )
+-- | Create a new 'GetBitcoinReceiversReceiverTransactionsResponseBody200' with all required fields.
+mkGetBitcoinReceiversReceiverTransactionsResponseBody200 ::
+  -- | 'getBitcoinReceiversReceiverTransactionsResponseBody200Data'
+  [BitcoinTransaction] ->
+  -- | 'getBitcoinReceiversReceiverTransactionsResponseBody200HasMore'
+  GHC.Types.Bool ->
+  -- | 'getBitcoinReceiversReceiverTransactionsResponseBody200Url'
+  Data.Text.Internal.Text ->
+  GetBitcoinReceiversReceiverTransactionsResponseBody200
+mkGetBitcoinReceiversReceiverTransactionsResponseBody200 getBitcoinReceiversReceiverTransactionsResponseBody200Data getBitcoinReceiversReceiverTransactionsResponseBody200HasMore getBitcoinReceiversReceiverTransactionsResponseBody200Url =
+  GetBitcoinReceiversReceiverTransactionsResponseBody200
+    { getBitcoinReceiversReceiverTransactionsResponseBody200Data = getBitcoinReceiversReceiverTransactionsResponseBody200Data,
+      getBitcoinReceiversReceiverTransactionsResponseBody200HasMore = getBitcoinReceiversReceiverTransactionsResponseBody200HasMore,
+      getBitcoinReceiversReceiverTransactionsResponseBody200Url = getBitcoinReceiversReceiverTransactionsResponseBody200Url
+    }

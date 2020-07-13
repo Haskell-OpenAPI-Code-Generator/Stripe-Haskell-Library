@@ -1,4 +1,3 @@
-{-# LANGUAGE DeriveGeneric #-}
 {-# LANGUAGE ExplicitForAll #-}
 {-# LANGUAGE MultiWayIf #-}
 {-# LANGUAGE OverloadedStrings #-}
@@ -8,8 +7,10 @@
 -- | Contains the different functions to run the operation postPayouts
 module StripeAPI.Operations.PostPayouts where
 
+import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -26,7 +27,6 @@ import qualified Data.Time.LocalTime as Data.Time.LocalTime.Internal.ZonedTime
 import qualified Data.Vector
 import qualified GHC.Base
 import qualified GHC.Classes
-import qualified GHC.Generics
 import qualified GHC.Int
 import qualified GHC.Show
 import qualified GHC.Types
@@ -50,125 +50,43 @@ import qualified Prelude as GHC.Maybe
 --
 -- \<p>If you are creating a manual payout on a Stripe account that uses multiple payment source types, you’ll need to specify the source type balance that the payout should draw from. The \<a href=\"\#balance_object\">balance object\<\/a> details available and pending amounts by source type.\<\/p>
 postPayouts ::
-  forall m s.
-  (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) =>
-  -- | The configuration to use in the request
-  StripeAPI.Common.Configuration s ->
+  forall m.
+  StripeAPI.Common.MonadHTTP m =>
   -- | The request body to send
   PostPayoutsRequestBody ->
-  -- | Monad containing the result of the operation
-  m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response PostPayoutsResponse))
-postPayouts
-  config
-  body =
-    GHC.Base.fmap
-      ( GHC.Base.fmap
-          ( \response_0 ->
-              GHC.Base.fmap
-                ( Data.Either.either PostPayoutsResponseError GHC.Base.id
-                    GHC.Base.. ( \response body ->
-                                   if  | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                         PostPayoutsResponse200
-                                           Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                                Data.Either.Either GHC.Base.String
-                                                                  Payout
-                                                            )
-                                       | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                         PostPayoutsResponseDefault
-                                           Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                                Data.Either.Either GHC.Base.String
-                                                                  Error
-                                                            )
-                                       | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
-                               )
-                      response_0
-                )
+  -- | Monadic computation which returns the result of the operation
+  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response PostPayoutsResponse)
+postPayouts body =
+  GHC.Base.fmap
+    ( \response_0 ->
+        GHC.Base.fmap
+          ( Data.Either.either PostPayoutsResponseError GHC.Base.id
+              GHC.Base.. ( \response body ->
+                             if  | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
+                                   PostPayoutsResponse200
+                                     Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                          Data.Either.Either GHC.Base.String
+                                                            Payout
+                                                      )
+                                 | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
+                                   PostPayoutsResponseDefault
+                                     Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                          Data.Either.Either GHC.Base.String
+                                                            Error
+                                                      )
+                                 | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
+                         )
                 response_0
           )
-      )
-      (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack "/v1/payouts") [] (GHC.Maybe.Just body) StripeAPI.Common.RequestBodyEncodingFormData)
-
--- | > POST /v1/payouts
---
--- The same as 'postPayouts' but returns the raw 'Data.ByteString.Char8.ByteString'
-postPayoutsRaw ::
-  forall m s.
-  ( StripeAPI.Common.MonadHTTP m,
-    StripeAPI.Common.SecurityScheme s
-  ) =>
-  StripeAPI.Common.Configuration s ->
-  PostPayoutsRequestBody ->
-  m
-    ( Data.Either.Either Network.HTTP.Client.Types.HttpException
-        (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
-    )
-postPayoutsRaw
-  config
-  body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack "/v1/payouts") [] (GHC.Maybe.Just body) StripeAPI.Common.RequestBodyEncodingFormData)
-
--- | > POST /v1/payouts
---
--- Monadic version of 'postPayouts' (use with 'StripeAPI.Common.runWithConfiguration')
-postPayoutsM ::
-  forall m s.
-  ( StripeAPI.Common.MonadHTTP m,
-    StripeAPI.Common.SecurityScheme s
-  ) =>
-  PostPayoutsRequestBody ->
-  Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
-    m
-    ( Data.Either.Either Network.HTTP.Client.Types.HttpException
-        (Network.HTTP.Client.Types.Response PostPayoutsResponse)
-    )
-postPayoutsM body =
-  GHC.Base.fmap
-    ( GHC.Base.fmap
-        ( \response_2 ->
-            GHC.Base.fmap
-              ( Data.Either.either PostPayoutsResponseError GHC.Base.id
-                  GHC.Base.. ( \response body ->
-                                 if  | (\status_3 -> Network.HTTP.Types.Status.statusCode status_3 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                       PostPayoutsResponse200
-                                         Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                              Data.Either.Either GHC.Base.String
-                                                                Payout
-                                                          )
-                                     | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                       PostPayoutsResponseDefault
-                                         Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                              Data.Either.Either GHC.Base.String
-                                                                Error
-                                                          )
-                                     | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
-                             )
-                    response_2
-              )
-              response_2
-        )
+          response_0
     )
     (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack "/v1/payouts") [] (GHC.Maybe.Just body) StripeAPI.Common.RequestBodyEncodingFormData)
 
--- | > POST /v1/payouts
---
--- Monadic version of 'postPayoutsRaw' (use with 'StripeAPI.Common.runWithConfiguration')
-postPayoutsRawM ::
-  forall m s.
-  ( StripeAPI.Common.MonadHTTP m,
-    StripeAPI.Common.SecurityScheme s
-  ) =>
-  PostPayoutsRequestBody ->
-  Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
-    m
-    ( Data.Either.Either Network.HTTP.Client.Types.HttpException
-        (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
-    )
-postPayoutsRawM body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack "/v1/payouts") [] (GHC.Maybe.Just body) StripeAPI.Common.RequestBodyEncodingFormData)
-
--- | Defines the data type for the schema postPayoutsRequestBody
+-- | Defines the object schema located at @paths.\/v1\/payouts.POST.requestBody.content.application\/x-www-form-urlencoded.schema@ in the specification.
 data PostPayoutsRequestBody
   = PostPayoutsRequestBody
       { -- | amount: A positive integer in cents representing how much to payout.
-        postPayoutsRequestBodyAmount :: GHC.Integer.Type.Integer,
+        postPayoutsRequestBodyAmount :: GHC.Types.Int,
         -- | currency: Three-letter [ISO currency code](https:\/\/www.iso.org\/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https:\/\/stripe.com\/docs\/currencies).
         postPayoutsRequestBodyCurrency :: Data.Text.Internal.Text,
         -- | description: An arbitrary string attached to the object. Often useful for displaying to users.
@@ -180,9 +98,9 @@ data PostPayoutsRequestBody
         -- | destination: The ID of a bank account or a card to send the payout to. If no destination is supplied, the default external account for the specified currency will be used.
         postPayoutsRequestBodyDestination :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
         -- | expand: Specifies which fields in the response should be expanded.
-        postPayoutsRequestBodyExpand :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text)),
+        postPayoutsRequestBodyExpand :: (GHC.Maybe.Maybe ([Data.Text.Internal.Text])),
         -- | metadata: Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to \`metadata\`.
-        postPayoutsRequestBodyMetadata :: (GHC.Maybe.Maybe PostPayoutsRequestBodyMetadata'),
+        postPayoutsRequestBodyMetadata :: (GHC.Maybe.Maybe Data.Aeson.Types.Internal.Object),
         -- | method: The method used to send this payout, which can be \`standard\` or \`instant\`. \`instant\` is only supported for payouts to debit cards. (See [Instant payouts for marketplaces for more information](https:\/\/stripe.com\/blog\/instant-payouts-for-marketplaces).)
         --
         -- Constraints:
@@ -207,89 +125,91 @@ data PostPayoutsRequestBody
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON PostPayoutsRequestBody where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "amount" (postPayoutsRequestBodyAmount obj) : (Data.Aeson..=) "currency" (postPayoutsRequestBodyCurrency obj) : (Data.Aeson..=) "description" (postPayoutsRequestBodyDescription obj) : (Data.Aeson..=) "destination" (postPayoutsRequestBodyDestination obj) : (Data.Aeson..=) "expand" (postPayoutsRequestBodyExpand obj) : (Data.Aeson..=) "metadata" (postPayoutsRequestBodyMetadata obj) : (Data.Aeson..=) "method" (postPayoutsRequestBodyMethod obj) : (Data.Aeson..=) "source_type" (postPayoutsRequestBodySourceType obj) : (Data.Aeson..=) "statement_descriptor" (postPayoutsRequestBodyStatementDescriptor obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "amount" (postPayoutsRequestBodyAmount obj) GHC.Base.<> ((Data.Aeson..=) "currency" (postPayoutsRequestBodyCurrency obj) GHC.Base.<> ((Data.Aeson..=) "description" (postPayoutsRequestBodyDescription obj) GHC.Base.<> ((Data.Aeson..=) "destination" (postPayoutsRequestBodyDestination obj) GHC.Base.<> ((Data.Aeson..=) "expand" (postPayoutsRequestBodyExpand obj) GHC.Base.<> ((Data.Aeson..=) "metadata" (postPayoutsRequestBodyMetadata obj) GHC.Base.<> ((Data.Aeson..=) "method" (postPayoutsRequestBodyMethod obj) GHC.Base.<> ((Data.Aeson..=) "source_type" (postPayoutsRequestBodySourceType obj) GHC.Base.<> (Data.Aeson..=) "statement_descriptor" (postPayoutsRequestBodyStatementDescriptor obj)))))))))
+instance Data.Aeson.Types.ToJSON.ToJSON PostPayoutsRequestBody where
+  toJSON obj = Data.Aeson.Types.Internal.object ("amount" Data.Aeson.Types.ToJSON..= postPayoutsRequestBodyAmount obj : "currency" Data.Aeson.Types.ToJSON..= postPayoutsRequestBodyCurrency obj : "description" Data.Aeson.Types.ToJSON..= postPayoutsRequestBodyDescription obj : "destination" Data.Aeson.Types.ToJSON..= postPayoutsRequestBodyDestination obj : "expand" Data.Aeson.Types.ToJSON..= postPayoutsRequestBodyExpand obj : "metadata" Data.Aeson.Types.ToJSON..= postPayoutsRequestBodyMetadata obj : "method" Data.Aeson.Types.ToJSON..= postPayoutsRequestBodyMethod obj : "source_type" Data.Aeson.Types.ToJSON..= postPayoutsRequestBodySourceType obj : "statement_descriptor" Data.Aeson.Types.ToJSON..= postPayoutsRequestBodyStatementDescriptor obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("amount" Data.Aeson.Types.ToJSON..= postPayoutsRequestBodyAmount obj) GHC.Base.<> (("currency" Data.Aeson.Types.ToJSON..= postPayoutsRequestBodyCurrency obj) GHC.Base.<> (("description" Data.Aeson.Types.ToJSON..= postPayoutsRequestBodyDescription obj) GHC.Base.<> (("destination" Data.Aeson.Types.ToJSON..= postPayoutsRequestBodyDestination obj) GHC.Base.<> (("expand" Data.Aeson.Types.ToJSON..= postPayoutsRequestBodyExpand obj) GHC.Base.<> (("metadata" Data.Aeson.Types.ToJSON..= postPayoutsRequestBodyMetadata obj) GHC.Base.<> (("method" Data.Aeson.Types.ToJSON..= postPayoutsRequestBodyMethod obj) GHC.Base.<> (("source_type" Data.Aeson.Types.ToJSON..= postPayoutsRequestBodySourceType obj) GHC.Base.<> ("statement_descriptor" Data.Aeson.Types.ToJSON..= postPayoutsRequestBodyStatementDescriptor obj)))))))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostPayoutsRequestBody where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PostPayoutsRequestBody" (\obj -> ((((((((GHC.Base.pure PostPayoutsRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "description")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "destination")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "method")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "source_type")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "statement_descriptor"))
 
--- | Defines the data type for the schema postPayoutsRequestBodyMetadata\'
---
--- Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to \`metadata\`.
-data PostPayoutsRequestBodyMetadata'
-  = PostPayoutsRequestBodyMetadata'
-      {
-      }
-  deriving
-    ( GHC.Show.Show,
-      GHC.Classes.Eq
-    )
+-- | Create a new 'PostPayoutsRequestBody' with all required fields.
+mkPostPayoutsRequestBody ::
+  -- | 'postPayoutsRequestBodyAmount'
+  GHC.Types.Int ->
+  -- | 'postPayoutsRequestBodyCurrency'
+  Data.Text.Internal.Text ->
+  PostPayoutsRequestBody
+mkPostPayoutsRequestBody postPayoutsRequestBodyAmount postPayoutsRequestBodyCurrency =
+  PostPayoutsRequestBody
+    { postPayoutsRequestBodyAmount = postPayoutsRequestBodyAmount,
+      postPayoutsRequestBodyCurrency = postPayoutsRequestBodyCurrency,
+      postPayoutsRequestBodyDescription = GHC.Maybe.Nothing,
+      postPayoutsRequestBodyDestination = GHC.Maybe.Nothing,
+      postPayoutsRequestBodyExpand = GHC.Maybe.Nothing,
+      postPayoutsRequestBodyMetadata = GHC.Maybe.Nothing,
+      postPayoutsRequestBodyMethod = GHC.Maybe.Nothing,
+      postPayoutsRequestBodySourceType = GHC.Maybe.Nothing,
+      postPayoutsRequestBodyStatementDescriptor = GHC.Maybe.Nothing
+    }
 
-instance Data.Aeson.ToJSON PostPayoutsRequestBodyMetadata' where
-  toJSON obj = Data.Aeson.object []
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "string" ("string" :: GHC.Base.String))
-
-instance Data.Aeson.Types.FromJSON.FromJSON PostPayoutsRequestBodyMetadata' where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostPayoutsRequestBodyMetadata'" (\obj -> GHC.Base.pure PostPayoutsRequestBodyMetadata')
-
--- | Defines the enum schema postPayoutsRequestBodyMethod\'
+-- | Defines the enum schema located at @paths.\/v1\/payouts.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.method@ in the specification.
 --
 -- The method used to send this payout, which can be \`standard\` or \`instant\`. \`instant\` is only supported for payouts to debit cards. (See [Instant payouts for marketplaces for more information](https:\/\/stripe.com\/blog\/instant-payouts-for-marketplaces).)
 data PostPayoutsRequestBodyMethod'
-  = PostPayoutsRequestBodyMethod'EnumOther Data.Aeson.Types.Internal.Value
-  | PostPayoutsRequestBodyMethod'EnumTyped Data.Text.Internal.Text
-  | PostPayoutsRequestBodyMethod'EnumStringInstant
-  | PostPayoutsRequestBodyMethod'EnumStringStandard
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    PostPayoutsRequestBodyMethod'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    PostPayoutsRequestBodyMethod'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"instant"@
+    PostPayoutsRequestBodyMethod'EnumInstant
+  | -- | Represents the JSON value @"standard"@
+    PostPayoutsRequestBodyMethod'EnumStandard
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.ToJSON PostPayoutsRequestBodyMethod' where
-  toJSON (PostPayoutsRequestBodyMethod'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostPayoutsRequestBodyMethod'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostPayoutsRequestBodyMethod'EnumStringInstant) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "instant"
-  toJSON (PostPayoutsRequestBodyMethod'EnumStringStandard) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "standard"
+instance Data.Aeson.Types.ToJSON.ToJSON PostPayoutsRequestBodyMethod' where
+  toJSON (PostPayoutsRequestBodyMethod'Other val) = val
+  toJSON (PostPayoutsRequestBodyMethod'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PostPayoutsRequestBodyMethod'EnumInstant) = "instant"
+  toJSON (PostPayoutsRequestBodyMethod'EnumStandard) = "standard"
 
-instance Data.Aeson.FromJSON PostPayoutsRequestBodyMethod' where
+instance Data.Aeson.Types.FromJSON.FromJSON PostPayoutsRequestBodyMethod' where
   parseJSON val =
     GHC.Base.pure
-      ( if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "instant")
-          then PostPayoutsRequestBodyMethod'EnumStringInstant
-          else
-            if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "standard")
-              then PostPayoutsRequestBodyMethod'EnumStringStandard
-              else PostPayoutsRequestBodyMethod'EnumOther val
+      ( if  | val GHC.Classes.== "instant" -> PostPayoutsRequestBodyMethod'EnumInstant
+            | val GHC.Classes.== "standard" -> PostPayoutsRequestBodyMethod'EnumStandard
+            | GHC.Base.otherwise -> PostPayoutsRequestBodyMethod'Other val
       )
 
--- | Defines the enum schema postPayoutsRequestBodySource_type\'
+-- | Defines the enum schema located at @paths.\/v1\/payouts.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.source_type@ in the specification.
 --
 -- The balance type of your Stripe balance to draw this payout from. Balances for different payment sources are kept separately. You can find the amounts with the balances API. One of \`bank_account\`, \`card\`, or \`fpx\`.
 data PostPayoutsRequestBodySourceType'
-  = PostPayoutsRequestBodySourceType'EnumOther Data.Aeson.Types.Internal.Value
-  | PostPayoutsRequestBodySourceType'EnumTyped Data.Text.Internal.Text
-  | PostPayoutsRequestBodySourceType'EnumStringBankAccount
-  | PostPayoutsRequestBodySourceType'EnumStringCard
-  | PostPayoutsRequestBodySourceType'EnumStringFpx
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    PostPayoutsRequestBodySourceType'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    PostPayoutsRequestBodySourceType'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"bank_account"@
+    PostPayoutsRequestBodySourceType'EnumBankAccount
+  | -- | Represents the JSON value @"card"@
+    PostPayoutsRequestBodySourceType'EnumCard
+  | -- | Represents the JSON value @"fpx"@
+    PostPayoutsRequestBodySourceType'EnumFpx
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.ToJSON PostPayoutsRequestBodySourceType' where
-  toJSON (PostPayoutsRequestBodySourceType'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostPayoutsRequestBodySourceType'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostPayoutsRequestBodySourceType'EnumStringBankAccount) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "bank_account"
-  toJSON (PostPayoutsRequestBodySourceType'EnumStringCard) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "card"
-  toJSON (PostPayoutsRequestBodySourceType'EnumStringFpx) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "fpx"
+instance Data.Aeson.Types.ToJSON.ToJSON PostPayoutsRequestBodySourceType' where
+  toJSON (PostPayoutsRequestBodySourceType'Other val) = val
+  toJSON (PostPayoutsRequestBodySourceType'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PostPayoutsRequestBodySourceType'EnumBankAccount) = "bank_account"
+  toJSON (PostPayoutsRequestBodySourceType'EnumCard) = "card"
+  toJSON (PostPayoutsRequestBodySourceType'EnumFpx) = "fpx"
 
-instance Data.Aeson.FromJSON PostPayoutsRequestBodySourceType' where
+instance Data.Aeson.Types.FromJSON.FromJSON PostPayoutsRequestBodySourceType' where
   parseJSON val =
     GHC.Base.pure
-      ( if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "bank_account")
-          then PostPayoutsRequestBodySourceType'EnumStringBankAccount
-          else
-            if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "card")
-              then PostPayoutsRequestBodySourceType'EnumStringCard
-              else
-                if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "fpx")
-                  then PostPayoutsRequestBodySourceType'EnumStringFpx
-                  else PostPayoutsRequestBodySourceType'EnumOther val
+      ( if  | val GHC.Classes.== "bank_account" -> PostPayoutsRequestBodySourceType'EnumBankAccount
+            | val GHC.Classes.== "card" -> PostPayoutsRequestBodySourceType'EnumCard
+            | val GHC.Classes.== "fpx" -> PostPayoutsRequestBodySourceType'EnumFpx
+            | GHC.Base.otherwise -> PostPayoutsRequestBodySourceType'Other val
       )
 
 -- | Represents a response of the operation 'postPayouts'.

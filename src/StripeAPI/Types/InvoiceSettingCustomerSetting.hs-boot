@@ -1,0 +1,13 @@
+module StripeAPI.Types.InvoiceSettingCustomerSetting where
+import Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Types.Internal
+data InvoiceSettingCustomerSetting
+instance Show InvoiceSettingCustomerSetting
+instance Eq InvoiceSettingCustomerSetting
+instance FromJSON InvoiceSettingCustomerSetting
+instance ToJSON InvoiceSettingCustomerSetting
+data InvoiceSettingCustomerSettingDefaultPaymentMethod'Variants
+instance Show InvoiceSettingCustomerSettingDefaultPaymentMethod'Variants
+instance Eq InvoiceSettingCustomerSettingDefaultPaymentMethod'Variants
+instance FromJSON InvoiceSettingCustomerSettingDefaultPaymentMethod'Variants
+instance ToJSON InvoiceSettingCustomerSettingDefaultPaymentMethod'Variants

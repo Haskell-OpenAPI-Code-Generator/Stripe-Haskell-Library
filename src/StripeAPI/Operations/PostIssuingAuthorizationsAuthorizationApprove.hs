@@ -1,4 +1,3 @@
-{-# LANGUAGE DeriveGeneric #-}
 {-# LANGUAGE ExplicitForAll #-}
 {-# LANGUAGE MultiWayIf #-}
 {-# LANGUAGE OverloadedStrings #-}
@@ -8,8 +7,10 @@
 -- | Contains the different functions to run the operation postIssuingAuthorizationsAuthorizationApprove
 module StripeAPI.Operations.PostIssuingAuthorizationsAuthorizationApprove where
 
+import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -26,7 +27,6 @@ import qualified Data.Time.LocalTime as Data.Time.LocalTime.Internal.ZonedTime
 import qualified Data.Vector
 import qualified GHC.Base
 import qualified GHC.Classes
-import qualified GHC.Generics
 import qualified GHC.Int
 import qualified GHC.Show
 import qualified GHC.Types
@@ -46,138 +46,49 @@ import qualified Prelude as GHC.Maybe
 --
 -- \<p>Approves a pending Issuing \<code>Authorization\<\/code> object.\<\/p>
 postIssuingAuthorizationsAuthorizationApprove ::
-  forall m s.
-  (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) =>
-  -- | The configuration to use in the request
-  StripeAPI.Common.Configuration s ->
+  forall m.
+  StripeAPI.Common.MonadHTTP m =>
   -- | authorization | Constraints: Maximum length of 5000
   Data.Text.Internal.Text ->
   -- | The request body to send
   GHC.Maybe.Maybe PostIssuingAuthorizationsAuthorizationApproveRequestBody ->
-  -- | Monad containing the result of the operation
-  m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response PostIssuingAuthorizationsAuthorizationApproveResponse))
+  -- | Monadic computation which returns the result of the operation
+  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response PostIssuingAuthorizationsAuthorizationApproveResponse)
 postIssuingAuthorizationsAuthorizationApprove
-  config
   authorization
   body =
     GHC.Base.fmap
-      ( GHC.Base.fmap
-          ( \response_0 ->
-              GHC.Base.fmap
-                ( Data.Either.either PostIssuingAuthorizationsAuthorizationApproveResponseError GHC.Base.id
-                    GHC.Base.. ( \response body ->
-                                   if  | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                         PostIssuingAuthorizationsAuthorizationApproveResponse200
-                                           Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                                Data.Either.Either GHC.Base.String
-                                                                  Issuing'authorization
-                                                            )
-                                       | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                         PostIssuingAuthorizationsAuthorizationApproveResponseDefault
-                                           Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                                Data.Either.Either GHC.Base.String
-                                                                  Error
-                                                            )
-                                       | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
-                               )
-                      response_0
-                )
-                response_0
-          )
-      )
-      (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack ("/v1/issuing/authorizations/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel authorization)) GHC.Base.++ "/approve"))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
-
--- | > POST /v1/issuing/authorizations/{authorization}/approve
---
--- The same as 'postIssuingAuthorizationsAuthorizationApprove' but returns the raw 'Data.ByteString.Char8.ByteString'
-postIssuingAuthorizationsAuthorizationApproveRaw ::
-  forall m s.
-  ( StripeAPI.Common.MonadHTTP m,
-    StripeAPI.Common.SecurityScheme s
-  ) =>
-  StripeAPI.Common.Configuration s ->
-  Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe PostIssuingAuthorizationsAuthorizationApproveRequestBody ->
-  m
-    ( Data.Either.Either Network.HTTP.Client.Types.HttpException
-        (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
-    )
-postIssuingAuthorizationsAuthorizationApproveRaw
-  config
-  authorization
-  body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack ("/v1/issuing/authorizations/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel authorization)) GHC.Base.++ "/approve"))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
-
--- | > POST /v1/issuing/authorizations/{authorization}/approve
---
--- Monadic version of 'postIssuingAuthorizationsAuthorizationApprove' (use with 'StripeAPI.Common.runWithConfiguration')
-postIssuingAuthorizationsAuthorizationApproveM ::
-  forall m s.
-  ( StripeAPI.Common.MonadHTTP m,
-    StripeAPI.Common.SecurityScheme s
-  ) =>
-  Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe PostIssuingAuthorizationsAuthorizationApproveRequestBody ->
-  Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
-    m
-    ( Data.Either.Either Network.HTTP.Client.Types.HttpException
-        (Network.HTTP.Client.Types.Response PostIssuingAuthorizationsAuthorizationApproveResponse)
-    )
-postIssuingAuthorizationsAuthorizationApproveM
-  authorization
-  body =
-    GHC.Base.fmap
-      ( GHC.Base.fmap
-          ( \response_2 ->
-              GHC.Base.fmap
-                ( Data.Either.either PostIssuingAuthorizationsAuthorizationApproveResponseError GHC.Base.id
-                    GHC.Base.. ( \response body ->
-                                   if  | (\status_3 -> Network.HTTP.Types.Status.statusCode status_3 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                         PostIssuingAuthorizationsAuthorizationApproveResponse200
-                                           Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                                Data.Either.Either GHC.Base.String
-                                                                  Issuing'authorization
-                                                            )
-                                       | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                         PostIssuingAuthorizationsAuthorizationApproveResponseDefault
-                                           Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                                Data.Either.Either GHC.Base.String
-                                                                  Error
-                                                            )
-                                       | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
-                               )
-                      response_2
-                )
-                response_2
-          )
+      ( \response_0 ->
+          GHC.Base.fmap
+            ( Data.Either.either PostIssuingAuthorizationsAuthorizationApproveResponseError GHC.Base.id
+                GHC.Base.. ( \response body ->
+                               if  | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
+                                     PostIssuingAuthorizationsAuthorizationApproveResponse200
+                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                            Data.Either.Either GHC.Base.String
+                                                              Issuing'authorization
+                                                        )
+                                   | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
+                                     PostIssuingAuthorizationsAuthorizationApproveResponseDefault
+                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                            Data.Either.Either GHC.Base.String
+                                                              Error
+                                                        )
+                                   | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
+                           )
+                  response_0
+            )
+            response_0
       )
       (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack ("/v1/issuing/authorizations/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel authorization)) GHC.Base.++ "/approve"))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
 
--- | > POST /v1/issuing/authorizations/{authorization}/approve
---
--- Monadic version of 'postIssuingAuthorizationsAuthorizationApproveRaw' (use with 'StripeAPI.Common.runWithConfiguration')
-postIssuingAuthorizationsAuthorizationApproveRawM ::
-  forall m s.
-  ( StripeAPI.Common.MonadHTTP m,
-    StripeAPI.Common.SecurityScheme s
-  ) =>
-  Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe PostIssuingAuthorizationsAuthorizationApproveRequestBody ->
-  Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
-    m
-    ( Data.Either.Either Network.HTTP.Client.Types.HttpException
-        (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
-    )
-postIssuingAuthorizationsAuthorizationApproveRawM
-  authorization
-  body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack ("/v1/issuing/authorizations/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel authorization)) GHC.Base.++ "/approve"))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
-
--- | Defines the data type for the schema postIssuingAuthorizationsAuthorizationApproveRequestBody
+-- | Defines the object schema located at @paths.\/v1\/issuing\/authorizations\/{authorization}\/approve.POST.requestBody.content.application\/x-www-form-urlencoded.schema@ in the specification.
 data PostIssuingAuthorizationsAuthorizationApproveRequestBody
   = PostIssuingAuthorizationsAuthorizationApproveRequestBody
       { -- | expand: Specifies which fields in the response should be expanded.
-        postIssuingAuthorizationsAuthorizationApproveRequestBodyExpand :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text)),
+        postIssuingAuthorizationsAuthorizationApproveRequestBodyExpand :: (GHC.Maybe.Maybe ([Data.Text.Internal.Text])),
         -- | held_amount: If the authorization\'s \`is_held_amount_controllable\` property is \`true\`, you may provide this value to control how much to hold for the authorization. Must be positive (use [\`decline\`](https:\/\/stripe.com\/docs\/api\/issuing\/authorizations\/decline) to decline an authorization request).
-        postIssuingAuthorizationsAuthorizationApproveRequestBodyHeldAmount :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer),
+        postIssuingAuthorizationsAuthorizationApproveRequestBodyHeldAmount :: (GHC.Maybe.Maybe GHC.Types.Int),
         -- | metadata: Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to \`metadata\`.
         postIssuingAuthorizationsAuthorizationApproveRequestBodyMetadata :: (GHC.Maybe.Maybe PostIssuingAuthorizationsAuthorizationApproveRequestBodyMetadata'Variants)
       }
@@ -186,63 +97,41 @@ data PostIssuingAuthorizationsAuthorizationApproveRequestBody
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON PostIssuingAuthorizationsAuthorizationApproveRequestBody where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "expand" (postIssuingAuthorizationsAuthorizationApproveRequestBodyExpand obj) : (Data.Aeson..=) "held_amount" (postIssuingAuthorizationsAuthorizationApproveRequestBodyHeldAmount obj) : (Data.Aeson..=) "metadata" (postIssuingAuthorizationsAuthorizationApproveRequestBodyMetadata obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "expand" (postIssuingAuthorizationsAuthorizationApproveRequestBodyExpand obj) GHC.Base.<> ((Data.Aeson..=) "held_amount" (postIssuingAuthorizationsAuthorizationApproveRequestBodyHeldAmount obj) GHC.Base.<> (Data.Aeson..=) "metadata" (postIssuingAuthorizationsAuthorizationApproveRequestBodyMetadata obj)))
+instance Data.Aeson.Types.ToJSON.ToJSON PostIssuingAuthorizationsAuthorizationApproveRequestBody where
+  toJSON obj = Data.Aeson.Types.Internal.object ("expand" Data.Aeson.Types.ToJSON..= postIssuingAuthorizationsAuthorizationApproveRequestBodyExpand obj : "held_amount" Data.Aeson.Types.ToJSON..= postIssuingAuthorizationsAuthorizationApproveRequestBodyHeldAmount obj : "metadata" Data.Aeson.Types.ToJSON..= postIssuingAuthorizationsAuthorizationApproveRequestBodyMetadata obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("expand" Data.Aeson.Types.ToJSON..= postIssuingAuthorizationsAuthorizationApproveRequestBodyExpand obj) GHC.Base.<> (("held_amount" Data.Aeson.Types.ToJSON..= postIssuingAuthorizationsAuthorizationApproveRequestBodyHeldAmount obj) GHC.Base.<> ("metadata" Data.Aeson.Types.ToJSON..= postIssuingAuthorizationsAuthorizationApproveRequestBodyMetadata obj)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostIssuingAuthorizationsAuthorizationApproveRequestBody where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PostIssuingAuthorizationsAuthorizationApproveRequestBody" (\obj -> ((GHC.Base.pure PostIssuingAuthorizationsAuthorizationApproveRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "held_amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "metadata"))
 
--- | Defines the enum schema postIssuingAuthorizationsAuthorizationApproveRequestBodyMetadata\'OneOf1
-data PostIssuingAuthorizationsAuthorizationApproveRequestBodyMetadata'OneOf1
-  = PostIssuingAuthorizationsAuthorizationApproveRequestBodyMetadata'OneOf1EnumOther Data.Aeson.Types.Internal.Value
-  | PostIssuingAuthorizationsAuthorizationApproveRequestBodyMetadata'OneOf1EnumTyped Data.Text.Internal.Text
-  | PostIssuingAuthorizationsAuthorizationApproveRequestBodyMetadata'OneOf1EnumString_
-  deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Create a new 'PostIssuingAuthorizationsAuthorizationApproveRequestBody' with all required fields.
+mkPostIssuingAuthorizationsAuthorizationApproveRequestBody :: PostIssuingAuthorizationsAuthorizationApproveRequestBody
+mkPostIssuingAuthorizationsAuthorizationApproveRequestBody =
+  PostIssuingAuthorizationsAuthorizationApproveRequestBody
+    { postIssuingAuthorizationsAuthorizationApproveRequestBodyExpand = GHC.Maybe.Nothing,
+      postIssuingAuthorizationsAuthorizationApproveRequestBodyHeldAmount = GHC.Maybe.Nothing,
+      postIssuingAuthorizationsAuthorizationApproveRequestBodyMetadata = GHC.Maybe.Nothing
+    }
 
-instance Data.Aeson.ToJSON PostIssuingAuthorizationsAuthorizationApproveRequestBodyMetadata'OneOf1 where
-  toJSON (PostIssuingAuthorizationsAuthorizationApproveRequestBodyMetadata'OneOf1EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostIssuingAuthorizationsAuthorizationApproveRequestBodyMetadata'OneOf1EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostIssuingAuthorizationsAuthorizationApproveRequestBodyMetadata'OneOf1EnumString_) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack ""
-
-instance Data.Aeson.FromJSON PostIssuingAuthorizationsAuthorizationApproveRequestBodyMetadata'OneOf1 where
-  parseJSON val =
-    GHC.Base.pure
-      ( if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "")
-          then PostIssuingAuthorizationsAuthorizationApproveRequestBodyMetadata'OneOf1EnumString_
-          else PostIssuingAuthorizationsAuthorizationApproveRequestBodyMetadata'OneOf1EnumOther val
-      )
-
--- | Defines the data type for the schema postIssuingAuthorizationsAuthorizationApproveRequestBodyMetadata\'OneOf2
-data PostIssuingAuthorizationsAuthorizationApproveRequestBodyMetadata'OneOf2
-  = PostIssuingAuthorizationsAuthorizationApproveRequestBodyMetadata'OneOf2
-      {
-      }
-  deriving
-    ( GHC.Show.Show,
-      GHC.Classes.Eq
-    )
-
-instance Data.Aeson.ToJSON PostIssuingAuthorizationsAuthorizationApproveRequestBodyMetadata'OneOf2 where
-  toJSON obj = Data.Aeson.object []
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "string" ("string" :: GHC.Base.String))
-
-instance Data.Aeson.Types.FromJSON.FromJSON PostIssuingAuthorizationsAuthorizationApproveRequestBodyMetadata'OneOf2 where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostIssuingAuthorizationsAuthorizationApproveRequestBodyMetadata'OneOf2" (\obj -> GHC.Base.pure PostIssuingAuthorizationsAuthorizationApproveRequestBodyMetadata'OneOf2)
-
--- | Define the one-of schema postIssuingAuthorizationsAuthorizationApproveRequestBodyMetadata\'
+-- | Defines the oneOf schema located at @paths.\/v1\/issuing\/authorizations\/{authorization}\/approve.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.metadata.anyOf@ in the specification.
 --
 -- Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to \`metadata\`.
 data PostIssuingAuthorizationsAuthorizationApproveRequestBodyMetadata'Variants
-  = PostIssuingAuthorizationsAuthorizationApproveRequestBodyMetadata'PostIssuingAuthorizationsAuthorizationApproveRequestBodyMetadata'OneOf1 PostIssuingAuthorizationsAuthorizationApproveRequestBodyMetadata'OneOf1
-  | PostIssuingAuthorizationsAuthorizationApproveRequestBodyMetadata'PostIssuingAuthorizationsAuthorizationApproveRequestBodyMetadata'OneOf2 PostIssuingAuthorizationsAuthorizationApproveRequestBodyMetadata'OneOf2
-  deriving (GHC.Show.Show, GHC.Classes.Eq, GHC.Generics.Generic)
+  = -- | Represents the JSON value @""@
+    PostIssuingAuthorizationsAuthorizationApproveRequestBodyMetadata'EmptyString
+  | PostIssuingAuthorizationsAuthorizationApproveRequestBodyMetadata'Object Data.Aeson.Types.Internal.Object
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.ToJSON PostIssuingAuthorizationsAuthorizationApproveRequestBodyMetadata'Variants where
-  toJSON = Data.Aeson.Types.ToJSON.genericToJSON Data.Aeson.Types.Internal.defaultOptions {Data.Aeson.Types.Internal.sumEncoding = Data.Aeson.Types.Internal.UntaggedValue}
+instance Data.Aeson.Types.ToJSON.ToJSON PostIssuingAuthorizationsAuthorizationApproveRequestBodyMetadata'Variants where
+  toJSON (PostIssuingAuthorizationsAuthorizationApproveRequestBodyMetadata'Object a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (PostIssuingAuthorizationsAuthorizationApproveRequestBodyMetadata'EmptyString) = ""
 
-instance Data.Aeson.FromJSON PostIssuingAuthorizationsAuthorizationApproveRequestBodyMetadata'Variants where
-  parseJSON = Data.Aeson.Types.FromJSON.genericParseJSON Data.Aeson.Types.Internal.defaultOptions {Data.Aeson.Types.Internal.sumEncoding = Data.Aeson.Types.Internal.UntaggedValue}
+instance Data.Aeson.Types.FromJSON.FromJSON PostIssuingAuthorizationsAuthorizationApproveRequestBodyMetadata'Variants where
+  parseJSON val =
+    if  | val GHC.Classes.== "" -> GHC.Base.pure PostIssuingAuthorizationsAuthorizationApproveRequestBodyMetadata'EmptyString
+        | GHC.Base.otherwise -> case (PostIssuingAuthorizationsAuthorizationApproveRequestBodyMetadata'Object Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched" of
+          Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+          Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
 -- | Represents a response of the operation 'postIssuingAuthorizationsAuthorizationApprove'.
 --

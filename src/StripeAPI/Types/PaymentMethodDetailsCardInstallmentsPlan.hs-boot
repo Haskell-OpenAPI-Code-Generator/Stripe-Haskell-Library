@@ -1,0 +1,8 @@
+module StripeAPI.Types.PaymentMethodDetailsCardInstallmentsPlan where
+import Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Types.Internal
+data PaymentMethodDetailsCardInstallmentsPlan
+instance Show PaymentMethodDetailsCardInstallmentsPlan
+instance Eq PaymentMethodDetailsCardInstallmentsPlan
+instance FromJSON PaymentMethodDetailsCardInstallmentsPlan
+instance ToJSON PaymentMethodDetailsCardInstallmentsPlan

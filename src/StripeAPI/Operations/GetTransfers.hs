@@ -1,4 +1,3 @@
-{-# LANGUAGE DeriveGeneric #-}
 {-# LANGUAGE ExplicitForAll #-}
 {-# LANGUAGE MultiWayIf #-}
 {-# LANGUAGE OverloadedStrings #-}
@@ -8,8 +7,10 @@
 -- | Contains the different functions to run the operation getTransfers
 module StripeAPI.Operations.GetTransfers where
 
+import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -26,7 +27,6 @@ import qualified Data.Time.LocalTime as Data.Time.LocalTime.Internal.ZonedTime
 import qualified Data.Vector
 import qualified GHC.Base
 import qualified GHC.Classes
-import qualified GHC.Generics
 import qualified GHC.Int
 import qualified GHC.Show
 import qualified GHC.Types
@@ -46,343 +46,170 @@ import qualified Prelude as GHC.Maybe
 --
 -- \<p>Returns a list of existing transfers sent to connected accounts. The transfers are returned in sorted order, with the most recently created transfers appearing first.\<\/p>
 getTransfers ::
-  forall m s.
-  (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) =>
-  -- | The configuration to use in the request
-  StripeAPI.Common.Configuration s ->
-  -- | created
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  -- | destination: Only return transfers for the destination specified by this account ID. | Constraints: Maximum length of 5000
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  -- | ending_before: A cursor for use in pagination. \`ending_before\` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, starting with \`obj_bar\`, your subsequent call can include \`ending_before=obj_bar\` in order to fetch the previous page of the list. | Constraints: Maximum length of 5000
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  -- | expand: Specifies which fields in the response should be expanded.
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  -- | limit: A limit on the number of objects to be returned. Limit can range between 1 and 100, and the default is 10.
-  GHC.Maybe.Maybe GHC.Integer.Type.Integer ->
-  -- | starting_after: A cursor for use in pagination. \`starting_after\` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with \`obj_foo\`, your subsequent call can include \`starting_after=obj_foo\` in order to fetch the next page of the list. | Constraints: Maximum length of 5000
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  -- | transfer_group: Only return transfers with the specified transfer group. | Constraints: Maximum length of 5000
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  -- | The request body to send
-  GHC.Maybe.Maybe GetTransfersRequestBody ->
-  -- | Monad containing the result of the operation
-  m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response GetTransfersResponse))
-getTransfers
-  config
-  created
-  destination
-  endingBefore
-  expand
-  limit
-  startingAfter
-  transferGroup
-  body =
-    GHC.Base.fmap
-      ( GHC.Base.fmap
-          ( \response_0 ->
-              GHC.Base.fmap
-                ( Data.Either.either GetTransfersResponseError GHC.Base.id
-                    GHC.Base.. ( \response body ->
-                                   if  | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                         GetTransfersResponse200
-                                           Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                                Data.Either.Either GHC.Base.String
-                                                                  GetTransfersResponseBody200
-                                                            )
-                                       | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                         GetTransfersResponseDefault
-                                           Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                                Data.Either.Either GHC.Base.String
-                                                                  Error
-                                                            )
-                                       | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
-                               )
-                      response_0
-                )
+  forall m.
+  StripeAPI.Common.MonadHTTP m =>
+  -- | Contains all available parameters of this operation (query and path parameters)
+  GetTransfersParameters ->
+  -- | Monadic computation which returns the result of the operation
+  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response GetTransfersResponse)
+getTransfers parameters =
+  GHC.Base.fmap
+    ( \response_0 ->
+        GHC.Base.fmap
+          ( Data.Either.either GetTransfersResponseError GHC.Base.id
+              GHC.Base.. ( \response body ->
+                             if  | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
+                                   GetTransfersResponse200
+                                     Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                          Data.Either.Either GHC.Base.String
+                                                            GetTransfersResponseBody200
+                                                      )
+                                 | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
+                                   GetTransfersResponseDefault
+                                     Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                          Data.Either.Either GHC.Base.String
+                                                            Error
+                                                      )
+                                 | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
+                         )
                 response_0
           )
-      )
-      ( StripeAPI.Common.doBodyCallWithConfiguration
-          config
-          (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET")
-          (Data.Text.pack "/v1/transfers")
-          ( ( Data.Text.pack "created",
-              StripeAPI.Common.stringifyModel Data.Functor.<$> created
-            )
-              : ( ( Data.Text.pack "destination",
-                    StripeAPI.Common.stringifyModel Data.Functor.<$> destination
-                  )
-                    : ( ( Data.Text.pack "ending_before",
-                          StripeAPI.Common.stringifyModel Data.Functor.<$> endingBefore
-                        )
-                          : ( ( Data.Text.pack "expand",
-                                StripeAPI.Common.stringifyModel Data.Functor.<$> expand
-                              )
-                                : ( ( Data.Text.pack "limit",
-                                      StripeAPI.Common.stringifyModel Data.Functor.<$> limit
-                                    )
-                                      : ( ( Data.Text.pack "starting_after",
-                                            StripeAPI.Common.stringifyModel Data.Functor.<$> startingAfter
-                                          )
-                                            : ( ( Data.Text.pack "transfer_group",
-                                                  StripeAPI.Common.stringifyModel Data.Functor.<$> transferGroup
-                                                )
-                                                  : []
-                                              )
-                                        )
-                                  )
-                            )
-                      )
-                )
-          )
-          body
-          StripeAPI.Common.RequestBodyEncodingFormData
-      )
-
--- | > GET /v1/transfers
---
--- The same as 'getTransfers' but returns the raw 'Data.ByteString.Char8.ByteString'
-getTransfersRaw ::
-  forall m s.
-  ( StripeAPI.Common.MonadHTTP m,
-    StripeAPI.Common.SecurityScheme s
-  ) =>
-  StripeAPI.Common.Configuration s ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe GHC.Integer.Type.Integer ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe GetTransfersRequestBody ->
-  m
-    ( Data.Either.Either Network.HTTP.Client.Types.HttpException
-        (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
+          response_0
     )
-getTransfersRaw
-  config
-  created
-  destination
-  endingBefore
-  expand
-  limit
-  startingAfter
-  transferGroup
-  body =
-    GHC.Base.id
-      ( StripeAPI.Common.doBodyCallWithConfiguration
-          config
-          (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET")
-          (Data.Text.pack "/v1/transfers")
-          ( ( Data.Text.pack "created",
-              StripeAPI.Common.stringifyModel Data.Functor.<$> created
-            )
-              : ( ( Data.Text.pack "destination",
-                    StripeAPI.Common.stringifyModel Data.Functor.<$> destination
-                  )
-                    : ( ( Data.Text.pack "ending_before",
-                          StripeAPI.Common.stringifyModel Data.Functor.<$> endingBefore
-                        )
-                          : ( ( Data.Text.pack "expand",
-                                StripeAPI.Common.stringifyModel Data.Functor.<$> expand
-                              )
-                                : ( ( Data.Text.pack "limit",
-                                      StripeAPI.Common.stringifyModel Data.Functor.<$> limit
-                                    )
-                                      : ( ( Data.Text.pack "starting_after",
-                                            StripeAPI.Common.stringifyModel Data.Functor.<$> startingAfter
-                                          )
-                                            : ( ( Data.Text.pack "transfer_group",
-                                                  StripeAPI.Common.stringifyModel Data.Functor.<$> transferGroup
-                                                )
-                                                  : []
-                                              )
-                                        )
-                                  )
-                            )
-                      )
-                )
-          )
-          body
-          StripeAPI.Common.RequestBodyEncodingFormData
-      )
-
--- | > GET /v1/transfers
---
--- Monadic version of 'getTransfers' (use with 'StripeAPI.Common.runWithConfiguration')
-getTransfersM ::
-  forall m s.
-  ( StripeAPI.Common.MonadHTTP m,
-    StripeAPI.Common.SecurityScheme s
-  ) =>
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe GHC.Integer.Type.Integer ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe GetTransfersRequestBody ->
-  Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
-    m
-    ( Data.Either.Either Network.HTTP.Client.Types.HttpException
-        (Network.HTTP.Client.Types.Response GetTransfersResponse)
+    ( StripeAPI.Common.doCallWithConfigurationM
+        (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET")
+        (Data.Text.pack "/v1/transfers")
+        [ StripeAPI.Common.QueryParameter (Data.Text.pack "created") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getTransfersParametersQueryCreated parameters) (Data.Text.pack "deepObject") GHC.Types.True,
+          StripeAPI.Common.QueryParameter (Data.Text.pack "destination") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getTransfersParametersQueryDestination parameters) (Data.Text.pack "form") GHC.Types.True,
+          StripeAPI.Common.QueryParameter (Data.Text.pack "ending_before") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getTransfersParametersQueryEndingBefore parameters) (Data.Text.pack "form") GHC.Types.True,
+          StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getTransfersParametersQueryExpand parameters) (Data.Text.pack "deepObject") GHC.Types.True,
+          StripeAPI.Common.QueryParameter (Data.Text.pack "limit") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getTransfersParametersQueryLimit parameters) (Data.Text.pack "form") GHC.Types.True,
+          StripeAPI.Common.QueryParameter (Data.Text.pack "starting_after") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getTransfersParametersQueryStartingAfter parameters) (Data.Text.pack "form") GHC.Types.True,
+          StripeAPI.Common.QueryParameter (Data.Text.pack "transfer_group") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getTransfersParametersQueryTransferGroup parameters) (Data.Text.pack "form") GHC.Types.True
+        ]
     )
-getTransfersM
-  created
-  destination
-  endingBefore
-  expand
-  limit
-  startingAfter
-  transferGroup
-  body =
-    GHC.Base.fmap
-      ( GHC.Base.fmap
-          ( \response_2 ->
-              GHC.Base.fmap
-                ( Data.Either.either GetTransfersResponseError GHC.Base.id
-                    GHC.Base.. ( \response body ->
-                                   if  | (\status_3 -> Network.HTTP.Types.Status.statusCode status_3 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                         GetTransfersResponse200
-                                           Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                                Data.Either.Either GHC.Base.String
-                                                                  GetTransfersResponseBody200
-                                                            )
-                                       | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                         GetTransfersResponseDefault
-                                           Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                                Data.Either.Either GHC.Base.String
-                                                                  Error
-                                                            )
-                                       | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
-                               )
-                      response_2
-                )
-                response_2
-          )
-      )
-      ( StripeAPI.Common.doBodyCallWithConfigurationM
-          (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET")
-          (Data.Text.pack "/v1/transfers")
-          ( ( Data.Text.pack "created",
-              StripeAPI.Common.stringifyModel Data.Functor.<$> created
-            )
-              : ( ( Data.Text.pack "destination",
-                    StripeAPI.Common.stringifyModel Data.Functor.<$> destination
-                  )
-                    : ( ( Data.Text.pack "ending_before",
-                          StripeAPI.Common.stringifyModel Data.Functor.<$> endingBefore
-                        )
-                          : ( ( Data.Text.pack "expand",
-                                StripeAPI.Common.stringifyModel Data.Functor.<$> expand
-                              )
-                                : ( ( Data.Text.pack "limit",
-                                      StripeAPI.Common.stringifyModel Data.Functor.<$> limit
-                                    )
-                                      : ( ( Data.Text.pack "starting_after",
-                                            StripeAPI.Common.stringifyModel Data.Functor.<$> startingAfter
-                                          )
-                                            : ( ( Data.Text.pack "transfer_group",
-                                                  StripeAPI.Common.stringifyModel Data.Functor.<$> transferGroup
-                                                )
-                                                  : []
-                                              )
-                                        )
-                                  )
-                            )
-                      )
-                )
-          )
-          body
-          StripeAPI.Common.RequestBodyEncodingFormData
-      )
 
--- | > GET /v1/transfers
---
--- Monadic version of 'getTransfersRaw' (use with 'StripeAPI.Common.runWithConfiguration')
-getTransfersRawM ::
-  forall m s.
-  ( StripeAPI.Common.MonadHTTP m,
-    StripeAPI.Common.SecurityScheme s
-  ) =>
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe GHC.Integer.Type.Integer ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe GetTransfersRequestBody ->
-  Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
-    m
-    ( Data.Either.Either Network.HTTP.Client.Types.HttpException
-        (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
-    )
-getTransfersRawM
-  created
-  destination
-  endingBefore
-  expand
-  limit
-  startingAfter
-  transferGroup
-  body =
-    GHC.Base.id
-      ( StripeAPI.Common.doBodyCallWithConfigurationM
-          (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET")
-          (Data.Text.pack "/v1/transfers")
-          ( ( Data.Text.pack "created",
-              StripeAPI.Common.stringifyModel Data.Functor.<$> created
-            )
-              : ( ( Data.Text.pack "destination",
-                    StripeAPI.Common.stringifyModel Data.Functor.<$> destination
-                  )
-                    : ( ( Data.Text.pack "ending_before",
-                          StripeAPI.Common.stringifyModel Data.Functor.<$> endingBefore
-                        )
-                          : ( ( Data.Text.pack "expand",
-                                StripeAPI.Common.stringifyModel Data.Functor.<$> expand
-                              )
-                                : ( ( Data.Text.pack "limit",
-                                      StripeAPI.Common.stringifyModel Data.Functor.<$> limit
-                                    )
-                                      : ( ( Data.Text.pack "starting_after",
-                                            StripeAPI.Common.stringifyModel Data.Functor.<$> startingAfter
-                                          )
-                                            : ( ( Data.Text.pack "transfer_group",
-                                                  StripeAPI.Common.stringifyModel Data.Functor.<$> transferGroup
-                                                )
-                                                  : []
-                                              )
-                                        )
-                                  )
-                            )
-                      )
-                )
-          )
-          body
-          StripeAPI.Common.RequestBodyEncodingFormData
-      )
-
--- | Defines the data type for the schema getTransfersRequestBody
-data GetTransfersRequestBody
-  = GetTransfersRequestBody
-      {
+-- | Defines the object schema located at @paths.\/v1\/transfers.GET.parameters@ in the specification.
+data GetTransfersParameters
+  = GetTransfersParameters
+      { -- | queryCreated: Represents the parameter named \'created\'
+        getTransfersParametersQueryCreated :: (GHC.Maybe.Maybe GetTransfersParametersQueryCreated'Variants),
+        -- | queryDestination: Represents the parameter named \'destination\'
+        --
+        -- Only return transfers for the destination specified by this account ID.
+        --
+        -- Constraints:
+        --
+        -- * Maximum length of 5000
+        getTransfersParametersQueryDestination :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+        -- | queryEnding_before: Represents the parameter named \'ending_before\'
+        --
+        -- A cursor for use in pagination. \`ending_before\` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, starting with \`obj_bar\`, your subsequent call can include \`ending_before=obj_bar\` in order to fetch the previous page of the list.
+        --
+        -- Constraints:
+        --
+        -- * Maximum length of 5000
+        getTransfersParametersQueryEndingBefore :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+        -- | queryExpand: Represents the parameter named \'expand\'
+        --
+        -- Specifies which fields in the response should be expanded.
+        getTransfersParametersQueryExpand :: (GHC.Maybe.Maybe ([Data.Text.Internal.Text])),
+        -- | queryLimit: Represents the parameter named \'limit\'
+        --
+        -- A limit on the number of objects to be returned. Limit can range between 1 and 100, and the default is 10.
+        getTransfersParametersQueryLimit :: (GHC.Maybe.Maybe GHC.Types.Int),
+        -- | queryStarting_after: Represents the parameter named \'starting_after\'
+        --
+        -- A cursor for use in pagination. \`starting_after\` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with \`obj_foo\`, your subsequent call can include \`starting_after=obj_foo\` in order to fetch the next page of the list.
+        --
+        -- Constraints:
+        --
+        -- * Maximum length of 5000
+        getTransfersParametersQueryStartingAfter :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+        -- | queryTransfer_group: Represents the parameter named \'transfer_group\'
+        --
+        -- Only return transfers with the specified transfer group.
+        --
+        -- Constraints:
+        --
+        -- * Maximum length of 5000
+        getTransfersParametersQueryTransferGroup :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
       }
   deriving
     ( GHC.Show.Show,
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON GetTransfersRequestBody where
-  toJSON obj = Data.Aeson.object []
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "string" ("string" :: GHC.Base.String))
+instance Data.Aeson.Types.ToJSON.ToJSON GetTransfersParameters where
+  toJSON obj = Data.Aeson.Types.Internal.object ("queryCreated" Data.Aeson.Types.ToJSON..= getTransfersParametersQueryCreated obj : "queryDestination" Data.Aeson.Types.ToJSON..= getTransfersParametersQueryDestination obj : "queryEnding_before" Data.Aeson.Types.ToJSON..= getTransfersParametersQueryEndingBefore obj : "queryExpand" Data.Aeson.Types.ToJSON..= getTransfersParametersQueryExpand obj : "queryLimit" Data.Aeson.Types.ToJSON..= getTransfersParametersQueryLimit obj : "queryStarting_after" Data.Aeson.Types.ToJSON..= getTransfersParametersQueryStartingAfter obj : "queryTransfer_group" Data.Aeson.Types.ToJSON..= getTransfersParametersQueryTransferGroup obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("queryCreated" Data.Aeson.Types.ToJSON..= getTransfersParametersQueryCreated obj) GHC.Base.<> (("queryDestination" Data.Aeson.Types.ToJSON..= getTransfersParametersQueryDestination obj) GHC.Base.<> (("queryEnding_before" Data.Aeson.Types.ToJSON..= getTransfersParametersQueryEndingBefore obj) GHC.Base.<> (("queryExpand" Data.Aeson.Types.ToJSON..= getTransfersParametersQueryExpand obj) GHC.Base.<> (("queryLimit" Data.Aeson.Types.ToJSON..= getTransfersParametersQueryLimit obj) GHC.Base.<> (("queryStarting_after" Data.Aeson.Types.ToJSON..= getTransfersParametersQueryStartingAfter obj) GHC.Base.<> ("queryTransfer_group" Data.Aeson.Types.ToJSON..= getTransfersParametersQueryTransferGroup obj)))))))
 
-instance Data.Aeson.Types.FromJSON.FromJSON GetTransfersRequestBody where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetTransfersRequestBody" (\obj -> GHC.Base.pure GetTransfersRequestBody)
+instance Data.Aeson.Types.FromJSON.FromJSON GetTransfersParameters where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetTransfersParameters" (\obj -> ((((((GHC.Base.pure GetTransfersParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryCreated")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryDestination")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryEnding_before")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryExpand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryLimit")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryStarting_after")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryTransfer_group"))
+
+-- | Create a new 'GetTransfersParameters' with all required fields.
+mkGetTransfersParameters :: GetTransfersParameters
+mkGetTransfersParameters =
+  GetTransfersParameters
+    { getTransfersParametersQueryCreated = GHC.Maybe.Nothing,
+      getTransfersParametersQueryDestination = GHC.Maybe.Nothing,
+      getTransfersParametersQueryEndingBefore = GHC.Maybe.Nothing,
+      getTransfersParametersQueryExpand = GHC.Maybe.Nothing,
+      getTransfersParametersQueryLimit = GHC.Maybe.Nothing,
+      getTransfersParametersQueryStartingAfter = GHC.Maybe.Nothing,
+      getTransfersParametersQueryTransferGroup = GHC.Maybe.Nothing
+    }
+
+-- | Defines the object schema located at @paths.\/v1\/transfers.GET.parameters.properties.queryCreated.anyOf@ in the specification.
+data GetTransfersParametersQueryCreated'OneOf2
+  = GetTransfersParametersQueryCreated'OneOf2
+      { -- | gt
+        getTransfersParametersQueryCreated'OneOf2Gt :: (GHC.Maybe.Maybe GHC.Types.Int),
+        -- | gte
+        getTransfersParametersQueryCreated'OneOf2Gte :: (GHC.Maybe.Maybe GHC.Types.Int),
+        -- | lt
+        getTransfersParametersQueryCreated'OneOf2Lt :: (GHC.Maybe.Maybe GHC.Types.Int),
+        -- | lte
+        getTransfersParametersQueryCreated'OneOf2Lte :: (GHC.Maybe.Maybe GHC.Types.Int)
+      }
+  deriving
+    ( GHC.Show.Show,
+      GHC.Classes.Eq
+    )
+
+instance Data.Aeson.Types.ToJSON.ToJSON GetTransfersParametersQueryCreated'OneOf2 where
+  toJSON obj = Data.Aeson.Types.Internal.object ("gt" Data.Aeson.Types.ToJSON..= getTransfersParametersQueryCreated'OneOf2Gt obj : "gte" Data.Aeson.Types.ToJSON..= getTransfersParametersQueryCreated'OneOf2Gte obj : "lt" Data.Aeson.Types.ToJSON..= getTransfersParametersQueryCreated'OneOf2Lt obj : "lte" Data.Aeson.Types.ToJSON..= getTransfersParametersQueryCreated'OneOf2Lte obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("gt" Data.Aeson.Types.ToJSON..= getTransfersParametersQueryCreated'OneOf2Gt obj) GHC.Base.<> (("gte" Data.Aeson.Types.ToJSON..= getTransfersParametersQueryCreated'OneOf2Gte obj) GHC.Base.<> (("lt" Data.Aeson.Types.ToJSON..= getTransfersParametersQueryCreated'OneOf2Lt obj) GHC.Base.<> ("lte" Data.Aeson.Types.ToJSON..= getTransfersParametersQueryCreated'OneOf2Lte obj))))
+
+instance Data.Aeson.Types.FromJSON.FromJSON GetTransfersParametersQueryCreated'OneOf2 where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetTransfersParametersQueryCreated'OneOf2" (\obj -> (((GHC.Base.pure GetTransfersParametersQueryCreated'OneOf2 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "gt")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "gte")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "lt")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "lte"))
+
+-- | Create a new 'GetTransfersParametersQueryCreated'OneOf2' with all required fields.
+mkGetTransfersParametersQueryCreated'OneOf2 :: GetTransfersParametersQueryCreated'OneOf2
+mkGetTransfersParametersQueryCreated'OneOf2 =
+  GetTransfersParametersQueryCreated'OneOf2
+    { getTransfersParametersQueryCreated'OneOf2Gt = GHC.Maybe.Nothing,
+      getTransfersParametersQueryCreated'OneOf2Gte = GHC.Maybe.Nothing,
+      getTransfersParametersQueryCreated'OneOf2Lt = GHC.Maybe.Nothing,
+      getTransfersParametersQueryCreated'OneOf2Lte = GHC.Maybe.Nothing
+    }
+
+-- | Defines the oneOf schema located at @paths.\/v1\/transfers.GET.parameters.properties.queryCreated.anyOf@ in the specification.
+--
+-- Represents the parameter named \'created\'
+data GetTransfersParametersQueryCreated'Variants
+  = GetTransfersParametersQueryCreated'Int GHC.Types.Int
+  | GetTransfersParametersQueryCreated'GetTransfersParametersQueryCreated'OneOf2 GetTransfersParametersQueryCreated'OneOf2
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON GetTransfersParametersQueryCreated'Variants where
+  toJSON (GetTransfersParametersQueryCreated'Int a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (GetTransfersParametersQueryCreated'GetTransfersParametersQueryCreated'OneOf2 a) = Data.Aeson.Types.ToJSON.toJSON a
+
+instance Data.Aeson.Types.FromJSON.FromJSON GetTransfersParametersQueryCreated'Variants where
+  parseJSON val = case (GetTransfersParametersQueryCreated'Int Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((GetTransfersParametersQueryCreated'GetTransfersParametersQueryCreated'OneOf2 Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched") of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+    Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
 -- | Represents a response of the operation 'getTransfers'.
 --
@@ -396,15 +223,13 @@ data GetTransfersResponse
     GetTransfersResponseDefault Error
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
--- | Defines the data type for the schema GetTransfersResponseBody200
+-- | Defines the object schema located at @paths.\/v1\/transfers.GET.responses.200.content.application\/json.schema@ in the specification.
 data GetTransfersResponseBody200
   = GetTransfersResponseBody200
       { -- | data: Details about each object.
-        getTransfersResponseBody200Data :: ([] Transfer),
+        getTransfersResponseBody200Data :: ([Transfer]),
         -- | has_more: True if this list has another page of items after this one that can be fetched.
         getTransfersResponseBody200HasMore :: GHC.Types.Bool,
-        -- | object: String representing the object\'s type. Objects of the same type share the same value. Always has the value \`list\`.
-        getTransfersResponseBody200Object :: GetTransfersResponseBody200Object',
         -- | url: The URL where this list can be accessed.
         --
         -- Constraints:
@@ -418,31 +243,25 @@ data GetTransfersResponseBody200
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON GetTransfersResponseBody200 where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "data" (getTransfersResponseBody200Data obj) : (Data.Aeson..=) "has_more" (getTransfersResponseBody200HasMore obj) : (Data.Aeson..=) "object" (getTransfersResponseBody200Object obj) : (Data.Aeson..=) "url" (getTransfersResponseBody200Url obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "data" (getTransfersResponseBody200Data obj) GHC.Base.<> ((Data.Aeson..=) "has_more" (getTransfersResponseBody200HasMore obj) GHC.Base.<> ((Data.Aeson..=) "object" (getTransfersResponseBody200Object obj) GHC.Base.<> (Data.Aeson..=) "url" (getTransfersResponseBody200Url obj))))
+instance Data.Aeson.Types.ToJSON.ToJSON GetTransfersResponseBody200 where
+  toJSON obj = Data.Aeson.Types.Internal.object ("data" Data.Aeson.Types.ToJSON..= getTransfersResponseBody200Data obj : "has_more" Data.Aeson.Types.ToJSON..= getTransfersResponseBody200HasMore obj : "url" Data.Aeson.Types.ToJSON..= getTransfersResponseBody200Url obj : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "list" : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("data" Data.Aeson.Types.ToJSON..= getTransfersResponseBody200Data obj) GHC.Base.<> (("has_more" Data.Aeson.Types.ToJSON..= getTransfersResponseBody200HasMore obj) GHC.Base.<> (("url" Data.Aeson.Types.ToJSON..= getTransfersResponseBody200Url obj) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "list"))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetTransfersResponseBody200 where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetTransfersResponseBody200" (\obj -> (((GHC.Base.pure GetTransfersResponseBody200 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "has_more")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "object")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "url"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetTransfersResponseBody200" (\obj -> ((GHC.Base.pure GetTransfersResponseBody200 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "has_more")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "url"))
 
--- | Defines the enum schema GetTransfersResponseBody200Object\'
---
--- String representing the object\'s type. Objects of the same type share the same value. Always has the value \`list\`.
-data GetTransfersResponseBody200Object'
-  = GetTransfersResponseBody200Object'EnumOther Data.Aeson.Types.Internal.Value
-  | GetTransfersResponseBody200Object'EnumTyped Data.Text.Internal.Text
-  | GetTransfersResponseBody200Object'EnumStringList
-  deriving (GHC.Show.Show, GHC.Classes.Eq)
-
-instance Data.Aeson.ToJSON GetTransfersResponseBody200Object' where
-  toJSON (GetTransfersResponseBody200Object'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (GetTransfersResponseBody200Object'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (GetTransfersResponseBody200Object'EnumStringList) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "list"
-
-instance Data.Aeson.FromJSON GetTransfersResponseBody200Object' where
-  parseJSON val =
-    GHC.Base.pure
-      ( if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "list")
-          then GetTransfersResponseBody200Object'EnumStringList
-          else GetTransfersResponseBody200Object'EnumOther val
-      )
+-- | Create a new 'GetTransfersResponseBody200' with all required fields.
+mkGetTransfersResponseBody200 ::
+  -- | 'getTransfersResponseBody200Data'
+  [Transfer] ->
+  -- | 'getTransfersResponseBody200HasMore'
+  GHC.Types.Bool ->
+  -- | 'getTransfersResponseBody200Url'
+  Data.Text.Internal.Text ->
+  GetTransfersResponseBody200
+mkGetTransfersResponseBody200 getTransfersResponseBody200Data getTransfersResponseBody200HasMore getTransfersResponseBody200Url =
+  GetTransfersResponseBody200
+    { getTransfersResponseBody200Data = getTransfersResponseBody200Data,
+      getTransfersResponseBody200HasMore = getTransfersResponseBody200HasMore,
+      getTransfersResponseBody200Url = getTransfersResponseBody200Url
+    }

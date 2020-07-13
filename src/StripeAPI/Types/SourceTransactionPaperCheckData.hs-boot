@@ -1,0 +1,8 @@
+module StripeAPI.Types.SourceTransactionPaperCheckData where
+import Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Types.Internal
+data SourceTransactionPaperCheckData
+instance Show SourceTransactionPaperCheckData
+instance Eq SourceTransactionPaperCheckData
+instance FromJSON SourceTransactionPaperCheckData
+instance ToJSON SourceTransactionPaperCheckData

@@ -1,4 +1,3 @@
-{-# LANGUAGE DeriveGeneric #-}
 {-# LANGUAGE ExplicitForAll #-}
 {-# LANGUAGE MultiWayIf #-}
 {-# LANGUAGE OverloadedStrings #-}
@@ -8,8 +7,10 @@
 -- | Contains the different functions to run the operation postChargesChargeRefunds
 module StripeAPI.Operations.PostChargesChargeRefunds where
 
+import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -26,7 +27,6 @@ import qualified Data.Time.LocalTime as Data.Time.LocalTime.Internal.ZonedTime
 import qualified Data.Vector
 import qualified GHC.Base
 import qualified GHC.Classes
-import qualified GHC.Generics
 import qualified GHC.Int
 import qualified GHC.Show
 import qualified GHC.Types
@@ -46,140 +46,51 @@ import qualified Prelude as GHC.Maybe
 --
 -- \<p>Create a refund.\<\/p>
 postChargesChargeRefunds ::
-  forall m s.
-  (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) =>
-  -- | The configuration to use in the request
-  StripeAPI.Common.Configuration s ->
+  forall m.
+  StripeAPI.Common.MonadHTTP m =>
   -- | charge | Constraints: Maximum length of 5000
   Data.Text.Internal.Text ->
   -- | The request body to send
   GHC.Maybe.Maybe PostChargesChargeRefundsRequestBody ->
-  -- | Monad containing the result of the operation
-  m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response PostChargesChargeRefundsResponse))
+  -- | Monadic computation which returns the result of the operation
+  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response PostChargesChargeRefundsResponse)
 postChargesChargeRefunds
-  config
   charge
   body =
     GHC.Base.fmap
-      ( GHC.Base.fmap
-          ( \response_0 ->
-              GHC.Base.fmap
-                ( Data.Either.either PostChargesChargeRefundsResponseError GHC.Base.id
-                    GHC.Base.. ( \response body ->
-                                   if  | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                         PostChargesChargeRefundsResponse200
-                                           Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                                Data.Either.Either GHC.Base.String
-                                                                  Refund
-                                                            )
-                                       | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                         PostChargesChargeRefundsResponseDefault
-                                           Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                                Data.Either.Either GHC.Base.String
-                                                                  Error
-                                                            )
-                                       | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
-                               )
-                      response_0
-                )
-                response_0
-          )
-      )
-      (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack ("/v1/charges/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel charge)) GHC.Base.++ "/refunds"))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
-
--- | > POST /v1/charges/{charge}/refunds
---
--- The same as 'postChargesChargeRefunds' but returns the raw 'Data.ByteString.Char8.ByteString'
-postChargesChargeRefundsRaw ::
-  forall m s.
-  ( StripeAPI.Common.MonadHTTP m,
-    StripeAPI.Common.SecurityScheme s
-  ) =>
-  StripeAPI.Common.Configuration s ->
-  Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe PostChargesChargeRefundsRequestBody ->
-  m
-    ( Data.Either.Either Network.HTTP.Client.Types.HttpException
-        (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
-    )
-postChargesChargeRefundsRaw
-  config
-  charge
-  body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack ("/v1/charges/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel charge)) GHC.Base.++ "/refunds"))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
-
--- | > POST /v1/charges/{charge}/refunds
---
--- Monadic version of 'postChargesChargeRefunds' (use with 'StripeAPI.Common.runWithConfiguration')
-postChargesChargeRefundsM ::
-  forall m s.
-  ( StripeAPI.Common.MonadHTTP m,
-    StripeAPI.Common.SecurityScheme s
-  ) =>
-  Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe PostChargesChargeRefundsRequestBody ->
-  Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
-    m
-    ( Data.Either.Either Network.HTTP.Client.Types.HttpException
-        (Network.HTTP.Client.Types.Response PostChargesChargeRefundsResponse)
-    )
-postChargesChargeRefundsM
-  charge
-  body =
-    GHC.Base.fmap
-      ( GHC.Base.fmap
-          ( \response_2 ->
-              GHC.Base.fmap
-                ( Data.Either.either PostChargesChargeRefundsResponseError GHC.Base.id
-                    GHC.Base.. ( \response body ->
-                                   if  | (\status_3 -> Network.HTTP.Types.Status.statusCode status_3 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                         PostChargesChargeRefundsResponse200
-                                           Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                                Data.Either.Either GHC.Base.String
-                                                                  Refund
-                                                            )
-                                       | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                         PostChargesChargeRefundsResponseDefault
-                                           Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                                Data.Either.Either GHC.Base.String
-                                                                  Error
-                                                            )
-                                       | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
-                               )
-                      response_2
-                )
-                response_2
-          )
+      ( \response_0 ->
+          GHC.Base.fmap
+            ( Data.Either.either PostChargesChargeRefundsResponseError GHC.Base.id
+                GHC.Base.. ( \response body ->
+                               if  | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
+                                     PostChargesChargeRefundsResponse200
+                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                            Data.Either.Either GHC.Base.String
+                                                              Refund
+                                                        )
+                                   | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
+                                     PostChargesChargeRefundsResponseDefault
+                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                            Data.Either.Either GHC.Base.String
+                                                              Error
+                                                        )
+                                   | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
+                           )
+                  response_0
+            )
+            response_0
       )
       (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack ("/v1/charges/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel charge)) GHC.Base.++ "/refunds"))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
 
--- | > POST /v1/charges/{charge}/refunds
---
--- Monadic version of 'postChargesChargeRefundsRaw' (use with 'StripeAPI.Common.runWithConfiguration')
-postChargesChargeRefundsRawM ::
-  forall m s.
-  ( StripeAPI.Common.MonadHTTP m,
-    StripeAPI.Common.SecurityScheme s
-  ) =>
-  Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe PostChargesChargeRefundsRequestBody ->
-  Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
-    m
-    ( Data.Either.Either Network.HTTP.Client.Types.HttpException
-        (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
-    )
-postChargesChargeRefundsRawM
-  charge
-  body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack ("/v1/charges/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel charge)) GHC.Base.++ "/refunds"))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
-
--- | Defines the data type for the schema postChargesChargeRefundsRequestBody
+-- | Defines the object schema located at @paths.\/v1\/charges\/{charge}\/refunds.POST.requestBody.content.application\/x-www-form-urlencoded.schema@ in the specification.
 data PostChargesChargeRefundsRequestBody
   = PostChargesChargeRefundsRequestBody
       { -- | amount
-        postChargesChargeRefundsRequestBodyAmount :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer),
+        postChargesChargeRefundsRequestBodyAmount :: (GHC.Maybe.Maybe GHC.Types.Int),
         -- | expand: Specifies which fields in the response should be expanded.
-        postChargesChargeRefundsRequestBodyExpand :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text)),
+        postChargesChargeRefundsRequestBodyExpand :: (GHC.Maybe.Maybe ([Data.Text.Internal.Text])),
         -- | metadata: Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to \`metadata\`.
-        postChargesChargeRefundsRequestBodyMetadata :: (GHC.Maybe.Maybe PostChargesChargeRefundsRequestBodyMetadata'),
+        postChargesChargeRefundsRequestBodyMetadata :: (GHC.Maybe.Maybe Data.Aeson.Types.Internal.Object),
         -- | payment_intent
         --
         -- Constraints:
@@ -202,60 +113,54 @@ data PostChargesChargeRefundsRequestBody
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON PostChargesChargeRefundsRequestBody where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "amount" (postChargesChargeRefundsRequestBodyAmount obj) : (Data.Aeson..=) "expand" (postChargesChargeRefundsRequestBodyExpand obj) : (Data.Aeson..=) "metadata" (postChargesChargeRefundsRequestBodyMetadata obj) : (Data.Aeson..=) "payment_intent" (postChargesChargeRefundsRequestBodyPaymentIntent obj) : (Data.Aeson..=) "reason" (postChargesChargeRefundsRequestBodyReason obj) : (Data.Aeson..=) "refund_application_fee" (postChargesChargeRefundsRequestBodyRefundApplicationFee obj) : (Data.Aeson..=) "reverse_transfer" (postChargesChargeRefundsRequestBodyReverseTransfer obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "amount" (postChargesChargeRefundsRequestBodyAmount obj) GHC.Base.<> ((Data.Aeson..=) "expand" (postChargesChargeRefundsRequestBodyExpand obj) GHC.Base.<> ((Data.Aeson..=) "metadata" (postChargesChargeRefundsRequestBodyMetadata obj) GHC.Base.<> ((Data.Aeson..=) "payment_intent" (postChargesChargeRefundsRequestBodyPaymentIntent obj) GHC.Base.<> ((Data.Aeson..=) "reason" (postChargesChargeRefundsRequestBodyReason obj) GHC.Base.<> ((Data.Aeson..=) "refund_application_fee" (postChargesChargeRefundsRequestBodyRefundApplicationFee obj) GHC.Base.<> (Data.Aeson..=) "reverse_transfer" (postChargesChargeRefundsRequestBodyReverseTransfer obj)))))))
+instance Data.Aeson.Types.ToJSON.ToJSON PostChargesChargeRefundsRequestBody where
+  toJSON obj = Data.Aeson.Types.Internal.object ("amount" Data.Aeson.Types.ToJSON..= postChargesChargeRefundsRequestBodyAmount obj : "expand" Data.Aeson.Types.ToJSON..= postChargesChargeRefundsRequestBodyExpand obj : "metadata" Data.Aeson.Types.ToJSON..= postChargesChargeRefundsRequestBodyMetadata obj : "payment_intent" Data.Aeson.Types.ToJSON..= postChargesChargeRefundsRequestBodyPaymentIntent obj : "reason" Data.Aeson.Types.ToJSON..= postChargesChargeRefundsRequestBodyReason obj : "refund_application_fee" Data.Aeson.Types.ToJSON..= postChargesChargeRefundsRequestBodyRefundApplicationFee obj : "reverse_transfer" Data.Aeson.Types.ToJSON..= postChargesChargeRefundsRequestBodyReverseTransfer obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("amount" Data.Aeson.Types.ToJSON..= postChargesChargeRefundsRequestBodyAmount obj) GHC.Base.<> (("expand" Data.Aeson.Types.ToJSON..= postChargesChargeRefundsRequestBodyExpand obj) GHC.Base.<> (("metadata" Data.Aeson.Types.ToJSON..= postChargesChargeRefundsRequestBodyMetadata obj) GHC.Base.<> (("payment_intent" Data.Aeson.Types.ToJSON..= postChargesChargeRefundsRequestBodyPaymentIntent obj) GHC.Base.<> (("reason" Data.Aeson.Types.ToJSON..= postChargesChargeRefundsRequestBodyReason obj) GHC.Base.<> (("refund_application_fee" Data.Aeson.Types.ToJSON..= postChargesChargeRefundsRequestBodyRefundApplicationFee obj) GHC.Base.<> ("reverse_transfer" Data.Aeson.Types.ToJSON..= postChargesChargeRefundsRequestBodyReverseTransfer obj)))))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostChargesChargeRefundsRequestBody where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PostChargesChargeRefundsRequestBody" (\obj -> ((((((GHC.Base.pure PostChargesChargeRefundsRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "payment_intent")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "reason")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "refund_application_fee")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "reverse_transfer"))
 
--- | Defines the data type for the schema postChargesChargeRefundsRequestBodyMetadata\'
---
--- Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to \`metadata\`.
-data PostChargesChargeRefundsRequestBodyMetadata'
-  = PostChargesChargeRefundsRequestBodyMetadata'
-      {
-      }
-  deriving
-    ( GHC.Show.Show,
-      GHC.Classes.Eq
-    )
+-- | Create a new 'PostChargesChargeRefundsRequestBody' with all required fields.
+mkPostChargesChargeRefundsRequestBody :: PostChargesChargeRefundsRequestBody
+mkPostChargesChargeRefundsRequestBody =
+  PostChargesChargeRefundsRequestBody
+    { postChargesChargeRefundsRequestBodyAmount = GHC.Maybe.Nothing,
+      postChargesChargeRefundsRequestBodyExpand = GHC.Maybe.Nothing,
+      postChargesChargeRefundsRequestBodyMetadata = GHC.Maybe.Nothing,
+      postChargesChargeRefundsRequestBodyPaymentIntent = GHC.Maybe.Nothing,
+      postChargesChargeRefundsRequestBodyReason = GHC.Maybe.Nothing,
+      postChargesChargeRefundsRequestBodyRefundApplicationFee = GHC.Maybe.Nothing,
+      postChargesChargeRefundsRequestBodyReverseTransfer = GHC.Maybe.Nothing
+    }
 
-instance Data.Aeson.ToJSON PostChargesChargeRefundsRequestBodyMetadata' where
-  toJSON obj = Data.Aeson.object []
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "string" ("string" :: GHC.Base.String))
-
-instance Data.Aeson.Types.FromJSON.FromJSON PostChargesChargeRefundsRequestBodyMetadata' where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostChargesChargeRefundsRequestBodyMetadata'" (\obj -> GHC.Base.pure PostChargesChargeRefundsRequestBodyMetadata')
-
--- | Defines the enum schema postChargesChargeRefundsRequestBodyReason\'
+-- | Defines the enum schema located at @paths.\/v1\/charges\/{charge}\/refunds.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.reason@ in the specification.
 data PostChargesChargeRefundsRequestBodyReason'
-  = PostChargesChargeRefundsRequestBodyReason'EnumOther Data.Aeson.Types.Internal.Value
-  | PostChargesChargeRefundsRequestBodyReason'EnumTyped Data.Text.Internal.Text
-  | PostChargesChargeRefundsRequestBodyReason'EnumStringDuplicate
-  | PostChargesChargeRefundsRequestBodyReason'EnumStringFraudulent
-  | PostChargesChargeRefundsRequestBodyReason'EnumStringRequestedByCustomer
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    PostChargesChargeRefundsRequestBodyReason'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    PostChargesChargeRefundsRequestBodyReason'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"duplicate"@
+    PostChargesChargeRefundsRequestBodyReason'EnumDuplicate
+  | -- | Represents the JSON value @"fraudulent"@
+    PostChargesChargeRefundsRequestBodyReason'EnumFraudulent
+  | -- | Represents the JSON value @"requested_by_customer"@
+    PostChargesChargeRefundsRequestBodyReason'EnumRequestedByCustomer
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.ToJSON PostChargesChargeRefundsRequestBodyReason' where
-  toJSON (PostChargesChargeRefundsRequestBodyReason'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostChargesChargeRefundsRequestBodyReason'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostChargesChargeRefundsRequestBodyReason'EnumStringDuplicate) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "duplicate"
-  toJSON (PostChargesChargeRefundsRequestBodyReason'EnumStringFraudulent) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "fraudulent"
-  toJSON (PostChargesChargeRefundsRequestBodyReason'EnumStringRequestedByCustomer) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "requested_by_customer"
+instance Data.Aeson.Types.ToJSON.ToJSON PostChargesChargeRefundsRequestBodyReason' where
+  toJSON (PostChargesChargeRefundsRequestBodyReason'Other val) = val
+  toJSON (PostChargesChargeRefundsRequestBodyReason'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PostChargesChargeRefundsRequestBodyReason'EnumDuplicate) = "duplicate"
+  toJSON (PostChargesChargeRefundsRequestBodyReason'EnumFraudulent) = "fraudulent"
+  toJSON (PostChargesChargeRefundsRequestBodyReason'EnumRequestedByCustomer) = "requested_by_customer"
 
-instance Data.Aeson.FromJSON PostChargesChargeRefundsRequestBodyReason' where
+instance Data.Aeson.Types.FromJSON.FromJSON PostChargesChargeRefundsRequestBodyReason' where
   parseJSON val =
     GHC.Base.pure
-      ( if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "duplicate")
-          then PostChargesChargeRefundsRequestBodyReason'EnumStringDuplicate
-          else
-            if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "fraudulent")
-              then PostChargesChargeRefundsRequestBodyReason'EnumStringFraudulent
-              else
-                if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "requested_by_customer")
-                  then PostChargesChargeRefundsRequestBodyReason'EnumStringRequestedByCustomer
-                  else PostChargesChargeRefundsRequestBodyReason'EnumOther val
+      ( if  | val GHC.Classes.== "duplicate" -> PostChargesChargeRefundsRequestBodyReason'EnumDuplicate
+            | val GHC.Classes.== "fraudulent" -> PostChargesChargeRefundsRequestBodyReason'EnumFraudulent
+            | val GHC.Classes.== "requested_by_customer" -> PostChargesChargeRefundsRequestBodyReason'EnumRequestedByCustomer
+            | GHC.Base.otherwise -> PostChargesChargeRefundsRequestBodyReason'Other val
       )
 
 -- | Represents a response of the operation 'postChargesChargeRefunds'.

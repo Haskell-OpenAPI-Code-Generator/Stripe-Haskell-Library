@@ -1,0 +1,8 @@
+module StripeAPI.Types.PaymentMethodDetailsCardPresentReceipt where
+import Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Types.Internal
+data PaymentMethodDetailsCardPresentReceipt
+instance Show PaymentMethodDetailsCardPresentReceipt
+instance Eq PaymentMethodDetailsCardPresentReceipt
+instance FromJSON PaymentMethodDetailsCardPresentReceipt
+instance ToJSON PaymentMethodDetailsCardPresentReceipt

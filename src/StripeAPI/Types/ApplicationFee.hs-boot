@@ -1,0 +1,38 @@
+module StripeAPI.Types.ApplicationFee where
+import Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Types.Internal
+data ApplicationFee
+instance Show ApplicationFee
+instance Eq ApplicationFee
+instance FromJSON ApplicationFee
+instance ToJSON ApplicationFee
+data ApplicationFeeAccount'Variants
+instance Show ApplicationFeeAccount'Variants
+instance Eq ApplicationFeeAccount'Variants
+instance FromJSON ApplicationFeeAccount'Variants
+instance ToJSON ApplicationFeeAccount'Variants
+data ApplicationFeeApplication'Variants
+instance Show ApplicationFeeApplication'Variants
+instance Eq ApplicationFeeApplication'Variants
+instance FromJSON ApplicationFeeApplication'Variants
+instance ToJSON ApplicationFeeApplication'Variants
+data ApplicationFeeBalanceTransaction'Variants
+instance Show ApplicationFeeBalanceTransaction'Variants
+instance Eq ApplicationFeeBalanceTransaction'Variants
+instance FromJSON ApplicationFeeBalanceTransaction'Variants
+instance ToJSON ApplicationFeeBalanceTransaction'Variants
+data ApplicationFeeCharge'Variants
+instance Show ApplicationFeeCharge'Variants
+instance Eq ApplicationFeeCharge'Variants
+instance FromJSON ApplicationFeeCharge'Variants
+instance ToJSON ApplicationFeeCharge'Variants
+data ApplicationFeeOriginatingTransaction'Variants
+instance Show ApplicationFeeOriginatingTransaction'Variants
+instance Eq ApplicationFeeOriginatingTransaction'Variants
+instance FromJSON ApplicationFeeOriginatingTransaction'Variants
+instance ToJSON ApplicationFeeOriginatingTransaction'Variants
+data ApplicationFeeRefunds'
+instance Show ApplicationFeeRefunds'
+instance Eq ApplicationFeeRefunds'
+instance FromJSON ApplicationFeeRefunds'
+instance ToJSON ApplicationFeeRefunds'

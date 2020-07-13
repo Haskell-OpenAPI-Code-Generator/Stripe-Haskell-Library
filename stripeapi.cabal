@@ -367,24 +367,56 @@ library
       StripeAPI.Operations.PostWebhookEndpointsWebhookEndpoint
       StripeAPI.Operations.DeleteWebhookEndpointsWebhookEndpoint
       StripeAPI.Types
-      StripeAPI.CyclicTypes
+      StripeAPI.TypeAlias
+      StripeAPI.Types.Account
+      StripeAPI.Types.AccountBrandingSettings
+      StripeAPI.Types.AccountBusinessProfile
       StripeAPI.Types.AccountCapabilities
+      StripeAPI.Types.AccountCapabilityRequirements
+      StripeAPI.Types.AccountCardPaymentsSettings
       StripeAPI.Types.AccountDashboardSettings
       StripeAPI.Types.AccountDeclineChargeOn
       StripeAPI.Types.AccountLink
       StripeAPI.Types.AccountPaymentsSettings
+      StripeAPI.Types.AccountPayoutSettings
+      StripeAPI.Types.AccountRequirements
       StripeAPI.Types.AccountRequirementsError
+      StripeAPI.Types.AccountSettings
       StripeAPI.Types.AccountTosAcceptance
       StripeAPI.Types.Address
+      StripeAPI.Types.AlipayAccount
+      StripeAPI.Types.ApiErrors
       StripeAPI.Types.ApplePayDomain
       StripeAPI.Types.Application
+      StripeAPI.Types.ApplicationFee
+      StripeAPI.Types.Balance
+      StripeAPI.Types.BalanceAmount
       StripeAPI.Types.BalanceAmountBySourceType
+      StripeAPI.Types.BalanceTransaction
+      StripeAPI.Types.BankAccount
+      StripeAPI.Types.BillingDetails
+      StripeAPI.Types.BitcoinReceiver
       StripeAPI.Types.BitcoinTransaction
-      StripeAPI.Types.CardMandatePaymentMethodDetails
+      StripeAPI.Types.Capability
+      StripeAPI.Types.Card
+      StripeAPI.Types.Charge
       StripeAPI.Types.ChargeFraudDetails
+      StripeAPI.Types.ChargeOutcome
+      StripeAPI.Types.ChargeTransferData
+      StripeAPI.Types.Checkout_Session
       StripeAPI.Types.CheckoutSessionCustomDisplayItemDescription
+      StripeAPI.Types.CheckoutSessionDisplayItem
+      StripeAPI.Types.ConnectCollectionTransfer
+      StripeAPI.Types.CountrySpec
       StripeAPI.Types.CountrySpecVerificationFieldDetails
+      StripeAPI.Types.CountrySpecVerificationFields
       StripeAPI.Types.Coupon
+      StripeAPI.Types.CreditNote
+      StripeAPI.Types.CreditNoteLineItem
+      StripeAPI.Types.CreditNoteTaxAmount
+      StripeAPI.Types.Customer
+      StripeAPI.Types.CustomerAcceptance
+      StripeAPI.Types.CustomerBalanceTransaction
       StripeAPI.Types.DeletedAccount
       StripeAPI.Types.DeletedAlipayAccount
       StripeAPI.Types.DeletedApplePayDomain
@@ -394,107 +426,181 @@ library
       StripeAPI.Types.DeletedCoupon
       StripeAPI.Types.DeletedCustomer
       StripeAPI.Types.DeletedDiscount
+      StripeAPI.Types.DeletedExternalAccount
       StripeAPI.Types.DeletedInvoice
       StripeAPI.Types.DeletedInvoiceitem
+      StripeAPI.Types.DeletedPaymentSource
       StripeAPI.Types.DeletedPerson
       StripeAPI.Types.DeletedPlan
       StripeAPI.Types.DeletedProduct
-      StripeAPI.Types.DeletedRadarValueList
-      StripeAPI.Types.DeletedRadarValueListItem
+      StripeAPI.Types.DeletedRadar_ValueList
+      StripeAPI.Types.DeletedRadar_ValueListItem
       StripeAPI.Types.DeletedRecipient
       StripeAPI.Types.DeletedSku
       StripeAPI.Types.DeletedSubscriptionItem
       StripeAPI.Types.DeletedTaxId
-      StripeAPI.Types.DeletedTerminalLocation
-      StripeAPI.Types.DeletedTerminalReader
+      StripeAPI.Types.DeletedTerminal_Location
+      StripeAPI.Types.DeletedTerminal_Reader
       StripeAPI.Types.DeletedWebhookEndpoint
       StripeAPI.Types.DeliveryEstimate
+      StripeAPI.Types.Discount
+      StripeAPI.Types.Dispute
+      StripeAPI.Types.DisputeEvidence
       StripeAPI.Types.DisputeEvidenceDetails
       StripeAPI.Types.EphemeralKey
+      StripeAPI.Types.Error
+      StripeAPI.Types.Event
       StripeAPI.Types.ExchangeRate
+      StripeAPI.Types.ExternalAccount
       StripeAPI.Types.Fee
+      StripeAPI.Types.FeeRefund
+      StripeAPI.Types.File
+      StripeAPI.Types.FileLink
       StripeAPI.Types.FinancialReportingFinanceReportRunRunParameters
       StripeAPI.Types.Inventory
+      StripeAPI.Types.Invoice
       StripeAPI.Types.InvoiceItemThresholdReason
       StripeAPI.Types.InvoiceLineItemPeriod
       StripeAPI.Types.InvoiceSettingCustomField
+      StripeAPI.Types.InvoiceSettingCustomerSetting
       StripeAPI.Types.InvoiceSettingSubscriptionScheduleSetting
+      StripeAPI.Types.InvoiceTaxAmount
+      StripeAPI.Types.InvoiceThresholdReason
+      StripeAPI.Types.Invoiceitem
       StripeAPI.Types.InvoicesResourceInvoiceTaxId
       StripeAPI.Types.InvoicesStatusTransitions
-      StripeAPI.Types.IssuingSettlement
-      StripeAPI.Types.IssuingVerification
+      StripeAPI.Types.IssuerFraudRecord
+      StripeAPI.Types.Issuing_Authorization
+      StripeAPI.Types.Issuing_Card
+      StripeAPI.Types.Issuing_CardDetails
+      StripeAPI.Types.Issuing_CardPin
+      StripeAPI.Types.Issuing_Cardholder
+      StripeAPI.Types.Issuing_Dispute
+      StripeAPI.Types.Issuing_Settlement
+      StripeAPI.Types.Issuing_Transaction
+      StripeAPI.Types.Issuing_Verification
       StripeAPI.Types.IssuingAuthorizationMerchantData
+      StripeAPI.Types.IssuingAuthorizationRequest
       StripeAPI.Types.IssuingAuthorizationVerificationData
       StripeAPI.Types.IssuingAuthorizationViolatedAuthControl
+      StripeAPI.Types.IssuingCardAuthorizationControls
       StripeAPI.Types.IssuingCardPin
+      StripeAPI.Types.IssuingCardShipping
       StripeAPI.Types.IssuingCardSpendingLimit
+      StripeAPI.Types.IssuingCardholderAddress
+      StripeAPI.Types.IssuingCardholderAuthorizationControls
       StripeAPI.Types.IssuingCardholderCompany
+      StripeAPI.Types.IssuingCardholderIdDocument
+      StripeAPI.Types.IssuingCardholderIndividual
       StripeAPI.Types.IssuingCardholderIndividualDob
       StripeAPI.Types.IssuingCardholderRequirements
       StripeAPI.Types.IssuingCardholderSpendingLimit
+      StripeAPI.Types.IssuingCardholderVerification
+      StripeAPI.Types.IssuingDisputeDuplicateEvidence
+      StripeAPI.Types.IssuingDisputeEvidence
+      StripeAPI.Types.IssuingDisputeFraudulentEvidence
+      StripeAPI.Types.IssuingDisputeOtherEvidence
+      StripeAPI.Types.IssuingDisputeProductNotReceivedEvidence
+      StripeAPI.Types.LegalEntityCompany
+      StripeAPI.Types.LegalEntityCompanyVerification
+      StripeAPI.Types.LegalEntityCompanyVerificationDocument
       StripeAPI.Types.LegalEntityDob
       StripeAPI.Types.LegalEntityJapanAddress
-      StripeAPI.Types.LightAccountLogout
+      StripeAPI.Types.LegalEntityPersonVerification
+      StripeAPI.Types.LegalEntityPersonVerificationDocument
+      StripeAPI.Types.LineItem
       StripeAPI.Types.LoginLink
-      StripeAPI.Types.MandateMultiUse
+      StripeAPI.Types.Mandate
+      StripeAPI.Types.MandatePaymentMethodDetails
       StripeAPI.Types.MandateSepaDebit
       StripeAPI.Types.MandateSingleUse
       StripeAPI.Types.NotificationEventData
       StripeAPI.Types.NotificationEventRequest
-      StripeAPI.Types.OfflineAcceptance
       StripeAPI.Types.OnlineAcceptance
+      StripeAPI.Types.Order
+      StripeAPI.Types.OrderItem
+      StripeAPI.Types.OrderReturn
       StripeAPI.Types.PackageDimensions
+      StripeAPI.Types.PaymentIntent
+      StripeAPI.Types.PaymentIntentNextAction
       StripeAPI.Types.PaymentIntentNextActionRedirectToUrl
+      StripeAPI.Types.PaymentIntentPaymentMethodOptions
+      StripeAPI.Types.PaymentIntentPaymentMethodOptionsCard
+      StripeAPI.Types.PaymentMethod
+      StripeAPI.Types.PaymentMethodCard
       StripeAPI.Types.PaymentMethodCardChecks
-      StripeAPI.Types.PaymentMethodCardPresent
-      StripeAPI.Types.PaymentMethodCardWalletAmexExpressCheckout
-      StripeAPI.Types.PaymentMethodCardWalletApplePay
-      StripeAPI.Types.PaymentMethodCardWalletGooglePay
-      StripeAPI.Types.PaymentMethodCardWalletSamsungPay
+      StripeAPI.Types.PaymentMethodCardGeneratedCard
+      StripeAPI.Types.PaymentMethodCardWallet
+      StripeAPI.Types.PaymentMethodCardWalletMasterpass
+      StripeAPI.Types.PaymentMethodCardWalletVisaCheckout
+      StripeAPI.Types.PaymentMethodDetails
       StripeAPI.Types.PaymentMethodDetailsAchCreditTransfer
       StripeAPI.Types.PaymentMethodDetailsAchDebit
-      StripeAPI.Types.PaymentMethodDetailsAlipay
       StripeAPI.Types.PaymentMethodDetailsBancontact
+      StripeAPI.Types.PaymentMethodDetailsCard
       StripeAPI.Types.PaymentMethodDetailsCardChecks
+      StripeAPI.Types.PaymentMethodDetailsCardInstallments
       StripeAPI.Types.PaymentMethodDetailsCardInstallmentsPlan
+      StripeAPI.Types.PaymentMethodDetailsCardPresent
       StripeAPI.Types.PaymentMethodDetailsCardPresentReceipt
-      StripeAPI.Types.PaymentMethodDetailsCardWalletAmexExpressCheckout
-      StripeAPI.Types.PaymentMethodDetailsCardWalletApplePay
-      StripeAPI.Types.PaymentMethodDetailsCardWalletGooglePay
-      StripeAPI.Types.PaymentMethodDetailsCardWalletSamsungPay
+      StripeAPI.Types.PaymentMethodDetailsCardWallet
+      StripeAPI.Types.PaymentMethodDetailsCardWalletMasterpass
+      StripeAPI.Types.PaymentMethodDetailsCardWalletVisaCheckout
       StripeAPI.Types.PaymentMethodDetailsEps
       StripeAPI.Types.PaymentMethodDetailsFpx
       StripeAPI.Types.PaymentMethodDetailsGiropay
       StripeAPI.Types.PaymentMethodDetailsIdeal
-      StripeAPI.Types.PaymentMethodDetailsKlarna
       StripeAPI.Types.PaymentMethodDetailsMultibanco
       StripeAPI.Types.PaymentMethodDetailsP24
       StripeAPI.Types.PaymentMethodDetailsSepaDebit
       StripeAPI.Types.PaymentMethodDetailsSofort
-      StripeAPI.Types.PaymentMethodDetailsStripeAccount
-      StripeAPI.Types.PaymentMethodDetailsWechat
       StripeAPI.Types.PaymentMethodFpx
       StripeAPI.Types.PaymentMethodIdeal
+      StripeAPI.Types.PaymentMethodOptionsCardInstallments
       StripeAPI.Types.PaymentMethodSepaDebit
+      StripeAPI.Types.PaymentSource
+      StripeAPI.Types.Payout
       StripeAPI.Types.Period
+      StripeAPI.Types.Person
       StripeAPI.Types.PersonRelationship
+      StripeAPI.Types.PersonRequirements
+      StripeAPI.Types.Plan
       StripeAPI.Types.PlanTier
       StripeAPI.Types.PlatformTaxFee
-      StripeAPI.Types.RadarValueListItem
+      StripeAPI.Types.Product
+      StripeAPI.Types.Radar_EarlyFraudWarning
+      StripeAPI.Types.Radar_ValueList
+      StripeAPI.Types.Radar_ValueListItem
       StripeAPI.Types.RadarReviewResourceLocation
       StripeAPI.Types.RadarReviewResourceSession
-      StripeAPI.Types.ReportingReportType
+      StripeAPI.Types.Recipient
+      StripeAPI.Types.Refund
+      StripeAPI.Types.Reporting_ReportRun
+      StripeAPI.Types.Reporting_ReportType
       StripeAPI.Types.ReserveTransaction
+      StripeAPI.Types.Review
       StripeAPI.Types.Rule
+      StripeAPI.Types.ScheduledQueryRun
+      StripeAPI.Types.SetupIntent
+      StripeAPI.Types.SetupIntentNextAction
       StripeAPI.Types.SetupIntentNextActionRedirectToUrl
+      StripeAPI.Types.SetupIntentPaymentMethodOptions
       StripeAPI.Types.SetupIntentPaymentMethodOptionsCard
+      StripeAPI.Types.Shipping
+      StripeAPI.Types.ShippingMethod
       StripeAPI.Types.SigmaScheduledQueryRunError
+      StripeAPI.Types.Sku
+      StripeAPI.Types.Source
       StripeAPI.Types.SourceCodeVerificationFlow
+      StripeAPI.Types.SourceMandateNotification
       StripeAPI.Types.SourceMandateNotificationBacsDebitData
       StripeAPI.Types.SourceMandateNotificationSepaDebitData
+      StripeAPI.Types.SourceOrder
       StripeAPI.Types.SourceOrderItem
+      StripeAPI.Types.SourceOwner
       StripeAPI.Types.SourceReceiverFlow
       StripeAPI.Types.SourceRedirectFlow
+      StripeAPI.Types.SourceTransaction
       StripeAPI.Types.SourceTransactionAchCreditTransferData
       StripeAPI.Types.SourceTransactionChfCreditTransferData
       StripeAPI.Types.SourceTransactionGbpCreditTransferData
@@ -517,52 +623,37 @@ library
       StripeAPI.Types.SourceTypeThreeDSecure
       StripeAPI.Types.SourceTypeWechat
       StripeAPI.Types.StatusTransitions
+      StripeAPI.Types.Subscription
       StripeAPI.Types.SubscriptionBillingThresholds
+      StripeAPI.Types.SubscriptionItem
       StripeAPI.Types.SubscriptionItemBillingThresholds
       StripeAPI.Types.SubscriptionPendingInvoiceItemInterval
+      StripeAPI.Types.SubscriptionSchedule
+      StripeAPI.Types.SubscriptionScheduleConfigurationItem
       StripeAPI.Types.SubscriptionScheduleCurrentPhase
+      StripeAPI.Types.SubscriptionSchedulePhaseConfiguration
+      StripeAPI.Types.SubscriptionSchedulesResourceDefaultSettings
+      StripeAPI.Types.SubscriptionsResourcePendingUpdate
       StripeAPI.Types.TaxDeductedAtSource
+      StripeAPI.Types.TaxId
       StripeAPI.Types.TaxIdVerification
       StripeAPI.Types.TaxRate
-      StripeAPI.Types.TerminalConnectionToken
-      StripeAPI.Types.TerminalReader
+      StripeAPI.Types.Terminal_ConnectionToken
+      StripeAPI.Types.Terminal_Location
+      StripeAPI.Types.Terminal_Reader
+      StripeAPI.Types.ThreeDSecure
       StripeAPI.Types.ThreeDSecureDetails
       StripeAPI.Types.ThreeDSecureUsage
+      StripeAPI.Types.Token
+      StripeAPI.Types.Topup
+      StripeAPI.Types.Transfer
+      StripeAPI.Types.TransferData
+      StripeAPI.Types.TransferReversal
       StripeAPI.Types.TransferSchedule
       StripeAPI.Types.TransformUsage
       StripeAPI.Types.UsageRecord
-      StripeAPI.Types.WebhookEndpoint
-      StripeAPI.Types.AccountCapabilityRequirements
-      StripeAPI.Types.AccountCardPaymentsSettings
-      StripeAPI.Types.AccountPayoutSettings
-      StripeAPI.Types.AccountRequirements
-      StripeAPI.Types.BalanceAmount
-      StripeAPI.Types.BitcoinReceiver
-      StripeAPI.Types.ChargeOutcome
-      StripeAPI.Types.CountrySpecVerificationFields
-      StripeAPI.Types.CreditNoteTaxAmount
-      StripeAPI.Types.CustomerAcceptance
-      StripeAPI.Types.InvoiceTaxAmount
-      StripeAPI.Types.InvoiceThresholdReason
-      StripeAPI.Types.IssuingAuthorizationRequest
-      StripeAPI.Types.IssuingCardAuthorizationControls
-      StripeAPI.Types.IssuingCardShipping
-      StripeAPI.Types.IssuingCardholderAddress
-      StripeAPI.Types.IssuingCardholderAuthorizationControls
-      StripeAPI.Types.MandatePaymentMethodDetails
-      StripeAPI.Types.PaymentIntentNextAction
-      StripeAPI.Types.PersonRequirements
-      StripeAPI.Types.RadarValueList
-      StripeAPI.Types.SetupIntentNextAction
-      StripeAPI.Types.SetupIntentPaymentMethodOptions
-      StripeAPI.Types.Shipping
-      StripeAPI.Types.SourceTransaction
-      StripeAPI.Types.TerminalLocation
       StripeAPI.Types.UsageRecordSummary
-      StripeAPI.Types.Balance
-      StripeAPI.Types.CountrySpec
-      StripeAPI.Types.CreditNoteLineItem
-      StripeAPI.Types.SourceOrder
+      StripeAPI.Types.WebhookEndpoint
       StripeAPI.Configuration
       StripeAPI.SecuritySchemes
       StripeAPI.Common

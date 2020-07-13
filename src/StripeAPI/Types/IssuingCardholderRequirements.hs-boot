@@ -1,0 +1,18 @@
+module StripeAPI.Types.IssuingCardholderRequirements where
+import Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Types.Internal
+data IssuingCardholderRequirements
+instance Show IssuingCardholderRequirements
+instance Eq IssuingCardholderRequirements
+instance FromJSON IssuingCardholderRequirements
+instance ToJSON IssuingCardholderRequirements
+data IssuingCardholderRequirementsDisabledReason'
+instance Show IssuingCardholderRequirementsDisabledReason'
+instance Eq IssuingCardholderRequirementsDisabledReason'
+instance FromJSON IssuingCardholderRequirementsDisabledReason'
+instance ToJSON IssuingCardholderRequirementsDisabledReason'
+data IssuingCardholderRequirementsPastDue'
+instance Show IssuingCardholderRequirementsPastDue'
+instance Eq IssuingCardholderRequirementsPastDue'
+instance FromJSON IssuingCardholderRequirementsPastDue'
+instance ToJSON IssuingCardholderRequirementsPastDue'

@@ -1,4 +1,3 @@
-{-# LANGUAGE DeriveGeneric #-}
 {-# LANGUAGE ExplicitForAll #-}
 {-# LANGUAGE MultiWayIf #-}
 {-# LANGUAGE OverloadedStrings #-}
@@ -8,8 +7,10 @@
 -- | Contains the different functions to run the operation getOrders
 module StripeAPI.Operations.GetOrders where
 
+import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -26,7 +27,6 @@ import qualified Data.Time.LocalTime as Data.Time.LocalTime.Internal.ZonedTime
 import qualified Data.Vector
 import qualified GHC.Base
 import qualified GHC.Classes
-import qualified GHC.Generics
 import qualified GHC.Int
 import qualified GHC.Show
 import qualified GHC.Types
@@ -46,418 +46,426 @@ import qualified Prelude as GHC.Maybe
 --
 -- \<p>Returns a list of your orders. The orders are returned sorted by creation date, with the most recently created orders appearing first.\<\/p>
 getOrders ::
-  forall m s.
-  (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) =>
-  -- | The configuration to use in the request
-  StripeAPI.Common.Configuration s ->
-  -- | created: Date this order was created.
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  -- | customer: Only return orders for the given customer. | Constraints: Maximum length of 5000
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  -- | ending_before: A cursor for use in pagination. \`ending_before\` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, starting with \`obj_bar\`, your subsequent call can include \`ending_before=obj_bar\` in order to fetch the previous page of the list. | Constraints: Maximum length of 5000
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  -- | expand: Specifies which fields in the response should be expanded.
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  -- | ids: Only return orders with the given IDs.
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  -- | limit: A limit on the number of objects to be returned. Limit can range between 1 and 100, and the default is 10.
-  GHC.Maybe.Maybe GHC.Integer.Type.Integer ->
-  -- | starting_after: A cursor for use in pagination. \`starting_after\` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with \`obj_foo\`, your subsequent call can include \`starting_after=obj_foo\` in order to fetch the next page of the list. | Constraints: Maximum length of 5000
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  -- | status: Only return orders that have the given status. One of \`created\`, \`paid\`, \`fulfilled\`, or \`refunded\`. | Constraints: Maximum length of 5000
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  -- | status_transitions: Filter orders based on when they were paid, fulfilled, canceled, or returned.
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  -- | upstream_ids: Only return orders with the given upstream order IDs.
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  -- | The request body to send
-  GHC.Maybe.Maybe GetOrdersRequestBody ->
-  -- | Monad containing the result of the operation
-  m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response GetOrdersResponse))
-getOrders
-  config
-  created
-  customer
-  endingBefore
-  expand
-  ids
-  limit
-  startingAfter
-  status
-  statusTransitions
-  upstreamIds
-  body =
-    GHC.Base.fmap
-      ( GHC.Base.fmap
-          ( \response_0 ->
-              GHC.Base.fmap
-                ( Data.Either.either GetOrdersResponseError GHC.Base.id
-                    GHC.Base.. ( \response body ->
-                                   if  | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                         GetOrdersResponse200
-                                           Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                                Data.Either.Either GHC.Base.String
-                                                                  GetOrdersResponseBody200
-                                                            )
-                                       | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                         GetOrdersResponseDefault
-                                           Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                                Data.Either.Either GHC.Base.String
-                                                                  Error
-                                                            )
-                                       | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
-                               )
-                      response_0
-                )
+  forall m.
+  StripeAPI.Common.MonadHTTP m =>
+  -- | Contains all available parameters of this operation (query and path parameters)
+  GetOrdersParameters ->
+  -- | Monadic computation which returns the result of the operation
+  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response GetOrdersResponse)
+getOrders parameters =
+  GHC.Base.fmap
+    ( \response_0 ->
+        GHC.Base.fmap
+          ( Data.Either.either GetOrdersResponseError GHC.Base.id
+              GHC.Base.. ( \response body ->
+                             if  | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
+                                   GetOrdersResponse200
+                                     Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                          Data.Either.Either GHC.Base.String
+                                                            GetOrdersResponseBody200
+                                                      )
+                                 | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
+                                   GetOrdersResponseDefault
+                                     Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                          Data.Either.Either GHC.Base.String
+                                                            Error
+                                                      )
+                                 | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
+                         )
                 response_0
           )
-      )
-      ( StripeAPI.Common.doBodyCallWithConfiguration
-          config
-          (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET")
-          (Data.Text.pack "/v1/orders")
-          ( ( Data.Text.pack "created",
-              StripeAPI.Common.stringifyModel Data.Functor.<$> created
-            )
-              : ( ( Data.Text.pack "customer",
-                    StripeAPI.Common.stringifyModel Data.Functor.<$> customer
-                  )
-                    : ( ( Data.Text.pack "ending_before",
-                          StripeAPI.Common.stringifyModel Data.Functor.<$> endingBefore
-                        )
-                          : ( ( Data.Text.pack "expand",
-                                StripeAPI.Common.stringifyModel Data.Functor.<$> expand
-                              )
-                                : ( ( Data.Text.pack "ids",
-                                      StripeAPI.Common.stringifyModel Data.Functor.<$> ids
-                                    )
-                                      : ( ( Data.Text.pack "limit",
-                                            StripeAPI.Common.stringifyModel Data.Functor.<$> limit
-                                          )
-                                            : ( ( Data.Text.pack "starting_after",
-                                                  StripeAPI.Common.stringifyModel Data.Functor.<$> startingAfter
-                                                )
-                                                  : ( ( Data.Text.pack "status",
-                                                        StripeAPI.Common.stringifyModel Data.Functor.<$> status
-                                                      )
-                                                        : ( ( Data.Text.pack "status_transitions",
-                                                              StripeAPI.Common.stringifyModel Data.Functor.<$> statusTransitions
-                                                            )
-                                                              : ( ( Data.Text.pack "upstream_ids",
-                                                                    StripeAPI.Common.stringifyModel Data.Functor.<$> upstreamIds
-                                                                  )
-                                                                    : []
-                                                                )
-                                                          )
-                                                    )
-                                              )
-                                        )
-                                  )
-                            )
-                      )
-                )
-          )
-          body
-          StripeAPI.Common.RequestBodyEncodingFormData
-      )
-
--- | > GET /v1/orders
---
--- The same as 'getOrders' but returns the raw 'Data.ByteString.Char8.ByteString'
-getOrdersRaw ::
-  forall m s.
-  ( StripeAPI.Common.MonadHTTP m,
-    StripeAPI.Common.SecurityScheme s
-  ) =>
-  StripeAPI.Common.Configuration s ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe GHC.Integer.Type.Integer ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe GetOrdersRequestBody ->
-  m
-    ( Data.Either.Either Network.HTTP.Client.Types.HttpException
-        (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
+          response_0
     )
-getOrdersRaw
-  config
-  created
-  customer
-  endingBefore
-  expand
-  ids
-  limit
-  startingAfter
-  status
-  statusTransitions
-  upstreamIds
-  body =
-    GHC.Base.id
-      ( StripeAPI.Common.doBodyCallWithConfiguration
-          config
-          (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET")
-          (Data.Text.pack "/v1/orders")
-          ( ( Data.Text.pack "created",
-              StripeAPI.Common.stringifyModel Data.Functor.<$> created
-            )
-              : ( ( Data.Text.pack "customer",
-                    StripeAPI.Common.stringifyModel Data.Functor.<$> customer
-                  )
-                    : ( ( Data.Text.pack "ending_before",
-                          StripeAPI.Common.stringifyModel Data.Functor.<$> endingBefore
-                        )
-                          : ( ( Data.Text.pack "expand",
-                                StripeAPI.Common.stringifyModel Data.Functor.<$> expand
-                              )
-                                : ( ( Data.Text.pack "ids",
-                                      StripeAPI.Common.stringifyModel Data.Functor.<$> ids
-                                    )
-                                      : ( ( Data.Text.pack "limit",
-                                            StripeAPI.Common.stringifyModel Data.Functor.<$> limit
-                                          )
-                                            : ( ( Data.Text.pack "starting_after",
-                                                  StripeAPI.Common.stringifyModel Data.Functor.<$> startingAfter
-                                                )
-                                                  : ( ( Data.Text.pack "status",
-                                                        StripeAPI.Common.stringifyModel Data.Functor.<$> status
-                                                      )
-                                                        : ( ( Data.Text.pack "status_transitions",
-                                                              StripeAPI.Common.stringifyModel Data.Functor.<$> statusTransitions
-                                                            )
-                                                              : ( ( Data.Text.pack "upstream_ids",
-                                                                    StripeAPI.Common.stringifyModel Data.Functor.<$> upstreamIds
-                                                                  )
-                                                                    : []
-                                                                )
-                                                          )
-                                                    )
-                                              )
-                                        )
-                                  )
-                            )
-                      )
-                )
-          )
-          body
-          StripeAPI.Common.RequestBodyEncodingFormData
-      )
-
--- | > GET /v1/orders
---
--- Monadic version of 'getOrders' (use with 'StripeAPI.Common.runWithConfiguration')
-getOrdersM ::
-  forall m s.
-  ( StripeAPI.Common.MonadHTTP m,
-    StripeAPI.Common.SecurityScheme s
-  ) =>
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe GHC.Integer.Type.Integer ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe GetOrdersRequestBody ->
-  Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
-    m
-    ( Data.Either.Either Network.HTTP.Client.Types.HttpException
-        (Network.HTTP.Client.Types.Response GetOrdersResponse)
+    ( StripeAPI.Common.doCallWithConfigurationM
+        (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET")
+        (Data.Text.pack "/v1/orders")
+        [ StripeAPI.Common.QueryParameter (Data.Text.pack "created") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getOrdersParametersQueryCreated parameters) (Data.Text.pack "deepObject") GHC.Types.True,
+          StripeAPI.Common.QueryParameter (Data.Text.pack "customer") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getOrdersParametersQueryCustomer parameters) (Data.Text.pack "form") GHC.Types.True,
+          StripeAPI.Common.QueryParameter (Data.Text.pack "ending_before") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getOrdersParametersQueryEndingBefore parameters) (Data.Text.pack "form") GHC.Types.True,
+          StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getOrdersParametersQueryExpand parameters) (Data.Text.pack "deepObject") GHC.Types.True,
+          StripeAPI.Common.QueryParameter (Data.Text.pack "ids") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getOrdersParametersQueryIds parameters) (Data.Text.pack "deepObject") GHC.Types.True,
+          StripeAPI.Common.QueryParameter (Data.Text.pack "limit") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getOrdersParametersQueryLimit parameters) (Data.Text.pack "form") GHC.Types.True,
+          StripeAPI.Common.QueryParameter (Data.Text.pack "starting_after") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getOrdersParametersQueryStartingAfter parameters) (Data.Text.pack "form") GHC.Types.True,
+          StripeAPI.Common.QueryParameter (Data.Text.pack "status") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getOrdersParametersQueryStatus parameters) (Data.Text.pack "form") GHC.Types.True,
+          StripeAPI.Common.QueryParameter (Data.Text.pack "status_transitions") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getOrdersParametersQueryStatusTransitions parameters) (Data.Text.pack "deepObject") GHC.Types.True,
+          StripeAPI.Common.QueryParameter (Data.Text.pack "upstream_ids") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getOrdersParametersQueryUpstreamIds parameters) (Data.Text.pack "deepObject") GHC.Types.True
+        ]
     )
-getOrdersM
-  created
-  customer
-  endingBefore
-  expand
-  ids
-  limit
-  startingAfter
-  status
-  statusTransitions
-  upstreamIds
-  body =
-    GHC.Base.fmap
-      ( GHC.Base.fmap
-          ( \response_2 ->
-              GHC.Base.fmap
-                ( Data.Either.either GetOrdersResponseError GHC.Base.id
-                    GHC.Base.. ( \response body ->
-                                   if  | (\status_3 -> Network.HTTP.Types.Status.statusCode status_3 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                         GetOrdersResponse200
-                                           Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                                Data.Either.Either GHC.Base.String
-                                                                  GetOrdersResponseBody200
-                                                            )
-                                       | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                         GetOrdersResponseDefault
-                                           Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                                Data.Either.Either GHC.Base.String
-                                                                  Error
-                                                            )
-                                       | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
-                               )
-                      response_2
-                )
-                response_2
-          )
-      )
-      ( StripeAPI.Common.doBodyCallWithConfigurationM
-          (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET")
-          (Data.Text.pack "/v1/orders")
-          ( ( Data.Text.pack "created",
-              StripeAPI.Common.stringifyModel Data.Functor.<$> created
-            )
-              : ( ( Data.Text.pack "customer",
-                    StripeAPI.Common.stringifyModel Data.Functor.<$> customer
-                  )
-                    : ( ( Data.Text.pack "ending_before",
-                          StripeAPI.Common.stringifyModel Data.Functor.<$> endingBefore
-                        )
-                          : ( ( Data.Text.pack "expand",
-                                StripeAPI.Common.stringifyModel Data.Functor.<$> expand
-                              )
-                                : ( ( Data.Text.pack "ids",
-                                      StripeAPI.Common.stringifyModel Data.Functor.<$> ids
-                                    )
-                                      : ( ( Data.Text.pack "limit",
-                                            StripeAPI.Common.stringifyModel Data.Functor.<$> limit
-                                          )
-                                            : ( ( Data.Text.pack "starting_after",
-                                                  StripeAPI.Common.stringifyModel Data.Functor.<$> startingAfter
-                                                )
-                                                  : ( ( Data.Text.pack "status",
-                                                        StripeAPI.Common.stringifyModel Data.Functor.<$> status
-                                                      )
-                                                        : ( ( Data.Text.pack "status_transitions",
-                                                              StripeAPI.Common.stringifyModel Data.Functor.<$> statusTransitions
-                                                            )
-                                                              : ( ( Data.Text.pack "upstream_ids",
-                                                                    StripeAPI.Common.stringifyModel Data.Functor.<$> upstreamIds
-                                                                  )
-                                                                    : []
-                                                                )
-                                                          )
-                                                    )
-                                              )
-                                        )
-                                  )
-                            )
-                      )
-                )
-          )
-          body
-          StripeAPI.Common.RequestBodyEncodingFormData
-      )
 
--- | > GET /v1/orders
---
--- Monadic version of 'getOrdersRaw' (use with 'StripeAPI.Common.runWithConfiguration')
-getOrdersRawM ::
-  forall m s.
-  ( StripeAPI.Common.MonadHTTP m,
-    StripeAPI.Common.SecurityScheme s
-  ) =>
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe GHC.Integer.Type.Integer ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe GetOrdersRequestBody ->
-  Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
-    m
-    ( Data.Either.Either Network.HTTP.Client.Types.HttpException
-        (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
-    )
-getOrdersRawM
-  created
-  customer
-  endingBefore
-  expand
-  ids
-  limit
-  startingAfter
-  status
-  statusTransitions
-  upstreamIds
-  body =
-    GHC.Base.id
-      ( StripeAPI.Common.doBodyCallWithConfigurationM
-          (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET")
-          (Data.Text.pack "/v1/orders")
-          ( ( Data.Text.pack "created",
-              StripeAPI.Common.stringifyModel Data.Functor.<$> created
-            )
-              : ( ( Data.Text.pack "customer",
-                    StripeAPI.Common.stringifyModel Data.Functor.<$> customer
-                  )
-                    : ( ( Data.Text.pack "ending_before",
-                          StripeAPI.Common.stringifyModel Data.Functor.<$> endingBefore
-                        )
-                          : ( ( Data.Text.pack "expand",
-                                StripeAPI.Common.stringifyModel Data.Functor.<$> expand
-                              )
-                                : ( ( Data.Text.pack "ids",
-                                      StripeAPI.Common.stringifyModel Data.Functor.<$> ids
-                                    )
-                                      : ( ( Data.Text.pack "limit",
-                                            StripeAPI.Common.stringifyModel Data.Functor.<$> limit
-                                          )
-                                            : ( ( Data.Text.pack "starting_after",
-                                                  StripeAPI.Common.stringifyModel Data.Functor.<$> startingAfter
-                                                )
-                                                  : ( ( Data.Text.pack "status",
-                                                        StripeAPI.Common.stringifyModel Data.Functor.<$> status
-                                                      )
-                                                        : ( ( Data.Text.pack "status_transitions",
-                                                              StripeAPI.Common.stringifyModel Data.Functor.<$> statusTransitions
-                                                            )
-                                                              : ( ( Data.Text.pack "upstream_ids",
-                                                                    StripeAPI.Common.stringifyModel Data.Functor.<$> upstreamIds
-                                                                  )
-                                                                    : []
-                                                                )
-                                                          )
-                                                    )
-                                              )
-                                        )
-                                  )
-                            )
-                      )
-                )
-          )
-          body
-          StripeAPI.Common.RequestBodyEncodingFormData
-      )
-
--- | Defines the data type for the schema getOrdersRequestBody
-data GetOrdersRequestBody
-  = GetOrdersRequestBody
-      {
+-- | Defines the object schema located at @paths.\/v1\/orders.GET.parameters@ in the specification.
+data GetOrdersParameters
+  = GetOrdersParameters
+      { -- | queryCreated: Represents the parameter named \'created\'
+        --
+        -- Date this order was created.
+        getOrdersParametersQueryCreated :: (GHC.Maybe.Maybe GetOrdersParametersQueryCreated'Variants),
+        -- | queryCustomer: Represents the parameter named \'customer\'
+        --
+        -- Only return orders for the given customer.
+        --
+        -- Constraints:
+        --
+        -- * Maximum length of 5000
+        getOrdersParametersQueryCustomer :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+        -- | queryEnding_before: Represents the parameter named \'ending_before\'
+        --
+        -- A cursor for use in pagination. \`ending_before\` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, starting with \`obj_bar\`, your subsequent call can include \`ending_before=obj_bar\` in order to fetch the previous page of the list.
+        --
+        -- Constraints:
+        --
+        -- * Maximum length of 5000
+        getOrdersParametersQueryEndingBefore :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+        -- | queryExpand: Represents the parameter named \'expand\'
+        --
+        -- Specifies which fields in the response should be expanded.
+        getOrdersParametersQueryExpand :: (GHC.Maybe.Maybe ([Data.Text.Internal.Text])),
+        -- | queryIds: Represents the parameter named \'ids\'
+        --
+        -- Only return orders with the given IDs.
+        getOrdersParametersQueryIds :: (GHC.Maybe.Maybe ([Data.Text.Internal.Text])),
+        -- | queryLimit: Represents the parameter named \'limit\'
+        --
+        -- A limit on the number of objects to be returned. Limit can range between 1 and 100, and the default is 10.
+        getOrdersParametersQueryLimit :: (GHC.Maybe.Maybe GHC.Types.Int),
+        -- | queryStarting_after: Represents the parameter named \'starting_after\'
+        --
+        -- A cursor for use in pagination. \`starting_after\` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with \`obj_foo\`, your subsequent call can include \`starting_after=obj_foo\` in order to fetch the next page of the list.
+        --
+        -- Constraints:
+        --
+        -- * Maximum length of 5000
+        getOrdersParametersQueryStartingAfter :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+        -- | queryStatus: Represents the parameter named \'status\'
+        --
+        -- Only return orders that have the given status. One of \`created\`, \`paid\`, \`fulfilled\`, or \`refunded\`.
+        --
+        -- Constraints:
+        --
+        -- * Maximum length of 5000
+        getOrdersParametersQueryStatus :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+        -- | queryStatus_transitions: Represents the parameter named \'status_transitions\'
+        --
+        -- Filter orders based on when they were paid, fulfilled, canceled, or returned.
+        getOrdersParametersQueryStatusTransitions :: (GHC.Maybe.Maybe GetOrdersParametersQueryStatusTransitions'),
+        -- | queryUpstream_ids: Represents the parameter named \'upstream_ids\'
+        --
+        -- Only return orders with the given upstream order IDs.
+        getOrdersParametersQueryUpstreamIds :: (GHC.Maybe.Maybe ([Data.Text.Internal.Text]))
       }
   deriving
     ( GHC.Show.Show,
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON GetOrdersRequestBody where
-  toJSON obj = Data.Aeson.object []
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "string" ("string" :: GHC.Base.String))
+instance Data.Aeson.Types.ToJSON.ToJSON GetOrdersParameters where
+  toJSON obj = Data.Aeson.Types.Internal.object ("queryCreated" Data.Aeson.Types.ToJSON..= getOrdersParametersQueryCreated obj : "queryCustomer" Data.Aeson.Types.ToJSON..= getOrdersParametersQueryCustomer obj : "queryEnding_before" Data.Aeson.Types.ToJSON..= getOrdersParametersQueryEndingBefore obj : "queryExpand" Data.Aeson.Types.ToJSON..= getOrdersParametersQueryExpand obj : "queryIds" Data.Aeson.Types.ToJSON..= getOrdersParametersQueryIds obj : "queryLimit" Data.Aeson.Types.ToJSON..= getOrdersParametersQueryLimit obj : "queryStarting_after" Data.Aeson.Types.ToJSON..= getOrdersParametersQueryStartingAfter obj : "queryStatus" Data.Aeson.Types.ToJSON..= getOrdersParametersQueryStatus obj : "queryStatus_transitions" Data.Aeson.Types.ToJSON..= getOrdersParametersQueryStatusTransitions obj : "queryUpstream_ids" Data.Aeson.Types.ToJSON..= getOrdersParametersQueryUpstreamIds obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("queryCreated" Data.Aeson.Types.ToJSON..= getOrdersParametersQueryCreated obj) GHC.Base.<> (("queryCustomer" Data.Aeson.Types.ToJSON..= getOrdersParametersQueryCustomer obj) GHC.Base.<> (("queryEnding_before" Data.Aeson.Types.ToJSON..= getOrdersParametersQueryEndingBefore obj) GHC.Base.<> (("queryExpand" Data.Aeson.Types.ToJSON..= getOrdersParametersQueryExpand obj) GHC.Base.<> (("queryIds" Data.Aeson.Types.ToJSON..= getOrdersParametersQueryIds obj) GHC.Base.<> (("queryLimit" Data.Aeson.Types.ToJSON..= getOrdersParametersQueryLimit obj) GHC.Base.<> (("queryStarting_after" Data.Aeson.Types.ToJSON..= getOrdersParametersQueryStartingAfter obj) GHC.Base.<> (("queryStatus" Data.Aeson.Types.ToJSON..= getOrdersParametersQueryStatus obj) GHC.Base.<> (("queryStatus_transitions" Data.Aeson.Types.ToJSON..= getOrdersParametersQueryStatusTransitions obj) GHC.Base.<> ("queryUpstream_ids" Data.Aeson.Types.ToJSON..= getOrdersParametersQueryUpstreamIds obj))))))))))
 
-instance Data.Aeson.Types.FromJSON.FromJSON GetOrdersRequestBody where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetOrdersRequestBody" (\obj -> GHC.Base.pure GetOrdersRequestBody)
+instance Data.Aeson.Types.FromJSON.FromJSON GetOrdersParameters where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetOrdersParameters" (\obj -> (((((((((GHC.Base.pure GetOrdersParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryCreated")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryCustomer")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryEnding_before")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryExpand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryIds")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryLimit")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryStarting_after")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryStatus")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryStatus_transitions")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryUpstream_ids"))
+
+-- | Create a new 'GetOrdersParameters' with all required fields.
+mkGetOrdersParameters :: GetOrdersParameters
+mkGetOrdersParameters =
+  GetOrdersParameters
+    { getOrdersParametersQueryCreated = GHC.Maybe.Nothing,
+      getOrdersParametersQueryCustomer = GHC.Maybe.Nothing,
+      getOrdersParametersQueryEndingBefore = GHC.Maybe.Nothing,
+      getOrdersParametersQueryExpand = GHC.Maybe.Nothing,
+      getOrdersParametersQueryIds = GHC.Maybe.Nothing,
+      getOrdersParametersQueryLimit = GHC.Maybe.Nothing,
+      getOrdersParametersQueryStartingAfter = GHC.Maybe.Nothing,
+      getOrdersParametersQueryStatus = GHC.Maybe.Nothing,
+      getOrdersParametersQueryStatusTransitions = GHC.Maybe.Nothing,
+      getOrdersParametersQueryUpstreamIds = GHC.Maybe.Nothing
+    }
+
+-- | Defines the object schema located at @paths.\/v1\/orders.GET.parameters.properties.queryCreated.anyOf@ in the specification.
+data GetOrdersParametersQueryCreated'OneOf2
+  = GetOrdersParametersQueryCreated'OneOf2
+      { -- | gt
+        getOrdersParametersQueryCreated'OneOf2Gt :: (GHC.Maybe.Maybe GHC.Types.Int),
+        -- | gte
+        getOrdersParametersQueryCreated'OneOf2Gte :: (GHC.Maybe.Maybe GHC.Types.Int),
+        -- | lt
+        getOrdersParametersQueryCreated'OneOf2Lt :: (GHC.Maybe.Maybe GHC.Types.Int),
+        -- | lte
+        getOrdersParametersQueryCreated'OneOf2Lte :: (GHC.Maybe.Maybe GHC.Types.Int)
+      }
+  deriving
+    ( GHC.Show.Show,
+      GHC.Classes.Eq
+    )
+
+instance Data.Aeson.Types.ToJSON.ToJSON GetOrdersParametersQueryCreated'OneOf2 where
+  toJSON obj = Data.Aeson.Types.Internal.object ("gt" Data.Aeson.Types.ToJSON..= getOrdersParametersQueryCreated'OneOf2Gt obj : "gte" Data.Aeson.Types.ToJSON..= getOrdersParametersQueryCreated'OneOf2Gte obj : "lt" Data.Aeson.Types.ToJSON..= getOrdersParametersQueryCreated'OneOf2Lt obj : "lte" Data.Aeson.Types.ToJSON..= getOrdersParametersQueryCreated'OneOf2Lte obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("gt" Data.Aeson.Types.ToJSON..= getOrdersParametersQueryCreated'OneOf2Gt obj) GHC.Base.<> (("gte" Data.Aeson.Types.ToJSON..= getOrdersParametersQueryCreated'OneOf2Gte obj) GHC.Base.<> (("lt" Data.Aeson.Types.ToJSON..= getOrdersParametersQueryCreated'OneOf2Lt obj) GHC.Base.<> ("lte" Data.Aeson.Types.ToJSON..= getOrdersParametersQueryCreated'OneOf2Lte obj))))
+
+instance Data.Aeson.Types.FromJSON.FromJSON GetOrdersParametersQueryCreated'OneOf2 where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetOrdersParametersQueryCreated'OneOf2" (\obj -> (((GHC.Base.pure GetOrdersParametersQueryCreated'OneOf2 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "gt")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "gte")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "lt")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "lte"))
+
+-- | Create a new 'GetOrdersParametersQueryCreated'OneOf2' with all required fields.
+mkGetOrdersParametersQueryCreated'OneOf2 :: GetOrdersParametersQueryCreated'OneOf2
+mkGetOrdersParametersQueryCreated'OneOf2 =
+  GetOrdersParametersQueryCreated'OneOf2
+    { getOrdersParametersQueryCreated'OneOf2Gt = GHC.Maybe.Nothing,
+      getOrdersParametersQueryCreated'OneOf2Gte = GHC.Maybe.Nothing,
+      getOrdersParametersQueryCreated'OneOf2Lt = GHC.Maybe.Nothing,
+      getOrdersParametersQueryCreated'OneOf2Lte = GHC.Maybe.Nothing
+    }
+
+-- | Defines the oneOf schema located at @paths.\/v1\/orders.GET.parameters.properties.queryCreated.anyOf@ in the specification.
+--
+-- Represents the parameter named \'created\'
+--
+-- Date this order was created.
+data GetOrdersParametersQueryCreated'Variants
+  = GetOrdersParametersQueryCreated'Int GHC.Types.Int
+  | GetOrdersParametersQueryCreated'GetOrdersParametersQueryCreated'OneOf2 GetOrdersParametersQueryCreated'OneOf2
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON GetOrdersParametersQueryCreated'Variants where
+  toJSON (GetOrdersParametersQueryCreated'Int a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (GetOrdersParametersQueryCreated'GetOrdersParametersQueryCreated'OneOf2 a) = Data.Aeson.Types.ToJSON.toJSON a
+
+instance Data.Aeson.Types.FromJSON.FromJSON GetOrdersParametersQueryCreated'Variants where
+  parseJSON val = case (GetOrdersParametersQueryCreated'Int Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((GetOrdersParametersQueryCreated'GetOrdersParametersQueryCreated'OneOf2 Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched") of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+    Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+
+-- | Defines the object schema located at @paths.\/v1\/orders.GET.parameters.properties.queryStatus_transitions@ in the specification.
+--
+-- Represents the parameter named \'status_transitions\'
+--
+-- Filter orders based on when they were paid, fulfilled, canceled, or returned.
+data GetOrdersParametersQueryStatusTransitions'
+  = GetOrdersParametersQueryStatusTransitions'
+      { -- | canceled
+        getOrdersParametersQueryStatusTransitions'Canceled :: (GHC.Maybe.Maybe GetOrdersParametersQueryStatusTransitions'Canceled'Variants),
+        -- | fulfilled
+        getOrdersParametersQueryStatusTransitions'Fulfilled :: (GHC.Maybe.Maybe GetOrdersParametersQueryStatusTransitions'Fulfilled'Variants),
+        -- | paid
+        getOrdersParametersQueryStatusTransitions'Paid :: (GHC.Maybe.Maybe GetOrdersParametersQueryStatusTransitions'Paid'Variants),
+        -- | returned
+        getOrdersParametersQueryStatusTransitions'Returned :: (GHC.Maybe.Maybe GetOrdersParametersQueryStatusTransitions'Returned'Variants)
+      }
+  deriving
+    ( GHC.Show.Show,
+      GHC.Classes.Eq
+    )
+
+instance Data.Aeson.Types.ToJSON.ToJSON GetOrdersParametersQueryStatusTransitions' where
+  toJSON obj = Data.Aeson.Types.Internal.object ("canceled" Data.Aeson.Types.ToJSON..= getOrdersParametersQueryStatusTransitions'Canceled obj : "fulfilled" Data.Aeson.Types.ToJSON..= getOrdersParametersQueryStatusTransitions'Fulfilled obj : "paid" Data.Aeson.Types.ToJSON..= getOrdersParametersQueryStatusTransitions'Paid obj : "returned" Data.Aeson.Types.ToJSON..= getOrdersParametersQueryStatusTransitions'Returned obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("canceled" Data.Aeson.Types.ToJSON..= getOrdersParametersQueryStatusTransitions'Canceled obj) GHC.Base.<> (("fulfilled" Data.Aeson.Types.ToJSON..= getOrdersParametersQueryStatusTransitions'Fulfilled obj) GHC.Base.<> (("paid" Data.Aeson.Types.ToJSON..= getOrdersParametersQueryStatusTransitions'Paid obj) GHC.Base.<> ("returned" Data.Aeson.Types.ToJSON..= getOrdersParametersQueryStatusTransitions'Returned obj))))
+
+instance Data.Aeson.Types.FromJSON.FromJSON GetOrdersParametersQueryStatusTransitions' where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetOrdersParametersQueryStatusTransitions'" (\obj -> (((GHC.Base.pure GetOrdersParametersQueryStatusTransitions' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "canceled")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "fulfilled")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "paid")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "returned"))
+
+-- | Create a new 'GetOrdersParametersQueryStatusTransitions'' with all required fields.
+mkGetOrdersParametersQueryStatusTransitions' :: GetOrdersParametersQueryStatusTransitions'
+mkGetOrdersParametersQueryStatusTransitions' =
+  GetOrdersParametersQueryStatusTransitions'
+    { getOrdersParametersQueryStatusTransitions'Canceled = GHC.Maybe.Nothing,
+      getOrdersParametersQueryStatusTransitions'Fulfilled = GHC.Maybe.Nothing,
+      getOrdersParametersQueryStatusTransitions'Paid = GHC.Maybe.Nothing,
+      getOrdersParametersQueryStatusTransitions'Returned = GHC.Maybe.Nothing
+    }
+
+-- | Defines the object schema located at @paths.\/v1\/orders.GET.parameters.properties.queryStatus_transitions.properties.canceled.anyOf@ in the specification.
+data GetOrdersParametersQueryStatusTransitions'Canceled'OneOf2
+  = GetOrdersParametersQueryStatusTransitions'Canceled'OneOf2
+      { -- | gt
+        getOrdersParametersQueryStatusTransitions'Canceled'OneOf2Gt :: (GHC.Maybe.Maybe GHC.Types.Int),
+        -- | gte
+        getOrdersParametersQueryStatusTransitions'Canceled'OneOf2Gte :: (GHC.Maybe.Maybe GHC.Types.Int),
+        -- | lt
+        getOrdersParametersQueryStatusTransitions'Canceled'OneOf2Lt :: (GHC.Maybe.Maybe GHC.Types.Int),
+        -- | lte
+        getOrdersParametersQueryStatusTransitions'Canceled'OneOf2Lte :: (GHC.Maybe.Maybe GHC.Types.Int)
+      }
+  deriving
+    ( GHC.Show.Show,
+      GHC.Classes.Eq
+    )
+
+instance Data.Aeson.Types.ToJSON.ToJSON GetOrdersParametersQueryStatusTransitions'Canceled'OneOf2 where
+  toJSON obj = Data.Aeson.Types.Internal.object ("gt" Data.Aeson.Types.ToJSON..= getOrdersParametersQueryStatusTransitions'Canceled'OneOf2Gt obj : "gte" Data.Aeson.Types.ToJSON..= getOrdersParametersQueryStatusTransitions'Canceled'OneOf2Gte obj : "lt" Data.Aeson.Types.ToJSON..= getOrdersParametersQueryStatusTransitions'Canceled'OneOf2Lt obj : "lte" Data.Aeson.Types.ToJSON..= getOrdersParametersQueryStatusTransitions'Canceled'OneOf2Lte obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("gt" Data.Aeson.Types.ToJSON..= getOrdersParametersQueryStatusTransitions'Canceled'OneOf2Gt obj) GHC.Base.<> (("gte" Data.Aeson.Types.ToJSON..= getOrdersParametersQueryStatusTransitions'Canceled'OneOf2Gte obj) GHC.Base.<> (("lt" Data.Aeson.Types.ToJSON..= getOrdersParametersQueryStatusTransitions'Canceled'OneOf2Lt obj) GHC.Base.<> ("lte" Data.Aeson.Types.ToJSON..= getOrdersParametersQueryStatusTransitions'Canceled'OneOf2Lte obj))))
+
+instance Data.Aeson.Types.FromJSON.FromJSON GetOrdersParametersQueryStatusTransitions'Canceled'OneOf2 where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetOrdersParametersQueryStatusTransitions'Canceled'OneOf2" (\obj -> (((GHC.Base.pure GetOrdersParametersQueryStatusTransitions'Canceled'OneOf2 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "gt")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "gte")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "lt")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "lte"))
+
+-- | Create a new 'GetOrdersParametersQueryStatusTransitions'Canceled'OneOf2' with all required fields.
+mkGetOrdersParametersQueryStatusTransitions'Canceled'OneOf2 :: GetOrdersParametersQueryStatusTransitions'Canceled'OneOf2
+mkGetOrdersParametersQueryStatusTransitions'Canceled'OneOf2 =
+  GetOrdersParametersQueryStatusTransitions'Canceled'OneOf2
+    { getOrdersParametersQueryStatusTransitions'Canceled'OneOf2Gt = GHC.Maybe.Nothing,
+      getOrdersParametersQueryStatusTransitions'Canceled'OneOf2Gte = GHC.Maybe.Nothing,
+      getOrdersParametersQueryStatusTransitions'Canceled'OneOf2Lt = GHC.Maybe.Nothing,
+      getOrdersParametersQueryStatusTransitions'Canceled'OneOf2Lte = GHC.Maybe.Nothing
+    }
+
+-- | Defines the oneOf schema located at @paths.\/v1\/orders.GET.parameters.properties.queryStatus_transitions.properties.canceled.anyOf@ in the specification.
+data GetOrdersParametersQueryStatusTransitions'Canceled'Variants
+  = GetOrdersParametersQueryStatusTransitions'Canceled'Int GHC.Types.Int
+  | GetOrdersParametersQueryStatusTransitions'Canceled'GetOrdersParametersQueryStatusTransitions'Canceled'OneOf2 GetOrdersParametersQueryStatusTransitions'Canceled'OneOf2
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON GetOrdersParametersQueryStatusTransitions'Canceled'Variants where
+  toJSON (GetOrdersParametersQueryStatusTransitions'Canceled'Int a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (GetOrdersParametersQueryStatusTransitions'Canceled'GetOrdersParametersQueryStatusTransitions'Canceled'OneOf2 a) = Data.Aeson.Types.ToJSON.toJSON a
+
+instance Data.Aeson.Types.FromJSON.FromJSON GetOrdersParametersQueryStatusTransitions'Canceled'Variants where
+  parseJSON val = case (GetOrdersParametersQueryStatusTransitions'Canceled'Int Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((GetOrdersParametersQueryStatusTransitions'Canceled'GetOrdersParametersQueryStatusTransitions'Canceled'OneOf2 Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched") of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+    Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+
+-- | Defines the object schema located at @paths.\/v1\/orders.GET.parameters.properties.queryStatus_transitions.properties.fulfilled.anyOf@ in the specification.
+data GetOrdersParametersQueryStatusTransitions'Fulfilled'OneOf2
+  = GetOrdersParametersQueryStatusTransitions'Fulfilled'OneOf2
+      { -- | gt
+        getOrdersParametersQueryStatusTransitions'Fulfilled'OneOf2Gt :: (GHC.Maybe.Maybe GHC.Types.Int),
+        -- | gte
+        getOrdersParametersQueryStatusTransitions'Fulfilled'OneOf2Gte :: (GHC.Maybe.Maybe GHC.Types.Int),
+        -- | lt
+        getOrdersParametersQueryStatusTransitions'Fulfilled'OneOf2Lt :: (GHC.Maybe.Maybe GHC.Types.Int),
+        -- | lte
+        getOrdersParametersQueryStatusTransitions'Fulfilled'OneOf2Lte :: (GHC.Maybe.Maybe GHC.Types.Int)
+      }
+  deriving
+    ( GHC.Show.Show,
+      GHC.Classes.Eq
+    )
+
+instance Data.Aeson.Types.ToJSON.ToJSON GetOrdersParametersQueryStatusTransitions'Fulfilled'OneOf2 where
+  toJSON obj = Data.Aeson.Types.Internal.object ("gt" Data.Aeson.Types.ToJSON..= getOrdersParametersQueryStatusTransitions'Fulfilled'OneOf2Gt obj : "gte" Data.Aeson.Types.ToJSON..= getOrdersParametersQueryStatusTransitions'Fulfilled'OneOf2Gte obj : "lt" Data.Aeson.Types.ToJSON..= getOrdersParametersQueryStatusTransitions'Fulfilled'OneOf2Lt obj : "lte" Data.Aeson.Types.ToJSON..= getOrdersParametersQueryStatusTransitions'Fulfilled'OneOf2Lte obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("gt" Data.Aeson.Types.ToJSON..= getOrdersParametersQueryStatusTransitions'Fulfilled'OneOf2Gt obj) GHC.Base.<> (("gte" Data.Aeson.Types.ToJSON..= getOrdersParametersQueryStatusTransitions'Fulfilled'OneOf2Gte obj) GHC.Base.<> (("lt" Data.Aeson.Types.ToJSON..= getOrdersParametersQueryStatusTransitions'Fulfilled'OneOf2Lt obj) GHC.Base.<> ("lte" Data.Aeson.Types.ToJSON..= getOrdersParametersQueryStatusTransitions'Fulfilled'OneOf2Lte obj))))
+
+instance Data.Aeson.Types.FromJSON.FromJSON GetOrdersParametersQueryStatusTransitions'Fulfilled'OneOf2 where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetOrdersParametersQueryStatusTransitions'Fulfilled'OneOf2" (\obj -> (((GHC.Base.pure GetOrdersParametersQueryStatusTransitions'Fulfilled'OneOf2 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "gt")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "gte")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "lt")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "lte"))
+
+-- | Create a new 'GetOrdersParametersQueryStatusTransitions'Fulfilled'OneOf2' with all required fields.
+mkGetOrdersParametersQueryStatusTransitions'Fulfilled'OneOf2 :: GetOrdersParametersQueryStatusTransitions'Fulfilled'OneOf2
+mkGetOrdersParametersQueryStatusTransitions'Fulfilled'OneOf2 =
+  GetOrdersParametersQueryStatusTransitions'Fulfilled'OneOf2
+    { getOrdersParametersQueryStatusTransitions'Fulfilled'OneOf2Gt = GHC.Maybe.Nothing,
+      getOrdersParametersQueryStatusTransitions'Fulfilled'OneOf2Gte = GHC.Maybe.Nothing,
+      getOrdersParametersQueryStatusTransitions'Fulfilled'OneOf2Lt = GHC.Maybe.Nothing,
+      getOrdersParametersQueryStatusTransitions'Fulfilled'OneOf2Lte = GHC.Maybe.Nothing
+    }
+
+-- | Defines the oneOf schema located at @paths.\/v1\/orders.GET.parameters.properties.queryStatus_transitions.properties.fulfilled.anyOf@ in the specification.
+data GetOrdersParametersQueryStatusTransitions'Fulfilled'Variants
+  = GetOrdersParametersQueryStatusTransitions'Fulfilled'Int GHC.Types.Int
+  | GetOrdersParametersQueryStatusTransitions'Fulfilled'GetOrdersParametersQueryStatusTransitions'Fulfilled'OneOf2 GetOrdersParametersQueryStatusTransitions'Fulfilled'OneOf2
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON GetOrdersParametersQueryStatusTransitions'Fulfilled'Variants where
+  toJSON (GetOrdersParametersQueryStatusTransitions'Fulfilled'Int a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (GetOrdersParametersQueryStatusTransitions'Fulfilled'GetOrdersParametersQueryStatusTransitions'Fulfilled'OneOf2 a) = Data.Aeson.Types.ToJSON.toJSON a
+
+instance Data.Aeson.Types.FromJSON.FromJSON GetOrdersParametersQueryStatusTransitions'Fulfilled'Variants where
+  parseJSON val = case (GetOrdersParametersQueryStatusTransitions'Fulfilled'Int Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((GetOrdersParametersQueryStatusTransitions'Fulfilled'GetOrdersParametersQueryStatusTransitions'Fulfilled'OneOf2 Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched") of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+    Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+
+-- | Defines the object schema located at @paths.\/v1\/orders.GET.parameters.properties.queryStatus_transitions.properties.paid.anyOf@ in the specification.
+data GetOrdersParametersQueryStatusTransitions'Paid'OneOf2
+  = GetOrdersParametersQueryStatusTransitions'Paid'OneOf2
+      { -- | gt
+        getOrdersParametersQueryStatusTransitions'Paid'OneOf2Gt :: (GHC.Maybe.Maybe GHC.Types.Int),
+        -- | gte
+        getOrdersParametersQueryStatusTransitions'Paid'OneOf2Gte :: (GHC.Maybe.Maybe GHC.Types.Int),
+        -- | lt
+        getOrdersParametersQueryStatusTransitions'Paid'OneOf2Lt :: (GHC.Maybe.Maybe GHC.Types.Int),
+        -- | lte
+        getOrdersParametersQueryStatusTransitions'Paid'OneOf2Lte :: (GHC.Maybe.Maybe GHC.Types.Int)
+      }
+  deriving
+    ( GHC.Show.Show,
+      GHC.Classes.Eq
+    )
+
+instance Data.Aeson.Types.ToJSON.ToJSON GetOrdersParametersQueryStatusTransitions'Paid'OneOf2 where
+  toJSON obj = Data.Aeson.Types.Internal.object ("gt" Data.Aeson.Types.ToJSON..= getOrdersParametersQueryStatusTransitions'Paid'OneOf2Gt obj : "gte" Data.Aeson.Types.ToJSON..= getOrdersParametersQueryStatusTransitions'Paid'OneOf2Gte obj : "lt" Data.Aeson.Types.ToJSON..= getOrdersParametersQueryStatusTransitions'Paid'OneOf2Lt obj : "lte" Data.Aeson.Types.ToJSON..= getOrdersParametersQueryStatusTransitions'Paid'OneOf2Lte obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("gt" Data.Aeson.Types.ToJSON..= getOrdersParametersQueryStatusTransitions'Paid'OneOf2Gt obj) GHC.Base.<> (("gte" Data.Aeson.Types.ToJSON..= getOrdersParametersQueryStatusTransitions'Paid'OneOf2Gte obj) GHC.Base.<> (("lt" Data.Aeson.Types.ToJSON..= getOrdersParametersQueryStatusTransitions'Paid'OneOf2Lt obj) GHC.Base.<> ("lte" Data.Aeson.Types.ToJSON..= getOrdersParametersQueryStatusTransitions'Paid'OneOf2Lte obj))))
+
+instance Data.Aeson.Types.FromJSON.FromJSON GetOrdersParametersQueryStatusTransitions'Paid'OneOf2 where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetOrdersParametersQueryStatusTransitions'Paid'OneOf2" (\obj -> (((GHC.Base.pure GetOrdersParametersQueryStatusTransitions'Paid'OneOf2 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "gt")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "gte")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "lt")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "lte"))
+
+-- | Create a new 'GetOrdersParametersQueryStatusTransitions'Paid'OneOf2' with all required fields.
+mkGetOrdersParametersQueryStatusTransitions'Paid'OneOf2 :: GetOrdersParametersQueryStatusTransitions'Paid'OneOf2
+mkGetOrdersParametersQueryStatusTransitions'Paid'OneOf2 =
+  GetOrdersParametersQueryStatusTransitions'Paid'OneOf2
+    { getOrdersParametersQueryStatusTransitions'Paid'OneOf2Gt = GHC.Maybe.Nothing,
+      getOrdersParametersQueryStatusTransitions'Paid'OneOf2Gte = GHC.Maybe.Nothing,
+      getOrdersParametersQueryStatusTransitions'Paid'OneOf2Lt = GHC.Maybe.Nothing,
+      getOrdersParametersQueryStatusTransitions'Paid'OneOf2Lte = GHC.Maybe.Nothing
+    }
+
+-- | Defines the oneOf schema located at @paths.\/v1\/orders.GET.parameters.properties.queryStatus_transitions.properties.paid.anyOf@ in the specification.
+data GetOrdersParametersQueryStatusTransitions'Paid'Variants
+  = GetOrdersParametersQueryStatusTransitions'Paid'Int GHC.Types.Int
+  | GetOrdersParametersQueryStatusTransitions'Paid'GetOrdersParametersQueryStatusTransitions'Paid'OneOf2 GetOrdersParametersQueryStatusTransitions'Paid'OneOf2
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON GetOrdersParametersQueryStatusTransitions'Paid'Variants where
+  toJSON (GetOrdersParametersQueryStatusTransitions'Paid'Int a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (GetOrdersParametersQueryStatusTransitions'Paid'GetOrdersParametersQueryStatusTransitions'Paid'OneOf2 a) = Data.Aeson.Types.ToJSON.toJSON a
+
+instance Data.Aeson.Types.FromJSON.FromJSON GetOrdersParametersQueryStatusTransitions'Paid'Variants where
+  parseJSON val = case (GetOrdersParametersQueryStatusTransitions'Paid'Int Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((GetOrdersParametersQueryStatusTransitions'Paid'GetOrdersParametersQueryStatusTransitions'Paid'OneOf2 Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched") of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+    Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+
+-- | Defines the object schema located at @paths.\/v1\/orders.GET.parameters.properties.queryStatus_transitions.properties.returned.anyOf@ in the specification.
+data GetOrdersParametersQueryStatusTransitions'Returned'OneOf2
+  = GetOrdersParametersQueryStatusTransitions'Returned'OneOf2
+      { -- | gt
+        getOrdersParametersQueryStatusTransitions'Returned'OneOf2Gt :: (GHC.Maybe.Maybe GHC.Types.Int),
+        -- | gte
+        getOrdersParametersQueryStatusTransitions'Returned'OneOf2Gte :: (GHC.Maybe.Maybe GHC.Types.Int),
+        -- | lt
+        getOrdersParametersQueryStatusTransitions'Returned'OneOf2Lt :: (GHC.Maybe.Maybe GHC.Types.Int),
+        -- | lte
+        getOrdersParametersQueryStatusTransitions'Returned'OneOf2Lte :: (GHC.Maybe.Maybe GHC.Types.Int)
+      }
+  deriving
+    ( GHC.Show.Show,
+      GHC.Classes.Eq
+    )
+
+instance Data.Aeson.Types.ToJSON.ToJSON GetOrdersParametersQueryStatusTransitions'Returned'OneOf2 where
+  toJSON obj = Data.Aeson.Types.Internal.object ("gt" Data.Aeson.Types.ToJSON..= getOrdersParametersQueryStatusTransitions'Returned'OneOf2Gt obj : "gte" Data.Aeson.Types.ToJSON..= getOrdersParametersQueryStatusTransitions'Returned'OneOf2Gte obj : "lt" Data.Aeson.Types.ToJSON..= getOrdersParametersQueryStatusTransitions'Returned'OneOf2Lt obj : "lte" Data.Aeson.Types.ToJSON..= getOrdersParametersQueryStatusTransitions'Returned'OneOf2Lte obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("gt" Data.Aeson.Types.ToJSON..= getOrdersParametersQueryStatusTransitions'Returned'OneOf2Gt obj) GHC.Base.<> (("gte" Data.Aeson.Types.ToJSON..= getOrdersParametersQueryStatusTransitions'Returned'OneOf2Gte obj) GHC.Base.<> (("lt" Data.Aeson.Types.ToJSON..= getOrdersParametersQueryStatusTransitions'Returned'OneOf2Lt obj) GHC.Base.<> ("lte" Data.Aeson.Types.ToJSON..= getOrdersParametersQueryStatusTransitions'Returned'OneOf2Lte obj))))
+
+instance Data.Aeson.Types.FromJSON.FromJSON GetOrdersParametersQueryStatusTransitions'Returned'OneOf2 where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetOrdersParametersQueryStatusTransitions'Returned'OneOf2" (\obj -> (((GHC.Base.pure GetOrdersParametersQueryStatusTransitions'Returned'OneOf2 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "gt")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "gte")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "lt")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "lte"))
+
+-- | Create a new 'GetOrdersParametersQueryStatusTransitions'Returned'OneOf2' with all required fields.
+mkGetOrdersParametersQueryStatusTransitions'Returned'OneOf2 :: GetOrdersParametersQueryStatusTransitions'Returned'OneOf2
+mkGetOrdersParametersQueryStatusTransitions'Returned'OneOf2 =
+  GetOrdersParametersQueryStatusTransitions'Returned'OneOf2
+    { getOrdersParametersQueryStatusTransitions'Returned'OneOf2Gt = GHC.Maybe.Nothing,
+      getOrdersParametersQueryStatusTransitions'Returned'OneOf2Gte = GHC.Maybe.Nothing,
+      getOrdersParametersQueryStatusTransitions'Returned'OneOf2Lt = GHC.Maybe.Nothing,
+      getOrdersParametersQueryStatusTransitions'Returned'OneOf2Lte = GHC.Maybe.Nothing
+    }
+
+-- | Defines the oneOf schema located at @paths.\/v1\/orders.GET.parameters.properties.queryStatus_transitions.properties.returned.anyOf@ in the specification.
+data GetOrdersParametersQueryStatusTransitions'Returned'Variants
+  = GetOrdersParametersQueryStatusTransitions'Returned'Int GHC.Types.Int
+  | GetOrdersParametersQueryStatusTransitions'Returned'GetOrdersParametersQueryStatusTransitions'Returned'OneOf2 GetOrdersParametersQueryStatusTransitions'Returned'OneOf2
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON GetOrdersParametersQueryStatusTransitions'Returned'Variants where
+  toJSON (GetOrdersParametersQueryStatusTransitions'Returned'Int a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (GetOrdersParametersQueryStatusTransitions'Returned'GetOrdersParametersQueryStatusTransitions'Returned'OneOf2 a) = Data.Aeson.Types.ToJSON.toJSON a
+
+instance Data.Aeson.Types.FromJSON.FromJSON GetOrdersParametersQueryStatusTransitions'Returned'Variants where
+  parseJSON val = case (GetOrdersParametersQueryStatusTransitions'Returned'Int Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((GetOrdersParametersQueryStatusTransitions'Returned'GetOrdersParametersQueryStatusTransitions'Returned'OneOf2 Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched") of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+    Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
 -- | Represents a response of the operation 'getOrders'.
 --
@@ -471,15 +479,13 @@ data GetOrdersResponse
     GetOrdersResponseDefault Error
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
--- | Defines the data type for the schema GetOrdersResponseBody200
+-- | Defines the object schema located at @paths.\/v1\/orders.GET.responses.200.content.application\/json.schema@ in the specification.
 data GetOrdersResponseBody200
   = GetOrdersResponseBody200
       { -- | data
-        getOrdersResponseBody200Data :: ([] Order),
+        getOrdersResponseBody200Data :: ([Order]),
         -- | has_more: True if this list has another page of items after this one that can be fetched.
         getOrdersResponseBody200HasMore :: GHC.Types.Bool,
-        -- | object: String representing the object\'s type. Objects of the same type share the same value. Always has the value \`list\`.
-        getOrdersResponseBody200Object :: GetOrdersResponseBody200Object',
         -- | url: The URL where this list can be accessed.
         --
         -- Constraints:
@@ -493,31 +499,25 @@ data GetOrdersResponseBody200
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON GetOrdersResponseBody200 where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "data" (getOrdersResponseBody200Data obj) : (Data.Aeson..=) "has_more" (getOrdersResponseBody200HasMore obj) : (Data.Aeson..=) "object" (getOrdersResponseBody200Object obj) : (Data.Aeson..=) "url" (getOrdersResponseBody200Url obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "data" (getOrdersResponseBody200Data obj) GHC.Base.<> ((Data.Aeson..=) "has_more" (getOrdersResponseBody200HasMore obj) GHC.Base.<> ((Data.Aeson..=) "object" (getOrdersResponseBody200Object obj) GHC.Base.<> (Data.Aeson..=) "url" (getOrdersResponseBody200Url obj))))
+instance Data.Aeson.Types.ToJSON.ToJSON GetOrdersResponseBody200 where
+  toJSON obj = Data.Aeson.Types.Internal.object ("data" Data.Aeson.Types.ToJSON..= getOrdersResponseBody200Data obj : "has_more" Data.Aeson.Types.ToJSON..= getOrdersResponseBody200HasMore obj : "url" Data.Aeson.Types.ToJSON..= getOrdersResponseBody200Url obj : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "list" : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("data" Data.Aeson.Types.ToJSON..= getOrdersResponseBody200Data obj) GHC.Base.<> (("has_more" Data.Aeson.Types.ToJSON..= getOrdersResponseBody200HasMore obj) GHC.Base.<> (("url" Data.Aeson.Types.ToJSON..= getOrdersResponseBody200Url obj) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "list"))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetOrdersResponseBody200 where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetOrdersResponseBody200" (\obj -> (((GHC.Base.pure GetOrdersResponseBody200 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "has_more")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "object")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "url"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetOrdersResponseBody200" (\obj -> ((GHC.Base.pure GetOrdersResponseBody200 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "has_more")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "url"))
 
--- | Defines the enum schema GetOrdersResponseBody200Object\'
---
--- String representing the object\'s type. Objects of the same type share the same value. Always has the value \`list\`.
-data GetOrdersResponseBody200Object'
-  = GetOrdersResponseBody200Object'EnumOther Data.Aeson.Types.Internal.Value
-  | GetOrdersResponseBody200Object'EnumTyped Data.Text.Internal.Text
-  | GetOrdersResponseBody200Object'EnumStringList
-  deriving (GHC.Show.Show, GHC.Classes.Eq)
-
-instance Data.Aeson.ToJSON GetOrdersResponseBody200Object' where
-  toJSON (GetOrdersResponseBody200Object'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (GetOrdersResponseBody200Object'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (GetOrdersResponseBody200Object'EnumStringList) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "list"
-
-instance Data.Aeson.FromJSON GetOrdersResponseBody200Object' where
-  parseJSON val =
-    GHC.Base.pure
-      ( if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "list")
-          then GetOrdersResponseBody200Object'EnumStringList
-          else GetOrdersResponseBody200Object'EnumOther val
-      )
+-- | Create a new 'GetOrdersResponseBody200' with all required fields.
+mkGetOrdersResponseBody200 ::
+  -- | 'getOrdersResponseBody200Data'
+  [Order] ->
+  -- | 'getOrdersResponseBody200HasMore'
+  GHC.Types.Bool ->
+  -- | 'getOrdersResponseBody200Url'
+  Data.Text.Internal.Text ->
+  GetOrdersResponseBody200
+mkGetOrdersResponseBody200 getOrdersResponseBody200Data getOrdersResponseBody200HasMore getOrdersResponseBody200Url =
+  GetOrdersResponseBody200
+    { getOrdersResponseBody200Data = getOrdersResponseBody200Data,
+      getOrdersResponseBody200HasMore = getOrdersResponseBody200HasMore,
+      getOrdersResponseBody200Url = getOrdersResponseBody200Url
+    }

@@ -1,4 +1,3 @@
-{-# LANGUAGE DeriveGeneric #-}
 {-# LANGUAGE ExplicitForAll #-}
 {-# LANGUAGE MultiWayIf #-}
 {-# LANGUAGE OverloadedStrings #-}
@@ -8,8 +7,10 @@
 -- | Contains the different functions to run the operation postOrdersIdPay
 module StripeAPI.Operations.PostOrdersIdPay where
 
+import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -26,7 +27,6 @@ import qualified Data.Time.LocalTime as Data.Time.LocalTime.Internal.ZonedTime
 import qualified Data.Vector
 import qualified GHC.Base
 import qualified GHC.Classes
-import qualified GHC.Generics
 import qualified GHC.Int
 import qualified GHC.Show
 import qualified GHC.Types
@@ -46,136 +46,47 @@ import qualified Prelude as GHC.Maybe
 --
 -- \<p>Pay an order by providing a \<code>source\<\/code> to create a payment.\<\/p>
 postOrdersIdPay ::
-  forall m s.
-  (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) =>
-  -- | The configuration to use in the request
-  StripeAPI.Common.Configuration s ->
+  forall m.
+  StripeAPI.Common.MonadHTTP m =>
   -- | id | Constraints: Maximum length of 5000
   Data.Text.Internal.Text ->
   -- | The request body to send
   GHC.Maybe.Maybe PostOrdersIdPayRequestBody ->
-  -- | Monad containing the result of the operation
-  m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response PostOrdersIdPayResponse))
+  -- | Monadic computation which returns the result of the operation
+  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response PostOrdersIdPayResponse)
 postOrdersIdPay
-  config
   id
   body =
     GHC.Base.fmap
-      ( GHC.Base.fmap
-          ( \response_0 ->
-              GHC.Base.fmap
-                ( Data.Either.either PostOrdersIdPayResponseError GHC.Base.id
-                    GHC.Base.. ( \response body ->
-                                   if  | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                         PostOrdersIdPayResponse200
-                                           Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                                Data.Either.Either GHC.Base.String
-                                                                  Order
-                                                            )
-                                       | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                         PostOrdersIdPayResponseDefault
-                                           Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                                Data.Either.Either GHC.Base.String
-                                                                  Error
-                                                            )
-                                       | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
-                               )
-                      response_0
-                )
-                response_0
-          )
-      )
-      (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack ("/v1/orders/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel id)) GHC.Base.++ "/pay"))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
-
--- | > POST /v1/orders/{id}/pay
---
--- The same as 'postOrdersIdPay' but returns the raw 'Data.ByteString.Char8.ByteString'
-postOrdersIdPayRaw ::
-  forall m s.
-  ( StripeAPI.Common.MonadHTTP m,
-    StripeAPI.Common.SecurityScheme s
-  ) =>
-  StripeAPI.Common.Configuration s ->
-  Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe PostOrdersIdPayRequestBody ->
-  m
-    ( Data.Either.Either Network.HTTP.Client.Types.HttpException
-        (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
-    )
-postOrdersIdPayRaw
-  config
-  id
-  body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack ("/v1/orders/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel id)) GHC.Base.++ "/pay"))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
-
--- | > POST /v1/orders/{id}/pay
---
--- Monadic version of 'postOrdersIdPay' (use with 'StripeAPI.Common.runWithConfiguration')
-postOrdersIdPayM ::
-  forall m s.
-  ( StripeAPI.Common.MonadHTTP m,
-    StripeAPI.Common.SecurityScheme s
-  ) =>
-  Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe PostOrdersIdPayRequestBody ->
-  Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
-    m
-    ( Data.Either.Either Network.HTTP.Client.Types.HttpException
-        (Network.HTTP.Client.Types.Response PostOrdersIdPayResponse)
-    )
-postOrdersIdPayM
-  id
-  body =
-    GHC.Base.fmap
-      ( GHC.Base.fmap
-          ( \response_2 ->
-              GHC.Base.fmap
-                ( Data.Either.either PostOrdersIdPayResponseError GHC.Base.id
-                    GHC.Base.. ( \response body ->
-                                   if  | (\status_3 -> Network.HTTP.Types.Status.statusCode status_3 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                         PostOrdersIdPayResponse200
-                                           Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                                Data.Either.Either GHC.Base.String
-                                                                  Order
-                                                            )
-                                       | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                         PostOrdersIdPayResponseDefault
-                                           Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                                Data.Either.Either GHC.Base.String
-                                                                  Error
-                                                            )
-                                       | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
-                               )
-                      response_2
-                )
-                response_2
-          )
+      ( \response_0 ->
+          GHC.Base.fmap
+            ( Data.Either.either PostOrdersIdPayResponseError GHC.Base.id
+                GHC.Base.. ( \response body ->
+                               if  | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
+                                     PostOrdersIdPayResponse200
+                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                            Data.Either.Either GHC.Base.String
+                                                              Order
+                                                        )
+                                   | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
+                                     PostOrdersIdPayResponseDefault
+                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                            Data.Either.Either GHC.Base.String
+                                                              Error
+                                                        )
+                                   | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
+                           )
+                  response_0
+            )
+            response_0
       )
       (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack ("/v1/orders/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel id)) GHC.Base.++ "/pay"))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
 
--- | > POST /v1/orders/{id}/pay
---
--- Monadic version of 'postOrdersIdPayRaw' (use with 'StripeAPI.Common.runWithConfiguration')
-postOrdersIdPayRawM ::
-  forall m s.
-  ( StripeAPI.Common.MonadHTTP m,
-    StripeAPI.Common.SecurityScheme s
-  ) =>
-  Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe PostOrdersIdPayRequestBody ->
-  Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
-    m
-    ( Data.Either.Either Network.HTTP.Client.Types.HttpException
-        (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
-    )
-postOrdersIdPayRawM
-  id
-  body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack ("/v1/orders/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel id)) GHC.Base.++ "/pay"))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
-
--- | Defines the data type for the schema postOrdersIdPayRequestBody
+-- | Defines the object schema located at @paths.\/v1\/orders\/{id}\/pay.POST.requestBody.content.application\/x-www-form-urlencoded.schema@ in the specification.
 data PostOrdersIdPayRequestBody
   = PostOrdersIdPayRequestBody
       { -- | application_fee: A fee in %s that will be applied to the order and transferred to the application owner\'s Stripe account. The request must be made with an OAuth key or the \`Stripe-Account\` header in order to take an application fee. For more information, see the application fees [documentation](https:\/\/stripe.com\/docs\/connect\/direct-charges\#collecting-fees).
-        postOrdersIdPayRequestBodyApplicationFee :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer),
+        postOrdersIdPayRequestBodyApplicationFee :: (GHC.Maybe.Maybe GHC.Types.Int),
         -- | customer: The ID of an existing customer that will be charged for this order. If no customer was attached to the order at creation, either \`source\` or \`customer\` is required. Otherwise, the specified customer will be charged instead of the one attached to the order.
         --
         -- Constraints:
@@ -189,9 +100,9 @@ data PostOrdersIdPayRequestBody
         -- * Maximum length of 5000
         postOrdersIdPayRequestBodyEmail :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
         -- | expand: Specifies which fields in the response should be expanded.
-        postOrdersIdPayRequestBodyExpand :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text)),
+        postOrdersIdPayRequestBodyExpand :: (GHC.Maybe.Maybe ([Data.Text.Internal.Text])),
         -- | metadata: Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to \`metadata\`.
-        postOrdersIdPayRequestBodyMetadata :: (GHC.Maybe.Maybe PostOrdersIdPayRequestBodyMetadata'),
+        postOrdersIdPayRequestBodyMetadata :: (GHC.Maybe.Maybe Data.Aeson.Types.Internal.Object),
         -- | source: A [Token](https:\/\/stripe.com\/docs\/api\#tokens)\'s or a [Source](https:\/\/stripe.com\/docs\/api\#sources)\'s ID, as returned by [Elements](https:\/\/stripe.com\/docs\/elements). If no customer was attached to the order at creation, either \`source\` or \`customer\` is required. Otherwise, the specified source will be charged intead of the customer attached to the order.
         --
         -- Constraints:
@@ -204,31 +115,24 @@ data PostOrdersIdPayRequestBody
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON PostOrdersIdPayRequestBody where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "application_fee" (postOrdersIdPayRequestBodyApplicationFee obj) : (Data.Aeson..=) "customer" (postOrdersIdPayRequestBodyCustomer obj) : (Data.Aeson..=) "email" (postOrdersIdPayRequestBodyEmail obj) : (Data.Aeson..=) "expand" (postOrdersIdPayRequestBodyExpand obj) : (Data.Aeson..=) "metadata" (postOrdersIdPayRequestBodyMetadata obj) : (Data.Aeson..=) "source" (postOrdersIdPayRequestBodySource obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "application_fee" (postOrdersIdPayRequestBodyApplicationFee obj) GHC.Base.<> ((Data.Aeson..=) "customer" (postOrdersIdPayRequestBodyCustomer obj) GHC.Base.<> ((Data.Aeson..=) "email" (postOrdersIdPayRequestBodyEmail obj) GHC.Base.<> ((Data.Aeson..=) "expand" (postOrdersIdPayRequestBodyExpand obj) GHC.Base.<> ((Data.Aeson..=) "metadata" (postOrdersIdPayRequestBodyMetadata obj) GHC.Base.<> (Data.Aeson..=) "source" (postOrdersIdPayRequestBodySource obj))))))
+instance Data.Aeson.Types.ToJSON.ToJSON PostOrdersIdPayRequestBody where
+  toJSON obj = Data.Aeson.Types.Internal.object ("application_fee" Data.Aeson.Types.ToJSON..= postOrdersIdPayRequestBodyApplicationFee obj : "customer" Data.Aeson.Types.ToJSON..= postOrdersIdPayRequestBodyCustomer obj : "email" Data.Aeson.Types.ToJSON..= postOrdersIdPayRequestBodyEmail obj : "expand" Data.Aeson.Types.ToJSON..= postOrdersIdPayRequestBodyExpand obj : "metadata" Data.Aeson.Types.ToJSON..= postOrdersIdPayRequestBodyMetadata obj : "source" Data.Aeson.Types.ToJSON..= postOrdersIdPayRequestBodySource obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("application_fee" Data.Aeson.Types.ToJSON..= postOrdersIdPayRequestBodyApplicationFee obj) GHC.Base.<> (("customer" Data.Aeson.Types.ToJSON..= postOrdersIdPayRequestBodyCustomer obj) GHC.Base.<> (("email" Data.Aeson.Types.ToJSON..= postOrdersIdPayRequestBodyEmail obj) GHC.Base.<> (("expand" Data.Aeson.Types.ToJSON..= postOrdersIdPayRequestBodyExpand obj) GHC.Base.<> (("metadata" Data.Aeson.Types.ToJSON..= postOrdersIdPayRequestBodyMetadata obj) GHC.Base.<> ("source" Data.Aeson.Types.ToJSON..= postOrdersIdPayRequestBodySource obj))))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostOrdersIdPayRequestBody where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PostOrdersIdPayRequestBody" (\obj -> (((((GHC.Base.pure PostOrdersIdPayRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "application_fee")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "customer")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "email")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "source"))
 
--- | Defines the data type for the schema postOrdersIdPayRequestBodyMetadata\'
---
--- Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to \`metadata\`.
-data PostOrdersIdPayRequestBodyMetadata'
-  = PostOrdersIdPayRequestBodyMetadata'
-      {
-      }
-  deriving
-    ( GHC.Show.Show,
-      GHC.Classes.Eq
-    )
-
-instance Data.Aeson.ToJSON PostOrdersIdPayRequestBodyMetadata' where
-  toJSON obj = Data.Aeson.object []
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "string" ("string" :: GHC.Base.String))
-
-instance Data.Aeson.Types.FromJSON.FromJSON PostOrdersIdPayRequestBodyMetadata' where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostOrdersIdPayRequestBodyMetadata'" (\obj -> GHC.Base.pure PostOrdersIdPayRequestBodyMetadata')
+-- | Create a new 'PostOrdersIdPayRequestBody' with all required fields.
+mkPostOrdersIdPayRequestBody :: PostOrdersIdPayRequestBody
+mkPostOrdersIdPayRequestBody =
+  PostOrdersIdPayRequestBody
+    { postOrdersIdPayRequestBodyApplicationFee = GHC.Maybe.Nothing,
+      postOrdersIdPayRequestBodyCustomer = GHC.Maybe.Nothing,
+      postOrdersIdPayRequestBodyEmail = GHC.Maybe.Nothing,
+      postOrdersIdPayRequestBodyExpand = GHC.Maybe.Nothing,
+      postOrdersIdPayRequestBodyMetadata = GHC.Maybe.Nothing,
+      postOrdersIdPayRequestBodySource = GHC.Maybe.Nothing
+    }
 
 -- | Represents a response of the operation 'postOrdersIdPay'.
 --

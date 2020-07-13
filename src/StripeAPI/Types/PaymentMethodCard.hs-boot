@@ -1,0 +1,38 @@
+module StripeAPI.Types.PaymentMethodCard where
+import Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Types.Internal
+data PaymentMethodCard
+instance Show PaymentMethodCard
+instance Eq PaymentMethodCard
+instance FromJSON PaymentMethodCard
+instance ToJSON PaymentMethodCard
+data PaymentMethodCardChecks'
+instance Show PaymentMethodCardChecks'
+instance Eq PaymentMethodCardChecks'
+instance FromJSON PaymentMethodCardChecks'
+instance ToJSON PaymentMethodCardChecks'
+data PaymentMethodCardGeneratedFrom'
+instance Show PaymentMethodCardGeneratedFrom'
+instance Eq PaymentMethodCardGeneratedFrom'
+instance FromJSON PaymentMethodCardGeneratedFrom'
+instance ToJSON PaymentMethodCardGeneratedFrom'
+data PaymentMethodCardGeneratedFrom'PaymentMethodDetails'
+instance Show PaymentMethodCardGeneratedFrom'PaymentMethodDetails'
+instance Eq PaymentMethodCardGeneratedFrom'PaymentMethodDetails'
+instance FromJSON PaymentMethodCardGeneratedFrom'PaymentMethodDetails'
+instance ToJSON PaymentMethodCardGeneratedFrom'PaymentMethodDetails'
+data PaymentMethodCardThreeDSecureUsage'
+instance Show PaymentMethodCardThreeDSecureUsage'
+instance Eq PaymentMethodCardThreeDSecureUsage'
+instance FromJSON PaymentMethodCardThreeDSecureUsage'
+instance ToJSON PaymentMethodCardThreeDSecureUsage'
+data PaymentMethodCardWallet'
+instance Show PaymentMethodCardWallet'
+instance Eq PaymentMethodCardWallet'
+instance FromJSON PaymentMethodCardWallet'
+instance ToJSON PaymentMethodCardWallet'
+data PaymentMethodCardWallet'Type'
+instance Show PaymentMethodCardWallet'Type'
+instance Eq PaymentMethodCardWallet'Type'
+instance FromJSON PaymentMethodCardWallet'Type'
+instance ToJSON PaymentMethodCardWallet'Type'

@@ -1,4 +1,3 @@
-{-# LANGUAGE DeriveGeneric #-}
 {-# LANGUAGE ExplicitForAll #-}
 {-# LANGUAGE MultiWayIf #-}
 {-# LANGUAGE OverloadedStrings #-}
@@ -8,8 +7,10 @@
 -- | Contains the different functions to run the operation postSubscriptionItemsSubscriptionItemUsageRecords
 module StripeAPI.Operations.PostSubscriptionItemsSubscriptionItemUsageRecords where
 
+import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -26,7 +27,6 @@ import qualified Data.Time.LocalTime as Data.Time.LocalTime.Internal.ZonedTime
 import qualified Data.Vector
 import qualified GHC.Base
 import qualified GHC.Classes
-import qualified GHC.Generics
 import qualified GHC.Int
 import qualified GHC.Show
 import qualified GHC.Types
@@ -52,132 +52,43 @@ import qualified Prelude as GHC.Maybe
 --
 -- \<p>The default pricing model for metered billing is \<a href=\"\/docs\/api\/plans\/object\#plan_object-billing_scheme\">per-unit pricing\<\/a>. For finer granularity, you can configure metered billing to have a \<a href=\"https:\/\/stripe.com\/docs\/billing\/subscriptions\/tiers\">tiered pricing\<\/a> model.\<\/p>
 postSubscriptionItemsSubscriptionItemUsageRecords ::
-  forall m s.
-  (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) =>
-  -- | The configuration to use in the request
-  StripeAPI.Common.Configuration s ->
+  forall m.
+  StripeAPI.Common.MonadHTTP m =>
   -- | subscription_item
   Data.Text.Internal.Text ->
   -- | The request body to send
   PostSubscriptionItemsSubscriptionItemUsageRecordsRequestBody ->
-  -- | Monad containing the result of the operation
-  m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response PostSubscriptionItemsSubscriptionItemUsageRecordsResponse))
+  -- | Monadic computation which returns the result of the operation
+  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response PostSubscriptionItemsSubscriptionItemUsageRecordsResponse)
 postSubscriptionItemsSubscriptionItemUsageRecords
-  config
   subscriptionItem
   body =
     GHC.Base.fmap
-      ( GHC.Base.fmap
-          ( \response_0 ->
-              GHC.Base.fmap
-                ( Data.Either.either PostSubscriptionItemsSubscriptionItemUsageRecordsResponseError GHC.Base.id
-                    GHC.Base.. ( \response body ->
-                                   if  | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                         PostSubscriptionItemsSubscriptionItemUsageRecordsResponse200
-                                           Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                                Data.Either.Either GHC.Base.String
-                                                                  UsageRecord
-                                                            )
-                                       | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                         PostSubscriptionItemsSubscriptionItemUsageRecordsResponseDefault
-                                           Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                                Data.Either.Either GHC.Base.String
-                                                                  Error
-                                                            )
-                                       | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
-                               )
-                      response_0
-                )
-                response_0
-          )
-      )
-      (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack ("/v1/subscription_items/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel subscriptionItem)) GHC.Base.++ "/usage_records"))) [] (GHC.Maybe.Just body) StripeAPI.Common.RequestBodyEncodingFormData)
-
--- | > POST /v1/subscription_items/{subscription_item}/usage_records
---
--- The same as 'postSubscriptionItemsSubscriptionItemUsageRecords' but returns the raw 'Data.ByteString.Char8.ByteString'
-postSubscriptionItemsSubscriptionItemUsageRecordsRaw ::
-  forall m s.
-  ( StripeAPI.Common.MonadHTTP m,
-    StripeAPI.Common.SecurityScheme s
-  ) =>
-  StripeAPI.Common.Configuration s ->
-  Data.Text.Internal.Text ->
-  PostSubscriptionItemsSubscriptionItemUsageRecordsRequestBody ->
-  m
-    ( Data.Either.Either Network.HTTP.Client.Types.HttpException
-        (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
-    )
-postSubscriptionItemsSubscriptionItemUsageRecordsRaw
-  config
-  subscriptionItem
-  body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack ("/v1/subscription_items/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel subscriptionItem)) GHC.Base.++ "/usage_records"))) [] (GHC.Maybe.Just body) StripeAPI.Common.RequestBodyEncodingFormData)
-
--- | > POST /v1/subscription_items/{subscription_item}/usage_records
---
--- Monadic version of 'postSubscriptionItemsSubscriptionItemUsageRecords' (use with 'StripeAPI.Common.runWithConfiguration')
-postSubscriptionItemsSubscriptionItemUsageRecordsM ::
-  forall m s.
-  ( StripeAPI.Common.MonadHTTP m,
-    StripeAPI.Common.SecurityScheme s
-  ) =>
-  Data.Text.Internal.Text ->
-  PostSubscriptionItemsSubscriptionItemUsageRecordsRequestBody ->
-  Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
-    m
-    ( Data.Either.Either Network.HTTP.Client.Types.HttpException
-        (Network.HTTP.Client.Types.Response PostSubscriptionItemsSubscriptionItemUsageRecordsResponse)
-    )
-postSubscriptionItemsSubscriptionItemUsageRecordsM
-  subscriptionItem
-  body =
-    GHC.Base.fmap
-      ( GHC.Base.fmap
-          ( \response_2 ->
-              GHC.Base.fmap
-                ( Data.Either.either PostSubscriptionItemsSubscriptionItemUsageRecordsResponseError GHC.Base.id
-                    GHC.Base.. ( \response body ->
-                                   if  | (\status_3 -> Network.HTTP.Types.Status.statusCode status_3 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                         PostSubscriptionItemsSubscriptionItemUsageRecordsResponse200
-                                           Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                                Data.Either.Either GHC.Base.String
-                                                                  UsageRecord
-                                                            )
-                                       | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                         PostSubscriptionItemsSubscriptionItemUsageRecordsResponseDefault
-                                           Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                                Data.Either.Either GHC.Base.String
-                                                                  Error
-                                                            )
-                                       | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
-                               )
-                      response_2
-                )
-                response_2
-          )
+      ( \response_0 ->
+          GHC.Base.fmap
+            ( Data.Either.either PostSubscriptionItemsSubscriptionItemUsageRecordsResponseError GHC.Base.id
+                GHC.Base.. ( \response body ->
+                               if  | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
+                                     PostSubscriptionItemsSubscriptionItemUsageRecordsResponse200
+                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                            Data.Either.Either GHC.Base.String
+                                                              UsageRecord
+                                                        )
+                                   | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
+                                     PostSubscriptionItemsSubscriptionItemUsageRecordsResponseDefault
+                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                            Data.Either.Either GHC.Base.String
+                                                              Error
+                                                        )
+                                   | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
+                           )
+                  response_0
+            )
+            response_0
       )
       (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack ("/v1/subscription_items/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel subscriptionItem)) GHC.Base.++ "/usage_records"))) [] (GHC.Maybe.Just body) StripeAPI.Common.RequestBodyEncodingFormData)
 
--- | > POST /v1/subscription_items/{subscription_item}/usage_records
---
--- Monadic version of 'postSubscriptionItemsSubscriptionItemUsageRecordsRaw' (use with 'StripeAPI.Common.runWithConfiguration')
-postSubscriptionItemsSubscriptionItemUsageRecordsRawM ::
-  forall m s.
-  ( StripeAPI.Common.MonadHTTP m,
-    StripeAPI.Common.SecurityScheme s
-  ) =>
-  Data.Text.Internal.Text ->
-  PostSubscriptionItemsSubscriptionItemUsageRecordsRequestBody ->
-  Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
-    m
-    ( Data.Either.Either Network.HTTP.Client.Types.HttpException
-        (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
-    )
-postSubscriptionItemsSubscriptionItemUsageRecordsRawM
-  subscriptionItem
-  body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack ("/v1/subscription_items/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel subscriptionItem)) GHC.Base.++ "/usage_records"))) [] (GHC.Maybe.Just body) StripeAPI.Common.RequestBodyEncodingFormData)
-
--- | Defines the data type for the schema postSubscriptionItemsSubscriptionItemUsageRecordsRequestBody
+-- | Defines the object schema located at @paths.\/v1\/subscription_items\/{subscription_item}\/usage_records.POST.requestBody.content.application\/x-www-form-urlencoded.schema@ in the specification.
 data PostSubscriptionItemsSubscriptionItemUsageRecordsRequestBody
   = PostSubscriptionItemsSubscriptionItemUsageRecordsRequestBody
       { -- | action: Valid values are \`increment\` (default) or \`set\`. When using \`increment\` the specified \`quantity\` will be added to the usage at the specified timestamp. The \`set\` action will overwrite the usage quantity at that timestamp. If the subscription has [billing thresholds](https:\/\/stripe.com\/docs\/api\/subscriptions\/object\#subscription_object-billing_thresholds), \`increment\` is the only allowed value.
@@ -187,49 +98,65 @@ data PostSubscriptionItemsSubscriptionItemUsageRecordsRequestBody
         -- * Maximum length of 5000
         postSubscriptionItemsSubscriptionItemUsageRecordsRequestBodyAction :: (GHC.Maybe.Maybe PostSubscriptionItemsSubscriptionItemUsageRecordsRequestBodyAction'),
         -- | expand: Specifies which fields in the response should be expanded.
-        postSubscriptionItemsSubscriptionItemUsageRecordsRequestBodyExpand :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text)),
+        postSubscriptionItemsSubscriptionItemUsageRecordsRequestBodyExpand :: (GHC.Maybe.Maybe ([Data.Text.Internal.Text])),
         -- | quantity: The usage quantity for the specified timestamp.
-        postSubscriptionItemsSubscriptionItemUsageRecordsRequestBodyQuantity :: GHC.Integer.Type.Integer,
+        postSubscriptionItemsSubscriptionItemUsageRecordsRequestBodyQuantity :: GHC.Types.Int,
         -- | timestamp: The timestamp for the usage event. This timestamp must be within the current billing period of the subscription of the provided \`subscription_item\`.
-        postSubscriptionItemsSubscriptionItemUsageRecordsRequestBodyTimestamp :: GHC.Integer.Type.Integer
+        postSubscriptionItemsSubscriptionItemUsageRecordsRequestBodyTimestamp :: GHC.Types.Int
       }
   deriving
     ( GHC.Show.Show,
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON PostSubscriptionItemsSubscriptionItemUsageRecordsRequestBody where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "action" (postSubscriptionItemsSubscriptionItemUsageRecordsRequestBodyAction obj) : (Data.Aeson..=) "expand" (postSubscriptionItemsSubscriptionItemUsageRecordsRequestBodyExpand obj) : (Data.Aeson..=) "quantity" (postSubscriptionItemsSubscriptionItemUsageRecordsRequestBodyQuantity obj) : (Data.Aeson..=) "timestamp" (postSubscriptionItemsSubscriptionItemUsageRecordsRequestBodyTimestamp obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "action" (postSubscriptionItemsSubscriptionItemUsageRecordsRequestBodyAction obj) GHC.Base.<> ((Data.Aeson..=) "expand" (postSubscriptionItemsSubscriptionItemUsageRecordsRequestBodyExpand obj) GHC.Base.<> ((Data.Aeson..=) "quantity" (postSubscriptionItemsSubscriptionItemUsageRecordsRequestBodyQuantity obj) GHC.Base.<> (Data.Aeson..=) "timestamp" (postSubscriptionItemsSubscriptionItemUsageRecordsRequestBodyTimestamp obj))))
+instance Data.Aeson.Types.ToJSON.ToJSON PostSubscriptionItemsSubscriptionItemUsageRecordsRequestBody where
+  toJSON obj = Data.Aeson.Types.Internal.object ("action" Data.Aeson.Types.ToJSON..= postSubscriptionItemsSubscriptionItemUsageRecordsRequestBodyAction obj : "expand" Data.Aeson.Types.ToJSON..= postSubscriptionItemsSubscriptionItemUsageRecordsRequestBodyExpand obj : "quantity" Data.Aeson.Types.ToJSON..= postSubscriptionItemsSubscriptionItemUsageRecordsRequestBodyQuantity obj : "timestamp" Data.Aeson.Types.ToJSON..= postSubscriptionItemsSubscriptionItemUsageRecordsRequestBodyTimestamp obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("action" Data.Aeson.Types.ToJSON..= postSubscriptionItemsSubscriptionItemUsageRecordsRequestBodyAction obj) GHC.Base.<> (("expand" Data.Aeson.Types.ToJSON..= postSubscriptionItemsSubscriptionItemUsageRecordsRequestBodyExpand obj) GHC.Base.<> (("quantity" Data.Aeson.Types.ToJSON..= postSubscriptionItemsSubscriptionItemUsageRecordsRequestBodyQuantity obj) GHC.Base.<> ("timestamp" Data.Aeson.Types.ToJSON..= postSubscriptionItemsSubscriptionItemUsageRecordsRequestBodyTimestamp obj))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostSubscriptionItemsSubscriptionItemUsageRecordsRequestBody where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PostSubscriptionItemsSubscriptionItemUsageRecordsRequestBody" (\obj -> (((GHC.Base.pure PostSubscriptionItemsSubscriptionItemUsageRecordsRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "action")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "quantity")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "timestamp"))
 
--- | Defines the enum schema postSubscriptionItemsSubscriptionItemUsageRecordsRequestBodyAction\'
+-- | Create a new 'PostSubscriptionItemsSubscriptionItemUsageRecordsRequestBody' with all required fields.
+mkPostSubscriptionItemsSubscriptionItemUsageRecordsRequestBody ::
+  -- | 'postSubscriptionItemsSubscriptionItemUsageRecordsRequestBodyQuantity'
+  GHC.Types.Int ->
+  -- | 'postSubscriptionItemsSubscriptionItemUsageRecordsRequestBodyTimestamp'
+  GHC.Types.Int ->
+  PostSubscriptionItemsSubscriptionItemUsageRecordsRequestBody
+mkPostSubscriptionItemsSubscriptionItemUsageRecordsRequestBody postSubscriptionItemsSubscriptionItemUsageRecordsRequestBodyQuantity postSubscriptionItemsSubscriptionItemUsageRecordsRequestBodyTimestamp =
+  PostSubscriptionItemsSubscriptionItemUsageRecordsRequestBody
+    { postSubscriptionItemsSubscriptionItemUsageRecordsRequestBodyAction = GHC.Maybe.Nothing,
+      postSubscriptionItemsSubscriptionItemUsageRecordsRequestBodyExpand = GHC.Maybe.Nothing,
+      postSubscriptionItemsSubscriptionItemUsageRecordsRequestBodyQuantity = postSubscriptionItemsSubscriptionItemUsageRecordsRequestBodyQuantity,
+      postSubscriptionItemsSubscriptionItemUsageRecordsRequestBodyTimestamp = postSubscriptionItemsSubscriptionItemUsageRecordsRequestBodyTimestamp
+    }
+
+-- | Defines the enum schema located at @paths.\/v1\/subscription_items\/{subscription_item}\/usage_records.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.action@ in the specification.
 --
 -- Valid values are \`increment\` (default) or \`set\`. When using \`increment\` the specified \`quantity\` will be added to the usage at the specified timestamp. The \`set\` action will overwrite the usage quantity at that timestamp. If the subscription has [billing thresholds](https:\/\/stripe.com\/docs\/api\/subscriptions\/object\#subscription_object-billing_thresholds), \`increment\` is the only allowed value.
 data PostSubscriptionItemsSubscriptionItemUsageRecordsRequestBodyAction'
-  = PostSubscriptionItemsSubscriptionItemUsageRecordsRequestBodyAction'EnumOther Data.Aeson.Types.Internal.Value
-  | PostSubscriptionItemsSubscriptionItemUsageRecordsRequestBodyAction'EnumTyped Data.Text.Internal.Text
-  | PostSubscriptionItemsSubscriptionItemUsageRecordsRequestBodyAction'EnumStringIncrement
-  | PostSubscriptionItemsSubscriptionItemUsageRecordsRequestBodyAction'EnumStringSet
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    PostSubscriptionItemsSubscriptionItemUsageRecordsRequestBodyAction'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    PostSubscriptionItemsSubscriptionItemUsageRecordsRequestBodyAction'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"increment"@
+    PostSubscriptionItemsSubscriptionItemUsageRecordsRequestBodyAction'EnumIncrement
+  | -- | Represents the JSON value @"set"@
+    PostSubscriptionItemsSubscriptionItemUsageRecordsRequestBodyAction'EnumSet
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.ToJSON PostSubscriptionItemsSubscriptionItemUsageRecordsRequestBodyAction' where
-  toJSON (PostSubscriptionItemsSubscriptionItemUsageRecordsRequestBodyAction'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostSubscriptionItemsSubscriptionItemUsageRecordsRequestBodyAction'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostSubscriptionItemsSubscriptionItemUsageRecordsRequestBodyAction'EnumStringIncrement) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "increment"
-  toJSON (PostSubscriptionItemsSubscriptionItemUsageRecordsRequestBodyAction'EnumStringSet) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "set"
+instance Data.Aeson.Types.ToJSON.ToJSON PostSubscriptionItemsSubscriptionItemUsageRecordsRequestBodyAction' where
+  toJSON (PostSubscriptionItemsSubscriptionItemUsageRecordsRequestBodyAction'Other val) = val
+  toJSON (PostSubscriptionItemsSubscriptionItemUsageRecordsRequestBodyAction'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PostSubscriptionItemsSubscriptionItemUsageRecordsRequestBodyAction'EnumIncrement) = "increment"
+  toJSON (PostSubscriptionItemsSubscriptionItemUsageRecordsRequestBodyAction'EnumSet) = "set"
 
-instance Data.Aeson.FromJSON PostSubscriptionItemsSubscriptionItemUsageRecordsRequestBodyAction' where
+instance Data.Aeson.Types.FromJSON.FromJSON PostSubscriptionItemsSubscriptionItemUsageRecordsRequestBodyAction' where
   parseJSON val =
     GHC.Base.pure
-      ( if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "increment")
-          then PostSubscriptionItemsSubscriptionItemUsageRecordsRequestBodyAction'EnumStringIncrement
-          else
-            if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "set")
-              then PostSubscriptionItemsSubscriptionItemUsageRecordsRequestBodyAction'EnumStringSet
-              else PostSubscriptionItemsSubscriptionItemUsageRecordsRequestBodyAction'EnumOther val
+      ( if  | val GHC.Classes.== "increment" -> PostSubscriptionItemsSubscriptionItemUsageRecordsRequestBodyAction'EnumIncrement
+            | val GHC.Classes.== "set" -> PostSubscriptionItemsSubscriptionItemUsageRecordsRequestBodyAction'EnumSet
+            | GHC.Base.otherwise -> PostSubscriptionItemsSubscriptionItemUsageRecordsRequestBodyAction'Other val
       )
 
 -- | Represents a response of the operation 'postSubscriptionItemsSubscriptionItemUsageRecords'.

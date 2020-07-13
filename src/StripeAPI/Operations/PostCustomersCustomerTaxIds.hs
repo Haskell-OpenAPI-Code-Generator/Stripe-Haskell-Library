@@ -1,4 +1,3 @@
-{-# LANGUAGE DeriveGeneric #-}
 {-# LANGUAGE ExplicitForAll #-}
 {-# LANGUAGE MultiWayIf #-}
 {-# LANGUAGE OverloadedStrings #-}
@@ -8,8 +7,10 @@
 -- | Contains the different functions to run the operation postCustomersCustomerTaxIds
 module StripeAPI.Operations.PostCustomersCustomerTaxIds where
 
+import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -26,7 +27,6 @@ import qualified Data.Time.LocalTime as Data.Time.LocalTime.Internal.ZonedTime
 import qualified Data.Vector
 import qualified GHC.Base
 import qualified GHC.Classes
-import qualified GHC.Generics
 import qualified GHC.Int
 import qualified GHC.Show
 import qualified GHC.Types
@@ -46,136 +46,47 @@ import qualified Prelude as GHC.Maybe
 --
 -- \<p>Creates a new \<code>TaxID\<\/code> object for a customer.\<\/p>
 postCustomersCustomerTaxIds ::
-  forall m s.
-  (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) =>
-  -- | The configuration to use in the request
-  StripeAPI.Common.Configuration s ->
+  forall m.
+  StripeAPI.Common.MonadHTTP m =>
   -- | customer | Constraints: Maximum length of 5000
   Data.Text.Internal.Text ->
   -- | The request body to send
   PostCustomersCustomerTaxIdsRequestBody ->
-  -- | Monad containing the result of the operation
-  m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response PostCustomersCustomerTaxIdsResponse))
+  -- | Monadic computation which returns the result of the operation
+  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response PostCustomersCustomerTaxIdsResponse)
 postCustomersCustomerTaxIds
-  config
   customer
   body =
     GHC.Base.fmap
-      ( GHC.Base.fmap
-          ( \response_0 ->
-              GHC.Base.fmap
-                ( Data.Either.either PostCustomersCustomerTaxIdsResponseError GHC.Base.id
-                    GHC.Base.. ( \response body ->
-                                   if  | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                         PostCustomersCustomerTaxIdsResponse200
-                                           Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                                Data.Either.Either GHC.Base.String
-                                                                  TaxId
-                                                            )
-                                       | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                         PostCustomersCustomerTaxIdsResponseDefault
-                                           Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                                Data.Either.Either GHC.Base.String
-                                                                  Error
-                                                            )
-                                       | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
-                               )
-                      response_0
-                )
-                response_0
-          )
-      )
-      (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack ("/v1/customers/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel customer)) GHC.Base.++ "/tax_ids"))) [] (GHC.Maybe.Just body) StripeAPI.Common.RequestBodyEncodingFormData)
-
--- | > POST /v1/customers/{customer}/tax_ids
---
--- The same as 'postCustomersCustomerTaxIds' but returns the raw 'Data.ByteString.Char8.ByteString'
-postCustomersCustomerTaxIdsRaw ::
-  forall m s.
-  ( StripeAPI.Common.MonadHTTP m,
-    StripeAPI.Common.SecurityScheme s
-  ) =>
-  StripeAPI.Common.Configuration s ->
-  Data.Text.Internal.Text ->
-  PostCustomersCustomerTaxIdsRequestBody ->
-  m
-    ( Data.Either.Either Network.HTTP.Client.Types.HttpException
-        (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
-    )
-postCustomersCustomerTaxIdsRaw
-  config
-  customer
-  body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack ("/v1/customers/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel customer)) GHC.Base.++ "/tax_ids"))) [] (GHC.Maybe.Just body) StripeAPI.Common.RequestBodyEncodingFormData)
-
--- | > POST /v1/customers/{customer}/tax_ids
---
--- Monadic version of 'postCustomersCustomerTaxIds' (use with 'StripeAPI.Common.runWithConfiguration')
-postCustomersCustomerTaxIdsM ::
-  forall m s.
-  ( StripeAPI.Common.MonadHTTP m,
-    StripeAPI.Common.SecurityScheme s
-  ) =>
-  Data.Text.Internal.Text ->
-  PostCustomersCustomerTaxIdsRequestBody ->
-  Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
-    m
-    ( Data.Either.Either Network.HTTP.Client.Types.HttpException
-        (Network.HTTP.Client.Types.Response PostCustomersCustomerTaxIdsResponse)
-    )
-postCustomersCustomerTaxIdsM
-  customer
-  body =
-    GHC.Base.fmap
-      ( GHC.Base.fmap
-          ( \response_2 ->
-              GHC.Base.fmap
-                ( Data.Either.either PostCustomersCustomerTaxIdsResponseError GHC.Base.id
-                    GHC.Base.. ( \response body ->
-                                   if  | (\status_3 -> Network.HTTP.Types.Status.statusCode status_3 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                         PostCustomersCustomerTaxIdsResponse200
-                                           Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                                Data.Either.Either GHC.Base.String
-                                                                  TaxId
-                                                            )
-                                       | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                         PostCustomersCustomerTaxIdsResponseDefault
-                                           Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                                Data.Either.Either GHC.Base.String
-                                                                  Error
-                                                            )
-                                       | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
-                               )
-                      response_2
-                )
-                response_2
-          )
+      ( \response_0 ->
+          GHC.Base.fmap
+            ( Data.Either.either PostCustomersCustomerTaxIdsResponseError GHC.Base.id
+                GHC.Base.. ( \response body ->
+                               if  | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
+                                     PostCustomersCustomerTaxIdsResponse200
+                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                            Data.Either.Either GHC.Base.String
+                                                              TaxId
+                                                        )
+                                   | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
+                                     PostCustomersCustomerTaxIdsResponseDefault
+                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                            Data.Either.Either GHC.Base.String
+                                                              Error
+                                                        )
+                                   | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
+                           )
+                  response_0
+            )
+            response_0
       )
       (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack ("/v1/customers/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel customer)) GHC.Base.++ "/tax_ids"))) [] (GHC.Maybe.Just body) StripeAPI.Common.RequestBodyEncodingFormData)
 
--- | > POST /v1/customers/{customer}/tax_ids
---
--- Monadic version of 'postCustomersCustomerTaxIdsRaw' (use with 'StripeAPI.Common.runWithConfiguration')
-postCustomersCustomerTaxIdsRawM ::
-  forall m s.
-  ( StripeAPI.Common.MonadHTTP m,
-    StripeAPI.Common.SecurityScheme s
-  ) =>
-  Data.Text.Internal.Text ->
-  PostCustomersCustomerTaxIdsRequestBody ->
-  Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
-    m
-    ( Data.Either.Either Network.HTTP.Client.Types.HttpException
-        (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
-    )
-postCustomersCustomerTaxIdsRawM
-  customer
-  body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack ("/v1/customers/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel customer)) GHC.Base.++ "/tax_ids"))) [] (GHC.Maybe.Just body) StripeAPI.Common.RequestBodyEncodingFormData)
-
--- | Defines the data type for the schema postCustomersCustomerTaxIdsRequestBody
+-- | Defines the object schema located at @paths.\/v1\/customers\/{customer}\/tax_ids.POST.requestBody.content.application\/x-www-form-urlencoded.schema@ in the specification.
 data PostCustomersCustomerTaxIdsRequestBody
   = PostCustomersCustomerTaxIdsRequestBody
       { -- | expand: Specifies which fields in the response should be expanded.
-        postCustomersCustomerTaxIdsRequestBodyExpand :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text)),
+        postCustomersCustomerTaxIdsRequestBodyExpand :: (GHC.Maybe.Maybe ([Data.Text.Internal.Text])),
         -- | type: Type of the tax ID, one of \`eu_vat\`, \`nz_gst\`, \`au_abn\`, \`in_gst\`, \`no_vat\`, \`za_vat\`, \`ch_vat\`, \`mx_rfc\`, \`sg_uen\`, \`ru_inn\`, \`ca_bn\`, \`hk_br\`, \`es_cif\`, \`tw_vat\`, \`th_vat\`, \`jp_cn\`, \`li_uid\`, \`my_itn\`, \`us_ein\`, \`kr_brn\`, \`ca_qst\`, or \`my_sst\`
         --
         -- Constraints:
@@ -190,138 +101,133 @@ data PostCustomersCustomerTaxIdsRequestBody
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON PostCustomersCustomerTaxIdsRequestBody where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "expand" (postCustomersCustomerTaxIdsRequestBodyExpand obj) : (Data.Aeson..=) "type" (postCustomersCustomerTaxIdsRequestBodyType obj) : (Data.Aeson..=) "value" (postCustomersCustomerTaxIdsRequestBodyValue obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "expand" (postCustomersCustomerTaxIdsRequestBodyExpand obj) GHC.Base.<> ((Data.Aeson..=) "type" (postCustomersCustomerTaxIdsRequestBodyType obj) GHC.Base.<> (Data.Aeson..=) "value" (postCustomersCustomerTaxIdsRequestBodyValue obj)))
+instance Data.Aeson.Types.ToJSON.ToJSON PostCustomersCustomerTaxIdsRequestBody where
+  toJSON obj = Data.Aeson.Types.Internal.object ("expand" Data.Aeson.Types.ToJSON..= postCustomersCustomerTaxIdsRequestBodyExpand obj : "type" Data.Aeson.Types.ToJSON..= postCustomersCustomerTaxIdsRequestBodyType obj : "value" Data.Aeson.Types.ToJSON..= postCustomersCustomerTaxIdsRequestBodyValue obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("expand" Data.Aeson.Types.ToJSON..= postCustomersCustomerTaxIdsRequestBodyExpand obj) GHC.Base.<> (("type" Data.Aeson.Types.ToJSON..= postCustomersCustomerTaxIdsRequestBodyType obj) GHC.Base.<> ("value" Data.Aeson.Types.ToJSON..= postCustomersCustomerTaxIdsRequestBodyValue obj)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostCustomersCustomerTaxIdsRequestBody where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PostCustomersCustomerTaxIdsRequestBody" (\obj -> ((GHC.Base.pure PostCustomersCustomerTaxIdsRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "type")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "value"))
 
--- | Defines the enum schema postCustomersCustomerTaxIdsRequestBodyType\'
+-- | Create a new 'PostCustomersCustomerTaxIdsRequestBody' with all required fields.
+mkPostCustomersCustomerTaxIdsRequestBody ::
+  -- | 'postCustomersCustomerTaxIdsRequestBodyType'
+  PostCustomersCustomerTaxIdsRequestBodyType' ->
+  -- | 'postCustomersCustomerTaxIdsRequestBodyValue'
+  Data.Text.Internal.Text ->
+  PostCustomersCustomerTaxIdsRequestBody
+mkPostCustomersCustomerTaxIdsRequestBody postCustomersCustomerTaxIdsRequestBodyType postCustomersCustomerTaxIdsRequestBodyValue =
+  PostCustomersCustomerTaxIdsRequestBody
+    { postCustomersCustomerTaxIdsRequestBodyExpand = GHC.Maybe.Nothing,
+      postCustomersCustomerTaxIdsRequestBodyType = postCustomersCustomerTaxIdsRequestBodyType,
+      postCustomersCustomerTaxIdsRequestBodyValue = postCustomersCustomerTaxIdsRequestBodyValue
+    }
+
+-- | Defines the enum schema located at @paths.\/v1\/customers\/{customer}\/tax_ids.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.type@ in the specification.
 --
 -- Type of the tax ID, one of \`eu_vat\`, \`nz_gst\`, \`au_abn\`, \`in_gst\`, \`no_vat\`, \`za_vat\`, \`ch_vat\`, \`mx_rfc\`, \`sg_uen\`, \`ru_inn\`, \`ca_bn\`, \`hk_br\`, \`es_cif\`, \`tw_vat\`, \`th_vat\`, \`jp_cn\`, \`li_uid\`, \`my_itn\`, \`us_ein\`, \`kr_brn\`, \`ca_qst\`, or \`my_sst\`
 data PostCustomersCustomerTaxIdsRequestBodyType'
-  = PostCustomersCustomerTaxIdsRequestBodyType'EnumOther Data.Aeson.Types.Internal.Value
-  | PostCustomersCustomerTaxIdsRequestBodyType'EnumTyped Data.Text.Internal.Text
-  | PostCustomersCustomerTaxIdsRequestBodyType'EnumStringAuAbn
-  | PostCustomersCustomerTaxIdsRequestBodyType'EnumStringCaBn
-  | PostCustomersCustomerTaxIdsRequestBodyType'EnumStringCaQst
-  | PostCustomersCustomerTaxIdsRequestBodyType'EnumStringChVat
-  | PostCustomersCustomerTaxIdsRequestBodyType'EnumStringEsCif
-  | PostCustomersCustomerTaxIdsRequestBodyType'EnumStringEuVat
-  | PostCustomersCustomerTaxIdsRequestBodyType'EnumStringHkBr
-  | PostCustomersCustomerTaxIdsRequestBodyType'EnumStringInGst
-  | PostCustomersCustomerTaxIdsRequestBodyType'EnumStringJpCn
-  | PostCustomersCustomerTaxIdsRequestBodyType'EnumStringKrBrn
-  | PostCustomersCustomerTaxIdsRequestBodyType'EnumStringLiUid
-  | PostCustomersCustomerTaxIdsRequestBodyType'EnumStringMxRfc
-  | PostCustomersCustomerTaxIdsRequestBodyType'EnumStringMyItn
-  | PostCustomersCustomerTaxIdsRequestBodyType'EnumStringMySst
-  | PostCustomersCustomerTaxIdsRequestBodyType'EnumStringNoVat
-  | PostCustomersCustomerTaxIdsRequestBodyType'EnumStringNzGst
-  | PostCustomersCustomerTaxIdsRequestBodyType'EnumStringRuInn
-  | PostCustomersCustomerTaxIdsRequestBodyType'EnumStringSgUen
-  | PostCustomersCustomerTaxIdsRequestBodyType'EnumStringThVat
-  | PostCustomersCustomerTaxIdsRequestBodyType'EnumStringTwVat
-  | PostCustomersCustomerTaxIdsRequestBodyType'EnumStringUsEin
-  | PostCustomersCustomerTaxIdsRequestBodyType'EnumStringZaVat
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    PostCustomersCustomerTaxIdsRequestBodyType'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    PostCustomersCustomerTaxIdsRequestBodyType'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"au_abn"@
+    PostCustomersCustomerTaxIdsRequestBodyType'EnumAuAbn
+  | -- | Represents the JSON value @"ca_bn"@
+    PostCustomersCustomerTaxIdsRequestBodyType'EnumCaBn
+  | -- | Represents the JSON value @"ca_qst"@
+    PostCustomersCustomerTaxIdsRequestBodyType'EnumCaQst
+  | -- | Represents the JSON value @"ch_vat"@
+    PostCustomersCustomerTaxIdsRequestBodyType'EnumChVat
+  | -- | Represents the JSON value @"es_cif"@
+    PostCustomersCustomerTaxIdsRequestBodyType'EnumEsCif
+  | -- | Represents the JSON value @"eu_vat"@
+    PostCustomersCustomerTaxIdsRequestBodyType'EnumEuVat
+  | -- | Represents the JSON value @"hk_br"@
+    PostCustomersCustomerTaxIdsRequestBodyType'EnumHkBr
+  | -- | Represents the JSON value @"in_gst"@
+    PostCustomersCustomerTaxIdsRequestBodyType'EnumInGst
+  | -- | Represents the JSON value @"jp_cn"@
+    PostCustomersCustomerTaxIdsRequestBodyType'EnumJpCn
+  | -- | Represents the JSON value @"kr_brn"@
+    PostCustomersCustomerTaxIdsRequestBodyType'EnumKrBrn
+  | -- | Represents the JSON value @"li_uid"@
+    PostCustomersCustomerTaxIdsRequestBodyType'EnumLiUid
+  | -- | Represents the JSON value @"mx_rfc"@
+    PostCustomersCustomerTaxIdsRequestBodyType'EnumMxRfc
+  | -- | Represents the JSON value @"my_itn"@
+    PostCustomersCustomerTaxIdsRequestBodyType'EnumMyItn
+  | -- | Represents the JSON value @"my_sst"@
+    PostCustomersCustomerTaxIdsRequestBodyType'EnumMySst
+  | -- | Represents the JSON value @"no_vat"@
+    PostCustomersCustomerTaxIdsRequestBodyType'EnumNoVat
+  | -- | Represents the JSON value @"nz_gst"@
+    PostCustomersCustomerTaxIdsRequestBodyType'EnumNzGst
+  | -- | Represents the JSON value @"ru_inn"@
+    PostCustomersCustomerTaxIdsRequestBodyType'EnumRuInn
+  | -- | Represents the JSON value @"sg_uen"@
+    PostCustomersCustomerTaxIdsRequestBodyType'EnumSgUen
+  | -- | Represents the JSON value @"th_vat"@
+    PostCustomersCustomerTaxIdsRequestBodyType'EnumThVat
+  | -- | Represents the JSON value @"tw_vat"@
+    PostCustomersCustomerTaxIdsRequestBodyType'EnumTwVat
+  | -- | Represents the JSON value @"us_ein"@
+    PostCustomersCustomerTaxIdsRequestBodyType'EnumUsEin
+  | -- | Represents the JSON value @"za_vat"@
+    PostCustomersCustomerTaxIdsRequestBodyType'EnumZaVat
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.ToJSON PostCustomersCustomerTaxIdsRequestBodyType' where
-  toJSON (PostCustomersCustomerTaxIdsRequestBodyType'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostCustomersCustomerTaxIdsRequestBodyType'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostCustomersCustomerTaxIdsRequestBodyType'EnumStringAuAbn) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "au_abn"
-  toJSON (PostCustomersCustomerTaxIdsRequestBodyType'EnumStringCaBn) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "ca_bn"
-  toJSON (PostCustomersCustomerTaxIdsRequestBodyType'EnumStringCaQst) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "ca_qst"
-  toJSON (PostCustomersCustomerTaxIdsRequestBodyType'EnumStringChVat) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "ch_vat"
-  toJSON (PostCustomersCustomerTaxIdsRequestBodyType'EnumStringEsCif) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "es_cif"
-  toJSON (PostCustomersCustomerTaxIdsRequestBodyType'EnumStringEuVat) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "eu_vat"
-  toJSON (PostCustomersCustomerTaxIdsRequestBodyType'EnumStringHkBr) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "hk_br"
-  toJSON (PostCustomersCustomerTaxIdsRequestBodyType'EnumStringInGst) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "in_gst"
-  toJSON (PostCustomersCustomerTaxIdsRequestBodyType'EnumStringJpCn) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "jp_cn"
-  toJSON (PostCustomersCustomerTaxIdsRequestBodyType'EnumStringKrBrn) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "kr_brn"
-  toJSON (PostCustomersCustomerTaxIdsRequestBodyType'EnumStringLiUid) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "li_uid"
-  toJSON (PostCustomersCustomerTaxIdsRequestBodyType'EnumStringMxRfc) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "mx_rfc"
-  toJSON (PostCustomersCustomerTaxIdsRequestBodyType'EnumStringMyItn) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "my_itn"
-  toJSON (PostCustomersCustomerTaxIdsRequestBodyType'EnumStringMySst) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "my_sst"
-  toJSON (PostCustomersCustomerTaxIdsRequestBodyType'EnumStringNoVat) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "no_vat"
-  toJSON (PostCustomersCustomerTaxIdsRequestBodyType'EnumStringNzGst) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "nz_gst"
-  toJSON (PostCustomersCustomerTaxIdsRequestBodyType'EnumStringRuInn) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "ru_inn"
-  toJSON (PostCustomersCustomerTaxIdsRequestBodyType'EnumStringSgUen) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "sg_uen"
-  toJSON (PostCustomersCustomerTaxIdsRequestBodyType'EnumStringThVat) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "th_vat"
-  toJSON (PostCustomersCustomerTaxIdsRequestBodyType'EnumStringTwVat) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "tw_vat"
-  toJSON (PostCustomersCustomerTaxIdsRequestBodyType'EnumStringUsEin) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "us_ein"
-  toJSON (PostCustomersCustomerTaxIdsRequestBodyType'EnumStringZaVat) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "za_vat"
+instance Data.Aeson.Types.ToJSON.ToJSON PostCustomersCustomerTaxIdsRequestBodyType' where
+  toJSON (PostCustomersCustomerTaxIdsRequestBodyType'Other val) = val
+  toJSON (PostCustomersCustomerTaxIdsRequestBodyType'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PostCustomersCustomerTaxIdsRequestBodyType'EnumAuAbn) = "au_abn"
+  toJSON (PostCustomersCustomerTaxIdsRequestBodyType'EnumCaBn) = "ca_bn"
+  toJSON (PostCustomersCustomerTaxIdsRequestBodyType'EnumCaQst) = "ca_qst"
+  toJSON (PostCustomersCustomerTaxIdsRequestBodyType'EnumChVat) = "ch_vat"
+  toJSON (PostCustomersCustomerTaxIdsRequestBodyType'EnumEsCif) = "es_cif"
+  toJSON (PostCustomersCustomerTaxIdsRequestBodyType'EnumEuVat) = "eu_vat"
+  toJSON (PostCustomersCustomerTaxIdsRequestBodyType'EnumHkBr) = "hk_br"
+  toJSON (PostCustomersCustomerTaxIdsRequestBodyType'EnumInGst) = "in_gst"
+  toJSON (PostCustomersCustomerTaxIdsRequestBodyType'EnumJpCn) = "jp_cn"
+  toJSON (PostCustomersCustomerTaxIdsRequestBodyType'EnumKrBrn) = "kr_brn"
+  toJSON (PostCustomersCustomerTaxIdsRequestBodyType'EnumLiUid) = "li_uid"
+  toJSON (PostCustomersCustomerTaxIdsRequestBodyType'EnumMxRfc) = "mx_rfc"
+  toJSON (PostCustomersCustomerTaxIdsRequestBodyType'EnumMyItn) = "my_itn"
+  toJSON (PostCustomersCustomerTaxIdsRequestBodyType'EnumMySst) = "my_sst"
+  toJSON (PostCustomersCustomerTaxIdsRequestBodyType'EnumNoVat) = "no_vat"
+  toJSON (PostCustomersCustomerTaxIdsRequestBodyType'EnumNzGst) = "nz_gst"
+  toJSON (PostCustomersCustomerTaxIdsRequestBodyType'EnumRuInn) = "ru_inn"
+  toJSON (PostCustomersCustomerTaxIdsRequestBodyType'EnumSgUen) = "sg_uen"
+  toJSON (PostCustomersCustomerTaxIdsRequestBodyType'EnumThVat) = "th_vat"
+  toJSON (PostCustomersCustomerTaxIdsRequestBodyType'EnumTwVat) = "tw_vat"
+  toJSON (PostCustomersCustomerTaxIdsRequestBodyType'EnumUsEin) = "us_ein"
+  toJSON (PostCustomersCustomerTaxIdsRequestBodyType'EnumZaVat) = "za_vat"
 
-instance Data.Aeson.FromJSON PostCustomersCustomerTaxIdsRequestBodyType' where
+instance Data.Aeson.Types.FromJSON.FromJSON PostCustomersCustomerTaxIdsRequestBodyType' where
   parseJSON val =
     GHC.Base.pure
-      ( if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "au_abn")
-          then PostCustomersCustomerTaxIdsRequestBodyType'EnumStringAuAbn
-          else
-            if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "ca_bn")
-              then PostCustomersCustomerTaxIdsRequestBodyType'EnumStringCaBn
-              else
-                if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "ca_qst")
-                  then PostCustomersCustomerTaxIdsRequestBodyType'EnumStringCaQst
-                  else
-                    if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "ch_vat")
-                      then PostCustomersCustomerTaxIdsRequestBodyType'EnumStringChVat
-                      else
-                        if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "es_cif")
-                          then PostCustomersCustomerTaxIdsRequestBodyType'EnumStringEsCif
-                          else
-                            if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "eu_vat")
-                              then PostCustomersCustomerTaxIdsRequestBodyType'EnumStringEuVat
-                              else
-                                if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "hk_br")
-                                  then PostCustomersCustomerTaxIdsRequestBodyType'EnumStringHkBr
-                                  else
-                                    if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "in_gst")
-                                      then PostCustomersCustomerTaxIdsRequestBodyType'EnumStringInGst
-                                      else
-                                        if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "jp_cn")
-                                          then PostCustomersCustomerTaxIdsRequestBodyType'EnumStringJpCn
-                                          else
-                                            if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "kr_brn")
-                                              then PostCustomersCustomerTaxIdsRequestBodyType'EnumStringKrBrn
-                                              else
-                                                if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "li_uid")
-                                                  then PostCustomersCustomerTaxIdsRequestBodyType'EnumStringLiUid
-                                                  else
-                                                    if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "mx_rfc")
-                                                      then PostCustomersCustomerTaxIdsRequestBodyType'EnumStringMxRfc
-                                                      else
-                                                        if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "my_itn")
-                                                          then PostCustomersCustomerTaxIdsRequestBodyType'EnumStringMyItn
-                                                          else
-                                                            if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "my_sst")
-                                                              then PostCustomersCustomerTaxIdsRequestBodyType'EnumStringMySst
-                                                              else
-                                                                if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "no_vat")
-                                                                  then PostCustomersCustomerTaxIdsRequestBodyType'EnumStringNoVat
-                                                                  else
-                                                                    if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "nz_gst")
-                                                                      then PostCustomersCustomerTaxIdsRequestBodyType'EnumStringNzGst
-                                                                      else
-                                                                        if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "ru_inn")
-                                                                          then PostCustomersCustomerTaxIdsRequestBodyType'EnumStringRuInn
-                                                                          else
-                                                                            if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "sg_uen")
-                                                                              then PostCustomersCustomerTaxIdsRequestBodyType'EnumStringSgUen
-                                                                              else
-                                                                                if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "th_vat")
-                                                                                  then PostCustomersCustomerTaxIdsRequestBodyType'EnumStringThVat
-                                                                                  else
-                                                                                    if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "tw_vat")
-                                                                                      then PostCustomersCustomerTaxIdsRequestBodyType'EnumStringTwVat
-                                                                                      else
-                                                                                        if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "us_ein")
-                                                                                          then PostCustomersCustomerTaxIdsRequestBodyType'EnumStringUsEin
-                                                                                          else
-                                                                                            if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "za_vat")
-                                                                                              then PostCustomersCustomerTaxIdsRequestBodyType'EnumStringZaVat
-                                                                                              else PostCustomersCustomerTaxIdsRequestBodyType'EnumOther val
+      ( if  | val GHC.Classes.== "au_abn" -> PostCustomersCustomerTaxIdsRequestBodyType'EnumAuAbn
+            | val GHC.Classes.== "ca_bn" -> PostCustomersCustomerTaxIdsRequestBodyType'EnumCaBn
+            | val GHC.Classes.== "ca_qst" -> PostCustomersCustomerTaxIdsRequestBodyType'EnumCaQst
+            | val GHC.Classes.== "ch_vat" -> PostCustomersCustomerTaxIdsRequestBodyType'EnumChVat
+            | val GHC.Classes.== "es_cif" -> PostCustomersCustomerTaxIdsRequestBodyType'EnumEsCif
+            | val GHC.Classes.== "eu_vat" -> PostCustomersCustomerTaxIdsRequestBodyType'EnumEuVat
+            | val GHC.Classes.== "hk_br" -> PostCustomersCustomerTaxIdsRequestBodyType'EnumHkBr
+            | val GHC.Classes.== "in_gst" -> PostCustomersCustomerTaxIdsRequestBodyType'EnumInGst
+            | val GHC.Classes.== "jp_cn" -> PostCustomersCustomerTaxIdsRequestBodyType'EnumJpCn
+            | val GHC.Classes.== "kr_brn" -> PostCustomersCustomerTaxIdsRequestBodyType'EnumKrBrn
+            | val GHC.Classes.== "li_uid" -> PostCustomersCustomerTaxIdsRequestBodyType'EnumLiUid
+            | val GHC.Classes.== "mx_rfc" -> PostCustomersCustomerTaxIdsRequestBodyType'EnumMxRfc
+            | val GHC.Classes.== "my_itn" -> PostCustomersCustomerTaxIdsRequestBodyType'EnumMyItn
+            | val GHC.Classes.== "my_sst" -> PostCustomersCustomerTaxIdsRequestBodyType'EnumMySst
+            | val GHC.Classes.== "no_vat" -> PostCustomersCustomerTaxIdsRequestBodyType'EnumNoVat
+            | val GHC.Classes.== "nz_gst" -> PostCustomersCustomerTaxIdsRequestBodyType'EnumNzGst
+            | val GHC.Classes.== "ru_inn" -> PostCustomersCustomerTaxIdsRequestBodyType'EnumRuInn
+            | val GHC.Classes.== "sg_uen" -> PostCustomersCustomerTaxIdsRequestBodyType'EnumSgUen
+            | val GHC.Classes.== "th_vat" -> PostCustomersCustomerTaxIdsRequestBodyType'EnumThVat
+            | val GHC.Classes.== "tw_vat" -> PostCustomersCustomerTaxIdsRequestBodyType'EnumTwVat
+            | val GHC.Classes.== "us_ein" -> PostCustomersCustomerTaxIdsRequestBodyType'EnumUsEin
+            | val GHC.Classes.== "za_vat" -> PostCustomersCustomerTaxIdsRequestBodyType'EnumZaVat
+            | GHC.Base.otherwise -> PostCustomersCustomerTaxIdsRequestBodyType'Other val
       )
 
 -- | Represents a response of the operation 'postCustomersCustomerTaxIds'.

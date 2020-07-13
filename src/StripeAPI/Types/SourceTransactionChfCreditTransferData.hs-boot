@@ -1,0 +1,8 @@
+module StripeAPI.Types.SourceTransactionChfCreditTransferData where
+import Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Types.Internal
+data SourceTransactionChfCreditTransferData
+instance Show SourceTransactionChfCreditTransferData
+instance Eq SourceTransactionChfCreditTransferData
+instance FromJSON SourceTransactionChfCreditTransferData
+instance ToJSON SourceTransactionChfCreditTransferData

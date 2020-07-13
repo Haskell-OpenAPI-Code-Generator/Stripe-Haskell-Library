@@ -1,4 +1,3 @@
-{-# LANGUAGE DeriveGeneric #-}
 {-# LANGUAGE ExplicitForAll #-}
 {-# LANGUAGE MultiWayIf #-}
 {-# LANGUAGE OverloadedStrings #-}
@@ -8,8 +7,10 @@
 -- | Contains the different functions to run the operation postIssuingDisputes
 module StripeAPI.Operations.PostIssuingDisputes where
 
+import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -26,7 +27,6 @@ import qualified Data.Time.LocalTime as Data.Time.LocalTime.Internal.ZonedTime
 import qualified Data.Vector
 import qualified GHC.Base
 import qualified GHC.Classes
-import qualified GHC.Generics
 import qualified GHC.Int
 import qualified GHC.Show
 import qualified GHC.Types
@@ -46,125 +46,43 @@ import qualified Prelude as GHC.Maybe
 --
 -- \<p>Creates an Issuing \<code>Dispute\<\/code> object.\<\/p>
 postIssuingDisputes ::
-  forall m s.
-  (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) =>
-  -- | The configuration to use in the request
-  StripeAPI.Common.Configuration s ->
+  forall m.
+  StripeAPI.Common.MonadHTTP m =>
   -- | The request body to send
   PostIssuingDisputesRequestBody ->
-  -- | Monad containing the result of the operation
-  m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response PostIssuingDisputesResponse))
-postIssuingDisputes
-  config
-  body =
-    GHC.Base.fmap
-      ( GHC.Base.fmap
-          ( \response_0 ->
-              GHC.Base.fmap
-                ( Data.Either.either PostIssuingDisputesResponseError GHC.Base.id
-                    GHC.Base.. ( \response body ->
-                                   if  | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                         PostIssuingDisputesResponse200
-                                           Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                                Data.Either.Either GHC.Base.String
-                                                                  Issuing'dispute
-                                                            )
-                                       | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                         PostIssuingDisputesResponseDefault
-                                           Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                                Data.Either.Either GHC.Base.String
-                                                                  Error
-                                                            )
-                                       | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
-                               )
-                      response_0
-                )
+  -- | Monadic computation which returns the result of the operation
+  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response PostIssuingDisputesResponse)
+postIssuingDisputes body =
+  GHC.Base.fmap
+    ( \response_0 ->
+        GHC.Base.fmap
+          ( Data.Either.either PostIssuingDisputesResponseError GHC.Base.id
+              GHC.Base.. ( \response body ->
+                             if  | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
+                                   PostIssuingDisputesResponse200
+                                     Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                          Data.Either.Either GHC.Base.String
+                                                            Issuing'dispute
+                                                      )
+                                 | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
+                                   PostIssuingDisputesResponseDefault
+                                     Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                          Data.Either.Either GHC.Base.String
+                                                            Error
+                                                      )
+                                 | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
+                         )
                 response_0
           )
-      )
-      (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack "/v1/issuing/disputes") [] (GHC.Maybe.Just body) StripeAPI.Common.RequestBodyEncodingFormData)
-
--- | > POST /v1/issuing/disputes
---
--- The same as 'postIssuingDisputes' but returns the raw 'Data.ByteString.Char8.ByteString'
-postIssuingDisputesRaw ::
-  forall m s.
-  ( StripeAPI.Common.MonadHTTP m,
-    StripeAPI.Common.SecurityScheme s
-  ) =>
-  StripeAPI.Common.Configuration s ->
-  PostIssuingDisputesRequestBody ->
-  m
-    ( Data.Either.Either Network.HTTP.Client.Types.HttpException
-        (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
-    )
-postIssuingDisputesRaw
-  config
-  body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack "/v1/issuing/disputes") [] (GHC.Maybe.Just body) StripeAPI.Common.RequestBodyEncodingFormData)
-
--- | > POST /v1/issuing/disputes
---
--- Monadic version of 'postIssuingDisputes' (use with 'StripeAPI.Common.runWithConfiguration')
-postIssuingDisputesM ::
-  forall m s.
-  ( StripeAPI.Common.MonadHTTP m,
-    StripeAPI.Common.SecurityScheme s
-  ) =>
-  PostIssuingDisputesRequestBody ->
-  Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
-    m
-    ( Data.Either.Either Network.HTTP.Client.Types.HttpException
-        (Network.HTTP.Client.Types.Response PostIssuingDisputesResponse)
-    )
-postIssuingDisputesM body =
-  GHC.Base.fmap
-    ( GHC.Base.fmap
-        ( \response_2 ->
-            GHC.Base.fmap
-              ( Data.Either.either PostIssuingDisputesResponseError GHC.Base.id
-                  GHC.Base.. ( \response body ->
-                                 if  | (\status_3 -> Network.HTTP.Types.Status.statusCode status_3 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                       PostIssuingDisputesResponse200
-                                         Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                              Data.Either.Either GHC.Base.String
-                                                                Issuing'dispute
-                                                          )
-                                     | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                       PostIssuingDisputesResponseDefault
-                                         Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                              Data.Either.Either GHC.Base.String
-                                                                Error
-                                                          )
-                                     | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
-                             )
-                    response_2
-              )
-              response_2
-        )
+          response_0
     )
     (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack "/v1/issuing/disputes") [] (GHC.Maybe.Just body) StripeAPI.Common.RequestBodyEncodingFormData)
 
--- | > POST /v1/issuing/disputes
---
--- Monadic version of 'postIssuingDisputesRaw' (use with 'StripeAPI.Common.runWithConfiguration')
-postIssuingDisputesRawM ::
-  forall m s.
-  ( StripeAPI.Common.MonadHTTP m,
-    StripeAPI.Common.SecurityScheme s
-  ) =>
-  PostIssuingDisputesRequestBody ->
-  Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
-    m
-    ( Data.Either.Either Network.HTTP.Client.Types.HttpException
-        (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
-    )
-postIssuingDisputesRawM body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack "/v1/issuing/disputes") [] (GHC.Maybe.Just body) StripeAPI.Common.RequestBodyEncodingFormData)
-
--- | Defines the data type for the schema postIssuingDisputesRequestBody
+-- | Defines the object schema located at @paths.\/v1\/issuing\/disputes.POST.requestBody.content.application\/x-www-form-urlencoded.schema@ in the specification.
 data PostIssuingDisputesRequestBody
   = PostIssuingDisputesRequestBody
       { -- | amount: Amount to dispute, defaults to full value, given in the currency the transaction was made in.
-        postIssuingDisputesRequestBodyAmount :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer),
+        postIssuingDisputesRequestBodyAmount :: (GHC.Maybe.Maybe GHC.Types.Int),
         -- | disputed_transaction: The ID of the issuing transaction to create a dispute for.
         --
         -- Constraints:
@@ -174,9 +92,9 @@ data PostIssuingDisputesRequestBody
         -- | evidence: A hash containing all the evidence related to the dispute. This should have a single key, equal to the provided \`reason\`, mapping to an appropriate evidence object.
         postIssuingDisputesRequestBodyEvidence :: (GHC.Maybe.Maybe PostIssuingDisputesRequestBodyEvidence'),
         -- | expand: Specifies which fields in the response should be expanded.
-        postIssuingDisputesRequestBodyExpand :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text)),
+        postIssuingDisputesRequestBodyExpand :: (GHC.Maybe.Maybe ([Data.Text.Internal.Text])),
         -- | metadata: Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to \`metadata\`.
-        postIssuingDisputesRequestBodyMetadata :: (GHC.Maybe.Maybe PostIssuingDisputesRequestBodyMetadata'),
+        postIssuingDisputesRequestBodyMetadata :: (GHC.Maybe.Maybe Data.Aeson.Types.Internal.Object),
         -- | reason: The reason for the dispute.
         postIssuingDisputesRequestBodyReason :: PostIssuingDisputesRequestBodyReason'
       }
@@ -185,14 +103,31 @@ data PostIssuingDisputesRequestBody
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON PostIssuingDisputesRequestBody where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "amount" (postIssuingDisputesRequestBodyAmount obj) : (Data.Aeson..=) "disputed_transaction" (postIssuingDisputesRequestBodyDisputedTransaction obj) : (Data.Aeson..=) "evidence" (postIssuingDisputesRequestBodyEvidence obj) : (Data.Aeson..=) "expand" (postIssuingDisputesRequestBodyExpand obj) : (Data.Aeson..=) "metadata" (postIssuingDisputesRequestBodyMetadata obj) : (Data.Aeson..=) "reason" (postIssuingDisputesRequestBodyReason obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "amount" (postIssuingDisputesRequestBodyAmount obj) GHC.Base.<> ((Data.Aeson..=) "disputed_transaction" (postIssuingDisputesRequestBodyDisputedTransaction obj) GHC.Base.<> ((Data.Aeson..=) "evidence" (postIssuingDisputesRequestBodyEvidence obj) GHC.Base.<> ((Data.Aeson..=) "expand" (postIssuingDisputesRequestBodyExpand obj) GHC.Base.<> ((Data.Aeson..=) "metadata" (postIssuingDisputesRequestBodyMetadata obj) GHC.Base.<> (Data.Aeson..=) "reason" (postIssuingDisputesRequestBodyReason obj))))))
+instance Data.Aeson.Types.ToJSON.ToJSON PostIssuingDisputesRequestBody where
+  toJSON obj = Data.Aeson.Types.Internal.object ("amount" Data.Aeson.Types.ToJSON..= postIssuingDisputesRequestBodyAmount obj : "disputed_transaction" Data.Aeson.Types.ToJSON..= postIssuingDisputesRequestBodyDisputedTransaction obj : "evidence" Data.Aeson.Types.ToJSON..= postIssuingDisputesRequestBodyEvidence obj : "expand" Data.Aeson.Types.ToJSON..= postIssuingDisputesRequestBodyExpand obj : "metadata" Data.Aeson.Types.ToJSON..= postIssuingDisputesRequestBodyMetadata obj : "reason" Data.Aeson.Types.ToJSON..= postIssuingDisputesRequestBodyReason obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("amount" Data.Aeson.Types.ToJSON..= postIssuingDisputesRequestBodyAmount obj) GHC.Base.<> (("disputed_transaction" Data.Aeson.Types.ToJSON..= postIssuingDisputesRequestBodyDisputedTransaction obj) GHC.Base.<> (("evidence" Data.Aeson.Types.ToJSON..= postIssuingDisputesRequestBodyEvidence obj) GHC.Base.<> (("expand" Data.Aeson.Types.ToJSON..= postIssuingDisputesRequestBodyExpand obj) GHC.Base.<> (("metadata" Data.Aeson.Types.ToJSON..= postIssuingDisputesRequestBodyMetadata obj) GHC.Base.<> ("reason" Data.Aeson.Types.ToJSON..= postIssuingDisputesRequestBodyReason obj))))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostIssuingDisputesRequestBody where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PostIssuingDisputesRequestBody" (\obj -> (((((GHC.Base.pure PostIssuingDisputesRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "disputed_transaction")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "evidence")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "reason"))
 
--- | Defines the data type for the schema postIssuingDisputesRequestBodyEvidence\'
+-- | Create a new 'PostIssuingDisputesRequestBody' with all required fields.
+mkPostIssuingDisputesRequestBody ::
+  -- | 'postIssuingDisputesRequestBodyDisputedTransaction'
+  Data.Text.Internal.Text ->
+  -- | 'postIssuingDisputesRequestBodyReason'
+  PostIssuingDisputesRequestBodyReason' ->
+  PostIssuingDisputesRequestBody
+mkPostIssuingDisputesRequestBody postIssuingDisputesRequestBodyDisputedTransaction postIssuingDisputesRequestBodyReason =
+  PostIssuingDisputesRequestBody
+    { postIssuingDisputesRequestBodyAmount = GHC.Maybe.Nothing,
+      postIssuingDisputesRequestBodyDisputedTransaction = postIssuingDisputesRequestBodyDisputedTransaction,
+      postIssuingDisputesRequestBodyEvidence = GHC.Maybe.Nothing,
+      postIssuingDisputesRequestBodyExpand = GHC.Maybe.Nothing,
+      postIssuingDisputesRequestBodyMetadata = GHC.Maybe.Nothing,
+      postIssuingDisputesRequestBodyReason = postIssuingDisputesRequestBodyReason
+    }
+
+-- | Defines the object schema located at @paths.\/v1\/issuing\/disputes.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.evidence@ in the specification.
 --
 -- A hash containing all the evidence related to the dispute. This should have a single key, equal to the provided \`reason\`, mapping to an appropriate evidence object.
 data PostIssuingDisputesRequestBodyEvidence'
@@ -211,14 +146,24 @@ data PostIssuingDisputesRequestBodyEvidence'
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON PostIssuingDisputesRequestBodyEvidence' where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "duplicate" (postIssuingDisputesRequestBodyEvidence'Duplicate obj) : (Data.Aeson..=) "fraudulent" (postIssuingDisputesRequestBodyEvidence'Fraudulent obj) : (Data.Aeson..=) "other" (postIssuingDisputesRequestBodyEvidence'Other obj) : (Data.Aeson..=) "product_not_received" (postIssuingDisputesRequestBodyEvidence'ProductNotReceived obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "duplicate" (postIssuingDisputesRequestBodyEvidence'Duplicate obj) GHC.Base.<> ((Data.Aeson..=) "fraudulent" (postIssuingDisputesRequestBodyEvidence'Fraudulent obj) GHC.Base.<> ((Data.Aeson..=) "other" (postIssuingDisputesRequestBodyEvidence'Other obj) GHC.Base.<> (Data.Aeson..=) "product_not_received" (postIssuingDisputesRequestBodyEvidence'ProductNotReceived obj))))
+instance Data.Aeson.Types.ToJSON.ToJSON PostIssuingDisputesRequestBodyEvidence' where
+  toJSON obj = Data.Aeson.Types.Internal.object ("duplicate" Data.Aeson.Types.ToJSON..= postIssuingDisputesRequestBodyEvidence'Duplicate obj : "fraudulent" Data.Aeson.Types.ToJSON..= postIssuingDisputesRequestBodyEvidence'Fraudulent obj : "other" Data.Aeson.Types.ToJSON..= postIssuingDisputesRequestBodyEvidence'Other obj : "product_not_received" Data.Aeson.Types.ToJSON..= postIssuingDisputesRequestBodyEvidence'ProductNotReceived obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("duplicate" Data.Aeson.Types.ToJSON..= postIssuingDisputesRequestBodyEvidence'Duplicate obj) GHC.Base.<> (("fraudulent" Data.Aeson.Types.ToJSON..= postIssuingDisputesRequestBodyEvidence'Fraudulent obj) GHC.Base.<> (("other" Data.Aeson.Types.ToJSON..= postIssuingDisputesRequestBodyEvidence'Other obj) GHC.Base.<> ("product_not_received" Data.Aeson.Types.ToJSON..= postIssuingDisputesRequestBodyEvidence'ProductNotReceived obj))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostIssuingDisputesRequestBodyEvidence' where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PostIssuingDisputesRequestBodyEvidence'" (\obj -> (((GHC.Base.pure PostIssuingDisputesRequestBodyEvidence' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "duplicate")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "fraudulent")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "other")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "product_not_received"))
 
--- | Defines the data type for the schema postIssuingDisputesRequestBodyEvidence\'Duplicate\'
+-- | Create a new 'PostIssuingDisputesRequestBodyEvidence'' with all required fields.
+mkPostIssuingDisputesRequestBodyEvidence' :: PostIssuingDisputesRequestBodyEvidence'
+mkPostIssuingDisputesRequestBodyEvidence' =
+  PostIssuingDisputesRequestBodyEvidence'
+    { postIssuingDisputesRequestBodyEvidence'Duplicate = GHC.Maybe.Nothing,
+      postIssuingDisputesRequestBodyEvidence'Fraudulent = GHC.Maybe.Nothing,
+      postIssuingDisputesRequestBodyEvidence'Other = GHC.Maybe.Nothing,
+      postIssuingDisputesRequestBodyEvidence'ProductNotReceived = GHC.Maybe.Nothing
+    }
+
+-- | Defines the object schema located at @paths.\/v1\/issuing\/disputes.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.evidence.properties.duplicate@ in the specification.
 data PostIssuingDisputesRequestBodyEvidence'Duplicate'
   = PostIssuingDisputesRequestBodyEvidence'Duplicate'
       { -- | dispute_explanation
@@ -241,14 +186,26 @@ data PostIssuingDisputesRequestBodyEvidence'Duplicate'
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON PostIssuingDisputesRequestBodyEvidence'Duplicate' where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "dispute_explanation" (postIssuingDisputesRequestBodyEvidence'Duplicate'DisputeExplanation obj) : (Data.Aeson..=) "original_transaction" (postIssuingDisputesRequestBodyEvidence'Duplicate'OriginalTransaction obj) : (Data.Aeson..=) "uncategorized_file" (postIssuingDisputesRequestBodyEvidence'Duplicate'UncategorizedFile obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "dispute_explanation" (postIssuingDisputesRequestBodyEvidence'Duplicate'DisputeExplanation obj) GHC.Base.<> ((Data.Aeson..=) "original_transaction" (postIssuingDisputesRequestBodyEvidence'Duplicate'OriginalTransaction obj) GHC.Base.<> (Data.Aeson..=) "uncategorized_file" (postIssuingDisputesRequestBodyEvidence'Duplicate'UncategorizedFile obj)))
+instance Data.Aeson.Types.ToJSON.ToJSON PostIssuingDisputesRequestBodyEvidence'Duplicate' where
+  toJSON obj = Data.Aeson.Types.Internal.object ("dispute_explanation" Data.Aeson.Types.ToJSON..= postIssuingDisputesRequestBodyEvidence'Duplicate'DisputeExplanation obj : "original_transaction" Data.Aeson.Types.ToJSON..= postIssuingDisputesRequestBodyEvidence'Duplicate'OriginalTransaction obj : "uncategorized_file" Data.Aeson.Types.ToJSON..= postIssuingDisputesRequestBodyEvidence'Duplicate'UncategorizedFile obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("dispute_explanation" Data.Aeson.Types.ToJSON..= postIssuingDisputesRequestBodyEvidence'Duplicate'DisputeExplanation obj) GHC.Base.<> (("original_transaction" Data.Aeson.Types.ToJSON..= postIssuingDisputesRequestBodyEvidence'Duplicate'OriginalTransaction obj) GHC.Base.<> ("uncategorized_file" Data.Aeson.Types.ToJSON..= postIssuingDisputesRequestBodyEvidence'Duplicate'UncategorizedFile obj)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostIssuingDisputesRequestBodyEvidence'Duplicate' where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PostIssuingDisputesRequestBodyEvidence'Duplicate'" (\obj -> ((GHC.Base.pure PostIssuingDisputesRequestBodyEvidence'Duplicate' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "dispute_explanation")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "original_transaction")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "uncategorized_file"))
 
--- | Defines the data type for the schema postIssuingDisputesRequestBodyEvidence\'Fraudulent\'
+-- | Create a new 'PostIssuingDisputesRequestBodyEvidence'Duplicate'' with all required fields.
+mkPostIssuingDisputesRequestBodyEvidence'Duplicate' ::
+  -- | 'postIssuingDisputesRequestBodyEvidence'Duplicate'DisputeExplanation'
+  Data.Text.Internal.Text ->
+  PostIssuingDisputesRequestBodyEvidence'Duplicate'
+mkPostIssuingDisputesRequestBodyEvidence'Duplicate' postIssuingDisputesRequestBodyEvidence'Duplicate'DisputeExplanation =
+  PostIssuingDisputesRequestBodyEvidence'Duplicate'
+    { postIssuingDisputesRequestBodyEvidence'Duplicate'DisputeExplanation = postIssuingDisputesRequestBodyEvidence'Duplicate'DisputeExplanation,
+      postIssuingDisputesRequestBodyEvidence'Duplicate'OriginalTransaction = GHC.Maybe.Nothing,
+      postIssuingDisputesRequestBodyEvidence'Duplicate'UncategorizedFile = GHC.Maybe.Nothing
+    }
+
+-- | Defines the object schema located at @paths.\/v1\/issuing\/disputes.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.evidence.properties.fraudulent@ in the specification.
 data PostIssuingDisputesRequestBodyEvidence'Fraudulent'
   = PostIssuingDisputesRequestBodyEvidence'Fraudulent'
       { -- | dispute_explanation
@@ -265,14 +222,25 @@ data PostIssuingDisputesRequestBodyEvidence'Fraudulent'
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON PostIssuingDisputesRequestBodyEvidence'Fraudulent' where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "dispute_explanation" (postIssuingDisputesRequestBodyEvidence'Fraudulent'DisputeExplanation obj) : (Data.Aeson..=) "uncategorized_file" (postIssuingDisputesRequestBodyEvidence'Fraudulent'UncategorizedFile obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "dispute_explanation" (postIssuingDisputesRequestBodyEvidence'Fraudulent'DisputeExplanation obj) GHC.Base.<> (Data.Aeson..=) "uncategorized_file" (postIssuingDisputesRequestBodyEvidence'Fraudulent'UncategorizedFile obj))
+instance Data.Aeson.Types.ToJSON.ToJSON PostIssuingDisputesRequestBodyEvidence'Fraudulent' where
+  toJSON obj = Data.Aeson.Types.Internal.object ("dispute_explanation" Data.Aeson.Types.ToJSON..= postIssuingDisputesRequestBodyEvidence'Fraudulent'DisputeExplanation obj : "uncategorized_file" Data.Aeson.Types.ToJSON..= postIssuingDisputesRequestBodyEvidence'Fraudulent'UncategorizedFile obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("dispute_explanation" Data.Aeson.Types.ToJSON..= postIssuingDisputesRequestBodyEvidence'Fraudulent'DisputeExplanation obj) GHC.Base.<> ("uncategorized_file" Data.Aeson.Types.ToJSON..= postIssuingDisputesRequestBodyEvidence'Fraudulent'UncategorizedFile obj))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostIssuingDisputesRequestBodyEvidence'Fraudulent' where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PostIssuingDisputesRequestBodyEvidence'Fraudulent'" (\obj -> (GHC.Base.pure PostIssuingDisputesRequestBodyEvidence'Fraudulent' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "dispute_explanation")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "uncategorized_file"))
 
--- | Defines the data type for the schema postIssuingDisputesRequestBodyEvidence\'Other\'
+-- | Create a new 'PostIssuingDisputesRequestBodyEvidence'Fraudulent'' with all required fields.
+mkPostIssuingDisputesRequestBodyEvidence'Fraudulent' ::
+  -- | 'postIssuingDisputesRequestBodyEvidence'Fraudulent'DisputeExplanation'
+  Data.Text.Internal.Text ->
+  PostIssuingDisputesRequestBodyEvidence'Fraudulent'
+mkPostIssuingDisputesRequestBodyEvidence'Fraudulent' postIssuingDisputesRequestBodyEvidence'Fraudulent'DisputeExplanation =
+  PostIssuingDisputesRequestBodyEvidence'Fraudulent'
+    { postIssuingDisputesRequestBodyEvidence'Fraudulent'DisputeExplanation = postIssuingDisputesRequestBodyEvidence'Fraudulent'DisputeExplanation,
+      postIssuingDisputesRequestBodyEvidence'Fraudulent'UncategorizedFile = GHC.Maybe.Nothing
+    }
+
+-- | Defines the object schema located at @paths.\/v1\/issuing\/disputes.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.evidence.properties.other@ in the specification.
 data PostIssuingDisputesRequestBodyEvidence'Other'
   = PostIssuingDisputesRequestBodyEvidence'Other'
       { -- | dispute_explanation
@@ -289,14 +257,25 @@ data PostIssuingDisputesRequestBodyEvidence'Other'
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON PostIssuingDisputesRequestBodyEvidence'Other' where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "dispute_explanation" (postIssuingDisputesRequestBodyEvidence'Other'DisputeExplanation obj) : (Data.Aeson..=) "uncategorized_file" (postIssuingDisputesRequestBodyEvidence'Other'UncategorizedFile obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "dispute_explanation" (postIssuingDisputesRequestBodyEvidence'Other'DisputeExplanation obj) GHC.Base.<> (Data.Aeson..=) "uncategorized_file" (postIssuingDisputesRequestBodyEvidence'Other'UncategorizedFile obj))
+instance Data.Aeson.Types.ToJSON.ToJSON PostIssuingDisputesRequestBodyEvidence'Other' where
+  toJSON obj = Data.Aeson.Types.Internal.object ("dispute_explanation" Data.Aeson.Types.ToJSON..= postIssuingDisputesRequestBodyEvidence'Other'DisputeExplanation obj : "uncategorized_file" Data.Aeson.Types.ToJSON..= postIssuingDisputesRequestBodyEvidence'Other'UncategorizedFile obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("dispute_explanation" Data.Aeson.Types.ToJSON..= postIssuingDisputesRequestBodyEvidence'Other'DisputeExplanation obj) GHC.Base.<> ("uncategorized_file" Data.Aeson.Types.ToJSON..= postIssuingDisputesRequestBodyEvidence'Other'UncategorizedFile obj))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostIssuingDisputesRequestBodyEvidence'Other' where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PostIssuingDisputesRequestBodyEvidence'Other'" (\obj -> (GHC.Base.pure PostIssuingDisputesRequestBodyEvidence'Other' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "dispute_explanation")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "uncategorized_file"))
 
--- | Defines the data type for the schema postIssuingDisputesRequestBodyEvidence\'Product_not_received\'
+-- | Create a new 'PostIssuingDisputesRequestBodyEvidence'Other'' with all required fields.
+mkPostIssuingDisputesRequestBodyEvidence'Other' ::
+  -- | 'postIssuingDisputesRequestBodyEvidence'Other'DisputeExplanation'
+  Data.Text.Internal.Text ->
+  PostIssuingDisputesRequestBodyEvidence'Other'
+mkPostIssuingDisputesRequestBodyEvidence'Other' postIssuingDisputesRequestBodyEvidence'Other'DisputeExplanation =
+  PostIssuingDisputesRequestBodyEvidence'Other'
+    { postIssuingDisputesRequestBodyEvidence'Other'DisputeExplanation = postIssuingDisputesRequestBodyEvidence'Other'DisputeExplanation,
+      postIssuingDisputesRequestBodyEvidence'Other'UncategorizedFile = GHC.Maybe.Nothing
+    }
+
+-- | Defines the object schema located at @paths.\/v1\/issuing\/disputes.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.evidence.properties.product_not_received@ in the specification.
 data PostIssuingDisputesRequestBodyEvidence'ProductNotReceived'
   = PostIssuingDisputesRequestBodyEvidence'ProductNotReceived'
       { -- | dispute_explanation
@@ -313,67 +292,58 @@ data PostIssuingDisputesRequestBodyEvidence'ProductNotReceived'
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON PostIssuingDisputesRequestBodyEvidence'ProductNotReceived' where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "dispute_explanation" (postIssuingDisputesRequestBodyEvidence'ProductNotReceived'DisputeExplanation obj) : (Data.Aeson..=) "uncategorized_file" (postIssuingDisputesRequestBodyEvidence'ProductNotReceived'UncategorizedFile obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "dispute_explanation" (postIssuingDisputesRequestBodyEvidence'ProductNotReceived'DisputeExplanation obj) GHC.Base.<> (Data.Aeson..=) "uncategorized_file" (postIssuingDisputesRequestBodyEvidence'ProductNotReceived'UncategorizedFile obj))
+instance Data.Aeson.Types.ToJSON.ToJSON PostIssuingDisputesRequestBodyEvidence'ProductNotReceived' where
+  toJSON obj = Data.Aeson.Types.Internal.object ("dispute_explanation" Data.Aeson.Types.ToJSON..= postIssuingDisputesRequestBodyEvidence'ProductNotReceived'DisputeExplanation obj : "uncategorized_file" Data.Aeson.Types.ToJSON..= postIssuingDisputesRequestBodyEvidence'ProductNotReceived'UncategorizedFile obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("dispute_explanation" Data.Aeson.Types.ToJSON..= postIssuingDisputesRequestBodyEvidence'ProductNotReceived'DisputeExplanation obj) GHC.Base.<> ("uncategorized_file" Data.Aeson.Types.ToJSON..= postIssuingDisputesRequestBodyEvidence'ProductNotReceived'UncategorizedFile obj))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostIssuingDisputesRequestBodyEvidence'ProductNotReceived' where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PostIssuingDisputesRequestBodyEvidence'ProductNotReceived'" (\obj -> (GHC.Base.pure PostIssuingDisputesRequestBodyEvidence'ProductNotReceived' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "dispute_explanation")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "uncategorized_file"))
 
--- | Defines the data type for the schema postIssuingDisputesRequestBodyMetadata\'
---
--- Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to \`metadata\`.
-data PostIssuingDisputesRequestBodyMetadata'
-  = PostIssuingDisputesRequestBodyMetadata'
-      {
-      }
-  deriving
-    ( GHC.Show.Show,
-      GHC.Classes.Eq
-    )
+-- | Create a new 'PostIssuingDisputesRequestBodyEvidence'ProductNotReceived'' with all required fields.
+mkPostIssuingDisputesRequestBodyEvidence'ProductNotReceived' ::
+  -- | 'postIssuingDisputesRequestBodyEvidence'ProductNotReceived'DisputeExplanation'
+  Data.Text.Internal.Text ->
+  PostIssuingDisputesRequestBodyEvidence'ProductNotReceived'
+mkPostIssuingDisputesRequestBodyEvidence'ProductNotReceived' postIssuingDisputesRequestBodyEvidence'ProductNotReceived'DisputeExplanation =
+  PostIssuingDisputesRequestBodyEvidence'ProductNotReceived'
+    { postIssuingDisputesRequestBodyEvidence'ProductNotReceived'DisputeExplanation = postIssuingDisputesRequestBodyEvidence'ProductNotReceived'DisputeExplanation,
+      postIssuingDisputesRequestBodyEvidence'ProductNotReceived'UncategorizedFile = GHC.Maybe.Nothing
+    }
 
-instance Data.Aeson.ToJSON PostIssuingDisputesRequestBodyMetadata' where
-  toJSON obj = Data.Aeson.object []
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "string" ("string" :: GHC.Base.String))
-
-instance Data.Aeson.Types.FromJSON.FromJSON PostIssuingDisputesRequestBodyMetadata' where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostIssuingDisputesRequestBodyMetadata'" (\obj -> GHC.Base.pure PostIssuingDisputesRequestBodyMetadata')
-
--- | Defines the enum schema postIssuingDisputesRequestBodyReason\'
+-- | Defines the enum schema located at @paths.\/v1\/issuing\/disputes.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.reason@ in the specification.
 --
 -- The reason for the dispute.
 data PostIssuingDisputesRequestBodyReason'
-  = PostIssuingDisputesRequestBodyReason'EnumOther Data.Aeson.Types.Internal.Value
-  | PostIssuingDisputesRequestBodyReason'EnumTyped Data.Text.Internal.Text
-  | PostIssuingDisputesRequestBodyReason'EnumStringDuplicate
-  | PostIssuingDisputesRequestBodyReason'EnumStringFraudulent
-  | PostIssuingDisputesRequestBodyReason'EnumStringOther
-  | PostIssuingDisputesRequestBodyReason'EnumStringProductNotReceived
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    PostIssuingDisputesRequestBodyReason'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    PostIssuingDisputesRequestBodyReason'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"duplicate"@
+    PostIssuingDisputesRequestBodyReason'EnumDuplicate
+  | -- | Represents the JSON value @"fraudulent"@
+    PostIssuingDisputesRequestBodyReason'EnumFraudulent
+  | -- | Represents the JSON value @"other"@
+    PostIssuingDisputesRequestBodyReason'EnumOther
+  | -- | Represents the JSON value @"product_not_received"@
+    PostIssuingDisputesRequestBodyReason'EnumProductNotReceived
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.ToJSON PostIssuingDisputesRequestBodyReason' where
-  toJSON (PostIssuingDisputesRequestBodyReason'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostIssuingDisputesRequestBodyReason'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostIssuingDisputesRequestBodyReason'EnumStringDuplicate) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "duplicate"
-  toJSON (PostIssuingDisputesRequestBodyReason'EnumStringFraudulent) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "fraudulent"
-  toJSON (PostIssuingDisputesRequestBodyReason'EnumStringOther) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "other"
-  toJSON (PostIssuingDisputesRequestBodyReason'EnumStringProductNotReceived) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "product_not_received"
+instance Data.Aeson.Types.ToJSON.ToJSON PostIssuingDisputesRequestBodyReason' where
+  toJSON (PostIssuingDisputesRequestBodyReason'Other val) = val
+  toJSON (PostIssuingDisputesRequestBodyReason'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PostIssuingDisputesRequestBodyReason'EnumDuplicate) = "duplicate"
+  toJSON (PostIssuingDisputesRequestBodyReason'EnumFraudulent) = "fraudulent"
+  toJSON (PostIssuingDisputesRequestBodyReason'EnumOther) = "other"
+  toJSON (PostIssuingDisputesRequestBodyReason'EnumProductNotReceived) = "product_not_received"
 
-instance Data.Aeson.FromJSON PostIssuingDisputesRequestBodyReason' where
+instance Data.Aeson.Types.FromJSON.FromJSON PostIssuingDisputesRequestBodyReason' where
   parseJSON val =
     GHC.Base.pure
-      ( if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "duplicate")
-          then PostIssuingDisputesRequestBodyReason'EnumStringDuplicate
-          else
-            if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "fraudulent")
-              then PostIssuingDisputesRequestBodyReason'EnumStringFraudulent
-              else
-                if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "other")
-                  then PostIssuingDisputesRequestBodyReason'EnumStringOther
-                  else
-                    if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "product_not_received")
-                      then PostIssuingDisputesRequestBodyReason'EnumStringProductNotReceived
-                      else PostIssuingDisputesRequestBodyReason'EnumOther val
+      ( if  | val GHC.Classes.== "duplicate" -> PostIssuingDisputesRequestBodyReason'EnumDuplicate
+            | val GHC.Classes.== "fraudulent" -> PostIssuingDisputesRequestBodyReason'EnumFraudulent
+            | val GHC.Classes.== "other" -> PostIssuingDisputesRequestBodyReason'EnumOther
+            | val GHC.Classes.== "product_not_received" -> PostIssuingDisputesRequestBodyReason'EnumProductNotReceived
+            | GHC.Base.otherwise -> PostIssuingDisputesRequestBodyReason'Other val
       )
 
 -- | Represents a response of the operation 'postIssuingDisputes'.

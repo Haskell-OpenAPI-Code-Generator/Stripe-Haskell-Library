@@ -1,4 +1,3 @@
-{-# LANGUAGE DeriveGeneric #-}
 {-# LANGUAGE ExplicitForAll #-}
 {-# LANGUAGE MultiWayIf #-}
 {-# LANGUAGE OverloadedStrings #-}
@@ -8,8 +7,10 @@
 -- | Contains the different functions to run the operation getInvoicesUpcoming
 module StripeAPI.Operations.GetInvoicesUpcoming where
 
+import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -26,7 +27,6 @@ import qualified Data.Time.LocalTime as Data.Time.LocalTime.Internal.ZonedTime
 import qualified Data.Vector
 import qualified GHC.Base
 import qualified GHC.Classes
-import qualified GHC.Generics
 import qualified GHC.Int
 import qualified GHC.Show
 import qualified GHC.Types
@@ -50,643 +50,575 @@ import qualified Prelude as GHC.Maybe
 --
 -- \<p>You can preview the effects of updating a subscription, including a preview of what proration will take place. To ensure that the actual proration is calculated exactly the same as the previewed proration, you should pass a \<code>proration_date\<\/code> parameter when doing the actual subscription update. The value passed in should be the same as the \<code>subscription_proration_date\<\/code> returned on the upcoming invoice resource. The recommended way to get only the prorations being previewed is to consider only proration line items where \<code>period[start]\<\/code> is equal to the \<code>subscription_proration_date\<\/code> on the upcoming invoice resource.\<\/p>
 getInvoicesUpcoming ::
-  forall m s.
-  (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) =>
-  -- | The configuration to use in the request
-  StripeAPI.Common.Configuration s ->
-  -- | coupon: The code of the coupon to apply. If \`subscription\` or \`subscription_items\` is provided, the invoice returned will preview updating or creating a subscription with that coupon. Otherwise, it will preview applying that coupon to the customer for the next upcoming invoice from among the customer\'s subscriptions. The invoice can be previewed without a coupon by passing this value as an empty string. | Constraints: Maximum length of 5000
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  -- | customer: The identifier of the customer whose upcoming invoice you\'d like to retrieve. | Constraints: Maximum length of 5000
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  -- | expand: Specifies which fields in the response should be expanded.
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  -- | invoice_items: List of invoice items to add or update in the upcoming invoice preview.
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  -- | schedule: The identifier of the unstarted schedule whose upcoming invoice you\'d like to retrieve. Cannot be used with subscription or subscription fields. | Constraints: Maximum length of 5000
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  -- | subscription: The identifier of the subscription for which you\'d like to retrieve the upcoming invoice. If not provided, but a \`subscription_items\` is provided, you will preview creating a subscription with those items. If neither \`subscription\` nor \`subscription_items\` is provided, you will retrieve the next upcoming invoice from among the customer\'s subscriptions. | Constraints: Maximum length of 5000
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  -- | subscription_billing_cycle_anchor: For new subscriptions, a future timestamp to anchor the subscription\'s [billing cycle](https:\/\/stripe.com\/docs\/subscriptions\/billing-cycle). This is used to determine the date of the first full invoice, and, for plans with \`month\` or \`year\` intervals, the day of the month for subsequent invoices. For existing subscriptions, the value can only be set to \`now\` or \`unchanged\`.
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  -- | subscription_cancel_at: Timestamp indicating when the subscription should be scheduled to cancel. Will prorate if within the current period and prorations have been enabled using \`proration_behavior\`.\`
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  -- | subscription_cancel_at_period_end: Boolean indicating whether this subscription should cancel at the end of the current period.
-  GHC.Maybe.Maybe GHC.Types.Bool ->
-  -- | subscription_cancel_now: This simulates the subscription being canceled or expired immediately.
-  GHC.Maybe.Maybe GHC.Types.Bool ->
-  -- | subscription_default_tax_rates: If provided, the invoice returned will preview updating or creating a subscription with these default tax rates. The default tax rates will apply to any line item that does not have \`tax_rates\` set.
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  -- | subscription_items: List of subscription items, each with an attached plan.
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  -- | subscription_prorate: If previewing an update to a subscription, this decides whether the preview will show the result of applying prorations or not. If set, one of \`subscription_items\` or \`subscription\`, and one of \`subscription_items\` or \`subscription_trial_end\` are required.
-  GHC.Maybe.Maybe GHC.Types.Bool ->
-  -- | subscription_proration_behavior: Determines how to handle [prorations](https:\/\/stripe.com\/docs\/subscriptions\/billing-cycle\#prorations) when the billing cycle changes (e.g., when switching plans, resetting \`billing_cycle_anchor=now\`, or starting a trial), or if an item\'s \`quantity\` changes. Valid values are \`create_prorations\`, \`none\`, or \`always_invoice\`.  Passing \`create_prorations\` will cause proration invoice items to be created when applicable. These proration items will only be invoiced immediately under [certain conditions](https:\/\/stripe.com\/docs\/subscriptions\/upgrading-downgrading\#immediate-payment). In order to always invoice immediately for prorations, pass \`always_invoice\`.  Prorations can be disabled by passing \`none\`.
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  -- | subscription_proration_date: If previewing an update to a subscription, and doing proration, \`subscription_proration_date\` forces the proration to be calculated as though the update was done at the specified time. The time given must be within the current subscription period, and cannot be before the subscription was on its current plan. If set, \`subscription\`, and one of \`subscription_items\`, or \`subscription_trial_end\` are required. Also, \`subscription_proration\` cannot be set to false.
-  GHC.Maybe.Maybe GHC.Integer.Type.Integer ->
-  -- | subscription_start_date: Date a subscription is intended to start (can be future or past)
-  GHC.Maybe.Maybe GHC.Integer.Type.Integer ->
-  -- | subscription_tax_percent: If provided, the invoice returned will preview updating or creating a subscription with that tax percent. If set, one of \`subscription_items\` or \`subscription\` is required. This field has been deprecated and will be removed in a future API version, for further information view the [migration docs](https:\/\/stripe.com\/docs\/billing\/migration\/taxes) for \`tax_rates\`.
-  GHC.Maybe.Maybe GHC.Types.Double ->
-  -- | subscription_trial_end: If provided, the invoice returned will preview updating or creating a subscription with that trial end. If set, one of \`subscription_items\` or \`subscription\` is required.
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  -- | subscription_trial_from_plan: Indicates if a plan\'s \`trial_period_days\` should be applied to the subscription. Setting \`subscription_trial_end\` per subscription is preferred, and this defaults to \`false\`. Setting this flag to \`true\` together with \`subscription_trial_end\` is not allowed.
-  GHC.Maybe.Maybe GHC.Types.Bool ->
-  -- | The request body to send
-  GHC.Maybe.Maybe GetInvoicesUpcomingRequestBody ->
-  -- | Monad containing the result of the operation
-  m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response GetInvoicesUpcomingResponse))
-getInvoicesUpcoming
-  config
-  coupon
-  customer
-  expand
-  invoiceItems
-  schedule
-  subscription
-  subscriptionBillingCycleAnchor
-  subscriptionCancelAt
-  subscriptionCancelAtPeriodEnd
-  subscriptionCancelNow
-  subscriptionDefaultTaxRates
-  subscriptionItems
-  subscriptionProrate
-  subscriptionProrationBehavior
-  subscriptionProrationDate
-  subscriptionStartDate
-  subscriptionTaxPercent
-  subscriptionTrialEnd
-  subscriptionTrialFromPlan
-  body =
-    GHC.Base.fmap
-      ( GHC.Base.fmap
-          ( \response_0 ->
-              GHC.Base.fmap
-                ( Data.Either.either GetInvoicesUpcomingResponseError GHC.Base.id
-                    GHC.Base.. ( \response body ->
-                                   if  | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                         GetInvoicesUpcomingResponse200
-                                           Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                                Data.Either.Either GHC.Base.String
-                                                                  Invoice
-                                                            )
-                                       | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                         GetInvoicesUpcomingResponseDefault
-                                           Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                                Data.Either.Either GHC.Base.String
-                                                                  Error
-                                                            )
-                                       | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
-                               )
-                      response_0
-                )
+  forall m.
+  StripeAPI.Common.MonadHTTP m =>
+  -- | Contains all available parameters of this operation (query and path parameters)
+  GetInvoicesUpcomingParameters ->
+  -- | Monadic computation which returns the result of the operation
+  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response GetInvoicesUpcomingResponse)
+getInvoicesUpcoming parameters =
+  GHC.Base.fmap
+    ( \response_0 ->
+        GHC.Base.fmap
+          ( Data.Either.either GetInvoicesUpcomingResponseError GHC.Base.id
+              GHC.Base.. ( \response body ->
+                             if  | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
+                                   GetInvoicesUpcomingResponse200
+                                     Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                          Data.Either.Either GHC.Base.String
+                                                            Invoice
+                                                      )
+                                 | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
+                                   GetInvoicesUpcomingResponseDefault
+                                     Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                          Data.Either.Either GHC.Base.String
+                                                            Error
+                                                      )
+                                 | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
+                         )
                 response_0
           )
-      )
-      ( StripeAPI.Common.doBodyCallWithConfiguration
-          config
-          (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET")
-          (Data.Text.pack "/v1/invoices/upcoming")
-          ( ( Data.Text.pack "coupon",
-              StripeAPI.Common.stringifyModel Data.Functor.<$> coupon
-            )
-              : ( ( Data.Text.pack "customer",
-                    StripeAPI.Common.stringifyModel Data.Functor.<$> customer
-                  )
-                    : ( ( Data.Text.pack "expand",
-                          StripeAPI.Common.stringifyModel Data.Functor.<$> expand
-                        )
-                          : ( ( Data.Text.pack "invoice_items",
-                                StripeAPI.Common.stringifyModel Data.Functor.<$> invoiceItems
-                              )
-                                : ( ( Data.Text.pack "schedule",
-                                      StripeAPI.Common.stringifyModel Data.Functor.<$> schedule
-                                    )
-                                      : ( ( Data.Text.pack "subscription",
-                                            StripeAPI.Common.stringifyModel Data.Functor.<$> subscription
-                                          )
-                                            : ( ( Data.Text.pack "subscription_billing_cycle_anchor",
-                                                  StripeAPI.Common.stringifyModel Data.Functor.<$> subscriptionBillingCycleAnchor
-                                                )
-                                                  : ( ( Data.Text.pack "subscription_cancel_at",
-                                                        StripeAPI.Common.stringifyModel Data.Functor.<$> subscriptionCancelAt
-                                                      )
-                                                        : ( ( Data.Text.pack "subscription_cancel_at_period_end",
-                                                              StripeAPI.Common.stringifyModel Data.Functor.<$> subscriptionCancelAtPeriodEnd
-                                                            )
-                                                              : ( ( Data.Text.pack "subscription_cancel_now",
-                                                                    StripeAPI.Common.stringifyModel Data.Functor.<$> subscriptionCancelNow
-                                                                  )
-                                                                    : ( ( Data.Text.pack "subscription_default_tax_rates",
-                                                                          StripeAPI.Common.stringifyModel Data.Functor.<$> subscriptionDefaultTaxRates
-                                                                        )
-                                                                          : ( ( Data.Text.pack "subscription_items",
-                                                                                StripeAPI.Common.stringifyModel Data.Functor.<$> subscriptionItems
-                                                                              )
-                                                                                : ( ( Data.Text.pack "subscription_prorate",
-                                                                                      StripeAPI.Common.stringifyModel Data.Functor.<$> subscriptionProrate
-                                                                                    )
-                                                                                      : ( ( Data.Text.pack "subscription_proration_behavior",
-                                                                                            StripeAPI.Common.stringifyModel Data.Functor.<$> subscriptionProrationBehavior
-                                                                                          )
-                                                                                            : ( ( Data.Text.pack "subscription_proration_date",
-                                                                                                  StripeAPI.Common.stringifyModel Data.Functor.<$> subscriptionProrationDate
-                                                                                                )
-                                                                                                  : ( ( Data.Text.pack "subscription_start_date",
-                                                                                                        StripeAPI.Common.stringifyModel Data.Functor.<$> subscriptionStartDate
-                                                                                                      )
-                                                                                                        : ( ( Data.Text.pack "subscription_tax_percent",
-                                                                                                              StripeAPI.Common.stringifyModel Data.Functor.<$> subscriptionTaxPercent
-                                                                                                            )
-                                                                                                              : ( ( Data.Text.pack "subscription_trial_end",
-                                                                                                                    StripeAPI.Common.stringifyModel Data.Functor.<$> subscriptionTrialEnd
-                                                                                                                  )
-                                                                                                                    : ( ( Data.Text.pack "subscription_trial_from_plan",
-                                                                                                                          StripeAPI.Common.stringifyModel Data.Functor.<$> subscriptionTrialFromPlan
-                                                                                                                        )
-                                                                                                                          : []
-                                                                                                                      )
-                                                                                                                )
-                                                                                                          )
-                                                                                                    )
-                                                                                              )
-                                                                                        )
-                                                                                  )
-                                                                            )
-                                                                      )
-                                                                )
-                                                          )
-                                                    )
-                                              )
-                                        )
-                                  )
-                            )
-                      )
-                )
-          )
-          body
-          StripeAPI.Common.RequestBodyEncodingFormData
-      )
-
--- | > GET /v1/invoices/upcoming
---
--- The same as 'getInvoicesUpcoming' but returns the raw 'Data.ByteString.Char8.ByteString'
-getInvoicesUpcomingRaw ::
-  forall m s.
-  ( StripeAPI.Common.MonadHTTP m,
-    StripeAPI.Common.SecurityScheme s
-  ) =>
-  StripeAPI.Common.Configuration s ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe GHC.Types.Bool ->
-  GHC.Maybe.Maybe GHC.Types.Bool ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe GHC.Types.Bool ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe GHC.Integer.Type.Integer ->
-  GHC.Maybe.Maybe GHC.Integer.Type.Integer ->
-  GHC.Maybe.Maybe GHC.Types.Double ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe GHC.Types.Bool ->
-  GHC.Maybe.Maybe GetInvoicesUpcomingRequestBody ->
-  m
-    ( Data.Either.Either Network.HTTP.Client.Types.HttpException
-        (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
+          response_0
     )
-getInvoicesUpcomingRaw
-  config
-  coupon
-  customer
-  expand
-  invoiceItems
-  schedule
-  subscription
-  subscriptionBillingCycleAnchor
-  subscriptionCancelAt
-  subscriptionCancelAtPeriodEnd
-  subscriptionCancelNow
-  subscriptionDefaultTaxRates
-  subscriptionItems
-  subscriptionProrate
-  subscriptionProrationBehavior
-  subscriptionProrationDate
-  subscriptionStartDate
-  subscriptionTaxPercent
-  subscriptionTrialEnd
-  subscriptionTrialFromPlan
-  body =
-    GHC.Base.id
-      ( StripeAPI.Common.doBodyCallWithConfiguration
-          config
-          (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET")
-          (Data.Text.pack "/v1/invoices/upcoming")
-          ( ( Data.Text.pack "coupon",
-              StripeAPI.Common.stringifyModel Data.Functor.<$> coupon
-            )
-              : ( ( Data.Text.pack "customer",
-                    StripeAPI.Common.stringifyModel Data.Functor.<$> customer
-                  )
-                    : ( ( Data.Text.pack "expand",
-                          StripeAPI.Common.stringifyModel Data.Functor.<$> expand
-                        )
-                          : ( ( Data.Text.pack "invoice_items",
-                                StripeAPI.Common.stringifyModel Data.Functor.<$> invoiceItems
-                              )
-                                : ( ( Data.Text.pack "schedule",
-                                      StripeAPI.Common.stringifyModel Data.Functor.<$> schedule
-                                    )
-                                      : ( ( Data.Text.pack "subscription",
-                                            StripeAPI.Common.stringifyModel Data.Functor.<$> subscription
-                                          )
-                                            : ( ( Data.Text.pack "subscription_billing_cycle_anchor",
-                                                  StripeAPI.Common.stringifyModel Data.Functor.<$> subscriptionBillingCycleAnchor
-                                                )
-                                                  : ( ( Data.Text.pack "subscription_cancel_at",
-                                                        StripeAPI.Common.stringifyModel Data.Functor.<$> subscriptionCancelAt
-                                                      )
-                                                        : ( ( Data.Text.pack "subscription_cancel_at_period_end",
-                                                              StripeAPI.Common.stringifyModel Data.Functor.<$> subscriptionCancelAtPeriodEnd
-                                                            )
-                                                              : ( ( Data.Text.pack "subscription_cancel_now",
-                                                                    StripeAPI.Common.stringifyModel Data.Functor.<$> subscriptionCancelNow
-                                                                  )
-                                                                    : ( ( Data.Text.pack "subscription_default_tax_rates",
-                                                                          StripeAPI.Common.stringifyModel Data.Functor.<$> subscriptionDefaultTaxRates
-                                                                        )
-                                                                          : ( ( Data.Text.pack "subscription_items",
-                                                                                StripeAPI.Common.stringifyModel Data.Functor.<$> subscriptionItems
-                                                                              )
-                                                                                : ( ( Data.Text.pack "subscription_prorate",
-                                                                                      StripeAPI.Common.stringifyModel Data.Functor.<$> subscriptionProrate
-                                                                                    )
-                                                                                      : ( ( Data.Text.pack "subscription_proration_behavior",
-                                                                                            StripeAPI.Common.stringifyModel Data.Functor.<$> subscriptionProrationBehavior
-                                                                                          )
-                                                                                            : ( ( Data.Text.pack "subscription_proration_date",
-                                                                                                  StripeAPI.Common.stringifyModel Data.Functor.<$> subscriptionProrationDate
-                                                                                                )
-                                                                                                  : ( ( Data.Text.pack "subscription_start_date",
-                                                                                                        StripeAPI.Common.stringifyModel Data.Functor.<$> subscriptionStartDate
-                                                                                                      )
-                                                                                                        : ( ( Data.Text.pack "subscription_tax_percent",
-                                                                                                              StripeAPI.Common.stringifyModel Data.Functor.<$> subscriptionTaxPercent
-                                                                                                            )
-                                                                                                              : ( ( Data.Text.pack "subscription_trial_end",
-                                                                                                                    StripeAPI.Common.stringifyModel Data.Functor.<$> subscriptionTrialEnd
-                                                                                                                  )
-                                                                                                                    : ( ( Data.Text.pack "subscription_trial_from_plan",
-                                                                                                                          StripeAPI.Common.stringifyModel Data.Functor.<$> subscriptionTrialFromPlan
-                                                                                                                        )
-                                                                                                                          : []
-                                                                                                                      )
-                                                                                                                )
-                                                                                                          )
-                                                                                                    )
-                                                                                              )
-                                                                                        )
-                                                                                  )
-                                                                            )
-                                                                      )
-                                                                )
-                                                          )
-                                                    )
-                                              )
-                                        )
-                                  )
-                            )
-                      )
-                )
-          )
-          body
-          StripeAPI.Common.RequestBodyEncodingFormData
-      )
-
--- | > GET /v1/invoices/upcoming
---
--- Monadic version of 'getInvoicesUpcoming' (use with 'StripeAPI.Common.runWithConfiguration')
-getInvoicesUpcomingM ::
-  forall m s.
-  ( StripeAPI.Common.MonadHTTP m,
-    StripeAPI.Common.SecurityScheme s
-  ) =>
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe GHC.Types.Bool ->
-  GHC.Maybe.Maybe GHC.Types.Bool ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe GHC.Types.Bool ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe GHC.Integer.Type.Integer ->
-  GHC.Maybe.Maybe GHC.Integer.Type.Integer ->
-  GHC.Maybe.Maybe GHC.Types.Double ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe GHC.Types.Bool ->
-  GHC.Maybe.Maybe GetInvoicesUpcomingRequestBody ->
-  Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
-    m
-    ( Data.Either.Either Network.HTTP.Client.Types.HttpException
-        (Network.HTTP.Client.Types.Response GetInvoicesUpcomingResponse)
+    ( StripeAPI.Common.doCallWithConfigurationM
+        (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET")
+        (Data.Text.pack "/v1/invoices/upcoming")
+        [ StripeAPI.Common.QueryParameter (Data.Text.pack "coupon") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getInvoicesUpcomingParametersQueryCoupon parameters) (Data.Text.pack "form") GHC.Types.True,
+          StripeAPI.Common.QueryParameter (Data.Text.pack "customer") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getInvoicesUpcomingParametersQueryCustomer parameters) (Data.Text.pack "form") GHC.Types.True,
+          StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getInvoicesUpcomingParametersQueryExpand parameters) (Data.Text.pack "deepObject") GHC.Types.True,
+          StripeAPI.Common.QueryParameter (Data.Text.pack "invoice_items") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getInvoicesUpcomingParametersQueryInvoiceItems parameters) (Data.Text.pack "deepObject") GHC.Types.True,
+          StripeAPI.Common.QueryParameter (Data.Text.pack "schedule") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getInvoicesUpcomingParametersQuerySchedule parameters) (Data.Text.pack "form") GHC.Types.True,
+          StripeAPI.Common.QueryParameter (Data.Text.pack "subscription") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getInvoicesUpcomingParametersQuerySubscription parameters) (Data.Text.pack "form") GHC.Types.True,
+          StripeAPI.Common.QueryParameter (Data.Text.pack "subscription_billing_cycle_anchor") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getInvoicesUpcomingParametersQuerySubscriptionBillingCycleAnchor parameters) (Data.Text.pack "deepObject") GHC.Types.True,
+          StripeAPI.Common.QueryParameter (Data.Text.pack "subscription_cancel_at") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getInvoicesUpcomingParametersQuerySubscriptionCancelAt parameters) (Data.Text.pack "deepObject") GHC.Types.True,
+          StripeAPI.Common.QueryParameter (Data.Text.pack "subscription_cancel_at_period_end") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getInvoicesUpcomingParametersQuerySubscriptionCancelAtPeriodEnd parameters) (Data.Text.pack "form") GHC.Types.True,
+          StripeAPI.Common.QueryParameter (Data.Text.pack "subscription_cancel_now") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getInvoicesUpcomingParametersQuerySubscriptionCancelNow parameters) (Data.Text.pack "form") GHC.Types.True,
+          StripeAPI.Common.QueryParameter (Data.Text.pack "subscription_default_tax_rates") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getInvoicesUpcomingParametersQuerySubscriptionDefaultTaxRates parameters) (Data.Text.pack "deepObject") GHC.Types.True,
+          StripeAPI.Common.QueryParameter (Data.Text.pack "subscription_items") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getInvoicesUpcomingParametersQuerySubscriptionItems parameters) (Data.Text.pack "deepObject") GHC.Types.True,
+          StripeAPI.Common.QueryParameter (Data.Text.pack "subscription_prorate") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getInvoicesUpcomingParametersQuerySubscriptionProrate parameters) (Data.Text.pack "form") GHC.Types.True,
+          StripeAPI.Common.QueryParameter (Data.Text.pack "subscription_proration_behavior") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getInvoicesUpcomingParametersQuerySubscriptionProrationBehavior parameters) (Data.Text.pack "form") GHC.Types.True,
+          StripeAPI.Common.QueryParameter (Data.Text.pack "subscription_proration_date") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getInvoicesUpcomingParametersQuerySubscriptionProrationDate parameters) (Data.Text.pack "form") GHC.Types.True,
+          StripeAPI.Common.QueryParameter (Data.Text.pack "subscription_start_date") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getInvoicesUpcomingParametersQuerySubscriptionStartDate parameters) (Data.Text.pack "form") GHC.Types.True,
+          StripeAPI.Common.QueryParameter (Data.Text.pack "subscription_tax_percent") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getInvoicesUpcomingParametersQuerySubscriptionTaxPercent parameters) (Data.Text.pack "form") GHC.Types.True,
+          StripeAPI.Common.QueryParameter (Data.Text.pack "subscription_trial_end") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getInvoicesUpcomingParametersQuerySubscriptionTrialEnd parameters) (Data.Text.pack "deepObject") GHC.Types.True,
+          StripeAPI.Common.QueryParameter (Data.Text.pack "subscription_trial_from_plan") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getInvoicesUpcomingParametersQuerySubscriptionTrialFromPlan parameters) (Data.Text.pack "form") GHC.Types.True
+        ]
     )
-getInvoicesUpcomingM
-  coupon
-  customer
-  expand
-  invoiceItems
-  schedule
-  subscription
-  subscriptionBillingCycleAnchor
-  subscriptionCancelAt
-  subscriptionCancelAtPeriodEnd
-  subscriptionCancelNow
-  subscriptionDefaultTaxRates
-  subscriptionItems
-  subscriptionProrate
-  subscriptionProrationBehavior
-  subscriptionProrationDate
-  subscriptionStartDate
-  subscriptionTaxPercent
-  subscriptionTrialEnd
-  subscriptionTrialFromPlan
-  body =
-    GHC.Base.fmap
-      ( GHC.Base.fmap
-          ( \response_2 ->
-              GHC.Base.fmap
-                ( Data.Either.either GetInvoicesUpcomingResponseError GHC.Base.id
-                    GHC.Base.. ( \response body ->
-                                   if  | (\status_3 -> Network.HTTP.Types.Status.statusCode status_3 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                         GetInvoicesUpcomingResponse200
-                                           Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                                Data.Either.Either GHC.Base.String
-                                                                  Invoice
-                                                            )
-                                       | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                         GetInvoicesUpcomingResponseDefault
-                                           Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                                Data.Either.Either GHC.Base.String
-                                                                  Error
-                                                            )
-                                       | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
-                               )
-                      response_2
-                )
-                response_2
-          )
-      )
-      ( StripeAPI.Common.doBodyCallWithConfigurationM
-          (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET")
-          (Data.Text.pack "/v1/invoices/upcoming")
-          ( ( Data.Text.pack "coupon",
-              StripeAPI.Common.stringifyModel Data.Functor.<$> coupon
-            )
-              : ( ( Data.Text.pack "customer",
-                    StripeAPI.Common.stringifyModel Data.Functor.<$> customer
-                  )
-                    : ( ( Data.Text.pack "expand",
-                          StripeAPI.Common.stringifyModel Data.Functor.<$> expand
-                        )
-                          : ( ( Data.Text.pack "invoice_items",
-                                StripeAPI.Common.stringifyModel Data.Functor.<$> invoiceItems
-                              )
-                                : ( ( Data.Text.pack "schedule",
-                                      StripeAPI.Common.stringifyModel Data.Functor.<$> schedule
-                                    )
-                                      : ( ( Data.Text.pack "subscription",
-                                            StripeAPI.Common.stringifyModel Data.Functor.<$> subscription
-                                          )
-                                            : ( ( Data.Text.pack "subscription_billing_cycle_anchor",
-                                                  StripeAPI.Common.stringifyModel Data.Functor.<$> subscriptionBillingCycleAnchor
-                                                )
-                                                  : ( ( Data.Text.pack "subscription_cancel_at",
-                                                        StripeAPI.Common.stringifyModel Data.Functor.<$> subscriptionCancelAt
-                                                      )
-                                                        : ( ( Data.Text.pack "subscription_cancel_at_period_end",
-                                                              StripeAPI.Common.stringifyModel Data.Functor.<$> subscriptionCancelAtPeriodEnd
-                                                            )
-                                                              : ( ( Data.Text.pack "subscription_cancel_now",
-                                                                    StripeAPI.Common.stringifyModel Data.Functor.<$> subscriptionCancelNow
-                                                                  )
-                                                                    : ( ( Data.Text.pack "subscription_default_tax_rates",
-                                                                          StripeAPI.Common.stringifyModel Data.Functor.<$> subscriptionDefaultTaxRates
-                                                                        )
-                                                                          : ( ( Data.Text.pack "subscription_items",
-                                                                                StripeAPI.Common.stringifyModel Data.Functor.<$> subscriptionItems
-                                                                              )
-                                                                                : ( ( Data.Text.pack "subscription_prorate",
-                                                                                      StripeAPI.Common.stringifyModel Data.Functor.<$> subscriptionProrate
-                                                                                    )
-                                                                                      : ( ( Data.Text.pack "subscription_proration_behavior",
-                                                                                            StripeAPI.Common.stringifyModel Data.Functor.<$> subscriptionProrationBehavior
-                                                                                          )
-                                                                                            : ( ( Data.Text.pack "subscription_proration_date",
-                                                                                                  StripeAPI.Common.stringifyModel Data.Functor.<$> subscriptionProrationDate
-                                                                                                )
-                                                                                                  : ( ( Data.Text.pack "subscription_start_date",
-                                                                                                        StripeAPI.Common.stringifyModel Data.Functor.<$> subscriptionStartDate
-                                                                                                      )
-                                                                                                        : ( ( Data.Text.pack "subscription_tax_percent",
-                                                                                                              StripeAPI.Common.stringifyModel Data.Functor.<$> subscriptionTaxPercent
-                                                                                                            )
-                                                                                                              : ( ( Data.Text.pack "subscription_trial_end",
-                                                                                                                    StripeAPI.Common.stringifyModel Data.Functor.<$> subscriptionTrialEnd
-                                                                                                                  )
-                                                                                                                    : ( ( Data.Text.pack "subscription_trial_from_plan",
-                                                                                                                          StripeAPI.Common.stringifyModel Data.Functor.<$> subscriptionTrialFromPlan
-                                                                                                                        )
-                                                                                                                          : []
-                                                                                                                      )
-                                                                                                                )
-                                                                                                          )
-                                                                                                    )
-                                                                                              )
-                                                                                        )
-                                                                                  )
-                                                                            )
-                                                                      )
-                                                                )
-                                                          )
-                                                    )
-                                              )
-                                        )
-                                  )
-                            )
-                      )
-                )
-          )
-          body
-          StripeAPI.Common.RequestBodyEncodingFormData
-      )
 
--- | > GET /v1/invoices/upcoming
---
--- Monadic version of 'getInvoicesUpcomingRaw' (use with 'StripeAPI.Common.runWithConfiguration')
-getInvoicesUpcomingRawM ::
-  forall m s.
-  ( StripeAPI.Common.MonadHTTP m,
-    StripeAPI.Common.SecurityScheme s
-  ) =>
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe GHC.Types.Bool ->
-  GHC.Maybe.Maybe GHC.Types.Bool ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe GHC.Types.Bool ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe GHC.Integer.Type.Integer ->
-  GHC.Maybe.Maybe GHC.Integer.Type.Integer ->
-  GHC.Maybe.Maybe GHC.Types.Double ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe GHC.Types.Bool ->
-  GHC.Maybe.Maybe GetInvoicesUpcomingRequestBody ->
-  Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
-    m
-    ( Data.Either.Either Network.HTTP.Client.Types.HttpException
-        (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
-    )
-getInvoicesUpcomingRawM
-  coupon
-  customer
-  expand
-  invoiceItems
-  schedule
-  subscription
-  subscriptionBillingCycleAnchor
-  subscriptionCancelAt
-  subscriptionCancelAtPeriodEnd
-  subscriptionCancelNow
-  subscriptionDefaultTaxRates
-  subscriptionItems
-  subscriptionProrate
-  subscriptionProrationBehavior
-  subscriptionProrationDate
-  subscriptionStartDate
-  subscriptionTaxPercent
-  subscriptionTrialEnd
-  subscriptionTrialFromPlan
-  body =
-    GHC.Base.id
-      ( StripeAPI.Common.doBodyCallWithConfigurationM
-          (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET")
-          (Data.Text.pack "/v1/invoices/upcoming")
-          ( ( Data.Text.pack "coupon",
-              StripeAPI.Common.stringifyModel Data.Functor.<$> coupon
-            )
-              : ( ( Data.Text.pack "customer",
-                    StripeAPI.Common.stringifyModel Data.Functor.<$> customer
-                  )
-                    : ( ( Data.Text.pack "expand",
-                          StripeAPI.Common.stringifyModel Data.Functor.<$> expand
-                        )
-                          : ( ( Data.Text.pack "invoice_items",
-                                StripeAPI.Common.stringifyModel Data.Functor.<$> invoiceItems
-                              )
-                                : ( ( Data.Text.pack "schedule",
-                                      StripeAPI.Common.stringifyModel Data.Functor.<$> schedule
-                                    )
-                                      : ( ( Data.Text.pack "subscription",
-                                            StripeAPI.Common.stringifyModel Data.Functor.<$> subscription
-                                          )
-                                            : ( ( Data.Text.pack "subscription_billing_cycle_anchor",
-                                                  StripeAPI.Common.stringifyModel Data.Functor.<$> subscriptionBillingCycleAnchor
-                                                )
-                                                  : ( ( Data.Text.pack "subscription_cancel_at",
-                                                        StripeAPI.Common.stringifyModel Data.Functor.<$> subscriptionCancelAt
-                                                      )
-                                                        : ( ( Data.Text.pack "subscription_cancel_at_period_end",
-                                                              StripeAPI.Common.stringifyModel Data.Functor.<$> subscriptionCancelAtPeriodEnd
-                                                            )
-                                                              : ( ( Data.Text.pack "subscription_cancel_now",
-                                                                    StripeAPI.Common.stringifyModel Data.Functor.<$> subscriptionCancelNow
-                                                                  )
-                                                                    : ( ( Data.Text.pack "subscription_default_tax_rates",
-                                                                          StripeAPI.Common.stringifyModel Data.Functor.<$> subscriptionDefaultTaxRates
-                                                                        )
-                                                                          : ( ( Data.Text.pack "subscription_items",
-                                                                                StripeAPI.Common.stringifyModel Data.Functor.<$> subscriptionItems
-                                                                              )
-                                                                                : ( ( Data.Text.pack "subscription_prorate",
-                                                                                      StripeAPI.Common.stringifyModel Data.Functor.<$> subscriptionProrate
-                                                                                    )
-                                                                                      : ( ( Data.Text.pack "subscription_proration_behavior",
-                                                                                            StripeAPI.Common.stringifyModel Data.Functor.<$> subscriptionProrationBehavior
-                                                                                          )
-                                                                                            : ( ( Data.Text.pack "subscription_proration_date",
-                                                                                                  StripeAPI.Common.stringifyModel Data.Functor.<$> subscriptionProrationDate
-                                                                                                )
-                                                                                                  : ( ( Data.Text.pack "subscription_start_date",
-                                                                                                        StripeAPI.Common.stringifyModel Data.Functor.<$> subscriptionStartDate
-                                                                                                      )
-                                                                                                        : ( ( Data.Text.pack "subscription_tax_percent",
-                                                                                                              StripeAPI.Common.stringifyModel Data.Functor.<$> subscriptionTaxPercent
-                                                                                                            )
-                                                                                                              : ( ( Data.Text.pack "subscription_trial_end",
-                                                                                                                    StripeAPI.Common.stringifyModel Data.Functor.<$> subscriptionTrialEnd
-                                                                                                                  )
-                                                                                                                    : ( ( Data.Text.pack "subscription_trial_from_plan",
-                                                                                                                          StripeAPI.Common.stringifyModel Data.Functor.<$> subscriptionTrialFromPlan
-                                                                                                                        )
-                                                                                                                          : []
-                                                                                                                      )
-                                                                                                                )
-                                                                                                          )
-                                                                                                    )
-                                                                                              )
-                                                                                        )
-                                                                                  )
-                                                                            )
-                                                                      )
-                                                                )
-                                                          )
-                                                    )
-                                              )
-                                        )
-                                  )
-                            )
-                      )
-                )
-          )
-          body
-          StripeAPI.Common.RequestBodyEncodingFormData
-      )
-
--- | Defines the data type for the schema getInvoicesUpcomingRequestBody
-data GetInvoicesUpcomingRequestBody
-  = GetInvoicesUpcomingRequestBody
-      {
+-- | Defines the object schema located at @paths.\/v1\/invoices\/upcoming.GET.parameters@ in the specification.
+data GetInvoicesUpcomingParameters
+  = GetInvoicesUpcomingParameters
+      { -- | queryCoupon: Represents the parameter named \'coupon\'
+        --
+        -- The code of the coupon to apply. If \`subscription\` or \`subscription_items\` is provided, the invoice returned will preview updating or creating a subscription with that coupon. Otherwise, it will preview applying that coupon to the customer for the next upcoming invoice from among the customer\'s subscriptions. The invoice can be previewed without a coupon by passing this value as an empty string.
+        --
+        -- Constraints:
+        --
+        -- * Maximum length of 5000
+        getInvoicesUpcomingParametersQueryCoupon :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+        -- | queryCustomer: Represents the parameter named \'customer\'
+        --
+        -- The identifier of the customer whose upcoming invoice you\'d like to retrieve.
+        --
+        -- Constraints:
+        --
+        -- * Maximum length of 5000
+        getInvoicesUpcomingParametersQueryCustomer :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+        -- | queryExpand: Represents the parameter named \'expand\'
+        --
+        -- Specifies which fields in the response should be expanded.
+        getInvoicesUpcomingParametersQueryExpand :: (GHC.Maybe.Maybe ([Data.Text.Internal.Text])),
+        -- | queryInvoice_items: Represents the parameter named \'invoice_items\'
+        --
+        -- List of invoice items to add or update in the upcoming invoice preview.
+        getInvoicesUpcomingParametersQueryInvoiceItems :: (GHC.Maybe.Maybe ([GetInvoicesUpcomingParametersQueryInvoiceItems'])),
+        -- | querySchedule: Represents the parameter named \'schedule\'
+        --
+        -- The identifier of the unstarted schedule whose upcoming invoice you\'d like to retrieve. Cannot be used with subscription or subscription fields.
+        --
+        -- Constraints:
+        --
+        -- * Maximum length of 5000
+        getInvoicesUpcomingParametersQuerySchedule :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+        -- | querySubscription: Represents the parameter named \'subscription\'
+        --
+        -- The identifier of the subscription for which you\'d like to retrieve the upcoming invoice. If not provided, but a \`subscription_items\` is provided, you will preview creating a subscription with those items. If neither \`subscription\` nor \`subscription_items\` is provided, you will retrieve the next upcoming invoice from among the customer\'s subscriptions.
+        --
+        -- Constraints:
+        --
+        -- * Maximum length of 5000
+        getInvoicesUpcomingParametersQuerySubscription :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+        -- | querySubscription_billing_cycle_anchor: Represents the parameter named \'subscription_billing_cycle_anchor\'
+        --
+        -- For new subscriptions, a future timestamp to anchor the subscription\'s [billing cycle](https:\/\/stripe.com\/docs\/subscriptions\/billing-cycle). This is used to determine the date of the first full invoice, and, for plans with \`month\` or \`year\` intervals, the day of the month for subsequent invoices. For existing subscriptions, the value can only be set to \`now\` or \`unchanged\`.
+        getInvoicesUpcomingParametersQuerySubscriptionBillingCycleAnchor :: (GHC.Maybe.Maybe GetInvoicesUpcomingParametersQuerySubscriptionBillingCycleAnchor'Variants),
+        -- | querySubscription_cancel_at: Represents the parameter named \'subscription_cancel_at\'
+        --
+        -- Timestamp indicating when the subscription should be scheduled to cancel. Will prorate if within the current period and prorations have been enabled using \`proration_behavior\`.\`
+        getInvoicesUpcomingParametersQuerySubscriptionCancelAt :: (GHC.Maybe.Maybe GetInvoicesUpcomingParametersQuerySubscriptionCancelAt'Variants),
+        -- | querySubscription_cancel_at_period_end: Represents the parameter named \'subscription_cancel_at_period_end\'
+        --
+        -- Boolean indicating whether this subscription should cancel at the end of the current period.
+        getInvoicesUpcomingParametersQuerySubscriptionCancelAtPeriodEnd :: (GHC.Maybe.Maybe GHC.Types.Bool),
+        -- | querySubscription_cancel_now: Represents the parameter named \'subscription_cancel_now\'
+        --
+        -- This simulates the subscription being canceled or expired immediately.
+        getInvoicesUpcomingParametersQuerySubscriptionCancelNow :: (GHC.Maybe.Maybe GHC.Types.Bool),
+        -- | querySubscription_default_tax_rates: Represents the parameter named \'subscription_default_tax_rates\'
+        --
+        -- If provided, the invoice returned will preview updating or creating a subscription with these default tax rates. The default tax rates will apply to any line item that does not have \`tax_rates\` set.
+        getInvoicesUpcomingParametersQuerySubscriptionDefaultTaxRates :: (GHC.Maybe.Maybe GetInvoicesUpcomingParametersQuerySubscriptionDefaultTaxRates'Variants),
+        -- | querySubscription_items: Represents the parameter named \'subscription_items\'
+        --
+        -- List of subscription items, each with an attached plan.
+        getInvoicesUpcomingParametersQuerySubscriptionItems :: (GHC.Maybe.Maybe ([GetInvoicesUpcomingParametersQuerySubscriptionItems'])),
+        -- | querySubscription_prorate: Represents the parameter named \'subscription_prorate\'
+        --
+        -- If previewing an update to a subscription, this decides whether the preview will show the result of applying prorations or not. If set, one of \`subscription_items\` or \`subscription\`, and one of \`subscription_items\` or \`subscription_trial_end\` are required.
+        getInvoicesUpcomingParametersQuerySubscriptionProrate :: (GHC.Maybe.Maybe GHC.Types.Bool),
+        -- | querySubscription_proration_behavior: Represents the parameter named \'subscription_proration_behavior\'
+        --
+        -- Determines how to handle [prorations](https:\/\/stripe.com\/docs\/subscriptions\/billing-cycle\#prorations) when the billing cycle changes (e.g., when switching plans, resetting \`billing_cycle_anchor=now\`, or starting a trial), or if an item\'s \`quantity\` changes. Valid values are \`create_prorations\`, \`none\`, or \`always_invoice\`.
+        --
+        -- Passing \`create_prorations\` will cause proration invoice items to be created when applicable. These proration items will only be invoiced immediately under [certain conditions](https:\/\/stripe.com\/docs\/subscriptions\/upgrading-downgrading\#immediate-payment). In order to always invoice immediately for prorations, pass \`always_invoice\`.
+        --
+        -- Prorations can be disabled by passing \`none\`.
+        getInvoicesUpcomingParametersQuerySubscriptionProrationBehavior :: (GHC.Maybe.Maybe GetInvoicesUpcomingParametersQuerySubscriptionProrationBehavior'),
+        -- | querySubscription_proration_date: Represents the parameter named \'subscription_proration_date\'
+        --
+        -- If previewing an update to a subscription, and doing proration, \`subscription_proration_date\` forces the proration to be calculated as though the update was done at the specified time. The time given must be within the current subscription period, and cannot be before the subscription was on its current plan. If set, \`subscription\`, and one of \`subscription_items\`, or \`subscription_trial_end\` are required. Also, \`subscription_proration\` cannot be set to false.
+        getInvoicesUpcomingParametersQuerySubscriptionProrationDate :: (GHC.Maybe.Maybe GHC.Types.Int),
+        -- | querySubscription_start_date: Represents the parameter named \'subscription_start_date\'
+        --
+        -- Date a subscription is intended to start (can be future or past)
+        getInvoicesUpcomingParametersQuerySubscriptionStartDate :: (GHC.Maybe.Maybe GHC.Types.Int),
+        -- | querySubscription_tax_percent: Represents the parameter named \'subscription_tax_percent\'
+        --
+        -- If provided, the invoice returned will preview updating or creating a subscription with that tax percent. If set, one of \`subscription_items\` or \`subscription\` is required. This field has been deprecated and will be removed in a future API version, for further information view the [migration docs](https:\/\/stripe.com\/docs\/billing\/migration\/taxes) for \`tax_rates\`.
+        getInvoicesUpcomingParametersQuerySubscriptionTaxPercent :: (GHC.Maybe.Maybe GHC.Types.Double),
+        -- | querySubscription_trial_end: Represents the parameter named \'subscription_trial_end\'
+        --
+        -- If provided, the invoice returned will preview updating or creating a subscription with that trial end. If set, one of \`subscription_items\` or \`subscription\` is required.
+        getInvoicesUpcomingParametersQuerySubscriptionTrialEnd :: (GHC.Maybe.Maybe GetInvoicesUpcomingParametersQuerySubscriptionTrialEnd'Variants),
+        -- | querySubscription_trial_from_plan: Represents the parameter named \'subscription_trial_from_plan\'
+        --
+        -- Indicates if a plan\'s \`trial_period_days\` should be applied to the subscription. Setting \`subscription_trial_end\` per subscription is preferred, and this defaults to \`false\`. Setting this flag to \`true\` together with \`subscription_trial_end\` is not allowed.
+        getInvoicesUpcomingParametersQuerySubscriptionTrialFromPlan :: (GHC.Maybe.Maybe GHC.Types.Bool)
       }
   deriving
     ( GHC.Show.Show,
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON GetInvoicesUpcomingRequestBody where
-  toJSON obj = Data.Aeson.object []
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "string" ("string" :: GHC.Base.String))
+instance Data.Aeson.Types.ToJSON.ToJSON GetInvoicesUpcomingParameters where
+  toJSON obj = Data.Aeson.Types.Internal.object ("queryCoupon" Data.Aeson.Types.ToJSON..= getInvoicesUpcomingParametersQueryCoupon obj : "queryCustomer" Data.Aeson.Types.ToJSON..= getInvoicesUpcomingParametersQueryCustomer obj : "queryExpand" Data.Aeson.Types.ToJSON..= getInvoicesUpcomingParametersQueryExpand obj : "queryInvoice_items" Data.Aeson.Types.ToJSON..= getInvoicesUpcomingParametersQueryInvoiceItems obj : "querySchedule" Data.Aeson.Types.ToJSON..= getInvoicesUpcomingParametersQuerySchedule obj : "querySubscription" Data.Aeson.Types.ToJSON..= getInvoicesUpcomingParametersQuerySubscription obj : "querySubscription_billing_cycle_anchor" Data.Aeson.Types.ToJSON..= getInvoicesUpcomingParametersQuerySubscriptionBillingCycleAnchor obj : "querySubscription_cancel_at" Data.Aeson.Types.ToJSON..= getInvoicesUpcomingParametersQuerySubscriptionCancelAt obj : "querySubscription_cancel_at_period_end" Data.Aeson.Types.ToJSON..= getInvoicesUpcomingParametersQuerySubscriptionCancelAtPeriodEnd obj : "querySubscription_cancel_now" Data.Aeson.Types.ToJSON..= getInvoicesUpcomingParametersQuerySubscriptionCancelNow obj : "querySubscription_default_tax_rates" Data.Aeson.Types.ToJSON..= getInvoicesUpcomingParametersQuerySubscriptionDefaultTaxRates obj : "querySubscription_items" Data.Aeson.Types.ToJSON..= getInvoicesUpcomingParametersQuerySubscriptionItems obj : "querySubscription_prorate" Data.Aeson.Types.ToJSON..= getInvoicesUpcomingParametersQuerySubscriptionProrate obj : "querySubscription_proration_behavior" Data.Aeson.Types.ToJSON..= getInvoicesUpcomingParametersQuerySubscriptionProrationBehavior obj : "querySubscription_proration_date" Data.Aeson.Types.ToJSON..= getInvoicesUpcomingParametersQuerySubscriptionProrationDate obj : "querySubscription_start_date" Data.Aeson.Types.ToJSON..= getInvoicesUpcomingParametersQuerySubscriptionStartDate obj : "querySubscription_tax_percent" Data.Aeson.Types.ToJSON..= getInvoicesUpcomingParametersQuerySubscriptionTaxPercent obj : "querySubscription_trial_end" Data.Aeson.Types.ToJSON..= getInvoicesUpcomingParametersQuerySubscriptionTrialEnd obj : "querySubscription_trial_from_plan" Data.Aeson.Types.ToJSON..= getInvoicesUpcomingParametersQuerySubscriptionTrialFromPlan obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("queryCoupon" Data.Aeson.Types.ToJSON..= getInvoicesUpcomingParametersQueryCoupon obj) GHC.Base.<> (("queryCustomer" Data.Aeson.Types.ToJSON..= getInvoicesUpcomingParametersQueryCustomer obj) GHC.Base.<> (("queryExpand" Data.Aeson.Types.ToJSON..= getInvoicesUpcomingParametersQueryExpand obj) GHC.Base.<> (("queryInvoice_items" Data.Aeson.Types.ToJSON..= getInvoicesUpcomingParametersQueryInvoiceItems obj) GHC.Base.<> (("querySchedule" Data.Aeson.Types.ToJSON..= getInvoicesUpcomingParametersQuerySchedule obj) GHC.Base.<> (("querySubscription" Data.Aeson.Types.ToJSON..= getInvoicesUpcomingParametersQuerySubscription obj) GHC.Base.<> (("querySubscription_billing_cycle_anchor" Data.Aeson.Types.ToJSON..= getInvoicesUpcomingParametersQuerySubscriptionBillingCycleAnchor obj) GHC.Base.<> (("querySubscription_cancel_at" Data.Aeson.Types.ToJSON..= getInvoicesUpcomingParametersQuerySubscriptionCancelAt obj) GHC.Base.<> (("querySubscription_cancel_at_period_end" Data.Aeson.Types.ToJSON..= getInvoicesUpcomingParametersQuerySubscriptionCancelAtPeriodEnd obj) GHC.Base.<> (("querySubscription_cancel_now" Data.Aeson.Types.ToJSON..= getInvoicesUpcomingParametersQuerySubscriptionCancelNow obj) GHC.Base.<> (("querySubscription_default_tax_rates" Data.Aeson.Types.ToJSON..= getInvoicesUpcomingParametersQuerySubscriptionDefaultTaxRates obj) GHC.Base.<> (("querySubscription_items" Data.Aeson.Types.ToJSON..= getInvoicesUpcomingParametersQuerySubscriptionItems obj) GHC.Base.<> (("querySubscription_prorate" Data.Aeson.Types.ToJSON..= getInvoicesUpcomingParametersQuerySubscriptionProrate obj) GHC.Base.<> (("querySubscription_proration_behavior" Data.Aeson.Types.ToJSON..= getInvoicesUpcomingParametersQuerySubscriptionProrationBehavior obj) GHC.Base.<> (("querySubscription_proration_date" Data.Aeson.Types.ToJSON..= getInvoicesUpcomingParametersQuerySubscriptionProrationDate obj) GHC.Base.<> (("querySubscription_start_date" Data.Aeson.Types.ToJSON..= getInvoicesUpcomingParametersQuerySubscriptionStartDate obj) GHC.Base.<> (("querySubscription_tax_percent" Data.Aeson.Types.ToJSON..= getInvoicesUpcomingParametersQuerySubscriptionTaxPercent obj) GHC.Base.<> (("querySubscription_trial_end" Data.Aeson.Types.ToJSON..= getInvoicesUpcomingParametersQuerySubscriptionTrialEnd obj) GHC.Base.<> ("querySubscription_trial_from_plan" Data.Aeson.Types.ToJSON..= getInvoicesUpcomingParametersQuerySubscriptionTrialFromPlan obj)))))))))))))))))))
 
-instance Data.Aeson.Types.FromJSON.FromJSON GetInvoicesUpcomingRequestBody where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetInvoicesUpcomingRequestBody" (\obj -> GHC.Base.pure GetInvoicesUpcomingRequestBody)
+instance Data.Aeson.Types.FromJSON.FromJSON GetInvoicesUpcomingParameters where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetInvoicesUpcomingParameters" (\obj -> ((((((((((((((((((GHC.Base.pure GetInvoicesUpcomingParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryCoupon")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryCustomer")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryExpand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryInvoice_items")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "querySchedule")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "querySubscription")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "querySubscription_billing_cycle_anchor")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "querySubscription_cancel_at")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "querySubscription_cancel_at_period_end")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "querySubscription_cancel_now")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "querySubscription_default_tax_rates")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "querySubscription_items")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "querySubscription_prorate")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "querySubscription_proration_behavior")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "querySubscription_proration_date")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "querySubscription_start_date")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "querySubscription_tax_percent")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "querySubscription_trial_end")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "querySubscription_trial_from_plan"))
+
+-- | Create a new 'GetInvoicesUpcomingParameters' with all required fields.
+mkGetInvoicesUpcomingParameters :: GetInvoicesUpcomingParameters
+mkGetInvoicesUpcomingParameters =
+  GetInvoicesUpcomingParameters
+    { getInvoicesUpcomingParametersQueryCoupon = GHC.Maybe.Nothing,
+      getInvoicesUpcomingParametersQueryCustomer = GHC.Maybe.Nothing,
+      getInvoicesUpcomingParametersQueryExpand = GHC.Maybe.Nothing,
+      getInvoicesUpcomingParametersQueryInvoiceItems = GHC.Maybe.Nothing,
+      getInvoicesUpcomingParametersQuerySchedule = GHC.Maybe.Nothing,
+      getInvoicesUpcomingParametersQuerySubscription = GHC.Maybe.Nothing,
+      getInvoicesUpcomingParametersQuerySubscriptionBillingCycleAnchor = GHC.Maybe.Nothing,
+      getInvoicesUpcomingParametersQuerySubscriptionCancelAt = GHC.Maybe.Nothing,
+      getInvoicesUpcomingParametersQuerySubscriptionCancelAtPeriodEnd = GHC.Maybe.Nothing,
+      getInvoicesUpcomingParametersQuerySubscriptionCancelNow = GHC.Maybe.Nothing,
+      getInvoicesUpcomingParametersQuerySubscriptionDefaultTaxRates = GHC.Maybe.Nothing,
+      getInvoicesUpcomingParametersQuerySubscriptionItems = GHC.Maybe.Nothing,
+      getInvoicesUpcomingParametersQuerySubscriptionProrate = GHC.Maybe.Nothing,
+      getInvoicesUpcomingParametersQuerySubscriptionProrationBehavior = GHC.Maybe.Nothing,
+      getInvoicesUpcomingParametersQuerySubscriptionProrationDate = GHC.Maybe.Nothing,
+      getInvoicesUpcomingParametersQuerySubscriptionStartDate = GHC.Maybe.Nothing,
+      getInvoicesUpcomingParametersQuerySubscriptionTaxPercent = GHC.Maybe.Nothing,
+      getInvoicesUpcomingParametersQuerySubscriptionTrialEnd = GHC.Maybe.Nothing,
+      getInvoicesUpcomingParametersQuerySubscriptionTrialFromPlan = GHC.Maybe.Nothing
+    }
+
+-- | Defines the object schema located at @paths.\/v1\/invoices\/upcoming.GET.parameters.properties.queryInvoice_items.items@ in the specification.
+data GetInvoicesUpcomingParametersQueryInvoiceItems'
+  = GetInvoicesUpcomingParametersQueryInvoiceItems'
+      { -- | amount
+        getInvoicesUpcomingParametersQueryInvoiceItems'Amount :: (GHC.Maybe.Maybe GHC.Types.Int),
+        -- | currency
+        getInvoicesUpcomingParametersQueryInvoiceItems'Currency :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+        -- | description
+        --
+        -- Constraints:
+        --
+        -- * Maximum length of 5000
+        getInvoicesUpcomingParametersQueryInvoiceItems'Description :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+        -- | discountable
+        getInvoicesUpcomingParametersQueryInvoiceItems'Discountable :: (GHC.Maybe.Maybe GHC.Types.Bool),
+        -- | invoiceitem
+        --
+        -- Constraints:
+        --
+        -- * Maximum length of 5000
+        getInvoicesUpcomingParametersQueryInvoiceItems'Invoiceitem :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+        -- | metadata
+        getInvoicesUpcomingParametersQueryInvoiceItems'Metadata :: (GHC.Maybe.Maybe Data.Aeson.Types.Internal.Object),
+        -- | period
+        getInvoicesUpcomingParametersQueryInvoiceItems'Period :: (GHC.Maybe.Maybe GetInvoicesUpcomingParametersQueryInvoiceItems'Period'),
+        -- | quantity
+        getInvoicesUpcomingParametersQueryInvoiceItems'Quantity :: (GHC.Maybe.Maybe GHC.Types.Int),
+        -- | tax_rates
+        getInvoicesUpcomingParametersQueryInvoiceItems'TaxRates :: (GHC.Maybe.Maybe GetInvoicesUpcomingParametersQueryInvoiceItems'TaxRates'Variants),
+        -- | unit_amount
+        getInvoicesUpcomingParametersQueryInvoiceItems'UnitAmount :: (GHC.Maybe.Maybe GHC.Types.Int),
+        -- | unit_amount_decimal
+        getInvoicesUpcomingParametersQueryInvoiceItems'UnitAmountDecimal :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
+      }
+  deriving
+    ( GHC.Show.Show,
+      GHC.Classes.Eq
+    )
+
+instance Data.Aeson.Types.ToJSON.ToJSON GetInvoicesUpcomingParametersQueryInvoiceItems' where
+  toJSON obj = Data.Aeson.Types.Internal.object ("amount" Data.Aeson.Types.ToJSON..= getInvoicesUpcomingParametersQueryInvoiceItems'Amount obj : "currency" Data.Aeson.Types.ToJSON..= getInvoicesUpcomingParametersQueryInvoiceItems'Currency obj : "description" Data.Aeson.Types.ToJSON..= getInvoicesUpcomingParametersQueryInvoiceItems'Description obj : "discountable" Data.Aeson.Types.ToJSON..= getInvoicesUpcomingParametersQueryInvoiceItems'Discountable obj : "invoiceitem" Data.Aeson.Types.ToJSON..= getInvoicesUpcomingParametersQueryInvoiceItems'Invoiceitem obj : "metadata" Data.Aeson.Types.ToJSON..= getInvoicesUpcomingParametersQueryInvoiceItems'Metadata obj : "period" Data.Aeson.Types.ToJSON..= getInvoicesUpcomingParametersQueryInvoiceItems'Period obj : "quantity" Data.Aeson.Types.ToJSON..= getInvoicesUpcomingParametersQueryInvoiceItems'Quantity obj : "tax_rates" Data.Aeson.Types.ToJSON..= getInvoicesUpcomingParametersQueryInvoiceItems'TaxRates obj : "unit_amount" Data.Aeson.Types.ToJSON..= getInvoicesUpcomingParametersQueryInvoiceItems'UnitAmount obj : "unit_amount_decimal" Data.Aeson.Types.ToJSON..= getInvoicesUpcomingParametersQueryInvoiceItems'UnitAmountDecimal obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("amount" Data.Aeson.Types.ToJSON..= getInvoicesUpcomingParametersQueryInvoiceItems'Amount obj) GHC.Base.<> (("currency" Data.Aeson.Types.ToJSON..= getInvoicesUpcomingParametersQueryInvoiceItems'Currency obj) GHC.Base.<> (("description" Data.Aeson.Types.ToJSON..= getInvoicesUpcomingParametersQueryInvoiceItems'Description obj) GHC.Base.<> (("discountable" Data.Aeson.Types.ToJSON..= getInvoicesUpcomingParametersQueryInvoiceItems'Discountable obj) GHC.Base.<> (("invoiceitem" Data.Aeson.Types.ToJSON..= getInvoicesUpcomingParametersQueryInvoiceItems'Invoiceitem obj) GHC.Base.<> (("metadata" Data.Aeson.Types.ToJSON..= getInvoicesUpcomingParametersQueryInvoiceItems'Metadata obj) GHC.Base.<> (("period" Data.Aeson.Types.ToJSON..= getInvoicesUpcomingParametersQueryInvoiceItems'Period obj) GHC.Base.<> (("quantity" Data.Aeson.Types.ToJSON..= getInvoicesUpcomingParametersQueryInvoiceItems'Quantity obj) GHC.Base.<> (("tax_rates" Data.Aeson.Types.ToJSON..= getInvoicesUpcomingParametersQueryInvoiceItems'TaxRates obj) GHC.Base.<> (("unit_amount" Data.Aeson.Types.ToJSON..= getInvoicesUpcomingParametersQueryInvoiceItems'UnitAmount obj) GHC.Base.<> ("unit_amount_decimal" Data.Aeson.Types.ToJSON..= getInvoicesUpcomingParametersQueryInvoiceItems'UnitAmountDecimal obj)))))))))))
+
+instance Data.Aeson.Types.FromJSON.FromJSON GetInvoicesUpcomingParametersQueryInvoiceItems' where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetInvoicesUpcomingParametersQueryInvoiceItems'" (\obj -> ((((((((((GHC.Base.pure GetInvoicesUpcomingParametersQueryInvoiceItems' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "description")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "discountable")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "invoiceitem")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "period")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "quantity")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "tax_rates")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "unit_amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "unit_amount_decimal"))
+
+-- | Create a new 'GetInvoicesUpcomingParametersQueryInvoiceItems'' with all required fields.
+mkGetInvoicesUpcomingParametersQueryInvoiceItems' :: GetInvoicesUpcomingParametersQueryInvoiceItems'
+mkGetInvoicesUpcomingParametersQueryInvoiceItems' =
+  GetInvoicesUpcomingParametersQueryInvoiceItems'
+    { getInvoicesUpcomingParametersQueryInvoiceItems'Amount = GHC.Maybe.Nothing,
+      getInvoicesUpcomingParametersQueryInvoiceItems'Currency = GHC.Maybe.Nothing,
+      getInvoicesUpcomingParametersQueryInvoiceItems'Description = GHC.Maybe.Nothing,
+      getInvoicesUpcomingParametersQueryInvoiceItems'Discountable = GHC.Maybe.Nothing,
+      getInvoicesUpcomingParametersQueryInvoiceItems'Invoiceitem = GHC.Maybe.Nothing,
+      getInvoicesUpcomingParametersQueryInvoiceItems'Metadata = GHC.Maybe.Nothing,
+      getInvoicesUpcomingParametersQueryInvoiceItems'Period = GHC.Maybe.Nothing,
+      getInvoicesUpcomingParametersQueryInvoiceItems'Quantity = GHC.Maybe.Nothing,
+      getInvoicesUpcomingParametersQueryInvoiceItems'TaxRates = GHC.Maybe.Nothing,
+      getInvoicesUpcomingParametersQueryInvoiceItems'UnitAmount = GHC.Maybe.Nothing,
+      getInvoicesUpcomingParametersQueryInvoiceItems'UnitAmountDecimal = GHC.Maybe.Nothing
+    }
+
+-- | Defines the object schema located at @paths.\/v1\/invoices\/upcoming.GET.parameters.properties.queryInvoice_items.items.properties.period@ in the specification.
+data GetInvoicesUpcomingParametersQueryInvoiceItems'Period'
+  = GetInvoicesUpcomingParametersQueryInvoiceItems'Period'
+      { -- | end
+        getInvoicesUpcomingParametersQueryInvoiceItems'Period'End :: GHC.Types.Int,
+        -- | start
+        getInvoicesUpcomingParametersQueryInvoiceItems'Period'Start :: GHC.Types.Int
+      }
+  deriving
+    ( GHC.Show.Show,
+      GHC.Classes.Eq
+    )
+
+instance Data.Aeson.Types.ToJSON.ToJSON GetInvoicesUpcomingParametersQueryInvoiceItems'Period' where
+  toJSON obj = Data.Aeson.Types.Internal.object ("end" Data.Aeson.Types.ToJSON..= getInvoicesUpcomingParametersQueryInvoiceItems'Period'End obj : "start" Data.Aeson.Types.ToJSON..= getInvoicesUpcomingParametersQueryInvoiceItems'Period'Start obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("end" Data.Aeson.Types.ToJSON..= getInvoicesUpcomingParametersQueryInvoiceItems'Period'End obj) GHC.Base.<> ("start" Data.Aeson.Types.ToJSON..= getInvoicesUpcomingParametersQueryInvoiceItems'Period'Start obj))
+
+instance Data.Aeson.Types.FromJSON.FromJSON GetInvoicesUpcomingParametersQueryInvoiceItems'Period' where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetInvoicesUpcomingParametersQueryInvoiceItems'Period'" (\obj -> (GHC.Base.pure GetInvoicesUpcomingParametersQueryInvoiceItems'Period' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "end")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "start"))
+
+-- | Create a new 'GetInvoicesUpcomingParametersQueryInvoiceItems'Period'' with all required fields.
+mkGetInvoicesUpcomingParametersQueryInvoiceItems'Period' ::
+  -- | 'getInvoicesUpcomingParametersQueryInvoiceItems'Period'End'
+  GHC.Types.Int ->
+  -- | 'getInvoicesUpcomingParametersQueryInvoiceItems'Period'Start'
+  GHC.Types.Int ->
+  GetInvoicesUpcomingParametersQueryInvoiceItems'Period'
+mkGetInvoicesUpcomingParametersQueryInvoiceItems'Period' getInvoicesUpcomingParametersQueryInvoiceItems'Period'End getInvoicesUpcomingParametersQueryInvoiceItems'Period'Start =
+  GetInvoicesUpcomingParametersQueryInvoiceItems'Period'
+    { getInvoicesUpcomingParametersQueryInvoiceItems'Period'End = getInvoicesUpcomingParametersQueryInvoiceItems'Period'End,
+      getInvoicesUpcomingParametersQueryInvoiceItems'Period'Start = getInvoicesUpcomingParametersQueryInvoiceItems'Period'Start
+    }
+
+-- | Defines the oneOf schema located at @paths.\/v1\/invoices\/upcoming.GET.parameters.properties.queryInvoice_items.items.properties.tax_rates.anyOf@ in the specification.
+data GetInvoicesUpcomingParametersQueryInvoiceItems'TaxRates'Variants
+  = -- | Represents the JSON value @""@
+    GetInvoicesUpcomingParametersQueryInvoiceItems'TaxRates'EmptyString
+  | GetInvoicesUpcomingParametersQueryInvoiceItems'TaxRates'ListTText ([Data.Text.Internal.Text])
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON GetInvoicesUpcomingParametersQueryInvoiceItems'TaxRates'Variants where
+  toJSON (GetInvoicesUpcomingParametersQueryInvoiceItems'TaxRates'ListTText a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (GetInvoicesUpcomingParametersQueryInvoiceItems'TaxRates'EmptyString) = ""
+
+instance Data.Aeson.Types.FromJSON.FromJSON GetInvoicesUpcomingParametersQueryInvoiceItems'TaxRates'Variants where
+  parseJSON val =
+    if  | val GHC.Classes.== "" -> GHC.Base.pure GetInvoicesUpcomingParametersQueryInvoiceItems'TaxRates'EmptyString
+        | GHC.Base.otherwise -> case (GetInvoicesUpcomingParametersQueryInvoiceItems'TaxRates'ListTText Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched" of
+          Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+          Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+
+-- | Defines the enum schema located at @paths.\/v1\/invoices\/upcoming.GET.parameters.properties.querySubscription_billing_cycle_anchor.anyOf@ in the specification.
+data GetInvoicesUpcomingParametersQuerySubscriptionBillingCycleAnchor'OneOf1
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    GetInvoicesUpcomingParametersQuerySubscriptionBillingCycleAnchor'OneOf1Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    GetInvoicesUpcomingParametersQuerySubscriptionBillingCycleAnchor'OneOf1Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"now"@
+    GetInvoicesUpcomingParametersQuerySubscriptionBillingCycleAnchor'OneOf1EnumNow
+  | -- | Represents the JSON value @"unchanged"@
+    GetInvoicesUpcomingParametersQuerySubscriptionBillingCycleAnchor'OneOf1EnumUnchanged
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON GetInvoicesUpcomingParametersQuerySubscriptionBillingCycleAnchor'OneOf1 where
+  toJSON (GetInvoicesUpcomingParametersQuerySubscriptionBillingCycleAnchor'OneOf1Other val) = val
+  toJSON (GetInvoicesUpcomingParametersQuerySubscriptionBillingCycleAnchor'OneOf1Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (GetInvoicesUpcomingParametersQuerySubscriptionBillingCycleAnchor'OneOf1EnumNow) = "now"
+  toJSON (GetInvoicesUpcomingParametersQuerySubscriptionBillingCycleAnchor'OneOf1EnumUnchanged) = "unchanged"
+
+instance Data.Aeson.Types.FromJSON.FromJSON GetInvoicesUpcomingParametersQuerySubscriptionBillingCycleAnchor'OneOf1 where
+  parseJSON val =
+    GHC.Base.pure
+      ( if  | val GHC.Classes.== "now" -> GetInvoicesUpcomingParametersQuerySubscriptionBillingCycleAnchor'OneOf1EnumNow
+            | val GHC.Classes.== "unchanged" -> GetInvoicesUpcomingParametersQuerySubscriptionBillingCycleAnchor'OneOf1EnumUnchanged
+            | GHC.Base.otherwise -> GetInvoicesUpcomingParametersQuerySubscriptionBillingCycleAnchor'OneOf1Other val
+      )
+
+-- | Defines the oneOf schema located at @paths.\/v1\/invoices\/upcoming.GET.parameters.properties.querySubscription_billing_cycle_anchor.anyOf@ in the specification.
+--
+-- Represents the parameter named \'subscription_billing_cycle_anchor\'
+--
+-- For new subscriptions, a future timestamp to anchor the subscription\'s [billing cycle](https:\/\/stripe.com\/docs\/subscriptions\/billing-cycle). This is used to determine the date of the first full invoice, and, for plans with \`month\` or \`year\` intervals, the day of the month for subsequent invoices. For existing subscriptions, the value can only be set to \`now\` or \`unchanged\`.
+data GetInvoicesUpcomingParametersQuerySubscriptionBillingCycleAnchor'Variants
+  = GetInvoicesUpcomingParametersQuerySubscriptionBillingCycleAnchor'GetInvoicesUpcomingParametersQuerySubscriptionBillingCycleAnchor'OneOf1 GetInvoicesUpcomingParametersQuerySubscriptionBillingCycleAnchor'OneOf1
+  | GetInvoicesUpcomingParametersQuerySubscriptionBillingCycleAnchor'Int GHC.Types.Int
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON GetInvoicesUpcomingParametersQuerySubscriptionBillingCycleAnchor'Variants where
+  toJSON (GetInvoicesUpcomingParametersQuerySubscriptionBillingCycleAnchor'GetInvoicesUpcomingParametersQuerySubscriptionBillingCycleAnchor'OneOf1 a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (GetInvoicesUpcomingParametersQuerySubscriptionBillingCycleAnchor'Int a) = Data.Aeson.Types.ToJSON.toJSON a
+
+instance Data.Aeson.Types.FromJSON.FromJSON GetInvoicesUpcomingParametersQuerySubscriptionBillingCycleAnchor'Variants where
+  parseJSON val = case (GetInvoicesUpcomingParametersQuerySubscriptionBillingCycleAnchor'GetInvoicesUpcomingParametersQuerySubscriptionBillingCycleAnchor'OneOf1 Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((GetInvoicesUpcomingParametersQuerySubscriptionBillingCycleAnchor'Int Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched") of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+    Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+
+-- | Defines the oneOf schema located at @paths.\/v1\/invoices\/upcoming.GET.parameters.properties.querySubscription_cancel_at.anyOf@ in the specification.
+--
+-- Represents the parameter named \'subscription_cancel_at\'
+--
+-- Timestamp indicating when the subscription should be scheduled to cancel. Will prorate if within the current period and prorations have been enabled using \`proration_behavior\`.\`
+data GetInvoicesUpcomingParametersQuerySubscriptionCancelAt'Variants
+  = -- | Represents the JSON value @""@
+    GetInvoicesUpcomingParametersQuerySubscriptionCancelAt'EmptyString
+  | GetInvoicesUpcomingParametersQuerySubscriptionCancelAt'Int GHC.Types.Int
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON GetInvoicesUpcomingParametersQuerySubscriptionCancelAt'Variants where
+  toJSON (GetInvoicesUpcomingParametersQuerySubscriptionCancelAt'Int a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (GetInvoicesUpcomingParametersQuerySubscriptionCancelAt'EmptyString) = ""
+
+instance Data.Aeson.Types.FromJSON.FromJSON GetInvoicesUpcomingParametersQuerySubscriptionCancelAt'Variants where
+  parseJSON val =
+    if  | val GHC.Classes.== "" -> GHC.Base.pure GetInvoicesUpcomingParametersQuerySubscriptionCancelAt'EmptyString
+        | GHC.Base.otherwise -> case (GetInvoicesUpcomingParametersQuerySubscriptionCancelAt'Int Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched" of
+          Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+          Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+
+-- | Defines the oneOf schema located at @paths.\/v1\/invoices\/upcoming.GET.parameters.properties.querySubscription_default_tax_rates.anyOf@ in the specification.
+--
+-- Represents the parameter named \'subscription_default_tax_rates\'
+--
+-- If provided, the invoice returned will preview updating or creating a subscription with these default tax rates. The default tax rates will apply to any line item that does not have \`tax_rates\` set.
+data GetInvoicesUpcomingParametersQuerySubscriptionDefaultTaxRates'Variants
+  = -- | Represents the JSON value @""@
+    GetInvoicesUpcomingParametersQuerySubscriptionDefaultTaxRates'EmptyString
+  | GetInvoicesUpcomingParametersQuerySubscriptionDefaultTaxRates'ListTText ([Data.Text.Internal.Text])
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON GetInvoicesUpcomingParametersQuerySubscriptionDefaultTaxRates'Variants where
+  toJSON (GetInvoicesUpcomingParametersQuerySubscriptionDefaultTaxRates'ListTText a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (GetInvoicesUpcomingParametersQuerySubscriptionDefaultTaxRates'EmptyString) = ""
+
+instance Data.Aeson.Types.FromJSON.FromJSON GetInvoicesUpcomingParametersQuerySubscriptionDefaultTaxRates'Variants where
+  parseJSON val =
+    if  | val GHC.Classes.== "" -> GHC.Base.pure GetInvoicesUpcomingParametersQuerySubscriptionDefaultTaxRates'EmptyString
+        | GHC.Base.otherwise -> case (GetInvoicesUpcomingParametersQuerySubscriptionDefaultTaxRates'ListTText Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched" of
+          Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+          Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+
+-- | Defines the object schema located at @paths.\/v1\/invoices\/upcoming.GET.parameters.properties.querySubscription_items.items@ in the specification.
+data GetInvoicesUpcomingParametersQuerySubscriptionItems'
+  = GetInvoicesUpcomingParametersQuerySubscriptionItems'
+      { -- | billing_thresholds
+        getInvoicesUpcomingParametersQuerySubscriptionItems'BillingThresholds :: (GHC.Maybe.Maybe GetInvoicesUpcomingParametersQuerySubscriptionItems'BillingThresholds'Variants),
+        -- | clear_usage
+        getInvoicesUpcomingParametersQuerySubscriptionItems'ClearUsage :: (GHC.Maybe.Maybe GHC.Types.Bool),
+        -- | deleted
+        getInvoicesUpcomingParametersQuerySubscriptionItems'Deleted :: (GHC.Maybe.Maybe GHC.Types.Bool),
+        -- | id
+        --
+        -- Constraints:
+        --
+        -- * Maximum length of 5000
+        getInvoicesUpcomingParametersQuerySubscriptionItems'Id :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+        -- | metadata
+        getInvoicesUpcomingParametersQuerySubscriptionItems'Metadata :: (GHC.Maybe.Maybe Data.Aeson.Types.Internal.Object),
+        -- | plan
+        --
+        -- Constraints:
+        --
+        -- * Maximum length of 5000
+        getInvoicesUpcomingParametersQuerySubscriptionItems'Plan :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+        -- | quantity
+        getInvoicesUpcomingParametersQuerySubscriptionItems'Quantity :: (GHC.Maybe.Maybe GHC.Types.Int),
+        -- | tax_rates
+        getInvoicesUpcomingParametersQuerySubscriptionItems'TaxRates :: (GHC.Maybe.Maybe GetInvoicesUpcomingParametersQuerySubscriptionItems'TaxRates'Variants)
+      }
+  deriving
+    ( GHC.Show.Show,
+      GHC.Classes.Eq
+    )
+
+instance Data.Aeson.Types.ToJSON.ToJSON GetInvoicesUpcomingParametersQuerySubscriptionItems' where
+  toJSON obj = Data.Aeson.Types.Internal.object ("billing_thresholds" Data.Aeson.Types.ToJSON..= getInvoicesUpcomingParametersQuerySubscriptionItems'BillingThresholds obj : "clear_usage" Data.Aeson.Types.ToJSON..= getInvoicesUpcomingParametersQuerySubscriptionItems'ClearUsage obj : "deleted" Data.Aeson.Types.ToJSON..= getInvoicesUpcomingParametersQuerySubscriptionItems'Deleted obj : "id" Data.Aeson.Types.ToJSON..= getInvoicesUpcomingParametersQuerySubscriptionItems'Id obj : "metadata" Data.Aeson.Types.ToJSON..= getInvoicesUpcomingParametersQuerySubscriptionItems'Metadata obj : "plan" Data.Aeson.Types.ToJSON..= getInvoicesUpcomingParametersQuerySubscriptionItems'Plan obj : "quantity" Data.Aeson.Types.ToJSON..= getInvoicesUpcomingParametersQuerySubscriptionItems'Quantity obj : "tax_rates" Data.Aeson.Types.ToJSON..= getInvoicesUpcomingParametersQuerySubscriptionItems'TaxRates obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("billing_thresholds" Data.Aeson.Types.ToJSON..= getInvoicesUpcomingParametersQuerySubscriptionItems'BillingThresholds obj) GHC.Base.<> (("clear_usage" Data.Aeson.Types.ToJSON..= getInvoicesUpcomingParametersQuerySubscriptionItems'ClearUsage obj) GHC.Base.<> (("deleted" Data.Aeson.Types.ToJSON..= getInvoicesUpcomingParametersQuerySubscriptionItems'Deleted obj) GHC.Base.<> (("id" Data.Aeson.Types.ToJSON..= getInvoicesUpcomingParametersQuerySubscriptionItems'Id obj) GHC.Base.<> (("metadata" Data.Aeson.Types.ToJSON..= getInvoicesUpcomingParametersQuerySubscriptionItems'Metadata obj) GHC.Base.<> (("plan" Data.Aeson.Types.ToJSON..= getInvoicesUpcomingParametersQuerySubscriptionItems'Plan obj) GHC.Base.<> (("quantity" Data.Aeson.Types.ToJSON..= getInvoicesUpcomingParametersQuerySubscriptionItems'Quantity obj) GHC.Base.<> ("tax_rates" Data.Aeson.Types.ToJSON..= getInvoicesUpcomingParametersQuerySubscriptionItems'TaxRates obj))))))))
+
+instance Data.Aeson.Types.FromJSON.FromJSON GetInvoicesUpcomingParametersQuerySubscriptionItems' where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetInvoicesUpcomingParametersQuerySubscriptionItems'" (\obj -> (((((((GHC.Base.pure GetInvoicesUpcomingParametersQuerySubscriptionItems' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "billing_thresholds")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "clear_usage")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "deleted")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "plan")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "quantity")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "tax_rates"))
+
+-- | Create a new 'GetInvoicesUpcomingParametersQuerySubscriptionItems'' with all required fields.
+mkGetInvoicesUpcomingParametersQuerySubscriptionItems' :: GetInvoicesUpcomingParametersQuerySubscriptionItems'
+mkGetInvoicesUpcomingParametersQuerySubscriptionItems' =
+  GetInvoicesUpcomingParametersQuerySubscriptionItems'
+    { getInvoicesUpcomingParametersQuerySubscriptionItems'BillingThresholds = GHC.Maybe.Nothing,
+      getInvoicesUpcomingParametersQuerySubscriptionItems'ClearUsage = GHC.Maybe.Nothing,
+      getInvoicesUpcomingParametersQuerySubscriptionItems'Deleted = GHC.Maybe.Nothing,
+      getInvoicesUpcomingParametersQuerySubscriptionItems'Id = GHC.Maybe.Nothing,
+      getInvoicesUpcomingParametersQuerySubscriptionItems'Metadata = GHC.Maybe.Nothing,
+      getInvoicesUpcomingParametersQuerySubscriptionItems'Plan = GHC.Maybe.Nothing,
+      getInvoicesUpcomingParametersQuerySubscriptionItems'Quantity = GHC.Maybe.Nothing,
+      getInvoicesUpcomingParametersQuerySubscriptionItems'TaxRates = GHC.Maybe.Nothing
+    }
+
+-- | Defines the object schema located at @paths.\/v1\/invoices\/upcoming.GET.parameters.properties.querySubscription_items.items.properties.billing_thresholds.anyOf@ in the specification.
+data GetInvoicesUpcomingParametersQuerySubscriptionItems'BillingThresholds'OneOf1
+  = GetInvoicesUpcomingParametersQuerySubscriptionItems'BillingThresholds'OneOf1
+      { -- | usage_gte
+        getInvoicesUpcomingParametersQuerySubscriptionItems'BillingThresholds'OneOf1UsageGte :: GHC.Types.Int
+      }
+  deriving
+    ( GHC.Show.Show,
+      GHC.Classes.Eq
+    )
+
+instance Data.Aeson.Types.ToJSON.ToJSON GetInvoicesUpcomingParametersQuerySubscriptionItems'BillingThresholds'OneOf1 where
+  toJSON obj = Data.Aeson.Types.Internal.object ("usage_gte" Data.Aeson.Types.ToJSON..= getInvoicesUpcomingParametersQuerySubscriptionItems'BillingThresholds'OneOf1UsageGte obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs ("usage_gte" Data.Aeson.Types.ToJSON..= getInvoicesUpcomingParametersQuerySubscriptionItems'BillingThresholds'OneOf1UsageGte obj)
+
+instance Data.Aeson.Types.FromJSON.FromJSON GetInvoicesUpcomingParametersQuerySubscriptionItems'BillingThresholds'OneOf1 where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetInvoicesUpcomingParametersQuerySubscriptionItems'BillingThresholds'OneOf1" (\obj -> GHC.Base.pure GetInvoicesUpcomingParametersQuerySubscriptionItems'BillingThresholds'OneOf1 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "usage_gte"))
+
+-- | Create a new 'GetInvoicesUpcomingParametersQuerySubscriptionItems'BillingThresholds'OneOf1' with all required fields.
+mkGetInvoicesUpcomingParametersQuerySubscriptionItems'BillingThresholds'OneOf1 ::
+  -- | 'getInvoicesUpcomingParametersQuerySubscriptionItems'BillingThresholds'OneOf1UsageGte'
+  GHC.Types.Int ->
+  GetInvoicesUpcomingParametersQuerySubscriptionItems'BillingThresholds'OneOf1
+mkGetInvoicesUpcomingParametersQuerySubscriptionItems'BillingThresholds'OneOf1 getInvoicesUpcomingParametersQuerySubscriptionItems'BillingThresholds'OneOf1UsageGte = GetInvoicesUpcomingParametersQuerySubscriptionItems'BillingThresholds'OneOf1 {getInvoicesUpcomingParametersQuerySubscriptionItems'BillingThresholds'OneOf1UsageGte = getInvoicesUpcomingParametersQuerySubscriptionItems'BillingThresholds'OneOf1UsageGte}
+
+-- | Defines the oneOf schema located at @paths.\/v1\/invoices\/upcoming.GET.parameters.properties.querySubscription_items.items.properties.billing_thresholds.anyOf@ in the specification.
+data GetInvoicesUpcomingParametersQuerySubscriptionItems'BillingThresholds'Variants
+  = -- | Represents the JSON value @""@
+    GetInvoicesUpcomingParametersQuerySubscriptionItems'BillingThresholds'EmptyString
+  | GetInvoicesUpcomingParametersQuerySubscriptionItems'BillingThresholds'GetInvoicesUpcomingParametersQuerySubscriptionItems'BillingThresholds'OneOf1 GetInvoicesUpcomingParametersQuerySubscriptionItems'BillingThresholds'OneOf1
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON GetInvoicesUpcomingParametersQuerySubscriptionItems'BillingThresholds'Variants where
+  toJSON (GetInvoicesUpcomingParametersQuerySubscriptionItems'BillingThresholds'GetInvoicesUpcomingParametersQuerySubscriptionItems'BillingThresholds'OneOf1 a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (GetInvoicesUpcomingParametersQuerySubscriptionItems'BillingThresholds'EmptyString) = ""
+
+instance Data.Aeson.Types.FromJSON.FromJSON GetInvoicesUpcomingParametersQuerySubscriptionItems'BillingThresholds'Variants where
+  parseJSON val =
+    if  | val GHC.Classes.== "" -> GHC.Base.pure GetInvoicesUpcomingParametersQuerySubscriptionItems'BillingThresholds'EmptyString
+        | GHC.Base.otherwise -> case (GetInvoicesUpcomingParametersQuerySubscriptionItems'BillingThresholds'GetInvoicesUpcomingParametersQuerySubscriptionItems'BillingThresholds'OneOf1 Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched" of
+          Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+          Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+
+-- | Defines the oneOf schema located at @paths.\/v1\/invoices\/upcoming.GET.parameters.properties.querySubscription_items.items.properties.tax_rates.anyOf@ in the specification.
+data GetInvoicesUpcomingParametersQuerySubscriptionItems'TaxRates'Variants
+  = -- | Represents the JSON value @""@
+    GetInvoicesUpcomingParametersQuerySubscriptionItems'TaxRates'EmptyString
+  | GetInvoicesUpcomingParametersQuerySubscriptionItems'TaxRates'ListTText ([Data.Text.Internal.Text])
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON GetInvoicesUpcomingParametersQuerySubscriptionItems'TaxRates'Variants where
+  toJSON (GetInvoicesUpcomingParametersQuerySubscriptionItems'TaxRates'ListTText a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (GetInvoicesUpcomingParametersQuerySubscriptionItems'TaxRates'EmptyString) = ""
+
+instance Data.Aeson.Types.FromJSON.FromJSON GetInvoicesUpcomingParametersQuerySubscriptionItems'TaxRates'Variants where
+  parseJSON val =
+    if  | val GHC.Classes.== "" -> GHC.Base.pure GetInvoicesUpcomingParametersQuerySubscriptionItems'TaxRates'EmptyString
+        | GHC.Base.otherwise -> case (GetInvoicesUpcomingParametersQuerySubscriptionItems'TaxRates'ListTText Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched" of
+          Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+          Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+
+-- | Defines the enum schema located at @paths.\/v1\/invoices\/upcoming.GET.parameters.properties.querySubscription_proration_behavior@ in the specification.
+--
+-- Represents the parameter named \'subscription_proration_behavior\'
+--
+-- Determines how to handle [prorations](https:\/\/stripe.com\/docs\/subscriptions\/billing-cycle\#prorations) when the billing cycle changes (e.g., when switching plans, resetting \`billing_cycle_anchor=now\`, or starting a trial), or if an item\'s \`quantity\` changes. Valid values are \`create_prorations\`, \`none\`, or \`always_invoice\`.
+--
+-- Passing \`create_prorations\` will cause proration invoice items to be created when applicable. These proration items will only be invoiced immediately under [certain conditions](https:\/\/stripe.com\/docs\/subscriptions\/upgrading-downgrading\#immediate-payment). In order to always invoice immediately for prorations, pass \`always_invoice\`.
+--
+-- Prorations can be disabled by passing \`none\`.
+data GetInvoicesUpcomingParametersQuerySubscriptionProrationBehavior'
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    GetInvoicesUpcomingParametersQuerySubscriptionProrationBehavior'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    GetInvoicesUpcomingParametersQuerySubscriptionProrationBehavior'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"always_invoice"@
+    GetInvoicesUpcomingParametersQuerySubscriptionProrationBehavior'EnumAlwaysInvoice
+  | -- | Represents the JSON value @"create_prorations"@
+    GetInvoicesUpcomingParametersQuerySubscriptionProrationBehavior'EnumCreateProrations
+  | -- | Represents the JSON value @"none"@
+    GetInvoicesUpcomingParametersQuerySubscriptionProrationBehavior'EnumNone
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON GetInvoicesUpcomingParametersQuerySubscriptionProrationBehavior' where
+  toJSON (GetInvoicesUpcomingParametersQuerySubscriptionProrationBehavior'Other val) = val
+  toJSON (GetInvoicesUpcomingParametersQuerySubscriptionProrationBehavior'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (GetInvoicesUpcomingParametersQuerySubscriptionProrationBehavior'EnumAlwaysInvoice) = "always_invoice"
+  toJSON (GetInvoicesUpcomingParametersQuerySubscriptionProrationBehavior'EnumCreateProrations) = "create_prorations"
+  toJSON (GetInvoicesUpcomingParametersQuerySubscriptionProrationBehavior'EnumNone) = "none"
+
+instance Data.Aeson.Types.FromJSON.FromJSON GetInvoicesUpcomingParametersQuerySubscriptionProrationBehavior' where
+  parseJSON val =
+    GHC.Base.pure
+      ( if  | val GHC.Classes.== "always_invoice" -> GetInvoicesUpcomingParametersQuerySubscriptionProrationBehavior'EnumAlwaysInvoice
+            | val GHC.Classes.== "create_prorations" -> GetInvoicesUpcomingParametersQuerySubscriptionProrationBehavior'EnumCreateProrations
+            | val GHC.Classes.== "none" -> GetInvoicesUpcomingParametersQuerySubscriptionProrationBehavior'EnumNone
+            | GHC.Base.otherwise -> GetInvoicesUpcomingParametersQuerySubscriptionProrationBehavior'Other val
+      )
+
+-- | Defines the oneOf schema located at @paths.\/v1\/invoices\/upcoming.GET.parameters.properties.querySubscription_trial_end.anyOf@ in the specification.
+--
+-- Represents the parameter named \'subscription_trial_end\'
+--
+-- If provided, the invoice returned will preview updating or creating a subscription with that trial end. If set, one of \`subscription_items\` or \`subscription\` is required.
+data GetInvoicesUpcomingParametersQuerySubscriptionTrialEnd'Variants
+  = -- | Represents the JSON value @"now"@
+    GetInvoicesUpcomingParametersQuerySubscriptionTrialEnd'Now
+  | GetInvoicesUpcomingParametersQuerySubscriptionTrialEnd'Int GHC.Types.Int
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON GetInvoicesUpcomingParametersQuerySubscriptionTrialEnd'Variants where
+  toJSON (GetInvoicesUpcomingParametersQuerySubscriptionTrialEnd'Int a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (GetInvoicesUpcomingParametersQuerySubscriptionTrialEnd'Now) = "now"
+
+instance Data.Aeson.Types.FromJSON.FromJSON GetInvoicesUpcomingParametersQuerySubscriptionTrialEnd'Variants where
+  parseJSON val =
+    if  | val GHC.Classes.== "now" -> GHC.Base.pure GetInvoicesUpcomingParametersQuerySubscriptionTrialEnd'Now
+        | GHC.Base.otherwise -> case (GetInvoicesUpcomingParametersQuerySubscriptionTrialEnd'Int Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched" of
+          Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+          Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
 -- | Represents a response of the operation 'getInvoicesUpcoming'.
 --

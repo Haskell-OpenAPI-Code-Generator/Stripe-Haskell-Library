@@ -1,4 +1,3 @@
-{-# LANGUAGE DeriveGeneric #-}
 {-# LANGUAGE ExplicitForAll #-}
 {-# LANGUAGE MultiWayIf #-}
 {-# LANGUAGE OverloadedStrings #-}
@@ -8,8 +7,10 @@
 -- | Contains the different functions to run the operation getIssuingTransactions
 module StripeAPI.Operations.GetIssuingTransactions where
 
+import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -26,7 +27,6 @@ import qualified Data.Time.LocalTime as Data.Time.LocalTime.Internal.ZonedTime
 import qualified Data.Vector
 import qualified GHC.Base
 import qualified GHC.Classes
-import qualified GHC.Generics
 import qualified GHC.Int
 import qualified GHC.Show
 import qualified GHC.Types
@@ -46,393 +46,194 @@ import qualified Prelude as GHC.Maybe
 --
 -- \<p>Returns a list of Issuing \<code>Transaction\<\/code> objects. The objects are sorted in descending order by creation date, with the most recently created object appearing first.\<\/p>
 getIssuingTransactions ::
-  forall m s.
-  (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) =>
-  -- | The configuration to use in the request
-  StripeAPI.Common.Configuration s ->
-  -- | card: Only return transactions that belong to the given card. | Constraints: Maximum length of 5000
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  -- | cardholder: Only return transactions that belong to the given cardholder. | Constraints: Maximum length of 5000
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  -- | created: Only return transactions that were created during the given date interval.
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  -- | dispute: Only return transactions that originate from a given dispute. | Constraints: Maximum length of 5000
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  -- | ending_before: A cursor for use in pagination. \`ending_before\` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, starting with \`obj_bar\`, your subsequent call can include \`ending_before=obj_bar\` in order to fetch the previous page of the list. | Constraints: Maximum length of 5000
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  -- | expand: Specifies which fields in the response should be expanded.
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  -- | limit: A limit on the number of objects to be returned. Limit can range between 1 and 100, and the default is 10.
-  GHC.Maybe.Maybe GHC.Integer.Type.Integer ->
-  -- | settlement: Only return transactions that are associated with the given settlement. | Constraints: Maximum length of 5000
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  -- | starting_after: A cursor for use in pagination. \`starting_after\` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with \`obj_foo\`, your subsequent call can include \`starting_after=obj_foo\` in order to fetch the next page of the list. | Constraints: Maximum length of 5000
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  -- | The request body to send
-  GHC.Maybe.Maybe GetIssuingTransactionsRequestBody ->
-  -- | Monad containing the result of the operation
-  m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response GetIssuingTransactionsResponse))
-getIssuingTransactions
-  config
-  card
-  cardholder
-  created
-  dispute
-  endingBefore
-  expand
-  limit
-  settlement
-  startingAfter
-  body =
-    GHC.Base.fmap
-      ( GHC.Base.fmap
-          ( \response_0 ->
-              GHC.Base.fmap
-                ( Data.Either.either GetIssuingTransactionsResponseError GHC.Base.id
-                    GHC.Base.. ( \response body ->
-                                   if  | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                         GetIssuingTransactionsResponse200
-                                           Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                                Data.Either.Either GHC.Base.String
-                                                                  GetIssuingTransactionsResponseBody200
-                                                            )
-                                       | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                         GetIssuingTransactionsResponseDefault
-                                           Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                                Data.Either.Either GHC.Base.String
-                                                                  Error
-                                                            )
-                                       | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
-                               )
-                      response_0
-                )
+  forall m.
+  StripeAPI.Common.MonadHTTP m =>
+  -- | Contains all available parameters of this operation (query and path parameters)
+  GetIssuingTransactionsParameters ->
+  -- | Monadic computation which returns the result of the operation
+  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response GetIssuingTransactionsResponse)
+getIssuingTransactions parameters =
+  GHC.Base.fmap
+    ( \response_0 ->
+        GHC.Base.fmap
+          ( Data.Either.either GetIssuingTransactionsResponseError GHC.Base.id
+              GHC.Base.. ( \response body ->
+                             if  | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
+                                   GetIssuingTransactionsResponse200
+                                     Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                          Data.Either.Either GHC.Base.String
+                                                            GetIssuingTransactionsResponseBody200
+                                                      )
+                                 | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
+                                   GetIssuingTransactionsResponseDefault
+                                     Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                          Data.Either.Either GHC.Base.String
+                                                            Error
+                                                      )
+                                 | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
+                         )
                 response_0
           )
-      )
-      ( StripeAPI.Common.doBodyCallWithConfiguration
-          config
-          (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET")
-          (Data.Text.pack "/v1/issuing/transactions")
-          ( ( Data.Text.pack "card",
-              StripeAPI.Common.stringifyModel Data.Functor.<$> card
-            )
-              : ( ( Data.Text.pack "cardholder",
-                    StripeAPI.Common.stringifyModel Data.Functor.<$> cardholder
-                  )
-                    : ( ( Data.Text.pack "created",
-                          StripeAPI.Common.stringifyModel Data.Functor.<$> created
-                        )
-                          : ( ( Data.Text.pack "dispute",
-                                StripeAPI.Common.stringifyModel Data.Functor.<$> dispute
-                              )
-                                : ( ( Data.Text.pack "ending_before",
-                                      StripeAPI.Common.stringifyModel Data.Functor.<$> endingBefore
-                                    )
-                                      : ( ( Data.Text.pack "expand",
-                                            StripeAPI.Common.stringifyModel Data.Functor.<$> expand
-                                          )
-                                            : ( ( Data.Text.pack "limit",
-                                                  StripeAPI.Common.stringifyModel Data.Functor.<$> limit
-                                                )
-                                                  : ( ( Data.Text.pack "settlement",
-                                                        StripeAPI.Common.stringifyModel Data.Functor.<$> settlement
-                                                      )
-                                                        : ( ( Data.Text.pack "starting_after",
-                                                              StripeAPI.Common.stringifyModel Data.Functor.<$> startingAfter
-                                                            )
-                                                              : []
-                                                          )
-                                                    )
-                                              )
-                                        )
-                                  )
-                            )
-                      )
-                )
-          )
-          body
-          StripeAPI.Common.RequestBodyEncodingFormData
-      )
-
--- | > GET /v1/issuing/transactions
---
--- The same as 'getIssuingTransactions' but returns the raw 'Data.ByteString.Char8.ByteString'
-getIssuingTransactionsRaw ::
-  forall m s.
-  ( StripeAPI.Common.MonadHTTP m,
-    StripeAPI.Common.SecurityScheme s
-  ) =>
-  StripeAPI.Common.Configuration s ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe GHC.Integer.Type.Integer ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe GetIssuingTransactionsRequestBody ->
-  m
-    ( Data.Either.Either Network.HTTP.Client.Types.HttpException
-        (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
+          response_0
     )
-getIssuingTransactionsRaw
-  config
-  card
-  cardholder
-  created
-  dispute
-  endingBefore
-  expand
-  limit
-  settlement
-  startingAfter
-  body =
-    GHC.Base.id
-      ( StripeAPI.Common.doBodyCallWithConfiguration
-          config
-          (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET")
-          (Data.Text.pack "/v1/issuing/transactions")
-          ( ( Data.Text.pack "card",
-              StripeAPI.Common.stringifyModel Data.Functor.<$> card
-            )
-              : ( ( Data.Text.pack "cardholder",
-                    StripeAPI.Common.stringifyModel Data.Functor.<$> cardholder
-                  )
-                    : ( ( Data.Text.pack "created",
-                          StripeAPI.Common.stringifyModel Data.Functor.<$> created
-                        )
-                          : ( ( Data.Text.pack "dispute",
-                                StripeAPI.Common.stringifyModel Data.Functor.<$> dispute
-                              )
-                                : ( ( Data.Text.pack "ending_before",
-                                      StripeAPI.Common.stringifyModel Data.Functor.<$> endingBefore
-                                    )
-                                      : ( ( Data.Text.pack "expand",
-                                            StripeAPI.Common.stringifyModel Data.Functor.<$> expand
-                                          )
-                                            : ( ( Data.Text.pack "limit",
-                                                  StripeAPI.Common.stringifyModel Data.Functor.<$> limit
-                                                )
-                                                  : ( ( Data.Text.pack "settlement",
-                                                        StripeAPI.Common.stringifyModel Data.Functor.<$> settlement
-                                                      )
-                                                        : ( ( Data.Text.pack "starting_after",
-                                                              StripeAPI.Common.stringifyModel Data.Functor.<$> startingAfter
-                                                            )
-                                                              : []
-                                                          )
-                                                    )
-                                              )
-                                        )
-                                  )
-                            )
-                      )
-                )
-          )
-          body
-          StripeAPI.Common.RequestBodyEncodingFormData
-      )
-
--- | > GET /v1/issuing/transactions
---
--- Monadic version of 'getIssuingTransactions' (use with 'StripeAPI.Common.runWithConfiguration')
-getIssuingTransactionsM ::
-  forall m s.
-  ( StripeAPI.Common.MonadHTTP m,
-    StripeAPI.Common.SecurityScheme s
-  ) =>
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe GHC.Integer.Type.Integer ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe GetIssuingTransactionsRequestBody ->
-  Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
-    m
-    ( Data.Either.Either Network.HTTP.Client.Types.HttpException
-        (Network.HTTP.Client.Types.Response GetIssuingTransactionsResponse)
+    ( StripeAPI.Common.doCallWithConfigurationM
+        (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET")
+        (Data.Text.pack "/v1/issuing/transactions")
+        [ StripeAPI.Common.QueryParameter (Data.Text.pack "card") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getIssuingTransactionsParametersQueryCard parameters) (Data.Text.pack "form") GHC.Types.True,
+          StripeAPI.Common.QueryParameter (Data.Text.pack "cardholder") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getIssuingTransactionsParametersQueryCardholder parameters) (Data.Text.pack "form") GHC.Types.True,
+          StripeAPI.Common.QueryParameter (Data.Text.pack "created") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getIssuingTransactionsParametersQueryCreated parameters) (Data.Text.pack "deepObject") GHC.Types.True,
+          StripeAPI.Common.QueryParameter (Data.Text.pack "dispute") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getIssuingTransactionsParametersQueryDispute parameters) (Data.Text.pack "form") GHC.Types.True,
+          StripeAPI.Common.QueryParameter (Data.Text.pack "ending_before") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getIssuingTransactionsParametersQueryEndingBefore parameters) (Data.Text.pack "form") GHC.Types.True,
+          StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getIssuingTransactionsParametersQueryExpand parameters) (Data.Text.pack "deepObject") GHC.Types.True,
+          StripeAPI.Common.QueryParameter (Data.Text.pack "limit") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getIssuingTransactionsParametersQueryLimit parameters) (Data.Text.pack "form") GHC.Types.True,
+          StripeAPI.Common.QueryParameter (Data.Text.pack "settlement") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getIssuingTransactionsParametersQuerySettlement parameters) (Data.Text.pack "form") GHC.Types.True,
+          StripeAPI.Common.QueryParameter (Data.Text.pack "starting_after") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getIssuingTransactionsParametersQueryStartingAfter parameters) (Data.Text.pack "form") GHC.Types.True
+        ]
     )
-getIssuingTransactionsM
-  card
-  cardholder
-  created
-  dispute
-  endingBefore
-  expand
-  limit
-  settlement
-  startingAfter
-  body =
-    GHC.Base.fmap
-      ( GHC.Base.fmap
-          ( \response_2 ->
-              GHC.Base.fmap
-                ( Data.Either.either GetIssuingTransactionsResponseError GHC.Base.id
-                    GHC.Base.. ( \response body ->
-                                   if  | (\status_3 -> Network.HTTP.Types.Status.statusCode status_3 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                         GetIssuingTransactionsResponse200
-                                           Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                                Data.Either.Either GHC.Base.String
-                                                                  GetIssuingTransactionsResponseBody200
-                                                            )
-                                       | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                         GetIssuingTransactionsResponseDefault
-                                           Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                                Data.Either.Either GHC.Base.String
-                                                                  Error
-                                                            )
-                                       | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
-                               )
-                      response_2
-                )
-                response_2
-          )
-      )
-      ( StripeAPI.Common.doBodyCallWithConfigurationM
-          (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET")
-          (Data.Text.pack "/v1/issuing/transactions")
-          ( ( Data.Text.pack "card",
-              StripeAPI.Common.stringifyModel Data.Functor.<$> card
-            )
-              : ( ( Data.Text.pack "cardholder",
-                    StripeAPI.Common.stringifyModel Data.Functor.<$> cardholder
-                  )
-                    : ( ( Data.Text.pack "created",
-                          StripeAPI.Common.stringifyModel Data.Functor.<$> created
-                        )
-                          : ( ( Data.Text.pack "dispute",
-                                StripeAPI.Common.stringifyModel Data.Functor.<$> dispute
-                              )
-                                : ( ( Data.Text.pack "ending_before",
-                                      StripeAPI.Common.stringifyModel Data.Functor.<$> endingBefore
-                                    )
-                                      : ( ( Data.Text.pack "expand",
-                                            StripeAPI.Common.stringifyModel Data.Functor.<$> expand
-                                          )
-                                            : ( ( Data.Text.pack "limit",
-                                                  StripeAPI.Common.stringifyModel Data.Functor.<$> limit
-                                                )
-                                                  : ( ( Data.Text.pack "settlement",
-                                                        StripeAPI.Common.stringifyModel Data.Functor.<$> settlement
-                                                      )
-                                                        : ( ( Data.Text.pack "starting_after",
-                                                              StripeAPI.Common.stringifyModel Data.Functor.<$> startingAfter
-                                                            )
-                                                              : []
-                                                          )
-                                                    )
-                                              )
-                                        )
-                                  )
-                            )
-                      )
-                )
-          )
-          body
-          StripeAPI.Common.RequestBodyEncodingFormData
-      )
 
--- | > GET /v1/issuing/transactions
---
--- Monadic version of 'getIssuingTransactionsRaw' (use with 'StripeAPI.Common.runWithConfiguration')
-getIssuingTransactionsRawM ::
-  forall m s.
-  ( StripeAPI.Common.MonadHTTP m,
-    StripeAPI.Common.SecurityScheme s
-  ) =>
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe GHC.Integer.Type.Integer ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe GetIssuingTransactionsRequestBody ->
-  Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
-    m
-    ( Data.Either.Either Network.HTTP.Client.Types.HttpException
-        (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
-    )
-getIssuingTransactionsRawM
-  card
-  cardholder
-  created
-  dispute
-  endingBefore
-  expand
-  limit
-  settlement
-  startingAfter
-  body =
-    GHC.Base.id
-      ( StripeAPI.Common.doBodyCallWithConfigurationM
-          (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET")
-          (Data.Text.pack "/v1/issuing/transactions")
-          ( ( Data.Text.pack "card",
-              StripeAPI.Common.stringifyModel Data.Functor.<$> card
-            )
-              : ( ( Data.Text.pack "cardholder",
-                    StripeAPI.Common.stringifyModel Data.Functor.<$> cardholder
-                  )
-                    : ( ( Data.Text.pack "created",
-                          StripeAPI.Common.stringifyModel Data.Functor.<$> created
-                        )
-                          : ( ( Data.Text.pack "dispute",
-                                StripeAPI.Common.stringifyModel Data.Functor.<$> dispute
-                              )
-                                : ( ( Data.Text.pack "ending_before",
-                                      StripeAPI.Common.stringifyModel Data.Functor.<$> endingBefore
-                                    )
-                                      : ( ( Data.Text.pack "expand",
-                                            StripeAPI.Common.stringifyModel Data.Functor.<$> expand
-                                          )
-                                            : ( ( Data.Text.pack "limit",
-                                                  StripeAPI.Common.stringifyModel Data.Functor.<$> limit
-                                                )
-                                                  : ( ( Data.Text.pack "settlement",
-                                                        StripeAPI.Common.stringifyModel Data.Functor.<$> settlement
-                                                      )
-                                                        : ( ( Data.Text.pack "starting_after",
-                                                              StripeAPI.Common.stringifyModel Data.Functor.<$> startingAfter
-                                                            )
-                                                              : []
-                                                          )
-                                                    )
-                                              )
-                                        )
-                                  )
-                            )
-                      )
-                )
-          )
-          body
-          StripeAPI.Common.RequestBodyEncodingFormData
-      )
-
--- | Defines the data type for the schema getIssuingTransactionsRequestBody
-data GetIssuingTransactionsRequestBody
-  = GetIssuingTransactionsRequestBody
-      {
+-- | Defines the object schema located at @paths.\/v1\/issuing\/transactions.GET.parameters@ in the specification.
+data GetIssuingTransactionsParameters
+  = GetIssuingTransactionsParameters
+      { -- | queryCard: Represents the parameter named \'card\'
+        --
+        -- Only return transactions that belong to the given card.
+        --
+        -- Constraints:
+        --
+        -- * Maximum length of 5000
+        getIssuingTransactionsParametersQueryCard :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+        -- | queryCardholder: Represents the parameter named \'cardholder\'
+        --
+        -- Only return transactions that belong to the given cardholder.
+        --
+        -- Constraints:
+        --
+        -- * Maximum length of 5000
+        getIssuingTransactionsParametersQueryCardholder :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+        -- | queryCreated: Represents the parameter named \'created\'
+        --
+        -- Only return transactions that were created during the given date interval.
+        getIssuingTransactionsParametersQueryCreated :: (GHC.Maybe.Maybe GetIssuingTransactionsParametersQueryCreated'Variants),
+        -- | queryDispute: Represents the parameter named \'dispute\'
+        --
+        -- Only return transactions that originate from a given dispute.
+        --
+        -- Constraints:
+        --
+        -- * Maximum length of 5000
+        getIssuingTransactionsParametersQueryDispute :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+        -- | queryEnding_before: Represents the parameter named \'ending_before\'
+        --
+        -- A cursor for use in pagination. \`ending_before\` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, starting with \`obj_bar\`, your subsequent call can include \`ending_before=obj_bar\` in order to fetch the previous page of the list.
+        --
+        -- Constraints:
+        --
+        -- * Maximum length of 5000
+        getIssuingTransactionsParametersQueryEndingBefore :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+        -- | queryExpand: Represents the parameter named \'expand\'
+        --
+        -- Specifies which fields in the response should be expanded.
+        getIssuingTransactionsParametersQueryExpand :: (GHC.Maybe.Maybe ([Data.Text.Internal.Text])),
+        -- | queryLimit: Represents the parameter named \'limit\'
+        --
+        -- A limit on the number of objects to be returned. Limit can range between 1 and 100, and the default is 10.
+        getIssuingTransactionsParametersQueryLimit :: (GHC.Maybe.Maybe GHC.Types.Int),
+        -- | querySettlement: Represents the parameter named \'settlement\'
+        --
+        -- Only return transactions that are associated with the given settlement.
+        --
+        -- Constraints:
+        --
+        -- * Maximum length of 5000
+        getIssuingTransactionsParametersQuerySettlement :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+        -- | queryStarting_after: Represents the parameter named \'starting_after\'
+        --
+        -- A cursor for use in pagination. \`starting_after\` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with \`obj_foo\`, your subsequent call can include \`starting_after=obj_foo\` in order to fetch the next page of the list.
+        --
+        -- Constraints:
+        --
+        -- * Maximum length of 5000
+        getIssuingTransactionsParametersQueryStartingAfter :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
       }
   deriving
     ( GHC.Show.Show,
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON GetIssuingTransactionsRequestBody where
-  toJSON obj = Data.Aeson.object []
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "string" ("string" :: GHC.Base.String))
+instance Data.Aeson.Types.ToJSON.ToJSON GetIssuingTransactionsParameters where
+  toJSON obj = Data.Aeson.Types.Internal.object ("queryCard" Data.Aeson.Types.ToJSON..= getIssuingTransactionsParametersQueryCard obj : "queryCardholder" Data.Aeson.Types.ToJSON..= getIssuingTransactionsParametersQueryCardholder obj : "queryCreated" Data.Aeson.Types.ToJSON..= getIssuingTransactionsParametersQueryCreated obj : "queryDispute" Data.Aeson.Types.ToJSON..= getIssuingTransactionsParametersQueryDispute obj : "queryEnding_before" Data.Aeson.Types.ToJSON..= getIssuingTransactionsParametersQueryEndingBefore obj : "queryExpand" Data.Aeson.Types.ToJSON..= getIssuingTransactionsParametersQueryExpand obj : "queryLimit" Data.Aeson.Types.ToJSON..= getIssuingTransactionsParametersQueryLimit obj : "querySettlement" Data.Aeson.Types.ToJSON..= getIssuingTransactionsParametersQuerySettlement obj : "queryStarting_after" Data.Aeson.Types.ToJSON..= getIssuingTransactionsParametersQueryStartingAfter obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("queryCard" Data.Aeson.Types.ToJSON..= getIssuingTransactionsParametersQueryCard obj) GHC.Base.<> (("queryCardholder" Data.Aeson.Types.ToJSON..= getIssuingTransactionsParametersQueryCardholder obj) GHC.Base.<> (("queryCreated" Data.Aeson.Types.ToJSON..= getIssuingTransactionsParametersQueryCreated obj) GHC.Base.<> (("queryDispute" Data.Aeson.Types.ToJSON..= getIssuingTransactionsParametersQueryDispute obj) GHC.Base.<> (("queryEnding_before" Data.Aeson.Types.ToJSON..= getIssuingTransactionsParametersQueryEndingBefore obj) GHC.Base.<> (("queryExpand" Data.Aeson.Types.ToJSON..= getIssuingTransactionsParametersQueryExpand obj) GHC.Base.<> (("queryLimit" Data.Aeson.Types.ToJSON..= getIssuingTransactionsParametersQueryLimit obj) GHC.Base.<> (("querySettlement" Data.Aeson.Types.ToJSON..= getIssuingTransactionsParametersQuerySettlement obj) GHC.Base.<> ("queryStarting_after" Data.Aeson.Types.ToJSON..= getIssuingTransactionsParametersQueryStartingAfter obj)))))))))
 
-instance Data.Aeson.Types.FromJSON.FromJSON GetIssuingTransactionsRequestBody where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetIssuingTransactionsRequestBody" (\obj -> GHC.Base.pure GetIssuingTransactionsRequestBody)
+instance Data.Aeson.Types.FromJSON.FromJSON GetIssuingTransactionsParameters where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetIssuingTransactionsParameters" (\obj -> ((((((((GHC.Base.pure GetIssuingTransactionsParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryCard")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryCardholder")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryCreated")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryDispute")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryEnding_before")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryExpand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryLimit")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "querySettlement")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryStarting_after"))
+
+-- | Create a new 'GetIssuingTransactionsParameters' with all required fields.
+mkGetIssuingTransactionsParameters :: GetIssuingTransactionsParameters
+mkGetIssuingTransactionsParameters =
+  GetIssuingTransactionsParameters
+    { getIssuingTransactionsParametersQueryCard = GHC.Maybe.Nothing,
+      getIssuingTransactionsParametersQueryCardholder = GHC.Maybe.Nothing,
+      getIssuingTransactionsParametersQueryCreated = GHC.Maybe.Nothing,
+      getIssuingTransactionsParametersQueryDispute = GHC.Maybe.Nothing,
+      getIssuingTransactionsParametersQueryEndingBefore = GHC.Maybe.Nothing,
+      getIssuingTransactionsParametersQueryExpand = GHC.Maybe.Nothing,
+      getIssuingTransactionsParametersQueryLimit = GHC.Maybe.Nothing,
+      getIssuingTransactionsParametersQuerySettlement = GHC.Maybe.Nothing,
+      getIssuingTransactionsParametersQueryStartingAfter = GHC.Maybe.Nothing
+    }
+
+-- | Defines the object schema located at @paths.\/v1\/issuing\/transactions.GET.parameters.properties.queryCreated.anyOf@ in the specification.
+data GetIssuingTransactionsParametersQueryCreated'OneOf2
+  = GetIssuingTransactionsParametersQueryCreated'OneOf2
+      { -- | gt
+        getIssuingTransactionsParametersQueryCreated'OneOf2Gt :: (GHC.Maybe.Maybe GHC.Types.Int),
+        -- | gte
+        getIssuingTransactionsParametersQueryCreated'OneOf2Gte :: (GHC.Maybe.Maybe GHC.Types.Int),
+        -- | lt
+        getIssuingTransactionsParametersQueryCreated'OneOf2Lt :: (GHC.Maybe.Maybe GHC.Types.Int),
+        -- | lte
+        getIssuingTransactionsParametersQueryCreated'OneOf2Lte :: (GHC.Maybe.Maybe GHC.Types.Int)
+      }
+  deriving
+    ( GHC.Show.Show,
+      GHC.Classes.Eq
+    )
+
+instance Data.Aeson.Types.ToJSON.ToJSON GetIssuingTransactionsParametersQueryCreated'OneOf2 where
+  toJSON obj = Data.Aeson.Types.Internal.object ("gt" Data.Aeson.Types.ToJSON..= getIssuingTransactionsParametersQueryCreated'OneOf2Gt obj : "gte" Data.Aeson.Types.ToJSON..= getIssuingTransactionsParametersQueryCreated'OneOf2Gte obj : "lt" Data.Aeson.Types.ToJSON..= getIssuingTransactionsParametersQueryCreated'OneOf2Lt obj : "lte" Data.Aeson.Types.ToJSON..= getIssuingTransactionsParametersQueryCreated'OneOf2Lte obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("gt" Data.Aeson.Types.ToJSON..= getIssuingTransactionsParametersQueryCreated'OneOf2Gt obj) GHC.Base.<> (("gte" Data.Aeson.Types.ToJSON..= getIssuingTransactionsParametersQueryCreated'OneOf2Gte obj) GHC.Base.<> (("lt" Data.Aeson.Types.ToJSON..= getIssuingTransactionsParametersQueryCreated'OneOf2Lt obj) GHC.Base.<> ("lte" Data.Aeson.Types.ToJSON..= getIssuingTransactionsParametersQueryCreated'OneOf2Lte obj))))
+
+instance Data.Aeson.Types.FromJSON.FromJSON GetIssuingTransactionsParametersQueryCreated'OneOf2 where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetIssuingTransactionsParametersQueryCreated'OneOf2" (\obj -> (((GHC.Base.pure GetIssuingTransactionsParametersQueryCreated'OneOf2 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "gt")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "gte")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "lt")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "lte"))
+
+-- | Create a new 'GetIssuingTransactionsParametersQueryCreated'OneOf2' with all required fields.
+mkGetIssuingTransactionsParametersQueryCreated'OneOf2 :: GetIssuingTransactionsParametersQueryCreated'OneOf2
+mkGetIssuingTransactionsParametersQueryCreated'OneOf2 =
+  GetIssuingTransactionsParametersQueryCreated'OneOf2
+    { getIssuingTransactionsParametersQueryCreated'OneOf2Gt = GHC.Maybe.Nothing,
+      getIssuingTransactionsParametersQueryCreated'OneOf2Gte = GHC.Maybe.Nothing,
+      getIssuingTransactionsParametersQueryCreated'OneOf2Lt = GHC.Maybe.Nothing,
+      getIssuingTransactionsParametersQueryCreated'OneOf2Lte = GHC.Maybe.Nothing
+    }
+
+-- | Defines the oneOf schema located at @paths.\/v1\/issuing\/transactions.GET.parameters.properties.queryCreated.anyOf@ in the specification.
+--
+-- Represents the parameter named \'created\'
+--
+-- Only return transactions that were created during the given date interval.
+data GetIssuingTransactionsParametersQueryCreated'Variants
+  = GetIssuingTransactionsParametersQueryCreated'Int GHC.Types.Int
+  | GetIssuingTransactionsParametersQueryCreated'GetIssuingTransactionsParametersQueryCreated'OneOf2 GetIssuingTransactionsParametersQueryCreated'OneOf2
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON GetIssuingTransactionsParametersQueryCreated'Variants where
+  toJSON (GetIssuingTransactionsParametersQueryCreated'Int a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (GetIssuingTransactionsParametersQueryCreated'GetIssuingTransactionsParametersQueryCreated'OneOf2 a) = Data.Aeson.Types.ToJSON.toJSON a
+
+instance Data.Aeson.Types.FromJSON.FromJSON GetIssuingTransactionsParametersQueryCreated'Variants where
+  parseJSON val = case (GetIssuingTransactionsParametersQueryCreated'Int Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((GetIssuingTransactionsParametersQueryCreated'GetIssuingTransactionsParametersQueryCreated'OneOf2 Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched") of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+    Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
 -- | Represents a response of the operation 'getIssuingTransactions'.
 --
@@ -446,15 +247,13 @@ data GetIssuingTransactionsResponse
     GetIssuingTransactionsResponseDefault Error
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
--- | Defines the data type for the schema GetIssuingTransactionsResponseBody200
+-- | Defines the object schema located at @paths.\/v1\/issuing\/transactions.GET.responses.200.content.application\/json.schema@ in the specification.
 data GetIssuingTransactionsResponseBody200
   = GetIssuingTransactionsResponseBody200
       { -- | data
-        getIssuingTransactionsResponseBody200Data :: ([] Issuing'transaction),
+        getIssuingTransactionsResponseBody200Data :: ([Issuing'transaction]),
         -- | has_more: True if this list has another page of items after this one that can be fetched.
         getIssuingTransactionsResponseBody200HasMore :: GHC.Types.Bool,
-        -- | object: String representing the object\'s type. Objects of the same type share the same value. Always has the value \`list\`.
-        getIssuingTransactionsResponseBody200Object :: GetIssuingTransactionsResponseBody200Object',
         -- | url: The URL where this list can be accessed.
         --
         -- Constraints:
@@ -468,31 +267,25 @@ data GetIssuingTransactionsResponseBody200
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON GetIssuingTransactionsResponseBody200 where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "data" (getIssuingTransactionsResponseBody200Data obj) : (Data.Aeson..=) "has_more" (getIssuingTransactionsResponseBody200HasMore obj) : (Data.Aeson..=) "object" (getIssuingTransactionsResponseBody200Object obj) : (Data.Aeson..=) "url" (getIssuingTransactionsResponseBody200Url obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "data" (getIssuingTransactionsResponseBody200Data obj) GHC.Base.<> ((Data.Aeson..=) "has_more" (getIssuingTransactionsResponseBody200HasMore obj) GHC.Base.<> ((Data.Aeson..=) "object" (getIssuingTransactionsResponseBody200Object obj) GHC.Base.<> (Data.Aeson..=) "url" (getIssuingTransactionsResponseBody200Url obj))))
+instance Data.Aeson.Types.ToJSON.ToJSON GetIssuingTransactionsResponseBody200 where
+  toJSON obj = Data.Aeson.Types.Internal.object ("data" Data.Aeson.Types.ToJSON..= getIssuingTransactionsResponseBody200Data obj : "has_more" Data.Aeson.Types.ToJSON..= getIssuingTransactionsResponseBody200HasMore obj : "url" Data.Aeson.Types.ToJSON..= getIssuingTransactionsResponseBody200Url obj : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "list" : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("data" Data.Aeson.Types.ToJSON..= getIssuingTransactionsResponseBody200Data obj) GHC.Base.<> (("has_more" Data.Aeson.Types.ToJSON..= getIssuingTransactionsResponseBody200HasMore obj) GHC.Base.<> (("url" Data.Aeson.Types.ToJSON..= getIssuingTransactionsResponseBody200Url obj) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "list"))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetIssuingTransactionsResponseBody200 where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetIssuingTransactionsResponseBody200" (\obj -> (((GHC.Base.pure GetIssuingTransactionsResponseBody200 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "has_more")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "object")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "url"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetIssuingTransactionsResponseBody200" (\obj -> ((GHC.Base.pure GetIssuingTransactionsResponseBody200 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "has_more")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "url"))
 
--- | Defines the enum schema GetIssuingTransactionsResponseBody200Object\'
---
--- String representing the object\'s type. Objects of the same type share the same value. Always has the value \`list\`.
-data GetIssuingTransactionsResponseBody200Object'
-  = GetIssuingTransactionsResponseBody200Object'EnumOther Data.Aeson.Types.Internal.Value
-  | GetIssuingTransactionsResponseBody200Object'EnumTyped Data.Text.Internal.Text
-  | GetIssuingTransactionsResponseBody200Object'EnumStringList
-  deriving (GHC.Show.Show, GHC.Classes.Eq)
-
-instance Data.Aeson.ToJSON GetIssuingTransactionsResponseBody200Object' where
-  toJSON (GetIssuingTransactionsResponseBody200Object'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (GetIssuingTransactionsResponseBody200Object'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (GetIssuingTransactionsResponseBody200Object'EnumStringList) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "list"
-
-instance Data.Aeson.FromJSON GetIssuingTransactionsResponseBody200Object' where
-  parseJSON val =
-    GHC.Base.pure
-      ( if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "list")
-          then GetIssuingTransactionsResponseBody200Object'EnumStringList
-          else GetIssuingTransactionsResponseBody200Object'EnumOther val
-      )
+-- | Create a new 'GetIssuingTransactionsResponseBody200' with all required fields.
+mkGetIssuingTransactionsResponseBody200 ::
+  -- | 'getIssuingTransactionsResponseBody200Data'
+  [Issuing'transaction] ->
+  -- | 'getIssuingTransactionsResponseBody200HasMore'
+  GHC.Types.Bool ->
+  -- | 'getIssuingTransactionsResponseBody200Url'
+  Data.Text.Internal.Text ->
+  GetIssuingTransactionsResponseBody200
+mkGetIssuingTransactionsResponseBody200 getIssuingTransactionsResponseBody200Data getIssuingTransactionsResponseBody200HasMore getIssuingTransactionsResponseBody200Url =
+  GetIssuingTransactionsResponseBody200
+    { getIssuingTransactionsResponseBody200Data = getIssuingTransactionsResponseBody200Data,
+      getIssuingTransactionsResponseBody200HasMore = getIssuingTransactionsResponseBody200HasMore,
+      getIssuingTransactionsResponseBody200Url = getIssuingTransactionsResponseBody200Url
+    }

@@ -1,0 +1,18 @@
+module StripeAPI.Types.IssuingCardholderIdDocument where
+import Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Types.Internal
+data IssuingCardholderIdDocument
+instance Show IssuingCardholderIdDocument
+instance Eq IssuingCardholderIdDocument
+instance FromJSON IssuingCardholderIdDocument
+instance ToJSON IssuingCardholderIdDocument
+data IssuingCardholderIdDocumentBack'Variants
+instance Show IssuingCardholderIdDocumentBack'Variants
+instance Eq IssuingCardholderIdDocumentBack'Variants
+instance FromJSON IssuingCardholderIdDocumentBack'Variants
+instance ToJSON IssuingCardholderIdDocumentBack'Variants
+data IssuingCardholderIdDocumentFront'Variants
+instance Show IssuingCardholderIdDocumentFront'Variants
+instance Eq IssuingCardholderIdDocumentFront'Variants
+instance FromJSON IssuingCardholderIdDocumentFront'Variants
+instance ToJSON IssuingCardholderIdDocumentFront'Variants

@@ -1,4 +1,3 @@
-{-# LANGUAGE DeriveGeneric #-}
 {-# LANGUAGE ExplicitForAll #-}
 {-# LANGUAGE MultiWayIf #-}
 {-# LANGUAGE OverloadedStrings #-}
@@ -8,8 +7,10 @@
 -- | Contains the different functions to run the operation postChargesChargeRefundsRefund
 module StripeAPI.Operations.PostChargesChargeRefundsRefund where
 
+import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -26,7 +27,6 @@ import qualified Data.Time.LocalTime as Data.Time.LocalTime.Internal.ZonedTime
 import qualified Data.Vector
 import qualified GHC.Base
 import qualified GHC.Classes
-import qualified GHC.Generics
 import qualified GHC.Int
 import qualified GHC.Show
 import qualified GHC.Types
@@ -46,176 +46,102 @@ import qualified Prelude as GHC.Maybe
 --
 -- \<p>Update a specified refund.\<\/p>
 postChargesChargeRefundsRefund ::
-  forall m s.
-  (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) =>
-  -- | The configuration to use in the request
-  StripeAPI.Common.Configuration s ->
-  -- | charge
-  Data.Text.Internal.Text ->
-  -- | refund
-  Data.Text.Internal.Text ->
+  forall m.
+  StripeAPI.Common.MonadHTTP m =>
+  -- | Contains all available parameters of this operation (query and path parameters)
+  PostChargesChargeRefundsRefundParameters ->
   -- | The request body to send
   GHC.Maybe.Maybe PostChargesChargeRefundsRefundRequestBody ->
-  -- | Monad containing the result of the operation
-  m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response PostChargesChargeRefundsRefundResponse))
+  -- | Monadic computation which returns the result of the operation
+  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response PostChargesChargeRefundsRefundResponse)
 postChargesChargeRefundsRefund
-  config
-  charge
-  refund
+  parameters
   body =
     GHC.Base.fmap
-      ( GHC.Base.fmap
-          ( \response_0 ->
-              GHC.Base.fmap
-                ( Data.Either.either PostChargesChargeRefundsRefundResponseError GHC.Base.id
-                    GHC.Base.. ( \response body ->
-                                   if  | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                         PostChargesChargeRefundsRefundResponse200
-                                           Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                                Data.Either.Either GHC.Base.String
-                                                                  Refund
-                                                            )
-                                       | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                         PostChargesChargeRefundsRefundResponseDefault
-                                           Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                                Data.Either.Either GHC.Base.String
-                                                                  Error
-                                                            )
-                                       | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
-                               )
-                      response_0
-                )
-                response_0
-          )
+      ( \response_0 ->
+          GHC.Base.fmap
+            ( Data.Either.either PostChargesChargeRefundsRefundResponseError GHC.Base.id
+                GHC.Base.. ( \response body ->
+                               if  | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
+                                     PostChargesChargeRefundsRefundResponse200
+                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                            Data.Either.Either GHC.Base.String
+                                                              Refund
+                                                        )
+                                   | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
+                                     PostChargesChargeRefundsRefundResponseDefault
+                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                            Data.Either.Either GHC.Base.String
+                                                              Error
+                                                        )
+                                   | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
+                           )
+                  response_0
+            )
+            response_0
       )
-      (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack ("/v1/charges/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel charge)) GHC.Base.++ ("/refunds/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel refund)) GHC.Base.++ ""))))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
+      (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack ("/v1/charges/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel (postChargesChargeRefundsRefundParametersPathCharge parameters))) GHC.Base.++ ("/refunds/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel (postChargesChargeRefundsRefundParametersPathRefund parameters))) GHC.Base.++ ""))))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
 
--- | > POST /v1/charges/{charge}/refunds/{refund}
---
--- The same as 'postChargesChargeRefundsRefund' but returns the raw 'Data.ByteString.Char8.ByteString'
-postChargesChargeRefundsRefundRaw ::
-  forall m s.
-  ( StripeAPI.Common.MonadHTTP m,
-    StripeAPI.Common.SecurityScheme s
-  ) =>
-  StripeAPI.Common.Configuration s ->
-  Data.Text.Internal.Text ->
-  Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe PostChargesChargeRefundsRefundRequestBody ->
-  m
-    ( Data.Either.Either Network.HTTP.Client.Types.HttpException
-        (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
-    )
-postChargesChargeRefundsRefundRaw
-  config
-  charge
-  refund
-  body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack ("/v1/charges/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel charge)) GHC.Base.++ ("/refunds/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel refund)) GHC.Base.++ ""))))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
-
--- | > POST /v1/charges/{charge}/refunds/{refund}
---
--- Monadic version of 'postChargesChargeRefundsRefund' (use with 'StripeAPI.Common.runWithConfiguration')
-postChargesChargeRefundsRefundM ::
-  forall m s.
-  ( StripeAPI.Common.MonadHTTP m,
-    StripeAPI.Common.SecurityScheme s
-  ) =>
-  Data.Text.Internal.Text ->
-  Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe PostChargesChargeRefundsRefundRequestBody ->
-  Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
-    m
-    ( Data.Either.Either Network.HTTP.Client.Types.HttpException
-        (Network.HTTP.Client.Types.Response PostChargesChargeRefundsRefundResponse)
-    )
-postChargesChargeRefundsRefundM
-  charge
-  refund
-  body =
-    GHC.Base.fmap
-      ( GHC.Base.fmap
-          ( \response_2 ->
-              GHC.Base.fmap
-                ( Data.Either.either PostChargesChargeRefundsRefundResponseError GHC.Base.id
-                    GHC.Base.. ( \response body ->
-                                   if  | (\status_3 -> Network.HTTP.Types.Status.statusCode status_3 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                         PostChargesChargeRefundsRefundResponse200
-                                           Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                                Data.Either.Either GHC.Base.String
-                                                                  Refund
-                                                            )
-                                       | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                         PostChargesChargeRefundsRefundResponseDefault
-                                           Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                                Data.Either.Either GHC.Base.String
-                                                                  Error
-                                                            )
-                                       | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
-                               )
-                      response_2
-                )
-                response_2
-          )
-      )
-      (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack ("/v1/charges/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel charge)) GHC.Base.++ ("/refunds/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel refund)) GHC.Base.++ ""))))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
-
--- | > POST /v1/charges/{charge}/refunds/{refund}
---
--- Monadic version of 'postChargesChargeRefundsRefundRaw' (use with 'StripeAPI.Common.runWithConfiguration')
-postChargesChargeRefundsRefundRawM ::
-  forall m s.
-  ( StripeAPI.Common.MonadHTTP m,
-    StripeAPI.Common.SecurityScheme s
-  ) =>
-  Data.Text.Internal.Text ->
-  Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe PostChargesChargeRefundsRefundRequestBody ->
-  Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
-    m
-    ( Data.Either.Either Network.HTTP.Client.Types.HttpException
-        (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
-    )
-postChargesChargeRefundsRefundRawM
-  charge
-  refund
-  body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack ("/v1/charges/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel charge)) GHC.Base.++ ("/refunds/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel refund)) GHC.Base.++ ""))))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
-
--- | Defines the data type for the schema postChargesChargeRefundsRefundRequestBody
-data PostChargesChargeRefundsRefundRequestBody
-  = PostChargesChargeRefundsRefundRequestBody
-      { -- | expand: Specifies which fields in the response should be expanded.
-        postChargesChargeRefundsRefundRequestBodyExpand :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text)),
-        -- | metadata
-        postChargesChargeRefundsRefundRequestBodyMetadata :: (GHC.Maybe.Maybe PostChargesChargeRefundsRefundRequestBodyMetadata')
+-- | Defines the object schema located at @paths.\/v1\/charges\/{charge}\/refunds\/{refund}.POST.parameters@ in the specification.
+data PostChargesChargeRefundsRefundParameters
+  = PostChargesChargeRefundsRefundParameters
+      { -- | pathCharge: Represents the parameter named \'charge\'
+        postChargesChargeRefundsRefundParametersPathCharge :: Data.Text.Internal.Text,
+        -- | pathRefund: Represents the parameter named \'refund\'
+        postChargesChargeRefundsRefundParametersPathRefund :: Data.Text.Internal.Text
       }
   deriving
     ( GHC.Show.Show,
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON PostChargesChargeRefundsRefundRequestBody where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "expand" (postChargesChargeRefundsRefundRequestBodyExpand obj) : (Data.Aeson..=) "metadata" (postChargesChargeRefundsRefundRequestBodyMetadata obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "expand" (postChargesChargeRefundsRefundRequestBodyExpand obj) GHC.Base.<> (Data.Aeson..=) "metadata" (postChargesChargeRefundsRefundRequestBodyMetadata obj))
+instance Data.Aeson.Types.ToJSON.ToJSON PostChargesChargeRefundsRefundParameters where
+  toJSON obj = Data.Aeson.Types.Internal.object ("pathCharge" Data.Aeson.Types.ToJSON..= postChargesChargeRefundsRefundParametersPathCharge obj : "pathRefund" Data.Aeson.Types.ToJSON..= postChargesChargeRefundsRefundParametersPathRefund obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("pathCharge" Data.Aeson.Types.ToJSON..= postChargesChargeRefundsRefundParametersPathCharge obj) GHC.Base.<> ("pathRefund" Data.Aeson.Types.ToJSON..= postChargesChargeRefundsRefundParametersPathRefund obj))
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostChargesChargeRefundsRefundParameters where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostChargesChargeRefundsRefundParameters" (\obj -> (GHC.Base.pure PostChargesChargeRefundsRefundParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathCharge")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathRefund"))
+
+-- | Create a new 'PostChargesChargeRefundsRefundParameters' with all required fields.
+mkPostChargesChargeRefundsRefundParameters ::
+  -- | 'postChargesChargeRefundsRefundParametersPathCharge'
+  Data.Text.Internal.Text ->
+  -- | 'postChargesChargeRefundsRefundParametersPathRefund'
+  Data.Text.Internal.Text ->
+  PostChargesChargeRefundsRefundParameters
+mkPostChargesChargeRefundsRefundParameters postChargesChargeRefundsRefundParametersPathCharge postChargesChargeRefundsRefundParametersPathRefund =
+  PostChargesChargeRefundsRefundParameters
+    { postChargesChargeRefundsRefundParametersPathCharge = postChargesChargeRefundsRefundParametersPathCharge,
+      postChargesChargeRefundsRefundParametersPathRefund = postChargesChargeRefundsRefundParametersPathRefund
+    }
+
+-- | Defines the object schema located at @paths.\/v1\/charges\/{charge}\/refunds\/{refund}.POST.requestBody.content.application\/x-www-form-urlencoded.schema@ in the specification.
+data PostChargesChargeRefundsRefundRequestBody
+  = PostChargesChargeRefundsRefundRequestBody
+      { -- | expand: Specifies which fields in the response should be expanded.
+        postChargesChargeRefundsRefundRequestBodyExpand :: (GHC.Maybe.Maybe ([Data.Text.Internal.Text])),
+        -- | metadata
+        postChargesChargeRefundsRefundRequestBodyMetadata :: (GHC.Maybe.Maybe Data.Aeson.Types.Internal.Object)
+      }
+  deriving
+    ( GHC.Show.Show,
+      GHC.Classes.Eq
+    )
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostChargesChargeRefundsRefundRequestBody where
+  toJSON obj = Data.Aeson.Types.Internal.object ("expand" Data.Aeson.Types.ToJSON..= postChargesChargeRefundsRefundRequestBodyExpand obj : "metadata" Data.Aeson.Types.ToJSON..= postChargesChargeRefundsRefundRequestBodyMetadata obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("expand" Data.Aeson.Types.ToJSON..= postChargesChargeRefundsRefundRequestBodyExpand obj) GHC.Base.<> ("metadata" Data.Aeson.Types.ToJSON..= postChargesChargeRefundsRefundRequestBodyMetadata obj))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostChargesChargeRefundsRefundRequestBody where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PostChargesChargeRefundsRefundRequestBody" (\obj -> (GHC.Base.pure PostChargesChargeRefundsRefundRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "metadata"))
 
--- | Defines the data type for the schema postChargesChargeRefundsRefundRequestBodyMetadata\'
-data PostChargesChargeRefundsRefundRequestBodyMetadata'
-  = PostChargesChargeRefundsRefundRequestBodyMetadata'
-      {
-      }
-  deriving
-    ( GHC.Show.Show,
-      GHC.Classes.Eq
-    )
-
-instance Data.Aeson.ToJSON PostChargesChargeRefundsRefundRequestBodyMetadata' where
-  toJSON obj = Data.Aeson.object []
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "string" ("string" :: GHC.Base.String))
-
-instance Data.Aeson.Types.FromJSON.FromJSON PostChargesChargeRefundsRefundRequestBodyMetadata' where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostChargesChargeRefundsRefundRequestBodyMetadata'" (\obj -> GHC.Base.pure PostChargesChargeRefundsRefundRequestBodyMetadata')
+-- | Create a new 'PostChargesChargeRefundsRefundRequestBody' with all required fields.
+mkPostChargesChargeRefundsRefundRequestBody :: PostChargesChargeRefundsRefundRequestBody
+mkPostChargesChargeRefundsRefundRequestBody =
+  PostChargesChargeRefundsRefundRequestBody
+    { postChargesChargeRefundsRefundRequestBodyExpand = GHC.Maybe.Nothing,
+      postChargesChargeRefundsRefundRequestBodyMetadata = GHC.Maybe.Nothing
+    }
 
 -- | Represents a response of the operation 'postChargesChargeRefundsRefund'.
 --

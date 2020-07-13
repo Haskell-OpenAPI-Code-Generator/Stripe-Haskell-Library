@@ -1,4 +1,3 @@
-{-# LANGUAGE DeriveGeneric #-}
 {-# LANGUAGE ExplicitForAll #-}
 {-# LANGUAGE MultiWayIf #-}
 {-# LANGUAGE OverloadedStrings #-}
@@ -8,8 +7,10 @@
 -- | Contains the different functions to run the operation postTerminalLocations
 module StripeAPI.Operations.PostTerminalLocations where
 
+import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -26,7 +27,6 @@ import qualified Data.Time.LocalTime as Data.Time.LocalTime.Internal.ZonedTime
 import qualified Data.Vector
 import qualified GHC.Base
 import qualified GHC.Classes
-import qualified GHC.Generics
 import qualified GHC.Int
 import qualified GHC.Show
 import qualified GHC.Types
@@ -46,121 +46,39 @@ import qualified Prelude as GHC.Maybe
 --
 -- \<p>Creates a new \<code>Location\<\/code> object.\<\/p>
 postTerminalLocations ::
-  forall m s.
-  (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) =>
-  -- | The configuration to use in the request
-  StripeAPI.Common.Configuration s ->
+  forall m.
+  StripeAPI.Common.MonadHTTP m =>
   -- | The request body to send
   PostTerminalLocationsRequestBody ->
-  -- | Monad containing the result of the operation
-  m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response PostTerminalLocationsResponse))
-postTerminalLocations
-  config
-  body =
-    GHC.Base.fmap
-      ( GHC.Base.fmap
-          ( \response_0 ->
-              GHC.Base.fmap
-                ( Data.Either.either PostTerminalLocationsResponseError GHC.Base.id
-                    GHC.Base.. ( \response body ->
-                                   if  | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                         PostTerminalLocationsResponse200
-                                           Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                                Data.Either.Either GHC.Base.String
-                                                                  Terminal'location
-                                                            )
-                                       | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                         PostTerminalLocationsResponseDefault
-                                           Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                                Data.Either.Either GHC.Base.String
-                                                                  Error
-                                                            )
-                                       | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
-                               )
-                      response_0
-                )
+  -- | Monadic computation which returns the result of the operation
+  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response PostTerminalLocationsResponse)
+postTerminalLocations body =
+  GHC.Base.fmap
+    ( \response_0 ->
+        GHC.Base.fmap
+          ( Data.Either.either PostTerminalLocationsResponseError GHC.Base.id
+              GHC.Base.. ( \response body ->
+                             if  | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
+                                   PostTerminalLocationsResponse200
+                                     Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                          Data.Either.Either GHC.Base.String
+                                                            Terminal'location
+                                                      )
+                                 | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
+                                   PostTerminalLocationsResponseDefault
+                                     Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                          Data.Either.Either GHC.Base.String
+                                                            Error
+                                                      )
+                                 | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
+                         )
                 response_0
           )
-      )
-      (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack "/v1/terminal/locations") [] (GHC.Maybe.Just body) StripeAPI.Common.RequestBodyEncodingFormData)
-
--- | > POST /v1/terminal/locations
---
--- The same as 'postTerminalLocations' but returns the raw 'Data.ByteString.Char8.ByteString'
-postTerminalLocationsRaw ::
-  forall m s.
-  ( StripeAPI.Common.MonadHTTP m,
-    StripeAPI.Common.SecurityScheme s
-  ) =>
-  StripeAPI.Common.Configuration s ->
-  PostTerminalLocationsRequestBody ->
-  m
-    ( Data.Either.Either Network.HTTP.Client.Types.HttpException
-        (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
-    )
-postTerminalLocationsRaw
-  config
-  body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack "/v1/terminal/locations") [] (GHC.Maybe.Just body) StripeAPI.Common.RequestBodyEncodingFormData)
-
--- | > POST /v1/terminal/locations
---
--- Monadic version of 'postTerminalLocations' (use with 'StripeAPI.Common.runWithConfiguration')
-postTerminalLocationsM ::
-  forall m s.
-  ( StripeAPI.Common.MonadHTTP m,
-    StripeAPI.Common.SecurityScheme s
-  ) =>
-  PostTerminalLocationsRequestBody ->
-  Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
-    m
-    ( Data.Either.Either Network.HTTP.Client.Types.HttpException
-        (Network.HTTP.Client.Types.Response PostTerminalLocationsResponse)
-    )
-postTerminalLocationsM body =
-  GHC.Base.fmap
-    ( GHC.Base.fmap
-        ( \response_2 ->
-            GHC.Base.fmap
-              ( Data.Either.either PostTerminalLocationsResponseError GHC.Base.id
-                  GHC.Base.. ( \response body ->
-                                 if  | (\status_3 -> Network.HTTP.Types.Status.statusCode status_3 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                       PostTerminalLocationsResponse200
-                                         Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                              Data.Either.Either GHC.Base.String
-                                                                Terminal'location
-                                                          )
-                                     | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                       PostTerminalLocationsResponseDefault
-                                         Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                              Data.Either.Either GHC.Base.String
-                                                                Error
-                                                          )
-                                     | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
-                             )
-                    response_2
-              )
-              response_2
-        )
+          response_0
     )
     (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack "/v1/terminal/locations") [] (GHC.Maybe.Just body) StripeAPI.Common.RequestBodyEncodingFormData)
 
--- | > POST /v1/terminal/locations
---
--- Monadic version of 'postTerminalLocationsRaw' (use with 'StripeAPI.Common.runWithConfiguration')
-postTerminalLocationsRawM ::
-  forall m s.
-  ( StripeAPI.Common.MonadHTTP m,
-    StripeAPI.Common.SecurityScheme s
-  ) =>
-  PostTerminalLocationsRequestBody ->
-  Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
-    m
-    ( Data.Either.Either Network.HTTP.Client.Types.HttpException
-        (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
-    )
-postTerminalLocationsRawM body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack "/v1/terminal/locations") [] (GHC.Maybe.Just body) StripeAPI.Common.RequestBodyEncodingFormData)
-
--- | Defines the data type for the schema postTerminalLocationsRequestBody
+-- | Defines the object schema located at @paths.\/v1\/terminal\/locations.POST.requestBody.content.application\/x-www-form-urlencoded.schema@ in the specification.
 data PostTerminalLocationsRequestBody
   = PostTerminalLocationsRequestBody
       { -- | address: The full address of the location.
@@ -172,23 +90,38 @@ data PostTerminalLocationsRequestBody
         -- * Maximum length of 5000
         postTerminalLocationsRequestBodyDisplayName :: Data.Text.Internal.Text,
         -- | expand: Specifies which fields in the response should be expanded.
-        postTerminalLocationsRequestBodyExpand :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text)),
+        postTerminalLocationsRequestBodyExpand :: (GHC.Maybe.Maybe ([Data.Text.Internal.Text])),
         -- | metadata: Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to \`metadata\`.
-        postTerminalLocationsRequestBodyMetadata :: (GHC.Maybe.Maybe PostTerminalLocationsRequestBodyMetadata')
+        postTerminalLocationsRequestBodyMetadata :: (GHC.Maybe.Maybe Data.Aeson.Types.Internal.Object)
       }
   deriving
     ( GHC.Show.Show,
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON PostTerminalLocationsRequestBody where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "address" (postTerminalLocationsRequestBodyAddress obj) : (Data.Aeson..=) "display_name" (postTerminalLocationsRequestBodyDisplayName obj) : (Data.Aeson..=) "expand" (postTerminalLocationsRequestBodyExpand obj) : (Data.Aeson..=) "metadata" (postTerminalLocationsRequestBodyMetadata obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "address" (postTerminalLocationsRequestBodyAddress obj) GHC.Base.<> ((Data.Aeson..=) "display_name" (postTerminalLocationsRequestBodyDisplayName obj) GHC.Base.<> ((Data.Aeson..=) "expand" (postTerminalLocationsRequestBodyExpand obj) GHC.Base.<> (Data.Aeson..=) "metadata" (postTerminalLocationsRequestBodyMetadata obj))))
+instance Data.Aeson.Types.ToJSON.ToJSON PostTerminalLocationsRequestBody where
+  toJSON obj = Data.Aeson.Types.Internal.object ("address" Data.Aeson.Types.ToJSON..= postTerminalLocationsRequestBodyAddress obj : "display_name" Data.Aeson.Types.ToJSON..= postTerminalLocationsRequestBodyDisplayName obj : "expand" Data.Aeson.Types.ToJSON..= postTerminalLocationsRequestBodyExpand obj : "metadata" Data.Aeson.Types.ToJSON..= postTerminalLocationsRequestBodyMetadata obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("address" Data.Aeson.Types.ToJSON..= postTerminalLocationsRequestBodyAddress obj) GHC.Base.<> (("display_name" Data.Aeson.Types.ToJSON..= postTerminalLocationsRequestBodyDisplayName obj) GHC.Base.<> (("expand" Data.Aeson.Types.ToJSON..= postTerminalLocationsRequestBodyExpand obj) GHC.Base.<> ("metadata" Data.Aeson.Types.ToJSON..= postTerminalLocationsRequestBodyMetadata obj))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostTerminalLocationsRequestBody where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PostTerminalLocationsRequestBody" (\obj -> (((GHC.Base.pure PostTerminalLocationsRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "address")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "display_name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "metadata"))
 
--- | Defines the data type for the schema postTerminalLocationsRequestBodyAddress\'
+-- | Create a new 'PostTerminalLocationsRequestBody' with all required fields.
+mkPostTerminalLocationsRequestBody ::
+  -- | 'postTerminalLocationsRequestBodyAddress'
+  PostTerminalLocationsRequestBodyAddress' ->
+  -- | 'postTerminalLocationsRequestBodyDisplayName'
+  Data.Text.Internal.Text ->
+  PostTerminalLocationsRequestBody
+mkPostTerminalLocationsRequestBody postTerminalLocationsRequestBodyAddress postTerminalLocationsRequestBodyDisplayName =
+  PostTerminalLocationsRequestBody
+    { postTerminalLocationsRequestBodyAddress = postTerminalLocationsRequestBodyAddress,
+      postTerminalLocationsRequestBodyDisplayName = postTerminalLocationsRequestBodyDisplayName,
+      postTerminalLocationsRequestBodyExpand = GHC.Maybe.Nothing,
+      postTerminalLocationsRequestBodyMetadata = GHC.Maybe.Nothing
+    }
+
+-- | Defines the object schema located at @paths.\/v1\/terminal\/locations.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.address@ in the specification.
 --
 -- The full address of the location.
 data PostTerminalLocationsRequestBodyAddress'
@@ -235,31 +168,27 @@ data PostTerminalLocationsRequestBodyAddress'
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON PostTerminalLocationsRequestBodyAddress' where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "city" (postTerminalLocationsRequestBodyAddress'City obj) : (Data.Aeson..=) "country" (postTerminalLocationsRequestBodyAddress'Country obj) : (Data.Aeson..=) "line1" (postTerminalLocationsRequestBodyAddress'Line1 obj) : (Data.Aeson..=) "line2" (postTerminalLocationsRequestBodyAddress'Line2 obj) : (Data.Aeson..=) "postal_code" (postTerminalLocationsRequestBodyAddress'PostalCode obj) : (Data.Aeson..=) "state" (postTerminalLocationsRequestBodyAddress'State obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "city" (postTerminalLocationsRequestBodyAddress'City obj) GHC.Base.<> ((Data.Aeson..=) "country" (postTerminalLocationsRequestBodyAddress'Country obj) GHC.Base.<> ((Data.Aeson..=) "line1" (postTerminalLocationsRequestBodyAddress'Line1 obj) GHC.Base.<> ((Data.Aeson..=) "line2" (postTerminalLocationsRequestBodyAddress'Line2 obj) GHC.Base.<> ((Data.Aeson..=) "postal_code" (postTerminalLocationsRequestBodyAddress'PostalCode obj) GHC.Base.<> (Data.Aeson..=) "state" (postTerminalLocationsRequestBodyAddress'State obj))))))
+instance Data.Aeson.Types.ToJSON.ToJSON PostTerminalLocationsRequestBodyAddress' where
+  toJSON obj = Data.Aeson.Types.Internal.object ("city" Data.Aeson.Types.ToJSON..= postTerminalLocationsRequestBodyAddress'City obj : "country" Data.Aeson.Types.ToJSON..= postTerminalLocationsRequestBodyAddress'Country obj : "line1" Data.Aeson.Types.ToJSON..= postTerminalLocationsRequestBodyAddress'Line1 obj : "line2" Data.Aeson.Types.ToJSON..= postTerminalLocationsRequestBodyAddress'Line2 obj : "postal_code" Data.Aeson.Types.ToJSON..= postTerminalLocationsRequestBodyAddress'PostalCode obj : "state" Data.Aeson.Types.ToJSON..= postTerminalLocationsRequestBodyAddress'State obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("city" Data.Aeson.Types.ToJSON..= postTerminalLocationsRequestBodyAddress'City obj) GHC.Base.<> (("country" Data.Aeson.Types.ToJSON..= postTerminalLocationsRequestBodyAddress'Country obj) GHC.Base.<> (("line1" Data.Aeson.Types.ToJSON..= postTerminalLocationsRequestBodyAddress'Line1 obj) GHC.Base.<> (("line2" Data.Aeson.Types.ToJSON..= postTerminalLocationsRequestBodyAddress'Line2 obj) GHC.Base.<> (("postal_code" Data.Aeson.Types.ToJSON..= postTerminalLocationsRequestBodyAddress'PostalCode obj) GHC.Base.<> ("state" Data.Aeson.Types.ToJSON..= postTerminalLocationsRequestBodyAddress'State obj))))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostTerminalLocationsRequestBodyAddress' where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PostTerminalLocationsRequestBodyAddress'" (\obj -> (((((GHC.Base.pure PostTerminalLocationsRequestBodyAddress' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "city")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "country")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "line1")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "line2")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "postal_code")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "state"))
 
--- | Defines the data type for the schema postTerminalLocationsRequestBodyMetadata\'
---
--- Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to \`metadata\`.
-data PostTerminalLocationsRequestBodyMetadata'
-  = PostTerminalLocationsRequestBodyMetadata'
-      {
-      }
-  deriving
-    ( GHC.Show.Show,
-      GHC.Classes.Eq
-    )
-
-instance Data.Aeson.ToJSON PostTerminalLocationsRequestBodyMetadata' where
-  toJSON obj = Data.Aeson.object []
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "string" ("string" :: GHC.Base.String))
-
-instance Data.Aeson.Types.FromJSON.FromJSON PostTerminalLocationsRequestBodyMetadata' where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostTerminalLocationsRequestBodyMetadata'" (\obj -> GHC.Base.pure PostTerminalLocationsRequestBodyMetadata')
+-- | Create a new 'PostTerminalLocationsRequestBodyAddress'' with all required fields.
+mkPostTerminalLocationsRequestBodyAddress' ::
+  -- | 'postTerminalLocationsRequestBodyAddress'Country'
+  Data.Text.Internal.Text ->
+  PostTerminalLocationsRequestBodyAddress'
+mkPostTerminalLocationsRequestBodyAddress' postTerminalLocationsRequestBodyAddress'Country =
+  PostTerminalLocationsRequestBodyAddress'
+    { postTerminalLocationsRequestBodyAddress'City = GHC.Maybe.Nothing,
+      postTerminalLocationsRequestBodyAddress'Country = postTerminalLocationsRequestBodyAddress'Country,
+      postTerminalLocationsRequestBodyAddress'Line1 = GHC.Maybe.Nothing,
+      postTerminalLocationsRequestBodyAddress'Line2 = GHC.Maybe.Nothing,
+      postTerminalLocationsRequestBodyAddress'PostalCode = GHC.Maybe.Nothing,
+      postTerminalLocationsRequestBodyAddress'State = GHC.Maybe.Nothing
+    }
 
 -- | Represents a response of the operation 'postTerminalLocations'.
 --

@@ -1,4 +1,3 @@
-{-# LANGUAGE DeriveGeneric #-}
 {-# LANGUAGE ExplicitForAll #-}
 {-# LANGUAGE MultiWayIf #-}
 {-# LANGUAGE OverloadedStrings #-}
@@ -8,8 +7,10 @@
 -- | Contains the different functions to run the operation postWebhookEndpointsWebhookEndpoint
 module StripeAPI.Operations.PostWebhookEndpointsWebhookEndpoint where
 
+import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -26,7 +27,6 @@ import qualified Data.Time.LocalTime as Data.Time.LocalTime.Internal.ZonedTime
 import qualified Data.Vector
 import qualified GHC.Base
 import qualified GHC.Classes
-import qualified GHC.Generics
 import qualified GHC.Int
 import qualified GHC.Show
 import qualified GHC.Types
@@ -46,140 +46,51 @@ import qualified Prelude as GHC.Maybe
 --
 -- \<p>Updates the webhook endpoint. You may edit the \<code>url\<\/code>, the list of \<code>enabled_events\<\/code>, and the status of your endpoint.\<\/p>
 postWebhookEndpointsWebhookEndpoint ::
-  forall m s.
-  (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) =>
-  -- | The configuration to use in the request
-  StripeAPI.Common.Configuration s ->
+  forall m.
+  StripeAPI.Common.MonadHTTP m =>
   -- | webhook_endpoint | Constraints: Maximum length of 5000
   Data.Text.Internal.Text ->
   -- | The request body to send
   GHC.Maybe.Maybe PostWebhookEndpointsWebhookEndpointRequestBody ->
-  -- | Monad containing the result of the operation
-  m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response PostWebhookEndpointsWebhookEndpointResponse))
+  -- | Monadic computation which returns the result of the operation
+  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response PostWebhookEndpointsWebhookEndpointResponse)
 postWebhookEndpointsWebhookEndpoint
-  config
   webhookEndpoint
   body =
     GHC.Base.fmap
-      ( GHC.Base.fmap
-          ( \response_0 ->
-              GHC.Base.fmap
-                ( Data.Either.either PostWebhookEndpointsWebhookEndpointResponseError GHC.Base.id
-                    GHC.Base.. ( \response body ->
-                                   if  | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                         PostWebhookEndpointsWebhookEndpointResponse200
-                                           Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                                Data.Either.Either GHC.Base.String
-                                                                  WebhookEndpoint
-                                                            )
-                                       | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                         PostWebhookEndpointsWebhookEndpointResponseDefault
-                                           Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                                Data.Either.Either GHC.Base.String
-                                                                  Error
-                                                            )
-                                       | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
-                               )
-                      response_0
-                )
-                response_0
-          )
-      )
-      (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack ("/v1/webhook_endpoints/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel webhookEndpoint)) GHC.Base.++ ""))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
-
--- | > POST /v1/webhook_endpoints/{webhook_endpoint}
---
--- The same as 'postWebhookEndpointsWebhookEndpoint' but returns the raw 'Data.ByteString.Char8.ByteString'
-postWebhookEndpointsWebhookEndpointRaw ::
-  forall m s.
-  ( StripeAPI.Common.MonadHTTP m,
-    StripeAPI.Common.SecurityScheme s
-  ) =>
-  StripeAPI.Common.Configuration s ->
-  Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe PostWebhookEndpointsWebhookEndpointRequestBody ->
-  m
-    ( Data.Either.Either Network.HTTP.Client.Types.HttpException
-        (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
-    )
-postWebhookEndpointsWebhookEndpointRaw
-  config
-  webhookEndpoint
-  body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack ("/v1/webhook_endpoints/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel webhookEndpoint)) GHC.Base.++ ""))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
-
--- | > POST /v1/webhook_endpoints/{webhook_endpoint}
---
--- Monadic version of 'postWebhookEndpointsWebhookEndpoint' (use with 'StripeAPI.Common.runWithConfiguration')
-postWebhookEndpointsWebhookEndpointM ::
-  forall m s.
-  ( StripeAPI.Common.MonadHTTP m,
-    StripeAPI.Common.SecurityScheme s
-  ) =>
-  Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe PostWebhookEndpointsWebhookEndpointRequestBody ->
-  Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
-    m
-    ( Data.Either.Either Network.HTTP.Client.Types.HttpException
-        (Network.HTTP.Client.Types.Response PostWebhookEndpointsWebhookEndpointResponse)
-    )
-postWebhookEndpointsWebhookEndpointM
-  webhookEndpoint
-  body =
-    GHC.Base.fmap
-      ( GHC.Base.fmap
-          ( \response_2 ->
-              GHC.Base.fmap
-                ( Data.Either.either PostWebhookEndpointsWebhookEndpointResponseError GHC.Base.id
-                    GHC.Base.. ( \response body ->
-                                   if  | (\status_3 -> Network.HTTP.Types.Status.statusCode status_3 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                         PostWebhookEndpointsWebhookEndpointResponse200
-                                           Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                                Data.Either.Either GHC.Base.String
-                                                                  WebhookEndpoint
-                                                            )
-                                       | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                         PostWebhookEndpointsWebhookEndpointResponseDefault
-                                           Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                                Data.Either.Either GHC.Base.String
-                                                                  Error
-                                                            )
-                                       | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
-                               )
-                      response_2
-                )
-                response_2
-          )
+      ( \response_0 ->
+          GHC.Base.fmap
+            ( Data.Either.either PostWebhookEndpointsWebhookEndpointResponseError GHC.Base.id
+                GHC.Base.. ( \response body ->
+                               if  | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
+                                     PostWebhookEndpointsWebhookEndpointResponse200
+                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                            Data.Either.Either GHC.Base.String
+                                                              WebhookEndpoint
+                                                        )
+                                   | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
+                                     PostWebhookEndpointsWebhookEndpointResponseDefault
+                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                            Data.Either.Either GHC.Base.String
+                                                              Error
+                                                        )
+                                   | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
+                           )
+                  response_0
+            )
+            response_0
       )
       (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack ("/v1/webhook_endpoints/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel webhookEndpoint)) GHC.Base.++ ""))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
 
--- | > POST /v1/webhook_endpoints/{webhook_endpoint}
---
--- Monadic version of 'postWebhookEndpointsWebhookEndpointRaw' (use with 'StripeAPI.Common.runWithConfiguration')
-postWebhookEndpointsWebhookEndpointRawM ::
-  forall m s.
-  ( StripeAPI.Common.MonadHTTP m,
-    StripeAPI.Common.SecurityScheme s
-  ) =>
-  Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe PostWebhookEndpointsWebhookEndpointRequestBody ->
-  Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
-    m
-    ( Data.Either.Either Network.HTTP.Client.Types.HttpException
-        (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
-    )
-postWebhookEndpointsWebhookEndpointRawM
-  webhookEndpoint
-  body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack ("/v1/webhook_endpoints/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel webhookEndpoint)) GHC.Base.++ ""))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
-
--- | Defines the data type for the schema postWebhookEndpointsWebhookEndpointRequestBody
+-- | Defines the object schema located at @paths.\/v1\/webhook_endpoints\/{webhook_endpoint}.POST.requestBody.content.application\/x-www-form-urlencoded.schema@ in the specification.
 data PostWebhookEndpointsWebhookEndpointRequestBody
   = PostWebhookEndpointsWebhookEndpointRequestBody
       { -- | disabled: Disable the webhook endpoint if set to true.
         postWebhookEndpointsWebhookEndpointRequestBodyDisabled :: (GHC.Maybe.Maybe GHC.Types.Bool),
         -- | enabled_events: The list of events to enable for this endpoint. You may specify \`[\'*\']\` to enable all events, except those that require explicit selection.
-        postWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents :: (GHC.Maybe.Maybe ([] PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents')),
+        postWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents :: (GHC.Maybe.Maybe ([PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'])),
         -- | expand: Specifies which fields in the response should be expanded.
-        postWebhookEndpointsWebhookEndpointRequestBodyExpand :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text)),
+        postWebhookEndpointsWebhookEndpointRequestBodyExpand :: (GHC.Maybe.Maybe ([Data.Text.Internal.Text])),
         -- | url: The URL of the webhook endpoint.
         postWebhookEndpointsWebhookEndpointRequestBodyUrl :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
       }
@@ -188,791 +99,651 @@ data PostWebhookEndpointsWebhookEndpointRequestBody
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON PostWebhookEndpointsWebhookEndpointRequestBody where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "disabled" (postWebhookEndpointsWebhookEndpointRequestBodyDisabled obj) : (Data.Aeson..=) "enabled_events" (postWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents obj) : (Data.Aeson..=) "expand" (postWebhookEndpointsWebhookEndpointRequestBodyExpand obj) : (Data.Aeson..=) "url" (postWebhookEndpointsWebhookEndpointRequestBodyUrl obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "disabled" (postWebhookEndpointsWebhookEndpointRequestBodyDisabled obj) GHC.Base.<> ((Data.Aeson..=) "enabled_events" (postWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents obj) GHC.Base.<> ((Data.Aeson..=) "expand" (postWebhookEndpointsWebhookEndpointRequestBodyExpand obj) GHC.Base.<> (Data.Aeson..=) "url" (postWebhookEndpointsWebhookEndpointRequestBodyUrl obj))))
+instance Data.Aeson.Types.ToJSON.ToJSON PostWebhookEndpointsWebhookEndpointRequestBody where
+  toJSON obj = Data.Aeson.Types.Internal.object ("disabled" Data.Aeson.Types.ToJSON..= postWebhookEndpointsWebhookEndpointRequestBodyDisabled obj : "enabled_events" Data.Aeson.Types.ToJSON..= postWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents obj : "expand" Data.Aeson.Types.ToJSON..= postWebhookEndpointsWebhookEndpointRequestBodyExpand obj : "url" Data.Aeson.Types.ToJSON..= postWebhookEndpointsWebhookEndpointRequestBodyUrl obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("disabled" Data.Aeson.Types.ToJSON..= postWebhookEndpointsWebhookEndpointRequestBodyDisabled obj) GHC.Base.<> (("enabled_events" Data.Aeson.Types.ToJSON..= postWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents obj) GHC.Base.<> (("expand" Data.Aeson.Types.ToJSON..= postWebhookEndpointsWebhookEndpointRequestBodyExpand obj) GHC.Base.<> ("url" Data.Aeson.Types.ToJSON..= postWebhookEndpointsWebhookEndpointRequestBodyUrl obj))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostWebhookEndpointsWebhookEndpointRequestBody where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PostWebhookEndpointsWebhookEndpointRequestBody" (\obj -> (((GHC.Base.pure PostWebhookEndpointsWebhookEndpointRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "disabled")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "enabled_events")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "url"))
 
--- | Defines the enum schema postWebhookEndpointsWebhookEndpointRequestBodyEnabled_events\'
+-- | Create a new 'PostWebhookEndpointsWebhookEndpointRequestBody' with all required fields.
+mkPostWebhookEndpointsWebhookEndpointRequestBody :: PostWebhookEndpointsWebhookEndpointRequestBody
+mkPostWebhookEndpointsWebhookEndpointRequestBody =
+  PostWebhookEndpointsWebhookEndpointRequestBody
+    { postWebhookEndpointsWebhookEndpointRequestBodyDisabled = GHC.Maybe.Nothing,
+      postWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents = GHC.Maybe.Nothing,
+      postWebhookEndpointsWebhookEndpointRequestBodyExpand = GHC.Maybe.Nothing,
+      postWebhookEndpointsWebhookEndpointRequestBodyUrl = GHC.Maybe.Nothing
+    }
+
+-- | Defines the enum schema located at @paths.\/v1\/webhook_endpoints\/{webhook_endpoint}.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.enabled_events.items@ in the specification.
 data PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'
-  = PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumOther Data.Aeson.Types.Internal.Value
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumTyped Data.Text.Internal.Text
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumString__
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringAccount'application'authorized
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringAccount'application'deauthorized
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringAccount'externalAccount'created
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringAccount'externalAccount'deleted
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringAccount'externalAccount'updated
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringAccount'updated
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringApplicationFee'created
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringApplicationFee'refund'updated
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringApplicationFee'refunded
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringBalance'available
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCapability'updated
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCharge'captured
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCharge'dispute'closed
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCharge'dispute'created
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCharge'dispute'fundsReinstated
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCharge'dispute'fundsWithdrawn
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCharge'dispute'updated
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCharge'expired
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCharge'failed
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCharge'pending
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCharge'refund'updated
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCharge'refunded
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCharge'succeeded
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCharge'updated
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCheckout'session'completed
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCoupon'created
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCoupon'deleted
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCoupon'updated
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCreditNote'created
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCreditNote'updated
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCreditNote'voided
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCustomer'created
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCustomer'deleted
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCustomer'discount'created
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCustomer'discount'deleted
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCustomer'discount'updated
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCustomer'source'created
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCustomer'source'deleted
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCustomer'source'expiring
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCustomer'source'updated
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCustomer'subscription'created
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCustomer'subscription'deleted
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCustomer'subscription'pendingUpdateApplied
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCustomer'subscription'pendingUpdateExpired
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCustomer'subscription'trialWillEnd
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCustomer'subscription'updated
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCustomer'taxId'created
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCustomer'taxId'deleted
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCustomer'taxId'updated
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCustomer'updated
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringFile'created
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringInvoice'created
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringInvoice'deleted
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringInvoice'finalized
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringInvoice'markedUncollectible
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringInvoice'paymentActionRequired
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringInvoice'paymentFailed
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringInvoice'paymentSucceeded
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringInvoice'sent
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringInvoice'upcoming
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringInvoice'updated
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringInvoice'voided
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringInvoiceitem'created
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringInvoiceitem'deleted
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringInvoiceitem'updated
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringIssuingAuthorization'created
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringIssuingAuthorization'request
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringIssuingAuthorization'updated
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringIssuingCard'created
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringIssuingCard'updated
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringIssuingCardholder'created
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringIssuingCardholder'updated
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringIssuingDispute'created
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringIssuingDispute'updated
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringIssuingSettlement'created
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringIssuingSettlement'updated
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringIssuingTransaction'created
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringIssuingTransaction'updated
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringMandate'updated
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringOrder'created
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringOrder'paymentFailed
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringOrder'paymentSucceeded
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringOrder'updated
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringOrderReturn'created
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringPaymentIntent'amountCapturableUpdated
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringPaymentIntent'canceled
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringPaymentIntent'created
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringPaymentIntent'paymentFailed
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringPaymentIntent'processing
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringPaymentIntent'succeeded
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringPaymentMethod'attached
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringPaymentMethod'cardAutomaticallyUpdated
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringPaymentMethod'detached
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringPaymentMethod'updated
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringPayout'canceled
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringPayout'created
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringPayout'failed
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringPayout'paid
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringPayout'updated
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringPerson'created
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringPerson'deleted
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringPerson'updated
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringPlan'created
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringPlan'deleted
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringPlan'updated
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringProduct'created
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringProduct'deleted
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringProduct'updated
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringRadar'earlyFraudWarning'created
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringRadar'earlyFraudWarning'updated
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringRecipient'created
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringRecipient'deleted
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringRecipient'updated
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringReporting'reportRun'failed
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringReporting'reportRun'succeeded
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringReporting'reportType'updated
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringReview'closed
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringReview'opened
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringSetupIntent'canceled
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringSetupIntent'created
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringSetupIntent'setupFailed
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringSetupIntent'succeeded
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringSigma'scheduledQueryRun'created
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringSku'created
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringSku'deleted
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringSku'updated
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringSource'canceled
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringSource'chargeable
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringSource'failed
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringSource'mandateNotification
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringSource'refundAttributesRequired
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringSource'transaction'created
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringSource'transaction'updated
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringSubscriptionSchedule'aborted
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringSubscriptionSchedule'canceled
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringSubscriptionSchedule'completed
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringSubscriptionSchedule'created
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringSubscriptionSchedule'expiring
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringSubscriptionSchedule'released
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringSubscriptionSchedule'updated
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringTaxRate'created
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringTaxRate'updated
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringTopup'canceled
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringTopup'created
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringTopup'failed
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringTopup'reversed
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringTopup'succeeded
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringTransfer'created
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringTransfer'failed
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringTransfer'paid
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringTransfer'reversed
-  | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringTransfer'updated
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"*"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'Enum_
+  | -- | Represents the JSON value @"account.application.authorized"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumAccount'application'authorized
+  | -- | Represents the JSON value @"account.application.deauthorized"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumAccount'application'deauthorized
+  | -- | Represents the JSON value @"account.external_account.created"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumAccount'externalAccount'created
+  | -- | Represents the JSON value @"account.external_account.deleted"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumAccount'externalAccount'deleted
+  | -- | Represents the JSON value @"account.external_account.updated"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumAccount'externalAccount'updated
+  | -- | Represents the JSON value @"account.updated"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumAccount'updated
+  | -- | Represents the JSON value @"application_fee.created"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumApplicationFee'created
+  | -- | Represents the JSON value @"application_fee.refund.updated"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumApplicationFee'refund'updated
+  | -- | Represents the JSON value @"application_fee.refunded"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumApplicationFee'refunded
+  | -- | Represents the JSON value @"balance.available"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumBalance'available
+  | -- | Represents the JSON value @"capability.updated"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCapability'updated
+  | -- | Represents the JSON value @"charge.captured"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCharge'captured
+  | -- | Represents the JSON value @"charge.dispute.closed"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCharge'dispute'closed
+  | -- | Represents the JSON value @"charge.dispute.created"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCharge'dispute'created
+  | -- | Represents the JSON value @"charge.dispute.funds_reinstated"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCharge'dispute'fundsReinstated
+  | -- | Represents the JSON value @"charge.dispute.funds_withdrawn"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCharge'dispute'fundsWithdrawn
+  | -- | Represents the JSON value @"charge.dispute.updated"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCharge'dispute'updated
+  | -- | Represents the JSON value @"charge.expired"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCharge'expired
+  | -- | Represents the JSON value @"charge.failed"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCharge'failed
+  | -- | Represents the JSON value @"charge.pending"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCharge'pending
+  | -- | Represents the JSON value @"charge.refund.updated"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCharge'refund'updated
+  | -- | Represents the JSON value @"charge.refunded"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCharge'refunded
+  | -- | Represents the JSON value @"charge.succeeded"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCharge'succeeded
+  | -- | Represents the JSON value @"charge.updated"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCharge'updated
+  | -- | Represents the JSON value @"checkout.session.completed"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCheckout'session'completed
+  | -- | Represents the JSON value @"coupon.created"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCoupon'created
+  | -- | Represents the JSON value @"coupon.deleted"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCoupon'deleted
+  | -- | Represents the JSON value @"coupon.updated"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCoupon'updated
+  | -- | Represents the JSON value @"credit_note.created"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCreditNote'created
+  | -- | Represents the JSON value @"credit_note.updated"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCreditNote'updated
+  | -- | Represents the JSON value @"credit_note.voided"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCreditNote'voided
+  | -- | Represents the JSON value @"customer.created"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCustomer'created
+  | -- | Represents the JSON value @"customer.deleted"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCustomer'deleted
+  | -- | Represents the JSON value @"customer.discount.created"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCustomer'discount'created
+  | -- | Represents the JSON value @"customer.discount.deleted"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCustomer'discount'deleted
+  | -- | Represents the JSON value @"customer.discount.updated"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCustomer'discount'updated
+  | -- | Represents the JSON value @"customer.source.created"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCustomer'source'created
+  | -- | Represents the JSON value @"customer.source.deleted"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCustomer'source'deleted
+  | -- | Represents the JSON value @"customer.source.expiring"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCustomer'source'expiring
+  | -- | Represents the JSON value @"customer.source.updated"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCustomer'source'updated
+  | -- | Represents the JSON value @"customer.subscription.created"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCustomer'subscription'created
+  | -- | Represents the JSON value @"customer.subscription.deleted"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCustomer'subscription'deleted
+  | -- | Represents the JSON value @"customer.subscription.pending_update_applied"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCustomer'subscription'pendingUpdateApplied
+  | -- | Represents the JSON value @"customer.subscription.pending_update_expired"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCustomer'subscription'pendingUpdateExpired
+  | -- | Represents the JSON value @"customer.subscription.trial_will_end"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCustomer'subscription'trialWillEnd
+  | -- | Represents the JSON value @"customer.subscription.updated"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCustomer'subscription'updated
+  | -- | Represents the JSON value @"customer.tax_id.created"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCustomer'taxId'created
+  | -- | Represents the JSON value @"customer.tax_id.deleted"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCustomer'taxId'deleted
+  | -- | Represents the JSON value @"customer.tax_id.updated"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCustomer'taxId'updated
+  | -- | Represents the JSON value @"customer.updated"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCustomer'updated
+  | -- | Represents the JSON value @"file.created"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumFile'created
+  | -- | Represents the JSON value @"invoice.created"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumInvoice'created
+  | -- | Represents the JSON value @"invoice.deleted"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumInvoice'deleted
+  | -- | Represents the JSON value @"invoice.finalized"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumInvoice'finalized
+  | -- | Represents the JSON value @"invoice.marked_uncollectible"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumInvoice'markedUncollectible
+  | -- | Represents the JSON value @"invoice.payment_action_required"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumInvoice'paymentActionRequired
+  | -- | Represents the JSON value @"invoice.payment_failed"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumInvoice'paymentFailed
+  | -- | Represents the JSON value @"invoice.payment_succeeded"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumInvoice'paymentSucceeded
+  | -- | Represents the JSON value @"invoice.sent"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumInvoice'sent
+  | -- | Represents the JSON value @"invoice.upcoming"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumInvoice'upcoming
+  | -- | Represents the JSON value @"invoice.updated"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumInvoice'updated
+  | -- | Represents the JSON value @"invoice.voided"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumInvoice'voided
+  | -- | Represents the JSON value @"invoiceitem.created"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumInvoiceitem'created
+  | -- | Represents the JSON value @"invoiceitem.deleted"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumInvoiceitem'deleted
+  | -- | Represents the JSON value @"invoiceitem.updated"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumInvoiceitem'updated
+  | -- | Represents the JSON value @"issuing_authorization.created"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumIssuingAuthorization'created
+  | -- | Represents the JSON value @"issuing_authorization.request"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumIssuingAuthorization'request
+  | -- | Represents the JSON value @"issuing_authorization.updated"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumIssuingAuthorization'updated
+  | -- | Represents the JSON value @"issuing_card.created"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumIssuingCard'created
+  | -- | Represents the JSON value @"issuing_card.updated"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumIssuingCard'updated
+  | -- | Represents the JSON value @"issuing_cardholder.created"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumIssuingCardholder'created
+  | -- | Represents the JSON value @"issuing_cardholder.updated"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumIssuingCardholder'updated
+  | -- | Represents the JSON value @"issuing_dispute.created"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumIssuingDispute'created
+  | -- | Represents the JSON value @"issuing_dispute.updated"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumIssuingDispute'updated
+  | -- | Represents the JSON value @"issuing_settlement.created"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumIssuingSettlement'created
+  | -- | Represents the JSON value @"issuing_settlement.updated"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumIssuingSettlement'updated
+  | -- | Represents the JSON value @"issuing_transaction.created"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumIssuingTransaction'created
+  | -- | Represents the JSON value @"issuing_transaction.updated"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumIssuingTransaction'updated
+  | -- | Represents the JSON value @"mandate.updated"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumMandate'updated
+  | -- | Represents the JSON value @"order.created"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumOrder'created
+  | -- | Represents the JSON value @"order.payment_failed"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumOrder'paymentFailed
+  | -- | Represents the JSON value @"order.payment_succeeded"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumOrder'paymentSucceeded
+  | -- | Represents the JSON value @"order.updated"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumOrder'updated
+  | -- | Represents the JSON value @"order_return.created"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumOrderReturn'created
+  | -- | Represents the JSON value @"payment_intent.amount_capturable_updated"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumPaymentIntent'amountCapturableUpdated
+  | -- | Represents the JSON value @"payment_intent.canceled"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumPaymentIntent'canceled
+  | -- | Represents the JSON value @"payment_intent.created"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumPaymentIntent'created
+  | -- | Represents the JSON value @"payment_intent.payment_failed"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumPaymentIntent'paymentFailed
+  | -- | Represents the JSON value @"payment_intent.processing"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumPaymentIntent'processing
+  | -- | Represents the JSON value @"payment_intent.succeeded"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumPaymentIntent'succeeded
+  | -- | Represents the JSON value @"payment_method.attached"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumPaymentMethod'attached
+  | -- | Represents the JSON value @"payment_method.card_automatically_updated"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumPaymentMethod'cardAutomaticallyUpdated
+  | -- | Represents the JSON value @"payment_method.detached"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumPaymentMethod'detached
+  | -- | Represents the JSON value @"payment_method.updated"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumPaymentMethod'updated
+  | -- | Represents the JSON value @"payout.canceled"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumPayout'canceled
+  | -- | Represents the JSON value @"payout.created"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumPayout'created
+  | -- | Represents the JSON value @"payout.failed"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumPayout'failed
+  | -- | Represents the JSON value @"payout.paid"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumPayout'paid
+  | -- | Represents the JSON value @"payout.updated"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumPayout'updated
+  | -- | Represents the JSON value @"person.created"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumPerson'created
+  | -- | Represents the JSON value @"person.deleted"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumPerson'deleted
+  | -- | Represents the JSON value @"person.updated"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumPerson'updated
+  | -- | Represents the JSON value @"plan.created"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumPlan'created
+  | -- | Represents the JSON value @"plan.deleted"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumPlan'deleted
+  | -- | Represents the JSON value @"plan.updated"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumPlan'updated
+  | -- | Represents the JSON value @"product.created"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumProduct'created
+  | -- | Represents the JSON value @"product.deleted"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumProduct'deleted
+  | -- | Represents the JSON value @"product.updated"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumProduct'updated
+  | -- | Represents the JSON value @"radar.early_fraud_warning.created"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumRadar'earlyFraudWarning'created
+  | -- | Represents the JSON value @"radar.early_fraud_warning.updated"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumRadar'earlyFraudWarning'updated
+  | -- | Represents the JSON value @"recipient.created"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumRecipient'created
+  | -- | Represents the JSON value @"recipient.deleted"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumRecipient'deleted
+  | -- | Represents the JSON value @"recipient.updated"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumRecipient'updated
+  | -- | Represents the JSON value @"reporting.report_run.failed"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumReporting'reportRun'failed
+  | -- | Represents the JSON value @"reporting.report_run.succeeded"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumReporting'reportRun'succeeded
+  | -- | Represents the JSON value @"reporting.report_type.updated"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumReporting'reportType'updated
+  | -- | Represents the JSON value @"review.closed"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumReview'closed
+  | -- | Represents the JSON value @"review.opened"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumReview'opened
+  | -- | Represents the JSON value @"setup_intent.canceled"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumSetupIntent'canceled
+  | -- | Represents the JSON value @"setup_intent.created"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumSetupIntent'created
+  | -- | Represents the JSON value @"setup_intent.setup_failed"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumSetupIntent'setupFailed
+  | -- | Represents the JSON value @"setup_intent.succeeded"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumSetupIntent'succeeded
+  | -- | Represents the JSON value @"sigma.scheduled_query_run.created"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumSigma'scheduledQueryRun'created
+  | -- | Represents the JSON value @"sku.created"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumSku'created
+  | -- | Represents the JSON value @"sku.deleted"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumSku'deleted
+  | -- | Represents the JSON value @"sku.updated"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumSku'updated
+  | -- | Represents the JSON value @"source.canceled"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumSource'canceled
+  | -- | Represents the JSON value @"source.chargeable"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumSource'chargeable
+  | -- | Represents the JSON value @"source.failed"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumSource'failed
+  | -- | Represents the JSON value @"source.mandate_notification"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumSource'mandateNotification
+  | -- | Represents the JSON value @"source.refund_attributes_required"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumSource'refundAttributesRequired
+  | -- | Represents the JSON value @"source.transaction.created"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumSource'transaction'created
+  | -- | Represents the JSON value @"source.transaction.updated"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumSource'transaction'updated
+  | -- | Represents the JSON value @"subscription_schedule.aborted"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumSubscriptionSchedule'aborted
+  | -- | Represents the JSON value @"subscription_schedule.canceled"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumSubscriptionSchedule'canceled
+  | -- | Represents the JSON value @"subscription_schedule.completed"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumSubscriptionSchedule'completed
+  | -- | Represents the JSON value @"subscription_schedule.created"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumSubscriptionSchedule'created
+  | -- | Represents the JSON value @"subscription_schedule.expiring"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumSubscriptionSchedule'expiring
+  | -- | Represents the JSON value @"subscription_schedule.released"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumSubscriptionSchedule'released
+  | -- | Represents the JSON value @"subscription_schedule.updated"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumSubscriptionSchedule'updated
+  | -- | Represents the JSON value @"tax_rate.created"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumTaxRate'created
+  | -- | Represents the JSON value @"tax_rate.updated"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumTaxRate'updated
+  | -- | Represents the JSON value @"topup.canceled"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumTopup'canceled
+  | -- | Represents the JSON value @"topup.created"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumTopup'created
+  | -- | Represents the JSON value @"topup.failed"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumTopup'failed
+  | -- | Represents the JSON value @"topup.reversed"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumTopup'reversed
+  | -- | Represents the JSON value @"topup.succeeded"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumTopup'succeeded
+  | -- | Represents the JSON value @"transfer.created"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumTransfer'created
+  | -- | Represents the JSON value @"transfer.failed"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumTransfer'failed
+  | -- | Represents the JSON value @"transfer.paid"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumTransfer'paid
+  | -- | Represents the JSON value @"transfer.reversed"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumTransfer'reversed
+  | -- | Represents the JSON value @"transfer.updated"@
+    PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumTransfer'updated
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.ToJSON PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents' where
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumString__) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "*"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringAccount'application'authorized) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "account.application.authorized"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringAccount'application'deauthorized) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "account.application.deauthorized"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringAccount'externalAccount'created) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "account.external_account.created"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringAccount'externalAccount'deleted) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "account.external_account.deleted"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringAccount'externalAccount'updated) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "account.external_account.updated"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringAccount'updated) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "account.updated"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringApplicationFee'created) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "application_fee.created"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringApplicationFee'refund'updated) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "application_fee.refund.updated"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringApplicationFee'refunded) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "application_fee.refunded"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringBalance'available) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "balance.available"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCapability'updated) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "capability.updated"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCharge'captured) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "charge.captured"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCharge'dispute'closed) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "charge.dispute.closed"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCharge'dispute'created) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "charge.dispute.created"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCharge'dispute'fundsReinstated) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "charge.dispute.funds_reinstated"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCharge'dispute'fundsWithdrawn) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "charge.dispute.funds_withdrawn"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCharge'dispute'updated) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "charge.dispute.updated"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCharge'expired) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "charge.expired"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCharge'failed) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "charge.failed"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCharge'pending) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "charge.pending"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCharge'refund'updated) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "charge.refund.updated"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCharge'refunded) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "charge.refunded"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCharge'succeeded) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "charge.succeeded"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCharge'updated) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "charge.updated"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCheckout'session'completed) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "checkout.session.completed"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCoupon'created) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "coupon.created"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCoupon'deleted) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "coupon.deleted"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCoupon'updated) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "coupon.updated"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCreditNote'created) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "credit_note.created"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCreditNote'updated) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "credit_note.updated"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCreditNote'voided) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "credit_note.voided"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCustomer'created) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "customer.created"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCustomer'deleted) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "customer.deleted"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCustomer'discount'created) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "customer.discount.created"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCustomer'discount'deleted) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "customer.discount.deleted"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCustomer'discount'updated) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "customer.discount.updated"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCustomer'source'created) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "customer.source.created"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCustomer'source'deleted) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "customer.source.deleted"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCustomer'source'expiring) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "customer.source.expiring"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCustomer'source'updated) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "customer.source.updated"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCustomer'subscription'created) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "customer.subscription.created"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCustomer'subscription'deleted) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "customer.subscription.deleted"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCustomer'subscription'pendingUpdateApplied) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "customer.subscription.pending_update_applied"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCustomer'subscription'pendingUpdateExpired) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "customer.subscription.pending_update_expired"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCustomer'subscription'trialWillEnd) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "customer.subscription.trial_will_end"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCustomer'subscription'updated) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "customer.subscription.updated"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCustomer'taxId'created) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "customer.tax_id.created"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCustomer'taxId'deleted) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "customer.tax_id.deleted"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCustomer'taxId'updated) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "customer.tax_id.updated"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCustomer'updated) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "customer.updated"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringFile'created) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "file.created"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringInvoice'created) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "invoice.created"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringInvoice'deleted) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "invoice.deleted"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringInvoice'finalized) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "invoice.finalized"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringInvoice'markedUncollectible) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "invoice.marked_uncollectible"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringInvoice'paymentActionRequired) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "invoice.payment_action_required"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringInvoice'paymentFailed) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "invoice.payment_failed"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringInvoice'paymentSucceeded) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "invoice.payment_succeeded"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringInvoice'sent) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "invoice.sent"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringInvoice'upcoming) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "invoice.upcoming"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringInvoice'updated) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "invoice.updated"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringInvoice'voided) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "invoice.voided"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringInvoiceitem'created) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "invoiceitem.created"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringInvoiceitem'deleted) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "invoiceitem.deleted"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringInvoiceitem'updated) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "invoiceitem.updated"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringIssuingAuthorization'created) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "issuing_authorization.created"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringIssuingAuthorization'request) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "issuing_authorization.request"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringIssuingAuthorization'updated) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "issuing_authorization.updated"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringIssuingCard'created) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "issuing_card.created"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringIssuingCard'updated) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "issuing_card.updated"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringIssuingCardholder'created) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "issuing_cardholder.created"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringIssuingCardholder'updated) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "issuing_cardholder.updated"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringIssuingDispute'created) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "issuing_dispute.created"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringIssuingDispute'updated) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "issuing_dispute.updated"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringIssuingSettlement'created) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "issuing_settlement.created"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringIssuingSettlement'updated) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "issuing_settlement.updated"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringIssuingTransaction'created) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "issuing_transaction.created"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringIssuingTransaction'updated) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "issuing_transaction.updated"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringMandate'updated) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "mandate.updated"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringOrder'created) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "order.created"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringOrder'paymentFailed) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "order.payment_failed"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringOrder'paymentSucceeded) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "order.payment_succeeded"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringOrder'updated) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "order.updated"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringOrderReturn'created) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "order_return.created"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringPaymentIntent'amountCapturableUpdated) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "payment_intent.amount_capturable_updated"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringPaymentIntent'canceled) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "payment_intent.canceled"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringPaymentIntent'created) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "payment_intent.created"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringPaymentIntent'paymentFailed) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "payment_intent.payment_failed"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringPaymentIntent'processing) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "payment_intent.processing"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringPaymentIntent'succeeded) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "payment_intent.succeeded"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringPaymentMethod'attached) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "payment_method.attached"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringPaymentMethod'cardAutomaticallyUpdated) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "payment_method.card_automatically_updated"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringPaymentMethod'detached) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "payment_method.detached"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringPaymentMethod'updated) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "payment_method.updated"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringPayout'canceled) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "payout.canceled"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringPayout'created) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "payout.created"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringPayout'failed) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "payout.failed"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringPayout'paid) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "payout.paid"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringPayout'updated) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "payout.updated"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringPerson'created) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "person.created"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringPerson'deleted) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "person.deleted"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringPerson'updated) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "person.updated"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringPlan'created) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "plan.created"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringPlan'deleted) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "plan.deleted"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringPlan'updated) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "plan.updated"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringProduct'created) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "product.created"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringProduct'deleted) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "product.deleted"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringProduct'updated) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "product.updated"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringRadar'earlyFraudWarning'created) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "radar.early_fraud_warning.created"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringRadar'earlyFraudWarning'updated) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "radar.early_fraud_warning.updated"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringRecipient'created) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "recipient.created"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringRecipient'deleted) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "recipient.deleted"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringRecipient'updated) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "recipient.updated"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringReporting'reportRun'failed) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "reporting.report_run.failed"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringReporting'reportRun'succeeded) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "reporting.report_run.succeeded"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringReporting'reportType'updated) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "reporting.report_type.updated"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringReview'closed) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "review.closed"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringReview'opened) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "review.opened"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringSetupIntent'canceled) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "setup_intent.canceled"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringSetupIntent'created) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "setup_intent.created"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringSetupIntent'setupFailed) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "setup_intent.setup_failed"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringSetupIntent'succeeded) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "setup_intent.succeeded"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringSigma'scheduledQueryRun'created) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "sigma.scheduled_query_run.created"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringSku'created) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "sku.created"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringSku'deleted) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "sku.deleted"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringSku'updated) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "sku.updated"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringSource'canceled) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "source.canceled"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringSource'chargeable) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "source.chargeable"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringSource'failed) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "source.failed"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringSource'mandateNotification) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "source.mandate_notification"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringSource'refundAttributesRequired) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "source.refund_attributes_required"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringSource'transaction'created) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "source.transaction.created"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringSource'transaction'updated) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "source.transaction.updated"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringSubscriptionSchedule'aborted) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "subscription_schedule.aborted"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringSubscriptionSchedule'canceled) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "subscription_schedule.canceled"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringSubscriptionSchedule'completed) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "subscription_schedule.completed"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringSubscriptionSchedule'created) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "subscription_schedule.created"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringSubscriptionSchedule'expiring) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "subscription_schedule.expiring"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringSubscriptionSchedule'released) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "subscription_schedule.released"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringSubscriptionSchedule'updated) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "subscription_schedule.updated"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringTaxRate'created) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "tax_rate.created"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringTaxRate'updated) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "tax_rate.updated"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringTopup'canceled) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "topup.canceled"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringTopup'created) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "topup.created"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringTopup'failed) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "topup.failed"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringTopup'reversed) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "topup.reversed"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringTopup'succeeded) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "topup.succeeded"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringTransfer'created) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "transfer.created"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringTransfer'failed) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "transfer.failed"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringTransfer'paid) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "transfer.paid"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringTransfer'reversed) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "transfer.reversed"
-  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringTransfer'updated) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "transfer.updated"
+instance Data.Aeson.Types.ToJSON.ToJSON PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents' where
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'Other val) = val
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'Enum_) = "*"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumAccount'application'authorized) = "account.application.authorized"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumAccount'application'deauthorized) = "account.application.deauthorized"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumAccount'externalAccount'created) = "account.external_account.created"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumAccount'externalAccount'deleted) = "account.external_account.deleted"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumAccount'externalAccount'updated) = "account.external_account.updated"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumAccount'updated) = "account.updated"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumApplicationFee'created) = "application_fee.created"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumApplicationFee'refund'updated) = "application_fee.refund.updated"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumApplicationFee'refunded) = "application_fee.refunded"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumBalance'available) = "balance.available"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCapability'updated) = "capability.updated"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCharge'captured) = "charge.captured"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCharge'dispute'closed) = "charge.dispute.closed"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCharge'dispute'created) = "charge.dispute.created"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCharge'dispute'fundsReinstated) = "charge.dispute.funds_reinstated"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCharge'dispute'fundsWithdrawn) = "charge.dispute.funds_withdrawn"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCharge'dispute'updated) = "charge.dispute.updated"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCharge'expired) = "charge.expired"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCharge'failed) = "charge.failed"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCharge'pending) = "charge.pending"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCharge'refund'updated) = "charge.refund.updated"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCharge'refunded) = "charge.refunded"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCharge'succeeded) = "charge.succeeded"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCharge'updated) = "charge.updated"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCheckout'session'completed) = "checkout.session.completed"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCoupon'created) = "coupon.created"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCoupon'deleted) = "coupon.deleted"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCoupon'updated) = "coupon.updated"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCreditNote'created) = "credit_note.created"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCreditNote'updated) = "credit_note.updated"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCreditNote'voided) = "credit_note.voided"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCustomer'created) = "customer.created"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCustomer'deleted) = "customer.deleted"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCustomer'discount'created) = "customer.discount.created"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCustomer'discount'deleted) = "customer.discount.deleted"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCustomer'discount'updated) = "customer.discount.updated"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCustomer'source'created) = "customer.source.created"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCustomer'source'deleted) = "customer.source.deleted"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCustomer'source'expiring) = "customer.source.expiring"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCustomer'source'updated) = "customer.source.updated"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCustomer'subscription'created) = "customer.subscription.created"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCustomer'subscription'deleted) = "customer.subscription.deleted"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCustomer'subscription'pendingUpdateApplied) = "customer.subscription.pending_update_applied"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCustomer'subscription'pendingUpdateExpired) = "customer.subscription.pending_update_expired"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCustomer'subscription'trialWillEnd) = "customer.subscription.trial_will_end"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCustomer'subscription'updated) = "customer.subscription.updated"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCustomer'taxId'created) = "customer.tax_id.created"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCustomer'taxId'deleted) = "customer.tax_id.deleted"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCustomer'taxId'updated) = "customer.tax_id.updated"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCustomer'updated) = "customer.updated"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumFile'created) = "file.created"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumInvoice'created) = "invoice.created"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumInvoice'deleted) = "invoice.deleted"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumInvoice'finalized) = "invoice.finalized"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumInvoice'markedUncollectible) = "invoice.marked_uncollectible"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumInvoice'paymentActionRequired) = "invoice.payment_action_required"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumInvoice'paymentFailed) = "invoice.payment_failed"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumInvoice'paymentSucceeded) = "invoice.payment_succeeded"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumInvoice'sent) = "invoice.sent"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumInvoice'upcoming) = "invoice.upcoming"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumInvoice'updated) = "invoice.updated"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumInvoice'voided) = "invoice.voided"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumInvoiceitem'created) = "invoiceitem.created"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumInvoiceitem'deleted) = "invoiceitem.deleted"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumInvoiceitem'updated) = "invoiceitem.updated"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumIssuingAuthorization'created) = "issuing_authorization.created"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumIssuingAuthorization'request) = "issuing_authorization.request"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumIssuingAuthorization'updated) = "issuing_authorization.updated"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumIssuingCard'created) = "issuing_card.created"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumIssuingCard'updated) = "issuing_card.updated"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumIssuingCardholder'created) = "issuing_cardholder.created"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumIssuingCardholder'updated) = "issuing_cardholder.updated"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumIssuingDispute'created) = "issuing_dispute.created"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumIssuingDispute'updated) = "issuing_dispute.updated"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumIssuingSettlement'created) = "issuing_settlement.created"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumIssuingSettlement'updated) = "issuing_settlement.updated"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumIssuingTransaction'created) = "issuing_transaction.created"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumIssuingTransaction'updated) = "issuing_transaction.updated"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumMandate'updated) = "mandate.updated"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumOrder'created) = "order.created"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumOrder'paymentFailed) = "order.payment_failed"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumOrder'paymentSucceeded) = "order.payment_succeeded"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumOrder'updated) = "order.updated"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumOrderReturn'created) = "order_return.created"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumPaymentIntent'amountCapturableUpdated) = "payment_intent.amount_capturable_updated"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumPaymentIntent'canceled) = "payment_intent.canceled"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumPaymentIntent'created) = "payment_intent.created"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumPaymentIntent'paymentFailed) = "payment_intent.payment_failed"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumPaymentIntent'processing) = "payment_intent.processing"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumPaymentIntent'succeeded) = "payment_intent.succeeded"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumPaymentMethod'attached) = "payment_method.attached"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumPaymentMethod'cardAutomaticallyUpdated) = "payment_method.card_automatically_updated"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumPaymentMethod'detached) = "payment_method.detached"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumPaymentMethod'updated) = "payment_method.updated"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumPayout'canceled) = "payout.canceled"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumPayout'created) = "payout.created"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumPayout'failed) = "payout.failed"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumPayout'paid) = "payout.paid"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumPayout'updated) = "payout.updated"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumPerson'created) = "person.created"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumPerson'deleted) = "person.deleted"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumPerson'updated) = "person.updated"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumPlan'created) = "plan.created"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumPlan'deleted) = "plan.deleted"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumPlan'updated) = "plan.updated"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumProduct'created) = "product.created"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumProduct'deleted) = "product.deleted"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumProduct'updated) = "product.updated"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumRadar'earlyFraudWarning'created) = "radar.early_fraud_warning.created"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumRadar'earlyFraudWarning'updated) = "radar.early_fraud_warning.updated"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumRecipient'created) = "recipient.created"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumRecipient'deleted) = "recipient.deleted"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumRecipient'updated) = "recipient.updated"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumReporting'reportRun'failed) = "reporting.report_run.failed"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumReporting'reportRun'succeeded) = "reporting.report_run.succeeded"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumReporting'reportType'updated) = "reporting.report_type.updated"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumReview'closed) = "review.closed"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumReview'opened) = "review.opened"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumSetupIntent'canceled) = "setup_intent.canceled"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumSetupIntent'created) = "setup_intent.created"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumSetupIntent'setupFailed) = "setup_intent.setup_failed"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumSetupIntent'succeeded) = "setup_intent.succeeded"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumSigma'scheduledQueryRun'created) = "sigma.scheduled_query_run.created"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumSku'created) = "sku.created"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumSku'deleted) = "sku.deleted"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumSku'updated) = "sku.updated"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumSource'canceled) = "source.canceled"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumSource'chargeable) = "source.chargeable"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumSource'failed) = "source.failed"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumSource'mandateNotification) = "source.mandate_notification"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumSource'refundAttributesRequired) = "source.refund_attributes_required"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumSource'transaction'created) = "source.transaction.created"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumSource'transaction'updated) = "source.transaction.updated"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumSubscriptionSchedule'aborted) = "subscription_schedule.aborted"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumSubscriptionSchedule'canceled) = "subscription_schedule.canceled"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumSubscriptionSchedule'completed) = "subscription_schedule.completed"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumSubscriptionSchedule'created) = "subscription_schedule.created"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumSubscriptionSchedule'expiring) = "subscription_schedule.expiring"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumSubscriptionSchedule'released) = "subscription_schedule.released"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumSubscriptionSchedule'updated) = "subscription_schedule.updated"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumTaxRate'created) = "tax_rate.created"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumTaxRate'updated) = "tax_rate.updated"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumTopup'canceled) = "topup.canceled"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumTopup'created) = "topup.created"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumTopup'failed) = "topup.failed"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumTopup'reversed) = "topup.reversed"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumTopup'succeeded) = "topup.succeeded"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumTransfer'created) = "transfer.created"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumTransfer'failed) = "transfer.failed"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumTransfer'paid) = "transfer.paid"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumTransfer'reversed) = "transfer.reversed"
+  toJSON (PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumTransfer'updated) = "transfer.updated"
 
-instance Data.Aeson.FromJSON PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents' where
+instance Data.Aeson.Types.FromJSON.FromJSON PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents' where
   parseJSON val =
     GHC.Base.pure
-      ( if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "*")
-          then PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumString__
-          else
-            if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "account.application.authorized")
-              then PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringAccount'application'authorized
-              else
-                if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "account.application.deauthorized")
-                  then PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringAccount'application'deauthorized
-                  else
-                    if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "account.external_account.created")
-                      then PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringAccount'externalAccount'created
-                      else
-                        if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "account.external_account.deleted")
-                          then PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringAccount'externalAccount'deleted
-                          else
-                            if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "account.external_account.updated")
-                              then PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringAccount'externalAccount'updated
-                              else
-                                if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "account.updated")
-                                  then PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringAccount'updated
-                                  else
-                                    if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "application_fee.created")
-                                      then PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringApplicationFee'created
-                                      else
-                                        if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "application_fee.refund.updated")
-                                          then PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringApplicationFee'refund'updated
-                                          else
-                                            if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "application_fee.refunded")
-                                              then PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringApplicationFee'refunded
-                                              else
-                                                if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "balance.available")
-                                                  then PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringBalance'available
-                                                  else
-                                                    if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "capability.updated")
-                                                      then PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCapability'updated
-                                                      else
-                                                        if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "charge.captured")
-                                                          then PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCharge'captured
-                                                          else
-                                                            if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "charge.dispute.closed")
-                                                              then PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCharge'dispute'closed
-                                                              else
-                                                                if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "charge.dispute.created")
-                                                                  then PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCharge'dispute'created
-                                                                  else
-                                                                    if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "charge.dispute.funds_reinstated")
-                                                                      then PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCharge'dispute'fundsReinstated
-                                                                      else
-                                                                        if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "charge.dispute.funds_withdrawn")
-                                                                          then PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCharge'dispute'fundsWithdrawn
-                                                                          else
-                                                                            if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "charge.dispute.updated")
-                                                                              then PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCharge'dispute'updated
-                                                                              else
-                                                                                if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "charge.expired")
-                                                                                  then PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCharge'expired
-                                                                                  else
-                                                                                    if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "charge.failed")
-                                                                                      then PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCharge'failed
-                                                                                      else
-                                                                                        if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "charge.pending")
-                                                                                          then PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCharge'pending
-                                                                                          else
-                                                                                            if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "charge.refund.updated")
-                                                                                              then PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCharge'refund'updated
-                                                                                              else
-                                                                                                if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "charge.refunded")
-                                                                                                  then PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCharge'refunded
-                                                                                                  else
-                                                                                                    if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "charge.succeeded")
-                                                                                                      then PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCharge'succeeded
-                                                                                                      else
-                                                                                                        if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "charge.updated")
-                                                                                                          then PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCharge'updated
-                                                                                                          else
-                                                                                                            if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "checkout.session.completed")
-                                                                                                              then PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCheckout'session'completed
-                                                                                                              else
-                                                                                                                if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "coupon.created")
-                                                                                                                  then PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCoupon'created
-                                                                                                                  else
-                                                                                                                    if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "coupon.deleted")
-                                                                                                                      then PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCoupon'deleted
-                                                                                                                      else
-                                                                                                                        if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "coupon.updated")
-                                                                                                                          then PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCoupon'updated
-                                                                                                                          else
-                                                                                                                            if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "credit_note.created")
-                                                                                                                              then PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCreditNote'created
-                                                                                                                              else
-                                                                                                                                if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "credit_note.updated")
-                                                                                                                                  then PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCreditNote'updated
-                                                                                                                                  else
-                                                                                                                                    if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "credit_note.voided")
-                                                                                                                                      then PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCreditNote'voided
-                                                                                                                                      else
-                                                                                                                                        if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "customer.created")
-                                                                                                                                          then PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCustomer'created
-                                                                                                                                          else
-                                                                                                                                            if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "customer.deleted")
-                                                                                                                                              then PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCustomer'deleted
-                                                                                                                                              else
-                                                                                                                                                if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "customer.discount.created")
-                                                                                                                                                  then PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCustomer'discount'created
-                                                                                                                                                  else
-                                                                                                                                                    if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "customer.discount.deleted")
-                                                                                                                                                      then PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCustomer'discount'deleted
-                                                                                                                                                      else
-                                                                                                                                                        if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "customer.discount.updated")
-                                                                                                                                                          then PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCustomer'discount'updated
-                                                                                                                                                          else
-                                                                                                                                                            if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "customer.source.created")
-                                                                                                                                                              then PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCustomer'source'created
-                                                                                                                                                              else
-                                                                                                                                                                if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "customer.source.deleted")
-                                                                                                                                                                  then PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCustomer'source'deleted
-                                                                                                                                                                  else
-                                                                                                                                                                    if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "customer.source.expiring")
-                                                                                                                                                                      then PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCustomer'source'expiring
-                                                                                                                                                                      else
-                                                                                                                                                                        if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "customer.source.updated")
-                                                                                                                                                                          then PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCustomer'source'updated
-                                                                                                                                                                          else
-                                                                                                                                                                            if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "customer.subscription.created")
-                                                                                                                                                                              then PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCustomer'subscription'created
-                                                                                                                                                                              else
-                                                                                                                                                                                if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "customer.subscription.deleted")
-                                                                                                                                                                                  then PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCustomer'subscription'deleted
-                                                                                                                                                                                  else
-                                                                                                                                                                                    if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "customer.subscription.pending_update_applied")
-                                                                                                                                                                                      then PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCustomer'subscription'pendingUpdateApplied
-                                                                                                                                                                                      else
-                                                                                                                                                                                        if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "customer.subscription.pending_update_expired")
-                                                                                                                                                                                          then PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCustomer'subscription'pendingUpdateExpired
-                                                                                                                                                                                          else
-                                                                                                                                                                                            if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "customer.subscription.trial_will_end")
-                                                                                                                                                                                              then PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCustomer'subscription'trialWillEnd
-                                                                                                                                                                                              else
-                                                                                                                                                                                                if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "customer.subscription.updated")
-                                                                                                                                                                                                  then PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCustomer'subscription'updated
-                                                                                                                                                                                                  else
-                                                                                                                                                                                                    if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "customer.tax_id.created")
-                                                                                                                                                                                                      then PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCustomer'taxId'created
-                                                                                                                                                                                                      else
-                                                                                                                                                                                                        if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "customer.tax_id.deleted")
-                                                                                                                                                                                                          then PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCustomer'taxId'deleted
-                                                                                                                                                                                                          else
-                                                                                                                                                                                                            if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "customer.tax_id.updated")
-                                                                                                                                                                                                              then PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCustomer'taxId'updated
-                                                                                                                                                                                                              else
-                                                                                                                                                                                                                if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "customer.updated")
-                                                                                                                                                                                                                  then PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringCustomer'updated
-                                                                                                                                                                                                                  else
-                                                                                                                                                                                                                    if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "file.created")
-                                                                                                                                                                                                                      then PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringFile'created
-                                                                                                                                                                                                                      else
-                                                                                                                                                                                                                        if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "invoice.created")
-                                                                                                                                                                                                                          then PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringInvoice'created
-                                                                                                                                                                                                                          else
-                                                                                                                                                                                                                            if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "invoice.deleted")
-                                                                                                                                                                                                                              then PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringInvoice'deleted
-                                                                                                                                                                                                                              else
-                                                                                                                                                                                                                                if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "invoice.finalized")
-                                                                                                                                                                                                                                  then PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringInvoice'finalized
-                                                                                                                                                                                                                                  else
-                                                                                                                                                                                                                                    if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "invoice.marked_uncollectible")
-                                                                                                                                                                                                                                      then PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringInvoice'markedUncollectible
-                                                                                                                                                                                                                                      else
-                                                                                                                                                                                                                                        if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "invoice.payment_action_required")
-                                                                                                                                                                                                                                          then PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringInvoice'paymentActionRequired
-                                                                                                                                                                                                                                          else
-                                                                                                                                                                                                                                            if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "invoice.payment_failed")
-                                                                                                                                                                                                                                              then PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringInvoice'paymentFailed
-                                                                                                                                                                                                                                              else
-                                                                                                                                                                                                                                                if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "invoice.payment_succeeded")
-                                                                                                                                                                                                                                                  then PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringInvoice'paymentSucceeded
-                                                                                                                                                                                                                                                  else
-                                                                                                                                                                                                                                                    if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "invoice.sent")
-                                                                                                                                                                                                                                                      then PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringInvoice'sent
-                                                                                                                                                                                                                                                      else
-                                                                                                                                                                                                                                                        if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "invoice.upcoming")
-                                                                                                                                                                                                                                                          then PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringInvoice'upcoming
-                                                                                                                                                                                                                                                          else
-                                                                                                                                                                                                                                                            if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "invoice.updated")
-                                                                                                                                                                                                                                                              then PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringInvoice'updated
-                                                                                                                                                                                                                                                              else
-                                                                                                                                                                                                                                                                if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "invoice.voided")
-                                                                                                                                                                                                                                                                  then PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringInvoice'voided
-                                                                                                                                                                                                                                                                  else
-                                                                                                                                                                                                                                                                    if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "invoiceitem.created")
-                                                                                                                                                                                                                                                                      then PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringInvoiceitem'created
-                                                                                                                                                                                                                                                                      else
-                                                                                                                                                                                                                                                                        if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "invoiceitem.deleted")
-                                                                                                                                                                                                                                                                          then PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringInvoiceitem'deleted
-                                                                                                                                                                                                                                                                          else
-                                                                                                                                                                                                                                                                            if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "invoiceitem.updated")
-                                                                                                                                                                                                                                                                              then PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringInvoiceitem'updated
-                                                                                                                                                                                                                                                                              else
-                                                                                                                                                                                                                                                                                if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "issuing_authorization.created")
-                                                                                                                                                                                                                                                                                  then PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringIssuingAuthorization'created
-                                                                                                                                                                                                                                                                                  else
-                                                                                                                                                                                                                                                                                    if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "issuing_authorization.request")
-                                                                                                                                                                                                                                                                                      then PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringIssuingAuthorization'request
-                                                                                                                                                                                                                                                                                      else
-                                                                                                                                                                                                                                                                                        if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "issuing_authorization.updated")
-                                                                                                                                                                                                                                                                                          then PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringIssuingAuthorization'updated
-                                                                                                                                                                                                                                                                                          else
-                                                                                                                                                                                                                                                                                            if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "issuing_card.created")
-                                                                                                                                                                                                                                                                                              then PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringIssuingCard'created
-                                                                                                                                                                                                                                                                                              else
-                                                                                                                                                                                                                                                                                                if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "issuing_card.updated")
-                                                                                                                                                                                                                                                                                                  then PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringIssuingCard'updated
-                                                                                                                                                                                                                                                                                                  else
-                                                                                                                                                                                                                                                                                                    if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "issuing_cardholder.created")
-                                                                                                                                                                                                                                                                                                      then PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringIssuingCardholder'created
-                                                                                                                                                                                                                                                                                                      else
-                                                                                                                                                                                                                                                                                                        if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "issuing_cardholder.updated")
-                                                                                                                                                                                                                                                                                                          then PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringIssuingCardholder'updated
-                                                                                                                                                                                                                                                                                                          else
-                                                                                                                                                                                                                                                                                                            if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "issuing_dispute.created")
-                                                                                                                                                                                                                                                                                                              then PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringIssuingDispute'created
-                                                                                                                                                                                                                                                                                                              else
-                                                                                                                                                                                                                                                                                                                if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "issuing_dispute.updated")
-                                                                                                                                                                                                                                                                                                                  then PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringIssuingDispute'updated
-                                                                                                                                                                                                                                                                                                                  else
-                                                                                                                                                                                                                                                                                                                    if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "issuing_settlement.created")
-                                                                                                                                                                                                                                                                                                                      then PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringIssuingSettlement'created
-                                                                                                                                                                                                                                                                                                                      else
-                                                                                                                                                                                                                                                                                                                        if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "issuing_settlement.updated")
-                                                                                                                                                                                                                                                                                                                          then PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringIssuingSettlement'updated
-                                                                                                                                                                                                                                                                                                                          else
-                                                                                                                                                                                                                                                                                                                            if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "issuing_transaction.created")
-                                                                                                                                                                                                                                                                                                                              then PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringIssuingTransaction'created
-                                                                                                                                                                                                                                                                                                                              else
-                                                                                                                                                                                                                                                                                                                                if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "issuing_transaction.updated")
-                                                                                                                                                                                                                                                                                                                                  then PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringIssuingTransaction'updated
-                                                                                                                                                                                                                                                                                                                                  else
-                                                                                                                                                                                                                                                                                                                                    if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "mandate.updated")
-                                                                                                                                                                                                                                                                                                                                      then PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringMandate'updated
-                                                                                                                                                                                                                                                                                                                                      else
-                                                                                                                                                                                                                                                                                                                                        if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "order.created")
-                                                                                                                                                                                                                                                                                                                                          then PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringOrder'created
-                                                                                                                                                                                                                                                                                                                                          else
-                                                                                                                                                                                                                                                                                                                                            if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "order.payment_failed")
-                                                                                                                                                                                                                                                                                                                                              then PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringOrder'paymentFailed
-                                                                                                                                                                                                                                                                                                                                              else
-                                                                                                                                                                                                                                                                                                                                                if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "order.payment_succeeded")
-                                                                                                                                                                                                                                                                                                                                                  then PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringOrder'paymentSucceeded
-                                                                                                                                                                                                                                                                                                                                                  else
-                                                                                                                                                                                                                                                                                                                                                    if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "order.updated")
-                                                                                                                                                                                                                                                                                                                                                      then PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringOrder'updated
-                                                                                                                                                                                                                                                                                                                                                      else
-                                                                                                                                                                                                                                                                                                                                                        if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "order_return.created")
-                                                                                                                                                                                                                                                                                                                                                          then PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringOrderReturn'created
-                                                                                                                                                                                                                                                                                                                                                          else
-                                                                                                                                                                                                                                                                                                                                                            if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "payment_intent.amount_capturable_updated")
-                                                                                                                                                                                                                                                                                                                                                              then PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringPaymentIntent'amountCapturableUpdated
-                                                                                                                                                                                                                                                                                                                                                              else
-                                                                                                                                                                                                                                                                                                                                                                if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "payment_intent.canceled")
-                                                                                                                                                                                                                                                                                                                                                                  then PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringPaymentIntent'canceled
-                                                                                                                                                                                                                                                                                                                                                                  else
-                                                                                                                                                                                                                                                                                                                                                                    if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "payment_intent.created")
-                                                                                                                                                                                                                                                                                                                                                                      then PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringPaymentIntent'created
-                                                                                                                                                                                                                                                                                                                                                                      else
-                                                                                                                                                                                                                                                                                                                                                                        if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "payment_intent.payment_failed")
-                                                                                                                                                                                                                                                                                                                                                                          then PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringPaymentIntent'paymentFailed
-                                                                                                                                                                                                                                                                                                                                                                          else
-                                                                                                                                                                                                                                                                                                                                                                            if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "payment_intent.processing")
-                                                                                                                                                                                                                                                                                                                                                                              then PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringPaymentIntent'processing
-                                                                                                                                                                                                                                                                                                                                                                              else
-                                                                                                                                                                                                                                                                                                                                                                                if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "payment_intent.succeeded")
-                                                                                                                                                                                                                                                                                                                                                                                  then PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringPaymentIntent'succeeded
-                                                                                                                                                                                                                                                                                                                                                                                  else
-                                                                                                                                                                                                                                                                                                                                                                                    if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "payment_method.attached")
-                                                                                                                                                                                                                                                                                                                                                                                      then PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringPaymentMethod'attached
-                                                                                                                                                                                                                                                                                                                                                                                      else
-                                                                                                                                                                                                                                                                                                                                                                                        if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "payment_method.card_automatically_updated")
-                                                                                                                                                                                                                                                                                                                                                                                          then PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringPaymentMethod'cardAutomaticallyUpdated
-                                                                                                                                                                                                                                                                                                                                                                                          else
-                                                                                                                                                                                                                                                                                                                                                                                            if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "payment_method.detached")
-                                                                                                                                                                                                                                                                                                                                                                                              then PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringPaymentMethod'detached
-                                                                                                                                                                                                                                                                                                                                                                                              else
-                                                                                                                                                                                                                                                                                                                                                                                                if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "payment_method.updated")
-                                                                                                                                                                                                                                                                                                                                                                                                  then PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringPaymentMethod'updated
-                                                                                                                                                                                                                                                                                                                                                                                                  else
-                                                                                                                                                                                                                                                                                                                                                                                                    if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "payout.canceled")
-                                                                                                                                                                                                                                                                                                                                                                                                      then PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringPayout'canceled
-                                                                                                                                                                                                                                                                                                                                                                                                      else
-                                                                                                                                                                                                                                                                                                                                                                                                        if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "payout.created")
-                                                                                                                                                                                                                                                                                                                                                                                                          then PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringPayout'created
-                                                                                                                                                                                                                                                                                                                                                                                                          else
-                                                                                                                                                                                                                                                                                                                                                                                                            if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "payout.failed")
-                                                                                                                                                                                                                                                                                                                                                                                                              then PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringPayout'failed
-                                                                                                                                                                                                                                                                                                                                                                                                              else
-                                                                                                                                                                                                                                                                                                                                                                                                                if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "payout.paid")
-                                                                                                                                                                                                                                                                                                                                                                                                                  then PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringPayout'paid
-                                                                                                                                                                                                                                                                                                                                                                                                                  else
-                                                                                                                                                                                                                                                                                                                                                                                                                    if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "payout.updated")
-                                                                                                                                                                                                                                                                                                                                                                                                                      then PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringPayout'updated
-                                                                                                                                                                                                                                                                                                                                                                                                                      else
-                                                                                                                                                                                                                                                                                                                                                                                                                        if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "person.created")
-                                                                                                                                                                                                                                                                                                                                                                                                                          then PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringPerson'created
-                                                                                                                                                                                                                                                                                                                                                                                                                          else
-                                                                                                                                                                                                                                                                                                                                                                                                                            if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "person.deleted")
-                                                                                                                                                                                                                                                                                                                                                                                                                              then PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringPerson'deleted
-                                                                                                                                                                                                                                                                                                                                                                                                                              else
-                                                                                                                                                                                                                                                                                                                                                                                                                                if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "person.updated")
-                                                                                                                                                                                                                                                                                                                                                                                                                                  then PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringPerson'updated
-                                                                                                                                                                                                                                                                                                                                                                                                                                  else
-                                                                                                                                                                                                                                                                                                                                                                                                                                    if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "plan.created")
-                                                                                                                                                                                                                                                                                                                                                                                                                                      then PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringPlan'created
-                                                                                                                                                                                                                                                                                                                                                                                                                                      else
-                                                                                                                                                                                                                                                                                                                                                                                                                                        if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "plan.deleted")
-                                                                                                                                                                                                                                                                                                                                                                                                                                          then PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringPlan'deleted
-                                                                                                                                                                                                                                                                                                                                                                                                                                          else
-                                                                                                                                                                                                                                                                                                                                                                                                                                            if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "plan.updated")
-                                                                                                                                                                                                                                                                                                                                                                                                                                              then PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringPlan'updated
-                                                                                                                                                                                                                                                                                                                                                                                                                                              else
-                                                                                                                                                                                                                                                                                                                                                                                                                                                if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "product.created")
-                                                                                                                                                                                                                                                                                                                                                                                                                                                  then PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringProduct'created
-                                                                                                                                                                                                                                                                                                                                                                                                                                                  else
-                                                                                                                                                                                                                                                                                                                                                                                                                                                    if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "product.deleted")
-                                                                                                                                                                                                                                                                                                                                                                                                                                                      then PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringProduct'deleted
-                                                                                                                                                                                                                                                                                                                                                                                                                                                      else
-                                                                                                                                                                                                                                                                                                                                                                                                                                                        if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "product.updated")
-                                                                                                                                                                                                                                                                                                                                                                                                                                                          then PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringProduct'updated
-                                                                                                                                                                                                                                                                                                                                                                                                                                                          else
-                                                                                                                                                                                                                                                                                                                                                                                                                                                            if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "radar.early_fraud_warning.created")
-                                                                                                                                                                                                                                                                                                                                                                                                                                                              then PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringRadar'earlyFraudWarning'created
-                                                                                                                                                                                                                                                                                                                                                                                                                                                              else
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "radar.early_fraud_warning.updated")
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                  then PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringRadar'earlyFraudWarning'updated
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                  else
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                    if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "recipient.created")
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                      then PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringRecipient'created
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                      else
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                        if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "recipient.deleted")
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                          then PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringRecipient'deleted
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                          else
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                            if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "recipient.updated")
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                              then PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringRecipient'updated
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                              else
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "reporting.report_run.failed")
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  then PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringReporting'reportRun'failed
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  else
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "reporting.report_run.succeeded")
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      then PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringReporting'reportRun'succeeded
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      else
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "reporting.report_type.updated")
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          then PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringReporting'reportType'updated
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          else
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "review.closed")
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              then PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringReview'closed
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              else
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "review.opened")
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  then PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringReview'opened
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  else
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "setup_intent.canceled")
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      then PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringSetupIntent'canceled
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      else
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "setup_intent.created")
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          then PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringSetupIntent'created
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          else
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "setup_intent.setup_failed")
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              then PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringSetupIntent'setupFailed
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              else
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "setup_intent.succeeded")
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  then PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringSetupIntent'succeeded
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  else
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "sigma.scheduled_query_run.created")
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      then PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringSigma'scheduledQueryRun'created
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      else
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "sku.created")
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          then PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringSku'created
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          else
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "sku.deleted")
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              then PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringSku'deleted
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              else
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "sku.updated")
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  then PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringSku'updated
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  else
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "source.canceled")
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      then PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringSource'canceled
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      else
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "source.chargeable")
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          then PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringSource'chargeable
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          else
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "source.failed")
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              then PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringSource'failed
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              else
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "source.mandate_notification")
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  then PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringSource'mandateNotification
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  else
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "source.refund_attributes_required")
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      then PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringSource'refundAttributesRequired
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      else
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "source.transaction.created")
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          then PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringSource'transaction'created
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          else
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "source.transaction.updated")
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              then PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringSource'transaction'updated
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              else
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "subscription_schedule.aborted")
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  then PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringSubscriptionSchedule'aborted
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  else
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "subscription_schedule.canceled")
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      then PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringSubscriptionSchedule'canceled
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      else
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "subscription_schedule.completed")
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          then PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringSubscriptionSchedule'completed
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          else
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "subscription_schedule.created")
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              then PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringSubscriptionSchedule'created
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              else
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "subscription_schedule.expiring")
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  then PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringSubscriptionSchedule'expiring
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  else
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "subscription_schedule.released")
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      then PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringSubscriptionSchedule'released
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      else
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "subscription_schedule.updated")
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          then PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringSubscriptionSchedule'updated
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          else
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "tax_rate.created")
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              then PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringTaxRate'created
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              else
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "tax_rate.updated")
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  then PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringTaxRate'updated
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  else
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "topup.canceled")
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      then PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringTopup'canceled
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      else
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "topup.created")
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          then PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringTopup'created
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          else
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "topup.failed")
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              then PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringTopup'failed
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              else
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "topup.reversed")
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  then PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringTopup'reversed
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  else
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "topup.succeeded")
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      then PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringTopup'succeeded
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      else
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "transfer.created")
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          then PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringTransfer'created
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          else
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "transfer.failed")
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              then PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringTransfer'failed
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              else
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "transfer.paid")
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  then PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringTransfer'paid
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  else
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "transfer.reversed")
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      then PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringTransfer'reversed
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      else
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "transfer.updated")
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          then PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringTransfer'updated
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          else PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumOther val
+      ( if  | val GHC.Classes.== "*" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'Enum_
+            | val GHC.Classes.== "account.application.authorized" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumAccount'application'authorized
+            | val GHC.Classes.== "account.application.deauthorized" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumAccount'application'deauthorized
+            | val GHC.Classes.== "account.external_account.created" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumAccount'externalAccount'created
+            | val GHC.Classes.== "account.external_account.deleted" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumAccount'externalAccount'deleted
+            | val GHC.Classes.== "account.external_account.updated" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumAccount'externalAccount'updated
+            | val GHC.Classes.== "account.updated" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumAccount'updated
+            | val GHC.Classes.== "application_fee.created" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumApplicationFee'created
+            | val GHC.Classes.== "application_fee.refund.updated" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumApplicationFee'refund'updated
+            | val GHC.Classes.== "application_fee.refunded" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumApplicationFee'refunded
+            | val GHC.Classes.== "balance.available" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumBalance'available
+            | val GHC.Classes.== "capability.updated" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCapability'updated
+            | val GHC.Classes.== "charge.captured" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCharge'captured
+            | val GHC.Classes.== "charge.dispute.closed" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCharge'dispute'closed
+            | val GHC.Classes.== "charge.dispute.created" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCharge'dispute'created
+            | val GHC.Classes.== "charge.dispute.funds_reinstated" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCharge'dispute'fundsReinstated
+            | val GHC.Classes.== "charge.dispute.funds_withdrawn" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCharge'dispute'fundsWithdrawn
+            | val GHC.Classes.== "charge.dispute.updated" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCharge'dispute'updated
+            | val GHC.Classes.== "charge.expired" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCharge'expired
+            | val GHC.Classes.== "charge.failed" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCharge'failed
+            | val GHC.Classes.== "charge.pending" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCharge'pending
+            | val GHC.Classes.== "charge.refund.updated" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCharge'refund'updated
+            | val GHC.Classes.== "charge.refunded" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCharge'refunded
+            | val GHC.Classes.== "charge.succeeded" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCharge'succeeded
+            | val GHC.Classes.== "charge.updated" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCharge'updated
+            | val GHC.Classes.== "checkout.session.completed" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCheckout'session'completed
+            | val GHC.Classes.== "coupon.created" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCoupon'created
+            | val GHC.Classes.== "coupon.deleted" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCoupon'deleted
+            | val GHC.Classes.== "coupon.updated" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCoupon'updated
+            | val GHC.Classes.== "credit_note.created" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCreditNote'created
+            | val GHC.Classes.== "credit_note.updated" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCreditNote'updated
+            | val GHC.Classes.== "credit_note.voided" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCreditNote'voided
+            | val GHC.Classes.== "customer.created" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCustomer'created
+            | val GHC.Classes.== "customer.deleted" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCustomer'deleted
+            | val GHC.Classes.== "customer.discount.created" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCustomer'discount'created
+            | val GHC.Classes.== "customer.discount.deleted" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCustomer'discount'deleted
+            | val GHC.Classes.== "customer.discount.updated" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCustomer'discount'updated
+            | val GHC.Classes.== "customer.source.created" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCustomer'source'created
+            | val GHC.Classes.== "customer.source.deleted" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCustomer'source'deleted
+            | val GHC.Classes.== "customer.source.expiring" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCustomer'source'expiring
+            | val GHC.Classes.== "customer.source.updated" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCustomer'source'updated
+            | val GHC.Classes.== "customer.subscription.created" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCustomer'subscription'created
+            | val GHC.Classes.== "customer.subscription.deleted" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCustomer'subscription'deleted
+            | val GHC.Classes.== "customer.subscription.pending_update_applied" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCustomer'subscription'pendingUpdateApplied
+            | val GHC.Classes.== "customer.subscription.pending_update_expired" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCustomer'subscription'pendingUpdateExpired
+            | val GHC.Classes.== "customer.subscription.trial_will_end" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCustomer'subscription'trialWillEnd
+            | val GHC.Classes.== "customer.subscription.updated" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCustomer'subscription'updated
+            | val GHC.Classes.== "customer.tax_id.created" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCustomer'taxId'created
+            | val GHC.Classes.== "customer.tax_id.deleted" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCustomer'taxId'deleted
+            | val GHC.Classes.== "customer.tax_id.updated" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCustomer'taxId'updated
+            | val GHC.Classes.== "customer.updated" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumCustomer'updated
+            | val GHC.Classes.== "file.created" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumFile'created
+            | val GHC.Classes.== "invoice.created" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumInvoice'created
+            | val GHC.Classes.== "invoice.deleted" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumInvoice'deleted
+            | val GHC.Classes.== "invoice.finalized" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumInvoice'finalized
+            | val GHC.Classes.== "invoice.marked_uncollectible" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumInvoice'markedUncollectible
+            | val GHC.Classes.== "invoice.payment_action_required" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumInvoice'paymentActionRequired
+            | val GHC.Classes.== "invoice.payment_failed" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumInvoice'paymentFailed
+            | val GHC.Classes.== "invoice.payment_succeeded" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumInvoice'paymentSucceeded
+            | val GHC.Classes.== "invoice.sent" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumInvoice'sent
+            | val GHC.Classes.== "invoice.upcoming" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumInvoice'upcoming
+            | val GHC.Classes.== "invoice.updated" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumInvoice'updated
+            | val GHC.Classes.== "invoice.voided" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumInvoice'voided
+            | val GHC.Classes.== "invoiceitem.created" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumInvoiceitem'created
+            | val GHC.Classes.== "invoiceitem.deleted" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumInvoiceitem'deleted
+            | val GHC.Classes.== "invoiceitem.updated" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumInvoiceitem'updated
+            | val GHC.Classes.== "issuing_authorization.created" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumIssuingAuthorization'created
+            | val GHC.Classes.== "issuing_authorization.request" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumIssuingAuthorization'request
+            | val GHC.Classes.== "issuing_authorization.updated" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumIssuingAuthorization'updated
+            | val GHC.Classes.== "issuing_card.created" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumIssuingCard'created
+            | val GHC.Classes.== "issuing_card.updated" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumIssuingCard'updated
+            | val GHC.Classes.== "issuing_cardholder.created" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumIssuingCardholder'created
+            | val GHC.Classes.== "issuing_cardholder.updated" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumIssuingCardholder'updated
+            | val GHC.Classes.== "issuing_dispute.created" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumIssuingDispute'created
+            | val GHC.Classes.== "issuing_dispute.updated" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumIssuingDispute'updated
+            | val GHC.Classes.== "issuing_settlement.created" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumIssuingSettlement'created
+            | val GHC.Classes.== "issuing_settlement.updated" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumIssuingSettlement'updated
+            | val GHC.Classes.== "issuing_transaction.created" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumIssuingTransaction'created
+            | val GHC.Classes.== "issuing_transaction.updated" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumIssuingTransaction'updated
+            | val GHC.Classes.== "mandate.updated" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumMandate'updated
+            | val GHC.Classes.== "order.created" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumOrder'created
+            | val GHC.Classes.== "order.payment_failed" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumOrder'paymentFailed
+            | val GHC.Classes.== "order.payment_succeeded" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumOrder'paymentSucceeded
+            | val GHC.Classes.== "order.updated" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumOrder'updated
+            | val GHC.Classes.== "order_return.created" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumOrderReturn'created
+            | val GHC.Classes.== "payment_intent.amount_capturable_updated" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumPaymentIntent'amountCapturableUpdated
+            | val GHC.Classes.== "payment_intent.canceled" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumPaymentIntent'canceled
+            | val GHC.Classes.== "payment_intent.created" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumPaymentIntent'created
+            | val GHC.Classes.== "payment_intent.payment_failed" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumPaymentIntent'paymentFailed
+            | val GHC.Classes.== "payment_intent.processing" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumPaymentIntent'processing
+            | val GHC.Classes.== "payment_intent.succeeded" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumPaymentIntent'succeeded
+            | val GHC.Classes.== "payment_method.attached" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumPaymentMethod'attached
+            | val GHC.Classes.== "payment_method.card_automatically_updated" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumPaymentMethod'cardAutomaticallyUpdated
+            | val GHC.Classes.== "payment_method.detached" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumPaymentMethod'detached
+            | val GHC.Classes.== "payment_method.updated" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumPaymentMethod'updated
+            | val GHC.Classes.== "payout.canceled" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumPayout'canceled
+            | val GHC.Classes.== "payout.created" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumPayout'created
+            | val GHC.Classes.== "payout.failed" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumPayout'failed
+            | val GHC.Classes.== "payout.paid" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumPayout'paid
+            | val GHC.Classes.== "payout.updated" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumPayout'updated
+            | val GHC.Classes.== "person.created" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumPerson'created
+            | val GHC.Classes.== "person.deleted" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumPerson'deleted
+            | val GHC.Classes.== "person.updated" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumPerson'updated
+            | val GHC.Classes.== "plan.created" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumPlan'created
+            | val GHC.Classes.== "plan.deleted" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumPlan'deleted
+            | val GHC.Classes.== "plan.updated" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumPlan'updated
+            | val GHC.Classes.== "product.created" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumProduct'created
+            | val GHC.Classes.== "product.deleted" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumProduct'deleted
+            | val GHC.Classes.== "product.updated" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumProduct'updated
+            | val GHC.Classes.== "radar.early_fraud_warning.created" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumRadar'earlyFraudWarning'created
+            | val GHC.Classes.== "radar.early_fraud_warning.updated" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumRadar'earlyFraudWarning'updated
+            | val GHC.Classes.== "recipient.created" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumRecipient'created
+            | val GHC.Classes.== "recipient.deleted" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumRecipient'deleted
+            | val GHC.Classes.== "recipient.updated" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumRecipient'updated
+            | val GHC.Classes.== "reporting.report_run.failed" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumReporting'reportRun'failed
+            | val GHC.Classes.== "reporting.report_run.succeeded" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumReporting'reportRun'succeeded
+            | val GHC.Classes.== "reporting.report_type.updated" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumReporting'reportType'updated
+            | val GHC.Classes.== "review.closed" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumReview'closed
+            | val GHC.Classes.== "review.opened" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumReview'opened
+            | val GHC.Classes.== "setup_intent.canceled" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumSetupIntent'canceled
+            | val GHC.Classes.== "setup_intent.created" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumSetupIntent'created
+            | val GHC.Classes.== "setup_intent.setup_failed" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumSetupIntent'setupFailed
+            | val GHC.Classes.== "setup_intent.succeeded" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumSetupIntent'succeeded
+            | val GHC.Classes.== "sigma.scheduled_query_run.created" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumSigma'scheduledQueryRun'created
+            | val GHC.Classes.== "sku.created" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumSku'created
+            | val GHC.Classes.== "sku.deleted" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumSku'deleted
+            | val GHC.Classes.== "sku.updated" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumSku'updated
+            | val GHC.Classes.== "source.canceled" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumSource'canceled
+            | val GHC.Classes.== "source.chargeable" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumSource'chargeable
+            | val GHC.Classes.== "source.failed" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumSource'failed
+            | val GHC.Classes.== "source.mandate_notification" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumSource'mandateNotification
+            | val GHC.Classes.== "source.refund_attributes_required" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumSource'refundAttributesRequired
+            | val GHC.Classes.== "source.transaction.created" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumSource'transaction'created
+            | val GHC.Classes.== "source.transaction.updated" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumSource'transaction'updated
+            | val GHC.Classes.== "subscription_schedule.aborted" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumSubscriptionSchedule'aborted
+            | val GHC.Classes.== "subscription_schedule.canceled" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumSubscriptionSchedule'canceled
+            | val GHC.Classes.== "subscription_schedule.completed" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumSubscriptionSchedule'completed
+            | val GHC.Classes.== "subscription_schedule.created" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumSubscriptionSchedule'created
+            | val GHC.Classes.== "subscription_schedule.expiring" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumSubscriptionSchedule'expiring
+            | val GHC.Classes.== "subscription_schedule.released" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumSubscriptionSchedule'released
+            | val GHC.Classes.== "subscription_schedule.updated" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumSubscriptionSchedule'updated
+            | val GHC.Classes.== "tax_rate.created" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumTaxRate'created
+            | val GHC.Classes.== "tax_rate.updated" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumTaxRate'updated
+            | val GHC.Classes.== "topup.canceled" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumTopup'canceled
+            | val GHC.Classes.== "topup.created" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumTopup'created
+            | val GHC.Classes.== "topup.failed" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumTopup'failed
+            | val GHC.Classes.== "topup.reversed" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumTopup'reversed
+            | val GHC.Classes.== "topup.succeeded" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumTopup'succeeded
+            | val GHC.Classes.== "transfer.created" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumTransfer'created
+            | val GHC.Classes.== "transfer.failed" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumTransfer'failed
+            | val GHC.Classes.== "transfer.paid" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumTransfer'paid
+            | val GHC.Classes.== "transfer.reversed" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumTransfer'reversed
+            | val GHC.Classes.== "transfer.updated" -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumTransfer'updated
+            | GHC.Base.otherwise -> PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'Other val
       )
 
 -- | Represents a response of the operation 'postWebhookEndpointsWebhookEndpoint'.

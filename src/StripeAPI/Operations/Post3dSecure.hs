@@ -1,4 +1,3 @@
-{-# LANGUAGE DeriveGeneric #-}
 {-# LANGUAGE ExplicitForAll #-}
 {-# LANGUAGE MultiWayIf #-}
 {-# LANGUAGE OverloadedStrings #-}
@@ -8,8 +7,10 @@
 -- | Contains the different functions to run the operation post3dSecure
 module StripeAPI.Operations.Post3dSecure where
 
+import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -26,7 +27,6 @@ import qualified Data.Time.LocalTime as Data.Time.LocalTime.Internal.ZonedTime
 import qualified Data.Vector
 import qualified GHC.Base
 import qualified GHC.Classes
-import qualified GHC.Generics
 import qualified GHC.Int
 import qualified GHC.Show
 import qualified GHC.Types
@@ -46,125 +46,43 @@ import qualified Prelude as GHC.Maybe
 --
 -- \<p>Initiate 3D Secure authentication.\<\/p>
 post3dSecure ::
-  forall m s.
-  (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) =>
-  -- | The configuration to use in the request
-  StripeAPI.Common.Configuration s ->
+  forall m.
+  StripeAPI.Common.MonadHTTP m =>
   -- | The request body to send
   Post3dSecureRequestBody ->
-  -- | Monad containing the result of the operation
-  m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response Post3dSecureResponse))
-post3dSecure
-  config
-  body =
-    GHC.Base.fmap
-      ( GHC.Base.fmap
-          ( \response_0 ->
-              GHC.Base.fmap
-                ( Data.Either.either Post3dSecureResponseError GHC.Base.id
-                    GHC.Base.. ( \response body ->
-                                   if  | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                         Post3dSecureResponse200
-                                           Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                                Data.Either.Either GHC.Base.String
-                                                                  ThreeDSecure
-                                                            )
-                                       | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                         Post3dSecureResponseDefault
-                                           Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                                Data.Either.Either GHC.Base.String
-                                                                  Error
-                                                            )
-                                       | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
-                               )
-                      response_0
-                )
+  -- | Monadic computation which returns the result of the operation
+  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response Post3dSecureResponse)
+post3dSecure body =
+  GHC.Base.fmap
+    ( \response_0 ->
+        GHC.Base.fmap
+          ( Data.Either.either Post3dSecureResponseError GHC.Base.id
+              GHC.Base.. ( \response body ->
+                             if  | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
+                                   Post3dSecureResponse200
+                                     Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                          Data.Either.Either GHC.Base.String
+                                                            ThreeDSecure
+                                                      )
+                                 | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
+                                   Post3dSecureResponseDefault
+                                     Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                          Data.Either.Either GHC.Base.String
+                                                            Error
+                                                      )
+                                 | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
+                         )
                 response_0
           )
-      )
-      (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack "/v1/3d_secure") [] (GHC.Maybe.Just body) StripeAPI.Common.RequestBodyEncodingFormData)
-
--- | > POST /v1/3d_secure
---
--- The same as 'post3dSecure' but returns the raw 'Data.ByteString.Char8.ByteString'
-post3dSecureRaw ::
-  forall m s.
-  ( StripeAPI.Common.MonadHTTP m,
-    StripeAPI.Common.SecurityScheme s
-  ) =>
-  StripeAPI.Common.Configuration s ->
-  Post3dSecureRequestBody ->
-  m
-    ( Data.Either.Either Network.HTTP.Client.Types.HttpException
-        (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
-    )
-post3dSecureRaw
-  config
-  body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack "/v1/3d_secure") [] (GHC.Maybe.Just body) StripeAPI.Common.RequestBodyEncodingFormData)
-
--- | > POST /v1/3d_secure
---
--- Monadic version of 'post3dSecure' (use with 'StripeAPI.Common.runWithConfiguration')
-post3dSecureM ::
-  forall m s.
-  ( StripeAPI.Common.MonadHTTP m,
-    StripeAPI.Common.SecurityScheme s
-  ) =>
-  Post3dSecureRequestBody ->
-  Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
-    m
-    ( Data.Either.Either Network.HTTP.Client.Types.HttpException
-        (Network.HTTP.Client.Types.Response Post3dSecureResponse)
-    )
-post3dSecureM body =
-  GHC.Base.fmap
-    ( GHC.Base.fmap
-        ( \response_2 ->
-            GHC.Base.fmap
-              ( Data.Either.either Post3dSecureResponseError GHC.Base.id
-                  GHC.Base.. ( \response body ->
-                                 if  | (\status_3 -> Network.HTTP.Types.Status.statusCode status_3 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                       Post3dSecureResponse200
-                                         Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                              Data.Either.Either GHC.Base.String
-                                                                ThreeDSecure
-                                                          )
-                                     | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                       Post3dSecureResponseDefault
-                                         Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                              Data.Either.Either GHC.Base.String
-                                                                Error
-                                                          )
-                                     | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
-                             )
-                    response_2
-              )
-              response_2
-        )
+          response_0
     )
     (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack "/v1/3d_secure") [] (GHC.Maybe.Just body) StripeAPI.Common.RequestBodyEncodingFormData)
 
--- | > POST /v1/3d_secure
---
--- Monadic version of 'post3dSecureRaw' (use with 'StripeAPI.Common.runWithConfiguration')
-post3dSecureRawM ::
-  forall m s.
-  ( StripeAPI.Common.MonadHTTP m,
-    StripeAPI.Common.SecurityScheme s
-  ) =>
-  Post3dSecureRequestBody ->
-  Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
-    m
-    ( Data.Either.Either Network.HTTP.Client.Types.HttpException
-        (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
-    )
-post3dSecureRawM body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack "/v1/3d_secure") [] (GHC.Maybe.Just body) StripeAPI.Common.RequestBodyEncodingFormData)
-
--- | Defines the data type for the schema post3dSecureRequestBody
+-- | Defines the object schema located at @paths.\/v1\/3d_secure.POST.requestBody.content.application\/x-www-form-urlencoded.schema@ in the specification.
 data Post3dSecureRequestBody
   = Post3dSecureRequestBody
       { -- | amount: Amount of the charge that you will create when authentication completes.
-        post3dSecureRequestBodyAmount :: GHC.Integer.Type.Integer,
+        post3dSecureRequestBodyAmount :: GHC.Types.Int,
         -- | card: The ID of a card token, or the ID of a card belonging to the given customer.
         --
         -- Constraints:
@@ -180,7 +98,7 @@ data Post3dSecureRequestBody
         -- * Maximum length of 5000
         post3dSecureRequestBodyCustomer :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
         -- | expand: Specifies which fields in the response should be expanded.
-        post3dSecureRequestBodyExpand :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text)),
+        post3dSecureRequestBodyExpand :: (GHC.Maybe.Maybe ([Data.Text.Internal.Text])),
         -- | return_url: The URL that the cardholder\'s browser will be returned to when authentication completes.
         post3dSecureRequestBodyReturnUrl :: Data.Text.Internal.Text
       }
@@ -189,12 +107,31 @@ data Post3dSecureRequestBody
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON Post3dSecureRequestBody where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "amount" (post3dSecureRequestBodyAmount obj) : (Data.Aeson..=) "card" (post3dSecureRequestBodyCard obj) : (Data.Aeson..=) "currency" (post3dSecureRequestBodyCurrency obj) : (Data.Aeson..=) "customer" (post3dSecureRequestBodyCustomer obj) : (Data.Aeson..=) "expand" (post3dSecureRequestBodyExpand obj) : (Data.Aeson..=) "return_url" (post3dSecureRequestBodyReturnUrl obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "amount" (post3dSecureRequestBodyAmount obj) GHC.Base.<> ((Data.Aeson..=) "card" (post3dSecureRequestBodyCard obj) GHC.Base.<> ((Data.Aeson..=) "currency" (post3dSecureRequestBodyCurrency obj) GHC.Base.<> ((Data.Aeson..=) "customer" (post3dSecureRequestBodyCustomer obj) GHC.Base.<> ((Data.Aeson..=) "expand" (post3dSecureRequestBodyExpand obj) GHC.Base.<> (Data.Aeson..=) "return_url" (post3dSecureRequestBodyReturnUrl obj))))))
+instance Data.Aeson.Types.ToJSON.ToJSON Post3dSecureRequestBody where
+  toJSON obj = Data.Aeson.Types.Internal.object ("amount" Data.Aeson.Types.ToJSON..= post3dSecureRequestBodyAmount obj : "card" Data.Aeson.Types.ToJSON..= post3dSecureRequestBodyCard obj : "currency" Data.Aeson.Types.ToJSON..= post3dSecureRequestBodyCurrency obj : "customer" Data.Aeson.Types.ToJSON..= post3dSecureRequestBodyCustomer obj : "expand" Data.Aeson.Types.ToJSON..= post3dSecureRequestBodyExpand obj : "return_url" Data.Aeson.Types.ToJSON..= post3dSecureRequestBodyReturnUrl obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("amount" Data.Aeson.Types.ToJSON..= post3dSecureRequestBodyAmount obj) GHC.Base.<> (("card" Data.Aeson.Types.ToJSON..= post3dSecureRequestBodyCard obj) GHC.Base.<> (("currency" Data.Aeson.Types.ToJSON..= post3dSecureRequestBodyCurrency obj) GHC.Base.<> (("customer" Data.Aeson.Types.ToJSON..= post3dSecureRequestBodyCustomer obj) GHC.Base.<> (("expand" Data.Aeson.Types.ToJSON..= post3dSecureRequestBodyExpand obj) GHC.Base.<> ("return_url" Data.Aeson.Types.ToJSON..= post3dSecureRequestBodyReturnUrl obj))))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON Post3dSecureRequestBody where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "Post3dSecureRequestBody" (\obj -> (((((GHC.Base.pure Post3dSecureRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "card")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "customer")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "return_url"))
+
+-- | Create a new 'Post3dSecureRequestBody' with all required fields.
+mkPost3dSecureRequestBody ::
+  -- | 'post3dSecureRequestBodyAmount'
+  GHC.Types.Int ->
+  -- | 'post3dSecureRequestBodyCurrency'
+  Data.Text.Internal.Text ->
+  -- | 'post3dSecureRequestBodyReturnUrl'
+  Data.Text.Internal.Text ->
+  Post3dSecureRequestBody
+mkPost3dSecureRequestBody post3dSecureRequestBodyAmount post3dSecureRequestBodyCurrency post3dSecureRequestBodyReturnUrl =
+  Post3dSecureRequestBody
+    { post3dSecureRequestBodyAmount = post3dSecureRequestBodyAmount,
+      post3dSecureRequestBodyCard = GHC.Maybe.Nothing,
+      post3dSecureRequestBodyCurrency = post3dSecureRequestBodyCurrency,
+      post3dSecureRequestBodyCustomer = GHC.Maybe.Nothing,
+      post3dSecureRequestBodyExpand = GHC.Maybe.Nothing,
+      post3dSecureRequestBodyReturnUrl = post3dSecureRequestBodyReturnUrl
+    }
 
 -- | Represents a response of the operation 'post3dSecure'.
 --

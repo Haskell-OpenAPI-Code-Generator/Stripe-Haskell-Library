@@ -1,4 +1,3 @@
-{-# LANGUAGE DeriveGeneric #-}
 {-# LANGUAGE ExplicitForAll #-}
 {-# LANGUAGE MultiWayIf #-}
 {-# LANGUAGE OverloadedStrings #-}
@@ -8,8 +7,10 @@
 -- | Contains the different functions to run the operation getRadarValueListItems
 module StripeAPI.Operations.GetRadarValueListItems where
 
+import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -26,7 +27,6 @@ import qualified Data.Time.LocalTime as Data.Time.LocalTime.Internal.ZonedTime
 import qualified Data.Vector
 import qualified GHC.Base
 import qualified GHC.Classes
-import qualified GHC.Generics
 import qualified GHC.Int
 import qualified GHC.Show
 import qualified GHC.Types
@@ -46,343 +46,173 @@ import qualified Prelude as GHC.Maybe
 --
 -- \<p>Returns a list of \<code>ValueListItem\<\/code> objects. The objects are sorted in descending order by creation date, with the most recently created object appearing first.\<\/p>
 getRadarValueListItems ::
-  forall m s.
-  (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) =>
-  -- | The configuration to use in the request
-  StripeAPI.Common.Configuration s ->
-  -- | created
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  -- | ending_before: A cursor for use in pagination. \`ending_before\` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, starting with \`obj_bar\`, your subsequent call can include \`ending_before=obj_bar\` in order to fetch the previous page of the list. | Constraints: Maximum length of 5000
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  -- | expand: Specifies which fields in the response should be expanded.
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  -- | limit: A limit on the number of objects to be returned. Limit can range between 1 and 100, and the default is 10.
-  GHC.Maybe.Maybe GHC.Integer.Type.Integer ->
-  -- | starting_after: A cursor for use in pagination. \`starting_after\` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with \`obj_foo\`, your subsequent call can include \`starting_after=obj_foo\` in order to fetch the next page of the list. | Constraints: Maximum length of 5000
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  -- | value: Return items belonging to the parent list whose value matches the specified value (using an \"is like\" match). | Constraints: Maximum length of 800
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  -- | value_list: Identifier for the parent value list this item belongs to. | Constraints: Maximum length of 5000
-  Data.Text.Internal.Text ->
-  -- | The request body to send
-  GHC.Maybe.Maybe GetRadarValueListItemsRequestBody ->
-  -- | Monad containing the result of the operation
-  m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response GetRadarValueListItemsResponse))
-getRadarValueListItems
-  config
-  created
-  endingBefore
-  expand
-  limit
-  startingAfter
-  value
-  valueList
-  body =
-    GHC.Base.fmap
-      ( GHC.Base.fmap
-          ( \response_0 ->
-              GHC.Base.fmap
-                ( Data.Either.either GetRadarValueListItemsResponseError GHC.Base.id
-                    GHC.Base.. ( \response body ->
-                                   if  | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                         GetRadarValueListItemsResponse200
-                                           Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                                Data.Either.Either GHC.Base.String
-                                                                  GetRadarValueListItemsResponseBody200
-                                                            )
-                                       | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                         GetRadarValueListItemsResponseDefault
-                                           Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                                Data.Either.Either GHC.Base.String
-                                                                  Error
-                                                            )
-                                       | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
-                               )
-                      response_0
-                )
+  forall m.
+  StripeAPI.Common.MonadHTTP m =>
+  -- | Contains all available parameters of this operation (query and path parameters)
+  GetRadarValueListItemsParameters ->
+  -- | Monadic computation which returns the result of the operation
+  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response GetRadarValueListItemsResponse)
+getRadarValueListItems parameters =
+  GHC.Base.fmap
+    ( \response_0 ->
+        GHC.Base.fmap
+          ( Data.Either.either GetRadarValueListItemsResponseError GHC.Base.id
+              GHC.Base.. ( \response body ->
+                             if  | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
+                                   GetRadarValueListItemsResponse200
+                                     Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                          Data.Either.Either GHC.Base.String
+                                                            GetRadarValueListItemsResponseBody200
+                                                      )
+                                 | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
+                                   GetRadarValueListItemsResponseDefault
+                                     Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                          Data.Either.Either GHC.Base.String
+                                                            Error
+                                                      )
+                                 | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
+                         )
                 response_0
           )
-      )
-      ( StripeAPI.Common.doBodyCallWithConfiguration
-          config
-          (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET")
-          (Data.Text.pack "/v1/radar/value_list_items")
-          ( ( Data.Text.pack "created",
-              StripeAPI.Common.stringifyModel Data.Functor.<$> created
-            )
-              : ( ( Data.Text.pack "ending_before",
-                    StripeAPI.Common.stringifyModel Data.Functor.<$> endingBefore
-                  )
-                    : ( ( Data.Text.pack "expand",
-                          StripeAPI.Common.stringifyModel Data.Functor.<$> expand
-                        )
-                          : ( ( Data.Text.pack "limit",
-                                StripeAPI.Common.stringifyModel Data.Functor.<$> limit
-                              )
-                                : ( ( Data.Text.pack "starting_after",
-                                      StripeAPI.Common.stringifyModel Data.Functor.<$> startingAfter
-                                    )
-                                      : ( ( Data.Text.pack "value",
-                                            StripeAPI.Common.stringifyModel Data.Functor.<$> value
-                                          )
-                                            : ( ( Data.Text.pack "value_list",
-                                                  GHC.Maybe.Just GHC.Base.$ StripeAPI.Common.stringifyModel valueList
-                                                )
-                                                  : []
-                                              )
-                                        )
-                                  )
-                            )
-                      )
-                )
-          )
-          body
-          StripeAPI.Common.RequestBodyEncodingFormData
-      )
-
--- | > GET /v1/radar/value_list_items
---
--- The same as 'getRadarValueListItems' but returns the raw 'Data.ByteString.Char8.ByteString'
-getRadarValueListItemsRaw ::
-  forall m s.
-  ( StripeAPI.Common.MonadHTTP m,
-    StripeAPI.Common.SecurityScheme s
-  ) =>
-  StripeAPI.Common.Configuration s ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe GHC.Integer.Type.Integer ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe GetRadarValueListItemsRequestBody ->
-  m
-    ( Data.Either.Either Network.HTTP.Client.Types.HttpException
-        (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
+          response_0
     )
-getRadarValueListItemsRaw
-  config
-  created
-  endingBefore
-  expand
-  limit
-  startingAfter
-  value
-  valueList
-  body =
-    GHC.Base.id
-      ( StripeAPI.Common.doBodyCallWithConfiguration
-          config
-          (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET")
-          (Data.Text.pack "/v1/radar/value_list_items")
-          ( ( Data.Text.pack "created",
-              StripeAPI.Common.stringifyModel Data.Functor.<$> created
-            )
-              : ( ( Data.Text.pack "ending_before",
-                    StripeAPI.Common.stringifyModel Data.Functor.<$> endingBefore
-                  )
-                    : ( ( Data.Text.pack "expand",
-                          StripeAPI.Common.stringifyModel Data.Functor.<$> expand
-                        )
-                          : ( ( Data.Text.pack "limit",
-                                StripeAPI.Common.stringifyModel Data.Functor.<$> limit
-                              )
-                                : ( ( Data.Text.pack "starting_after",
-                                      StripeAPI.Common.stringifyModel Data.Functor.<$> startingAfter
-                                    )
-                                      : ( ( Data.Text.pack "value",
-                                            StripeAPI.Common.stringifyModel Data.Functor.<$> value
-                                          )
-                                            : ( ( Data.Text.pack "value_list",
-                                                  GHC.Maybe.Just GHC.Base.$ StripeAPI.Common.stringifyModel valueList
-                                                )
-                                                  : []
-                                              )
-                                        )
-                                  )
-                            )
-                      )
-                )
-          )
-          body
-          StripeAPI.Common.RequestBodyEncodingFormData
-      )
-
--- | > GET /v1/radar/value_list_items
---
--- Monadic version of 'getRadarValueListItems' (use with 'StripeAPI.Common.runWithConfiguration')
-getRadarValueListItemsM ::
-  forall m s.
-  ( StripeAPI.Common.MonadHTTP m,
-    StripeAPI.Common.SecurityScheme s
-  ) =>
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe GHC.Integer.Type.Integer ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe GetRadarValueListItemsRequestBody ->
-  Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
-    m
-    ( Data.Either.Either Network.HTTP.Client.Types.HttpException
-        (Network.HTTP.Client.Types.Response GetRadarValueListItemsResponse)
+    ( StripeAPI.Common.doCallWithConfigurationM
+        (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET")
+        (Data.Text.pack "/v1/radar/value_list_items")
+        [ StripeAPI.Common.QueryParameter (Data.Text.pack "created") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getRadarValueListItemsParametersQueryCreated parameters) (Data.Text.pack "deepObject") GHC.Types.True,
+          StripeAPI.Common.QueryParameter (Data.Text.pack "ending_before") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getRadarValueListItemsParametersQueryEndingBefore parameters) (Data.Text.pack "form") GHC.Types.True,
+          StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getRadarValueListItemsParametersQueryExpand parameters) (Data.Text.pack "deepObject") GHC.Types.True,
+          StripeAPI.Common.QueryParameter (Data.Text.pack "limit") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getRadarValueListItemsParametersQueryLimit parameters) (Data.Text.pack "form") GHC.Types.True,
+          StripeAPI.Common.QueryParameter (Data.Text.pack "starting_after") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getRadarValueListItemsParametersQueryStartingAfter parameters) (Data.Text.pack "form") GHC.Types.True,
+          StripeAPI.Common.QueryParameter (Data.Text.pack "value") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getRadarValueListItemsParametersQueryValue parameters) (Data.Text.pack "form") GHC.Types.True,
+          StripeAPI.Common.QueryParameter (Data.Text.pack "value_list") (GHC.Maybe.Just GHC.Base.$ Data.Aeson.Types.ToJSON.toJSON (getRadarValueListItemsParametersQueryValueList parameters)) (Data.Text.pack "form") GHC.Types.True
+        ]
     )
-getRadarValueListItemsM
-  created
-  endingBefore
-  expand
-  limit
-  startingAfter
-  value
-  valueList
-  body =
-    GHC.Base.fmap
-      ( GHC.Base.fmap
-          ( \response_2 ->
-              GHC.Base.fmap
-                ( Data.Either.either GetRadarValueListItemsResponseError GHC.Base.id
-                    GHC.Base.. ( \response body ->
-                                   if  | (\status_3 -> Network.HTTP.Types.Status.statusCode status_3 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                         GetRadarValueListItemsResponse200
-                                           Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                                Data.Either.Either GHC.Base.String
-                                                                  GetRadarValueListItemsResponseBody200
-                                                            )
-                                       | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                         GetRadarValueListItemsResponseDefault
-                                           Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                                Data.Either.Either GHC.Base.String
-                                                                  Error
-                                                            )
-                                       | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
-                               )
-                      response_2
-                )
-                response_2
-          )
-      )
-      ( StripeAPI.Common.doBodyCallWithConfigurationM
-          (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET")
-          (Data.Text.pack "/v1/radar/value_list_items")
-          ( ( Data.Text.pack "created",
-              StripeAPI.Common.stringifyModel Data.Functor.<$> created
-            )
-              : ( ( Data.Text.pack "ending_before",
-                    StripeAPI.Common.stringifyModel Data.Functor.<$> endingBefore
-                  )
-                    : ( ( Data.Text.pack "expand",
-                          StripeAPI.Common.stringifyModel Data.Functor.<$> expand
-                        )
-                          : ( ( Data.Text.pack "limit",
-                                StripeAPI.Common.stringifyModel Data.Functor.<$> limit
-                              )
-                                : ( ( Data.Text.pack "starting_after",
-                                      StripeAPI.Common.stringifyModel Data.Functor.<$> startingAfter
-                                    )
-                                      : ( ( Data.Text.pack "value",
-                                            StripeAPI.Common.stringifyModel Data.Functor.<$> value
-                                          )
-                                            : ( ( Data.Text.pack "value_list",
-                                                  GHC.Maybe.Just GHC.Base.$ StripeAPI.Common.stringifyModel valueList
-                                                )
-                                                  : []
-                                              )
-                                        )
-                                  )
-                            )
-                      )
-                )
-          )
-          body
-          StripeAPI.Common.RequestBodyEncodingFormData
-      )
 
--- | > GET /v1/radar/value_list_items
---
--- Monadic version of 'getRadarValueListItemsRaw' (use with 'StripeAPI.Common.runWithConfiguration')
-getRadarValueListItemsRawM ::
-  forall m s.
-  ( StripeAPI.Common.MonadHTTP m,
-    StripeAPI.Common.SecurityScheme s
-  ) =>
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe GHC.Integer.Type.Integer ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe GetRadarValueListItemsRequestBody ->
-  Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
-    m
-    ( Data.Either.Either Network.HTTP.Client.Types.HttpException
-        (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
-    )
-getRadarValueListItemsRawM
-  created
-  endingBefore
-  expand
-  limit
-  startingAfter
-  value
-  valueList
-  body =
-    GHC.Base.id
-      ( StripeAPI.Common.doBodyCallWithConfigurationM
-          (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET")
-          (Data.Text.pack "/v1/radar/value_list_items")
-          ( ( Data.Text.pack "created",
-              StripeAPI.Common.stringifyModel Data.Functor.<$> created
-            )
-              : ( ( Data.Text.pack "ending_before",
-                    StripeAPI.Common.stringifyModel Data.Functor.<$> endingBefore
-                  )
-                    : ( ( Data.Text.pack "expand",
-                          StripeAPI.Common.stringifyModel Data.Functor.<$> expand
-                        )
-                          : ( ( Data.Text.pack "limit",
-                                StripeAPI.Common.stringifyModel Data.Functor.<$> limit
-                              )
-                                : ( ( Data.Text.pack "starting_after",
-                                      StripeAPI.Common.stringifyModel Data.Functor.<$> startingAfter
-                                    )
-                                      : ( ( Data.Text.pack "value",
-                                            StripeAPI.Common.stringifyModel Data.Functor.<$> value
-                                          )
-                                            : ( ( Data.Text.pack "value_list",
-                                                  GHC.Maybe.Just GHC.Base.$ StripeAPI.Common.stringifyModel valueList
-                                                )
-                                                  : []
-                                              )
-                                        )
-                                  )
-                            )
-                      )
-                )
-          )
-          body
-          StripeAPI.Common.RequestBodyEncodingFormData
-      )
-
--- | Defines the data type for the schema getRadarValueListItemsRequestBody
-data GetRadarValueListItemsRequestBody
-  = GetRadarValueListItemsRequestBody
-      {
+-- | Defines the object schema located at @paths.\/v1\/radar\/value_list_items.GET.parameters@ in the specification.
+data GetRadarValueListItemsParameters
+  = GetRadarValueListItemsParameters
+      { -- | queryCreated: Represents the parameter named \'created\'
+        getRadarValueListItemsParametersQueryCreated :: (GHC.Maybe.Maybe GetRadarValueListItemsParametersQueryCreated'Variants),
+        -- | queryEnding_before: Represents the parameter named \'ending_before\'
+        --
+        -- A cursor for use in pagination. \`ending_before\` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, starting with \`obj_bar\`, your subsequent call can include \`ending_before=obj_bar\` in order to fetch the previous page of the list.
+        --
+        -- Constraints:
+        --
+        -- * Maximum length of 5000
+        getRadarValueListItemsParametersQueryEndingBefore :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+        -- | queryExpand: Represents the parameter named \'expand\'
+        --
+        -- Specifies which fields in the response should be expanded.
+        getRadarValueListItemsParametersQueryExpand :: (GHC.Maybe.Maybe ([Data.Text.Internal.Text])),
+        -- | queryLimit: Represents the parameter named \'limit\'
+        --
+        -- A limit on the number of objects to be returned. Limit can range between 1 and 100, and the default is 10.
+        getRadarValueListItemsParametersQueryLimit :: (GHC.Maybe.Maybe GHC.Types.Int),
+        -- | queryStarting_after: Represents the parameter named \'starting_after\'
+        --
+        -- A cursor for use in pagination. \`starting_after\` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with \`obj_foo\`, your subsequent call can include \`starting_after=obj_foo\` in order to fetch the next page of the list.
+        --
+        -- Constraints:
+        --
+        -- * Maximum length of 5000
+        getRadarValueListItemsParametersQueryStartingAfter :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+        -- | queryValue: Represents the parameter named \'value\'
+        --
+        -- Return items belonging to the parent list whose value matches the specified value (using an \"is like\" match).
+        --
+        -- Constraints:
+        --
+        -- * Maximum length of 800
+        getRadarValueListItemsParametersQueryValue :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+        -- | queryValue_list: Represents the parameter named \'value_list\'
+        --
+        -- Identifier for the parent value list this item belongs to.
+        --
+        -- Constraints:
+        --
+        -- * Maximum length of 5000
+        getRadarValueListItemsParametersQueryValueList :: Data.Text.Internal.Text
       }
   deriving
     ( GHC.Show.Show,
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON GetRadarValueListItemsRequestBody where
-  toJSON obj = Data.Aeson.object []
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "string" ("string" :: GHC.Base.String))
+instance Data.Aeson.Types.ToJSON.ToJSON GetRadarValueListItemsParameters where
+  toJSON obj = Data.Aeson.Types.Internal.object ("queryCreated" Data.Aeson.Types.ToJSON..= getRadarValueListItemsParametersQueryCreated obj : "queryEnding_before" Data.Aeson.Types.ToJSON..= getRadarValueListItemsParametersQueryEndingBefore obj : "queryExpand" Data.Aeson.Types.ToJSON..= getRadarValueListItemsParametersQueryExpand obj : "queryLimit" Data.Aeson.Types.ToJSON..= getRadarValueListItemsParametersQueryLimit obj : "queryStarting_after" Data.Aeson.Types.ToJSON..= getRadarValueListItemsParametersQueryStartingAfter obj : "queryValue" Data.Aeson.Types.ToJSON..= getRadarValueListItemsParametersQueryValue obj : "queryValue_list" Data.Aeson.Types.ToJSON..= getRadarValueListItemsParametersQueryValueList obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("queryCreated" Data.Aeson.Types.ToJSON..= getRadarValueListItemsParametersQueryCreated obj) GHC.Base.<> (("queryEnding_before" Data.Aeson.Types.ToJSON..= getRadarValueListItemsParametersQueryEndingBefore obj) GHC.Base.<> (("queryExpand" Data.Aeson.Types.ToJSON..= getRadarValueListItemsParametersQueryExpand obj) GHC.Base.<> (("queryLimit" Data.Aeson.Types.ToJSON..= getRadarValueListItemsParametersQueryLimit obj) GHC.Base.<> (("queryStarting_after" Data.Aeson.Types.ToJSON..= getRadarValueListItemsParametersQueryStartingAfter obj) GHC.Base.<> (("queryValue" Data.Aeson.Types.ToJSON..= getRadarValueListItemsParametersQueryValue obj) GHC.Base.<> ("queryValue_list" Data.Aeson.Types.ToJSON..= getRadarValueListItemsParametersQueryValueList obj)))))))
 
-instance Data.Aeson.Types.FromJSON.FromJSON GetRadarValueListItemsRequestBody where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetRadarValueListItemsRequestBody" (\obj -> GHC.Base.pure GetRadarValueListItemsRequestBody)
+instance Data.Aeson.Types.FromJSON.FromJSON GetRadarValueListItemsParameters where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetRadarValueListItemsParameters" (\obj -> ((((((GHC.Base.pure GetRadarValueListItemsParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryCreated")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryEnding_before")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryExpand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryLimit")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryStarting_after")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryValue")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "queryValue_list"))
+
+-- | Create a new 'GetRadarValueListItemsParameters' with all required fields.
+mkGetRadarValueListItemsParameters ::
+  -- | 'getRadarValueListItemsParametersQueryValueList'
+  Data.Text.Internal.Text ->
+  GetRadarValueListItemsParameters
+mkGetRadarValueListItemsParameters getRadarValueListItemsParametersQueryValueList =
+  GetRadarValueListItemsParameters
+    { getRadarValueListItemsParametersQueryCreated = GHC.Maybe.Nothing,
+      getRadarValueListItemsParametersQueryEndingBefore = GHC.Maybe.Nothing,
+      getRadarValueListItemsParametersQueryExpand = GHC.Maybe.Nothing,
+      getRadarValueListItemsParametersQueryLimit = GHC.Maybe.Nothing,
+      getRadarValueListItemsParametersQueryStartingAfter = GHC.Maybe.Nothing,
+      getRadarValueListItemsParametersQueryValue = GHC.Maybe.Nothing,
+      getRadarValueListItemsParametersQueryValueList = getRadarValueListItemsParametersQueryValueList
+    }
+
+-- | Defines the object schema located at @paths.\/v1\/radar\/value_list_items.GET.parameters.properties.queryCreated.anyOf@ in the specification.
+data GetRadarValueListItemsParametersQueryCreated'OneOf2
+  = GetRadarValueListItemsParametersQueryCreated'OneOf2
+      { -- | gt
+        getRadarValueListItemsParametersQueryCreated'OneOf2Gt :: (GHC.Maybe.Maybe GHC.Types.Int),
+        -- | gte
+        getRadarValueListItemsParametersQueryCreated'OneOf2Gte :: (GHC.Maybe.Maybe GHC.Types.Int),
+        -- | lt
+        getRadarValueListItemsParametersQueryCreated'OneOf2Lt :: (GHC.Maybe.Maybe GHC.Types.Int),
+        -- | lte
+        getRadarValueListItemsParametersQueryCreated'OneOf2Lte :: (GHC.Maybe.Maybe GHC.Types.Int)
+      }
+  deriving
+    ( GHC.Show.Show,
+      GHC.Classes.Eq
+    )
+
+instance Data.Aeson.Types.ToJSON.ToJSON GetRadarValueListItemsParametersQueryCreated'OneOf2 where
+  toJSON obj = Data.Aeson.Types.Internal.object ("gt" Data.Aeson.Types.ToJSON..= getRadarValueListItemsParametersQueryCreated'OneOf2Gt obj : "gte" Data.Aeson.Types.ToJSON..= getRadarValueListItemsParametersQueryCreated'OneOf2Gte obj : "lt" Data.Aeson.Types.ToJSON..= getRadarValueListItemsParametersQueryCreated'OneOf2Lt obj : "lte" Data.Aeson.Types.ToJSON..= getRadarValueListItemsParametersQueryCreated'OneOf2Lte obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("gt" Data.Aeson.Types.ToJSON..= getRadarValueListItemsParametersQueryCreated'OneOf2Gt obj) GHC.Base.<> (("gte" Data.Aeson.Types.ToJSON..= getRadarValueListItemsParametersQueryCreated'OneOf2Gte obj) GHC.Base.<> (("lt" Data.Aeson.Types.ToJSON..= getRadarValueListItemsParametersQueryCreated'OneOf2Lt obj) GHC.Base.<> ("lte" Data.Aeson.Types.ToJSON..= getRadarValueListItemsParametersQueryCreated'OneOf2Lte obj))))
+
+instance Data.Aeson.Types.FromJSON.FromJSON GetRadarValueListItemsParametersQueryCreated'OneOf2 where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetRadarValueListItemsParametersQueryCreated'OneOf2" (\obj -> (((GHC.Base.pure GetRadarValueListItemsParametersQueryCreated'OneOf2 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "gt")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "gte")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "lt")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "lte"))
+
+-- | Create a new 'GetRadarValueListItemsParametersQueryCreated'OneOf2' with all required fields.
+mkGetRadarValueListItemsParametersQueryCreated'OneOf2 :: GetRadarValueListItemsParametersQueryCreated'OneOf2
+mkGetRadarValueListItemsParametersQueryCreated'OneOf2 =
+  GetRadarValueListItemsParametersQueryCreated'OneOf2
+    { getRadarValueListItemsParametersQueryCreated'OneOf2Gt = GHC.Maybe.Nothing,
+      getRadarValueListItemsParametersQueryCreated'OneOf2Gte = GHC.Maybe.Nothing,
+      getRadarValueListItemsParametersQueryCreated'OneOf2Lt = GHC.Maybe.Nothing,
+      getRadarValueListItemsParametersQueryCreated'OneOf2Lte = GHC.Maybe.Nothing
+    }
+
+-- | Defines the oneOf schema located at @paths.\/v1\/radar\/value_list_items.GET.parameters.properties.queryCreated.anyOf@ in the specification.
+--
+-- Represents the parameter named \'created\'
+data GetRadarValueListItemsParametersQueryCreated'Variants
+  = GetRadarValueListItemsParametersQueryCreated'Int GHC.Types.Int
+  | GetRadarValueListItemsParametersQueryCreated'GetRadarValueListItemsParametersQueryCreated'OneOf2 GetRadarValueListItemsParametersQueryCreated'OneOf2
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON GetRadarValueListItemsParametersQueryCreated'Variants where
+  toJSON (GetRadarValueListItemsParametersQueryCreated'Int a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (GetRadarValueListItemsParametersQueryCreated'GetRadarValueListItemsParametersQueryCreated'OneOf2 a) = Data.Aeson.Types.ToJSON.toJSON a
+
+instance Data.Aeson.Types.FromJSON.FromJSON GetRadarValueListItemsParametersQueryCreated'Variants where
+  parseJSON val = case (GetRadarValueListItemsParametersQueryCreated'Int Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((GetRadarValueListItemsParametersQueryCreated'GetRadarValueListItemsParametersQueryCreated'OneOf2 Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched") of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+    Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
 -- | Represents a response of the operation 'getRadarValueListItems'.
 --
@@ -396,15 +226,13 @@ data GetRadarValueListItemsResponse
     GetRadarValueListItemsResponseDefault Error
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
--- | Defines the data type for the schema GetRadarValueListItemsResponseBody200
+-- | Defines the object schema located at @paths.\/v1\/radar\/value_list_items.GET.responses.200.content.application\/json.schema@ in the specification.
 data GetRadarValueListItemsResponseBody200
   = GetRadarValueListItemsResponseBody200
       { -- | data
-        getRadarValueListItemsResponseBody200Data :: ([] Radar'valueListItem),
+        getRadarValueListItemsResponseBody200Data :: ([Radar'valueListItem]),
         -- | has_more: True if this list has another page of items after this one that can be fetched.
         getRadarValueListItemsResponseBody200HasMore :: GHC.Types.Bool,
-        -- | object: String representing the object\'s type. Objects of the same type share the same value. Always has the value \`list\`.
-        getRadarValueListItemsResponseBody200Object :: GetRadarValueListItemsResponseBody200Object',
         -- | url: The URL where this list can be accessed.
         --
         -- Constraints:
@@ -418,31 +246,25 @@ data GetRadarValueListItemsResponseBody200
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON GetRadarValueListItemsResponseBody200 where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "data" (getRadarValueListItemsResponseBody200Data obj) : (Data.Aeson..=) "has_more" (getRadarValueListItemsResponseBody200HasMore obj) : (Data.Aeson..=) "object" (getRadarValueListItemsResponseBody200Object obj) : (Data.Aeson..=) "url" (getRadarValueListItemsResponseBody200Url obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "data" (getRadarValueListItemsResponseBody200Data obj) GHC.Base.<> ((Data.Aeson..=) "has_more" (getRadarValueListItemsResponseBody200HasMore obj) GHC.Base.<> ((Data.Aeson..=) "object" (getRadarValueListItemsResponseBody200Object obj) GHC.Base.<> (Data.Aeson..=) "url" (getRadarValueListItemsResponseBody200Url obj))))
+instance Data.Aeson.Types.ToJSON.ToJSON GetRadarValueListItemsResponseBody200 where
+  toJSON obj = Data.Aeson.Types.Internal.object ("data" Data.Aeson.Types.ToJSON..= getRadarValueListItemsResponseBody200Data obj : "has_more" Data.Aeson.Types.ToJSON..= getRadarValueListItemsResponseBody200HasMore obj : "url" Data.Aeson.Types.ToJSON..= getRadarValueListItemsResponseBody200Url obj : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "list" : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("data" Data.Aeson.Types.ToJSON..= getRadarValueListItemsResponseBody200Data obj) GHC.Base.<> (("has_more" Data.Aeson.Types.ToJSON..= getRadarValueListItemsResponseBody200HasMore obj) GHC.Base.<> (("url" Data.Aeson.Types.ToJSON..= getRadarValueListItemsResponseBody200Url obj) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "list"))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetRadarValueListItemsResponseBody200 where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetRadarValueListItemsResponseBody200" (\obj -> (((GHC.Base.pure GetRadarValueListItemsResponseBody200 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "has_more")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "object")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "url"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetRadarValueListItemsResponseBody200" (\obj -> ((GHC.Base.pure GetRadarValueListItemsResponseBody200 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "has_more")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "url"))
 
--- | Defines the enum schema GetRadarValueListItemsResponseBody200Object\'
---
--- String representing the object\'s type. Objects of the same type share the same value. Always has the value \`list\`.
-data GetRadarValueListItemsResponseBody200Object'
-  = GetRadarValueListItemsResponseBody200Object'EnumOther Data.Aeson.Types.Internal.Value
-  | GetRadarValueListItemsResponseBody200Object'EnumTyped Data.Text.Internal.Text
-  | GetRadarValueListItemsResponseBody200Object'EnumStringList
-  deriving (GHC.Show.Show, GHC.Classes.Eq)
-
-instance Data.Aeson.ToJSON GetRadarValueListItemsResponseBody200Object' where
-  toJSON (GetRadarValueListItemsResponseBody200Object'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (GetRadarValueListItemsResponseBody200Object'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (GetRadarValueListItemsResponseBody200Object'EnumStringList) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "list"
-
-instance Data.Aeson.FromJSON GetRadarValueListItemsResponseBody200Object' where
-  parseJSON val =
-    GHC.Base.pure
-      ( if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "list")
-          then GetRadarValueListItemsResponseBody200Object'EnumStringList
-          else GetRadarValueListItemsResponseBody200Object'EnumOther val
-      )
+-- | Create a new 'GetRadarValueListItemsResponseBody200' with all required fields.
+mkGetRadarValueListItemsResponseBody200 ::
+  -- | 'getRadarValueListItemsResponseBody200Data'
+  [Radar'valueListItem] ->
+  -- | 'getRadarValueListItemsResponseBody200HasMore'
+  GHC.Types.Bool ->
+  -- | 'getRadarValueListItemsResponseBody200Url'
+  Data.Text.Internal.Text ->
+  GetRadarValueListItemsResponseBody200
+mkGetRadarValueListItemsResponseBody200 getRadarValueListItemsResponseBody200Data getRadarValueListItemsResponseBody200HasMore getRadarValueListItemsResponseBody200Url =
+  GetRadarValueListItemsResponseBody200
+    { getRadarValueListItemsResponseBody200Data = getRadarValueListItemsResponseBody200Data,
+      getRadarValueListItemsResponseBody200HasMore = getRadarValueListItemsResponseBody200HasMore,
+      getRadarValueListItemsResponseBody200Url = getRadarValueListItemsResponseBody200Url
+    }

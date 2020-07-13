@@ -1,4 +1,3 @@
-{-# LANGUAGE DeriveGeneric #-}
 {-# LANGUAGE ExplicitForAll #-}
 {-# LANGUAGE MultiWayIf #-}
 {-# LANGUAGE OverloadedStrings #-}
@@ -8,8 +7,10 @@
 -- | Contains the different functions to run the operation postPlans
 module StripeAPI.Operations.PostPlans where
 
+import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -26,7 +27,6 @@ import qualified Data.Time.LocalTime as Data.Time.LocalTime.Internal.ZonedTime
 import qualified Data.Vector
 import qualified GHC.Base
 import qualified GHC.Classes
-import qualified GHC.Generics
 import qualified GHC.Int
 import qualified GHC.Show
 import qualified GHC.Types
@@ -46,121 +46,39 @@ import qualified Prelude as GHC.Maybe
 --
 -- \<p>You can create plans using the API, or in the Stripe \<a href=\"https:\/\/dashboard.stripe.com\/subscriptions\/products\">Dashboard\<\/a>.\<\/p>
 postPlans ::
-  forall m s.
-  (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) =>
-  -- | The configuration to use in the request
-  StripeAPI.Common.Configuration s ->
+  forall m.
+  StripeAPI.Common.MonadHTTP m =>
   -- | The request body to send
   PostPlansRequestBody ->
-  -- | Monad containing the result of the operation
-  m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response PostPlansResponse))
-postPlans
-  config
-  body =
-    GHC.Base.fmap
-      ( GHC.Base.fmap
-          ( \response_0 ->
-              GHC.Base.fmap
-                ( Data.Either.either PostPlansResponseError GHC.Base.id
-                    GHC.Base.. ( \response body ->
-                                   if  | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                         PostPlansResponse200
-                                           Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                                Data.Either.Either GHC.Base.String
-                                                                  Plan
-                                                            )
-                                       | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                         PostPlansResponseDefault
-                                           Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                                Data.Either.Either GHC.Base.String
-                                                                  Error
-                                                            )
-                                       | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
-                               )
-                      response_0
-                )
+  -- | Monadic computation which returns the result of the operation
+  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response PostPlansResponse)
+postPlans body =
+  GHC.Base.fmap
+    ( \response_0 ->
+        GHC.Base.fmap
+          ( Data.Either.either PostPlansResponseError GHC.Base.id
+              GHC.Base.. ( \response body ->
+                             if  | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
+                                   PostPlansResponse200
+                                     Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                          Data.Either.Either GHC.Base.String
+                                                            Plan
+                                                      )
+                                 | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
+                                   PostPlansResponseDefault
+                                     Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                          Data.Either.Either GHC.Base.String
+                                                            Error
+                                                      )
+                                 | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
+                         )
                 response_0
           )
-      )
-      (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack "/v1/plans") [] (GHC.Maybe.Just body) StripeAPI.Common.RequestBodyEncodingFormData)
-
--- | > POST /v1/plans
---
--- The same as 'postPlans' but returns the raw 'Data.ByteString.Char8.ByteString'
-postPlansRaw ::
-  forall m s.
-  ( StripeAPI.Common.MonadHTTP m,
-    StripeAPI.Common.SecurityScheme s
-  ) =>
-  StripeAPI.Common.Configuration s ->
-  PostPlansRequestBody ->
-  m
-    ( Data.Either.Either Network.HTTP.Client.Types.HttpException
-        (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
-    )
-postPlansRaw
-  config
-  body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack "/v1/plans") [] (GHC.Maybe.Just body) StripeAPI.Common.RequestBodyEncodingFormData)
-
--- | > POST /v1/plans
---
--- Monadic version of 'postPlans' (use with 'StripeAPI.Common.runWithConfiguration')
-postPlansM ::
-  forall m s.
-  ( StripeAPI.Common.MonadHTTP m,
-    StripeAPI.Common.SecurityScheme s
-  ) =>
-  PostPlansRequestBody ->
-  Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
-    m
-    ( Data.Either.Either Network.HTTP.Client.Types.HttpException
-        (Network.HTTP.Client.Types.Response PostPlansResponse)
-    )
-postPlansM body =
-  GHC.Base.fmap
-    ( GHC.Base.fmap
-        ( \response_2 ->
-            GHC.Base.fmap
-              ( Data.Either.either PostPlansResponseError GHC.Base.id
-                  GHC.Base.. ( \response body ->
-                                 if  | (\status_3 -> Network.HTTP.Types.Status.statusCode status_3 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                       PostPlansResponse200
-                                         Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                              Data.Either.Either GHC.Base.String
-                                                                Plan
-                                                          )
-                                     | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                       PostPlansResponseDefault
-                                         Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                              Data.Either.Either GHC.Base.String
-                                                                Error
-                                                          )
-                                     | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
-                             )
-                    response_2
-              )
-              response_2
-        )
+          response_0
     )
     (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack "/v1/plans") [] (GHC.Maybe.Just body) StripeAPI.Common.RequestBodyEncodingFormData)
 
--- | > POST /v1/plans
---
--- Monadic version of 'postPlansRaw' (use with 'StripeAPI.Common.runWithConfiguration')
-postPlansRawM ::
-  forall m s.
-  ( StripeAPI.Common.MonadHTTP m,
-    StripeAPI.Common.SecurityScheme s
-  ) =>
-  PostPlansRequestBody ->
-  Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
-    m
-    ( Data.Either.Either Network.HTTP.Client.Types.HttpException
-        (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
-    )
-postPlansRawM body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack "/v1/plans") [] (GHC.Maybe.Just body) StripeAPI.Common.RequestBodyEncodingFormData)
-
--- | Defines the data type for the schema postPlansRequestBody
+-- | Defines the object schema located at @paths.\/v1\/plans.POST.requestBody.content.application\/x-www-form-urlencoded.schema@ in the specification.
 data PostPlansRequestBody
   = PostPlansRequestBody
       { -- | active: Whether the plan is currently available for new subscriptions. Defaults to \`true\`.
@@ -168,7 +86,7 @@ data PostPlansRequestBody
         -- | aggregate_usage: Specifies a usage aggregation strategy for plans of \`usage_type=metered\`. Allowed values are \`sum\` for summing up all usage during a period, \`last_during_period\` for using the last usage record reported within a period, \`last_ever\` for using the last usage record ever (across period bounds) or \`max\` which uses the usage record with the maximum reported usage during a period. Defaults to \`sum\`.
         postPlansRequestBodyAggregateUsage :: (GHC.Maybe.Maybe PostPlansRequestBodyAggregateUsage'),
         -- | amount: A positive integer in %s (or 0 for a free plan) representing how much to charge on a recurring basis.
-        postPlansRequestBodyAmount :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer),
+        postPlansRequestBodyAmount :: (GHC.Maybe.Maybe GHC.Types.Int),
         -- | amount_decimal: Same as \`amount\`, but accepts a decimal value with at most 12 decimal places. Only one of \`amount\` and \`amount_decimal\` can be set.
         postPlansRequestBodyAmountDecimal :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
         -- | billing_scheme: Describes how to compute the price per period. Either \`per_unit\` or \`tiered\`. \`per_unit\` indicates that the fixed amount (specified in \`amount\`) will be charged per unit in \`quantity\` (for plans with \`usage_type=licensed\`), or per unit of total usage (for plans with \`usage_type=metered\`). \`tiered\` indicates that the unit pricing will be computed using a tiering strategy as defined using the \`tiers\` and \`tiers_mode\` attributes.
@@ -176,7 +94,7 @@ data PostPlansRequestBody
         -- | currency: Three-letter [ISO currency code](https:\/\/www.iso.org\/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https:\/\/stripe.com\/docs\/currencies).
         postPlansRequestBodyCurrency :: Data.Text.Internal.Text,
         -- | expand: Specifies which fields in the response should be expanded.
-        postPlansRequestBodyExpand :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text)),
+        postPlansRequestBodyExpand :: (GHC.Maybe.Maybe ([Data.Text.Internal.Text])),
         -- | id: An identifier randomly generated by Stripe. Used to identify this plan when subscribing a customer. You can optionally override this ID, but the ID must be unique across all plans in your Stripe account. You can, however, use the same plan ID in both live and test modes.
         --
         -- Constraints:
@@ -186,9 +104,9 @@ data PostPlansRequestBody
         -- | interval: Specifies billing frequency. Either \`day\`, \`week\`, \`month\` or \`year\`.
         postPlansRequestBodyInterval :: PostPlansRequestBodyInterval',
         -- | interval_count: The number of intervals between subscription billings. For example, \`interval=month\` and \`interval_count=3\` bills every 3 months. Maximum of one year interval allowed (1 year, 12 months, or 52 weeks).
-        postPlansRequestBodyIntervalCount :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer),
+        postPlansRequestBodyIntervalCount :: (GHC.Maybe.Maybe GHC.Types.Int),
         -- | metadata: Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to \`metadata\`.
-        postPlansRequestBodyMetadata :: (GHC.Maybe.Maybe PostPlansRequestBodyMetadata'),
+        postPlansRequestBodyMetadata :: (GHC.Maybe.Maybe Data.Aeson.Types.Internal.Object),
         -- | nickname: A brief description of the plan, hidden from customers.
         --
         -- Constraints:
@@ -198,7 +116,7 @@ data PostPlansRequestBody
         -- | product
         postPlansRequestBodyProduct :: (GHC.Maybe.Maybe PostPlansRequestBodyProduct'Variants),
         -- | tiers: Each element represents a pricing tier. This parameter requires \`billing_scheme\` to be set to \`tiered\`. See also the documentation for \`billing_scheme\`.
-        postPlansRequestBodyTiers :: (GHC.Maybe.Maybe ([] PostPlansRequestBodyTiers')),
+        postPlansRequestBodyTiers :: (GHC.Maybe.Maybe ([PostPlansRequestBodyTiers'])),
         -- | tiers_mode: Defines if the tiering price should be \`graduated\` or \`volume\` based. In \`volume\`-based tiering, the maximum quantity within a period determines the per unit price, in \`graduated\` tiering pricing can successively change as the quantity grows.
         --
         -- Constraints:
@@ -208,7 +126,7 @@ data PostPlansRequestBody
         -- | transform_usage: Apply a transformation to the reported usage or set quantity before computing the billed price. Cannot be combined with \`tiers\`.
         postPlansRequestBodyTransformUsage :: (GHC.Maybe.Maybe PostPlansRequestBodyTransformUsage'),
         -- | trial_period_days: Default number of trial days when subscribing a customer to this plan using [\`trial_from_plan=true\`](https:\/\/stripe.com\/docs\/api\#create_subscription-trial_from_plan).
-        postPlansRequestBodyTrialPeriodDays :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer),
+        postPlansRequestBodyTrialPeriodDays :: (GHC.Maybe.Maybe GHC.Types.Int),
         -- | usage_type: Configures how the quantity per period should be determined. Can be either \`metered\` or \`licensed\`. \`licensed\` automatically bills the \`quantity\` set when adding it to a subscription. \`metered\` aggregates the total usage based on usage records. Defaults to \`licensed\`.
         postPlansRequestBodyUsageType :: (GHC.Maybe.Maybe PostPlansRequestBodyUsageType')
       }
@@ -217,134 +135,143 @@ data PostPlansRequestBody
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON PostPlansRequestBody where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "active" (postPlansRequestBodyActive obj) : (Data.Aeson..=) "aggregate_usage" (postPlansRequestBodyAggregateUsage obj) : (Data.Aeson..=) "amount" (postPlansRequestBodyAmount obj) : (Data.Aeson..=) "amount_decimal" (postPlansRequestBodyAmountDecimal obj) : (Data.Aeson..=) "billing_scheme" (postPlansRequestBodyBillingScheme obj) : (Data.Aeson..=) "currency" (postPlansRequestBodyCurrency obj) : (Data.Aeson..=) "expand" (postPlansRequestBodyExpand obj) : (Data.Aeson..=) "id" (postPlansRequestBodyId obj) : (Data.Aeson..=) "interval" (postPlansRequestBodyInterval obj) : (Data.Aeson..=) "interval_count" (postPlansRequestBodyIntervalCount obj) : (Data.Aeson..=) "metadata" (postPlansRequestBodyMetadata obj) : (Data.Aeson..=) "nickname" (postPlansRequestBodyNickname obj) : (Data.Aeson..=) "product" (postPlansRequestBodyProduct obj) : (Data.Aeson..=) "tiers" (postPlansRequestBodyTiers obj) : (Data.Aeson..=) "tiers_mode" (postPlansRequestBodyTiersMode obj) : (Data.Aeson..=) "transform_usage" (postPlansRequestBodyTransformUsage obj) : (Data.Aeson..=) "trial_period_days" (postPlansRequestBodyTrialPeriodDays obj) : (Data.Aeson..=) "usage_type" (postPlansRequestBodyUsageType obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "active" (postPlansRequestBodyActive obj) GHC.Base.<> ((Data.Aeson..=) "aggregate_usage" (postPlansRequestBodyAggregateUsage obj) GHC.Base.<> ((Data.Aeson..=) "amount" (postPlansRequestBodyAmount obj) GHC.Base.<> ((Data.Aeson..=) "amount_decimal" (postPlansRequestBodyAmountDecimal obj) GHC.Base.<> ((Data.Aeson..=) "billing_scheme" (postPlansRequestBodyBillingScheme obj) GHC.Base.<> ((Data.Aeson..=) "currency" (postPlansRequestBodyCurrency obj) GHC.Base.<> ((Data.Aeson..=) "expand" (postPlansRequestBodyExpand obj) GHC.Base.<> ((Data.Aeson..=) "id" (postPlansRequestBodyId obj) GHC.Base.<> ((Data.Aeson..=) "interval" (postPlansRequestBodyInterval obj) GHC.Base.<> ((Data.Aeson..=) "interval_count" (postPlansRequestBodyIntervalCount obj) GHC.Base.<> ((Data.Aeson..=) "metadata" (postPlansRequestBodyMetadata obj) GHC.Base.<> ((Data.Aeson..=) "nickname" (postPlansRequestBodyNickname obj) GHC.Base.<> ((Data.Aeson..=) "product" (postPlansRequestBodyProduct obj) GHC.Base.<> ((Data.Aeson..=) "tiers" (postPlansRequestBodyTiers obj) GHC.Base.<> ((Data.Aeson..=) "tiers_mode" (postPlansRequestBodyTiersMode obj) GHC.Base.<> ((Data.Aeson..=) "transform_usage" (postPlansRequestBodyTransformUsage obj) GHC.Base.<> ((Data.Aeson..=) "trial_period_days" (postPlansRequestBodyTrialPeriodDays obj) GHC.Base.<> (Data.Aeson..=) "usage_type" (postPlansRequestBodyUsageType obj))))))))))))))))))
+instance Data.Aeson.Types.ToJSON.ToJSON PostPlansRequestBody where
+  toJSON obj = Data.Aeson.Types.Internal.object ("active" Data.Aeson.Types.ToJSON..= postPlansRequestBodyActive obj : "aggregate_usage" Data.Aeson.Types.ToJSON..= postPlansRequestBodyAggregateUsage obj : "amount" Data.Aeson.Types.ToJSON..= postPlansRequestBodyAmount obj : "amount_decimal" Data.Aeson.Types.ToJSON..= postPlansRequestBodyAmountDecimal obj : "billing_scheme" Data.Aeson.Types.ToJSON..= postPlansRequestBodyBillingScheme obj : "currency" Data.Aeson.Types.ToJSON..= postPlansRequestBodyCurrency obj : "expand" Data.Aeson.Types.ToJSON..= postPlansRequestBodyExpand obj : "id" Data.Aeson.Types.ToJSON..= postPlansRequestBodyId obj : "interval" Data.Aeson.Types.ToJSON..= postPlansRequestBodyInterval obj : "interval_count" Data.Aeson.Types.ToJSON..= postPlansRequestBodyIntervalCount obj : "metadata" Data.Aeson.Types.ToJSON..= postPlansRequestBodyMetadata obj : "nickname" Data.Aeson.Types.ToJSON..= postPlansRequestBodyNickname obj : "product" Data.Aeson.Types.ToJSON..= postPlansRequestBodyProduct obj : "tiers" Data.Aeson.Types.ToJSON..= postPlansRequestBodyTiers obj : "tiers_mode" Data.Aeson.Types.ToJSON..= postPlansRequestBodyTiersMode obj : "transform_usage" Data.Aeson.Types.ToJSON..= postPlansRequestBodyTransformUsage obj : "trial_period_days" Data.Aeson.Types.ToJSON..= postPlansRequestBodyTrialPeriodDays obj : "usage_type" Data.Aeson.Types.ToJSON..= postPlansRequestBodyUsageType obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("active" Data.Aeson.Types.ToJSON..= postPlansRequestBodyActive obj) GHC.Base.<> (("aggregate_usage" Data.Aeson.Types.ToJSON..= postPlansRequestBodyAggregateUsage obj) GHC.Base.<> (("amount" Data.Aeson.Types.ToJSON..= postPlansRequestBodyAmount obj) GHC.Base.<> (("amount_decimal" Data.Aeson.Types.ToJSON..= postPlansRequestBodyAmountDecimal obj) GHC.Base.<> (("billing_scheme" Data.Aeson.Types.ToJSON..= postPlansRequestBodyBillingScheme obj) GHC.Base.<> (("currency" Data.Aeson.Types.ToJSON..= postPlansRequestBodyCurrency obj) GHC.Base.<> (("expand" Data.Aeson.Types.ToJSON..= postPlansRequestBodyExpand obj) GHC.Base.<> (("id" Data.Aeson.Types.ToJSON..= postPlansRequestBodyId obj) GHC.Base.<> (("interval" Data.Aeson.Types.ToJSON..= postPlansRequestBodyInterval obj) GHC.Base.<> (("interval_count" Data.Aeson.Types.ToJSON..= postPlansRequestBodyIntervalCount obj) GHC.Base.<> (("metadata" Data.Aeson.Types.ToJSON..= postPlansRequestBodyMetadata obj) GHC.Base.<> (("nickname" Data.Aeson.Types.ToJSON..= postPlansRequestBodyNickname obj) GHC.Base.<> (("product" Data.Aeson.Types.ToJSON..= postPlansRequestBodyProduct obj) GHC.Base.<> (("tiers" Data.Aeson.Types.ToJSON..= postPlansRequestBodyTiers obj) GHC.Base.<> (("tiers_mode" Data.Aeson.Types.ToJSON..= postPlansRequestBodyTiersMode obj) GHC.Base.<> (("transform_usage" Data.Aeson.Types.ToJSON..= postPlansRequestBodyTransformUsage obj) GHC.Base.<> (("trial_period_days" Data.Aeson.Types.ToJSON..= postPlansRequestBodyTrialPeriodDays obj) GHC.Base.<> ("usage_type" Data.Aeson.Types.ToJSON..= postPlansRequestBodyUsageType obj))))))))))))))))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostPlansRequestBody where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PostPlansRequestBody" (\obj -> (((((((((((((((((GHC.Base.pure PostPlansRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "active")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "aggregate_usage")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "amount_decimal")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "billing_scheme")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "interval")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "interval_count")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "nickname")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "product")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "tiers")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "tiers_mode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "transform_usage")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "trial_period_days")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "usage_type"))
 
--- | Defines the enum schema postPlansRequestBodyAggregate_usage\'
+-- | Create a new 'PostPlansRequestBody' with all required fields.
+mkPostPlansRequestBody ::
+  -- | 'postPlansRequestBodyCurrency'
+  Data.Text.Internal.Text ->
+  -- | 'postPlansRequestBodyInterval'
+  PostPlansRequestBodyInterval' ->
+  PostPlansRequestBody
+mkPostPlansRequestBody postPlansRequestBodyCurrency postPlansRequestBodyInterval =
+  PostPlansRequestBody
+    { postPlansRequestBodyActive = GHC.Maybe.Nothing,
+      postPlansRequestBodyAggregateUsage = GHC.Maybe.Nothing,
+      postPlansRequestBodyAmount = GHC.Maybe.Nothing,
+      postPlansRequestBodyAmountDecimal = GHC.Maybe.Nothing,
+      postPlansRequestBodyBillingScheme = GHC.Maybe.Nothing,
+      postPlansRequestBodyCurrency = postPlansRequestBodyCurrency,
+      postPlansRequestBodyExpand = GHC.Maybe.Nothing,
+      postPlansRequestBodyId = GHC.Maybe.Nothing,
+      postPlansRequestBodyInterval = postPlansRequestBodyInterval,
+      postPlansRequestBodyIntervalCount = GHC.Maybe.Nothing,
+      postPlansRequestBodyMetadata = GHC.Maybe.Nothing,
+      postPlansRequestBodyNickname = GHC.Maybe.Nothing,
+      postPlansRequestBodyProduct = GHC.Maybe.Nothing,
+      postPlansRequestBodyTiers = GHC.Maybe.Nothing,
+      postPlansRequestBodyTiersMode = GHC.Maybe.Nothing,
+      postPlansRequestBodyTransformUsage = GHC.Maybe.Nothing,
+      postPlansRequestBodyTrialPeriodDays = GHC.Maybe.Nothing,
+      postPlansRequestBodyUsageType = GHC.Maybe.Nothing
+    }
+
+-- | Defines the enum schema located at @paths.\/v1\/plans.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.aggregate_usage@ in the specification.
 --
 -- Specifies a usage aggregation strategy for plans of \`usage_type=metered\`. Allowed values are \`sum\` for summing up all usage during a period, \`last_during_period\` for using the last usage record reported within a period, \`last_ever\` for using the last usage record ever (across period bounds) or \`max\` which uses the usage record with the maximum reported usage during a period. Defaults to \`sum\`.
 data PostPlansRequestBodyAggregateUsage'
-  = PostPlansRequestBodyAggregateUsage'EnumOther Data.Aeson.Types.Internal.Value
-  | PostPlansRequestBodyAggregateUsage'EnumTyped Data.Text.Internal.Text
-  | PostPlansRequestBodyAggregateUsage'EnumStringLastDuringPeriod
-  | PostPlansRequestBodyAggregateUsage'EnumStringLastEver
-  | PostPlansRequestBodyAggregateUsage'EnumStringMax
-  | PostPlansRequestBodyAggregateUsage'EnumStringSum
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    PostPlansRequestBodyAggregateUsage'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    PostPlansRequestBodyAggregateUsage'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"last_during_period"@
+    PostPlansRequestBodyAggregateUsage'EnumLastDuringPeriod
+  | -- | Represents the JSON value @"last_ever"@
+    PostPlansRequestBodyAggregateUsage'EnumLastEver
+  | -- | Represents the JSON value @"max"@
+    PostPlansRequestBodyAggregateUsage'EnumMax
+  | -- | Represents the JSON value @"sum"@
+    PostPlansRequestBodyAggregateUsage'EnumSum
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.ToJSON PostPlansRequestBodyAggregateUsage' where
-  toJSON (PostPlansRequestBodyAggregateUsage'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostPlansRequestBodyAggregateUsage'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostPlansRequestBodyAggregateUsage'EnumStringLastDuringPeriod) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "last_during_period"
-  toJSON (PostPlansRequestBodyAggregateUsage'EnumStringLastEver) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "last_ever"
-  toJSON (PostPlansRequestBodyAggregateUsage'EnumStringMax) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "max"
-  toJSON (PostPlansRequestBodyAggregateUsage'EnumStringSum) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "sum"
+instance Data.Aeson.Types.ToJSON.ToJSON PostPlansRequestBodyAggregateUsage' where
+  toJSON (PostPlansRequestBodyAggregateUsage'Other val) = val
+  toJSON (PostPlansRequestBodyAggregateUsage'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PostPlansRequestBodyAggregateUsage'EnumLastDuringPeriod) = "last_during_period"
+  toJSON (PostPlansRequestBodyAggregateUsage'EnumLastEver) = "last_ever"
+  toJSON (PostPlansRequestBodyAggregateUsage'EnumMax) = "max"
+  toJSON (PostPlansRequestBodyAggregateUsage'EnumSum) = "sum"
 
-instance Data.Aeson.FromJSON PostPlansRequestBodyAggregateUsage' where
+instance Data.Aeson.Types.FromJSON.FromJSON PostPlansRequestBodyAggregateUsage' where
   parseJSON val =
     GHC.Base.pure
-      ( if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "last_during_period")
-          then PostPlansRequestBodyAggregateUsage'EnumStringLastDuringPeriod
-          else
-            if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "last_ever")
-              then PostPlansRequestBodyAggregateUsage'EnumStringLastEver
-              else
-                if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "max")
-                  then PostPlansRequestBodyAggregateUsage'EnumStringMax
-                  else
-                    if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "sum")
-                      then PostPlansRequestBodyAggregateUsage'EnumStringSum
-                      else PostPlansRequestBodyAggregateUsage'EnumOther val
+      ( if  | val GHC.Classes.== "last_during_period" -> PostPlansRequestBodyAggregateUsage'EnumLastDuringPeriod
+            | val GHC.Classes.== "last_ever" -> PostPlansRequestBodyAggregateUsage'EnumLastEver
+            | val GHC.Classes.== "max" -> PostPlansRequestBodyAggregateUsage'EnumMax
+            | val GHC.Classes.== "sum" -> PostPlansRequestBodyAggregateUsage'EnumSum
+            | GHC.Base.otherwise -> PostPlansRequestBodyAggregateUsage'Other val
       )
 
--- | Defines the enum schema postPlansRequestBodyBilling_scheme\'
+-- | Defines the enum schema located at @paths.\/v1\/plans.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.billing_scheme@ in the specification.
 --
 -- Describes how to compute the price per period. Either \`per_unit\` or \`tiered\`. \`per_unit\` indicates that the fixed amount (specified in \`amount\`) will be charged per unit in \`quantity\` (for plans with \`usage_type=licensed\`), or per unit of total usage (for plans with \`usage_type=metered\`). \`tiered\` indicates that the unit pricing will be computed using a tiering strategy as defined using the \`tiers\` and \`tiers_mode\` attributes.
 data PostPlansRequestBodyBillingScheme'
-  = PostPlansRequestBodyBillingScheme'EnumOther Data.Aeson.Types.Internal.Value
-  | PostPlansRequestBodyBillingScheme'EnumTyped Data.Text.Internal.Text
-  | PostPlansRequestBodyBillingScheme'EnumStringPerUnit
-  | PostPlansRequestBodyBillingScheme'EnumStringTiered
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    PostPlansRequestBodyBillingScheme'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    PostPlansRequestBodyBillingScheme'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"per_unit"@
+    PostPlansRequestBodyBillingScheme'EnumPerUnit
+  | -- | Represents the JSON value @"tiered"@
+    PostPlansRequestBodyBillingScheme'EnumTiered
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.ToJSON PostPlansRequestBodyBillingScheme' where
-  toJSON (PostPlansRequestBodyBillingScheme'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostPlansRequestBodyBillingScheme'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostPlansRequestBodyBillingScheme'EnumStringPerUnit) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "per_unit"
-  toJSON (PostPlansRequestBodyBillingScheme'EnumStringTiered) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "tiered"
+instance Data.Aeson.Types.ToJSON.ToJSON PostPlansRequestBodyBillingScheme' where
+  toJSON (PostPlansRequestBodyBillingScheme'Other val) = val
+  toJSON (PostPlansRequestBodyBillingScheme'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PostPlansRequestBodyBillingScheme'EnumPerUnit) = "per_unit"
+  toJSON (PostPlansRequestBodyBillingScheme'EnumTiered) = "tiered"
 
-instance Data.Aeson.FromJSON PostPlansRequestBodyBillingScheme' where
+instance Data.Aeson.Types.FromJSON.FromJSON PostPlansRequestBodyBillingScheme' where
   parseJSON val =
     GHC.Base.pure
-      ( if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "per_unit")
-          then PostPlansRequestBodyBillingScheme'EnumStringPerUnit
-          else
-            if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "tiered")
-              then PostPlansRequestBodyBillingScheme'EnumStringTiered
-              else PostPlansRequestBodyBillingScheme'EnumOther val
+      ( if  | val GHC.Classes.== "per_unit" -> PostPlansRequestBodyBillingScheme'EnumPerUnit
+            | val GHC.Classes.== "tiered" -> PostPlansRequestBodyBillingScheme'EnumTiered
+            | GHC.Base.otherwise -> PostPlansRequestBodyBillingScheme'Other val
       )
 
--- | Defines the enum schema postPlansRequestBodyInterval\'
+-- | Defines the enum schema located at @paths.\/v1\/plans.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.interval@ in the specification.
 --
 -- Specifies billing frequency. Either \`day\`, \`week\`, \`month\` or \`year\`.
 data PostPlansRequestBodyInterval'
-  = PostPlansRequestBodyInterval'EnumOther Data.Aeson.Types.Internal.Value
-  | PostPlansRequestBodyInterval'EnumTyped Data.Text.Internal.Text
-  | PostPlansRequestBodyInterval'EnumStringDay
-  | PostPlansRequestBodyInterval'EnumStringMonth
-  | PostPlansRequestBodyInterval'EnumStringWeek
-  | PostPlansRequestBodyInterval'EnumStringYear
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    PostPlansRequestBodyInterval'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    PostPlansRequestBodyInterval'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"day"@
+    PostPlansRequestBodyInterval'EnumDay
+  | -- | Represents the JSON value @"month"@
+    PostPlansRequestBodyInterval'EnumMonth
+  | -- | Represents the JSON value @"week"@
+    PostPlansRequestBodyInterval'EnumWeek
+  | -- | Represents the JSON value @"year"@
+    PostPlansRequestBodyInterval'EnumYear
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.ToJSON PostPlansRequestBodyInterval' where
-  toJSON (PostPlansRequestBodyInterval'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostPlansRequestBodyInterval'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostPlansRequestBodyInterval'EnumStringDay) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "day"
-  toJSON (PostPlansRequestBodyInterval'EnumStringMonth) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "month"
-  toJSON (PostPlansRequestBodyInterval'EnumStringWeek) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "week"
-  toJSON (PostPlansRequestBodyInterval'EnumStringYear) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "year"
+instance Data.Aeson.Types.ToJSON.ToJSON PostPlansRequestBodyInterval' where
+  toJSON (PostPlansRequestBodyInterval'Other val) = val
+  toJSON (PostPlansRequestBodyInterval'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PostPlansRequestBodyInterval'EnumDay) = "day"
+  toJSON (PostPlansRequestBodyInterval'EnumMonth) = "month"
+  toJSON (PostPlansRequestBodyInterval'EnumWeek) = "week"
+  toJSON (PostPlansRequestBodyInterval'EnumYear) = "year"
 
-instance Data.Aeson.FromJSON PostPlansRequestBodyInterval' where
+instance Data.Aeson.Types.FromJSON.FromJSON PostPlansRequestBodyInterval' where
   parseJSON val =
     GHC.Base.pure
-      ( if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "day")
-          then PostPlansRequestBodyInterval'EnumStringDay
-          else
-            if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "month")
-              then PostPlansRequestBodyInterval'EnumStringMonth
-              else
-                if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "week")
-                  then PostPlansRequestBodyInterval'EnumStringWeek
-                  else
-                    if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "year")
-                      then PostPlansRequestBodyInterval'EnumStringYear
-                      else PostPlansRequestBodyInterval'EnumOther val
+      ( if  | val GHC.Classes.== "day" -> PostPlansRequestBodyInterval'EnumDay
+            | val GHC.Classes.== "month" -> PostPlansRequestBodyInterval'EnumMonth
+            | val GHC.Classes.== "week" -> PostPlansRequestBodyInterval'EnumWeek
+            | val GHC.Classes.== "year" -> PostPlansRequestBodyInterval'EnumYear
+            | GHC.Base.otherwise -> PostPlansRequestBodyInterval'Other val
       )
 
--- | Defines the data type for the schema postPlansRequestBodyMetadata\'
---
--- Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to \`metadata\`.
-data PostPlansRequestBodyMetadata'
-  = PostPlansRequestBodyMetadata'
-      {
-      }
-  deriving
-    ( GHC.Show.Show,
-      GHC.Classes.Eq
-    )
-
-instance Data.Aeson.ToJSON PostPlansRequestBodyMetadata' where
-  toJSON obj = Data.Aeson.object []
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "string" ("string" :: GHC.Base.String))
-
-instance Data.Aeson.Types.FromJSON.FromJSON PostPlansRequestBodyMetadata' where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostPlansRequestBodyMetadata'" (\obj -> GHC.Base.pure PostPlansRequestBodyMetadata')
-
--- | Defines the data type for the schema postPlansRequestBodyProduct\'OneOf2
+-- | Defines the object schema located at @paths.\/v1\/plans.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.product.anyOf@ in the specification.
 --
 -- The product whose pricing the created plan will represent. This can either be the ID of an existing product, or a dictionary containing fields used to create a [service product](https:\/\/stripe.com\/docs\/api\#product_object-type).
 data PostPlansRequestBodyProduct'OneOf2
@@ -358,7 +285,7 @@ data PostPlansRequestBodyProduct'OneOf2
         -- * Maximum length of 5000
         postPlansRequestBodyProduct'OneOf2Id :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
         -- | metadata
-        postPlansRequestBodyProduct'OneOf2Metadata :: (GHC.Maybe.Maybe PostPlansRequestBodyProduct'OneOf2Metadata'),
+        postPlansRequestBodyProduct'OneOf2Metadata :: (GHC.Maybe.Maybe Data.Aeson.Types.Internal.Object),
         -- | name
         --
         -- Constraints:
@@ -383,51 +310,52 @@ data PostPlansRequestBodyProduct'OneOf2
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON PostPlansRequestBodyProduct'OneOf2 where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "active" (postPlansRequestBodyProduct'OneOf2Active obj) : (Data.Aeson..=) "id" (postPlansRequestBodyProduct'OneOf2Id obj) : (Data.Aeson..=) "metadata" (postPlansRequestBodyProduct'OneOf2Metadata obj) : (Data.Aeson..=) "name" (postPlansRequestBodyProduct'OneOf2Name obj) : (Data.Aeson..=) "statement_descriptor" (postPlansRequestBodyProduct'OneOf2StatementDescriptor obj) : (Data.Aeson..=) "unit_label" (postPlansRequestBodyProduct'OneOf2UnitLabel obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "active" (postPlansRequestBodyProduct'OneOf2Active obj) GHC.Base.<> ((Data.Aeson..=) "id" (postPlansRequestBodyProduct'OneOf2Id obj) GHC.Base.<> ((Data.Aeson..=) "metadata" (postPlansRequestBodyProduct'OneOf2Metadata obj) GHC.Base.<> ((Data.Aeson..=) "name" (postPlansRequestBodyProduct'OneOf2Name obj) GHC.Base.<> ((Data.Aeson..=) "statement_descriptor" (postPlansRequestBodyProduct'OneOf2StatementDescriptor obj) GHC.Base.<> (Data.Aeson..=) "unit_label" (postPlansRequestBodyProduct'OneOf2UnitLabel obj))))))
+instance Data.Aeson.Types.ToJSON.ToJSON PostPlansRequestBodyProduct'OneOf2 where
+  toJSON obj = Data.Aeson.Types.Internal.object ("active" Data.Aeson.Types.ToJSON..= postPlansRequestBodyProduct'OneOf2Active obj : "id" Data.Aeson.Types.ToJSON..= postPlansRequestBodyProduct'OneOf2Id obj : "metadata" Data.Aeson.Types.ToJSON..= postPlansRequestBodyProduct'OneOf2Metadata obj : "name" Data.Aeson.Types.ToJSON..= postPlansRequestBodyProduct'OneOf2Name obj : "statement_descriptor" Data.Aeson.Types.ToJSON..= postPlansRequestBodyProduct'OneOf2StatementDescriptor obj : "unit_label" Data.Aeson.Types.ToJSON..= postPlansRequestBodyProduct'OneOf2UnitLabel obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("active" Data.Aeson.Types.ToJSON..= postPlansRequestBodyProduct'OneOf2Active obj) GHC.Base.<> (("id" Data.Aeson.Types.ToJSON..= postPlansRequestBodyProduct'OneOf2Id obj) GHC.Base.<> (("metadata" Data.Aeson.Types.ToJSON..= postPlansRequestBodyProduct'OneOf2Metadata obj) GHC.Base.<> (("name" Data.Aeson.Types.ToJSON..= postPlansRequestBodyProduct'OneOf2Name obj) GHC.Base.<> (("statement_descriptor" Data.Aeson.Types.ToJSON..= postPlansRequestBodyProduct'OneOf2StatementDescriptor obj) GHC.Base.<> ("unit_label" Data.Aeson.Types.ToJSON..= postPlansRequestBodyProduct'OneOf2UnitLabel obj))))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostPlansRequestBodyProduct'OneOf2 where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PostPlansRequestBodyProduct'OneOf2" (\obj -> (((((GHC.Base.pure PostPlansRequestBodyProduct'OneOf2 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "active")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "statement_descriptor")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "unit_label"))
 
--- | Defines the data type for the schema postPlansRequestBodyProduct\'OneOf2Metadata\'
-data PostPlansRequestBodyProduct'OneOf2Metadata'
-  = PostPlansRequestBodyProduct'OneOf2Metadata'
-      {
-      }
-  deriving
-    ( GHC.Show.Show,
-      GHC.Classes.Eq
-    )
+-- | Create a new 'PostPlansRequestBodyProduct'OneOf2' with all required fields.
+mkPostPlansRequestBodyProduct'OneOf2 ::
+  -- | 'postPlansRequestBodyProduct'OneOf2Name'
+  Data.Text.Internal.Text ->
+  PostPlansRequestBodyProduct'OneOf2
+mkPostPlansRequestBodyProduct'OneOf2 postPlansRequestBodyProduct'OneOf2Name =
+  PostPlansRequestBodyProduct'OneOf2
+    { postPlansRequestBodyProduct'OneOf2Active = GHC.Maybe.Nothing,
+      postPlansRequestBodyProduct'OneOf2Id = GHC.Maybe.Nothing,
+      postPlansRequestBodyProduct'OneOf2Metadata = GHC.Maybe.Nothing,
+      postPlansRequestBodyProduct'OneOf2Name = postPlansRequestBodyProduct'OneOf2Name,
+      postPlansRequestBodyProduct'OneOf2StatementDescriptor = GHC.Maybe.Nothing,
+      postPlansRequestBodyProduct'OneOf2UnitLabel = GHC.Maybe.Nothing
+    }
 
-instance Data.Aeson.ToJSON PostPlansRequestBodyProduct'OneOf2Metadata' where
-  toJSON obj = Data.Aeson.object []
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "string" ("string" :: GHC.Base.String))
-
-instance Data.Aeson.Types.FromJSON.FromJSON PostPlansRequestBodyProduct'OneOf2Metadata' where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostPlansRequestBodyProduct'OneOf2Metadata'" (\obj -> GHC.Base.pure PostPlansRequestBodyProduct'OneOf2Metadata')
-
--- | Define the one-of schema postPlansRequestBodyProduct\'
+-- | Defines the oneOf schema located at @paths.\/v1\/plans.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.product.anyOf@ in the specification.
 data PostPlansRequestBodyProduct'Variants
   = PostPlansRequestBodyProduct'Text Data.Text.Internal.Text
   | PostPlansRequestBodyProduct'PostPlansRequestBodyProduct'OneOf2 PostPlansRequestBodyProduct'OneOf2
-  deriving (GHC.Show.Show, GHC.Classes.Eq, GHC.Generics.Generic)
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.ToJSON PostPlansRequestBodyProduct'Variants where
-  toJSON = Data.Aeson.Types.ToJSON.genericToJSON Data.Aeson.Types.Internal.defaultOptions {Data.Aeson.Types.Internal.sumEncoding = Data.Aeson.Types.Internal.UntaggedValue}
+instance Data.Aeson.Types.ToJSON.ToJSON PostPlansRequestBodyProduct'Variants where
+  toJSON (PostPlansRequestBodyProduct'Text a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (PostPlansRequestBodyProduct'PostPlansRequestBodyProduct'OneOf2 a) = Data.Aeson.Types.ToJSON.toJSON a
 
-instance Data.Aeson.FromJSON PostPlansRequestBodyProduct'Variants where
-  parseJSON = Data.Aeson.Types.FromJSON.genericParseJSON Data.Aeson.Types.Internal.defaultOptions {Data.Aeson.Types.Internal.sumEncoding = Data.Aeson.Types.Internal.UntaggedValue}
+instance Data.Aeson.Types.FromJSON.FromJSON PostPlansRequestBodyProduct'Variants where
+  parseJSON val = case (PostPlansRequestBodyProduct'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((PostPlansRequestBodyProduct'PostPlansRequestBodyProduct'OneOf2 Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched") of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+    Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
--- | Defines the data type for the schema postPlansRequestBodyTiers\'
+-- | Defines the object schema located at @paths.\/v1\/plans.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.tiers.items@ in the specification.
 data PostPlansRequestBodyTiers'
   = PostPlansRequestBodyTiers'
       { -- | flat_amount
-        postPlansRequestBodyTiers'FlatAmount :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer),
+        postPlansRequestBodyTiers'FlatAmount :: (GHC.Maybe.Maybe GHC.Types.Int),
         -- | flat_amount_decimal
         postPlansRequestBodyTiers'FlatAmountDecimal :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
         -- | unit_amount
-        postPlansRequestBodyTiers'UnitAmount :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer),
+        postPlansRequestBodyTiers'UnitAmount :: (GHC.Maybe.Maybe GHC.Types.Int),
         -- | unit_amount_decimal
         postPlansRequestBodyTiers'UnitAmountDecimal :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
         -- | up_to
@@ -438,79 +366,80 @@ data PostPlansRequestBodyTiers'
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON PostPlansRequestBodyTiers' where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "flat_amount" (postPlansRequestBodyTiers'FlatAmount obj) : (Data.Aeson..=) "flat_amount_decimal" (postPlansRequestBodyTiers'FlatAmountDecimal obj) : (Data.Aeson..=) "unit_amount" (postPlansRequestBodyTiers'UnitAmount obj) : (Data.Aeson..=) "unit_amount_decimal" (postPlansRequestBodyTiers'UnitAmountDecimal obj) : (Data.Aeson..=) "up_to" (postPlansRequestBodyTiers'UpTo obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "flat_amount" (postPlansRequestBodyTiers'FlatAmount obj) GHC.Base.<> ((Data.Aeson..=) "flat_amount_decimal" (postPlansRequestBodyTiers'FlatAmountDecimal obj) GHC.Base.<> ((Data.Aeson..=) "unit_amount" (postPlansRequestBodyTiers'UnitAmount obj) GHC.Base.<> ((Data.Aeson..=) "unit_amount_decimal" (postPlansRequestBodyTiers'UnitAmountDecimal obj) GHC.Base.<> (Data.Aeson..=) "up_to" (postPlansRequestBodyTiers'UpTo obj)))))
+instance Data.Aeson.Types.ToJSON.ToJSON PostPlansRequestBodyTiers' where
+  toJSON obj = Data.Aeson.Types.Internal.object ("flat_amount" Data.Aeson.Types.ToJSON..= postPlansRequestBodyTiers'FlatAmount obj : "flat_amount_decimal" Data.Aeson.Types.ToJSON..= postPlansRequestBodyTiers'FlatAmountDecimal obj : "unit_amount" Data.Aeson.Types.ToJSON..= postPlansRequestBodyTiers'UnitAmount obj : "unit_amount_decimal" Data.Aeson.Types.ToJSON..= postPlansRequestBodyTiers'UnitAmountDecimal obj : "up_to" Data.Aeson.Types.ToJSON..= postPlansRequestBodyTiers'UpTo obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("flat_amount" Data.Aeson.Types.ToJSON..= postPlansRequestBodyTiers'FlatAmount obj) GHC.Base.<> (("flat_amount_decimal" Data.Aeson.Types.ToJSON..= postPlansRequestBodyTiers'FlatAmountDecimal obj) GHC.Base.<> (("unit_amount" Data.Aeson.Types.ToJSON..= postPlansRequestBodyTiers'UnitAmount obj) GHC.Base.<> (("unit_amount_decimal" Data.Aeson.Types.ToJSON..= postPlansRequestBodyTiers'UnitAmountDecimal obj) GHC.Base.<> ("up_to" Data.Aeson.Types.ToJSON..= postPlansRequestBodyTiers'UpTo obj)))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostPlansRequestBodyTiers' where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PostPlansRequestBodyTiers'" (\obj -> ((((GHC.Base.pure PostPlansRequestBodyTiers' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "flat_amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "flat_amount_decimal")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "unit_amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "unit_amount_decimal")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "up_to"))
 
--- | Defines the enum schema postPlansRequestBodyTiers\'Up_to\'OneOf1
-data PostPlansRequestBodyTiers'UpTo'OneOf1
-  = PostPlansRequestBodyTiers'UpTo'OneOf1EnumOther Data.Aeson.Types.Internal.Value
-  | PostPlansRequestBodyTiers'UpTo'OneOf1EnumTyped Data.Text.Internal.Text
-  | PostPlansRequestBodyTiers'UpTo'OneOf1EnumStringInf
+-- | Create a new 'PostPlansRequestBodyTiers'' with all required fields.
+mkPostPlansRequestBodyTiers' ::
+  -- | 'postPlansRequestBodyTiers'UpTo'
+  PostPlansRequestBodyTiers'UpTo'Variants ->
+  PostPlansRequestBodyTiers'
+mkPostPlansRequestBodyTiers' postPlansRequestBodyTiers'UpTo =
+  PostPlansRequestBodyTiers'
+    { postPlansRequestBodyTiers'FlatAmount = GHC.Maybe.Nothing,
+      postPlansRequestBodyTiers'FlatAmountDecimal = GHC.Maybe.Nothing,
+      postPlansRequestBodyTiers'UnitAmount = GHC.Maybe.Nothing,
+      postPlansRequestBodyTiers'UnitAmountDecimal = GHC.Maybe.Nothing,
+      postPlansRequestBodyTiers'UpTo = postPlansRequestBodyTiers'UpTo
+    }
+
+-- | Defines the oneOf schema located at @paths.\/v1\/plans.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.tiers.items.properties.up_to.anyOf@ in the specification.
+data PostPlansRequestBodyTiers'UpTo'Variants
+  = -- | Represents the JSON value @"inf"@
+    PostPlansRequestBodyTiers'UpTo'Inf
+  | PostPlansRequestBodyTiers'UpTo'Int GHC.Types.Int
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.ToJSON PostPlansRequestBodyTiers'UpTo'OneOf1 where
-  toJSON (PostPlansRequestBodyTiers'UpTo'OneOf1EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostPlansRequestBodyTiers'UpTo'OneOf1EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostPlansRequestBodyTiers'UpTo'OneOf1EnumStringInf) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "inf"
+instance Data.Aeson.Types.ToJSON.ToJSON PostPlansRequestBodyTiers'UpTo'Variants where
+  toJSON (PostPlansRequestBodyTiers'UpTo'Int a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (PostPlansRequestBodyTiers'UpTo'Inf) = "inf"
 
-instance Data.Aeson.FromJSON PostPlansRequestBodyTiers'UpTo'OneOf1 where
+instance Data.Aeson.Types.FromJSON.FromJSON PostPlansRequestBodyTiers'UpTo'Variants where
   parseJSON val =
-    GHC.Base.pure
-      ( if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "inf")
-          then PostPlansRequestBodyTiers'UpTo'OneOf1EnumStringInf
-          else PostPlansRequestBodyTiers'UpTo'OneOf1EnumOther val
-      )
+    if  | val GHC.Classes.== "inf" -> GHC.Base.pure PostPlansRequestBodyTiers'UpTo'Inf
+        | GHC.Base.otherwise -> case (PostPlansRequestBodyTiers'UpTo'Int Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched" of
+          Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+          Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
--- | Define the one-of schema postPlansRequestBodyTiers\'Up_to\'
-data PostPlansRequestBodyTiers'UpTo'Variants
-  = PostPlansRequestBodyTiers'UpTo'PostPlansRequestBodyTiers'UpTo'OneOf1 PostPlansRequestBodyTiers'UpTo'OneOf1
-  | PostPlansRequestBodyTiers'UpTo'Integer GHC.Integer.Type.Integer
-  deriving (GHC.Show.Show, GHC.Classes.Eq, GHC.Generics.Generic)
-
-instance Data.Aeson.ToJSON PostPlansRequestBodyTiers'UpTo'Variants where
-  toJSON = Data.Aeson.Types.ToJSON.genericToJSON Data.Aeson.Types.Internal.defaultOptions {Data.Aeson.Types.Internal.sumEncoding = Data.Aeson.Types.Internal.UntaggedValue}
-
-instance Data.Aeson.FromJSON PostPlansRequestBodyTiers'UpTo'Variants where
-  parseJSON = Data.Aeson.Types.FromJSON.genericParseJSON Data.Aeson.Types.Internal.defaultOptions {Data.Aeson.Types.Internal.sumEncoding = Data.Aeson.Types.Internal.UntaggedValue}
-
--- | Defines the enum schema postPlansRequestBodyTiers_mode\'
+-- | Defines the enum schema located at @paths.\/v1\/plans.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.tiers_mode@ in the specification.
 --
 -- Defines if the tiering price should be \`graduated\` or \`volume\` based. In \`volume\`-based tiering, the maximum quantity within a period determines the per unit price, in \`graduated\` tiering pricing can successively change as the quantity grows.
 data PostPlansRequestBodyTiersMode'
-  = PostPlansRequestBodyTiersMode'EnumOther Data.Aeson.Types.Internal.Value
-  | PostPlansRequestBodyTiersMode'EnumTyped Data.Text.Internal.Text
-  | PostPlansRequestBodyTiersMode'EnumStringGraduated
-  | PostPlansRequestBodyTiersMode'EnumStringVolume
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    PostPlansRequestBodyTiersMode'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    PostPlansRequestBodyTiersMode'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"graduated"@
+    PostPlansRequestBodyTiersMode'EnumGraduated
+  | -- | Represents the JSON value @"volume"@
+    PostPlansRequestBodyTiersMode'EnumVolume
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.ToJSON PostPlansRequestBodyTiersMode' where
-  toJSON (PostPlansRequestBodyTiersMode'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostPlansRequestBodyTiersMode'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostPlansRequestBodyTiersMode'EnumStringGraduated) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "graduated"
-  toJSON (PostPlansRequestBodyTiersMode'EnumStringVolume) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "volume"
+instance Data.Aeson.Types.ToJSON.ToJSON PostPlansRequestBodyTiersMode' where
+  toJSON (PostPlansRequestBodyTiersMode'Other val) = val
+  toJSON (PostPlansRequestBodyTiersMode'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PostPlansRequestBodyTiersMode'EnumGraduated) = "graduated"
+  toJSON (PostPlansRequestBodyTiersMode'EnumVolume) = "volume"
 
-instance Data.Aeson.FromJSON PostPlansRequestBodyTiersMode' where
+instance Data.Aeson.Types.FromJSON.FromJSON PostPlansRequestBodyTiersMode' where
   parseJSON val =
     GHC.Base.pure
-      ( if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "graduated")
-          then PostPlansRequestBodyTiersMode'EnumStringGraduated
-          else
-            if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "volume")
-              then PostPlansRequestBodyTiersMode'EnumStringVolume
-              else PostPlansRequestBodyTiersMode'EnumOther val
+      ( if  | val GHC.Classes.== "graduated" -> PostPlansRequestBodyTiersMode'EnumGraduated
+            | val GHC.Classes.== "volume" -> PostPlansRequestBodyTiersMode'EnumVolume
+            | GHC.Base.otherwise -> PostPlansRequestBodyTiersMode'Other val
       )
 
--- | Defines the data type for the schema postPlansRequestBodyTransform_usage\'
+-- | Defines the object schema located at @paths.\/v1\/plans.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.transform_usage@ in the specification.
 --
 -- Apply a transformation to the reported usage or set quantity before computing the billed price. Cannot be combined with \`tiers\`.
 data PostPlansRequestBodyTransformUsage'
   = PostPlansRequestBodyTransformUsage'
       { -- | divide_by
-        postPlansRequestBodyTransformUsage'DivideBy :: GHC.Integer.Type.Integer,
+        postPlansRequestBodyTransformUsage'DivideBy :: GHC.Types.Int,
         -- | round
         --
         -- Constraints:
@@ -523,63 +452,78 @@ data PostPlansRequestBodyTransformUsage'
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON PostPlansRequestBodyTransformUsage' where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "divide_by" (postPlansRequestBodyTransformUsage'DivideBy obj) : (Data.Aeson..=) "round" (postPlansRequestBodyTransformUsage'Round obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "divide_by" (postPlansRequestBodyTransformUsage'DivideBy obj) GHC.Base.<> (Data.Aeson..=) "round" (postPlansRequestBodyTransformUsage'Round obj))
+instance Data.Aeson.Types.ToJSON.ToJSON PostPlansRequestBodyTransformUsage' where
+  toJSON obj = Data.Aeson.Types.Internal.object ("divide_by" Data.Aeson.Types.ToJSON..= postPlansRequestBodyTransformUsage'DivideBy obj : "round" Data.Aeson.Types.ToJSON..= postPlansRequestBodyTransformUsage'Round obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("divide_by" Data.Aeson.Types.ToJSON..= postPlansRequestBodyTransformUsage'DivideBy obj) GHC.Base.<> ("round" Data.Aeson.Types.ToJSON..= postPlansRequestBodyTransformUsage'Round obj))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostPlansRequestBodyTransformUsage' where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PostPlansRequestBodyTransformUsage'" (\obj -> (GHC.Base.pure PostPlansRequestBodyTransformUsage' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "divide_by")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "round"))
 
--- | Defines the enum schema postPlansRequestBodyTransform_usage\'Round\'
+-- | Create a new 'PostPlansRequestBodyTransformUsage'' with all required fields.
+mkPostPlansRequestBodyTransformUsage' ::
+  -- | 'postPlansRequestBodyTransformUsage'DivideBy'
+  GHC.Types.Int ->
+  -- | 'postPlansRequestBodyTransformUsage'Round'
+  PostPlansRequestBodyTransformUsage'Round' ->
+  PostPlansRequestBodyTransformUsage'
+mkPostPlansRequestBodyTransformUsage' postPlansRequestBodyTransformUsage'DivideBy postPlansRequestBodyTransformUsage'Round =
+  PostPlansRequestBodyTransformUsage'
+    { postPlansRequestBodyTransformUsage'DivideBy = postPlansRequestBodyTransformUsage'DivideBy,
+      postPlansRequestBodyTransformUsage'Round = postPlansRequestBodyTransformUsage'Round
+    }
+
+-- | Defines the enum schema located at @paths.\/v1\/plans.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.transform_usage.properties.round@ in the specification.
 data PostPlansRequestBodyTransformUsage'Round'
-  = PostPlansRequestBodyTransformUsage'Round'EnumOther Data.Aeson.Types.Internal.Value
-  | PostPlansRequestBodyTransformUsage'Round'EnumTyped Data.Text.Internal.Text
-  | PostPlansRequestBodyTransformUsage'Round'EnumStringDown
-  | PostPlansRequestBodyTransformUsage'Round'EnumStringUp
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    PostPlansRequestBodyTransformUsage'Round'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    PostPlansRequestBodyTransformUsage'Round'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"down"@
+    PostPlansRequestBodyTransformUsage'Round'EnumDown
+  | -- | Represents the JSON value @"up"@
+    PostPlansRequestBodyTransformUsage'Round'EnumUp
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.ToJSON PostPlansRequestBodyTransformUsage'Round' where
-  toJSON (PostPlansRequestBodyTransformUsage'Round'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostPlansRequestBodyTransformUsage'Round'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostPlansRequestBodyTransformUsage'Round'EnumStringDown) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "down"
-  toJSON (PostPlansRequestBodyTransformUsage'Round'EnumStringUp) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "up"
+instance Data.Aeson.Types.ToJSON.ToJSON PostPlansRequestBodyTransformUsage'Round' where
+  toJSON (PostPlansRequestBodyTransformUsage'Round'Other val) = val
+  toJSON (PostPlansRequestBodyTransformUsage'Round'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PostPlansRequestBodyTransformUsage'Round'EnumDown) = "down"
+  toJSON (PostPlansRequestBodyTransformUsage'Round'EnumUp) = "up"
 
-instance Data.Aeson.FromJSON PostPlansRequestBodyTransformUsage'Round' where
+instance Data.Aeson.Types.FromJSON.FromJSON PostPlansRequestBodyTransformUsage'Round' where
   parseJSON val =
     GHC.Base.pure
-      ( if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "down")
-          then PostPlansRequestBodyTransformUsage'Round'EnumStringDown
-          else
-            if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "up")
-              then PostPlansRequestBodyTransformUsage'Round'EnumStringUp
-              else PostPlansRequestBodyTransformUsage'Round'EnumOther val
+      ( if  | val GHC.Classes.== "down" -> PostPlansRequestBodyTransformUsage'Round'EnumDown
+            | val GHC.Classes.== "up" -> PostPlansRequestBodyTransformUsage'Round'EnumUp
+            | GHC.Base.otherwise -> PostPlansRequestBodyTransformUsage'Round'Other val
       )
 
--- | Defines the enum schema postPlansRequestBodyUsage_type\'
+-- | Defines the enum schema located at @paths.\/v1\/plans.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.usage_type@ in the specification.
 --
 -- Configures how the quantity per period should be determined. Can be either \`metered\` or \`licensed\`. \`licensed\` automatically bills the \`quantity\` set when adding it to a subscription. \`metered\` aggregates the total usage based on usage records. Defaults to \`licensed\`.
 data PostPlansRequestBodyUsageType'
-  = PostPlansRequestBodyUsageType'EnumOther Data.Aeson.Types.Internal.Value
-  | PostPlansRequestBodyUsageType'EnumTyped Data.Text.Internal.Text
-  | PostPlansRequestBodyUsageType'EnumStringLicensed
-  | PostPlansRequestBodyUsageType'EnumStringMetered
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    PostPlansRequestBodyUsageType'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    PostPlansRequestBodyUsageType'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"licensed"@
+    PostPlansRequestBodyUsageType'EnumLicensed
+  | -- | Represents the JSON value @"metered"@
+    PostPlansRequestBodyUsageType'EnumMetered
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.ToJSON PostPlansRequestBodyUsageType' where
-  toJSON (PostPlansRequestBodyUsageType'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostPlansRequestBodyUsageType'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostPlansRequestBodyUsageType'EnumStringLicensed) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "licensed"
-  toJSON (PostPlansRequestBodyUsageType'EnumStringMetered) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "metered"
+instance Data.Aeson.Types.ToJSON.ToJSON PostPlansRequestBodyUsageType' where
+  toJSON (PostPlansRequestBodyUsageType'Other val) = val
+  toJSON (PostPlansRequestBodyUsageType'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PostPlansRequestBodyUsageType'EnumLicensed) = "licensed"
+  toJSON (PostPlansRequestBodyUsageType'EnumMetered) = "metered"
 
-instance Data.Aeson.FromJSON PostPlansRequestBodyUsageType' where
+instance Data.Aeson.Types.FromJSON.FromJSON PostPlansRequestBodyUsageType' where
   parseJSON val =
     GHC.Base.pure
-      ( if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "licensed")
-          then PostPlansRequestBodyUsageType'EnumStringLicensed
-          else
-            if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "metered")
-              then PostPlansRequestBodyUsageType'EnumStringMetered
-              else PostPlansRequestBodyUsageType'EnumOther val
+      ( if  | val GHC.Classes.== "licensed" -> PostPlansRequestBodyUsageType'EnumLicensed
+            | val GHC.Classes.== "metered" -> PostPlansRequestBodyUsageType'EnumMetered
+            | GHC.Base.otherwise -> PostPlansRequestBodyUsageType'Other val
       )
 
 -- | Represents a response of the operation 'postPlans'.

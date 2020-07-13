@@ -1,4 +1,3 @@
-{-# LANGUAGE DeriveGeneric #-}
 {-# LANGUAGE ExplicitForAll #-}
 {-# LANGUAGE MultiWayIf #-}
 {-# LANGUAGE OverloadedStrings #-}
@@ -8,8 +7,10 @@
 -- | Contains the different functions to run the operation postTaxRates
 module StripeAPI.Operations.PostTaxRates where
 
+import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -26,7 +27,6 @@ import qualified Data.Time.LocalTime as Data.Time.LocalTime.Internal.ZonedTime
 import qualified Data.Vector
 import qualified GHC.Base
 import qualified GHC.Classes
-import qualified GHC.Generics
 import qualified GHC.Int
 import qualified GHC.Show
 import qualified GHC.Types
@@ -46,121 +46,39 @@ import qualified Prelude as GHC.Maybe
 --
 -- \<p>Creates a new tax rate.\<\/p>
 postTaxRates ::
-  forall m s.
-  (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) =>
-  -- | The configuration to use in the request
-  StripeAPI.Common.Configuration s ->
+  forall m.
+  StripeAPI.Common.MonadHTTP m =>
   -- | The request body to send
   PostTaxRatesRequestBody ->
-  -- | Monad containing the result of the operation
-  m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response PostTaxRatesResponse))
-postTaxRates
-  config
-  body =
-    GHC.Base.fmap
-      ( GHC.Base.fmap
-          ( \response_0 ->
-              GHC.Base.fmap
-                ( Data.Either.either PostTaxRatesResponseError GHC.Base.id
-                    GHC.Base.. ( \response body ->
-                                   if  | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                         PostTaxRatesResponse200
-                                           Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                                Data.Either.Either GHC.Base.String
-                                                                  TaxRate
-                                                            )
-                                       | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                         PostTaxRatesResponseDefault
-                                           Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                                Data.Either.Either GHC.Base.String
-                                                                  Error
-                                                            )
-                                       | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
-                               )
-                      response_0
-                )
+  -- | Monadic computation which returns the result of the operation
+  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response PostTaxRatesResponse)
+postTaxRates body =
+  GHC.Base.fmap
+    ( \response_0 ->
+        GHC.Base.fmap
+          ( Data.Either.either PostTaxRatesResponseError GHC.Base.id
+              GHC.Base.. ( \response body ->
+                             if  | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
+                                   PostTaxRatesResponse200
+                                     Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                          Data.Either.Either GHC.Base.String
+                                                            TaxRate
+                                                      )
+                                 | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
+                                   PostTaxRatesResponseDefault
+                                     Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                          Data.Either.Either GHC.Base.String
+                                                            Error
+                                                      )
+                                 | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
+                         )
                 response_0
           )
-      )
-      (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack "/v1/tax_rates") [] (GHC.Maybe.Just body) StripeAPI.Common.RequestBodyEncodingFormData)
-
--- | > POST /v1/tax_rates
---
--- The same as 'postTaxRates' but returns the raw 'Data.ByteString.Char8.ByteString'
-postTaxRatesRaw ::
-  forall m s.
-  ( StripeAPI.Common.MonadHTTP m,
-    StripeAPI.Common.SecurityScheme s
-  ) =>
-  StripeAPI.Common.Configuration s ->
-  PostTaxRatesRequestBody ->
-  m
-    ( Data.Either.Either Network.HTTP.Client.Types.HttpException
-        (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
-    )
-postTaxRatesRaw
-  config
-  body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack "/v1/tax_rates") [] (GHC.Maybe.Just body) StripeAPI.Common.RequestBodyEncodingFormData)
-
--- | > POST /v1/tax_rates
---
--- Monadic version of 'postTaxRates' (use with 'StripeAPI.Common.runWithConfiguration')
-postTaxRatesM ::
-  forall m s.
-  ( StripeAPI.Common.MonadHTTP m,
-    StripeAPI.Common.SecurityScheme s
-  ) =>
-  PostTaxRatesRequestBody ->
-  Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
-    m
-    ( Data.Either.Either Network.HTTP.Client.Types.HttpException
-        (Network.HTTP.Client.Types.Response PostTaxRatesResponse)
-    )
-postTaxRatesM body =
-  GHC.Base.fmap
-    ( GHC.Base.fmap
-        ( \response_2 ->
-            GHC.Base.fmap
-              ( Data.Either.either PostTaxRatesResponseError GHC.Base.id
-                  GHC.Base.. ( \response body ->
-                                 if  | (\status_3 -> Network.HTTP.Types.Status.statusCode status_3 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                       PostTaxRatesResponse200
-                                         Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                              Data.Either.Either GHC.Base.String
-                                                                TaxRate
-                                                          )
-                                     | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                       PostTaxRatesResponseDefault
-                                         Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                              Data.Either.Either GHC.Base.String
-                                                                Error
-                                                          )
-                                     | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
-                             )
-                    response_2
-              )
-              response_2
-        )
+          response_0
     )
     (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack "/v1/tax_rates") [] (GHC.Maybe.Just body) StripeAPI.Common.RequestBodyEncodingFormData)
 
--- | > POST /v1/tax_rates
---
--- Monadic version of 'postTaxRatesRaw' (use with 'StripeAPI.Common.runWithConfiguration')
-postTaxRatesRawM ::
-  forall m s.
-  ( StripeAPI.Common.MonadHTTP m,
-    StripeAPI.Common.SecurityScheme s
-  ) =>
-  PostTaxRatesRequestBody ->
-  Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
-    m
-    ( Data.Either.Either Network.HTTP.Client.Types.HttpException
-        (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
-    )
-postTaxRatesRawM body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack "/v1/tax_rates") [] (GHC.Maybe.Just body) StripeAPI.Common.RequestBodyEncodingFormData)
-
--- | Defines the data type for the schema postTaxRatesRequestBody
+-- | Defines the object schema located at @paths.\/v1\/tax_rates.POST.requestBody.content.application\/x-www-form-urlencoded.schema@ in the specification.
 data PostTaxRatesRequestBody
   = PostTaxRatesRequestBody
       { -- | active: Flag determining whether the tax rate is active or inactive. Inactive tax rates continue to work where they are currently applied however they cannot be used for new applications.
@@ -178,7 +96,7 @@ data PostTaxRatesRequestBody
         -- * Maximum length of 50
         postTaxRatesRequestBodyDisplayName :: Data.Text.Internal.Text,
         -- | expand: Specifies which fields in the response should be expanded.
-        postTaxRatesRequestBodyExpand :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text)),
+        postTaxRatesRequestBodyExpand :: (GHC.Maybe.Maybe ([Data.Text.Internal.Text])),
         -- | inclusive: This specifies if the tax rate is inclusive or exclusive.
         postTaxRatesRequestBodyInclusive :: GHC.Types.Bool,
         -- | jurisdiction: The jurisdiction for the tax rate.
@@ -188,7 +106,7 @@ data PostTaxRatesRequestBody
         -- * Maximum length of 50
         postTaxRatesRequestBodyJurisdiction :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
         -- | metadata: Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to \`metadata\`.
-        postTaxRatesRequestBodyMetadata :: (GHC.Maybe.Maybe PostTaxRatesRequestBodyMetadata'),
+        postTaxRatesRequestBodyMetadata :: (GHC.Maybe.Maybe Data.Aeson.Types.Internal.Object),
         -- | percentage: This represents the tax rate percent out of 100.
         postTaxRatesRequestBodyPercentage :: GHC.Types.Double
       }
@@ -197,31 +115,33 @@ data PostTaxRatesRequestBody
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON PostTaxRatesRequestBody where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "active" (postTaxRatesRequestBodyActive obj) : (Data.Aeson..=) "description" (postTaxRatesRequestBodyDescription obj) : (Data.Aeson..=) "display_name" (postTaxRatesRequestBodyDisplayName obj) : (Data.Aeson..=) "expand" (postTaxRatesRequestBodyExpand obj) : (Data.Aeson..=) "inclusive" (postTaxRatesRequestBodyInclusive obj) : (Data.Aeson..=) "jurisdiction" (postTaxRatesRequestBodyJurisdiction obj) : (Data.Aeson..=) "metadata" (postTaxRatesRequestBodyMetadata obj) : (Data.Aeson..=) "percentage" (postTaxRatesRequestBodyPercentage obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "active" (postTaxRatesRequestBodyActive obj) GHC.Base.<> ((Data.Aeson..=) "description" (postTaxRatesRequestBodyDescription obj) GHC.Base.<> ((Data.Aeson..=) "display_name" (postTaxRatesRequestBodyDisplayName obj) GHC.Base.<> ((Data.Aeson..=) "expand" (postTaxRatesRequestBodyExpand obj) GHC.Base.<> ((Data.Aeson..=) "inclusive" (postTaxRatesRequestBodyInclusive obj) GHC.Base.<> ((Data.Aeson..=) "jurisdiction" (postTaxRatesRequestBodyJurisdiction obj) GHC.Base.<> ((Data.Aeson..=) "metadata" (postTaxRatesRequestBodyMetadata obj) GHC.Base.<> (Data.Aeson..=) "percentage" (postTaxRatesRequestBodyPercentage obj))))))))
+instance Data.Aeson.Types.ToJSON.ToJSON PostTaxRatesRequestBody where
+  toJSON obj = Data.Aeson.Types.Internal.object ("active" Data.Aeson.Types.ToJSON..= postTaxRatesRequestBodyActive obj : "description" Data.Aeson.Types.ToJSON..= postTaxRatesRequestBodyDescription obj : "display_name" Data.Aeson.Types.ToJSON..= postTaxRatesRequestBodyDisplayName obj : "expand" Data.Aeson.Types.ToJSON..= postTaxRatesRequestBodyExpand obj : "inclusive" Data.Aeson.Types.ToJSON..= postTaxRatesRequestBodyInclusive obj : "jurisdiction" Data.Aeson.Types.ToJSON..= postTaxRatesRequestBodyJurisdiction obj : "metadata" Data.Aeson.Types.ToJSON..= postTaxRatesRequestBodyMetadata obj : "percentage" Data.Aeson.Types.ToJSON..= postTaxRatesRequestBodyPercentage obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("active" Data.Aeson.Types.ToJSON..= postTaxRatesRequestBodyActive obj) GHC.Base.<> (("description" Data.Aeson.Types.ToJSON..= postTaxRatesRequestBodyDescription obj) GHC.Base.<> (("display_name" Data.Aeson.Types.ToJSON..= postTaxRatesRequestBodyDisplayName obj) GHC.Base.<> (("expand" Data.Aeson.Types.ToJSON..= postTaxRatesRequestBodyExpand obj) GHC.Base.<> (("inclusive" Data.Aeson.Types.ToJSON..= postTaxRatesRequestBodyInclusive obj) GHC.Base.<> (("jurisdiction" Data.Aeson.Types.ToJSON..= postTaxRatesRequestBodyJurisdiction obj) GHC.Base.<> (("metadata" Data.Aeson.Types.ToJSON..= postTaxRatesRequestBodyMetadata obj) GHC.Base.<> ("percentage" Data.Aeson.Types.ToJSON..= postTaxRatesRequestBodyPercentage obj))))))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostTaxRatesRequestBody where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PostTaxRatesRequestBody" (\obj -> (((((((GHC.Base.pure PostTaxRatesRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "active")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "description")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "display_name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "inclusive")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "jurisdiction")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "percentage"))
 
--- | Defines the data type for the schema postTaxRatesRequestBodyMetadata\'
---
--- Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to \`metadata\`.
-data PostTaxRatesRequestBodyMetadata'
-  = PostTaxRatesRequestBodyMetadata'
-      {
-      }
-  deriving
-    ( GHC.Show.Show,
-      GHC.Classes.Eq
-    )
-
-instance Data.Aeson.ToJSON PostTaxRatesRequestBodyMetadata' where
-  toJSON obj = Data.Aeson.object []
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "string" ("string" :: GHC.Base.String))
-
-instance Data.Aeson.Types.FromJSON.FromJSON PostTaxRatesRequestBodyMetadata' where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostTaxRatesRequestBodyMetadata'" (\obj -> GHC.Base.pure PostTaxRatesRequestBodyMetadata')
+-- | Create a new 'PostTaxRatesRequestBody' with all required fields.
+mkPostTaxRatesRequestBody ::
+  -- | 'postTaxRatesRequestBodyDisplayName'
+  Data.Text.Internal.Text ->
+  -- | 'postTaxRatesRequestBodyInclusive'
+  GHC.Types.Bool ->
+  -- | 'postTaxRatesRequestBodyPercentage'
+  GHC.Types.Double ->
+  PostTaxRatesRequestBody
+mkPostTaxRatesRequestBody postTaxRatesRequestBodyDisplayName postTaxRatesRequestBodyInclusive postTaxRatesRequestBodyPercentage =
+  PostTaxRatesRequestBody
+    { postTaxRatesRequestBodyActive = GHC.Maybe.Nothing,
+      postTaxRatesRequestBodyDescription = GHC.Maybe.Nothing,
+      postTaxRatesRequestBodyDisplayName = postTaxRatesRequestBodyDisplayName,
+      postTaxRatesRequestBodyExpand = GHC.Maybe.Nothing,
+      postTaxRatesRequestBodyInclusive = postTaxRatesRequestBodyInclusive,
+      postTaxRatesRequestBodyJurisdiction = GHC.Maybe.Nothing,
+      postTaxRatesRequestBodyMetadata = GHC.Maybe.Nothing,
+      postTaxRatesRequestBodyPercentage = postTaxRatesRequestBodyPercentage
+    }
 
 -- | Represents a response of the operation 'postTaxRates'.
 --

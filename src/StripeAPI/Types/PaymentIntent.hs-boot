@@ -1,0 +1,148 @@
+module StripeAPI.Types.PaymentIntent where
+import Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Types.Internal
+data PaymentIntent
+instance Show PaymentIntent
+instance Eq PaymentIntent
+instance FromJSON PaymentIntent
+instance ToJSON PaymentIntent
+data PaymentIntentApplication'Variants
+instance Show PaymentIntentApplication'Variants
+instance Eq PaymentIntentApplication'Variants
+instance FromJSON PaymentIntentApplication'Variants
+instance ToJSON PaymentIntentApplication'Variants
+data PaymentIntentCancellationReason'
+instance Show PaymentIntentCancellationReason'
+instance Eq PaymentIntentCancellationReason'
+instance FromJSON PaymentIntentCancellationReason'
+instance ToJSON PaymentIntentCancellationReason'
+data PaymentIntentCaptureMethod'
+instance Show PaymentIntentCaptureMethod'
+instance Eq PaymentIntentCaptureMethod'
+instance FromJSON PaymentIntentCaptureMethod'
+instance ToJSON PaymentIntentCaptureMethod'
+data PaymentIntentCharges'
+instance Show PaymentIntentCharges'
+instance Eq PaymentIntentCharges'
+instance FromJSON PaymentIntentCharges'
+instance ToJSON PaymentIntentCharges'
+data PaymentIntentConfirmationMethod'
+instance Show PaymentIntentConfirmationMethod'
+instance Eq PaymentIntentConfirmationMethod'
+instance FromJSON PaymentIntentConfirmationMethod'
+instance ToJSON PaymentIntentConfirmationMethod'
+data PaymentIntentCustomer'Variants
+instance Show PaymentIntentCustomer'Variants
+instance Eq PaymentIntentCustomer'Variants
+instance FromJSON PaymentIntentCustomer'Variants
+instance ToJSON PaymentIntentCustomer'Variants
+data PaymentIntentInvoice'Variants
+instance Show PaymentIntentInvoice'Variants
+instance Eq PaymentIntentInvoice'Variants
+instance FromJSON PaymentIntentInvoice'Variants
+instance ToJSON PaymentIntentInvoice'Variants
+data PaymentIntentLastPaymentError'
+instance Show PaymentIntentLastPaymentError'
+instance Eq PaymentIntentLastPaymentError'
+instance FromJSON PaymentIntentLastPaymentError'
+instance ToJSON PaymentIntentLastPaymentError'
+data PaymentIntentLastPaymentError'Source'
+instance Show PaymentIntentLastPaymentError'Source'
+instance Eq PaymentIntentLastPaymentError'Source'
+instance FromJSON PaymentIntentLastPaymentError'Source'
+instance ToJSON PaymentIntentLastPaymentError'Source'
+data PaymentIntentLastPaymentError'Source'Account'Variants
+instance Show PaymentIntentLastPaymentError'Source'Account'Variants
+instance Eq PaymentIntentLastPaymentError'Source'Account'Variants
+instance FromJSON PaymentIntentLastPaymentError'Source'Account'Variants
+instance ToJSON PaymentIntentLastPaymentError'Source'Account'Variants
+data PaymentIntentLastPaymentError'Source'AvailablePayoutMethods'
+instance Show PaymentIntentLastPaymentError'Source'AvailablePayoutMethods'
+instance Eq PaymentIntentLastPaymentError'Source'AvailablePayoutMethods'
+instance FromJSON PaymentIntentLastPaymentError'Source'AvailablePayoutMethods'
+instance ToJSON PaymentIntentLastPaymentError'Source'AvailablePayoutMethods'
+data PaymentIntentLastPaymentError'Source'Customer'Variants
+instance Show PaymentIntentLastPaymentError'Source'Customer'Variants
+instance Eq PaymentIntentLastPaymentError'Source'Customer'Variants
+instance FromJSON PaymentIntentLastPaymentError'Source'Customer'Variants
+instance ToJSON PaymentIntentLastPaymentError'Source'Customer'Variants
+data PaymentIntentLastPaymentError'Source'Owner'
+instance Show PaymentIntentLastPaymentError'Source'Owner'
+instance Eq PaymentIntentLastPaymentError'Source'Owner'
+instance FromJSON PaymentIntentLastPaymentError'Source'Owner'
+instance ToJSON PaymentIntentLastPaymentError'Source'Owner'
+data PaymentIntentLastPaymentError'Source'Owner'Address'
+instance Show PaymentIntentLastPaymentError'Source'Owner'Address'
+instance Eq PaymentIntentLastPaymentError'Source'Owner'Address'
+instance FromJSON PaymentIntentLastPaymentError'Source'Owner'Address'
+instance ToJSON PaymentIntentLastPaymentError'Source'Owner'Address'
+data PaymentIntentLastPaymentError'Source'Owner'VerifiedAddress'
+instance Show PaymentIntentLastPaymentError'Source'Owner'VerifiedAddress'
+instance Eq PaymentIntentLastPaymentError'Source'Owner'VerifiedAddress'
+instance FromJSON PaymentIntentLastPaymentError'Source'Owner'VerifiedAddress'
+instance ToJSON PaymentIntentLastPaymentError'Source'Owner'VerifiedAddress'
+data PaymentIntentLastPaymentError'Source'Recipient'Variants
+instance Show PaymentIntentLastPaymentError'Source'Recipient'Variants
+instance Eq PaymentIntentLastPaymentError'Source'Recipient'Variants
+instance FromJSON PaymentIntentLastPaymentError'Source'Recipient'Variants
+instance ToJSON PaymentIntentLastPaymentError'Source'Recipient'Variants
+data PaymentIntentLastPaymentError'Source'Type'
+instance Show PaymentIntentLastPaymentError'Source'Type'
+instance Eq PaymentIntentLastPaymentError'Source'Type'
+instance FromJSON PaymentIntentLastPaymentError'Source'Type'
+instance ToJSON PaymentIntentLastPaymentError'Source'Type'
+data PaymentIntentLastPaymentError'Type'
+instance Show PaymentIntentLastPaymentError'Type'
+instance Eq PaymentIntentLastPaymentError'Type'
+instance FromJSON PaymentIntentLastPaymentError'Type'
+instance ToJSON PaymentIntentLastPaymentError'Type'
+data PaymentIntentNextAction'
+instance Show PaymentIntentNextAction'
+instance Eq PaymentIntentNextAction'
+instance FromJSON PaymentIntentNextAction'
+instance ToJSON PaymentIntentNextAction'
+data PaymentIntentOnBehalfOf'Variants
+instance Show PaymentIntentOnBehalfOf'Variants
+instance Eq PaymentIntentOnBehalfOf'Variants
+instance FromJSON PaymentIntentOnBehalfOf'Variants
+instance ToJSON PaymentIntentOnBehalfOf'Variants
+data PaymentIntentPaymentMethod'Variants
+instance Show PaymentIntentPaymentMethod'Variants
+instance Eq PaymentIntentPaymentMethod'Variants
+instance FromJSON PaymentIntentPaymentMethod'Variants
+instance ToJSON PaymentIntentPaymentMethod'Variants
+data PaymentIntentPaymentMethodOptions'
+instance Show PaymentIntentPaymentMethodOptions'
+instance Eq PaymentIntentPaymentMethodOptions'
+instance FromJSON PaymentIntentPaymentMethodOptions'
+instance ToJSON PaymentIntentPaymentMethodOptions'
+data PaymentIntentReview'Variants
+instance Show PaymentIntentReview'Variants
+instance Eq PaymentIntentReview'Variants
+instance FromJSON PaymentIntentReview'Variants
+instance ToJSON PaymentIntentReview'Variants
+data PaymentIntentSetupFutureUsage'
+instance Show PaymentIntentSetupFutureUsage'
+instance Eq PaymentIntentSetupFutureUsage'
+instance FromJSON PaymentIntentSetupFutureUsage'
+instance ToJSON PaymentIntentSetupFutureUsage'
+data PaymentIntentShipping'
+instance Show PaymentIntentShipping'
+instance Eq PaymentIntentShipping'
+instance FromJSON PaymentIntentShipping'
+instance ToJSON PaymentIntentShipping'
+data PaymentIntentStatus'
+instance Show PaymentIntentStatus'
+instance Eq PaymentIntentStatus'
+instance FromJSON PaymentIntentStatus'
+instance ToJSON PaymentIntentStatus'
+data PaymentIntentTransferData'
+instance Show PaymentIntentTransferData'
+instance Eq PaymentIntentTransferData'
+instance FromJSON PaymentIntentTransferData'
+instance ToJSON PaymentIntentTransferData'
+data PaymentIntentTransferData'Destination'Variants
+instance Show PaymentIntentTransferData'Destination'Variants
+instance Eq PaymentIntentTransferData'Destination'Variants
+instance FromJSON PaymentIntentTransferData'Destination'Variants
+instance ToJSON PaymentIntentTransferData'Destination'Variants

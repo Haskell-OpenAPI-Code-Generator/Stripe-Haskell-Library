@@ -1,4 +1,3 @@
-{-# LANGUAGE DeriveGeneric #-}
 {-# LANGUAGE ExplicitForAll #-}
 {-# LANGUAGE MultiWayIf #-}
 {-# LANGUAGE OverloadedStrings #-}
@@ -8,8 +7,10 @@
 -- | Contains the different functions to run the operation postDisputesDispute
 module StripeAPI.Operations.PostDisputesDispute where
 
+import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -26,7 +27,6 @@ import qualified Data.Time.LocalTime as Data.Time.LocalTime.Internal.ZonedTime
 import qualified Data.Vector
 import qualified GHC.Base
 import qualified GHC.Classes
-import qualified GHC.Generics
 import qualified GHC.Int
 import qualified GHC.Show
 import qualified GHC.Types
@@ -48,140 +48,51 @@ import qualified Prelude as GHC.Maybe
 --
 -- \<p>Depending on your dispute type, different evidence fields will give you a better chance of winning your dispute. To figure out which evidence fields to provide, see our \<a href=\"\/docs\/disputes\/categories\">guide to dispute types\<\/a>.\<\/p>
 postDisputesDispute ::
-  forall m s.
-  (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) =>
-  -- | The configuration to use in the request
-  StripeAPI.Common.Configuration s ->
+  forall m.
+  StripeAPI.Common.MonadHTTP m =>
   -- | dispute | Constraints: Maximum length of 5000
   Data.Text.Internal.Text ->
   -- | The request body to send
   GHC.Maybe.Maybe PostDisputesDisputeRequestBody ->
-  -- | Monad containing the result of the operation
-  m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response PostDisputesDisputeResponse))
+  -- | Monadic computation which returns the result of the operation
+  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response PostDisputesDisputeResponse)
 postDisputesDispute
-  config
   dispute
   body =
     GHC.Base.fmap
-      ( GHC.Base.fmap
-          ( \response_0 ->
-              GHC.Base.fmap
-                ( Data.Either.either PostDisputesDisputeResponseError GHC.Base.id
-                    GHC.Base.. ( \response body ->
-                                   if  | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                         PostDisputesDisputeResponse200
-                                           Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                                Data.Either.Either GHC.Base.String
-                                                                  Dispute
-                                                            )
-                                       | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                         PostDisputesDisputeResponseDefault
-                                           Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                                Data.Either.Either GHC.Base.String
-                                                                  Error
-                                                            )
-                                       | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
-                               )
-                      response_0
-                )
-                response_0
-          )
-      )
-      (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack ("/v1/disputes/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel dispute)) GHC.Base.++ ""))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
-
--- | > POST /v1/disputes/{dispute}
---
--- The same as 'postDisputesDispute' but returns the raw 'Data.ByteString.Char8.ByteString'
-postDisputesDisputeRaw ::
-  forall m s.
-  ( StripeAPI.Common.MonadHTTP m,
-    StripeAPI.Common.SecurityScheme s
-  ) =>
-  StripeAPI.Common.Configuration s ->
-  Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe PostDisputesDisputeRequestBody ->
-  m
-    ( Data.Either.Either Network.HTTP.Client.Types.HttpException
-        (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
-    )
-postDisputesDisputeRaw
-  config
-  dispute
-  body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack ("/v1/disputes/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel dispute)) GHC.Base.++ ""))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
-
--- | > POST /v1/disputes/{dispute}
---
--- Monadic version of 'postDisputesDispute' (use with 'StripeAPI.Common.runWithConfiguration')
-postDisputesDisputeM ::
-  forall m s.
-  ( StripeAPI.Common.MonadHTTP m,
-    StripeAPI.Common.SecurityScheme s
-  ) =>
-  Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe PostDisputesDisputeRequestBody ->
-  Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
-    m
-    ( Data.Either.Either Network.HTTP.Client.Types.HttpException
-        (Network.HTTP.Client.Types.Response PostDisputesDisputeResponse)
-    )
-postDisputesDisputeM
-  dispute
-  body =
-    GHC.Base.fmap
-      ( GHC.Base.fmap
-          ( \response_2 ->
-              GHC.Base.fmap
-                ( Data.Either.either PostDisputesDisputeResponseError GHC.Base.id
-                    GHC.Base.. ( \response body ->
-                                   if  | (\status_3 -> Network.HTTP.Types.Status.statusCode status_3 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                         PostDisputesDisputeResponse200
-                                           Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                                Data.Either.Either GHC.Base.String
-                                                                  Dispute
-                                                            )
-                                       | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                         PostDisputesDisputeResponseDefault
-                                           Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                                Data.Either.Either GHC.Base.String
-                                                                  Error
-                                                            )
-                                       | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
-                               )
-                      response_2
-                )
-                response_2
-          )
+      ( \response_0 ->
+          GHC.Base.fmap
+            ( Data.Either.either PostDisputesDisputeResponseError GHC.Base.id
+                GHC.Base.. ( \response body ->
+                               if  | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
+                                     PostDisputesDisputeResponse200
+                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                            Data.Either.Either GHC.Base.String
+                                                              Dispute
+                                                        )
+                                   | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
+                                     PostDisputesDisputeResponseDefault
+                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                            Data.Either.Either GHC.Base.String
+                                                              Error
+                                                        )
+                                   | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
+                           )
+                  response_0
+            )
+            response_0
       )
       (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack ("/v1/disputes/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel dispute)) GHC.Base.++ ""))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
 
--- | > POST /v1/disputes/{dispute}
---
--- Monadic version of 'postDisputesDisputeRaw' (use with 'StripeAPI.Common.runWithConfiguration')
-postDisputesDisputeRawM ::
-  forall m s.
-  ( StripeAPI.Common.MonadHTTP m,
-    StripeAPI.Common.SecurityScheme s
-  ) =>
-  Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe PostDisputesDisputeRequestBody ->
-  Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
-    m
-    ( Data.Either.Either Network.HTTP.Client.Types.HttpException
-        (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
-    )
-postDisputesDisputeRawM
-  dispute
-  body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack ("/v1/disputes/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel dispute)) GHC.Base.++ ""))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
-
--- | Defines the data type for the schema postDisputesDisputeRequestBody
+-- | Defines the object schema located at @paths.\/v1\/disputes\/{dispute}.POST.requestBody.content.application\/x-www-form-urlencoded.schema@ in the specification.
 data PostDisputesDisputeRequestBody
   = PostDisputesDisputeRequestBody
       { -- | evidence: Evidence to upload, to respond to a dispute. Updating any field in the hash will submit all fields in the hash for review. The combined character count of all fields is limited to 150,000.
         postDisputesDisputeRequestBodyEvidence :: (GHC.Maybe.Maybe PostDisputesDisputeRequestBodyEvidence'),
         -- | expand: Specifies which fields in the response should be expanded.
-        postDisputesDisputeRequestBodyExpand :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text)),
+        postDisputesDisputeRequestBodyExpand :: (GHC.Maybe.Maybe ([Data.Text.Internal.Text])),
         -- | metadata: Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to \`metadata\`.
-        postDisputesDisputeRequestBodyMetadata :: (GHC.Maybe.Maybe PostDisputesDisputeRequestBodyMetadata'),
+        postDisputesDisputeRequestBodyMetadata :: (GHC.Maybe.Maybe Data.Aeson.Types.Internal.Object),
         -- | submit: Whether to immediately submit evidence to the bank. If \`false\`, evidence is staged on the dispute. Staged evidence is visible in the API and Dashboard, and can be submitted to the bank by making another request with this attribute set to \`true\` (the default).
         postDisputesDisputeRequestBodySubmit :: (GHC.Maybe.Maybe GHC.Types.Bool)
       }
@@ -190,14 +101,24 @@ data PostDisputesDisputeRequestBody
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON PostDisputesDisputeRequestBody where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "evidence" (postDisputesDisputeRequestBodyEvidence obj) : (Data.Aeson..=) "expand" (postDisputesDisputeRequestBodyExpand obj) : (Data.Aeson..=) "metadata" (postDisputesDisputeRequestBodyMetadata obj) : (Data.Aeson..=) "submit" (postDisputesDisputeRequestBodySubmit obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "evidence" (postDisputesDisputeRequestBodyEvidence obj) GHC.Base.<> ((Data.Aeson..=) "expand" (postDisputesDisputeRequestBodyExpand obj) GHC.Base.<> ((Data.Aeson..=) "metadata" (postDisputesDisputeRequestBodyMetadata obj) GHC.Base.<> (Data.Aeson..=) "submit" (postDisputesDisputeRequestBodySubmit obj))))
+instance Data.Aeson.Types.ToJSON.ToJSON PostDisputesDisputeRequestBody where
+  toJSON obj = Data.Aeson.Types.Internal.object ("evidence" Data.Aeson.Types.ToJSON..= postDisputesDisputeRequestBodyEvidence obj : "expand" Data.Aeson.Types.ToJSON..= postDisputesDisputeRequestBodyExpand obj : "metadata" Data.Aeson.Types.ToJSON..= postDisputesDisputeRequestBodyMetadata obj : "submit" Data.Aeson.Types.ToJSON..= postDisputesDisputeRequestBodySubmit obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("evidence" Data.Aeson.Types.ToJSON..= postDisputesDisputeRequestBodyEvidence obj) GHC.Base.<> (("expand" Data.Aeson.Types.ToJSON..= postDisputesDisputeRequestBodyExpand obj) GHC.Base.<> (("metadata" Data.Aeson.Types.ToJSON..= postDisputesDisputeRequestBodyMetadata obj) GHC.Base.<> ("submit" Data.Aeson.Types.ToJSON..= postDisputesDisputeRequestBodySubmit obj))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostDisputesDisputeRequestBody where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PostDisputesDisputeRequestBody" (\obj -> (((GHC.Base.pure PostDisputesDisputeRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "evidence")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "submit"))
 
--- | Defines the data type for the schema postDisputesDisputeRequestBodyEvidence\'
+-- | Create a new 'PostDisputesDisputeRequestBody' with all required fields.
+mkPostDisputesDisputeRequestBody :: PostDisputesDisputeRequestBody
+mkPostDisputesDisputeRequestBody =
+  PostDisputesDisputeRequestBody
+    { postDisputesDisputeRequestBodyEvidence = GHC.Maybe.Nothing,
+      postDisputesDisputeRequestBodyExpand = GHC.Maybe.Nothing,
+      postDisputesDisputeRequestBodyMetadata = GHC.Maybe.Nothing,
+      postDisputesDisputeRequestBodySubmit = GHC.Maybe.Nothing
+    }
+
+-- | Defines the object schema located at @paths.\/v1\/disputes\/{dispute}.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.evidence@ in the specification.
 --
 -- Evidence to upload, to respond to a dispute. Updating any field in the hash will submit all fields in the hash for review. The combined character count of all fields is limited to 150,000.
 data PostDisputesDisputeRequestBodyEvidence'
@@ -334,31 +255,45 @@ data PostDisputesDisputeRequestBodyEvidence'
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON PostDisputesDisputeRequestBodyEvidence' where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "access_activity_log" (postDisputesDisputeRequestBodyEvidence'AccessActivityLog obj) : (Data.Aeson..=) "billing_address" (postDisputesDisputeRequestBodyEvidence'BillingAddress obj) : (Data.Aeson..=) "cancellation_policy" (postDisputesDisputeRequestBodyEvidence'CancellationPolicy obj) : (Data.Aeson..=) "cancellation_policy_disclosure" (postDisputesDisputeRequestBodyEvidence'CancellationPolicyDisclosure obj) : (Data.Aeson..=) "cancellation_rebuttal" (postDisputesDisputeRequestBodyEvidence'CancellationRebuttal obj) : (Data.Aeson..=) "customer_communication" (postDisputesDisputeRequestBodyEvidence'CustomerCommunication obj) : (Data.Aeson..=) "customer_email_address" (postDisputesDisputeRequestBodyEvidence'CustomerEmailAddress obj) : (Data.Aeson..=) "customer_name" (postDisputesDisputeRequestBodyEvidence'CustomerName obj) : (Data.Aeson..=) "customer_purchase_ip" (postDisputesDisputeRequestBodyEvidence'CustomerPurchaseIp obj) : (Data.Aeson..=) "customer_signature" (postDisputesDisputeRequestBodyEvidence'CustomerSignature obj) : (Data.Aeson..=) "duplicate_charge_documentation" (postDisputesDisputeRequestBodyEvidence'DuplicateChargeDocumentation obj) : (Data.Aeson..=) "duplicate_charge_explanation" (postDisputesDisputeRequestBodyEvidence'DuplicateChargeExplanation obj) : (Data.Aeson..=) "duplicate_charge_id" (postDisputesDisputeRequestBodyEvidence'DuplicateChargeId obj) : (Data.Aeson..=) "product_description" (postDisputesDisputeRequestBodyEvidence'ProductDescription obj) : (Data.Aeson..=) "receipt" (postDisputesDisputeRequestBodyEvidence'Receipt obj) : (Data.Aeson..=) "refund_policy" (postDisputesDisputeRequestBodyEvidence'RefundPolicy obj) : (Data.Aeson..=) "refund_policy_disclosure" (postDisputesDisputeRequestBodyEvidence'RefundPolicyDisclosure obj) : (Data.Aeson..=) "refund_refusal_explanation" (postDisputesDisputeRequestBodyEvidence'RefundRefusalExplanation obj) : (Data.Aeson..=) "service_date" (postDisputesDisputeRequestBodyEvidence'ServiceDate obj) : (Data.Aeson..=) "service_documentation" (postDisputesDisputeRequestBodyEvidence'ServiceDocumentation obj) : (Data.Aeson..=) "shipping_address" (postDisputesDisputeRequestBodyEvidence'ShippingAddress obj) : (Data.Aeson..=) "shipping_carrier" (postDisputesDisputeRequestBodyEvidence'ShippingCarrier obj) : (Data.Aeson..=) "shipping_date" (postDisputesDisputeRequestBodyEvidence'ShippingDate obj) : (Data.Aeson..=) "shipping_documentation" (postDisputesDisputeRequestBodyEvidence'ShippingDocumentation obj) : (Data.Aeson..=) "shipping_tracking_number" (postDisputesDisputeRequestBodyEvidence'ShippingTrackingNumber obj) : (Data.Aeson..=) "uncategorized_file" (postDisputesDisputeRequestBodyEvidence'UncategorizedFile obj) : (Data.Aeson..=) "uncategorized_text" (postDisputesDisputeRequestBodyEvidence'UncategorizedText obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "access_activity_log" (postDisputesDisputeRequestBodyEvidence'AccessActivityLog obj) GHC.Base.<> ((Data.Aeson..=) "billing_address" (postDisputesDisputeRequestBodyEvidence'BillingAddress obj) GHC.Base.<> ((Data.Aeson..=) "cancellation_policy" (postDisputesDisputeRequestBodyEvidence'CancellationPolicy obj) GHC.Base.<> ((Data.Aeson..=) "cancellation_policy_disclosure" (postDisputesDisputeRequestBodyEvidence'CancellationPolicyDisclosure obj) GHC.Base.<> ((Data.Aeson..=) "cancellation_rebuttal" (postDisputesDisputeRequestBodyEvidence'CancellationRebuttal obj) GHC.Base.<> ((Data.Aeson..=) "customer_communication" (postDisputesDisputeRequestBodyEvidence'CustomerCommunication obj) GHC.Base.<> ((Data.Aeson..=) "customer_email_address" (postDisputesDisputeRequestBodyEvidence'CustomerEmailAddress obj) GHC.Base.<> ((Data.Aeson..=) "customer_name" (postDisputesDisputeRequestBodyEvidence'CustomerName obj) GHC.Base.<> ((Data.Aeson..=) "customer_purchase_ip" (postDisputesDisputeRequestBodyEvidence'CustomerPurchaseIp obj) GHC.Base.<> ((Data.Aeson..=) "customer_signature" (postDisputesDisputeRequestBodyEvidence'CustomerSignature obj) GHC.Base.<> ((Data.Aeson..=) "duplicate_charge_documentation" (postDisputesDisputeRequestBodyEvidence'DuplicateChargeDocumentation obj) GHC.Base.<> ((Data.Aeson..=) "duplicate_charge_explanation" (postDisputesDisputeRequestBodyEvidence'DuplicateChargeExplanation obj) GHC.Base.<> ((Data.Aeson..=) "duplicate_charge_id" (postDisputesDisputeRequestBodyEvidence'DuplicateChargeId obj) GHC.Base.<> ((Data.Aeson..=) "product_description" (postDisputesDisputeRequestBodyEvidence'ProductDescription obj) GHC.Base.<> ((Data.Aeson..=) "receipt" (postDisputesDisputeRequestBodyEvidence'Receipt obj) GHC.Base.<> ((Data.Aeson..=) "refund_policy" (postDisputesDisputeRequestBodyEvidence'RefundPolicy obj) GHC.Base.<> ((Data.Aeson..=) "refund_policy_disclosure" (postDisputesDisputeRequestBodyEvidence'RefundPolicyDisclosure obj) GHC.Base.<> ((Data.Aeson..=) "refund_refusal_explanation" (postDisputesDisputeRequestBodyEvidence'RefundRefusalExplanation obj) GHC.Base.<> ((Data.Aeson..=) "service_date" (postDisputesDisputeRequestBodyEvidence'ServiceDate obj) GHC.Base.<> ((Data.Aeson..=) "service_documentation" (postDisputesDisputeRequestBodyEvidence'ServiceDocumentation obj) GHC.Base.<> ((Data.Aeson..=) "shipping_address" (postDisputesDisputeRequestBodyEvidence'ShippingAddress obj) GHC.Base.<> ((Data.Aeson..=) "shipping_carrier" (postDisputesDisputeRequestBodyEvidence'ShippingCarrier obj) GHC.Base.<> ((Data.Aeson..=) "shipping_date" (postDisputesDisputeRequestBodyEvidence'ShippingDate obj) GHC.Base.<> ((Data.Aeson..=) "shipping_documentation" (postDisputesDisputeRequestBodyEvidence'ShippingDocumentation obj) GHC.Base.<> ((Data.Aeson..=) "shipping_tracking_number" (postDisputesDisputeRequestBodyEvidence'ShippingTrackingNumber obj) GHC.Base.<> ((Data.Aeson..=) "uncategorized_file" (postDisputesDisputeRequestBodyEvidence'UncategorizedFile obj) GHC.Base.<> (Data.Aeson..=) "uncategorized_text" (postDisputesDisputeRequestBodyEvidence'UncategorizedText obj)))))))))))))))))))))))))))
+instance Data.Aeson.Types.ToJSON.ToJSON PostDisputesDisputeRequestBodyEvidence' where
+  toJSON obj = Data.Aeson.Types.Internal.object ("access_activity_log" Data.Aeson.Types.ToJSON..= postDisputesDisputeRequestBodyEvidence'AccessActivityLog obj : "billing_address" Data.Aeson.Types.ToJSON..= postDisputesDisputeRequestBodyEvidence'BillingAddress obj : "cancellation_policy" Data.Aeson.Types.ToJSON..= postDisputesDisputeRequestBodyEvidence'CancellationPolicy obj : "cancellation_policy_disclosure" Data.Aeson.Types.ToJSON..= postDisputesDisputeRequestBodyEvidence'CancellationPolicyDisclosure obj : "cancellation_rebuttal" Data.Aeson.Types.ToJSON..= postDisputesDisputeRequestBodyEvidence'CancellationRebuttal obj : "customer_communication" Data.Aeson.Types.ToJSON..= postDisputesDisputeRequestBodyEvidence'CustomerCommunication obj : "customer_email_address" Data.Aeson.Types.ToJSON..= postDisputesDisputeRequestBodyEvidence'CustomerEmailAddress obj : "customer_name" Data.Aeson.Types.ToJSON..= postDisputesDisputeRequestBodyEvidence'CustomerName obj : "customer_purchase_ip" Data.Aeson.Types.ToJSON..= postDisputesDisputeRequestBodyEvidence'CustomerPurchaseIp obj : "customer_signature" Data.Aeson.Types.ToJSON..= postDisputesDisputeRequestBodyEvidence'CustomerSignature obj : "duplicate_charge_documentation" Data.Aeson.Types.ToJSON..= postDisputesDisputeRequestBodyEvidence'DuplicateChargeDocumentation obj : "duplicate_charge_explanation" Data.Aeson.Types.ToJSON..= postDisputesDisputeRequestBodyEvidence'DuplicateChargeExplanation obj : "duplicate_charge_id" Data.Aeson.Types.ToJSON..= postDisputesDisputeRequestBodyEvidence'DuplicateChargeId obj : "product_description" Data.Aeson.Types.ToJSON..= postDisputesDisputeRequestBodyEvidence'ProductDescription obj : "receipt" Data.Aeson.Types.ToJSON..= postDisputesDisputeRequestBodyEvidence'Receipt obj : "refund_policy" Data.Aeson.Types.ToJSON..= postDisputesDisputeRequestBodyEvidence'RefundPolicy obj : "refund_policy_disclosure" Data.Aeson.Types.ToJSON..= postDisputesDisputeRequestBodyEvidence'RefundPolicyDisclosure obj : "refund_refusal_explanation" Data.Aeson.Types.ToJSON..= postDisputesDisputeRequestBodyEvidence'RefundRefusalExplanation obj : "service_date" Data.Aeson.Types.ToJSON..= postDisputesDisputeRequestBodyEvidence'ServiceDate obj : "service_documentation" Data.Aeson.Types.ToJSON..= postDisputesDisputeRequestBodyEvidence'ServiceDocumentation obj : "shipping_address" Data.Aeson.Types.ToJSON..= postDisputesDisputeRequestBodyEvidence'ShippingAddress obj : "shipping_carrier" Data.Aeson.Types.ToJSON..= postDisputesDisputeRequestBodyEvidence'ShippingCarrier obj : "shipping_date" Data.Aeson.Types.ToJSON..= postDisputesDisputeRequestBodyEvidence'ShippingDate obj : "shipping_documentation" Data.Aeson.Types.ToJSON..= postDisputesDisputeRequestBodyEvidence'ShippingDocumentation obj : "shipping_tracking_number" Data.Aeson.Types.ToJSON..= postDisputesDisputeRequestBodyEvidence'ShippingTrackingNumber obj : "uncategorized_file" Data.Aeson.Types.ToJSON..= postDisputesDisputeRequestBodyEvidence'UncategorizedFile obj : "uncategorized_text" Data.Aeson.Types.ToJSON..= postDisputesDisputeRequestBodyEvidence'UncategorizedText obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("access_activity_log" Data.Aeson.Types.ToJSON..= postDisputesDisputeRequestBodyEvidence'AccessActivityLog obj) GHC.Base.<> (("billing_address" Data.Aeson.Types.ToJSON..= postDisputesDisputeRequestBodyEvidence'BillingAddress obj) GHC.Base.<> (("cancellation_policy" Data.Aeson.Types.ToJSON..= postDisputesDisputeRequestBodyEvidence'CancellationPolicy obj) GHC.Base.<> (("cancellation_policy_disclosure" Data.Aeson.Types.ToJSON..= postDisputesDisputeRequestBodyEvidence'CancellationPolicyDisclosure obj) GHC.Base.<> (("cancellation_rebuttal" Data.Aeson.Types.ToJSON..= postDisputesDisputeRequestBodyEvidence'CancellationRebuttal obj) GHC.Base.<> (("customer_communication" Data.Aeson.Types.ToJSON..= postDisputesDisputeRequestBodyEvidence'CustomerCommunication obj) GHC.Base.<> (("customer_email_address" Data.Aeson.Types.ToJSON..= postDisputesDisputeRequestBodyEvidence'CustomerEmailAddress obj) GHC.Base.<> (("customer_name" Data.Aeson.Types.ToJSON..= postDisputesDisputeRequestBodyEvidence'CustomerName obj) GHC.Base.<> (("customer_purchase_ip" Data.Aeson.Types.ToJSON..= postDisputesDisputeRequestBodyEvidence'CustomerPurchaseIp obj) GHC.Base.<> (("customer_signature" Data.Aeson.Types.ToJSON..= postDisputesDisputeRequestBodyEvidence'CustomerSignature obj) GHC.Base.<> (("duplicate_charge_documentation" Data.Aeson.Types.ToJSON..= postDisputesDisputeRequestBodyEvidence'DuplicateChargeDocumentation obj) GHC.Base.<> (("duplicate_charge_explanation" Data.Aeson.Types.ToJSON..= postDisputesDisputeRequestBodyEvidence'DuplicateChargeExplanation obj) GHC.Base.<> (("duplicate_charge_id" Data.Aeson.Types.ToJSON..= postDisputesDisputeRequestBodyEvidence'DuplicateChargeId obj) GHC.Base.<> (("product_description" Data.Aeson.Types.ToJSON..= postDisputesDisputeRequestBodyEvidence'ProductDescription obj) GHC.Base.<> (("receipt" Data.Aeson.Types.ToJSON..= postDisputesDisputeRequestBodyEvidence'Receipt obj) GHC.Base.<> (("refund_policy" Data.Aeson.Types.ToJSON..= postDisputesDisputeRequestBodyEvidence'RefundPolicy obj) GHC.Base.<> (("refund_policy_disclosure" Data.Aeson.Types.ToJSON..= postDisputesDisputeRequestBodyEvidence'RefundPolicyDisclosure obj) GHC.Base.<> (("refund_refusal_explanation" Data.Aeson.Types.ToJSON..= postDisputesDisputeRequestBodyEvidence'RefundRefusalExplanation obj) GHC.Base.<> (("service_date" Data.Aeson.Types.ToJSON..= postDisputesDisputeRequestBodyEvidence'ServiceDate obj) GHC.Base.<> (("service_documentation" Data.Aeson.Types.ToJSON..= postDisputesDisputeRequestBodyEvidence'ServiceDocumentation obj) GHC.Base.<> (("shipping_address" Data.Aeson.Types.ToJSON..= postDisputesDisputeRequestBodyEvidence'ShippingAddress obj) GHC.Base.<> (("shipping_carrier" Data.Aeson.Types.ToJSON..= postDisputesDisputeRequestBodyEvidence'ShippingCarrier obj) GHC.Base.<> (("shipping_date" Data.Aeson.Types.ToJSON..= postDisputesDisputeRequestBodyEvidence'ShippingDate obj) GHC.Base.<> (("shipping_documentation" Data.Aeson.Types.ToJSON..= postDisputesDisputeRequestBodyEvidence'ShippingDocumentation obj) GHC.Base.<> (("shipping_tracking_number" Data.Aeson.Types.ToJSON..= postDisputesDisputeRequestBodyEvidence'ShippingTrackingNumber obj) GHC.Base.<> (("uncategorized_file" Data.Aeson.Types.ToJSON..= postDisputesDisputeRequestBodyEvidence'UncategorizedFile obj) GHC.Base.<> ("uncategorized_text" Data.Aeson.Types.ToJSON..= postDisputesDisputeRequestBodyEvidence'UncategorizedText obj)))))))))))))))))))))))))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostDisputesDisputeRequestBodyEvidence' where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PostDisputesDisputeRequestBodyEvidence'" (\obj -> ((((((((((((((((((((((((((GHC.Base.pure PostDisputesDisputeRequestBodyEvidence' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "access_activity_log")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "billing_address")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "cancellation_policy")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "cancellation_policy_disclosure")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "cancellation_rebuttal")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "customer_communication")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "customer_email_address")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "customer_name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "customer_purchase_ip")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "customer_signature")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "duplicate_charge_documentation")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "duplicate_charge_explanation")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "duplicate_charge_id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "product_description")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "receipt")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "refund_policy")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "refund_policy_disclosure")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "refund_refusal_explanation")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "service_date")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "service_documentation")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "shipping_address")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "shipping_carrier")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "shipping_date")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "shipping_documentation")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "shipping_tracking_number")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "uncategorized_file")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "uncategorized_text"))
 
--- | Defines the data type for the schema postDisputesDisputeRequestBodyMetadata\'
---
--- Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to \`metadata\`.
-data PostDisputesDisputeRequestBodyMetadata'
-  = PostDisputesDisputeRequestBodyMetadata'
-      {
-      }
-  deriving
-    ( GHC.Show.Show,
-      GHC.Classes.Eq
-    )
-
-instance Data.Aeson.ToJSON PostDisputesDisputeRequestBodyMetadata' where
-  toJSON obj = Data.Aeson.object []
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "string" ("string" :: GHC.Base.String))
-
-instance Data.Aeson.Types.FromJSON.FromJSON PostDisputesDisputeRequestBodyMetadata' where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostDisputesDisputeRequestBodyMetadata'" (\obj -> GHC.Base.pure PostDisputesDisputeRequestBodyMetadata')
+-- | Create a new 'PostDisputesDisputeRequestBodyEvidence'' with all required fields.
+mkPostDisputesDisputeRequestBodyEvidence' :: PostDisputesDisputeRequestBodyEvidence'
+mkPostDisputesDisputeRequestBodyEvidence' =
+  PostDisputesDisputeRequestBodyEvidence'
+    { postDisputesDisputeRequestBodyEvidence'AccessActivityLog = GHC.Maybe.Nothing,
+      postDisputesDisputeRequestBodyEvidence'BillingAddress = GHC.Maybe.Nothing,
+      postDisputesDisputeRequestBodyEvidence'CancellationPolicy = GHC.Maybe.Nothing,
+      postDisputesDisputeRequestBodyEvidence'CancellationPolicyDisclosure = GHC.Maybe.Nothing,
+      postDisputesDisputeRequestBodyEvidence'CancellationRebuttal = GHC.Maybe.Nothing,
+      postDisputesDisputeRequestBodyEvidence'CustomerCommunication = GHC.Maybe.Nothing,
+      postDisputesDisputeRequestBodyEvidence'CustomerEmailAddress = GHC.Maybe.Nothing,
+      postDisputesDisputeRequestBodyEvidence'CustomerName = GHC.Maybe.Nothing,
+      postDisputesDisputeRequestBodyEvidence'CustomerPurchaseIp = GHC.Maybe.Nothing,
+      postDisputesDisputeRequestBodyEvidence'CustomerSignature = GHC.Maybe.Nothing,
+      postDisputesDisputeRequestBodyEvidence'DuplicateChargeDocumentation = GHC.Maybe.Nothing,
+      postDisputesDisputeRequestBodyEvidence'DuplicateChargeExplanation = GHC.Maybe.Nothing,
+      postDisputesDisputeRequestBodyEvidence'DuplicateChargeId = GHC.Maybe.Nothing,
+      postDisputesDisputeRequestBodyEvidence'ProductDescription = GHC.Maybe.Nothing,
+      postDisputesDisputeRequestBodyEvidence'Receipt = GHC.Maybe.Nothing,
+      postDisputesDisputeRequestBodyEvidence'RefundPolicy = GHC.Maybe.Nothing,
+      postDisputesDisputeRequestBodyEvidence'RefundPolicyDisclosure = GHC.Maybe.Nothing,
+      postDisputesDisputeRequestBodyEvidence'RefundRefusalExplanation = GHC.Maybe.Nothing,
+      postDisputesDisputeRequestBodyEvidence'ServiceDate = GHC.Maybe.Nothing,
+      postDisputesDisputeRequestBodyEvidence'ServiceDocumentation = GHC.Maybe.Nothing,
+      postDisputesDisputeRequestBodyEvidence'ShippingAddress = GHC.Maybe.Nothing,
+      postDisputesDisputeRequestBodyEvidence'ShippingCarrier = GHC.Maybe.Nothing,
+      postDisputesDisputeRequestBodyEvidence'ShippingDate = GHC.Maybe.Nothing,
+      postDisputesDisputeRequestBodyEvidence'ShippingDocumentation = GHC.Maybe.Nothing,
+      postDisputesDisputeRequestBodyEvidence'ShippingTrackingNumber = GHC.Maybe.Nothing,
+      postDisputesDisputeRequestBodyEvidence'UncategorizedFile = GHC.Maybe.Nothing,
+      postDisputesDisputeRequestBodyEvidence'UncategorizedText = GHC.Maybe.Nothing
+    }
 
 -- | Represents a response of the operation 'postDisputesDispute'.
 --

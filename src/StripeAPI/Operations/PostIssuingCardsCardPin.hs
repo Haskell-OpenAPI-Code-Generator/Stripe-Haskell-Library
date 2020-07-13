@@ -1,4 +1,3 @@
-{-# LANGUAGE DeriveGeneric #-}
 {-# LANGUAGE ExplicitForAll #-}
 {-# LANGUAGE MultiWayIf #-}
 {-# LANGUAGE OverloadedStrings #-}
@@ -8,8 +7,10 @@
 -- | Contains the different functions to run the operation postIssuingCardsCardPin
 module StripeAPI.Operations.PostIssuingCardsCardPin where
 
+import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
@@ -26,7 +27,6 @@ import qualified Data.Time.LocalTime as Data.Time.LocalTime.Internal.ZonedTime
 import qualified Data.Vector
 import qualified GHC.Base
 import qualified GHC.Classes
-import qualified GHC.Generics
 import qualified GHC.Int
 import qualified GHC.Show
 import qualified GHC.Types
@@ -46,136 +46,47 @@ import qualified Prelude as GHC.Maybe
 --
 -- \<p>Updates the PIN for a card, subject to cardholder verification. See \<a href=\"\/docs\/issuing\/pin_management\">Retrieve and update cardholder PIN\<\/a>\<\/p>
 postIssuingCardsCardPin ::
-  forall m s.
-  (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) =>
-  -- | The configuration to use in the request
-  StripeAPI.Common.Configuration s ->
+  forall m.
+  StripeAPI.Common.MonadHTTP m =>
   -- | card | Constraints: Maximum length of 5000
   Data.Text.Internal.Text ->
   -- | The request body to send
   PostIssuingCardsCardPinRequestBody ->
-  -- | Monad containing the result of the operation
-  m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response PostIssuingCardsCardPinResponse))
+  -- | Monadic computation which returns the result of the operation
+  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response PostIssuingCardsCardPinResponse)
 postIssuingCardsCardPin
-  config
   card
   body =
     GHC.Base.fmap
-      ( GHC.Base.fmap
-          ( \response_0 ->
-              GHC.Base.fmap
-                ( Data.Either.either PostIssuingCardsCardPinResponseError GHC.Base.id
-                    GHC.Base.. ( \response body ->
-                                   if  | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                         PostIssuingCardsCardPinResponse200
-                                           Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                                Data.Either.Either GHC.Base.String
-                                                                  Issuing'cardPin
-                                                            )
-                                       | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                         PostIssuingCardsCardPinResponseDefault
-                                           Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                                Data.Either.Either GHC.Base.String
-                                                                  Error
-                                                            )
-                                       | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
-                               )
-                      response_0
-                )
-                response_0
-          )
-      )
-      (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack ("/v1/issuing/cards/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel card)) GHC.Base.++ "/pin"))) [] (GHC.Maybe.Just body) StripeAPI.Common.RequestBodyEncodingFormData)
-
--- | > POST /v1/issuing/cards/{card}/pin
---
--- The same as 'postIssuingCardsCardPin' but returns the raw 'Data.ByteString.Char8.ByteString'
-postIssuingCardsCardPinRaw ::
-  forall m s.
-  ( StripeAPI.Common.MonadHTTP m,
-    StripeAPI.Common.SecurityScheme s
-  ) =>
-  StripeAPI.Common.Configuration s ->
-  Data.Text.Internal.Text ->
-  PostIssuingCardsCardPinRequestBody ->
-  m
-    ( Data.Either.Either Network.HTTP.Client.Types.HttpException
-        (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
-    )
-postIssuingCardsCardPinRaw
-  config
-  card
-  body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack ("/v1/issuing/cards/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel card)) GHC.Base.++ "/pin"))) [] (GHC.Maybe.Just body) StripeAPI.Common.RequestBodyEncodingFormData)
-
--- | > POST /v1/issuing/cards/{card}/pin
---
--- Monadic version of 'postIssuingCardsCardPin' (use with 'StripeAPI.Common.runWithConfiguration')
-postIssuingCardsCardPinM ::
-  forall m s.
-  ( StripeAPI.Common.MonadHTTP m,
-    StripeAPI.Common.SecurityScheme s
-  ) =>
-  Data.Text.Internal.Text ->
-  PostIssuingCardsCardPinRequestBody ->
-  Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
-    m
-    ( Data.Either.Either Network.HTTP.Client.Types.HttpException
-        (Network.HTTP.Client.Types.Response PostIssuingCardsCardPinResponse)
-    )
-postIssuingCardsCardPinM
-  card
-  body =
-    GHC.Base.fmap
-      ( GHC.Base.fmap
-          ( \response_2 ->
-              GHC.Base.fmap
-                ( Data.Either.either PostIssuingCardsCardPinResponseError GHC.Base.id
-                    GHC.Base.. ( \response body ->
-                                   if  | (\status_3 -> Network.HTTP.Types.Status.statusCode status_3 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                         PostIssuingCardsCardPinResponse200
-                                           Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                                Data.Either.Either GHC.Base.String
-                                                                  Issuing'cardPin
-                                                            )
-                                       | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                         PostIssuingCardsCardPinResponseDefault
-                                           Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                                Data.Either.Either GHC.Base.String
-                                                                  Error
-                                                            )
-                                       | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
-                               )
-                      response_2
-                )
-                response_2
-          )
+      ( \response_0 ->
+          GHC.Base.fmap
+            ( Data.Either.either PostIssuingCardsCardPinResponseError GHC.Base.id
+                GHC.Base.. ( \response body ->
+                               if  | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
+                                     PostIssuingCardsCardPinResponse200
+                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                            Data.Either.Either GHC.Base.String
+                                                              Issuing'cardPin
+                                                        )
+                                   | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
+                                     PostIssuingCardsCardPinResponseDefault
+                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                            Data.Either.Either GHC.Base.String
+                                                              Error
+                                                        )
+                                   | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
+                           )
+                  response_0
+            )
+            response_0
       )
       (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack ("/v1/issuing/cards/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel card)) GHC.Base.++ "/pin"))) [] (GHC.Maybe.Just body) StripeAPI.Common.RequestBodyEncodingFormData)
 
--- | > POST /v1/issuing/cards/{card}/pin
---
--- Monadic version of 'postIssuingCardsCardPinRaw' (use with 'StripeAPI.Common.runWithConfiguration')
-postIssuingCardsCardPinRawM ::
-  forall m s.
-  ( StripeAPI.Common.MonadHTTP m,
-    StripeAPI.Common.SecurityScheme s
-  ) =>
-  Data.Text.Internal.Text ->
-  PostIssuingCardsCardPinRequestBody ->
-  Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
-    m
-    ( Data.Either.Either Network.HTTP.Client.Types.HttpException
-        (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
-    )
-postIssuingCardsCardPinRawM
-  card
-  body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack ("/v1/issuing/cards/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel card)) GHC.Base.++ "/pin"))) [] (GHC.Maybe.Just body) StripeAPI.Common.RequestBodyEncodingFormData)
-
--- | Defines the data type for the schema postIssuingCardsCardPinRequestBody
+-- | Defines the object schema located at @paths.\/v1\/issuing\/cards\/{card}\/pin.POST.requestBody.content.application\/x-www-form-urlencoded.schema@ in the specification.
 data PostIssuingCardsCardPinRequestBody
   = PostIssuingCardsCardPinRequestBody
       { -- | expand: Specifies which fields in the response should be expanded.
-        postIssuingCardsCardPinRequestBodyExpand :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text)),
+        postIssuingCardsCardPinRequestBodyExpand :: (GHC.Maybe.Maybe ([Data.Text.Internal.Text])),
         -- | pin: The new desired PIN
         --
         -- Constraints:
@@ -190,14 +101,28 @@ data PostIssuingCardsCardPinRequestBody
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON PostIssuingCardsCardPinRequestBody where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "expand" (postIssuingCardsCardPinRequestBodyExpand obj) : (Data.Aeson..=) "pin" (postIssuingCardsCardPinRequestBodyPin obj) : (Data.Aeson..=) "verification" (postIssuingCardsCardPinRequestBodyVerification obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "expand" (postIssuingCardsCardPinRequestBodyExpand obj) GHC.Base.<> ((Data.Aeson..=) "pin" (postIssuingCardsCardPinRequestBodyPin obj) GHC.Base.<> (Data.Aeson..=) "verification" (postIssuingCardsCardPinRequestBodyVerification obj)))
+instance Data.Aeson.Types.ToJSON.ToJSON PostIssuingCardsCardPinRequestBody where
+  toJSON obj = Data.Aeson.Types.Internal.object ("expand" Data.Aeson.Types.ToJSON..= postIssuingCardsCardPinRequestBodyExpand obj : "pin" Data.Aeson.Types.ToJSON..= postIssuingCardsCardPinRequestBodyPin obj : "verification" Data.Aeson.Types.ToJSON..= postIssuingCardsCardPinRequestBodyVerification obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("expand" Data.Aeson.Types.ToJSON..= postIssuingCardsCardPinRequestBodyExpand obj) GHC.Base.<> (("pin" Data.Aeson.Types.ToJSON..= postIssuingCardsCardPinRequestBodyPin obj) GHC.Base.<> ("verification" Data.Aeson.Types.ToJSON..= postIssuingCardsCardPinRequestBodyVerification obj)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostIssuingCardsCardPinRequestBody where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PostIssuingCardsCardPinRequestBody" (\obj -> ((GHC.Base.pure PostIssuingCardsCardPinRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pin")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "verification"))
 
--- | Defines the data type for the schema postIssuingCardsCardPinRequestBodyVerification\'
+-- | Create a new 'PostIssuingCardsCardPinRequestBody' with all required fields.
+mkPostIssuingCardsCardPinRequestBody ::
+  -- | 'postIssuingCardsCardPinRequestBodyPin'
+  Data.Text.Internal.Text ->
+  -- | 'postIssuingCardsCardPinRequestBodyVerification'
+  PostIssuingCardsCardPinRequestBodyVerification' ->
+  PostIssuingCardsCardPinRequestBody
+mkPostIssuingCardsCardPinRequestBody postIssuingCardsCardPinRequestBodyPin postIssuingCardsCardPinRequestBodyVerification =
+  PostIssuingCardsCardPinRequestBody
+    { postIssuingCardsCardPinRequestBodyExpand = GHC.Maybe.Nothing,
+      postIssuingCardsCardPinRequestBodyPin = postIssuingCardsCardPinRequestBodyPin,
+      postIssuingCardsCardPinRequestBodyVerification = postIssuingCardsCardPinRequestBodyVerification
+    }
+
+-- | Defines the object schema located at @paths.\/v1\/issuing\/cards\/{card}\/pin.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.verification@ in the specification.
 --
 -- The id of the \`Verification\` that was sent and the code entered by the cardholder
 data PostIssuingCardsCardPinRequestBodyVerification'
@@ -220,12 +145,25 @@ data PostIssuingCardsCardPinRequestBodyVerification'
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON PostIssuingCardsCardPinRequestBodyVerification' where
-  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "id" (postIssuingCardsCardPinRequestBodyVerification'Id obj) : (Data.Aeson..=) "one_time_code" (postIssuingCardsCardPinRequestBodyVerification'OneTimeCode obj) : [])
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "id" (postIssuingCardsCardPinRequestBodyVerification'Id obj) GHC.Base.<> (Data.Aeson..=) "one_time_code" (postIssuingCardsCardPinRequestBodyVerification'OneTimeCode obj))
+instance Data.Aeson.Types.ToJSON.ToJSON PostIssuingCardsCardPinRequestBodyVerification' where
+  toJSON obj = Data.Aeson.Types.Internal.object ("id" Data.Aeson.Types.ToJSON..= postIssuingCardsCardPinRequestBodyVerification'Id obj : "one_time_code" Data.Aeson.Types.ToJSON..= postIssuingCardsCardPinRequestBodyVerification'OneTimeCode obj : [])
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("id" Data.Aeson.Types.ToJSON..= postIssuingCardsCardPinRequestBodyVerification'Id obj) GHC.Base.<> ("one_time_code" Data.Aeson.Types.ToJSON..= postIssuingCardsCardPinRequestBodyVerification'OneTimeCode obj))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostIssuingCardsCardPinRequestBodyVerification' where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PostIssuingCardsCardPinRequestBodyVerification'" (\obj -> (GHC.Base.pure PostIssuingCardsCardPinRequestBodyVerification' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "one_time_code"))
+
+-- | Create a new 'PostIssuingCardsCardPinRequestBodyVerification'' with all required fields.
+mkPostIssuingCardsCardPinRequestBodyVerification' ::
+  -- | 'postIssuingCardsCardPinRequestBodyVerification'Id'
+  Data.Text.Internal.Text ->
+  -- | 'postIssuingCardsCardPinRequestBodyVerification'OneTimeCode'
+  Data.Text.Internal.Text ->
+  PostIssuingCardsCardPinRequestBodyVerification'
+mkPostIssuingCardsCardPinRequestBodyVerification' postIssuingCardsCardPinRequestBodyVerification'Id postIssuingCardsCardPinRequestBodyVerification'OneTimeCode =
+  PostIssuingCardsCardPinRequestBodyVerification'
+    { postIssuingCardsCardPinRequestBodyVerification'Id = postIssuingCardsCardPinRequestBodyVerification'Id,
+      postIssuingCardsCardPinRequestBodyVerification'OneTimeCode = postIssuingCardsCardPinRequestBodyVerification'OneTimeCode
+    }
 
 -- | Represents a response of the operation 'postIssuingCardsCardPin'.
 --
