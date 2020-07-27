@@ -1,3 +1,4 @@
+{-# LANGUAGE LambdaCase #-}
 {-# LANGUAGE OverloadedStrings #-}
 
 module StripeHandling where
@@ -9,6 +10,7 @@ import qualified Data.Maybe as Maybe
 import qualified Data.Text as T
 import qualified Network.HTTP.Simple as HS
 import qualified StripeAPI as Stripe
+import qualified StripeAPI.Types.NotificationEventData.Extra as Stripe
 
 stripeAPIKey :: T.Text
 stripeAPIKey = "sk_test_XXXXXXXXXX" -- Insert your API key here
@@ -134,3 +136,23 @@ getPaymentIntentSepaCallSecret =
             MIO.liftIO $ print resp
             pure $ trans resp
           _ -> pure "response was not a success"
+
+getCheckoutSessionEvents :: IO (Either T.Text [T.Text])
+getCheckoutSessionEvents = Stripe.runWithConfiguration conf $ do
+  res <-
+    Stripe.getEvents
+      Stripe.mkGetEventsParameters
+        { Stripe.getEventsParametersQueryType = Just "checkout.session.completed"
+        }
+  pure $ case HS.getResponseBody res of
+    Stripe.GetEventsResponse200 eventResponse ->
+      Right $
+        ( \case
+            Stripe.CheckoutSessionCompletedEvent session -> Stripe.checkout'sessionId session
+            Stripe.UnknownEvent t -> "Unknown event type: " <> t
+            _ -> "Other event"
+        )
+          . Stripe.getEventData
+          <$> Stripe.getEventsResponseBody200Data eventResponse
+    Stripe.GetEventsResponseError err -> Left $ T.pack err
+    Stripe.GetEventsResponseDefault err -> Left $ Maybe.fromMaybe "" $ Stripe.apiErrorsMessage $ Stripe.errorError err
