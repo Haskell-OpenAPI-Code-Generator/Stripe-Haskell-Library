@@ -11,3 +11,8 @@ instance Show DiscountCustomer'Variants
 instance Eq DiscountCustomer'Variants
 instance FromJSON DiscountCustomer'Variants
 instance ToJSON DiscountCustomer'Variants
+data DiscountPromotionCode'Variants
+instance Show DiscountPromotionCode'Variants
+instance Eq DiscountPromotionCode'Variants
+instance FromJSON DiscountPromotionCode'Variants
+instance ToJSON DiscountPromotionCode'Variants

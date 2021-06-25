@@ -56,6 +56,11 @@ instance Show ChargeOutcome'Rule'Variants
 instance Eq ChargeOutcome'Rule'Variants
 instance FromJSON ChargeOutcome'Rule'Variants
 instance ToJSON ChargeOutcome'Rule'Variants
+data ChargePaymentIntent'Variants
+instance Show ChargePaymentIntent'Variants
+instance Eq ChargePaymentIntent'Variants
+instance FromJSON ChargePaymentIntent'Variants
+instance ToJSON ChargePaymentIntent'Variants
 data ChargePaymentMethodDetails'
 instance Show ChargePaymentMethodDetails'
 instance Eq ChargePaymentMethodDetails'

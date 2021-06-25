@@ -21,6 +21,16 @@ instance Show PaymentMethodCardGeneratedFrom'PaymentMethodDetails'
 instance Eq PaymentMethodCardGeneratedFrom'PaymentMethodDetails'
 instance FromJSON PaymentMethodCardGeneratedFrom'PaymentMethodDetails'
 instance ToJSON PaymentMethodCardGeneratedFrom'PaymentMethodDetails'
+data PaymentMethodCardGeneratedFrom'SetupAttempt'Variants
+instance Show PaymentMethodCardGeneratedFrom'SetupAttempt'Variants
+instance Eq PaymentMethodCardGeneratedFrom'SetupAttempt'Variants
+instance FromJSON PaymentMethodCardGeneratedFrom'SetupAttempt'Variants
+instance ToJSON PaymentMethodCardGeneratedFrom'SetupAttempt'Variants
+data PaymentMethodCardNetworks'
+instance Show PaymentMethodCardNetworks'
+instance Eq PaymentMethodCardNetworks'
+instance FromJSON PaymentMethodCardNetworks'
+instance ToJSON PaymentMethodCardNetworks'
 data PaymentMethodCardThreeDSecureUsage'
 instance Show PaymentMethodCardThreeDSecureUsage'
 instance Eq PaymentMethodCardThreeDSecureUsage'

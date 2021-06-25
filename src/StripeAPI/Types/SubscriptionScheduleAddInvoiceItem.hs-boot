@@ -1,0 +1,13 @@
+module StripeAPI.Types.SubscriptionScheduleAddInvoiceItem where
+import Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Types.Internal
+data SubscriptionScheduleAddInvoiceItem
+instance Show SubscriptionScheduleAddInvoiceItem
+instance Eq SubscriptionScheduleAddInvoiceItem
+instance FromJSON SubscriptionScheduleAddInvoiceItem
+instance ToJSON SubscriptionScheduleAddInvoiceItem
+data SubscriptionScheduleAddInvoiceItemPrice'Variants
+instance Show SubscriptionScheduleAddInvoiceItemPrice'Variants
+instance Eq SubscriptionScheduleAddInvoiceItemPrice'Variants
+instance FromJSON SubscriptionScheduleAddInvoiceItemPrice'Variants
+instance ToJSON SubscriptionScheduleAddInvoiceItemPrice'Variants

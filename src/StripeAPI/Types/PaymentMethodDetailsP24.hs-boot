@@ -6,3 +6,8 @@ instance Show PaymentMethodDetailsP24
 instance Eq PaymentMethodDetailsP24
 instance FromJSON PaymentMethodDetailsP24
 instance ToJSON PaymentMethodDetailsP24
+data PaymentMethodDetailsP24Bank'
+instance Show PaymentMethodDetailsP24Bank'
+instance Eq PaymentMethodDetailsP24Bank'
+instance FromJSON PaymentMethodDetailsP24Bank'
+instance ToJSON PaymentMethodDetailsP24Bank'

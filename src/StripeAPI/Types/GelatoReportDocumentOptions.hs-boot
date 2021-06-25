@@ -1,0 +1,13 @@
+module StripeAPI.Types.GelatoReportDocumentOptions where
+import Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Types.Internal
+data GelatoReportDocumentOptions
+instance Show GelatoReportDocumentOptions
+instance Eq GelatoReportDocumentOptions
+instance FromJSON GelatoReportDocumentOptions
+instance ToJSON GelatoReportDocumentOptions
+data GelatoReportDocumentOptionsAllowedTypes'
+instance Show GelatoReportDocumentOptionsAllowedTypes'
+instance Eq GelatoReportDocumentOptionsAllowedTypes'
+instance FromJSON GelatoReportDocumentOptionsAllowedTypes'
+instance ToJSON GelatoReportDocumentOptionsAllowedTypes'

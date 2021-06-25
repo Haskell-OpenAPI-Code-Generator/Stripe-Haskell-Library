@@ -1,0 +1,18 @@
+module StripeAPI.Types.MandateAcssDebit where
+import Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Types.Internal
+data MandateAcssDebit
+instance Show MandateAcssDebit
+instance Eq MandateAcssDebit
+instance FromJSON MandateAcssDebit
+instance ToJSON MandateAcssDebit
+data MandateAcssDebitPaymentSchedule'
+instance Show MandateAcssDebitPaymentSchedule'
+instance Eq MandateAcssDebitPaymentSchedule'
+instance FromJSON MandateAcssDebitPaymentSchedule'
+instance ToJSON MandateAcssDebitPaymentSchedule'
+data MandateAcssDebitTransactionType'
+instance Show MandateAcssDebitTransactionType'
+instance Eq MandateAcssDebitTransactionType'
+instance FromJSON MandateAcssDebitTransactionType'
+instance ToJSON MandateAcssDebitTransactionType'

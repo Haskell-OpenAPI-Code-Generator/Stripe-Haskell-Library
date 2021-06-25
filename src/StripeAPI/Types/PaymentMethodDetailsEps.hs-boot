@@ -6,3 +6,8 @@ instance Show PaymentMethodDetailsEps
 instance Eq PaymentMethodDetailsEps
 instance FromJSON PaymentMethodDetailsEps
 instance ToJSON PaymentMethodDetailsEps
+data PaymentMethodDetailsEpsBank'
+instance Show PaymentMethodDetailsEpsBank'
+instance Eq PaymentMethodDetailsEpsBank'
+instance FromJSON PaymentMethodDetailsEpsBank'
+instance ToJSON PaymentMethodDetailsEpsBank'

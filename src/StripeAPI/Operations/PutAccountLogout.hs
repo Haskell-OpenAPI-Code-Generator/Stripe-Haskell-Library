@@ -13,8 +13,8 @@ import qualified Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
-import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.Aeson as Data.Aeson.Types.Internal
+import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
 import qualified Data.Either
@@ -60,16 +60,19 @@ putAccountLogout body =
         GHC.Base.fmap
           ( Data.Either.either PutAccountLogoutResponseError GHC.Base.id
               GHC.Base.. ( \response body ->
-                             if  | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
+                             if
+                                 | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
                                    PutAccountLogoutResponse200
                                      Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                          Data.Either.Either GHC.Base.String
+                                                          Data.Either.Either
+                                                            GHC.Base.String
                                                             LightAccountLogout
                                                       )
                                  | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
                                    PutAccountLogoutResponseDefault
                                      Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                          Data.Either.Either GHC.Base.String
+                                                          Data.Either.Either
+                                                            GHC.Base.String
                                                             Error
                                                       )
                                  | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
@@ -81,17 +84,16 @@ putAccountLogout body =
     (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "PUT") (Data.Text.pack "/v1/account/logout") [] (GHC.Maybe.Just body) StripeAPI.Common.RequestBodyEncodingFormData)
 
 -- | Defines the object schema located at @paths.\/v1\/account\/logout.PUT.requestBody.content.application\/x-www-form-urlencoded.schema@ in the specification.
-data PutAccountLogoutRequestBody
-  = PutAccountLogoutRequestBody
-      { -- | account
-        --
-        -- Constraints:
-        --
-        -- * Maximum length of 5000
-        putAccountLogoutRequestBodyAccount :: Data.Text.Internal.Text,
-        -- | expand: Specifies which fields in the response should be expanded.
-        putAccountLogoutRequestBodyExpand :: (GHC.Maybe.Maybe ([Data.Text.Internal.Text]))
-      }
+data PutAccountLogoutRequestBody = PutAccountLogoutRequestBody
+  { -- | account
+    --
+    -- Constraints:
+    --
+    -- * Maximum length of 5000
+    putAccountLogoutRequestBodyAccount :: Data.Text.Internal.Text,
+    -- | expand: Specifies which fields in the response should be expanded.
+    putAccountLogoutRequestBodyExpand :: (GHC.Maybe.Maybe ([Data.Text.Internal.Text]))
+  }
   deriving
     ( GHC.Show.Show,
       GHC.Classes.Eq

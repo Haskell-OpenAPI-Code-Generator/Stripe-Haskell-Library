@@ -1,0 +1,8 @@
+module StripeAPI.Types.PortalSubscriptionUpdateProduct where
+import Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Types.Internal
+data PortalSubscriptionUpdateProduct
+instance Show PortalSubscriptionUpdateProduct
+instance Eq PortalSubscriptionUpdateProduct
+instance FromJSON PortalSubscriptionUpdateProduct
+instance ToJSON PortalSubscriptionUpdateProduct

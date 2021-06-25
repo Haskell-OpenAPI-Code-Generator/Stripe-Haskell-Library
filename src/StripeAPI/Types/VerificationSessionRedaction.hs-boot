@@ -1,0 +1,13 @@
+module StripeAPI.Types.VerificationSessionRedaction where
+import Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Types.Internal
+data VerificationSessionRedaction
+instance Show VerificationSessionRedaction
+instance Eq VerificationSessionRedaction
+instance FromJSON VerificationSessionRedaction
+instance ToJSON VerificationSessionRedaction
+data VerificationSessionRedactionStatus'
+instance Show VerificationSessionRedactionStatus'
+instance Eq VerificationSessionRedactionStatus'
+instance FromJSON VerificationSessionRedactionStatus'
+instance ToJSON VerificationSessionRedactionStatus'

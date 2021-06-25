@@ -1,0 +1,8 @@
+module StripeAPI.Types.PaymentMethodOptionsOxxo where
+import Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Types.Internal
+data PaymentMethodOptionsOxxo
+instance Show PaymentMethodOptionsOxxo
+instance Eq PaymentMethodOptionsOxxo
+instance FromJSON PaymentMethodOptionsOxxo
+instance ToJSON PaymentMethodOptionsOxxo

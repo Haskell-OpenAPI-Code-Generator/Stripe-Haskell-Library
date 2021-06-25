@@ -1,0 +1,13 @@
+module StripeAPI.Types.PaymentPagesCheckoutSessionTaxId where
+import Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Types.Internal
+data PaymentPagesCheckoutSessionTaxId
+instance Show PaymentPagesCheckoutSessionTaxId
+instance Eq PaymentPagesCheckoutSessionTaxId
+instance FromJSON PaymentPagesCheckoutSessionTaxId
+instance ToJSON PaymentPagesCheckoutSessionTaxId
+data PaymentPagesCheckoutSessionTaxIdType'
+instance Show PaymentPagesCheckoutSessionTaxIdType'
+instance Eq PaymentPagesCheckoutSessionTaxIdType'
+instance FromJSON PaymentPagesCheckoutSessionTaxIdType'
+instance ToJSON PaymentPagesCheckoutSessionTaxIdType'

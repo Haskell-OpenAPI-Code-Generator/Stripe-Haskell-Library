@@ -13,8 +13,8 @@ import qualified Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
-import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.Aeson as Data.Aeson.Types.Internal
+import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
 import qualified Data.Either
@@ -58,16 +58,19 @@ getIssuingCardsCardDetails parameters =
         GHC.Base.fmap
           ( Data.Either.either GetIssuingCardsCardDetailsResponseError GHC.Base.id
               GHC.Base.. ( \response body ->
-                             if  | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
+                             if
+                                 | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
                                    GetIssuingCardsCardDetailsResponse200
                                      Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                          Data.Either.Either GHC.Base.String
+                                                          Data.Either.Either
+                                                            GHC.Base.String
                                                             Issuing'cardDetails
                                                       )
                                  | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
                                    GetIssuingCardsCardDetailsResponseDefault
                                      Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                          Data.Either.Either GHC.Base.String
+                                                          Data.Either.Either
+                                                            GHC.Base.String
                                                             Error
                                                       )
                                  | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
@@ -79,19 +82,18 @@ getIssuingCardsCardDetails parameters =
     (StripeAPI.Common.doCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET") (Data.Text.pack ("/v1/issuing/cards/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel (getIssuingCardsCardDetailsParametersPathCard parameters))) GHC.Base.++ "/details"))) [StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getIssuingCardsCardDetailsParametersQueryExpand parameters) (Data.Text.pack "deepObject") GHC.Types.True])
 
 -- | Defines the object schema located at @paths.\/v1\/issuing\/cards\/{card}\/details.GET.parameters@ in the specification.
-data GetIssuingCardsCardDetailsParameters
-  = GetIssuingCardsCardDetailsParameters
-      { -- | pathCard: Represents the parameter named \'card\'
-        --
-        -- Constraints:
-        --
-        -- * Maximum length of 5000
-        getIssuingCardsCardDetailsParametersPathCard :: Data.Text.Internal.Text,
-        -- | queryExpand: Represents the parameter named \'expand\'
-        --
-        -- Specifies which fields in the response should be expanded.
-        getIssuingCardsCardDetailsParametersQueryExpand :: (GHC.Maybe.Maybe ([Data.Text.Internal.Text]))
-      }
+data GetIssuingCardsCardDetailsParameters = GetIssuingCardsCardDetailsParameters
+  { -- | pathCard: Represents the parameter named \'card\'
+    --
+    -- Constraints:
+    --
+    -- * Maximum length of 5000
+    getIssuingCardsCardDetailsParametersPathCard :: Data.Text.Internal.Text,
+    -- | queryExpand: Represents the parameter named \'expand\'
+    --
+    -- Specifies which fields in the response should be expanded.
+    getIssuingCardsCardDetailsParametersQueryExpand :: (GHC.Maybe.Maybe ([Data.Text.Internal.Text]))
+  }
   deriving
     ( GHC.Show.Show,
       GHC.Classes.Eq

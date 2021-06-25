@@ -6,3 +6,13 @@ instance Show DeletedDiscount
 instance Eq DeletedDiscount
 instance FromJSON DeletedDiscount
 instance ToJSON DeletedDiscount
+data DeletedDiscountCustomer'Variants
+instance Show DeletedDiscountCustomer'Variants
+instance Eq DeletedDiscountCustomer'Variants
+instance FromJSON DeletedDiscountCustomer'Variants
+instance ToJSON DeletedDiscountCustomer'Variants
+data DeletedDiscountPromotionCode'Variants
+instance Show DeletedDiscountPromotionCode'Variants
+instance Eq DeletedDiscountPromotionCode'Variants
+instance FromJSON DeletedDiscountPromotionCode'Variants
+instance ToJSON DeletedDiscountPromotionCode'Variants

@@ -21,6 +21,16 @@ instance Show PayoutFailureBalanceTransaction'Variants
 instance Eq PayoutFailureBalanceTransaction'Variants
 instance FromJSON PayoutFailureBalanceTransaction'Variants
 instance ToJSON PayoutFailureBalanceTransaction'Variants
+data PayoutOriginalPayout'Variants
+instance Show PayoutOriginalPayout'Variants
+instance Eq PayoutOriginalPayout'Variants
+instance FromJSON PayoutOriginalPayout'Variants
+instance ToJSON PayoutOriginalPayout'Variants
+data PayoutReversedBy'Variants
+instance Show PayoutReversedBy'Variants
+instance Eq PayoutReversedBy'Variants
+instance FromJSON PayoutReversedBy'Variants
+instance ToJSON PayoutReversedBy'Variants
 data PayoutType'
 instance Show PayoutType'
 instance Eq PayoutType'

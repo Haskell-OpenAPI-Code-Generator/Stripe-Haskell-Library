@@ -16,6 +16,11 @@ instance Show RecipientActiveAccount'Account'Variants
 instance Eq RecipientActiveAccount'Account'Variants
 instance FromJSON RecipientActiveAccount'Account'Variants
 instance ToJSON RecipientActiveAccount'Account'Variants
+data RecipientActiveAccount'AvailablePayoutMethods'
+instance Show RecipientActiveAccount'AvailablePayoutMethods'
+instance Eq RecipientActiveAccount'AvailablePayoutMethods'
+instance FromJSON RecipientActiveAccount'AvailablePayoutMethods'
+instance ToJSON RecipientActiveAccount'AvailablePayoutMethods'
 data RecipientActiveAccount'Customer'Variants
 instance Show RecipientActiveAccount'Customer'Variants
 instance Eq RecipientActiveAccount'Customer'Variants

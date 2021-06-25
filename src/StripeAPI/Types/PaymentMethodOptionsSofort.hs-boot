@@ -1,0 +1,13 @@
+module StripeAPI.Types.PaymentMethodOptionsSofort where
+import Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Types.Internal
+data PaymentMethodOptionsSofort
+instance Show PaymentMethodOptionsSofort
+instance Eq PaymentMethodOptionsSofort
+instance FromJSON PaymentMethodOptionsSofort
+instance ToJSON PaymentMethodOptionsSofort
+data PaymentMethodOptionsSofortPreferredLanguage'
+instance Show PaymentMethodOptionsSofortPreferredLanguage'
+instance Eq PaymentMethodOptionsSofortPreferredLanguage'
+instance FromJSON PaymentMethodOptionsSofortPreferredLanguage'
+instance ToJSON PaymentMethodOptionsSofortPreferredLanguage'

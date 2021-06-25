@@ -11,8 +11,8 @@ import qualified Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
-import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.Aeson as Data.Aeson.Types.Internal
+import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
 import qualified Data.Functor
@@ -32,23 +32,22 @@ import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
 -- | Defines the object schema located at @components.schemas.inventory@ in the specification.
-data Inventory
-  = Inventory
-      { -- | quantity: The count of inventory available. Will be present if and only if \`type\` is \`finite\`.
-        inventoryQuantity :: (GHC.Maybe.Maybe GHC.Types.Int),
-        -- | type: Inventory type. Possible values are \`finite\`, \`bucket\` (not quantified), and \`infinite\`.
-        --
-        -- Constraints:
-        --
-        -- * Maximum length of 5000
-        inventoryType :: Data.Text.Internal.Text,
-        -- | value: An indicator of the inventory available. Possible values are \`in_stock\`, \`limited\`, and \`out_of_stock\`. Will be present if and only if \`type\` is \`bucket\`.
-        --
-        -- Constraints:
-        --
-        -- * Maximum length of 5000
-        inventoryValue :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
-      }
+data Inventory = Inventory
+  { -- | quantity: The count of inventory available. Will be present if and only if \`type\` is \`finite\`.
+    inventoryQuantity :: (GHC.Maybe.Maybe GHC.Types.Int),
+    -- | type: Inventory type. Possible values are \`finite\`, \`bucket\` (not quantified), and \`infinite\`.
+    --
+    -- Constraints:
+    --
+    -- * Maximum length of 5000
+    inventoryType :: Data.Text.Internal.Text,
+    -- | value: An indicator of the inventory available. Possible values are \`in_stock\`, \`limited\`, and \`out_of_stock\`. Will be present if and only if \`type\` is \`bucket\`.
+    --
+    -- Constraints:
+    --
+    -- * Maximum length of 5000
+    inventoryValue :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
+  }
   deriving
     ( GHC.Show.Show,
       GHC.Classes.Eq

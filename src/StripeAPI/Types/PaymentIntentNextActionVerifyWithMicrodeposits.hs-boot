@@ -1,0 +1,8 @@
+module StripeAPI.Types.PaymentIntentNextActionVerifyWithMicrodeposits where
+import Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Types.Internal
+data PaymentIntentNextActionVerifyWithMicrodeposits
+instance Show PaymentIntentNextActionVerifyWithMicrodeposits
+instance Eq PaymentIntentNextActionVerifyWithMicrodeposits
+instance FromJSON PaymentIntentNextActionVerifyWithMicrodeposits
+instance ToJSON PaymentIntentNextActionVerifyWithMicrodeposits

@@ -1,0 +1,23 @@
+module StripeAPI.Types.GelatoVerifiedOutputs where
+import Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Types.Internal
+data GelatoVerifiedOutputs
+instance Show GelatoVerifiedOutputs
+instance Eq GelatoVerifiedOutputs
+instance FromJSON GelatoVerifiedOutputs
+instance ToJSON GelatoVerifiedOutputs
+data GelatoVerifiedOutputsAddress'
+instance Show GelatoVerifiedOutputsAddress'
+instance Eq GelatoVerifiedOutputsAddress'
+instance FromJSON GelatoVerifiedOutputsAddress'
+instance ToJSON GelatoVerifiedOutputsAddress'
+data GelatoVerifiedOutputsDob'
+instance Show GelatoVerifiedOutputsDob'
+instance Eq GelatoVerifiedOutputsDob'
+instance FromJSON GelatoVerifiedOutputsDob'
+instance ToJSON GelatoVerifiedOutputsDob'
+data GelatoVerifiedOutputsIdNumberType'
+instance Show GelatoVerifiedOutputsIdNumberType'
+instance Eq GelatoVerifiedOutputsIdNumberType'
+instance FromJSON GelatoVerifiedOutputsIdNumberType'
+instance ToJSON GelatoVerifiedOutputsIdNumberType'

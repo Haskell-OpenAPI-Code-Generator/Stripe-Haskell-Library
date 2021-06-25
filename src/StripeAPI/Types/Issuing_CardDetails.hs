@@ -11,8 +11,8 @@ import qualified Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
-import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.Aeson as Data.Aeson.Types.Internal
+import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
 import qualified Data.Functor
@@ -33,27 +33,26 @@ import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
 -- | Defines the object schema located at @components.schemas.issuing.card_details@ in the specification.
-data Issuing'cardDetails
-  = Issuing'cardDetails
-      { -- | card: You can [create physical or virtual cards](https:\/\/stripe.com\/docs\/issuing\/cards) that are issued to cardholders.
-        issuing'cardDetailsCard :: Issuing'card,
-        -- | cvc: The CVC number for the card.
-        --
-        -- Constraints:
-        --
-        -- * Maximum length of 5000
-        issuing'cardDetailsCvc :: Data.Text.Internal.Text,
-        -- | exp_month: The expiration month of the card.
-        issuing'cardDetailsExpMonth :: GHC.Types.Int,
-        -- | exp_year: The expiration year of the card.
-        issuing'cardDetailsExpYear :: GHC.Types.Int,
-        -- | number: The card number.
-        --
-        -- Constraints:
-        --
-        -- * Maximum length of 5000
-        issuing'cardDetailsNumber :: Data.Text.Internal.Text
-      }
+data Issuing'cardDetails = Issuing'cardDetails
+  { -- | card: You can [create physical or virtual cards](https:\/\/stripe.com\/docs\/issuing\/cards) that are issued to cardholders.
+    issuing'cardDetailsCard :: Issuing'card,
+    -- | cvc: The CVC number for the card.
+    --
+    -- Constraints:
+    --
+    -- * Maximum length of 5000
+    issuing'cardDetailsCvc :: Data.Text.Internal.Text,
+    -- | exp_month: The expiration month of the card.
+    issuing'cardDetailsExpMonth :: GHC.Types.Int,
+    -- | exp_year: The expiration year of the card.
+    issuing'cardDetailsExpYear :: GHC.Types.Int,
+    -- | number: The card number.
+    --
+    -- Constraints:
+    --
+    -- * Maximum length of 5000
+    issuing'cardDetailsNumber :: Data.Text.Internal.Text
+  }
   deriving
     ( GHC.Show.Show,
       GHC.Classes.Eq
