@@ -11,8 +11,8 @@ import qualified Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
-import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.Aeson as Data.Aeson.Types.Internal
+import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
 import qualified Data.Functor
@@ -35,39 +35,38 @@ import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
 -- | Defines the object schema located at @components.schemas.checkout_session_display_item@ in the specification.
-data CheckoutSessionDisplayItem
-  = CheckoutSessionDisplayItem
-      { -- | amount: Amount for the display item.
-        checkoutSessionDisplayItemAmount :: (GHC.Maybe.Maybe GHC.Types.Int),
-        -- | currency: Three-letter [ISO currency code](https:\/\/www.iso.org\/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https:\/\/stripe.com\/docs\/currencies).
-        checkoutSessionDisplayItemCurrency :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
-        -- | custom:
-        checkoutSessionDisplayItemCustom :: (GHC.Maybe.Maybe CheckoutSessionCustomDisplayItemDescription),
-        -- | plan: Plans define the base price, currency, and billing cycle for subscriptions.
-        -- For example, you might have a \<currency>5\<\/currency>\/month plan
-        -- that provides limited access to your products, and a
-        -- \<currency>15\<\/currency>\/month plan that allows full access.
-        --
-        -- Related guide: [Managing Products and Plans](https:\/\/stripe.com\/docs\/billing\/subscriptions\/products-and-plans).
-        checkoutSessionDisplayItemPlan :: (GHC.Maybe.Maybe Plan),
-        -- | quantity: Quantity of the display item being purchased.
-        checkoutSessionDisplayItemQuantity :: (GHC.Maybe.Maybe GHC.Types.Int),
-        -- | sku: Stores representations of [stock keeping units](http:\/\/en.wikipedia.org\/wiki\/Stock_keeping_unit).
-        -- SKUs describe specific product variations, taking into account any combination of: attributes,
-        -- currency, and cost. For example, a product may be a T-shirt, whereas a specific SKU represents
-        -- the \`size: large\`, \`color: red\` version of that shirt.
-        --
-        -- Can also be used to manage inventory.
-        --
-        -- Related guide: [Tax, Shipping, and Inventory](https:\/\/stripe.com\/docs\/orders).
-        checkoutSessionDisplayItemSku :: (GHC.Maybe.Maybe Sku),
-        -- | type: The type of display item. One of \`custom\`, \`plan\` or \`sku\`
-        --
-        -- Constraints:
-        --
-        -- * Maximum length of 5000
-        checkoutSessionDisplayItemType :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
-      }
+data CheckoutSessionDisplayItem = CheckoutSessionDisplayItem
+  { -- | amount: Amount for the display item.
+    checkoutSessionDisplayItemAmount :: (GHC.Maybe.Maybe GHC.Types.Int),
+    -- | currency: Three-letter [ISO currency code](https:\/\/www.iso.org\/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https:\/\/stripe.com\/docs\/currencies).
+    checkoutSessionDisplayItemCurrency :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    -- | custom:
+    checkoutSessionDisplayItemCustom :: (GHC.Maybe.Maybe CheckoutSessionCustomDisplayItemDescription),
+    -- | plan: Plans define the base price, currency, and billing cycle for subscriptions.
+    -- For example, you might have a \<currency>5\<\/currency>\/month plan
+    -- that provides limited access to your products, and a
+    -- \<currency>15\<\/currency>\/month plan that allows full access.
+    --
+    -- Related guide: [Managing Products and Plans](https:\/\/stripe.com\/docs\/billing\/subscriptions\/products-and-plans).
+    checkoutSessionDisplayItemPlan :: (GHC.Maybe.Maybe Plan),
+    -- | quantity: Quantity of the display item being purchased.
+    checkoutSessionDisplayItemQuantity :: (GHC.Maybe.Maybe GHC.Types.Int),
+    -- | sku: Stores representations of [stock keeping units](http:\/\/en.wikipedia.org\/wiki\/Stock_keeping_unit).
+    -- SKUs describe specific product variations, taking into account any combination of: attributes,
+    -- currency, and cost. For example, a product may be a T-shirt, whereas a specific SKU represents
+    -- the \`size: large\`, \`color: red\` version of that shirt.
+    --
+    -- Can also be used to manage inventory.
+    --
+    -- Related guide: [Tax, Shipping, and Inventory](https:\/\/stripe.com\/docs\/orders).
+    checkoutSessionDisplayItemSku :: (GHC.Maybe.Maybe Sku),
+    -- | type: The type of display item. One of \`custom\`, \`plan\` or \`sku\`
+    --
+    -- Constraints:
+    --
+    -- * Maximum length of 5000
+    checkoutSessionDisplayItemType :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
+  }
   deriving
     ( GHC.Show.Show,
       GHC.Classes.Eq

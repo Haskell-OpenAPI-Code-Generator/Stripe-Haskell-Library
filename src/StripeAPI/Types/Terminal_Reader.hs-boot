@@ -11,3 +11,8 @@ instance Show Terminal'readerDeviceType'
 instance Eq Terminal'readerDeviceType'
 instance FromJSON Terminal'readerDeviceType'
 instance ToJSON Terminal'readerDeviceType'
+data Terminal'readerLocation'Variants
+instance Show Terminal'readerLocation'Variants
+instance Eq Terminal'readerLocation'Variants
+instance FromJSON Terminal'readerLocation'Variants
+instance ToJSON Terminal'readerLocation'Variants

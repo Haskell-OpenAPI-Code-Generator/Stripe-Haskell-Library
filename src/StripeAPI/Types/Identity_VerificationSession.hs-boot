@@ -1,0 +1,63 @@
+module StripeAPI.Types.Identity_VerificationSession where
+import Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Types.Internal
+data Identity'verificationSession
+instance Show Identity'verificationSession
+instance Eq Identity'verificationSession
+instance FromJSON Identity'verificationSession
+instance ToJSON Identity'verificationSession
+data Identity'verificationSessionLastError'
+instance Show Identity'verificationSessionLastError'
+instance Eq Identity'verificationSessionLastError'
+instance FromJSON Identity'verificationSessionLastError'
+instance ToJSON Identity'verificationSessionLastError'
+data Identity'verificationSessionLastError'Code'
+instance Show Identity'verificationSessionLastError'Code'
+instance Eq Identity'verificationSessionLastError'Code'
+instance FromJSON Identity'verificationSessionLastError'Code'
+instance ToJSON Identity'verificationSessionLastError'Code'
+data Identity'verificationSessionLastVerificationReport'Variants
+instance Show Identity'verificationSessionLastVerificationReport'Variants
+instance Eq Identity'verificationSessionLastVerificationReport'Variants
+instance FromJSON Identity'verificationSessionLastVerificationReport'Variants
+instance ToJSON Identity'verificationSessionLastVerificationReport'Variants
+data Identity'verificationSessionRedaction'
+instance Show Identity'verificationSessionRedaction'
+instance Eq Identity'verificationSessionRedaction'
+instance FromJSON Identity'verificationSessionRedaction'
+instance ToJSON Identity'verificationSessionRedaction'
+data Identity'verificationSessionRedaction'Status'
+instance Show Identity'verificationSessionRedaction'Status'
+instance Eq Identity'verificationSessionRedaction'Status'
+instance FromJSON Identity'verificationSessionRedaction'Status'
+instance ToJSON Identity'verificationSessionRedaction'Status'
+data Identity'verificationSessionStatus'
+instance Show Identity'verificationSessionStatus'
+instance Eq Identity'verificationSessionStatus'
+instance FromJSON Identity'verificationSessionStatus'
+instance ToJSON Identity'verificationSessionStatus'
+data Identity'verificationSessionType'
+instance Show Identity'verificationSessionType'
+instance Eq Identity'verificationSessionType'
+instance FromJSON Identity'verificationSessionType'
+instance ToJSON Identity'verificationSessionType'
+data Identity'verificationSessionVerifiedOutputs'
+instance Show Identity'verificationSessionVerifiedOutputs'
+instance Eq Identity'verificationSessionVerifiedOutputs'
+instance FromJSON Identity'verificationSessionVerifiedOutputs'
+instance ToJSON Identity'verificationSessionVerifiedOutputs'
+data Identity'verificationSessionVerifiedOutputs'Address'
+instance Show Identity'verificationSessionVerifiedOutputs'Address'
+instance Eq Identity'verificationSessionVerifiedOutputs'Address'
+instance FromJSON Identity'verificationSessionVerifiedOutputs'Address'
+instance ToJSON Identity'verificationSessionVerifiedOutputs'Address'
+data Identity'verificationSessionVerifiedOutputs'Dob'
+instance Show Identity'verificationSessionVerifiedOutputs'Dob'
+instance Eq Identity'verificationSessionVerifiedOutputs'Dob'
+instance FromJSON Identity'verificationSessionVerifiedOutputs'Dob'
+instance ToJSON Identity'verificationSessionVerifiedOutputs'Dob'
+data Identity'verificationSessionVerifiedOutputs'IdNumberType'
+instance Show Identity'verificationSessionVerifiedOutputs'IdNumberType'
+instance Eq Identity'verificationSessionVerifiedOutputs'IdNumberType'
+instance FromJSON Identity'verificationSessionVerifiedOutputs'IdNumberType'
+instance ToJSON Identity'verificationSessionVerifiedOutputs'IdNumberType'

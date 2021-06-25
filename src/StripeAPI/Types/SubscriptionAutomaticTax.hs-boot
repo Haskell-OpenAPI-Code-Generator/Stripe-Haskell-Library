@@ -1,0 +1,8 @@
+module StripeAPI.Types.SubscriptionAutomaticTax where
+import Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Types.Internal
+data SubscriptionAutomaticTax
+instance Show SubscriptionAutomaticTax
+instance Eq SubscriptionAutomaticTax
+instance FromJSON SubscriptionAutomaticTax
+instance ToJSON SubscriptionAutomaticTax

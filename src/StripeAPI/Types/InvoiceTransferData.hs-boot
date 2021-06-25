@@ -1,0 +1,13 @@
+module StripeAPI.Types.InvoiceTransferData where
+import Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Types.Internal
+data InvoiceTransferData
+instance Show InvoiceTransferData
+instance Eq InvoiceTransferData
+instance FromJSON InvoiceTransferData
+instance ToJSON InvoiceTransferData
+data InvoiceTransferDataDestination'Variants
+instance Show InvoiceTransferDataDestination'Variants
+instance Eq InvoiceTransferDataDestination'Variants
+instance FromJSON InvoiceTransferDataDestination'Variants
+instance ToJSON InvoiceTransferDataDestination'Variants

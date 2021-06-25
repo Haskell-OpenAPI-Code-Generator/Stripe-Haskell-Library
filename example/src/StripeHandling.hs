@@ -19,16 +19,18 @@ paymentIntentRequestBody =
   Stripe.mkPostPaymentIntentsRequestBody 1000 "CHF"
 
 checkoutLineItem =
-  (Stripe.mkPostCheckoutSessionsRequestBodyLineItems' 4)
-    { Stripe.postCheckoutSessionsRequestBodyLineItems'Amount = Just 1000,
+  Stripe.mkPostCheckoutSessionsRequestBodyLineItems'
+    { Stripe.postCheckoutSessionsRequestBodyLineItems'Quantity = Just 2,
+      Stripe.postCheckoutSessionsRequestBodyLineItems'Amount = Just 1000,
       Stripe.postCheckoutSessionsRequestBodyLineItems'Currency = Just "CHF",
       Stripe.postCheckoutSessionsRequestBodyLineItems'Description = Just "algebrai&c data types",
       Stripe.postCheckoutSessionsRequestBodyLineItems'Name = Just "static types"
     }
 
 checkoutLineItem2 =
-  (Stripe.mkPostCheckoutSessionsRequestBodyLineItems' 2)
-    { Stripe.postCheckoutSessionsRequestBodyLineItems'Amount = Just 5000,
+  Stripe.mkPostCheckoutSessionsRequestBodyLineItems'
+    { Stripe.postCheckoutSessionsRequestBodyLineItems'Quantity = Just 2,
+      Stripe.postCheckoutSessionsRequestBodyLineItems'Amount = Just 5000,
       Stripe.postCheckoutSessionsRequestBodyLineItems'Currency = Just "CHF",
       Stripe.postCheckoutSessionsRequestBodyLineItems'Description = Just "lambda calculus",
       Stripe.postCheckoutSessionsRequestBodyLineItems'Name = Just "Haskell"
@@ -37,10 +39,10 @@ checkoutLineItem2 =
 checkoutSession =
   ( Stripe.mkPostCheckoutSessionsRequestBody
       "https://localhost:8080/payments/index.html?success=false&sessionId={CHECKOUT_SESSION_ID}"
-      [Stripe.PostCheckoutSessionsRequestBodyPaymentMethodTypes'EnumCard]
       "https://localhost:8080/payments/index.html?success=true&sessionId={CHECKOUT_SESSION_ID}"
   )
-    { Stripe.postCheckoutSessionsRequestBodyLineItems = Just [checkoutLineItem, checkoutLineItem2]
+    { Stripe.postCheckoutSessionsRequestBodyLineItems = Just [checkoutLineItem, checkoutLineItem2],
+      Stripe.postCheckoutSessionsRequestBodyPaymentMethodTypes = Just [Stripe.PostCheckoutSessionsRequestBodyPaymentMethodTypes'EnumCard]
     }
 
 testCustomer =

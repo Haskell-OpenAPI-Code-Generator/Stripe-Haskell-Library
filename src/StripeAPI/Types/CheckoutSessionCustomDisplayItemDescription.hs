@@ -11,8 +11,8 @@ import qualified Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
-import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.Aeson as Data.Aeson.Types.Internal
+import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
 import qualified Data.Functor
@@ -32,23 +32,22 @@ import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
 -- | Defines the object schema located at @components.schemas.checkout_session_custom_display_item_description@ in the specification.
-data CheckoutSessionCustomDisplayItemDescription
-  = CheckoutSessionCustomDisplayItemDescription
-      { -- | description: The description of the line item.
-        --
-        -- Constraints:
-        --
-        -- * Maximum length of 5000
-        checkoutSessionCustomDisplayItemDescriptionDescription :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
-        -- | images: The images of the line item.
-        checkoutSessionCustomDisplayItemDescriptionImages :: (GHC.Maybe.Maybe ([Data.Text.Internal.Text])),
-        -- | name: The name of the line item.
-        --
-        -- Constraints:
-        --
-        -- * Maximum length of 5000
-        checkoutSessionCustomDisplayItemDescriptionName :: Data.Text.Internal.Text
-      }
+data CheckoutSessionCustomDisplayItemDescription = CheckoutSessionCustomDisplayItemDescription
+  { -- | description: The description of the line item.
+    --
+    -- Constraints:
+    --
+    -- * Maximum length of 5000
+    checkoutSessionCustomDisplayItemDescriptionDescription :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    -- | images: The images of the line item.
+    checkoutSessionCustomDisplayItemDescriptionImages :: (GHC.Maybe.Maybe ([Data.Text.Internal.Text])),
+    -- | name: The name of the line item.
+    --
+    -- Constraints:
+    --
+    -- * Maximum length of 5000
+    checkoutSessionCustomDisplayItemDescriptionName :: Data.Text.Internal.Text
+  }
   deriving
     ( GHC.Show.Show,
       GHC.Classes.Eq

@@ -11,8 +11,8 @@ import qualified Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
-import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.Aeson as Data.Aeson.Types.Internal
+import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
 import qualified Data.Functor
@@ -34,29 +34,28 @@ import qualified Prelude as GHC.Maybe
 -- | Defines the object schema located at @components.schemas.issuing.verification@ in the specification.
 --
 -- An Issuing \`Verification\` object holds a one-time code request on behalf of a cardholder.
-data Issuing'verification
-  = Issuing'verification
-      { -- | card: The id of the \`Card\` on which the verification was requested
-        --
-        -- Constraints:
-        --
-        -- * Maximum length of 5000
-        issuing'verificationCard :: Data.Text.Internal.Text,
-        -- | created: Time at which the object was created. Measured in seconds since the Unix epoch.
-        issuing'verificationCreated :: GHC.Types.Int,
-        -- | expires_at: Timestamp of the expiry for that verification
-        issuing'verificationExpiresAt :: GHC.Types.Int,
-        -- | id: Unique identifier for the object.
-        --
-        -- Constraints:
-        --
-        -- * Maximum length of 5000
-        issuing'verificationId :: Data.Text.Internal.Text,
-        -- | scope: The scope of the verification (one of \`card_pin_retrieve\` or \`card_pin_update\`)
-        issuing'verificationScope :: Issuing'verificationScope',
-        -- | verification_method: The method by which the cardholder will be sent a one-time code (one of \`email\` or \`sms\`)
-        issuing'verificationVerificationMethod :: Issuing'verificationVerificationMethod'
-      }
+data Issuing'verification = Issuing'verification
+  { -- | card: The id of the \`Card\` on which the verification was requested
+    --
+    -- Constraints:
+    --
+    -- * Maximum length of 5000
+    issuing'verificationCard :: Data.Text.Internal.Text,
+    -- | created: Time at which the object was created. Measured in seconds since the Unix epoch.
+    issuing'verificationCreated :: GHC.Types.Int,
+    -- | expires_at: Timestamp of the expiry for that verification
+    issuing'verificationExpiresAt :: GHC.Types.Int,
+    -- | id: Unique identifier for the object.
+    --
+    -- Constraints:
+    --
+    -- * Maximum length of 5000
+    issuing'verificationId :: Data.Text.Internal.Text,
+    -- | scope: The scope of the verification (one of \`card_pin_retrieve\` or \`card_pin_update\`)
+    issuing'verificationScope :: Issuing'verificationScope',
+    -- | verification_method: The method by which the cardholder will be sent a one-time code (one of \`email\` or \`sms\`)
+    issuing'verificationVerificationMethod :: Issuing'verificationVerificationMethod'
+  }
   deriving
     ( GHC.Show.Show,
       GHC.Classes.Eq
@@ -117,7 +116,8 @@ instance Data.Aeson.Types.ToJSON.ToJSON Issuing'verificationScope' where
 instance Data.Aeson.Types.FromJSON.FromJSON Issuing'verificationScope' where
   parseJSON val =
     GHC.Base.pure
-      ( if  | val GHC.Classes.== "card_pin_retrieve" -> Issuing'verificationScope'EnumCardPinRetrieve
+      ( if
+            | val GHC.Classes.== "card_pin_retrieve" -> Issuing'verificationScope'EnumCardPinRetrieve
             | val GHC.Classes.== "card_pin_update" -> Issuing'verificationScope'EnumCardPinUpdate
             | GHC.Base.otherwise -> Issuing'verificationScope'Other val
       )
@@ -145,7 +145,8 @@ instance Data.Aeson.Types.ToJSON.ToJSON Issuing'verificationVerificationMethod' 
 instance Data.Aeson.Types.FromJSON.FromJSON Issuing'verificationVerificationMethod' where
   parseJSON val =
     GHC.Base.pure
-      ( if  | val GHC.Classes.== "email" -> Issuing'verificationVerificationMethod'EnumEmail
+      ( if
+            | val GHC.Classes.== "email" -> Issuing'verificationVerificationMethod'EnumEmail
             | val GHC.Classes.== "sms" -> Issuing'verificationVerificationMethod'EnumSms
             | GHC.Base.otherwise -> Issuing'verificationVerificationMethod'Other val
       )

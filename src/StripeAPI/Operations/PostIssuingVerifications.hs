@@ -13,8 +13,8 @@ import qualified Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
-import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.Aeson as Data.Aeson.Types.Internal
+import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
 import qualified Data.Either
@@ -58,16 +58,19 @@ postIssuingVerifications body =
         GHC.Base.fmap
           ( Data.Either.either PostIssuingVerificationsResponseError GHC.Base.id
               GHC.Base.. ( \response body ->
-                             if  | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
+                             if
+                                 | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
                                    PostIssuingVerificationsResponse200
                                      Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                          Data.Either.Either GHC.Base.String
+                                                          Data.Either.Either
+                                                            GHC.Base.String
                                                             Issuing'verification
                                                       )
                                  | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
                                    PostIssuingVerificationsResponseDefault
                                      Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                          Data.Either.Either GHC.Base.String
+                                                          Data.Either.Either
+                                                            GHC.Base.String
                                                             Error
                                                       )
                                  | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
@@ -79,29 +82,28 @@ postIssuingVerifications body =
     (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack "/v1/issuing/verifications") [] (GHC.Maybe.Just body) StripeAPI.Common.RequestBodyEncodingFormData)
 
 -- | Defines the object schema located at @paths.\/v1\/issuing\/verifications.POST.requestBody.content.application\/x-www-form-urlencoded.schema@ in the specification.
-data PostIssuingVerificationsRequestBody
-  = PostIssuingVerificationsRequestBody
-      { -- | card: The \`Card\` for which a verification is requested
-        --
-        -- Constraints:
-        --
-        -- * Maximum length of 5000
-        postIssuingVerificationsRequestBodyCard :: Data.Text.Internal.Text,
-        -- | expand: Specifies which fields in the response should be expanded.
-        postIssuingVerificationsRequestBodyExpand :: (GHC.Maybe.Maybe ([Data.Text.Internal.Text])),
-        -- | scope: The scope of the verification (one of \`card_pin_retrieve\` or \`card_pin_update\`)
-        --
-        -- Constraints:
-        --
-        -- * Maximum length of 5000
-        postIssuingVerificationsRequestBodyScope :: PostIssuingVerificationsRequestBodyScope',
-        -- | verification_method: The method used to send the cardholder the verification (one of \`email\` or \`sms\`)
-        --
-        -- Constraints:
-        --
-        -- * Maximum length of 5000
-        postIssuingVerificationsRequestBodyVerificationMethod :: PostIssuingVerificationsRequestBodyVerificationMethod'
-      }
+data PostIssuingVerificationsRequestBody = PostIssuingVerificationsRequestBody
+  { -- | card: The \`Card\` for which a verification is requested
+    --
+    -- Constraints:
+    --
+    -- * Maximum length of 5000
+    postIssuingVerificationsRequestBodyCard :: Data.Text.Internal.Text,
+    -- | expand: Specifies which fields in the response should be expanded.
+    postIssuingVerificationsRequestBodyExpand :: (GHC.Maybe.Maybe ([Data.Text.Internal.Text])),
+    -- | scope: The scope of the verification (one of \`card_pin_retrieve\` or \`card_pin_update\`)
+    --
+    -- Constraints:
+    --
+    -- * Maximum length of 5000
+    postIssuingVerificationsRequestBodyScope :: PostIssuingVerificationsRequestBodyScope',
+    -- | verification_method: The method used to send the cardholder the verification (one of \`email\` or \`sms\`)
+    --
+    -- Constraints:
+    --
+    -- * Maximum length of 5000
+    postIssuingVerificationsRequestBodyVerificationMethod :: PostIssuingVerificationsRequestBodyVerificationMethod'
+  }
   deriving
     ( GHC.Show.Show,
       GHC.Classes.Eq
@@ -154,7 +156,8 @@ instance Data.Aeson.Types.ToJSON.ToJSON PostIssuingVerificationsRequestBodyScope
 instance Data.Aeson.Types.FromJSON.FromJSON PostIssuingVerificationsRequestBodyScope' where
   parseJSON val =
     GHC.Base.pure
-      ( if  | val GHC.Classes.== "card_pin_retrieve" -> PostIssuingVerificationsRequestBodyScope'EnumCardPinRetrieve
+      ( if
+            | val GHC.Classes.== "card_pin_retrieve" -> PostIssuingVerificationsRequestBodyScope'EnumCardPinRetrieve
             | val GHC.Classes.== "card_pin_update" -> PostIssuingVerificationsRequestBodyScope'EnumCardPinUpdate
             | GHC.Base.otherwise -> PostIssuingVerificationsRequestBodyScope'Other val
       )
@@ -182,7 +185,8 @@ instance Data.Aeson.Types.ToJSON.ToJSON PostIssuingVerificationsRequestBodyVerif
 instance Data.Aeson.Types.FromJSON.FromJSON PostIssuingVerificationsRequestBodyVerificationMethod' where
   parseJSON val =
     GHC.Base.pure
-      ( if  | val GHC.Classes.== "email" -> PostIssuingVerificationsRequestBodyVerificationMethod'EnumEmail
+      ( if
+            | val GHC.Classes.== "email" -> PostIssuingVerificationsRequestBodyVerificationMethod'EnumEmail
             | val GHC.Classes.== "sms" -> PostIssuingVerificationsRequestBodyVerificationMethod'EnumSms
             | GHC.Base.otherwise -> PostIssuingVerificationsRequestBodyVerificationMethod'Other val
       )

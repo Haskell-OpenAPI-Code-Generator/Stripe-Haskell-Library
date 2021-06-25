@@ -1,0 +1,48 @@
+module StripeAPI.Types.GelatoDocumentReport where
+import Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Types.Internal
+data GelatoDocumentReport
+instance Show GelatoDocumentReport
+instance Eq GelatoDocumentReport
+instance FromJSON GelatoDocumentReport
+instance ToJSON GelatoDocumentReport
+data GelatoDocumentReportAddress'
+instance Show GelatoDocumentReportAddress'
+instance Eq GelatoDocumentReportAddress'
+instance FromJSON GelatoDocumentReportAddress'
+instance ToJSON GelatoDocumentReportAddress'
+data GelatoDocumentReportDob'
+instance Show GelatoDocumentReportDob'
+instance Eq GelatoDocumentReportDob'
+instance FromJSON GelatoDocumentReportDob'
+instance ToJSON GelatoDocumentReportDob'
+data GelatoDocumentReportError'
+instance Show GelatoDocumentReportError'
+instance Eq GelatoDocumentReportError'
+instance FromJSON GelatoDocumentReportError'
+instance ToJSON GelatoDocumentReportError'
+data GelatoDocumentReportError'Code'
+instance Show GelatoDocumentReportError'Code'
+instance Eq GelatoDocumentReportError'Code'
+instance FromJSON GelatoDocumentReportError'Code'
+instance ToJSON GelatoDocumentReportError'Code'
+data GelatoDocumentReportExpirationDate'
+instance Show GelatoDocumentReportExpirationDate'
+instance Eq GelatoDocumentReportExpirationDate'
+instance FromJSON GelatoDocumentReportExpirationDate'
+instance ToJSON GelatoDocumentReportExpirationDate'
+data GelatoDocumentReportIssuedDate'
+instance Show GelatoDocumentReportIssuedDate'
+instance Eq GelatoDocumentReportIssuedDate'
+instance FromJSON GelatoDocumentReportIssuedDate'
+instance ToJSON GelatoDocumentReportIssuedDate'
+data GelatoDocumentReportStatus'
+instance Show GelatoDocumentReportStatus'
+instance Eq GelatoDocumentReportStatus'
+instance FromJSON GelatoDocumentReportStatus'
+instance ToJSON GelatoDocumentReportStatus'
+data GelatoDocumentReportType'
+instance Show GelatoDocumentReportType'
+instance Eq GelatoDocumentReportType'
+instance FromJSON GelatoDocumentReportType'
+instance ToJSON GelatoDocumentReportType'

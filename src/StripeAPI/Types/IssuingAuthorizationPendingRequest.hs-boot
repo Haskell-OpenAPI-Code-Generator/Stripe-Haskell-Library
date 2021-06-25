@@ -1,0 +1,13 @@
+module StripeAPI.Types.IssuingAuthorizationPendingRequest where
+import Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Types.Internal
+data IssuingAuthorizationPendingRequest
+instance Show IssuingAuthorizationPendingRequest
+instance Eq IssuingAuthorizationPendingRequest
+instance FromJSON IssuingAuthorizationPendingRequest
+instance ToJSON IssuingAuthorizationPendingRequest
+data IssuingAuthorizationPendingRequestAmountDetails'
+instance Show IssuingAuthorizationPendingRequestAmountDetails'
+instance Eq IssuingAuthorizationPendingRequestAmountDetails'
+instance FromJSON IssuingAuthorizationPendingRequestAmountDetails'
+instance ToJSON IssuingAuthorizationPendingRequestAmountDetails'

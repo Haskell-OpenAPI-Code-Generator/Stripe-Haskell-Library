@@ -1,0 +1,23 @@
+module StripeAPI.Types.IssuingTransactionPurchaseDetails where
+import Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Types.Internal
+data IssuingTransactionPurchaseDetails
+instance Show IssuingTransactionPurchaseDetails
+instance Eq IssuingTransactionPurchaseDetails
+instance FromJSON IssuingTransactionPurchaseDetails
+instance ToJSON IssuingTransactionPurchaseDetails
+data IssuingTransactionPurchaseDetailsFlight'
+instance Show IssuingTransactionPurchaseDetailsFlight'
+instance Eq IssuingTransactionPurchaseDetailsFlight'
+instance FromJSON IssuingTransactionPurchaseDetailsFlight'
+instance ToJSON IssuingTransactionPurchaseDetailsFlight'
+data IssuingTransactionPurchaseDetailsFuel'
+instance Show IssuingTransactionPurchaseDetailsFuel'
+instance Eq IssuingTransactionPurchaseDetailsFuel'
+instance FromJSON IssuingTransactionPurchaseDetailsFuel'
+instance ToJSON IssuingTransactionPurchaseDetailsFuel'
+data IssuingTransactionPurchaseDetailsLodging'
+instance Show IssuingTransactionPurchaseDetailsLodging'
+instance Eq IssuingTransactionPurchaseDetailsLodging'
+instance FromJSON IssuingTransactionPurchaseDetailsLodging'
+instance ToJSON IssuingTransactionPurchaseDetailsLodging'

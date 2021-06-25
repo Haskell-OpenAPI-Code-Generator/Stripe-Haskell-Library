@@ -1,0 +1,8 @@
+module StripeAPI.Types.PaymentPagesCheckoutSessionTotalDetails where
+import Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Types.Internal
+data PaymentPagesCheckoutSessionTotalDetails
+instance Show PaymentPagesCheckoutSessionTotalDetails
+instance Eq PaymentPagesCheckoutSessionTotalDetails
+instance FromJSON PaymentPagesCheckoutSessionTotalDetails
+instance ToJSON PaymentPagesCheckoutSessionTotalDetails

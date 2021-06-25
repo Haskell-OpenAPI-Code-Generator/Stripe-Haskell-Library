@@ -6,6 +6,11 @@ instance Show IssuingAuthorizationRequest
 instance Eq IssuingAuthorizationRequest
 instance FromJSON IssuingAuthorizationRequest
 instance ToJSON IssuingAuthorizationRequest
+data IssuingAuthorizationRequestAmountDetails'
+instance Show IssuingAuthorizationRequestAmountDetails'
+instance Eq IssuingAuthorizationRequestAmountDetails'
+instance FromJSON IssuingAuthorizationRequestAmountDetails'
+instance ToJSON IssuingAuthorizationRequestAmountDetails'
 data IssuingAuthorizationRequestReason'
 instance Show IssuingAuthorizationRequestReason'
 instance Eq IssuingAuthorizationRequestReason'

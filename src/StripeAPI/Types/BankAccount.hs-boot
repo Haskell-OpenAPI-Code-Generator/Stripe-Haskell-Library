@@ -11,6 +11,11 @@ instance Show BankAccountAccount'Variants
 instance Eq BankAccountAccount'Variants
 instance FromJSON BankAccountAccount'Variants
 instance ToJSON BankAccountAccount'Variants
+data BankAccountAvailablePayoutMethods'
+instance Show BankAccountAvailablePayoutMethods'
+instance Eq BankAccountAvailablePayoutMethods'
+instance FromJSON BankAccountAvailablePayoutMethods'
+instance ToJSON BankAccountAvailablePayoutMethods'
 data BankAccountCustomer'Variants
 instance Show BankAccountCustomer'Variants
 instance Eq BankAccountCustomer'Variants

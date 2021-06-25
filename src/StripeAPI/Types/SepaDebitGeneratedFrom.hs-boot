@@ -1,0 +1,18 @@
+module StripeAPI.Types.SepaDebitGeneratedFrom where
+import Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Types.Internal
+data SepaDebitGeneratedFrom
+instance Show SepaDebitGeneratedFrom
+instance Eq SepaDebitGeneratedFrom
+instance FromJSON SepaDebitGeneratedFrom
+instance ToJSON SepaDebitGeneratedFrom
+data SepaDebitGeneratedFromCharge'Variants
+instance Show SepaDebitGeneratedFromCharge'Variants
+instance Eq SepaDebitGeneratedFromCharge'Variants
+instance FromJSON SepaDebitGeneratedFromCharge'Variants
+instance ToJSON SepaDebitGeneratedFromCharge'Variants
+data SepaDebitGeneratedFromSetupAttempt'Variants
+instance Show SepaDebitGeneratedFromSetupAttempt'Variants
+instance Eq SepaDebitGeneratedFromSetupAttempt'Variants
+instance FromJSON SepaDebitGeneratedFromSetupAttempt'Variants
+instance ToJSON SepaDebitGeneratedFromSetupAttempt'Variants

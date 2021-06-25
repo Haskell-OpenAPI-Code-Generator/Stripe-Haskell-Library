@@ -76,6 +76,11 @@ instance Show SetupIntentLastSetupError'Type'
 instance Eq SetupIntentLastSetupError'Type'
 instance FromJSON SetupIntentLastSetupError'Type'
 instance ToJSON SetupIntentLastSetupError'Type'
+data SetupIntentLatestAttempt'Variants
+instance Show SetupIntentLatestAttempt'Variants
+instance Eq SetupIntentLatestAttempt'Variants
+instance FromJSON SetupIntentLatestAttempt'Variants
+instance ToJSON SetupIntentLatestAttempt'Variants
 data SetupIntentMandate'Variants
 instance Show SetupIntentMandate'Variants
 instance Eq SetupIntentMandate'Variants

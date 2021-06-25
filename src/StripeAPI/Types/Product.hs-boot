@@ -11,8 +11,8 @@ instance Show ProductPackageDimensions'
 instance Eq ProductPackageDimensions'
 instance FromJSON ProductPackageDimensions'
 instance ToJSON ProductPackageDimensions'
-data ProductType'
-instance Show ProductType'
-instance Eq ProductType'
-instance FromJSON ProductType'
-instance ToJSON ProductType'
+data ProductTaxCode'Variants
+instance Show ProductTaxCode'Variants
+instance Eq ProductTaxCode'Variants
+instance FromJSON ProductTaxCode'Variants
+instance ToJSON ProductTaxCode'Variants

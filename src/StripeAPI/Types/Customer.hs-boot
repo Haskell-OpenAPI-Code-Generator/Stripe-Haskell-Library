@@ -26,6 +26,11 @@ instance Show CustomerDiscount'Customer'Variants
 instance Eq CustomerDiscount'Customer'Variants
 instance FromJSON CustomerDiscount'Customer'Variants
 instance ToJSON CustomerDiscount'Customer'Variants
+data CustomerDiscount'PromotionCode'Variants
+instance Show CustomerDiscount'PromotionCode'Variants
+instance Eq CustomerDiscount'PromotionCode'Variants
+instance FromJSON CustomerDiscount'PromotionCode'Variants
+instance ToJSON CustomerDiscount'PromotionCode'Variants
 data CustomerShipping'
 instance Show CustomerShipping'
 instance Eq CustomerShipping'

@@ -11,3 +11,8 @@ instance Show Radar'earlyFraudWarningCharge'Variants
 instance Eq Radar'earlyFraudWarningCharge'Variants
 instance FromJSON Radar'earlyFraudWarningCharge'Variants
 instance ToJSON Radar'earlyFraudWarningCharge'Variants
+data Radar'earlyFraudWarningPaymentIntent'Variants
+instance Show Radar'earlyFraudWarningPaymentIntent'Variants
+instance Eq Radar'earlyFraudWarningPaymentIntent'Variants
+instance FromJSON Radar'earlyFraudWarningPaymentIntent'Variants
+instance ToJSON Radar'earlyFraudWarningPaymentIntent'Variants

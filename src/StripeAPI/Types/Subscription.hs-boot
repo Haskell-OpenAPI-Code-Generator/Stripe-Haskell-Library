@@ -41,6 +41,11 @@ instance Show SubscriptionDiscount'Customer'Variants
 instance Eq SubscriptionDiscount'Customer'Variants
 instance FromJSON SubscriptionDiscount'Customer'Variants
 instance ToJSON SubscriptionDiscount'Customer'Variants
+data SubscriptionDiscount'PromotionCode'Variants
+instance Show SubscriptionDiscount'PromotionCode'Variants
+instance Eq SubscriptionDiscount'PromotionCode'Variants
+instance FromJSON SubscriptionDiscount'PromotionCode'Variants
+instance ToJSON SubscriptionDiscount'PromotionCode'Variants
 data SubscriptionItems'
 instance Show SubscriptionItems'
 instance Eq SubscriptionItems'
@@ -51,6 +56,16 @@ instance Show SubscriptionLatestInvoice'Variants
 instance Eq SubscriptionLatestInvoice'Variants
 instance FromJSON SubscriptionLatestInvoice'Variants
 instance ToJSON SubscriptionLatestInvoice'Variants
+data SubscriptionPauseCollection'
+instance Show SubscriptionPauseCollection'
+instance Eq SubscriptionPauseCollection'
+instance FromJSON SubscriptionPauseCollection'
+instance ToJSON SubscriptionPauseCollection'
+data SubscriptionPauseCollection'Behavior'
+instance Show SubscriptionPauseCollection'Behavior'
+instance Eq SubscriptionPauseCollection'Behavior'
+instance FromJSON SubscriptionPauseCollection'Behavior'
+instance ToJSON SubscriptionPauseCollection'Behavior'
 data SubscriptionPendingInvoiceItemInterval'
 instance Show SubscriptionPendingInvoiceItemInterval'
 instance Eq SubscriptionPendingInvoiceItemInterval'
@@ -71,51 +86,6 @@ instance Show SubscriptionPendingUpdate'
 instance Eq SubscriptionPendingUpdate'
 instance FromJSON SubscriptionPendingUpdate'
 instance ToJSON SubscriptionPendingUpdate'
-data SubscriptionPlan'
-instance Show SubscriptionPlan'
-instance Eq SubscriptionPlan'
-instance FromJSON SubscriptionPlan'
-instance ToJSON SubscriptionPlan'
-data SubscriptionPlan'AggregateUsage'
-instance Show SubscriptionPlan'AggregateUsage'
-instance Eq SubscriptionPlan'AggregateUsage'
-instance FromJSON SubscriptionPlan'AggregateUsage'
-instance ToJSON SubscriptionPlan'AggregateUsage'
-data SubscriptionPlan'BillingScheme'
-instance Show SubscriptionPlan'BillingScheme'
-instance Eq SubscriptionPlan'BillingScheme'
-instance FromJSON SubscriptionPlan'BillingScheme'
-instance ToJSON SubscriptionPlan'BillingScheme'
-data SubscriptionPlan'Interval'
-instance Show SubscriptionPlan'Interval'
-instance Eq SubscriptionPlan'Interval'
-instance FromJSON SubscriptionPlan'Interval'
-instance ToJSON SubscriptionPlan'Interval'
-data SubscriptionPlan'Product'Variants
-instance Show SubscriptionPlan'Product'Variants
-instance Eq SubscriptionPlan'Product'Variants
-instance FromJSON SubscriptionPlan'Product'Variants
-instance ToJSON SubscriptionPlan'Product'Variants
-data SubscriptionPlan'TiersMode'
-instance Show SubscriptionPlan'TiersMode'
-instance Eq SubscriptionPlan'TiersMode'
-instance FromJSON SubscriptionPlan'TiersMode'
-instance ToJSON SubscriptionPlan'TiersMode'
-data SubscriptionPlan'TransformUsage'
-instance Show SubscriptionPlan'TransformUsage'
-instance Eq SubscriptionPlan'TransformUsage'
-instance FromJSON SubscriptionPlan'TransformUsage'
-instance ToJSON SubscriptionPlan'TransformUsage'
-data SubscriptionPlan'TransformUsage'Round'
-instance Show SubscriptionPlan'TransformUsage'Round'
-instance Eq SubscriptionPlan'TransformUsage'Round'
-instance FromJSON SubscriptionPlan'TransformUsage'Round'
-instance ToJSON SubscriptionPlan'TransformUsage'Round'
-data SubscriptionPlan'UsageType'
-instance Show SubscriptionPlan'UsageType'
-instance Eq SubscriptionPlan'UsageType'
-instance FromJSON SubscriptionPlan'UsageType'
-instance ToJSON SubscriptionPlan'UsageType'
 data SubscriptionSchedule'Variants
 instance Show SubscriptionSchedule'Variants
 instance Eq SubscriptionSchedule'Variants
@@ -126,3 +96,13 @@ instance Show SubscriptionStatus'
 instance Eq SubscriptionStatus'
 instance FromJSON SubscriptionStatus'
 instance ToJSON SubscriptionStatus'
+data SubscriptionTransferData'
+instance Show SubscriptionTransferData'
+instance Eq SubscriptionTransferData'
+instance FromJSON SubscriptionTransferData'
+instance ToJSON SubscriptionTransferData'
+data SubscriptionTransferData'Destination'Variants
+instance Show SubscriptionTransferData'Destination'Variants
+instance Eq SubscriptionTransferData'Destination'Variants
+instance FromJSON SubscriptionTransferData'Destination'Variants
+instance ToJSON SubscriptionTransferData'Destination'Variants

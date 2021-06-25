@@ -13,8 +13,8 @@ import qualified Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
-import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.Aeson as Data.Aeson.Types.Internal
+import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
 import qualified Data.Either
@@ -58,16 +58,19 @@ getIssuingCardsCardPin parameters =
         GHC.Base.fmap
           ( Data.Either.either GetIssuingCardsCardPinResponseError GHC.Base.id
               GHC.Base.. ( \response body ->
-                             if  | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
+                             if
+                                 | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
                                    GetIssuingCardsCardPinResponse200
                                      Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                          Data.Either.Either GHC.Base.String
+                                                          Data.Either.Either
+                                                            GHC.Base.String
                                                             Issuing'cardPin
                                                       )
                                  | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
                                    GetIssuingCardsCardPinResponseDefault
                                      Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                          Data.Either.Either GHC.Base.String
+                                                          Data.Either.Either
+                                                            GHC.Base.String
                                                             Error
                                                       )
                                  | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
@@ -85,23 +88,22 @@ getIssuingCardsCardPin parameters =
     )
 
 -- | Defines the object schema located at @paths.\/v1\/issuing\/cards\/{card}\/pin.GET.parameters@ in the specification.
-data GetIssuingCardsCardPinParameters
-  = GetIssuingCardsCardPinParameters
-      { -- | pathCard: Represents the parameter named \'card\'
-        --
-        -- Constraints:
-        --
-        -- * Maximum length of 5000
-        getIssuingCardsCardPinParametersPathCard :: Data.Text.Internal.Text,
-        -- | queryExpand: Represents the parameter named \'expand\'
-        --
-        -- Specifies which fields in the response should be expanded.
-        getIssuingCardsCardPinParametersQueryExpand :: (GHC.Maybe.Maybe ([Data.Text.Internal.Text])),
-        -- | queryVerification: Represents the parameter named \'verification\'
-        --
-        -- The id of the \`Verification\` that was sent and the code entered by the cardholder
-        getIssuingCardsCardPinParametersQueryVerification :: GetIssuingCardsCardPinParametersQueryVerification'
-      }
+data GetIssuingCardsCardPinParameters = GetIssuingCardsCardPinParameters
+  { -- | pathCard: Represents the parameter named \'card\'
+    --
+    -- Constraints:
+    --
+    -- * Maximum length of 5000
+    getIssuingCardsCardPinParametersPathCard :: Data.Text.Internal.Text,
+    -- | queryExpand: Represents the parameter named \'expand\'
+    --
+    -- Specifies which fields in the response should be expanded.
+    getIssuingCardsCardPinParametersQueryExpand :: (GHC.Maybe.Maybe ([Data.Text.Internal.Text])),
+    -- | queryVerification: Represents the parameter named \'verification\'
+    --
+    -- The id of the \`Verification\` that was sent and the code entered by the cardholder
+    getIssuingCardsCardPinParametersQueryVerification :: GetIssuingCardsCardPinParametersQueryVerification'
+  }
   deriving
     ( GHC.Show.Show,
       GHC.Classes.Eq
@@ -133,21 +135,20 @@ mkGetIssuingCardsCardPinParameters getIssuingCardsCardPinParametersPathCard getI
 -- Represents the parameter named \'verification\'
 --
 -- The id of the \`Verification\` that was sent and the code entered by the cardholder
-data GetIssuingCardsCardPinParametersQueryVerification'
-  = GetIssuingCardsCardPinParametersQueryVerification'
-      { -- | id
-        --
-        -- Constraints:
-        --
-        -- * Maximum length of 5000
-        getIssuingCardsCardPinParametersQueryVerification'Id :: Data.Text.Internal.Text,
-        -- | one_time_code
-        --
-        -- Constraints:
-        --
-        -- * Maximum length of 5000
-        getIssuingCardsCardPinParametersQueryVerification'OneTimeCode :: Data.Text.Internal.Text
-      }
+data GetIssuingCardsCardPinParametersQueryVerification' = GetIssuingCardsCardPinParametersQueryVerification'
+  { -- | id
+    --
+    -- Constraints:
+    --
+    -- * Maximum length of 5000
+    getIssuingCardsCardPinParametersQueryVerification'Id :: Data.Text.Internal.Text,
+    -- | one_time_code
+    --
+    -- Constraints:
+    --
+    -- * Maximum length of 5000
+    getIssuingCardsCardPinParametersQueryVerification'OneTimeCode :: Data.Text.Internal.Text
+  }
   deriving
     ( GHC.Show.Show,
       GHC.Classes.Eq

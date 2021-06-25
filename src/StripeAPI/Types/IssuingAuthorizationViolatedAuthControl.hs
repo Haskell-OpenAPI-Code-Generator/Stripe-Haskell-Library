@@ -11,8 +11,8 @@ import qualified Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
-import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.Aeson as Data.Aeson.Types.Internal
+import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
 import qualified Data.Functor
@@ -32,13 +32,12 @@ import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
 -- | Defines the object schema located at @components.schemas.issuing_authorization_violated_auth_control@ in the specification.
-data IssuingAuthorizationViolatedAuthControl
-  = IssuingAuthorizationViolatedAuthControl
-      { -- | entity: Entity which the authorization control acts on. One of \`card\`, \`cardholder\`, or \`account\`.
-        issuingAuthorizationViolatedAuthControlEntity :: IssuingAuthorizationViolatedAuthControlEntity',
-        -- | name: Name of the authorization control. One of \`allowed_categories\`, \`blocked_categories\`, \`spending_limits\`, \`max_approvals\`, or \`max_amount\`.
-        issuingAuthorizationViolatedAuthControlName :: IssuingAuthorizationViolatedAuthControlName'
-      }
+data IssuingAuthorizationViolatedAuthControl = IssuingAuthorizationViolatedAuthControl
+  { -- | entity: Entity which the authorization control acts on. One of \`card\`, \`cardholder\`, or \`account\`.
+    issuingAuthorizationViolatedAuthControlEntity :: IssuingAuthorizationViolatedAuthControlEntity',
+    -- | name: Name of the authorization control. One of \`allowed_categories\`, \`blocked_categories\`, \`spending_limits\`, \`max_approvals\`, or \`max_amount\`.
+    issuingAuthorizationViolatedAuthControlName :: IssuingAuthorizationViolatedAuthControlName'
+  }
   deriving
     ( GHC.Show.Show,
       GHC.Classes.Eq
@@ -90,7 +89,8 @@ instance Data.Aeson.Types.ToJSON.ToJSON IssuingAuthorizationViolatedAuthControlE
 instance Data.Aeson.Types.FromJSON.FromJSON IssuingAuthorizationViolatedAuthControlEntity' where
   parseJSON val =
     GHC.Base.pure
-      ( if  | val GHC.Classes.== "account" -> IssuingAuthorizationViolatedAuthControlEntity'EnumAccount
+      ( if
+            | val GHC.Classes.== "account" -> IssuingAuthorizationViolatedAuthControlEntity'EnumAccount
             | val GHC.Classes.== "card" -> IssuingAuthorizationViolatedAuthControlEntity'EnumCard
             | val GHC.Classes.== "cardholder" -> IssuingAuthorizationViolatedAuthControlEntity'EnumCardholder
             | GHC.Base.otherwise -> IssuingAuthorizationViolatedAuthControlEntity'Other val
@@ -128,7 +128,8 @@ instance Data.Aeson.Types.ToJSON.ToJSON IssuingAuthorizationViolatedAuthControlN
 instance Data.Aeson.Types.FromJSON.FromJSON IssuingAuthorizationViolatedAuthControlName' where
   parseJSON val =
     GHC.Base.pure
-      ( if  | val GHC.Classes.== "allowed_categories" -> IssuingAuthorizationViolatedAuthControlName'EnumAllowedCategories
+      ( if
+            | val GHC.Classes.== "allowed_categories" -> IssuingAuthorizationViolatedAuthControlName'EnumAllowedCategories
             | val GHC.Classes.== "blocked_categories" -> IssuingAuthorizationViolatedAuthControlName'EnumBlockedCategories
             | val GHC.Classes.== "max_amount" -> IssuingAuthorizationViolatedAuthControlName'EnumMaxAmount
             | val GHC.Classes.== "max_approvals" -> IssuingAuthorizationViolatedAuthControlName'EnumMaxApprovals

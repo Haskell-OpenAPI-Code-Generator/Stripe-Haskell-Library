@@ -6,6 +6,11 @@ instance Show Invoice
 instance Eq Invoice
 instance FromJSON Invoice
 instance ToJSON Invoice
+data InvoiceAccountTaxIds'Variants
+instance Show InvoiceAccountTaxIds'Variants
+instance Eq InvoiceAccountTaxIds'Variants
+instance FromJSON InvoiceAccountTaxIds'Variants
+instance ToJSON InvoiceAccountTaxIds'Variants
 data InvoiceBillingReason'
 instance Show InvoiceBillingReason'
 instance Eq InvoiceBillingReason'
@@ -61,11 +66,81 @@ instance Show InvoiceDiscount'Customer'Variants
 instance Eq InvoiceDiscount'Customer'Variants
 instance FromJSON InvoiceDiscount'Customer'Variants
 instance ToJSON InvoiceDiscount'Customer'Variants
+data InvoiceDiscount'PromotionCode'Variants
+instance Show InvoiceDiscount'PromotionCode'Variants
+instance Eq InvoiceDiscount'PromotionCode'Variants
+instance FromJSON InvoiceDiscount'PromotionCode'Variants
+instance ToJSON InvoiceDiscount'PromotionCode'Variants
+data InvoiceDiscounts'Variants
+instance Show InvoiceDiscounts'Variants
+instance Eq InvoiceDiscounts'Variants
+instance FromJSON InvoiceDiscounts'Variants
+instance ToJSON InvoiceDiscounts'Variants
+data InvoiceLastFinalizationError'
+instance Show InvoiceLastFinalizationError'
+instance Eq InvoiceLastFinalizationError'
+instance FromJSON InvoiceLastFinalizationError'
+instance ToJSON InvoiceLastFinalizationError'
+data InvoiceLastFinalizationError'Source'
+instance Show InvoiceLastFinalizationError'Source'
+instance Eq InvoiceLastFinalizationError'Source'
+instance FromJSON InvoiceLastFinalizationError'Source'
+instance ToJSON InvoiceLastFinalizationError'Source'
+data InvoiceLastFinalizationError'Source'Account'Variants
+instance Show InvoiceLastFinalizationError'Source'Account'Variants
+instance Eq InvoiceLastFinalizationError'Source'Account'Variants
+instance FromJSON InvoiceLastFinalizationError'Source'Account'Variants
+instance ToJSON InvoiceLastFinalizationError'Source'Account'Variants
+data InvoiceLastFinalizationError'Source'AvailablePayoutMethods'
+instance Show InvoiceLastFinalizationError'Source'AvailablePayoutMethods'
+instance Eq InvoiceLastFinalizationError'Source'AvailablePayoutMethods'
+instance FromJSON InvoiceLastFinalizationError'Source'AvailablePayoutMethods'
+instance ToJSON InvoiceLastFinalizationError'Source'AvailablePayoutMethods'
+data InvoiceLastFinalizationError'Source'Customer'Variants
+instance Show InvoiceLastFinalizationError'Source'Customer'Variants
+instance Eq InvoiceLastFinalizationError'Source'Customer'Variants
+instance FromJSON InvoiceLastFinalizationError'Source'Customer'Variants
+instance ToJSON InvoiceLastFinalizationError'Source'Customer'Variants
+data InvoiceLastFinalizationError'Source'Owner'
+instance Show InvoiceLastFinalizationError'Source'Owner'
+instance Eq InvoiceLastFinalizationError'Source'Owner'
+instance FromJSON InvoiceLastFinalizationError'Source'Owner'
+instance ToJSON InvoiceLastFinalizationError'Source'Owner'
+data InvoiceLastFinalizationError'Source'Owner'Address'
+instance Show InvoiceLastFinalizationError'Source'Owner'Address'
+instance Eq InvoiceLastFinalizationError'Source'Owner'Address'
+instance FromJSON InvoiceLastFinalizationError'Source'Owner'Address'
+instance ToJSON InvoiceLastFinalizationError'Source'Owner'Address'
+data InvoiceLastFinalizationError'Source'Owner'VerifiedAddress'
+instance Show InvoiceLastFinalizationError'Source'Owner'VerifiedAddress'
+instance Eq InvoiceLastFinalizationError'Source'Owner'VerifiedAddress'
+instance FromJSON InvoiceLastFinalizationError'Source'Owner'VerifiedAddress'
+instance ToJSON InvoiceLastFinalizationError'Source'Owner'VerifiedAddress'
+data InvoiceLastFinalizationError'Source'Recipient'Variants
+instance Show InvoiceLastFinalizationError'Source'Recipient'Variants
+instance Eq InvoiceLastFinalizationError'Source'Recipient'Variants
+instance FromJSON InvoiceLastFinalizationError'Source'Recipient'Variants
+instance ToJSON InvoiceLastFinalizationError'Source'Recipient'Variants
+data InvoiceLastFinalizationError'Source'Type'
+instance Show InvoiceLastFinalizationError'Source'Type'
+instance Eq InvoiceLastFinalizationError'Source'Type'
+instance FromJSON InvoiceLastFinalizationError'Source'Type'
+instance ToJSON InvoiceLastFinalizationError'Source'Type'
+data InvoiceLastFinalizationError'Type'
+instance Show InvoiceLastFinalizationError'Type'
+instance Eq InvoiceLastFinalizationError'Type'
+instance FromJSON InvoiceLastFinalizationError'Type'
+instance ToJSON InvoiceLastFinalizationError'Type'
 data InvoiceLines'
 instance Show InvoiceLines'
 instance Eq InvoiceLines'
 instance FromJSON InvoiceLines'
 instance ToJSON InvoiceLines'
+data InvoiceOnBehalfOf'Variants
+instance Show InvoiceOnBehalfOf'Variants
+instance Eq InvoiceOnBehalfOf'Variants
+instance FromJSON InvoiceOnBehalfOf'Variants
+instance ToJSON InvoiceOnBehalfOf'Variants
 data InvoicePaymentIntent'Variants
 instance Show InvoicePaymentIntent'Variants
 instance Eq InvoicePaymentIntent'Variants
@@ -81,3 +156,13 @@ instance Show InvoiceSubscription'Variants
 instance Eq InvoiceSubscription'Variants
 instance FromJSON InvoiceSubscription'Variants
 instance ToJSON InvoiceSubscription'Variants
+data InvoiceTransferData'
+instance Show InvoiceTransferData'
+instance Eq InvoiceTransferData'
+instance FromJSON InvoiceTransferData'
+instance ToJSON InvoiceTransferData'
+data InvoiceTransferData'Destination'Variants
+instance Show InvoiceTransferData'Destination'Variants
+instance Eq InvoiceTransferData'Destination'Variants
+instance FromJSON InvoiceTransferData'Destination'Variants
+instance ToJSON InvoiceTransferData'Destination'Variants

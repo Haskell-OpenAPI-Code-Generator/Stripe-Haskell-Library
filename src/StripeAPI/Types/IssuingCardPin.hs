@@ -11,8 +11,8 @@ import qualified Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
-import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.Aeson as Data.Aeson.Types.Internal
+import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
 import qualified Data.Functor
@@ -32,11 +32,10 @@ import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
 -- | Defines the object schema located at @components.schemas.issuing_card_pin@ in the specification.
-data IssuingCardPin
-  = IssuingCardPin
-      { -- | status: Wether the PIN will be accepted or not.
-        issuingCardPinStatus :: IssuingCardPinStatus'
-      }
+data IssuingCardPin = IssuingCardPin
+  { -- | status: Wether the PIN will be accepted or not.
+    issuingCardPinStatus :: IssuingCardPinStatus'
+  }
   deriving
     ( GHC.Show.Show,
       GHC.Classes.Eq
@@ -79,7 +78,8 @@ instance Data.Aeson.Types.ToJSON.ToJSON IssuingCardPinStatus' where
 instance Data.Aeson.Types.FromJSON.FromJSON IssuingCardPinStatus' where
   parseJSON val =
     GHC.Base.pure
-      ( if  | val GHC.Classes.== "active" -> IssuingCardPinStatus'EnumActive
+      ( if
+            | val GHC.Classes.== "active" -> IssuingCardPinStatus'EnumActive
             | val GHC.Classes.== "blocked" -> IssuingCardPinStatus'EnumBlocked
             | GHC.Base.otherwise -> IssuingCardPinStatus'Other val
       )

@@ -1,0 +1,13 @@
+module StripeAPI.Types.InvoicePaymentMethodOptionsCard where
+import Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Types.Internal
+data InvoicePaymentMethodOptionsCard
+instance Show InvoicePaymentMethodOptionsCard
+instance Eq InvoicePaymentMethodOptionsCard
+instance FromJSON InvoicePaymentMethodOptionsCard
+instance ToJSON InvoicePaymentMethodOptionsCard
+data InvoicePaymentMethodOptionsCardRequestThreeDSecure'
+instance Show InvoicePaymentMethodOptionsCardRequestThreeDSecure'
+instance Eq InvoicePaymentMethodOptionsCardRequestThreeDSecure'
+instance FromJSON InvoicePaymentMethodOptionsCardRequestThreeDSecure'
+instance ToJSON InvoicePaymentMethodOptionsCardRequestThreeDSecure'

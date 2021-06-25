@@ -6,21 +6,6 @@ instance Show Issuing'cardholder
 instance Eq Issuing'cardholder
 instance FromJSON Issuing'cardholder
 instance ToJSON Issuing'cardholder
-data Issuing'cardholderAuthorizationControls'
-instance Show Issuing'cardholderAuthorizationControls'
-instance Eq Issuing'cardholderAuthorizationControls'
-instance FromJSON Issuing'cardholderAuthorizationControls'
-instance ToJSON Issuing'cardholderAuthorizationControls'
-data Issuing'cardholderAuthorizationControls'AllowedCategories'
-instance Show Issuing'cardholderAuthorizationControls'AllowedCategories'
-instance Eq Issuing'cardholderAuthorizationControls'AllowedCategories'
-instance FromJSON Issuing'cardholderAuthorizationControls'AllowedCategories'
-instance ToJSON Issuing'cardholderAuthorizationControls'AllowedCategories'
-data Issuing'cardholderAuthorizationControls'BlockedCategories'
-instance Show Issuing'cardholderAuthorizationControls'BlockedCategories'
-instance Eq Issuing'cardholderAuthorizationControls'BlockedCategories'
-instance FromJSON Issuing'cardholderAuthorizationControls'BlockedCategories'
-instance ToJSON Issuing'cardholderAuthorizationControls'BlockedCategories'
 data Issuing'cardholderCompany'
 instance Show Issuing'cardholderCompany'
 instance Eq Issuing'cardholderCompany'
@@ -56,6 +41,21 @@ instance Show Issuing'cardholderIndividual'Verification'Document'Front'Variants
 instance Eq Issuing'cardholderIndividual'Verification'Document'Front'Variants
 instance FromJSON Issuing'cardholderIndividual'Verification'Document'Front'Variants
 instance ToJSON Issuing'cardholderIndividual'Verification'Document'Front'Variants
+data Issuing'cardholderSpendingControls'
+instance Show Issuing'cardholderSpendingControls'
+instance Eq Issuing'cardholderSpendingControls'
+instance FromJSON Issuing'cardholderSpendingControls'
+instance ToJSON Issuing'cardholderSpendingControls'
+data Issuing'cardholderSpendingControls'AllowedCategories'
+instance Show Issuing'cardholderSpendingControls'AllowedCategories'
+instance Eq Issuing'cardholderSpendingControls'AllowedCategories'
+instance FromJSON Issuing'cardholderSpendingControls'AllowedCategories'
+instance ToJSON Issuing'cardholderSpendingControls'AllowedCategories'
+data Issuing'cardholderSpendingControls'BlockedCategories'
+instance Show Issuing'cardholderSpendingControls'BlockedCategories'
+instance Eq Issuing'cardholderSpendingControls'BlockedCategories'
+instance FromJSON Issuing'cardholderSpendingControls'BlockedCategories'
+instance ToJSON Issuing'cardholderSpendingControls'BlockedCategories'
 data Issuing'cardholderStatus'
 instance Show Issuing'cardholderStatus'
 instance Eq Issuing'cardholderStatus'

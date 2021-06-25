@@ -1,0 +1,8 @@
+module StripeAPI.Types.PaymentMethodDetailsAfterpayClearpay where
+import Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Types.Internal
+data PaymentMethodDetailsAfterpayClearpay
+instance Show PaymentMethodDetailsAfterpayClearpay
+instance Eq PaymentMethodDetailsAfterpayClearpay
+instance FromJSON PaymentMethodDetailsAfterpayClearpay
+instance ToJSON PaymentMethodDetailsAfterpayClearpay

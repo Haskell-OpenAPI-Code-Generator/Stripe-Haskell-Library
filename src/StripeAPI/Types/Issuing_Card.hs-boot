@@ -6,81 +6,16 @@ instance Show Issuing'card
 instance Eq Issuing'card
 instance FromJSON Issuing'card
 instance ToJSON Issuing'card
-data Issuing'cardCardholder'
-instance Show Issuing'cardCardholder'
-instance Eq Issuing'cardCardholder'
-instance FromJSON Issuing'cardCardholder'
-instance ToJSON Issuing'cardCardholder'
-data Issuing'cardCardholder'AuthorizationControls'
-instance Show Issuing'cardCardholder'AuthorizationControls'
-instance Eq Issuing'cardCardholder'AuthorizationControls'
-instance FromJSON Issuing'cardCardholder'AuthorizationControls'
-instance ToJSON Issuing'cardCardholder'AuthorizationControls'
-data Issuing'cardCardholder'AuthorizationControls'AllowedCategories'
-instance Show Issuing'cardCardholder'AuthorizationControls'AllowedCategories'
-instance Eq Issuing'cardCardholder'AuthorizationControls'AllowedCategories'
-instance FromJSON Issuing'cardCardholder'AuthorizationControls'AllowedCategories'
-instance ToJSON Issuing'cardCardholder'AuthorizationControls'AllowedCategories'
-data Issuing'cardCardholder'AuthorizationControls'BlockedCategories'
-instance Show Issuing'cardCardholder'AuthorizationControls'BlockedCategories'
-instance Eq Issuing'cardCardholder'AuthorizationControls'BlockedCategories'
-instance FromJSON Issuing'cardCardholder'AuthorizationControls'BlockedCategories'
-instance ToJSON Issuing'cardCardholder'AuthorizationControls'BlockedCategories'
-data Issuing'cardCardholder'Company'
-instance Show Issuing'cardCardholder'Company'
-instance Eq Issuing'cardCardholder'Company'
-instance FromJSON Issuing'cardCardholder'Company'
-instance ToJSON Issuing'cardCardholder'Company'
-data Issuing'cardCardholder'Individual'
-instance Show Issuing'cardCardholder'Individual'
-instance Eq Issuing'cardCardholder'Individual'
-instance FromJSON Issuing'cardCardholder'Individual'
-instance ToJSON Issuing'cardCardholder'Individual'
-data Issuing'cardCardholder'Individual'Dob'
-instance Show Issuing'cardCardholder'Individual'Dob'
-instance Eq Issuing'cardCardholder'Individual'Dob'
-instance FromJSON Issuing'cardCardholder'Individual'Dob'
-instance ToJSON Issuing'cardCardholder'Individual'Dob'
-data Issuing'cardCardholder'Individual'Verification'
-instance Show Issuing'cardCardholder'Individual'Verification'
-instance Eq Issuing'cardCardholder'Individual'Verification'
-instance FromJSON Issuing'cardCardholder'Individual'Verification'
-instance ToJSON Issuing'cardCardholder'Individual'Verification'
-data Issuing'cardCardholder'Individual'Verification'Document'
-instance Show Issuing'cardCardholder'Individual'Verification'Document'
-instance Eq Issuing'cardCardholder'Individual'Verification'Document'
-instance FromJSON Issuing'cardCardholder'Individual'Verification'Document'
-instance ToJSON Issuing'cardCardholder'Individual'Verification'Document'
-data Issuing'cardCardholder'Individual'Verification'Document'Back'Variants
-instance Show Issuing'cardCardholder'Individual'Verification'Document'Back'Variants
-instance Eq Issuing'cardCardholder'Individual'Verification'Document'Back'Variants
-instance FromJSON Issuing'cardCardholder'Individual'Verification'Document'Back'Variants
-instance ToJSON Issuing'cardCardholder'Individual'Verification'Document'Back'Variants
-data Issuing'cardCardholder'Individual'Verification'Document'Front'Variants
-instance Show Issuing'cardCardholder'Individual'Verification'Document'Front'Variants
-instance Eq Issuing'cardCardholder'Individual'Verification'Document'Front'Variants
-instance FromJSON Issuing'cardCardholder'Individual'Verification'Document'Front'Variants
-instance ToJSON Issuing'cardCardholder'Individual'Verification'Document'Front'Variants
-data Issuing'cardCardholder'Status'
-instance Show Issuing'cardCardholder'Status'
-instance Eq Issuing'cardCardholder'Status'
-instance FromJSON Issuing'cardCardholder'Status'
-instance ToJSON Issuing'cardCardholder'Status'
-data Issuing'cardCardholder'Type'
-instance Show Issuing'cardCardholder'Type'
-instance Eq Issuing'cardCardholder'Type'
-instance FromJSON Issuing'cardCardholder'Type'
-instance ToJSON Issuing'cardCardholder'Type'
-data Issuing'cardPin'
-instance Show Issuing'cardPin'
-instance Eq Issuing'cardPin'
-instance FromJSON Issuing'cardPin'
-instance ToJSON Issuing'cardPin'
-data Issuing'cardPin'Status'
-instance Show Issuing'cardPin'Status'
-instance Eq Issuing'cardPin'Status'
-instance FromJSON Issuing'cardPin'Status'
-instance ToJSON Issuing'cardPin'Status'
+data Issuing'cardCancellationReason'
+instance Show Issuing'cardCancellationReason'
+instance Eq Issuing'cardCancellationReason'
+instance FromJSON Issuing'cardCancellationReason'
+instance ToJSON Issuing'cardCancellationReason'
+data Issuing'cardReplacedBy'Variants
+instance Show Issuing'cardReplacedBy'Variants
+instance Eq Issuing'cardReplacedBy'Variants
+instance FromJSON Issuing'cardReplacedBy'Variants
+instance ToJSON Issuing'cardReplacedBy'Variants
 data Issuing'cardReplacementFor'Variants
 instance Show Issuing'cardReplacementFor'Variants
 instance Eq Issuing'cardReplacementFor'Variants
@@ -101,11 +36,11 @@ instance Show Issuing'cardShipping'Carrier'
 instance Eq Issuing'cardShipping'Carrier'
 instance FromJSON Issuing'cardShipping'Carrier'
 instance ToJSON Issuing'cardShipping'Carrier'
-data Issuing'cardShipping'Speed'
-instance Show Issuing'cardShipping'Speed'
-instance Eq Issuing'cardShipping'Speed'
-instance FromJSON Issuing'cardShipping'Speed'
-instance ToJSON Issuing'cardShipping'Speed'
+data Issuing'cardShipping'Service'
+instance Show Issuing'cardShipping'Service'
+instance Eq Issuing'cardShipping'Service'
+instance FromJSON Issuing'cardShipping'Service'
+instance ToJSON Issuing'cardShipping'Service'
 data Issuing'cardShipping'Status'
 instance Show Issuing'cardShipping'Status'
 instance Eq Issuing'cardShipping'Status'

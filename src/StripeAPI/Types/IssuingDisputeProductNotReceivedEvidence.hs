@@ -11,8 +11,8 @@ import qualified Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
-import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.Aeson as Data.Aeson.Types.Internal
+import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
 import qualified Data.Functor
@@ -33,17 +33,16 @@ import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
 -- | Defines the object schema located at @components.schemas.issuing_dispute_product_not_received_evidence@ in the specification.
-data IssuingDisputeProductNotReceivedEvidence
-  = IssuingDisputeProductNotReceivedEvidence
-      { -- | dispute_explanation: Brief freeform text explaining why you are disputing this transaction.
-        --
-        -- Constraints:
-        --
-        -- * Maximum length of 5000
-        issuingDisputeProductNotReceivedEvidenceDisputeExplanation :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
-        -- | uncategorized_file: (ID of a [file upload](https:\/\/stripe.com\/docs\/guides\/file-upload)) Additional file evidence supporting your dispute.
-        issuingDisputeProductNotReceivedEvidenceUncategorizedFile :: (GHC.Maybe.Maybe IssuingDisputeProductNotReceivedEvidenceUncategorizedFile'Variants)
-      }
+data IssuingDisputeProductNotReceivedEvidence = IssuingDisputeProductNotReceivedEvidence
+  { -- | dispute_explanation: Brief freeform text explaining why you are disputing this transaction.
+    --
+    -- Constraints:
+    --
+    -- * Maximum length of 5000
+    issuingDisputeProductNotReceivedEvidenceDisputeExplanation :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    -- | uncategorized_file: (ID of a [file upload](https:\/\/stripe.com\/docs\/guides\/file-upload)) Additional file evidence supporting your dispute.
+    issuingDisputeProductNotReceivedEvidenceUncategorizedFile :: (GHC.Maybe.Maybe IssuingDisputeProductNotReceivedEvidenceUncategorizedFile'Variants)
+  }
   deriving
     ( GHC.Show.Show,
       GHC.Classes.Eq

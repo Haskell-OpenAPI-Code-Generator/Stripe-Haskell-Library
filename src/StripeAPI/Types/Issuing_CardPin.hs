@@ -11,8 +11,8 @@ import qualified Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
-import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.Aeson as Data.Aeson.Types.Internal
+import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
 import qualified Data.Functor
@@ -35,17 +35,16 @@ import qualified Prelude as GHC.Maybe
 -- | Defines the object schema located at @components.schemas.issuing.card_pin@ in the specification.
 --
 -- The PIN of a \`Card\` object
-data Issuing'cardPin
-  = Issuing'cardPin
-      { -- | card: You can [create physical or virtual cards](https:\/\/stripe.com\/docs\/issuing\/cards) that are issued to cardholders.
-        issuing'cardPinCard :: Issuing'card,
-        -- | pin: The PIN (4 digits number)
-        --
-        -- Constraints:
-        --
-        -- * Maximum length of 5000
-        issuing'cardPinPin :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
-      }
+data Issuing'cardPin = Issuing'cardPin
+  { -- | card: You can [create physical or virtual cards](https:\/\/stripe.com\/docs\/issuing\/cards) that are issued to cardholders.
+    issuing'cardPinCard :: Issuing'card,
+    -- | pin: The PIN (4 digits number)
+    --
+    -- Constraints:
+    --
+    -- * Maximum length of 5000
+    issuing'cardPinPin :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
+  }
   deriving
     ( GHC.Show.Show,
       GHC.Classes.Eq

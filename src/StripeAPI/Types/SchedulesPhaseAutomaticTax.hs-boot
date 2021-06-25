@@ -1,0 +1,8 @@
+module StripeAPI.Types.SchedulesPhaseAutomaticTax where
+import Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Types.Internal
+data SchedulesPhaseAutomaticTax
+instance Show SchedulesPhaseAutomaticTax
+instance Eq SchedulesPhaseAutomaticTax
+instance FromJSON SchedulesPhaseAutomaticTax
+instance ToJSON SchedulesPhaseAutomaticTax
