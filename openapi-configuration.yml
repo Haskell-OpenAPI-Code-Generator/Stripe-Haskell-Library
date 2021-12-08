@@ -1,0 +1,7 @@
+specification: stripe-api.yml
+outputDir: out
+packageName: stripeapi
+moduleName: StripeAPI
+propertyTypeSuffix: "'"
+convertToCamelCase: true
+omitAdditionalOperationFunctions: true
