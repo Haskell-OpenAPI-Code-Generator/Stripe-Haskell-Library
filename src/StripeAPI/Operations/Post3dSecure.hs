@@ -50,7 +50,7 @@ post3dSecure ::
   -- | The request body to send
   Post3dSecureRequestBody ->
   -- | Monadic computation which returns the result of the operation
-  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response Post3dSecureResponse)
+  StripeAPI.Common.ClientT m (Network.HTTP.Client.Types.Response Post3dSecureResponse)
 post3dSecure body =
   GHC.Base.fmap
     ( \response_0 ->

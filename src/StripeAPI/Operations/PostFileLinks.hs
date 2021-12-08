@@ -50,7 +50,7 @@ postFileLinks ::
   -- | The request body to send
   PostFileLinksRequestBody ->
   -- | Monadic computation which returns the result of the operation
-  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response PostFileLinksResponse)
+  StripeAPI.Common.ClientT m (Network.HTTP.Client.Types.Response PostFileLinksResponse)
 postFileLinks body =
   GHC.Base.fmap
     ( \response_0 ->

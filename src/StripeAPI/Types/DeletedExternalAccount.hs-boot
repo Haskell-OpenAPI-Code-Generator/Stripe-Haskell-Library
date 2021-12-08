@@ -6,3 +6,13 @@ instance Show DeletedExternalAccount
 instance Eq DeletedExternalAccount
 instance FromJSON DeletedExternalAccount
 instance ToJSON DeletedExternalAccount
+data DeletedExternalAccountDeleted'
+instance Show DeletedExternalAccountDeleted'
+instance Eq DeletedExternalAccountDeleted'
+instance FromJSON DeletedExternalAccountDeleted'
+instance ToJSON DeletedExternalAccountDeleted'
+data DeletedExternalAccountObject'
+instance Show DeletedExternalAccountObject'
+instance Eq DeletedExternalAccountObject'
+instance FromJSON DeletedExternalAccountObject'
+instance ToJSON DeletedExternalAccountObject'

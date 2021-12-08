@@ -50,7 +50,7 @@ getPricesPrice ::
   -- | Contains all available parameters of this operation (query and path parameters)
   GetPricesPriceParameters ->
   -- | Monadic computation which returns the result of the operation
-  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response GetPricesPriceResponse)
+  StripeAPI.Common.ClientT m (Network.HTTP.Client.Types.Response GetPricesPriceResponse)
 getPricesPrice parameters =
   GHC.Base.fmap
     ( \response_0 ->

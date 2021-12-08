@@ -54,7 +54,7 @@ postAccountsAccountReject ::
   -- | The request body to send
   PostAccountsAccountRejectRequestBody ->
   -- | Monadic computation which returns the result of the operation
-  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response PostAccountsAccountRejectResponse)
+  StripeAPI.Common.ClientT m (Network.HTTP.Client.Types.Response PostAccountsAccountRejectResponse)
 postAccountsAccountReject
   account
   body =

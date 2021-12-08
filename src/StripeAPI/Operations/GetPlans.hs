@@ -50,7 +50,7 @@ getPlans ::
   -- | Contains all available parameters of this operation (query and path parameters)
   GetPlansParameters ->
   -- | Monadic computation which returns the result of the operation
-  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response GetPlansResponse)
+  StripeAPI.Common.ClientT m (Network.HTTP.Client.Types.Response GetPlansResponse)
 getPlans parameters =
   GHC.Base.fmap
     ( \response_0 ->

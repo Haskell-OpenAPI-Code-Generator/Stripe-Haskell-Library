@@ -50,7 +50,7 @@ getIssuingDisputes ::
   -- | Contains all available parameters of this operation (query and path parameters)
   GetIssuingDisputesParameters ->
   -- | Monadic computation which returns the result of the operation
-  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response GetIssuingDisputesResponse)
+  StripeAPI.Common.ClientT m (Network.HTTP.Client.Types.Response GetIssuingDisputesResponse)
 getIssuingDisputes parameters =
   GHC.Base.fmap
     ( \response_0 ->

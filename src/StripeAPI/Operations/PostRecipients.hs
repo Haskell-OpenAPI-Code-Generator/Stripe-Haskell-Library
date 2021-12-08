@@ -51,7 +51,7 @@ postRecipients ::
   -- | The request body to send
   PostRecipientsRequestBody ->
   -- | Monadic computation which returns the result of the operation
-  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response PostRecipientsResponse)
+  StripeAPI.Common.ClientT m (Network.HTTP.Client.Types.Response PostRecipientsResponse)
 postRecipients body =
   GHC.Base.fmap
     ( \response_0 ->

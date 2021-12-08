@@ -66,6 +66,11 @@ instance Show PaymentIntentLastPaymentError'Source'Customer'Variants
 instance Eq PaymentIntentLastPaymentError'Source'Customer'Variants
 instance FromJSON PaymentIntentLastPaymentError'Source'Customer'Variants
 instance ToJSON PaymentIntentLastPaymentError'Source'Customer'Variants
+data PaymentIntentLastPaymentError'Source'Object'
+instance Show PaymentIntentLastPaymentError'Source'Object'
+instance Eq PaymentIntentLastPaymentError'Source'Object'
+instance FromJSON PaymentIntentLastPaymentError'Source'Object'
+instance ToJSON PaymentIntentLastPaymentError'Source'Object'
 data PaymentIntentLastPaymentError'Source'Owner'
 instance Show PaymentIntentLastPaymentError'Source'Owner'
 instance Eq PaymentIntentLastPaymentError'Source'Owner'

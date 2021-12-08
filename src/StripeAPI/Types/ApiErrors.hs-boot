@@ -26,6 +26,11 @@ instance Show ApiErrorsSource'Customer'Variants
 instance Eq ApiErrorsSource'Customer'Variants
 instance FromJSON ApiErrorsSource'Customer'Variants
 instance ToJSON ApiErrorsSource'Customer'Variants
+data ApiErrorsSource'Object'
+instance Show ApiErrorsSource'Object'
+instance Eq ApiErrorsSource'Object'
+instance FromJSON ApiErrorsSource'Object'
+instance ToJSON ApiErrorsSource'Object'
 data ApiErrorsSource'Owner'
 instance Show ApiErrorsSource'Owner'
 instance Eq ApiErrorsSource'Owner'

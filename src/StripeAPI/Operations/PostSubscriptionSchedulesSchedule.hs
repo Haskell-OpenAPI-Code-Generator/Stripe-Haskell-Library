@@ -52,7 +52,7 @@ postSubscriptionSchedulesSchedule ::
   -- | The request body to send
   GHC.Maybe.Maybe PostSubscriptionSchedulesScheduleRequestBody ->
   -- | Monadic computation which returns the result of the operation
-  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response PostSubscriptionSchedulesScheduleResponse)
+  StripeAPI.Common.ClientT m (Network.HTTP.Client.Types.Response PostSubscriptionSchedulesScheduleResponse)
 postSubscriptionSchedulesSchedule
   schedule
   body =

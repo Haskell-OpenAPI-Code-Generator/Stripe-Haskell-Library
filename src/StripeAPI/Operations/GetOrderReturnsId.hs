@@ -50,7 +50,7 @@ getOrderReturnsId ::
   -- | Contains all available parameters of this operation (query and path parameters)
   GetOrderReturnsIdParameters ->
   -- | Monadic computation which returns the result of the operation
-  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response GetOrderReturnsIdResponse)
+  StripeAPI.Common.ClientT m (Network.HTTP.Client.Types.Response GetOrderReturnsIdResponse)
 getOrderReturnsId parameters =
   GHC.Base.fmap
     ( \response_0 ->

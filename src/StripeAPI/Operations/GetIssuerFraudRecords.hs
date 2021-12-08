@@ -50,7 +50,7 @@ getIssuerFraudRecords ::
   -- | Contains all available parameters of this operation (query and path parameters)
   GetIssuerFraudRecordsParameters ->
   -- | Monadic computation which returns the result of the operation
-  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response GetIssuerFraudRecordsResponse)
+  StripeAPI.Common.ClientT m (Network.HTTP.Client.Types.Response GetIssuerFraudRecordsResponse)
 getIssuerFraudRecords parameters =
   GHC.Base.fmap
     ( \response_0 ->

@@ -42,12 +42,16 @@ data DeletedPaymentSource = DeletedPaymentSource
     --
     -- * Maximum length of 5000
     deletedPaymentSourceCurrency :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    -- | deleted: Always true for a deleted object
+    deletedPaymentSourceDeleted :: (GHC.Maybe.Maybe DeletedPaymentSourceDeleted'),
     -- | id: Unique identifier for the object.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    deletedPaymentSourceId :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
+    deletedPaymentSourceId :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    -- | object: String representing the object\'s type. Objects of the same type share the same value.
+    deletedPaymentSourceObject :: (GHC.Maybe.Maybe DeletedPaymentSourceObject')
   }
   deriving
     ( GHC.Show.Show,
@@ -55,16 +59,68 @@ data DeletedPaymentSource = DeletedPaymentSource
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON DeletedPaymentSource where
-  toJSON obj = Data.Aeson.Types.Internal.object ("currency" Data.Aeson.Types.ToJSON..= deletedPaymentSourceCurrency obj : "id" Data.Aeson.Types.ToJSON..= deletedPaymentSourceId obj : "deleted" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.Bool GHC.Types.True : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "alipay_account" : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("currency" Data.Aeson.Types.ToJSON..= deletedPaymentSourceCurrency obj) GHC.Base.<> (("id" Data.Aeson.Types.ToJSON..= deletedPaymentSourceId obj) GHC.Base.<> (("deleted" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.Bool GHC.Types.True) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "alipay_account"))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("currency" Data.Aeson.Types.ToJSON..= deletedPaymentSourceCurrency obj : "deleted" Data.Aeson.Types.ToJSON..= deletedPaymentSourceDeleted obj : "id" Data.Aeson.Types.ToJSON..= deletedPaymentSourceId obj : "object" Data.Aeson.Types.ToJSON..= deletedPaymentSourceObject obj : GHC.Base.mempty)
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("currency" Data.Aeson.Types.ToJSON..= deletedPaymentSourceCurrency obj) GHC.Base.<> (("deleted" Data.Aeson.Types.ToJSON..= deletedPaymentSourceDeleted obj) GHC.Base.<> (("id" Data.Aeson.Types.ToJSON..= deletedPaymentSourceId obj) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= deletedPaymentSourceObject obj))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON DeletedPaymentSource where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "DeletedPaymentSource" (\obj -> (GHC.Base.pure DeletedPaymentSource GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "id"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "DeletedPaymentSource" (\obj -> (((GHC.Base.pure DeletedPaymentSource GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "deleted")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "object"))
 
 -- | Create a new 'DeletedPaymentSource' with all required fields.
 mkDeletedPaymentSource :: DeletedPaymentSource
 mkDeletedPaymentSource =
   DeletedPaymentSource
     { deletedPaymentSourceCurrency = GHC.Maybe.Nothing,
-      deletedPaymentSourceId = GHC.Maybe.Nothing
+      deletedPaymentSourceDeleted = GHC.Maybe.Nothing,
+      deletedPaymentSourceId = GHC.Maybe.Nothing,
+      deletedPaymentSourceObject = GHC.Maybe.Nothing
     }
+
+-- | Defines the enum schema located at @components.schemas.deleted_payment_source.anyOf.properties.deleted@ in the specification.
+--
+-- Always true for a deleted object
+data DeletedPaymentSourceDeleted'
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    DeletedPaymentSourceDeleted'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    DeletedPaymentSourceDeleted'Typed GHC.Types.Bool
+  | -- | Represents the JSON value @true@
+    DeletedPaymentSourceDeleted'EnumTrue
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON DeletedPaymentSourceDeleted' where
+  toJSON (DeletedPaymentSourceDeleted'Other val) = val
+  toJSON (DeletedPaymentSourceDeleted'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (DeletedPaymentSourceDeleted'EnumTrue) = Data.Aeson.Types.Internal.Bool GHC.Types.True
+
+instance Data.Aeson.Types.FromJSON.FromJSON DeletedPaymentSourceDeleted' where
+  parseJSON val =
+    GHC.Base.pure
+      ( if
+            | val GHC.Classes.== Data.Aeson.Types.Internal.Bool GHC.Types.True -> DeletedPaymentSourceDeleted'EnumTrue
+            | GHC.Base.otherwise -> DeletedPaymentSourceDeleted'Other val
+      )
+
+-- | Defines the enum schema located at @components.schemas.deleted_payment_source.anyOf.properties.object@ in the specification.
+--
+-- String representing the object\'s type. Objects of the same type share the same value.
+data DeletedPaymentSourceObject'
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    DeletedPaymentSourceObject'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    DeletedPaymentSourceObject'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"alipay_account"@
+    DeletedPaymentSourceObject'EnumAlipayAccount
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON DeletedPaymentSourceObject' where
+  toJSON (DeletedPaymentSourceObject'Other val) = val
+  toJSON (DeletedPaymentSourceObject'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (DeletedPaymentSourceObject'EnumAlipayAccount) = "alipay_account"
+
+instance Data.Aeson.Types.FromJSON.FromJSON DeletedPaymentSourceObject' where
+  parseJSON val =
+    GHC.Base.pure
+      ( if
+            | val GHC.Classes.== "alipay_account" -> DeletedPaymentSourceObject'EnumAlipayAccount
+            | GHC.Base.otherwise -> DeletedPaymentSourceObject'Other val
+      )

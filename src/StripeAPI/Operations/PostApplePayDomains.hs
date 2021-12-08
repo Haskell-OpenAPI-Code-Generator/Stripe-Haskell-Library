@@ -50,7 +50,7 @@ postApplePayDomains ::
   -- | The request body to send
   PostApplePayDomainsRequestBody ->
   -- | Monadic computation which returns the result of the operation
-  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response PostApplePayDomainsResponse)
+  StripeAPI.Common.ClientT m (Network.HTTP.Client.Types.Response PostApplePayDomainsResponse)
 postApplePayDomains body =
   GHC.Base.fmap
     ( \response_0 ->

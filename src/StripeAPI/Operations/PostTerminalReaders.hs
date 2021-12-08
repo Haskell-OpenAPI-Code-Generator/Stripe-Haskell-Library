@@ -50,7 +50,7 @@ postTerminalReaders ::
   -- | The request body to send
   PostTerminalReadersRequestBody ->
   -- | Monadic computation which returns the result of the operation
-  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response PostTerminalReadersResponse)
+  StripeAPI.Common.ClientT m (Network.HTTP.Client.Types.Response PostTerminalReadersResponse)
 postTerminalReaders body =
   GHC.Base.fmap
     ( \response_0 ->

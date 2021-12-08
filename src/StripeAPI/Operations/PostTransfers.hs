@@ -50,7 +50,7 @@ postTransfers ::
   -- | The request body to send
   PostTransfersRequestBody ->
   -- | Monadic computation which returns the result of the operation
-  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response PostTransfersResponse)
+  StripeAPI.Common.ClientT m (Network.HTTP.Client.Types.Response PostTransfersResponse)
 postTransfers body =
   GHC.Base.fmap
     ( \response_0 ->

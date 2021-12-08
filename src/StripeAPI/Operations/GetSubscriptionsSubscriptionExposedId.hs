@@ -50,7 +50,7 @@ getSubscriptionsSubscriptionExposedId ::
   -- | Contains all available parameters of this operation (query and path parameters)
   GetSubscriptionsSubscriptionExposedIdParameters ->
   -- | Monadic computation which returns the result of the operation
-  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response GetSubscriptionsSubscriptionExposedIdResponse)
+  StripeAPI.Common.ClientT m (Network.HTTP.Client.Types.Response GetSubscriptionsSubscriptionExposedIdResponse)
 getSubscriptionsSubscriptionExposedId parameters =
   GHC.Base.fmap
     ( \response_0 ->

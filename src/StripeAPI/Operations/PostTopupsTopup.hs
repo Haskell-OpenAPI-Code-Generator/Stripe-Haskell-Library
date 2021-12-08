@@ -52,7 +52,7 @@ postTopupsTopup ::
   -- | The request body to send
   GHC.Maybe.Maybe PostTopupsTopupRequestBody ->
   -- | Monadic computation which returns the result of the operation
-  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response PostTopupsTopupResponse)
+  StripeAPI.Common.ClientT m (Network.HTTP.Client.Types.Response PostTopupsTopupResponse)
 postTopupsTopup
   topup
   body =

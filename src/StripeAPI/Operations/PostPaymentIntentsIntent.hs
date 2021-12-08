@@ -58,7 +58,7 @@ postPaymentIntentsIntent ::
   -- | The request body to send
   GHC.Maybe.Maybe PostPaymentIntentsIntentRequestBody ->
   -- | Monadic computation which returns the result of the operation
-  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response PostPaymentIntentsIntentResponse)
+  StripeAPI.Common.ClientT m (Network.HTTP.Client.Types.Response PostPaymentIntentsIntentResponse)
 postPaymentIntentsIntent
   intent
   body =

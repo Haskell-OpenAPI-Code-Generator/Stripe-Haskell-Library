@@ -50,7 +50,7 @@ getInvoicesInvoice ::
   -- | Contains all available parameters of this operation (query and path parameters)
   GetInvoicesInvoiceParameters ->
   -- | Monadic computation which returns the result of the operation
-  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response GetInvoicesInvoiceResponse)
+  StripeAPI.Common.ClientT m (Network.HTTP.Client.Types.Response GetInvoicesInvoiceResponse)
 getInvoicesInvoice parameters =
   GHC.Base.fmap
     ( \response_0 ->

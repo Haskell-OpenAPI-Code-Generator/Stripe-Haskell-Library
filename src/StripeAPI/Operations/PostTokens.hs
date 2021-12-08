@@ -51,7 +51,7 @@ postTokens ::
   -- | The request body to send
   GHC.Maybe.Maybe PostTokensRequestBody ->
   -- | Monadic computation which returns the result of the operation
-  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response PostTokensResponse)
+  StripeAPI.Common.ClientT m (Network.HTTP.Client.Types.Response PostTokensResponse)
 postTokens body =
   GHC.Base.fmap
     ( \response_0 ->

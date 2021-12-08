@@ -52,7 +52,7 @@ postTerminalReadersReader ::
   -- | The request body to send
   GHC.Maybe.Maybe PostTerminalReadersReaderRequestBody ->
   -- | Monadic computation which returns the result of the operation
-  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response PostTerminalReadersReaderResponse)
+  StripeAPI.Common.ClientT m (Network.HTTP.Client.Types.Response PostTerminalReadersReaderResponse)
 postTerminalReadersReader
   reader
   body =

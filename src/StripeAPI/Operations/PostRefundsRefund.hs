@@ -54,7 +54,7 @@ postRefundsRefund ::
   -- | The request body to send
   GHC.Maybe.Maybe PostRefundsRefundRequestBody ->
   -- | Monadic computation which returns the result of the operation
-  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response PostRefundsRefundResponse)
+  StripeAPI.Common.ClientT m (Network.HTTP.Client.Types.Response PostRefundsRefundResponse)
 postRefundsRefund
   refund
   body =

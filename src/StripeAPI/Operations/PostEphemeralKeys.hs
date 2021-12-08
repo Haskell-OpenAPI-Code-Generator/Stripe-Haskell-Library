@@ -50,7 +50,7 @@ postEphemeralKeys ::
   -- | The request body to send
   GHC.Maybe.Maybe PostEphemeralKeysRequestBody ->
   -- | Monadic computation which returns the result of the operation
-  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response PostEphemeralKeysResponse)
+  StripeAPI.Common.ClientT m (Network.HTTP.Client.Types.Response PostEphemeralKeysResponse)
 postEphemeralKeys body =
   GHC.Base.fmap
     ( \response_0 ->

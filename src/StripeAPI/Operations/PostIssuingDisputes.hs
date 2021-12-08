@@ -50,7 +50,7 @@ postIssuingDisputes ::
   -- | The request body to send
   PostIssuingDisputesRequestBody ->
   -- | Monadic computation which returns the result of the operation
-  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response PostIssuingDisputesResponse)
+  StripeAPI.Common.ClientT m (Network.HTTP.Client.Types.Response PostIssuingDisputesResponse)
 postIssuingDisputes body =
   GHC.Base.fmap
     ( \response_0 ->

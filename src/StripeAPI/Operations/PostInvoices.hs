@@ -50,7 +50,7 @@ postInvoices ::
   -- | The request body to send
   PostInvoicesRequestBody ->
   -- | Monadic computation which returns the result of the operation
-  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response PostInvoicesResponse)
+  StripeAPI.Common.ClientT m (Network.HTTP.Client.Types.Response PostInvoicesResponse)
 postInvoices body =
   GHC.Base.fmap
     ( \response_0 ->

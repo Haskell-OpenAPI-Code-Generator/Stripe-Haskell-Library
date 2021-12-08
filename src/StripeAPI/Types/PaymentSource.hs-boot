@@ -61,11 +61,21 @@ instance Show PaymentSourceExternalAccounts'Data'Customer'Variants
 instance Eq PaymentSourceExternalAccounts'Data'Customer'Variants
 instance FromJSON PaymentSourceExternalAccounts'Data'Customer'Variants
 instance ToJSON PaymentSourceExternalAccounts'Data'Customer'Variants
+data PaymentSourceExternalAccounts'Data'Object'
+instance Show PaymentSourceExternalAccounts'Data'Object'
+instance Eq PaymentSourceExternalAccounts'Data'Object'
+instance FromJSON PaymentSourceExternalAccounts'Data'Object'
+instance ToJSON PaymentSourceExternalAccounts'Data'Object'
 data PaymentSourceExternalAccounts'Data'Recipient'Variants
 instance Show PaymentSourceExternalAccounts'Data'Recipient'Variants
 instance Eq PaymentSourceExternalAccounts'Data'Recipient'Variants
 instance FromJSON PaymentSourceExternalAccounts'Data'Recipient'Variants
 instance ToJSON PaymentSourceExternalAccounts'Data'Recipient'Variants
+data PaymentSourceObject'
+instance Show PaymentSourceObject'
+instance Eq PaymentSourceObject'
+instance FromJSON PaymentSourceObject'
+instance ToJSON PaymentSourceObject'
 data PaymentSourceOwner'
 instance Show PaymentSourceOwner'
 instance Eq PaymentSourceOwner'

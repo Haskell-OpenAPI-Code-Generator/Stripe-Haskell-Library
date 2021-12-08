@@ -50,7 +50,7 @@ getTerminalReadersReader ::
   -- | Contains all available parameters of this operation (query and path parameters)
   GetTerminalReadersReaderParameters ->
   -- | Monadic computation which returns the result of the operation
-  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response GetTerminalReadersReaderResponse)
+  StripeAPI.Common.ClientT m (Network.HTTP.Client.Types.Response GetTerminalReadersReaderResponse)
 getTerminalReadersReader parameters =
   GHC.Base.fmap
     ( \response_0 ->

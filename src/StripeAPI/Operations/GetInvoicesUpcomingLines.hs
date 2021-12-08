@@ -50,7 +50,7 @@ getInvoicesUpcomingLines ::
   -- | Contains all available parameters of this operation (query and path parameters)
   GetInvoicesUpcomingLinesParameters ->
   -- | Monadic computation which returns the result of the operation
-  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response GetInvoicesUpcomingLinesResponse)
+  StripeAPI.Common.ClientT m (Network.HTTP.Client.Types.Response GetInvoicesUpcomingLinesResponse)
 getInvoicesUpcomingLines parameters =
   GHC.Base.fmap
     ( \response_0 ->

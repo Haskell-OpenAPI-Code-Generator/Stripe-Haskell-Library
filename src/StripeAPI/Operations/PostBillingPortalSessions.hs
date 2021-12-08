@@ -50,7 +50,7 @@ postBillingPortalSessions ::
   -- | The request body to send
   PostBillingPortalSessionsRequestBody ->
   -- | Monadic computation which returns the result of the operation
-  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response PostBillingPortalSessionsResponse)
+  StripeAPI.Common.ClientT m (Network.HTTP.Client.Types.Response PostBillingPortalSessionsResponse)
 postBillingPortalSessions body =
   GHC.Base.fmap
     ( \response_0 ->

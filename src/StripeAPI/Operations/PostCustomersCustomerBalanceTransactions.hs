@@ -52,7 +52,7 @@ postCustomersCustomerBalanceTransactions ::
   -- | The request body to send
   PostCustomersCustomerBalanceTransactionsRequestBody ->
   -- | Monadic computation which returns the result of the operation
-  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response PostCustomersCustomerBalanceTransactionsResponse)
+  StripeAPI.Common.ClientT m (Network.HTTP.Client.Types.Response PostCustomersCustomerBalanceTransactionsResponse)
 postCustomersCustomerBalanceTransactions
   customer
   body =

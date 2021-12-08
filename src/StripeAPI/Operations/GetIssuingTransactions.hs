@@ -50,7 +50,7 @@ getIssuingTransactions ::
   -- | Contains all available parameters of this operation (query and path parameters)
   GetIssuingTransactionsParameters ->
   -- | Monadic computation which returns the result of the operation
-  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response GetIssuingTransactionsResponse)
+  StripeAPI.Common.ClientT m (Network.HTTP.Client.Types.Response GetIssuingTransactionsResponse)
 getIssuingTransactions parameters =
   GHC.Base.fmap
     ( \response_0 ->

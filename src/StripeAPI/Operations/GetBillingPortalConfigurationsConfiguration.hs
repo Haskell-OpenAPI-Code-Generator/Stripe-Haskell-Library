@@ -50,7 +50,7 @@ getBillingPortalConfigurationsConfiguration ::
   -- | Contains all available parameters of this operation (query and path parameters)
   GetBillingPortalConfigurationsConfigurationParameters ->
   -- | Monadic computation which returns the result of the operation
-  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response GetBillingPortalConfigurationsConfigurationResponse)
+  StripeAPI.Common.ClientT m (Network.HTTP.Client.Types.Response GetBillingPortalConfigurationsConfigurationResponse)
 getBillingPortalConfigurationsConfiguration parameters =
   GHC.Base.fmap
     ( \response_0 ->

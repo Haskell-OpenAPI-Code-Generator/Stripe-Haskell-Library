@@ -50,7 +50,7 @@ getSourcesSourceSourceTransactionsSourceTransaction ::
   -- | Contains all available parameters of this operation (query and path parameters)
   GetSourcesSourceSourceTransactionsSourceTransactionParameters ->
   -- | Monadic computation which returns the result of the operation
-  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response GetSourcesSourceSourceTransactionsSourceTransactionResponse)
+  StripeAPI.Common.ClientT m (Network.HTTP.Client.Types.Response GetSourcesSourceSourceTransactionsSourceTransactionResponse)
 getSourcesSourceSourceTransactionsSourceTransaction parameters =
   GHC.Base.fmap
     ( \response_0 ->

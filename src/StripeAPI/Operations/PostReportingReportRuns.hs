@@ -50,7 +50,7 @@ postReportingReportRuns ::
   -- | The request body to send
   PostReportingReportRunsRequestBody ->
   -- | Monadic computation which returns the result of the operation
-  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response PostReportingReportRunsResponse)
+  StripeAPI.Common.ClientT m (Network.HTTP.Client.Types.Response PostReportingReportRunsResponse)
 postReportingReportRuns body =
   GHC.Base.fmap
     ( \response_0 ->

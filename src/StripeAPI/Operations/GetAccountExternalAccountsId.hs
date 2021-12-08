@@ -50,7 +50,7 @@ getAccountExternalAccountsId ::
   -- | Contains all available parameters of this operation (query and path parameters)
   GetAccountExternalAccountsIdParameters ->
   -- | Monadic computation which returns the result of the operation
-  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response GetAccountExternalAccountsIdResponse)
+  StripeAPI.Common.ClientT m (Network.HTTP.Client.Types.Response GetAccountExternalAccountsIdResponse)
 getAccountExternalAccountsId parameters =
   GHC.Base.fmap
     ( \response_0 ->

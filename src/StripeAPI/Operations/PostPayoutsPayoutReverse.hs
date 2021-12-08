@@ -54,7 +54,7 @@ postPayoutsPayoutReverse ::
   -- | The request body to send
   GHC.Maybe.Maybe PostPayoutsPayoutReverseRequestBody ->
   -- | Monadic computation which returns the result of the operation
-  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response PostPayoutsPayoutReverseResponse)
+  StripeAPI.Common.ClientT m (Network.HTTP.Client.Types.Response PostPayoutsPayoutReverseResponse)
 postPayoutsPayoutReverse
   payout
   body =

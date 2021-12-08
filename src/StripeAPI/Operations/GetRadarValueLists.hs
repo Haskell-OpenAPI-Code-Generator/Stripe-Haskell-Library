@@ -50,7 +50,7 @@ getRadarValueLists ::
   -- | Contains all available parameters of this operation (query and path parameters)
   GetRadarValueListsParameters ->
   -- | Monadic computation which returns the result of the operation
-  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response GetRadarValueListsResponse)
+  StripeAPI.Common.ClientT m (Network.HTTP.Client.Types.Response GetRadarValueListsResponse)
 getRadarValueLists parameters =
   GHC.Base.fmap
     ( \response_0 ->

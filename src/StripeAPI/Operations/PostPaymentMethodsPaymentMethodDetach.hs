@@ -52,7 +52,7 @@ postPaymentMethodsPaymentMethodDetach ::
   -- | The request body to send
   GHC.Maybe.Maybe PostPaymentMethodsPaymentMethodDetachRequestBody ->
   -- | Monadic computation which returns the result of the operation
-  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response PostPaymentMethodsPaymentMethodDetachResponse)
+  StripeAPI.Common.ClientT m (Network.HTTP.Client.Types.Response PostPaymentMethodsPaymentMethodDetachResponse)
 postPaymentMethodsPaymentMethodDetach
   paymentMethod
   body =

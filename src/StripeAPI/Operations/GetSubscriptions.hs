@@ -50,7 +50,7 @@ getSubscriptions ::
   -- | Contains all available parameters of this operation (query and path parameters)
   GetSubscriptionsParameters ->
   -- | Monadic computation which returns the result of the operation
-  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response GetSubscriptionsResponse)
+  StripeAPI.Common.ClientT m (Network.HTTP.Client.Types.Response GetSubscriptionsResponse)
 getSubscriptions parameters =
   GHC.Base.fmap
     ( \response_0 ->

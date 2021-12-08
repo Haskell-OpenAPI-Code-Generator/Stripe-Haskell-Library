@@ -52,7 +52,7 @@ getBalanceTransactionsId ::
   -- | Contains all available parameters of this operation (query and path parameters)
   GetBalanceTransactionsIdParameters ->
   -- | Monadic computation which returns the result of the operation
-  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response GetBalanceTransactionsIdResponse)
+  StripeAPI.Common.ClientT m (Network.HTTP.Client.Types.Response GetBalanceTransactionsIdResponse)
 getBalanceTransactionsId parameters =
   GHC.Base.fmap
     ( \response_0 ->

@@ -66,6 +66,11 @@ instance Show InvoiceDiscount'Customer'Variants
 instance Eq InvoiceDiscount'Customer'Variants
 instance FromJSON InvoiceDiscount'Customer'Variants
 instance ToJSON InvoiceDiscount'Customer'Variants
+data InvoiceDiscount'Object'
+instance Show InvoiceDiscount'Object'
+instance Eq InvoiceDiscount'Object'
+instance FromJSON InvoiceDiscount'Object'
+instance ToJSON InvoiceDiscount'Object'
 data InvoiceDiscount'PromotionCode'Variants
 instance Show InvoiceDiscount'PromotionCode'Variants
 instance Eq InvoiceDiscount'PromotionCode'Variants
@@ -101,6 +106,11 @@ instance Show InvoiceLastFinalizationError'Source'Customer'Variants
 instance Eq InvoiceLastFinalizationError'Source'Customer'Variants
 instance FromJSON InvoiceLastFinalizationError'Source'Customer'Variants
 instance ToJSON InvoiceLastFinalizationError'Source'Customer'Variants
+data InvoiceLastFinalizationError'Source'Object'
+instance Show InvoiceLastFinalizationError'Source'Object'
+instance Eq InvoiceLastFinalizationError'Source'Object'
+instance FromJSON InvoiceLastFinalizationError'Source'Object'
+instance ToJSON InvoiceLastFinalizationError'Source'Object'
 data InvoiceLastFinalizationError'Source'Owner'
 instance Show InvoiceLastFinalizationError'Source'Owner'
 instance Eq InvoiceLastFinalizationError'Source'Owner'

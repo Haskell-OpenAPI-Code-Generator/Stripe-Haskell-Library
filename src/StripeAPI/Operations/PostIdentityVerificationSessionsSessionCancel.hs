@@ -54,7 +54,7 @@ postIdentityVerificationSessionsSessionCancel ::
   -- | The request body to send
   GHC.Maybe.Maybe PostIdentityVerificationSessionsSessionCancelRequestBody ->
   -- | Monadic computation which returns the result of the operation
-  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response PostIdentityVerificationSessionsSessionCancelResponse)
+  StripeAPI.Common.ClientT m (Network.HTTP.Client.Types.Response PostIdentityVerificationSessionsSessionCancelResponse)
 postIdentityVerificationSessionsSessionCancel
   session
   body =

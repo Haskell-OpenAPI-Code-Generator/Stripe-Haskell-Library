@@ -50,7 +50,7 @@ getCreditNotesPreviewLines ::
   -- | Contains all available parameters of this operation (query and path parameters)
   GetCreditNotesPreviewLinesParameters ->
   -- | Monadic computation which returns the result of the operation
-  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response GetCreditNotesPreviewLinesResponse)
+  StripeAPI.Common.ClientT m (Network.HTTP.Client.Types.Response GetCreditNotesPreviewLinesResponse)
 getCreditNotesPreviewLines parameters =
   GHC.Base.fmap
     ( \response_0 ->

@@ -52,7 +52,7 @@ postCustomersCustomerTaxIds ::
   -- | The request body to send
   PostCustomersCustomerTaxIdsRequestBody ->
   -- | Monadic computation which returns the result of the operation
-  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response PostCustomersCustomerTaxIdsResponse)
+  StripeAPI.Common.ClientT m (Network.HTTP.Client.Types.Response PostCustomersCustomerTaxIdsResponse)
 postCustomersCustomerTaxIds
   customer
   body =

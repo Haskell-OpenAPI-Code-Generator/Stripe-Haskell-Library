@@ -50,7 +50,7 @@ getTransfersTransferReversalsId ::
   -- | Contains all available parameters of this operation (query and path parameters)
   GetTransfersTransferReversalsIdParameters ->
   -- | Monadic computation which returns the result of the operation
-  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response GetTransfersTransferReversalsIdResponse)
+  StripeAPI.Common.ClientT m (Network.HTTP.Client.Types.Response GetTransfersTransferReversalsIdResponse)
 getTransfersTransferReversalsId parameters =
   GHC.Base.fmap
     ( \response_0 ->

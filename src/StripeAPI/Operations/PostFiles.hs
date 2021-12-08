@@ -47,7 +47,7 @@ import qualified Prelude as GHC.Maybe
 --
 -- \<p>All of Stripe’s officially supported Client libraries should have support for sending \<code>multipart\/form-data\<\/code>.\<\/p>
 postFiles :: forall m. StripeAPI.Common.MonadHTTP m => -- | Monadic computation which returns the result of the operation
-  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response PostFilesResponse)
+  StripeAPI.Common.ClientT m (Network.HTTP.Client.Types.Response PostFilesResponse)
 postFiles =
   GHC.Base.fmap
     ( \response_0 ->

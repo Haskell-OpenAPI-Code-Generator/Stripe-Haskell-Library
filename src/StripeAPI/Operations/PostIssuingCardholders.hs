@@ -50,7 +50,7 @@ postIssuingCardholders ::
   -- | The request body to send
   PostIssuingCardholdersRequestBody ->
   -- | Monadic computation which returns the result of the operation
-  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response PostIssuingCardholdersResponse)
+  StripeAPI.Common.ClientT m (Network.HTTP.Client.Types.Response PostIssuingCardholdersResponse)
 postIssuingCardholders body =
   GHC.Base.fmap
     ( \response_0 ->
