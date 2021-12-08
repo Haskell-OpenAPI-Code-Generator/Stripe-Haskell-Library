@@ -50,7 +50,7 @@ getEvents ::
   -- | Contains all available parameters of this operation (query and path parameters)
   GetEventsParameters ->
   -- | Monadic computation which returns the result of the operation
-  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response GetEventsResponse)
+  StripeAPI.Common.ClientT m (Network.HTTP.Client.Types.Response GetEventsResponse)
 getEvents parameters =
   GHC.Base.fmap
     ( \response_0 ->

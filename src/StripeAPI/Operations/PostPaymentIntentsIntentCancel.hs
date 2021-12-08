@@ -54,7 +54,7 @@ postPaymentIntentsIntentCancel ::
   -- | The request body to send
   GHC.Maybe.Maybe PostPaymentIntentsIntentCancelRequestBody ->
   -- | Monadic computation which returns the result of the operation
-  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response PostPaymentIntentsIntentCancelResponse)
+  StripeAPI.Common.ClientT m (Network.HTTP.Client.Types.Response PostPaymentIntentsIntentCancelResponse)
 postPaymentIntentsIntentCancel
   intent
   body =

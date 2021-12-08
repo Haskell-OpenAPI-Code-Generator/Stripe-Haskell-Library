@@ -52,7 +52,7 @@ getBalanceHistory ::
   -- | Contains all available parameters of this operation (query and path parameters)
   GetBalanceHistoryParameters ->
   -- | Monadic computation which returns the result of the operation
-  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response GetBalanceHistoryResponse)
+  StripeAPI.Common.ClientT m (Network.HTTP.Client.Types.Response GetBalanceHistoryResponse)
 getBalanceHistory parameters =
   GHC.Base.fmap
     ( \response_0 ->

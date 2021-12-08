@@ -50,7 +50,7 @@ getFileLinks ::
   -- | Contains all available parameters of this operation (query and path parameters)
   GetFileLinksParameters ->
   -- | Monadic computation which returns the result of the operation
-  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response GetFileLinksResponse)
+  StripeAPI.Common.ClientT m (Network.HTTP.Client.Types.Response GetFileLinksResponse)
 getFileLinks parameters =
   GHC.Base.fmap
     ( \response_0 ->

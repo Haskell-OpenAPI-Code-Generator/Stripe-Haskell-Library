@@ -50,7 +50,7 @@ postWebhookEndpoints ::
   -- | The request body to send
   PostWebhookEndpointsRequestBody ->
   -- | Monadic computation which returns the result of the operation
-  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response PostWebhookEndpointsResponse)
+  StripeAPI.Common.ClientT m (Network.HTTP.Client.Types.Response PostWebhookEndpointsResponse)
 postWebhookEndpoints body =
   GHC.Base.fmap
     ( \response_0 ->

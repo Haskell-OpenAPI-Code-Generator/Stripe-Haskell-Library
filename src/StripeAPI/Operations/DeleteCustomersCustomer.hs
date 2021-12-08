@@ -50,7 +50,7 @@ deleteCustomersCustomer ::
   -- | customer | Constraints: Maximum length of 5000
   Data.Text.Internal.Text ->
   -- | Monadic computation which returns the result of the operation
-  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response DeleteCustomersCustomerResponse)
+  StripeAPI.Common.ClientT m (Network.HTTP.Client.Types.Response DeleteCustomersCustomerResponse)
 deleteCustomersCustomer customer =
   GHC.Base.fmap
     ( \response_0 ->

@@ -52,7 +52,7 @@ postAccountsAccountPersonsPerson ::
   -- | The request body to send
   GHC.Maybe.Maybe PostAccountsAccountPersonsPersonRequestBody ->
   -- | Monadic computation which returns the result of the operation
-  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response PostAccountsAccountPersonsPersonResponse)
+  StripeAPI.Common.ClientT m (Network.HTTP.Client.Types.Response PostAccountsAccountPersonsPersonResponse)
 postAccountsAccountPersonsPerson
   parameters
   body =

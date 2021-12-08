@@ -50,7 +50,7 @@ deleteAccountBankAccountsId ::
   -- | id
   Data.Text.Internal.Text ->
   -- | Monadic computation which returns the result of the operation
-  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response DeleteAccountBankAccountsIdResponse)
+  StripeAPI.Common.ClientT m (Network.HTTP.Client.Types.Response DeleteAccountBankAccountsIdResponse)
 deleteAccountBankAccountsId id =
   GHC.Base.fmap
     ( \response_0 ->

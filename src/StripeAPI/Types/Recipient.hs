@@ -195,6 +195,8 @@ data RecipientActiveAccount' = RecipientActiveAccount'
     recipientActiveAccount'Last4 :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
     -- | metadata: Set of [key-value pairs](https:\/\/stripe.com\/docs\/api\/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
     recipientActiveAccount'Metadata :: (GHC.Maybe.Maybe Data.Aeson.Types.Internal.Object),
+    -- | object: String representing the object\'s type. Objects of the same type share the same value.
+    recipientActiveAccount'Object :: (GHC.Maybe.Maybe RecipientActiveAccount'Object'),
     -- | routing_number: The routing transit number for the bank account.
     --
     -- Constraints:
@@ -216,11 +218,11 @@ data RecipientActiveAccount' = RecipientActiveAccount'
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON RecipientActiveAccount' where
-  toJSON obj = Data.Aeson.Types.Internal.object ("account" Data.Aeson.Types.ToJSON..= recipientActiveAccount'Account obj : "account_holder_name" Data.Aeson.Types.ToJSON..= recipientActiveAccount'AccountHolderName obj : "account_holder_type" Data.Aeson.Types.ToJSON..= recipientActiveAccount'AccountHolderType obj : "available_payout_methods" Data.Aeson.Types.ToJSON..= recipientActiveAccount'AvailablePayoutMethods obj : "bank_name" Data.Aeson.Types.ToJSON..= recipientActiveAccount'BankName obj : "country" Data.Aeson.Types.ToJSON..= recipientActiveAccount'Country obj : "currency" Data.Aeson.Types.ToJSON..= recipientActiveAccount'Currency obj : "customer" Data.Aeson.Types.ToJSON..= recipientActiveAccount'Customer obj : "default_for_currency" Data.Aeson.Types.ToJSON..= recipientActiveAccount'DefaultForCurrency obj : "fingerprint" Data.Aeson.Types.ToJSON..= recipientActiveAccount'Fingerprint obj : "id" Data.Aeson.Types.ToJSON..= recipientActiveAccount'Id obj : "last4" Data.Aeson.Types.ToJSON..= recipientActiveAccount'Last4 obj : "metadata" Data.Aeson.Types.ToJSON..= recipientActiveAccount'Metadata obj : "routing_number" Data.Aeson.Types.ToJSON..= recipientActiveAccount'RoutingNumber obj : "status" Data.Aeson.Types.ToJSON..= recipientActiveAccount'Status obj : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "bank_account" : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("account" Data.Aeson.Types.ToJSON..= recipientActiveAccount'Account obj) GHC.Base.<> (("account_holder_name" Data.Aeson.Types.ToJSON..= recipientActiveAccount'AccountHolderName obj) GHC.Base.<> (("account_holder_type" Data.Aeson.Types.ToJSON..= recipientActiveAccount'AccountHolderType obj) GHC.Base.<> (("available_payout_methods" Data.Aeson.Types.ToJSON..= recipientActiveAccount'AvailablePayoutMethods obj) GHC.Base.<> (("bank_name" Data.Aeson.Types.ToJSON..= recipientActiveAccount'BankName obj) GHC.Base.<> (("country" Data.Aeson.Types.ToJSON..= recipientActiveAccount'Country obj) GHC.Base.<> (("currency" Data.Aeson.Types.ToJSON..= recipientActiveAccount'Currency obj) GHC.Base.<> (("customer" Data.Aeson.Types.ToJSON..= recipientActiveAccount'Customer obj) GHC.Base.<> (("default_for_currency" Data.Aeson.Types.ToJSON..= recipientActiveAccount'DefaultForCurrency obj) GHC.Base.<> (("fingerprint" Data.Aeson.Types.ToJSON..= recipientActiveAccount'Fingerprint obj) GHC.Base.<> (("id" Data.Aeson.Types.ToJSON..= recipientActiveAccount'Id obj) GHC.Base.<> (("last4" Data.Aeson.Types.ToJSON..= recipientActiveAccount'Last4 obj) GHC.Base.<> (("metadata" Data.Aeson.Types.ToJSON..= recipientActiveAccount'Metadata obj) GHC.Base.<> (("routing_number" Data.Aeson.Types.ToJSON..= recipientActiveAccount'RoutingNumber obj) GHC.Base.<> (("status" Data.Aeson.Types.ToJSON..= recipientActiveAccount'Status obj) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "bank_account"))))))))))))))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("account" Data.Aeson.Types.ToJSON..= recipientActiveAccount'Account obj : "account_holder_name" Data.Aeson.Types.ToJSON..= recipientActiveAccount'AccountHolderName obj : "account_holder_type" Data.Aeson.Types.ToJSON..= recipientActiveAccount'AccountHolderType obj : "available_payout_methods" Data.Aeson.Types.ToJSON..= recipientActiveAccount'AvailablePayoutMethods obj : "bank_name" Data.Aeson.Types.ToJSON..= recipientActiveAccount'BankName obj : "country" Data.Aeson.Types.ToJSON..= recipientActiveAccount'Country obj : "currency" Data.Aeson.Types.ToJSON..= recipientActiveAccount'Currency obj : "customer" Data.Aeson.Types.ToJSON..= recipientActiveAccount'Customer obj : "default_for_currency" Data.Aeson.Types.ToJSON..= recipientActiveAccount'DefaultForCurrency obj : "fingerprint" Data.Aeson.Types.ToJSON..= recipientActiveAccount'Fingerprint obj : "id" Data.Aeson.Types.ToJSON..= recipientActiveAccount'Id obj : "last4" Data.Aeson.Types.ToJSON..= recipientActiveAccount'Last4 obj : "metadata" Data.Aeson.Types.ToJSON..= recipientActiveAccount'Metadata obj : "object" Data.Aeson.Types.ToJSON..= recipientActiveAccount'Object obj : "routing_number" Data.Aeson.Types.ToJSON..= recipientActiveAccount'RoutingNumber obj : "status" Data.Aeson.Types.ToJSON..= recipientActiveAccount'Status obj : GHC.Base.mempty)
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("account" Data.Aeson.Types.ToJSON..= recipientActiveAccount'Account obj) GHC.Base.<> (("account_holder_name" Data.Aeson.Types.ToJSON..= recipientActiveAccount'AccountHolderName obj) GHC.Base.<> (("account_holder_type" Data.Aeson.Types.ToJSON..= recipientActiveAccount'AccountHolderType obj) GHC.Base.<> (("available_payout_methods" Data.Aeson.Types.ToJSON..= recipientActiveAccount'AvailablePayoutMethods obj) GHC.Base.<> (("bank_name" Data.Aeson.Types.ToJSON..= recipientActiveAccount'BankName obj) GHC.Base.<> (("country" Data.Aeson.Types.ToJSON..= recipientActiveAccount'Country obj) GHC.Base.<> (("currency" Data.Aeson.Types.ToJSON..= recipientActiveAccount'Currency obj) GHC.Base.<> (("customer" Data.Aeson.Types.ToJSON..= recipientActiveAccount'Customer obj) GHC.Base.<> (("default_for_currency" Data.Aeson.Types.ToJSON..= recipientActiveAccount'DefaultForCurrency obj) GHC.Base.<> (("fingerprint" Data.Aeson.Types.ToJSON..= recipientActiveAccount'Fingerprint obj) GHC.Base.<> (("id" Data.Aeson.Types.ToJSON..= recipientActiveAccount'Id obj) GHC.Base.<> (("last4" Data.Aeson.Types.ToJSON..= recipientActiveAccount'Last4 obj) GHC.Base.<> (("metadata" Data.Aeson.Types.ToJSON..= recipientActiveAccount'Metadata obj) GHC.Base.<> (("object" Data.Aeson.Types.ToJSON..= recipientActiveAccount'Object obj) GHC.Base.<> (("routing_number" Data.Aeson.Types.ToJSON..= recipientActiveAccount'RoutingNumber obj) GHC.Base.<> ("status" Data.Aeson.Types.ToJSON..= recipientActiveAccount'Status obj))))))))))))))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON RecipientActiveAccount' where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "RecipientActiveAccount'" (\obj -> ((((((((((((((GHC.Base.pure RecipientActiveAccount' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "account")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "account_holder_name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "account_holder_type")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "available_payout_methods")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "bank_name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "country")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "customer")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "default_for_currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "fingerprint")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "last4")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "routing_number")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "status"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "RecipientActiveAccount'" (\obj -> (((((((((((((((GHC.Base.pure RecipientActiveAccount' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "account")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "account_holder_name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "account_holder_type")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "available_payout_methods")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "bank_name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "country")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "customer")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "default_for_currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "fingerprint")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "last4")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "object")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "routing_number")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "status"))
 
 -- | Create a new 'RecipientActiveAccount'' with all required fields.
 mkRecipientActiveAccount' :: RecipientActiveAccount'
@@ -239,6 +241,7 @@ mkRecipientActiveAccount' =
       recipientActiveAccount'Id = GHC.Maybe.Nothing,
       recipientActiveAccount'Last4 = GHC.Maybe.Nothing,
       recipientActiveAccount'Metadata = GHC.Maybe.Nothing,
+      recipientActiveAccount'Object = GHC.Maybe.Nothing,
       recipientActiveAccount'RoutingNumber = GHC.Maybe.Nothing,
       recipientActiveAccount'Status = GHC.Maybe.Nothing
     }
@@ -305,6 +308,31 @@ instance Data.Aeson.Types.FromJSON.FromJSON RecipientActiveAccount'Customer'Vari
   parseJSON val = case (RecipientActiveAccount'Customer'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((RecipientActiveAccount'Customer'Customer Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((RecipientActiveAccount'Customer'DeletedCustomer Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched")) of
     Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
     Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+
+-- | Defines the enum schema located at @components.schemas.recipient.properties.active_account.anyOf.properties.object@ in the specification.
+--
+-- String representing the object\'s type. Objects of the same type share the same value.
+data RecipientActiveAccount'Object'
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    RecipientActiveAccount'Object'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    RecipientActiveAccount'Object'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"bank_account"@
+    RecipientActiveAccount'Object'EnumBankAccount
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON RecipientActiveAccount'Object' where
+  toJSON (RecipientActiveAccount'Object'Other val) = val
+  toJSON (RecipientActiveAccount'Object'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (RecipientActiveAccount'Object'EnumBankAccount) = "bank_account"
+
+instance Data.Aeson.Types.FromJSON.FromJSON RecipientActiveAccount'Object' where
+  parseJSON val =
+    GHC.Base.pure
+      ( if
+            | val GHC.Classes.== "bank_account" -> RecipientActiveAccount'Object'EnumBankAccount
+            | GHC.Base.otherwise -> RecipientActiveAccount'Object'Other val
+      )
 
 -- | Defines the object schema located at @components.schemas.recipient.properties.cards@ in the specification.
 data RecipientCards' = RecipientCards'

@@ -26,6 +26,11 @@ instance Show RecipientActiveAccount'Customer'Variants
 instance Eq RecipientActiveAccount'Customer'Variants
 instance FromJSON RecipientActiveAccount'Customer'Variants
 instance ToJSON RecipientActiveAccount'Customer'Variants
+data RecipientActiveAccount'Object'
+instance Show RecipientActiveAccount'Object'
+instance Eq RecipientActiveAccount'Object'
+instance FromJSON RecipientActiveAccount'Object'
+instance ToJSON RecipientActiveAccount'Object'
 data RecipientCards'
 instance Show RecipientCards'
 instance Eq RecipientCards'

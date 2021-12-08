@@ -50,7 +50,7 @@ postTaxRates ::
   -- | The request body to send
   PostTaxRatesRequestBody ->
   -- | Monadic computation which returns the result of the operation
-  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response PostTaxRatesResponse)
+  StripeAPI.Common.ClientT m (Network.HTTP.Client.Types.Response PostTaxRatesResponse)
 postTaxRates body =
   GHC.Base.fmap
     ( \response_0 ->

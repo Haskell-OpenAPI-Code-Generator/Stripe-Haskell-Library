@@ -50,7 +50,7 @@ get3dSecureThreeDSecure ::
   -- | Contains all available parameters of this operation (query and path parameters)
   Get3dSecureThreeDSecureParameters ->
   -- | Monadic computation which returns the result of the operation
-  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response Get3dSecureThreeDSecureResponse)
+  StripeAPI.Common.ClientT m (Network.HTTP.Client.Types.Response Get3dSecureThreeDSecureResponse)
 get3dSecureThreeDSecure parameters =
   GHC.Base.fmap
     ( \response_0 ->

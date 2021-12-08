@@ -54,7 +54,7 @@ postCustomersCustomer ::
   -- | The request body to send
   GHC.Maybe.Maybe PostCustomersCustomerRequestBody ->
   -- | Monadic computation which returns the result of the operation
-  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response PostCustomersCustomerResponse)
+  StripeAPI.Common.ClientT m (Network.HTTP.Client.Types.Response PostCustomersCustomerResponse)
 postCustomersCustomer
   customer
   body =
@@ -346,6 +346,12 @@ data PostCustomersCustomerRequestBodyBankAccount'OneOf1 = PostCustomersCustomerR
     postCustomersCustomerRequestBodyBankAccount'OneOf1Country :: Data.Text.Internal.Text,
     -- | currency
     postCustomersCustomerRequestBodyBankAccount'OneOf1Currency :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    -- | object
+    --
+    -- Constraints:
+    --
+    -- * Maximum length of 5000
+    postCustomersCustomerRequestBodyBankAccount'OneOf1Object :: (GHC.Maybe.Maybe PostCustomersCustomerRequestBodyBankAccount'OneOf1Object'),
     -- | routing_number
     --
     -- Constraints:
@@ -359,11 +365,11 @@ data PostCustomersCustomerRequestBodyBankAccount'OneOf1 = PostCustomersCustomerR
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostCustomersCustomerRequestBodyBankAccount'OneOf1 where
-  toJSON obj = Data.Aeson.Types.Internal.object ("account_holder_name" Data.Aeson.Types.ToJSON..= postCustomersCustomerRequestBodyBankAccount'OneOf1AccountHolderName obj : "account_holder_type" Data.Aeson.Types.ToJSON..= postCustomersCustomerRequestBodyBankAccount'OneOf1AccountHolderType obj : "account_number" Data.Aeson.Types.ToJSON..= postCustomersCustomerRequestBodyBankAccount'OneOf1AccountNumber obj : "country" Data.Aeson.Types.ToJSON..= postCustomersCustomerRequestBodyBankAccount'OneOf1Country obj : "currency" Data.Aeson.Types.ToJSON..= postCustomersCustomerRequestBodyBankAccount'OneOf1Currency obj : "routing_number" Data.Aeson.Types.ToJSON..= postCustomersCustomerRequestBodyBankAccount'OneOf1RoutingNumber obj : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "bank_account" : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("account_holder_name" Data.Aeson.Types.ToJSON..= postCustomersCustomerRequestBodyBankAccount'OneOf1AccountHolderName obj) GHC.Base.<> (("account_holder_type" Data.Aeson.Types.ToJSON..= postCustomersCustomerRequestBodyBankAccount'OneOf1AccountHolderType obj) GHC.Base.<> (("account_number" Data.Aeson.Types.ToJSON..= postCustomersCustomerRequestBodyBankAccount'OneOf1AccountNumber obj) GHC.Base.<> (("country" Data.Aeson.Types.ToJSON..= postCustomersCustomerRequestBodyBankAccount'OneOf1Country obj) GHC.Base.<> (("currency" Data.Aeson.Types.ToJSON..= postCustomersCustomerRequestBodyBankAccount'OneOf1Currency obj) GHC.Base.<> (("routing_number" Data.Aeson.Types.ToJSON..= postCustomersCustomerRequestBodyBankAccount'OneOf1RoutingNumber obj) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "bank_account")))))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("account_holder_name" Data.Aeson.Types.ToJSON..= postCustomersCustomerRequestBodyBankAccount'OneOf1AccountHolderName obj : "account_holder_type" Data.Aeson.Types.ToJSON..= postCustomersCustomerRequestBodyBankAccount'OneOf1AccountHolderType obj : "account_number" Data.Aeson.Types.ToJSON..= postCustomersCustomerRequestBodyBankAccount'OneOf1AccountNumber obj : "country" Data.Aeson.Types.ToJSON..= postCustomersCustomerRequestBodyBankAccount'OneOf1Country obj : "currency" Data.Aeson.Types.ToJSON..= postCustomersCustomerRequestBodyBankAccount'OneOf1Currency obj : "object" Data.Aeson.Types.ToJSON..= postCustomersCustomerRequestBodyBankAccount'OneOf1Object obj : "routing_number" Data.Aeson.Types.ToJSON..= postCustomersCustomerRequestBodyBankAccount'OneOf1RoutingNumber obj : GHC.Base.mempty)
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("account_holder_name" Data.Aeson.Types.ToJSON..= postCustomersCustomerRequestBodyBankAccount'OneOf1AccountHolderName obj) GHC.Base.<> (("account_holder_type" Data.Aeson.Types.ToJSON..= postCustomersCustomerRequestBodyBankAccount'OneOf1AccountHolderType obj) GHC.Base.<> (("account_number" Data.Aeson.Types.ToJSON..= postCustomersCustomerRequestBodyBankAccount'OneOf1AccountNumber obj) GHC.Base.<> (("country" Data.Aeson.Types.ToJSON..= postCustomersCustomerRequestBodyBankAccount'OneOf1Country obj) GHC.Base.<> (("currency" Data.Aeson.Types.ToJSON..= postCustomersCustomerRequestBodyBankAccount'OneOf1Currency obj) GHC.Base.<> (("object" Data.Aeson.Types.ToJSON..= postCustomersCustomerRequestBodyBankAccount'OneOf1Object obj) GHC.Base.<> ("routing_number" Data.Aeson.Types.ToJSON..= postCustomersCustomerRequestBodyBankAccount'OneOf1RoutingNumber obj)))))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostCustomersCustomerRequestBodyBankAccount'OneOf1 where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostCustomersCustomerRequestBodyBankAccount'OneOf1" (\obj -> (((((GHC.Base.pure PostCustomersCustomerRequestBodyBankAccount'OneOf1 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "account_holder_name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "account_holder_type")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "account_number")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "country")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "routing_number"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostCustomersCustomerRequestBodyBankAccount'OneOf1" (\obj -> ((((((GHC.Base.pure PostCustomersCustomerRequestBodyBankAccount'OneOf1 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "account_holder_name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "account_holder_type")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "account_number")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "country")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "object")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "routing_number"))
 
 -- | Create a new 'PostCustomersCustomerRequestBodyBankAccount'OneOf1' with all required fields.
 mkPostCustomersCustomerRequestBodyBankAccount'OneOf1 ::
@@ -379,6 +385,7 @@ mkPostCustomersCustomerRequestBodyBankAccount'OneOf1 postCustomersCustomerReques
       postCustomersCustomerRequestBodyBankAccount'OneOf1AccountNumber = postCustomersCustomerRequestBodyBankAccount'OneOf1AccountNumber,
       postCustomersCustomerRequestBodyBankAccount'OneOf1Country = postCustomersCustomerRequestBodyBankAccount'OneOf1Country,
       postCustomersCustomerRequestBodyBankAccount'OneOf1Currency = GHC.Maybe.Nothing,
+      postCustomersCustomerRequestBodyBankAccount'OneOf1Object = GHC.Maybe.Nothing,
       postCustomersCustomerRequestBodyBankAccount'OneOf1RoutingNumber = GHC.Maybe.Nothing
     }
 
@@ -407,6 +414,29 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostCustomersCustomerRequestBodyBank
             | val GHC.Classes.== "company" -> PostCustomersCustomerRequestBodyBankAccount'OneOf1AccountHolderType'EnumCompany
             | val GHC.Classes.== "individual" -> PostCustomersCustomerRequestBodyBankAccount'OneOf1AccountHolderType'EnumIndividual
             | GHC.Base.otherwise -> PostCustomersCustomerRequestBodyBankAccount'OneOf1AccountHolderType'Other val
+      )
+
+-- | Defines the enum schema located at @paths.\/v1\/customers\/{customer}.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.bank_account.anyOf.properties.object@ in the specification.
+data PostCustomersCustomerRequestBodyBankAccount'OneOf1Object'
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    PostCustomersCustomerRequestBodyBankAccount'OneOf1Object'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    PostCustomersCustomerRequestBodyBankAccount'OneOf1Object'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"bank_account"@
+    PostCustomersCustomerRequestBodyBankAccount'OneOf1Object'EnumBankAccount
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostCustomersCustomerRequestBodyBankAccount'OneOf1Object' where
+  toJSON (PostCustomersCustomerRequestBodyBankAccount'OneOf1Object'Other val) = val
+  toJSON (PostCustomersCustomerRequestBodyBankAccount'OneOf1Object'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PostCustomersCustomerRequestBodyBankAccount'OneOf1Object'EnumBankAccount) = "bank_account"
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostCustomersCustomerRequestBodyBankAccount'OneOf1Object' where
+  parseJSON val =
+    GHC.Base.pure
+      ( if
+            | val GHC.Classes.== "bank_account" -> PostCustomersCustomerRequestBodyBankAccount'OneOf1Object'EnumBankAccount
+            | GHC.Base.otherwise -> PostCustomersCustomerRequestBodyBankAccount'OneOf1Object'Other val
       )
 
 -- | Defines the oneOf schema located at @paths.\/v1\/customers\/{customer}.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.bank_account.anyOf@ in the specification.
@@ -487,7 +517,13 @@ data PostCustomersCustomerRequestBodyCard'OneOf1 = PostCustomersCustomerRequestB
     -- Constraints:
     --
     -- * Maximum length of 5000
-    postCustomersCustomerRequestBodyCard'OneOf1Number :: Data.Text.Internal.Text
+    postCustomersCustomerRequestBodyCard'OneOf1Number :: Data.Text.Internal.Text,
+    -- | object
+    --
+    -- Constraints:
+    --
+    -- * Maximum length of 5000
+    postCustomersCustomerRequestBodyCard'OneOf1Object :: (GHC.Maybe.Maybe PostCustomersCustomerRequestBodyCard'OneOf1Object')
   }
   deriving
     ( GHC.Show.Show,
@@ -495,11 +531,11 @@ data PostCustomersCustomerRequestBodyCard'OneOf1 = PostCustomersCustomerRequestB
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostCustomersCustomerRequestBodyCard'OneOf1 where
-  toJSON obj = Data.Aeson.Types.Internal.object ("address_city" Data.Aeson.Types.ToJSON..= postCustomersCustomerRequestBodyCard'OneOf1AddressCity obj : "address_country" Data.Aeson.Types.ToJSON..= postCustomersCustomerRequestBodyCard'OneOf1AddressCountry obj : "address_line1" Data.Aeson.Types.ToJSON..= postCustomersCustomerRequestBodyCard'OneOf1AddressLine1 obj : "address_line2" Data.Aeson.Types.ToJSON..= postCustomersCustomerRequestBodyCard'OneOf1AddressLine2 obj : "address_state" Data.Aeson.Types.ToJSON..= postCustomersCustomerRequestBodyCard'OneOf1AddressState obj : "address_zip" Data.Aeson.Types.ToJSON..= postCustomersCustomerRequestBodyCard'OneOf1AddressZip obj : "cvc" Data.Aeson.Types.ToJSON..= postCustomersCustomerRequestBodyCard'OneOf1Cvc obj : "exp_month" Data.Aeson.Types.ToJSON..= postCustomersCustomerRequestBodyCard'OneOf1ExpMonth obj : "exp_year" Data.Aeson.Types.ToJSON..= postCustomersCustomerRequestBodyCard'OneOf1ExpYear obj : "metadata" Data.Aeson.Types.ToJSON..= postCustomersCustomerRequestBodyCard'OneOf1Metadata obj : "name" Data.Aeson.Types.ToJSON..= postCustomersCustomerRequestBodyCard'OneOf1Name obj : "number" Data.Aeson.Types.ToJSON..= postCustomersCustomerRequestBodyCard'OneOf1Number obj : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "card" : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("address_city" Data.Aeson.Types.ToJSON..= postCustomersCustomerRequestBodyCard'OneOf1AddressCity obj) GHC.Base.<> (("address_country" Data.Aeson.Types.ToJSON..= postCustomersCustomerRequestBodyCard'OneOf1AddressCountry obj) GHC.Base.<> (("address_line1" Data.Aeson.Types.ToJSON..= postCustomersCustomerRequestBodyCard'OneOf1AddressLine1 obj) GHC.Base.<> (("address_line2" Data.Aeson.Types.ToJSON..= postCustomersCustomerRequestBodyCard'OneOf1AddressLine2 obj) GHC.Base.<> (("address_state" Data.Aeson.Types.ToJSON..= postCustomersCustomerRequestBodyCard'OneOf1AddressState obj) GHC.Base.<> (("address_zip" Data.Aeson.Types.ToJSON..= postCustomersCustomerRequestBodyCard'OneOf1AddressZip obj) GHC.Base.<> (("cvc" Data.Aeson.Types.ToJSON..= postCustomersCustomerRequestBodyCard'OneOf1Cvc obj) GHC.Base.<> (("exp_month" Data.Aeson.Types.ToJSON..= postCustomersCustomerRequestBodyCard'OneOf1ExpMonth obj) GHC.Base.<> (("exp_year" Data.Aeson.Types.ToJSON..= postCustomersCustomerRequestBodyCard'OneOf1ExpYear obj) GHC.Base.<> (("metadata" Data.Aeson.Types.ToJSON..= postCustomersCustomerRequestBodyCard'OneOf1Metadata obj) GHC.Base.<> (("name" Data.Aeson.Types.ToJSON..= postCustomersCustomerRequestBodyCard'OneOf1Name obj) GHC.Base.<> (("number" Data.Aeson.Types.ToJSON..= postCustomersCustomerRequestBodyCard'OneOf1Number obj) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "card")))))))))))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("address_city" Data.Aeson.Types.ToJSON..= postCustomersCustomerRequestBodyCard'OneOf1AddressCity obj : "address_country" Data.Aeson.Types.ToJSON..= postCustomersCustomerRequestBodyCard'OneOf1AddressCountry obj : "address_line1" Data.Aeson.Types.ToJSON..= postCustomersCustomerRequestBodyCard'OneOf1AddressLine1 obj : "address_line2" Data.Aeson.Types.ToJSON..= postCustomersCustomerRequestBodyCard'OneOf1AddressLine2 obj : "address_state" Data.Aeson.Types.ToJSON..= postCustomersCustomerRequestBodyCard'OneOf1AddressState obj : "address_zip" Data.Aeson.Types.ToJSON..= postCustomersCustomerRequestBodyCard'OneOf1AddressZip obj : "cvc" Data.Aeson.Types.ToJSON..= postCustomersCustomerRequestBodyCard'OneOf1Cvc obj : "exp_month" Data.Aeson.Types.ToJSON..= postCustomersCustomerRequestBodyCard'OneOf1ExpMonth obj : "exp_year" Data.Aeson.Types.ToJSON..= postCustomersCustomerRequestBodyCard'OneOf1ExpYear obj : "metadata" Data.Aeson.Types.ToJSON..= postCustomersCustomerRequestBodyCard'OneOf1Metadata obj : "name" Data.Aeson.Types.ToJSON..= postCustomersCustomerRequestBodyCard'OneOf1Name obj : "number" Data.Aeson.Types.ToJSON..= postCustomersCustomerRequestBodyCard'OneOf1Number obj : "object" Data.Aeson.Types.ToJSON..= postCustomersCustomerRequestBodyCard'OneOf1Object obj : GHC.Base.mempty)
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("address_city" Data.Aeson.Types.ToJSON..= postCustomersCustomerRequestBodyCard'OneOf1AddressCity obj) GHC.Base.<> (("address_country" Data.Aeson.Types.ToJSON..= postCustomersCustomerRequestBodyCard'OneOf1AddressCountry obj) GHC.Base.<> (("address_line1" Data.Aeson.Types.ToJSON..= postCustomersCustomerRequestBodyCard'OneOf1AddressLine1 obj) GHC.Base.<> (("address_line2" Data.Aeson.Types.ToJSON..= postCustomersCustomerRequestBodyCard'OneOf1AddressLine2 obj) GHC.Base.<> (("address_state" Data.Aeson.Types.ToJSON..= postCustomersCustomerRequestBodyCard'OneOf1AddressState obj) GHC.Base.<> (("address_zip" Data.Aeson.Types.ToJSON..= postCustomersCustomerRequestBodyCard'OneOf1AddressZip obj) GHC.Base.<> (("cvc" Data.Aeson.Types.ToJSON..= postCustomersCustomerRequestBodyCard'OneOf1Cvc obj) GHC.Base.<> (("exp_month" Data.Aeson.Types.ToJSON..= postCustomersCustomerRequestBodyCard'OneOf1ExpMonth obj) GHC.Base.<> (("exp_year" Data.Aeson.Types.ToJSON..= postCustomersCustomerRequestBodyCard'OneOf1ExpYear obj) GHC.Base.<> (("metadata" Data.Aeson.Types.ToJSON..= postCustomersCustomerRequestBodyCard'OneOf1Metadata obj) GHC.Base.<> (("name" Data.Aeson.Types.ToJSON..= postCustomersCustomerRequestBodyCard'OneOf1Name obj) GHC.Base.<> (("number" Data.Aeson.Types.ToJSON..= postCustomersCustomerRequestBodyCard'OneOf1Number obj) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= postCustomersCustomerRequestBodyCard'OneOf1Object obj)))))))))))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostCustomersCustomerRequestBodyCard'OneOf1 where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostCustomersCustomerRequestBodyCard'OneOf1" (\obj -> (((((((((((GHC.Base.pure PostCustomersCustomerRequestBodyCard'OneOf1 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "address_city")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "address_country")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "address_line1")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "address_line2")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "address_state")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "address_zip")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "cvc")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "exp_month")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "exp_year")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "number"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostCustomersCustomerRequestBodyCard'OneOf1" (\obj -> ((((((((((((GHC.Base.pure PostCustomersCustomerRequestBodyCard'OneOf1 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "address_city")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "address_country")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "address_line1")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "address_line2")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "address_state")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "address_zip")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "cvc")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "exp_month")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "exp_year")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "number")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "object"))
 
 -- | Create a new 'PostCustomersCustomerRequestBodyCard'OneOf1' with all required fields.
 mkPostCustomersCustomerRequestBodyCard'OneOf1 ::
@@ -523,8 +559,32 @@ mkPostCustomersCustomerRequestBodyCard'OneOf1 postCustomersCustomerRequestBodyCa
       postCustomersCustomerRequestBodyCard'OneOf1ExpYear = postCustomersCustomerRequestBodyCard'OneOf1ExpYear,
       postCustomersCustomerRequestBodyCard'OneOf1Metadata = GHC.Maybe.Nothing,
       postCustomersCustomerRequestBodyCard'OneOf1Name = GHC.Maybe.Nothing,
-      postCustomersCustomerRequestBodyCard'OneOf1Number = postCustomersCustomerRequestBodyCard'OneOf1Number
+      postCustomersCustomerRequestBodyCard'OneOf1Number = postCustomersCustomerRequestBodyCard'OneOf1Number,
+      postCustomersCustomerRequestBodyCard'OneOf1Object = GHC.Maybe.Nothing
     }
+
+-- | Defines the enum schema located at @paths.\/v1\/customers\/{customer}.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.card.anyOf.properties.object@ in the specification.
+data PostCustomersCustomerRequestBodyCard'OneOf1Object'
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    PostCustomersCustomerRequestBodyCard'OneOf1Object'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    PostCustomersCustomerRequestBodyCard'OneOf1Object'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"card"@
+    PostCustomersCustomerRequestBodyCard'OneOf1Object'EnumCard
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostCustomersCustomerRequestBodyCard'OneOf1Object' where
+  toJSON (PostCustomersCustomerRequestBodyCard'OneOf1Object'Other val) = val
+  toJSON (PostCustomersCustomerRequestBodyCard'OneOf1Object'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PostCustomersCustomerRequestBodyCard'OneOf1Object'EnumCard) = "card"
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostCustomersCustomerRequestBodyCard'OneOf1Object' where
+  parseJSON val =
+    GHC.Base.pure
+      ( if
+            | val GHC.Classes.== "card" -> PostCustomersCustomerRequestBodyCard'OneOf1Object'EnumCard
+            | GHC.Base.otherwise -> PostCustomersCustomerRequestBodyCard'OneOf1Object'Other val
+      )
 
 -- | Defines the oneOf schema located at @paths.\/v1\/customers\/{customer}.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.card.anyOf@ in the specification.
 --

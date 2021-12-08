@@ -50,7 +50,7 @@ getPayoutsPayout ::
   -- | Contains all available parameters of this operation (query and path parameters)
   GetPayoutsPayoutParameters ->
   -- | Monadic computation which returns the result of the operation
-  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response GetPayoutsPayoutResponse)
+  StripeAPI.Common.ClientT m (Network.HTTP.Client.Types.Response GetPayoutsPayoutResponse)
 getPayoutsPayout parameters =
   GHC.Base.fmap
     ( \response_0 ->

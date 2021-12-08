@@ -141,6 +141,8 @@ data ItemPrice' = ItemPrice'
     --
     -- * Maximum length of 5000
     itemPrice'Nickname :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    -- | object: String representing the object\'s type. Objects of the same type share the same value.
+    itemPrice'Object :: (GHC.Maybe.Maybe ItemPrice'Object'),
     -- | product: The ID of the product this price is associated with.
     itemPrice'Product :: (GHC.Maybe.Maybe ItemPrice'Product'Variants),
     -- | recurring: The recurring components of a price such as \`interval\` and \`usage_type\`.
@@ -166,11 +168,11 @@ data ItemPrice' = ItemPrice'
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON ItemPrice' where
-  toJSON obj = Data.Aeson.Types.Internal.object ("active" Data.Aeson.Types.ToJSON..= itemPrice'Active obj : "billing_scheme" Data.Aeson.Types.ToJSON..= itemPrice'BillingScheme obj : "created" Data.Aeson.Types.ToJSON..= itemPrice'Created obj : "currency" Data.Aeson.Types.ToJSON..= itemPrice'Currency obj : "id" Data.Aeson.Types.ToJSON..= itemPrice'Id obj : "livemode" Data.Aeson.Types.ToJSON..= itemPrice'Livemode obj : "lookup_key" Data.Aeson.Types.ToJSON..= itemPrice'LookupKey obj : "metadata" Data.Aeson.Types.ToJSON..= itemPrice'Metadata obj : "nickname" Data.Aeson.Types.ToJSON..= itemPrice'Nickname obj : "product" Data.Aeson.Types.ToJSON..= itemPrice'Product obj : "recurring" Data.Aeson.Types.ToJSON..= itemPrice'Recurring obj : "tax_behavior" Data.Aeson.Types.ToJSON..= itemPrice'TaxBehavior obj : "tiers" Data.Aeson.Types.ToJSON..= itemPrice'Tiers obj : "tiers_mode" Data.Aeson.Types.ToJSON..= itemPrice'TiersMode obj : "transform_quantity" Data.Aeson.Types.ToJSON..= itemPrice'TransformQuantity obj : "type" Data.Aeson.Types.ToJSON..= itemPrice'Type obj : "unit_amount" Data.Aeson.Types.ToJSON..= itemPrice'UnitAmount obj : "unit_amount_decimal" Data.Aeson.Types.ToJSON..= itemPrice'UnitAmountDecimal obj : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "price" : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("active" Data.Aeson.Types.ToJSON..= itemPrice'Active obj) GHC.Base.<> (("billing_scheme" Data.Aeson.Types.ToJSON..= itemPrice'BillingScheme obj) GHC.Base.<> (("created" Data.Aeson.Types.ToJSON..= itemPrice'Created obj) GHC.Base.<> (("currency" Data.Aeson.Types.ToJSON..= itemPrice'Currency obj) GHC.Base.<> (("id" Data.Aeson.Types.ToJSON..= itemPrice'Id obj) GHC.Base.<> (("livemode" Data.Aeson.Types.ToJSON..= itemPrice'Livemode obj) GHC.Base.<> (("lookup_key" Data.Aeson.Types.ToJSON..= itemPrice'LookupKey obj) GHC.Base.<> (("metadata" Data.Aeson.Types.ToJSON..= itemPrice'Metadata obj) GHC.Base.<> (("nickname" Data.Aeson.Types.ToJSON..= itemPrice'Nickname obj) GHC.Base.<> (("product" Data.Aeson.Types.ToJSON..= itemPrice'Product obj) GHC.Base.<> (("recurring" Data.Aeson.Types.ToJSON..= itemPrice'Recurring obj) GHC.Base.<> (("tax_behavior" Data.Aeson.Types.ToJSON..= itemPrice'TaxBehavior obj) GHC.Base.<> (("tiers" Data.Aeson.Types.ToJSON..= itemPrice'Tiers obj) GHC.Base.<> (("tiers_mode" Data.Aeson.Types.ToJSON..= itemPrice'TiersMode obj) GHC.Base.<> (("transform_quantity" Data.Aeson.Types.ToJSON..= itemPrice'TransformQuantity obj) GHC.Base.<> (("type" Data.Aeson.Types.ToJSON..= itemPrice'Type obj) GHC.Base.<> (("unit_amount" Data.Aeson.Types.ToJSON..= itemPrice'UnitAmount obj) GHC.Base.<> (("unit_amount_decimal" Data.Aeson.Types.ToJSON..= itemPrice'UnitAmountDecimal obj) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "price")))))))))))))))))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("active" Data.Aeson.Types.ToJSON..= itemPrice'Active obj : "billing_scheme" Data.Aeson.Types.ToJSON..= itemPrice'BillingScheme obj : "created" Data.Aeson.Types.ToJSON..= itemPrice'Created obj : "currency" Data.Aeson.Types.ToJSON..= itemPrice'Currency obj : "id" Data.Aeson.Types.ToJSON..= itemPrice'Id obj : "livemode" Data.Aeson.Types.ToJSON..= itemPrice'Livemode obj : "lookup_key" Data.Aeson.Types.ToJSON..= itemPrice'LookupKey obj : "metadata" Data.Aeson.Types.ToJSON..= itemPrice'Metadata obj : "nickname" Data.Aeson.Types.ToJSON..= itemPrice'Nickname obj : "object" Data.Aeson.Types.ToJSON..= itemPrice'Object obj : "product" Data.Aeson.Types.ToJSON..= itemPrice'Product obj : "recurring" Data.Aeson.Types.ToJSON..= itemPrice'Recurring obj : "tax_behavior" Data.Aeson.Types.ToJSON..= itemPrice'TaxBehavior obj : "tiers" Data.Aeson.Types.ToJSON..= itemPrice'Tiers obj : "tiers_mode" Data.Aeson.Types.ToJSON..= itemPrice'TiersMode obj : "transform_quantity" Data.Aeson.Types.ToJSON..= itemPrice'TransformQuantity obj : "type" Data.Aeson.Types.ToJSON..= itemPrice'Type obj : "unit_amount" Data.Aeson.Types.ToJSON..= itemPrice'UnitAmount obj : "unit_amount_decimal" Data.Aeson.Types.ToJSON..= itemPrice'UnitAmountDecimal obj : GHC.Base.mempty)
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("active" Data.Aeson.Types.ToJSON..= itemPrice'Active obj) GHC.Base.<> (("billing_scheme" Data.Aeson.Types.ToJSON..= itemPrice'BillingScheme obj) GHC.Base.<> (("created" Data.Aeson.Types.ToJSON..= itemPrice'Created obj) GHC.Base.<> (("currency" Data.Aeson.Types.ToJSON..= itemPrice'Currency obj) GHC.Base.<> (("id" Data.Aeson.Types.ToJSON..= itemPrice'Id obj) GHC.Base.<> (("livemode" Data.Aeson.Types.ToJSON..= itemPrice'Livemode obj) GHC.Base.<> (("lookup_key" Data.Aeson.Types.ToJSON..= itemPrice'LookupKey obj) GHC.Base.<> (("metadata" Data.Aeson.Types.ToJSON..= itemPrice'Metadata obj) GHC.Base.<> (("nickname" Data.Aeson.Types.ToJSON..= itemPrice'Nickname obj) GHC.Base.<> (("object" Data.Aeson.Types.ToJSON..= itemPrice'Object obj) GHC.Base.<> (("product" Data.Aeson.Types.ToJSON..= itemPrice'Product obj) GHC.Base.<> (("recurring" Data.Aeson.Types.ToJSON..= itemPrice'Recurring obj) GHC.Base.<> (("tax_behavior" Data.Aeson.Types.ToJSON..= itemPrice'TaxBehavior obj) GHC.Base.<> (("tiers" Data.Aeson.Types.ToJSON..= itemPrice'Tiers obj) GHC.Base.<> (("tiers_mode" Data.Aeson.Types.ToJSON..= itemPrice'TiersMode obj) GHC.Base.<> (("transform_quantity" Data.Aeson.Types.ToJSON..= itemPrice'TransformQuantity obj) GHC.Base.<> (("type" Data.Aeson.Types.ToJSON..= itemPrice'Type obj) GHC.Base.<> (("unit_amount" Data.Aeson.Types.ToJSON..= itemPrice'UnitAmount obj) GHC.Base.<> ("unit_amount_decimal" Data.Aeson.Types.ToJSON..= itemPrice'UnitAmountDecimal obj)))))))))))))))))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON ItemPrice' where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "ItemPrice'" (\obj -> (((((((((((((((((GHC.Base.pure ItemPrice' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "active")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "billing_scheme")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "created")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "livemode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "lookup_key")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "nickname")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "product")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "recurring")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "tax_behavior")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "tiers")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "tiers_mode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "transform_quantity")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "type")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "unit_amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "unit_amount_decimal"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "ItemPrice'" (\obj -> ((((((((((((((((((GHC.Base.pure ItemPrice' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "active")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "billing_scheme")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "created")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "livemode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "lookup_key")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "nickname")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "object")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "product")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "recurring")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "tax_behavior")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "tiers")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "tiers_mode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "transform_quantity")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "type")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "unit_amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "unit_amount_decimal"))
 
 -- | Create a new 'ItemPrice'' with all required fields.
 mkItemPrice' :: ItemPrice'
@@ -185,6 +187,7 @@ mkItemPrice' =
       itemPrice'LookupKey = GHC.Maybe.Nothing,
       itemPrice'Metadata = GHC.Maybe.Nothing,
       itemPrice'Nickname = GHC.Maybe.Nothing,
+      itemPrice'Object = GHC.Maybe.Nothing,
       itemPrice'Product = GHC.Maybe.Nothing,
       itemPrice'Recurring = GHC.Maybe.Nothing,
       itemPrice'TaxBehavior = GHC.Maybe.Nothing,
@@ -223,6 +226,31 @@ instance Data.Aeson.Types.FromJSON.FromJSON ItemPrice'BillingScheme' where
             | val GHC.Classes.== "per_unit" -> ItemPrice'BillingScheme'EnumPerUnit
             | val GHC.Classes.== "tiered" -> ItemPrice'BillingScheme'EnumTiered
             | GHC.Base.otherwise -> ItemPrice'BillingScheme'Other val
+      )
+
+-- | Defines the enum schema located at @components.schemas.item.properties.price.anyOf.properties.object@ in the specification.
+--
+-- String representing the object\'s type. Objects of the same type share the same value.
+data ItemPrice'Object'
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    ItemPrice'Object'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    ItemPrice'Object'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"price"@
+    ItemPrice'Object'EnumPrice
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON ItemPrice'Object' where
+  toJSON (ItemPrice'Object'Other val) = val
+  toJSON (ItemPrice'Object'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (ItemPrice'Object'EnumPrice) = "price"
+
+instance Data.Aeson.Types.FromJSON.FromJSON ItemPrice'Object' where
+  parseJSON val =
+    GHC.Base.pure
+      ( if
+            | val GHC.Classes.== "price" -> ItemPrice'Object'EnumPrice
+            | GHC.Base.otherwise -> ItemPrice'Object'Other val
       )
 
 -- | Defines the oneOf schema located at @components.schemas.item.properties.price.anyOf.properties.product.anyOf@ in the specification.

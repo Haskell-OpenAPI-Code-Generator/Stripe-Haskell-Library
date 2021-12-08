@@ -50,7 +50,7 @@ getCustomersCustomerBalanceTransactionsTransaction ::
   -- | Contains all available parameters of this operation (query and path parameters)
   GetCustomersCustomerBalanceTransactionsTransactionParameters ->
   -- | Monadic computation which returns the result of the operation
-  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response GetCustomersCustomerBalanceTransactionsTransactionResponse)
+  StripeAPI.Common.ClientT m (Network.HTTP.Client.Types.Response GetCustomersCustomerBalanceTransactionsTransactionResponse)
 getCustomersCustomerBalanceTransactionsTransaction parameters =
   GHC.Base.fmap
     ( \response_0 ->

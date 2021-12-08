@@ -46,6 +46,11 @@ instance Show SetupIntentLastSetupError'Source'Customer'Variants
 instance Eq SetupIntentLastSetupError'Source'Customer'Variants
 instance FromJSON SetupIntentLastSetupError'Source'Customer'Variants
 instance ToJSON SetupIntentLastSetupError'Source'Customer'Variants
+data SetupIntentLastSetupError'Source'Object'
+instance Show SetupIntentLastSetupError'Source'Object'
+instance Eq SetupIntentLastSetupError'Source'Object'
+instance FromJSON SetupIntentLastSetupError'Source'Object'
+instance ToJSON SetupIntentLastSetupError'Source'Object'
 data SetupIntentLastSetupError'Source'Owner'
 instance Show SetupIntentLastSetupError'Source'Owner'
 instance Eq SetupIntentLastSetupError'Source'Owner'

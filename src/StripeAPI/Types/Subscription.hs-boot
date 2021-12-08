@@ -41,6 +41,11 @@ instance Show SubscriptionDiscount'Customer'Variants
 instance Eq SubscriptionDiscount'Customer'Variants
 instance FromJSON SubscriptionDiscount'Customer'Variants
 instance ToJSON SubscriptionDiscount'Customer'Variants
+data SubscriptionDiscount'Object'
+instance Show SubscriptionDiscount'Object'
+instance Eq SubscriptionDiscount'Object'
+instance FromJSON SubscriptionDiscount'Object'
+instance ToJSON SubscriptionDiscount'Object'
 data SubscriptionDiscount'PromotionCode'Variants
 instance Show SubscriptionDiscount'PromotionCode'Variants
 instance Eq SubscriptionDiscount'PromotionCode'Variants

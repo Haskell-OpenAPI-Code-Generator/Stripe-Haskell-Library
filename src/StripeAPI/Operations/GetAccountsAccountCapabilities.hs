@@ -50,7 +50,7 @@ getAccountsAccountCapabilities ::
   -- | Contains all available parameters of this operation (query and path parameters)
   GetAccountsAccountCapabilitiesParameters ->
   -- | Monadic computation which returns the result of the operation
-  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response GetAccountsAccountCapabilitiesResponse)
+  StripeAPI.Common.ClientT m (Network.HTTP.Client.Types.Response GetAccountsAccountCapabilitiesResponse)
 getAccountsAccountCapabilities parameters =
   GHC.Base.fmap
     ( \response_0 ->

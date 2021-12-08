@@ -374,6 +374,8 @@ data SubscriptionDiscount' = SubscriptionDiscount'
     --
     -- * Maximum length of 5000
     subscriptionDiscount'InvoiceItem :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    -- | object: String representing the object\'s type. Objects of the same type share the same value.
+    subscriptionDiscount'Object :: (GHC.Maybe.Maybe SubscriptionDiscount'Object'),
     -- | promotion_code: The promotion code applied to create this discount.
     subscriptionDiscount'PromotionCode :: (GHC.Maybe.Maybe SubscriptionDiscount'PromotionCode'Variants),
     -- | start: Date that the coupon was applied.
@@ -391,11 +393,11 @@ data SubscriptionDiscount' = SubscriptionDiscount'
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON SubscriptionDiscount' where
-  toJSON obj = Data.Aeson.Types.Internal.object ("checkout_session" Data.Aeson.Types.ToJSON..= subscriptionDiscount'CheckoutSession obj : "coupon" Data.Aeson.Types.ToJSON..= subscriptionDiscount'Coupon obj : "customer" Data.Aeson.Types.ToJSON..= subscriptionDiscount'Customer obj : "end" Data.Aeson.Types.ToJSON..= subscriptionDiscount'End obj : "id" Data.Aeson.Types.ToJSON..= subscriptionDiscount'Id obj : "invoice" Data.Aeson.Types.ToJSON..= subscriptionDiscount'Invoice obj : "invoice_item" Data.Aeson.Types.ToJSON..= subscriptionDiscount'InvoiceItem obj : "promotion_code" Data.Aeson.Types.ToJSON..= subscriptionDiscount'PromotionCode obj : "start" Data.Aeson.Types.ToJSON..= subscriptionDiscount'Start obj : "subscription" Data.Aeson.Types.ToJSON..= subscriptionDiscount'Subscription obj : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "discount" : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("checkout_session" Data.Aeson.Types.ToJSON..= subscriptionDiscount'CheckoutSession obj) GHC.Base.<> (("coupon" Data.Aeson.Types.ToJSON..= subscriptionDiscount'Coupon obj) GHC.Base.<> (("customer" Data.Aeson.Types.ToJSON..= subscriptionDiscount'Customer obj) GHC.Base.<> (("end" Data.Aeson.Types.ToJSON..= subscriptionDiscount'End obj) GHC.Base.<> (("id" Data.Aeson.Types.ToJSON..= subscriptionDiscount'Id obj) GHC.Base.<> (("invoice" Data.Aeson.Types.ToJSON..= subscriptionDiscount'Invoice obj) GHC.Base.<> (("invoice_item" Data.Aeson.Types.ToJSON..= subscriptionDiscount'InvoiceItem obj) GHC.Base.<> (("promotion_code" Data.Aeson.Types.ToJSON..= subscriptionDiscount'PromotionCode obj) GHC.Base.<> (("start" Data.Aeson.Types.ToJSON..= subscriptionDiscount'Start obj) GHC.Base.<> (("subscription" Data.Aeson.Types.ToJSON..= subscriptionDiscount'Subscription obj) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "discount")))))))))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("checkout_session" Data.Aeson.Types.ToJSON..= subscriptionDiscount'CheckoutSession obj : "coupon" Data.Aeson.Types.ToJSON..= subscriptionDiscount'Coupon obj : "customer" Data.Aeson.Types.ToJSON..= subscriptionDiscount'Customer obj : "end" Data.Aeson.Types.ToJSON..= subscriptionDiscount'End obj : "id" Data.Aeson.Types.ToJSON..= subscriptionDiscount'Id obj : "invoice" Data.Aeson.Types.ToJSON..= subscriptionDiscount'Invoice obj : "invoice_item" Data.Aeson.Types.ToJSON..= subscriptionDiscount'InvoiceItem obj : "object" Data.Aeson.Types.ToJSON..= subscriptionDiscount'Object obj : "promotion_code" Data.Aeson.Types.ToJSON..= subscriptionDiscount'PromotionCode obj : "start" Data.Aeson.Types.ToJSON..= subscriptionDiscount'Start obj : "subscription" Data.Aeson.Types.ToJSON..= subscriptionDiscount'Subscription obj : GHC.Base.mempty)
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("checkout_session" Data.Aeson.Types.ToJSON..= subscriptionDiscount'CheckoutSession obj) GHC.Base.<> (("coupon" Data.Aeson.Types.ToJSON..= subscriptionDiscount'Coupon obj) GHC.Base.<> (("customer" Data.Aeson.Types.ToJSON..= subscriptionDiscount'Customer obj) GHC.Base.<> (("end" Data.Aeson.Types.ToJSON..= subscriptionDiscount'End obj) GHC.Base.<> (("id" Data.Aeson.Types.ToJSON..= subscriptionDiscount'Id obj) GHC.Base.<> (("invoice" Data.Aeson.Types.ToJSON..= subscriptionDiscount'Invoice obj) GHC.Base.<> (("invoice_item" Data.Aeson.Types.ToJSON..= subscriptionDiscount'InvoiceItem obj) GHC.Base.<> (("object" Data.Aeson.Types.ToJSON..= subscriptionDiscount'Object obj) GHC.Base.<> (("promotion_code" Data.Aeson.Types.ToJSON..= subscriptionDiscount'PromotionCode obj) GHC.Base.<> (("start" Data.Aeson.Types.ToJSON..= subscriptionDiscount'Start obj) GHC.Base.<> ("subscription" Data.Aeson.Types.ToJSON..= subscriptionDiscount'Subscription obj)))))))))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON SubscriptionDiscount' where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "SubscriptionDiscount'" (\obj -> (((((((((GHC.Base.pure SubscriptionDiscount' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "checkout_session")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "coupon")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "customer")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "end")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "invoice")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "invoice_item")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "promotion_code")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "start")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "subscription"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "SubscriptionDiscount'" (\obj -> ((((((((((GHC.Base.pure SubscriptionDiscount' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "checkout_session")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "coupon")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "customer")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "end")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "invoice")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "invoice_item")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "object")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "promotion_code")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "start")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "subscription"))
 
 -- | Create a new 'SubscriptionDiscount'' with all required fields.
 mkSubscriptionDiscount' :: SubscriptionDiscount'
@@ -408,6 +410,7 @@ mkSubscriptionDiscount' =
       subscriptionDiscount'Id = GHC.Maybe.Nothing,
       subscriptionDiscount'Invoice = GHC.Maybe.Nothing,
       subscriptionDiscount'InvoiceItem = GHC.Maybe.Nothing,
+      subscriptionDiscount'Object = GHC.Maybe.Nothing,
       subscriptionDiscount'PromotionCode = GHC.Maybe.Nothing,
       subscriptionDiscount'Start = GHC.Maybe.Nothing,
       subscriptionDiscount'Subscription = GHC.Maybe.Nothing
@@ -431,6 +434,31 @@ instance Data.Aeson.Types.FromJSON.FromJSON SubscriptionDiscount'Customer'Varian
   parseJSON val = case (SubscriptionDiscount'Customer'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((SubscriptionDiscount'Customer'Customer Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((SubscriptionDiscount'Customer'DeletedCustomer Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched")) of
     Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
     Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+
+-- | Defines the enum schema located at @components.schemas.subscription.properties.discount.anyOf.properties.object@ in the specification.
+--
+-- String representing the object\'s type. Objects of the same type share the same value.
+data SubscriptionDiscount'Object'
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    SubscriptionDiscount'Object'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    SubscriptionDiscount'Object'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"discount"@
+    SubscriptionDiscount'Object'EnumDiscount
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON SubscriptionDiscount'Object' where
+  toJSON (SubscriptionDiscount'Object'Other val) = val
+  toJSON (SubscriptionDiscount'Object'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (SubscriptionDiscount'Object'EnumDiscount) = "discount"
+
+instance Data.Aeson.Types.FromJSON.FromJSON SubscriptionDiscount'Object' where
+  parseJSON val =
+    GHC.Base.pure
+      ( if
+            | val GHC.Classes.== "discount" -> SubscriptionDiscount'Object'EnumDiscount
+            | GHC.Base.otherwise -> SubscriptionDiscount'Object'Other val
+      )
 
 -- | Defines the oneOf schema located at @components.schemas.subscription.properties.discount.anyOf.properties.promotion_code.anyOf@ in the specification.
 --

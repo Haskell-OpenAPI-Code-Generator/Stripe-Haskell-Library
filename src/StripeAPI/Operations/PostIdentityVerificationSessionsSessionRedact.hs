@@ -70,7 +70,7 @@ postIdentityVerificationSessionsSessionRedact ::
   -- | The request body to send
   GHC.Maybe.Maybe PostIdentityVerificationSessionsSessionRedactRequestBody ->
   -- | Monadic computation which returns the result of the operation
-  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response PostIdentityVerificationSessionsSessionRedactResponse)
+  StripeAPI.Common.ClientT m (Network.HTTP.Client.Types.Response PostIdentityVerificationSessionsSessionRedactResponse)
 postIdentityVerificationSessionsSessionRedact
   session
   body =

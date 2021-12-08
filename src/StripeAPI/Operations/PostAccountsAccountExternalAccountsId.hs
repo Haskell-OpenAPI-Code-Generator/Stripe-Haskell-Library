@@ -54,7 +54,7 @@ postAccountsAccountExternalAccountsId ::
   -- | The request body to send
   GHC.Maybe.Maybe PostAccountsAccountExternalAccountsIdRequestBody ->
   -- | Monadic computation which returns the result of the operation
-  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response PostAccountsAccountExternalAccountsIdResponse)
+  StripeAPI.Common.ClientT m (Network.HTTP.Client.Types.Response PostAccountsAccountExternalAccountsIdResponse)
 postAccountsAccountExternalAccountsId
   parameters
   body =

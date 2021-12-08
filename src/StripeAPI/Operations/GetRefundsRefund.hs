@@ -50,7 +50,7 @@ getRefundsRefund ::
   -- | Contains all available parameters of this operation (query and path parameters)
   GetRefundsRefundParameters ->
   -- | Monadic computation which returns the result of the operation
-  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response GetRefundsRefundResponse)
+  StripeAPI.Common.ClientT m (Network.HTTP.Client.Types.Response GetRefundsRefundResponse)
 getRefundsRefund parameters =
   GHC.Base.fmap
     ( \response_0 ->

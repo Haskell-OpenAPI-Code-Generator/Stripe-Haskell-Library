@@ -16,6 +16,11 @@ instance Show ItemPrice'BillingScheme'
 instance Eq ItemPrice'BillingScheme'
 instance FromJSON ItemPrice'BillingScheme'
 instance ToJSON ItemPrice'BillingScheme'
+data ItemPrice'Object'
+instance Show ItemPrice'Object'
+instance Eq ItemPrice'Object'
+instance FromJSON ItemPrice'Object'
+instance ToJSON ItemPrice'Object'
 data ItemPrice'Product'Variants
 instance Show ItemPrice'Product'Variants
 instance Eq ItemPrice'Product'Variants

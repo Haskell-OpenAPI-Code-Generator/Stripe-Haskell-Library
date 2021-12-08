@@ -50,7 +50,7 @@ getChargesCharge ::
   -- | Contains all available parameters of this operation (query and path parameters)
   GetChargesChargeParameters ->
   -- | Monadic computation which returns the result of the operation
-  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response GetChargesChargeResponse)
+  StripeAPI.Common.ClientT m (Network.HTTP.Client.Types.Response GetChargesChargeResponse)
 getChargesCharge parameters =
   GHC.Base.fmap
     ( \response_0 ->

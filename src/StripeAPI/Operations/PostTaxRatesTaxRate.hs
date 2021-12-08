@@ -52,7 +52,7 @@ postTaxRatesTaxRate ::
   -- | The request body to send
   GHC.Maybe.Maybe PostTaxRatesTaxRateRequestBody ->
   -- | Monadic computation which returns the result of the operation
-  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response PostTaxRatesTaxRateResponse)
+  StripeAPI.Common.ClientT m (Network.HTTP.Client.Types.Response PostTaxRatesTaxRateResponse)
 postTaxRatesTaxRate
   taxRate
   body =

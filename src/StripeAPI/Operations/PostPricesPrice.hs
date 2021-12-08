@@ -52,7 +52,7 @@ postPricesPrice ::
   -- | The request body to send
   GHC.Maybe.Maybe PostPricesPriceRequestBody ->
   -- | Monadic computation which returns the result of the operation
-  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response PostPricesPriceResponse)
+  StripeAPI.Common.ClientT m (Network.HTTP.Client.Types.Response PostPricesPriceResponse)
 postPricesPrice
   price
   body =

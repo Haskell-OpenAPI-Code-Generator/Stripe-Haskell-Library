@@ -57,7 +57,12 @@ mkPaymentMethodDetailsCardInstallments = PaymentMethodDetailsCardInstallments {p
 -- Installment plan selected for the payment.
 data PaymentMethodDetailsCardInstallmentsPlan' = PaymentMethodDetailsCardInstallmentsPlan'
   { -- | count: For \`fixed_count\` installment plans, this is the number of installment payments your customer will make to their credit card.
-    paymentMethodDetailsCardInstallmentsPlan'Count :: (GHC.Maybe.Maybe GHC.Types.Int)
+    paymentMethodDetailsCardInstallmentsPlan'Count :: (GHC.Maybe.Maybe GHC.Types.Int),
+    -- | interval: For \`fixed_count\` installment plans, this is the interval between installment payments your customer will make to their credit card.
+    -- One of \`month\`.
+    paymentMethodDetailsCardInstallmentsPlan'Interval :: (GHC.Maybe.Maybe PaymentMethodDetailsCardInstallmentsPlan'Interval'),
+    -- | type: Type of installment plan, one of \`fixed_count\`.
+    paymentMethodDetailsCardInstallmentsPlan'Type :: (GHC.Maybe.Maybe PaymentMethodDetailsCardInstallmentsPlan'Type')
   }
   deriving
     ( GHC.Show.Show,
@@ -65,12 +70,68 @@ data PaymentMethodDetailsCardInstallmentsPlan' = PaymentMethodDetailsCardInstall
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PaymentMethodDetailsCardInstallmentsPlan' where
-  toJSON obj = Data.Aeson.Types.Internal.object ("count" Data.Aeson.Types.ToJSON..= paymentMethodDetailsCardInstallmentsPlan'Count obj : "interval" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "month" : "type" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "fixed_count" : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("count" Data.Aeson.Types.ToJSON..= paymentMethodDetailsCardInstallmentsPlan'Count obj) GHC.Base.<> (("interval" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "month") GHC.Base.<> ("type" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "fixed_count")))
+  toJSON obj = Data.Aeson.Types.Internal.object ("count" Data.Aeson.Types.ToJSON..= paymentMethodDetailsCardInstallmentsPlan'Count obj : "interval" Data.Aeson.Types.ToJSON..= paymentMethodDetailsCardInstallmentsPlan'Interval obj : "type" Data.Aeson.Types.ToJSON..= paymentMethodDetailsCardInstallmentsPlan'Type obj : GHC.Base.mempty)
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("count" Data.Aeson.Types.ToJSON..= paymentMethodDetailsCardInstallmentsPlan'Count obj) GHC.Base.<> (("interval" Data.Aeson.Types.ToJSON..= paymentMethodDetailsCardInstallmentsPlan'Interval obj) GHC.Base.<> ("type" Data.Aeson.Types.ToJSON..= paymentMethodDetailsCardInstallmentsPlan'Type obj)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PaymentMethodDetailsCardInstallmentsPlan' where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PaymentMethodDetailsCardInstallmentsPlan'" (\obj -> GHC.Base.pure PaymentMethodDetailsCardInstallmentsPlan' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "count"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PaymentMethodDetailsCardInstallmentsPlan'" (\obj -> ((GHC.Base.pure PaymentMethodDetailsCardInstallmentsPlan' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "count")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "interval")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "type"))
 
 -- | Create a new 'PaymentMethodDetailsCardInstallmentsPlan'' with all required fields.
 mkPaymentMethodDetailsCardInstallmentsPlan' :: PaymentMethodDetailsCardInstallmentsPlan'
-mkPaymentMethodDetailsCardInstallmentsPlan' = PaymentMethodDetailsCardInstallmentsPlan' {paymentMethodDetailsCardInstallmentsPlan'Count = GHC.Maybe.Nothing}
+mkPaymentMethodDetailsCardInstallmentsPlan' =
+  PaymentMethodDetailsCardInstallmentsPlan'
+    { paymentMethodDetailsCardInstallmentsPlan'Count = GHC.Maybe.Nothing,
+      paymentMethodDetailsCardInstallmentsPlan'Interval = GHC.Maybe.Nothing,
+      paymentMethodDetailsCardInstallmentsPlan'Type = GHC.Maybe.Nothing
+    }
+
+-- | Defines the enum schema located at @components.schemas.payment_method_details_card_installments.properties.plan.anyOf.properties.interval@ in the specification.
+--
+-- For \`fixed_count\` installment plans, this is the interval between installment payments your customer will make to their credit card.
+-- One of \`month\`.
+data PaymentMethodDetailsCardInstallmentsPlan'Interval'
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    PaymentMethodDetailsCardInstallmentsPlan'Interval'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    PaymentMethodDetailsCardInstallmentsPlan'Interval'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"month"@
+    PaymentMethodDetailsCardInstallmentsPlan'Interval'EnumMonth
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON PaymentMethodDetailsCardInstallmentsPlan'Interval' where
+  toJSON (PaymentMethodDetailsCardInstallmentsPlan'Interval'Other val) = val
+  toJSON (PaymentMethodDetailsCardInstallmentsPlan'Interval'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PaymentMethodDetailsCardInstallmentsPlan'Interval'EnumMonth) = "month"
+
+instance Data.Aeson.Types.FromJSON.FromJSON PaymentMethodDetailsCardInstallmentsPlan'Interval' where
+  parseJSON val =
+    GHC.Base.pure
+      ( if
+            | val GHC.Classes.== "month" -> PaymentMethodDetailsCardInstallmentsPlan'Interval'EnumMonth
+            | GHC.Base.otherwise -> PaymentMethodDetailsCardInstallmentsPlan'Interval'Other val
+      )
+
+-- | Defines the enum schema located at @components.schemas.payment_method_details_card_installments.properties.plan.anyOf.properties.type@ in the specification.
+--
+-- Type of installment plan, one of \`fixed_count\`.
+data PaymentMethodDetailsCardInstallmentsPlan'Type'
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    PaymentMethodDetailsCardInstallmentsPlan'Type'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    PaymentMethodDetailsCardInstallmentsPlan'Type'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"fixed_count"@
+    PaymentMethodDetailsCardInstallmentsPlan'Type'EnumFixedCount
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON PaymentMethodDetailsCardInstallmentsPlan'Type' where
+  toJSON (PaymentMethodDetailsCardInstallmentsPlan'Type'Other val) = val
+  toJSON (PaymentMethodDetailsCardInstallmentsPlan'Type'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PaymentMethodDetailsCardInstallmentsPlan'Type'EnumFixedCount) = "fixed_count"
+
+instance Data.Aeson.Types.FromJSON.FromJSON PaymentMethodDetailsCardInstallmentsPlan'Type' where
+  parseJSON val =
+    GHC.Base.pure
+      ( if
+            | val GHC.Classes.== "fixed_count" -> PaymentMethodDetailsCardInstallmentsPlan'Type'EnumFixedCount
+            | GHC.Base.otherwise -> PaymentMethodDetailsCardInstallmentsPlan'Type'Other val
+      )

@@ -52,7 +52,7 @@ postIssuingSettlementsSettlement ::
   -- | The request body to send
   GHC.Maybe.Maybe PostIssuingSettlementsSettlementRequestBody ->
   -- | Monadic computation which returns the result of the operation
-  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response PostIssuingSettlementsSettlementResponse)
+  StripeAPI.Common.ClientT m (Network.HTTP.Client.Types.Response PostIssuingSettlementsSettlementResponse)
 postIssuingSettlementsSettlement
   settlement
   body =

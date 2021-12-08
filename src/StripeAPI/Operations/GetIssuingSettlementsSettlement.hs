@@ -50,7 +50,7 @@ getIssuingSettlementsSettlement ::
   -- | Contains all available parameters of this operation (query and path parameters)
   GetIssuingSettlementsSettlementParameters ->
   -- | Monadic computation which returns the result of the operation
-  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response GetIssuingSettlementsSettlementResponse)
+  StripeAPI.Common.ClientT m (Network.HTTP.Client.Types.Response GetIssuingSettlementsSettlementResponse)
 getIssuingSettlementsSettlement parameters =
   GHC.Base.fmap
     ( \response_0 ->

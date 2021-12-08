@@ -50,7 +50,7 @@ postProducts ::
   -- | The request body to send
   PostProductsRequestBody ->
   -- | Monadic computation which returns the result of the operation
-  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response PostProductsResponse)
+  StripeAPI.Common.ClientT m (Network.HTTP.Client.Types.Response PostProductsResponse)
 postProducts body =
   GHC.Base.fmap
     ( \response_0 ->

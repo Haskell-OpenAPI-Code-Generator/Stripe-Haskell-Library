@@ -52,7 +52,7 @@ postRadarValueListsValueList ::
   -- | The request body to send
   GHC.Maybe.Maybe PostRadarValueListsValueListRequestBody ->
   -- | Monadic computation which returns the result of the operation
-  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response PostRadarValueListsValueListResponse)
+  StripeAPI.Common.ClientT m (Network.HTTP.Client.Types.Response PostRadarValueListsValueListResponse)
 postRadarValueListsValueList
   valueList
   body =

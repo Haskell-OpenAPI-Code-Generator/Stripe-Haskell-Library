@@ -50,7 +50,7 @@ deleteCustomersCustomerSubscriptionsSubscriptionExposedIdDiscount ::
   -- | Contains all available parameters of this operation (query and path parameters)
   DeleteCustomersCustomerSubscriptionsSubscriptionExposedIdDiscountParameters ->
   -- | Monadic computation which returns the result of the operation
-  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response DeleteCustomersCustomerSubscriptionsSubscriptionExposedIdDiscountResponse)
+  StripeAPI.Common.ClientT m (Network.HTTP.Client.Types.Response DeleteCustomersCustomerSubscriptionsSubscriptionExposedIdDiscountResponse)
 deleteCustomersCustomerSubscriptionsSubscriptionExposedIdDiscount parameters =
   GHC.Base.fmap
     ( \response_0 ->

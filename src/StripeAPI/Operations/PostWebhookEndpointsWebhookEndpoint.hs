@@ -52,7 +52,7 @@ postWebhookEndpointsWebhookEndpoint ::
   -- | The request body to send
   GHC.Maybe.Maybe PostWebhookEndpointsWebhookEndpointRequestBody ->
   -- | Monadic computation which returns the result of the operation
-  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response PostWebhookEndpointsWebhookEndpointResponse)
+  StripeAPI.Common.ClientT m (Network.HTTP.Client.Types.Response PostWebhookEndpointsWebhookEndpointResponse)
 postWebhookEndpointsWebhookEndpoint
   webhookEndpoint
   body =

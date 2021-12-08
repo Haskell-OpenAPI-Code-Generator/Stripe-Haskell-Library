@@ -23,8 +23,8 @@ module StripeAPI.Common
     JsonDateTime (..),
     RequestBodyEncoding (..),
     QueryParameter (..),
-    StripeT (..),
-    StripeM,
+    ClientT (..),
+    ClientM,
   )
 where
 
@@ -40,6 +40,7 @@ import qualified Data.Maybe as Maybe
 import qualified Data.Scientific as Scientific
 import Data.Text (Text)
 import qualified Data.Text as T
+import qualified Data.Text.Encoding as TE
 import qualified Data.Time.LocalTime as Time
 import qualified Data.Vector as Vector
 import qualified Network.HTTP.Client as HC
@@ -57,28 +58,28 @@ instance MonadHTTP IO where
 instance MonadHTTP m => MonadHTTP (MR.ReaderT r m) where
   httpBS = MT.lift . httpBS
 
-instance MonadHTTP m => MonadHTTP (StripeT m) where
+instance MonadHTTP m => MonadHTTP (ClientT m) where
   httpBS = MT.lift . httpBS
 
 -- | The monad in which the operations can be run.
 -- Contains the 'Configuration' to run the requests with.
 --
 -- Run it with 'runWithConfiguration'
-newtype StripeT m a = StripeT (MR.ReaderT Configuration m a)
+newtype ClientT m a = ClientT (MR.ReaderT Configuration m a)
   deriving (Functor, Applicative, Monad, MR.MonadReader Configuration)
 
-instance MT.MonadTrans StripeT where
-  lift = StripeT . MT.lift
+instance MT.MonadTrans ClientT where
+  lift = ClientT . MT.lift
 
-instance MIO.MonadIO m => MIO.MonadIO (StripeT m) where
-  liftIO = StripeT . MIO.liftIO
+instance MIO.MonadIO m => MIO.MonadIO (ClientT m) where
+  liftIO = ClientT . MIO.liftIO
 
 -- | Utility type which uses 'IO' as underlying monad
-type StripeM a = StripeT IO a
+type ClientM a = ClientT IO a
 
--- | Run a 'StripeT' monad transformer in another monad with a specified configuration
-runWithConfiguration :: Configuration -> StripeT m a -> m a
-runWithConfiguration c (StripeT r) = MR.runReaderT r c
+-- | Run a 'ClientT' monad transformer in another monad with a specified configuration
+runWithConfiguration :: Configuration -> ClientT m a -> m a
+runWithConfiguration c (ClientT r) = MR.runReaderT r c
 
 -- | An operation can and must be configured with data, which may be common
 -- for many operations.
@@ -150,7 +151,7 @@ doCallWithConfigurationM ::
   Text ->
   Text ->
   [QueryParameter] ->
-  StripeT m (HS.Response B8.ByteString)
+  ClientT m (HS.Response B8.ByteString)
 doCallWithConfigurationM method path queryParams = do
   config <- MR.ask
   MT.lift $ doCallWithConfiguration config method path queryParams
@@ -194,7 +195,7 @@ doBodyCallWithConfigurationM ::
   [QueryParameter] ->
   Maybe body ->
   RequestBodyEncoding ->
-  StripeT m (HS.Response B8.ByteString)
+  ClientT m (HS.Response B8.ByteString)
 doBodyCallWithConfigurationM method path queryParams body encoding = do
   config <- MR.ask
   MT.lift $ doBodyCallWithConfiguration config method path queryParams body encoding
@@ -265,11 +266,11 @@ createFormData body =
 
 -- | Convert a 'B8.ByteString' to 'Text'
 byteToText :: B8.ByteString -> Text
-byteToText = T.pack . B8.unpack
+byteToText = TE.decodeUtf8
 
 -- | Convert 'Text' a to 'B8.ByteString'
 textToByte :: Text -> B8.ByteString
-textToByte = B8.pack . T.unpack
+textToByte = TE.encodeUtf8
 
 parseURL :: Text -> HS.Request
 parseURL url =

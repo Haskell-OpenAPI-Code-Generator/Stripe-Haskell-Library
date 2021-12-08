@@ -54,7 +54,7 @@ deleteAccount ::
   -- | The request body to send
   GHC.Maybe.Maybe DeleteAccountRequestBody ->
   -- | Monadic computation which returns the result of the operation
-  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response DeleteAccountResponse)
+  StripeAPI.Common.ClientT m (Network.HTTP.Client.Types.Response DeleteAccountResponse)
 deleteAccount body =
   GHC.Base.fmap
     ( \response_0 ->

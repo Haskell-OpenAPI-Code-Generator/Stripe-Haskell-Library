@@ -144,6 +144,8 @@ data ScheduledQueryRunFile' = ScheduledQueryRunFile'
     scheduledQueryRunFile'Id :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
     -- | links: A list of [file links](https:\/\/stripe.com\/docs\/api\#file_links) that point at this file.
     scheduledQueryRunFile'Links :: (GHC.Maybe.Maybe ScheduledQueryRunFile'Links'),
+    -- | object: String representing the object\'s type. Objects of the same type share the same value.
+    scheduledQueryRunFile'Object :: (GHC.Maybe.Maybe ScheduledQueryRunFile'Object'),
     -- | purpose: The [purpose](https:\/\/stripe.com\/docs\/file-upload\#uploading-a-file) of the uploaded file.
     scheduledQueryRunFile'Purpose :: (GHC.Maybe.Maybe ScheduledQueryRunFile'Purpose'),
     -- | size: The size in bytes of the file object.
@@ -173,11 +175,11 @@ data ScheduledQueryRunFile' = ScheduledQueryRunFile'
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON ScheduledQueryRunFile' where
-  toJSON obj = Data.Aeson.Types.Internal.object ("created" Data.Aeson.Types.ToJSON..= scheduledQueryRunFile'Created obj : "expires_at" Data.Aeson.Types.ToJSON..= scheduledQueryRunFile'ExpiresAt obj : "filename" Data.Aeson.Types.ToJSON..= scheduledQueryRunFile'Filename obj : "id" Data.Aeson.Types.ToJSON..= scheduledQueryRunFile'Id obj : "links" Data.Aeson.Types.ToJSON..= scheduledQueryRunFile'Links obj : "purpose" Data.Aeson.Types.ToJSON..= scheduledQueryRunFile'Purpose obj : "size" Data.Aeson.Types.ToJSON..= scheduledQueryRunFile'Size obj : "title" Data.Aeson.Types.ToJSON..= scheduledQueryRunFile'Title obj : "type" Data.Aeson.Types.ToJSON..= scheduledQueryRunFile'Type obj : "url" Data.Aeson.Types.ToJSON..= scheduledQueryRunFile'Url obj : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "file" : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("created" Data.Aeson.Types.ToJSON..= scheduledQueryRunFile'Created obj) GHC.Base.<> (("expires_at" Data.Aeson.Types.ToJSON..= scheduledQueryRunFile'ExpiresAt obj) GHC.Base.<> (("filename" Data.Aeson.Types.ToJSON..= scheduledQueryRunFile'Filename obj) GHC.Base.<> (("id" Data.Aeson.Types.ToJSON..= scheduledQueryRunFile'Id obj) GHC.Base.<> (("links" Data.Aeson.Types.ToJSON..= scheduledQueryRunFile'Links obj) GHC.Base.<> (("purpose" Data.Aeson.Types.ToJSON..= scheduledQueryRunFile'Purpose obj) GHC.Base.<> (("size" Data.Aeson.Types.ToJSON..= scheduledQueryRunFile'Size obj) GHC.Base.<> (("title" Data.Aeson.Types.ToJSON..= scheduledQueryRunFile'Title obj) GHC.Base.<> (("type" Data.Aeson.Types.ToJSON..= scheduledQueryRunFile'Type obj) GHC.Base.<> (("url" Data.Aeson.Types.ToJSON..= scheduledQueryRunFile'Url obj) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "file")))))))))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("created" Data.Aeson.Types.ToJSON..= scheduledQueryRunFile'Created obj : "expires_at" Data.Aeson.Types.ToJSON..= scheduledQueryRunFile'ExpiresAt obj : "filename" Data.Aeson.Types.ToJSON..= scheduledQueryRunFile'Filename obj : "id" Data.Aeson.Types.ToJSON..= scheduledQueryRunFile'Id obj : "links" Data.Aeson.Types.ToJSON..= scheduledQueryRunFile'Links obj : "object" Data.Aeson.Types.ToJSON..= scheduledQueryRunFile'Object obj : "purpose" Data.Aeson.Types.ToJSON..= scheduledQueryRunFile'Purpose obj : "size" Data.Aeson.Types.ToJSON..= scheduledQueryRunFile'Size obj : "title" Data.Aeson.Types.ToJSON..= scheduledQueryRunFile'Title obj : "type" Data.Aeson.Types.ToJSON..= scheduledQueryRunFile'Type obj : "url" Data.Aeson.Types.ToJSON..= scheduledQueryRunFile'Url obj : GHC.Base.mempty)
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("created" Data.Aeson.Types.ToJSON..= scheduledQueryRunFile'Created obj) GHC.Base.<> (("expires_at" Data.Aeson.Types.ToJSON..= scheduledQueryRunFile'ExpiresAt obj) GHC.Base.<> (("filename" Data.Aeson.Types.ToJSON..= scheduledQueryRunFile'Filename obj) GHC.Base.<> (("id" Data.Aeson.Types.ToJSON..= scheduledQueryRunFile'Id obj) GHC.Base.<> (("links" Data.Aeson.Types.ToJSON..= scheduledQueryRunFile'Links obj) GHC.Base.<> (("object" Data.Aeson.Types.ToJSON..= scheduledQueryRunFile'Object obj) GHC.Base.<> (("purpose" Data.Aeson.Types.ToJSON..= scheduledQueryRunFile'Purpose obj) GHC.Base.<> (("size" Data.Aeson.Types.ToJSON..= scheduledQueryRunFile'Size obj) GHC.Base.<> (("title" Data.Aeson.Types.ToJSON..= scheduledQueryRunFile'Title obj) GHC.Base.<> (("type" Data.Aeson.Types.ToJSON..= scheduledQueryRunFile'Type obj) GHC.Base.<> ("url" Data.Aeson.Types.ToJSON..= scheduledQueryRunFile'Url obj)))))))))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON ScheduledQueryRunFile' where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "ScheduledQueryRunFile'" (\obj -> (((((((((GHC.Base.pure ScheduledQueryRunFile' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "created")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "expires_at")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "filename")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "links")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "purpose")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "size")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "title")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "type")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "url"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "ScheduledQueryRunFile'" (\obj -> ((((((((((GHC.Base.pure ScheduledQueryRunFile' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "created")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "expires_at")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "filename")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "links")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "object")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "purpose")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "size")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "title")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "type")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "url"))
 
 -- | Create a new 'ScheduledQueryRunFile'' with all required fields.
 mkScheduledQueryRunFile' :: ScheduledQueryRunFile'
@@ -188,6 +190,7 @@ mkScheduledQueryRunFile' =
       scheduledQueryRunFile'Filename = GHC.Maybe.Nothing,
       scheduledQueryRunFile'Id = GHC.Maybe.Nothing,
       scheduledQueryRunFile'Links = GHC.Maybe.Nothing,
+      scheduledQueryRunFile'Object = GHC.Maybe.Nothing,
       scheduledQueryRunFile'Purpose = GHC.Maybe.Nothing,
       scheduledQueryRunFile'Size = GHC.Maybe.Nothing,
       scheduledQueryRunFile'Title = GHC.Maybe.Nothing,
@@ -237,6 +240,31 @@ mkScheduledQueryRunFile'Links' scheduledQueryRunFile'Links'Data scheduledQueryRu
       scheduledQueryRunFile'Links'HasMore = scheduledQueryRunFile'Links'HasMore,
       scheduledQueryRunFile'Links'Url = scheduledQueryRunFile'Links'Url
     }
+
+-- | Defines the enum schema located at @components.schemas.scheduled_query_run.properties.file.anyOf.properties.object@ in the specification.
+--
+-- String representing the object\'s type. Objects of the same type share the same value.
+data ScheduledQueryRunFile'Object'
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    ScheduledQueryRunFile'Object'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    ScheduledQueryRunFile'Object'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"file"@
+    ScheduledQueryRunFile'Object'EnumFile
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON ScheduledQueryRunFile'Object' where
+  toJSON (ScheduledQueryRunFile'Object'Other val) = val
+  toJSON (ScheduledQueryRunFile'Object'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (ScheduledQueryRunFile'Object'EnumFile) = "file"
+
+instance Data.Aeson.Types.FromJSON.FromJSON ScheduledQueryRunFile'Object' where
+  parseJSON val =
+    GHC.Base.pure
+      ( if
+            | val GHC.Classes.== "file" -> ScheduledQueryRunFile'Object'EnumFile
+            | GHC.Base.otherwise -> ScheduledQueryRunFile'Object'Other val
+      )
 
 -- | Defines the enum schema located at @components.schemas.scheduled_query_run.properties.file.anyOf.properties.purpose@ in the specification.
 --

@@ -50,7 +50,7 @@ postSubscriptionSchedules ::
   -- | The request body to send
   GHC.Maybe.Maybe PostSubscriptionSchedulesRequestBody ->
   -- | Monadic computation which returns the result of the operation
-  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response PostSubscriptionSchedulesResponse)
+  StripeAPI.Common.ClientT m (Network.HTTP.Client.Types.Response PostSubscriptionSchedulesResponse)
 postSubscriptionSchedules body =
   GHC.Base.fmap
     ( \response_0 ->

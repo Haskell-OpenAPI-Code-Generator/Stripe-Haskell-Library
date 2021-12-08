@@ -50,7 +50,7 @@ postAccountPeople ::
   -- | The request body to send
   GHC.Maybe.Maybe PostAccountPeopleRequestBody ->
   -- | Monadic computation which returns the result of the operation
-  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response PostAccountPeopleResponse)
+  StripeAPI.Common.ClientT m (Network.HTTP.Client.Types.Response PostAccountPeopleResponse)
 postAccountPeople body =
   GHC.Base.fmap
     ( \response_0 ->

@@ -53,7 +53,7 @@ getIdentityVerificationSessionsSession ::
   -- | Contains all available parameters of this operation (query and path parameters)
   GetIdentityVerificationSessionsSessionParameters ->
   -- | Monadic computation which returns the result of the operation
-  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response GetIdentityVerificationSessionsSessionResponse)
+  StripeAPI.Common.ClientT m (Network.HTTP.Client.Types.Response GetIdentityVerificationSessionsSessionResponse)
 getIdentityVerificationSessionsSession parameters =
   GHC.Base.fmap
     ( \response_0 ->

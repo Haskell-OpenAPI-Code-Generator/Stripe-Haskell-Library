@@ -60,7 +60,7 @@ postApplicationFeesIdRefunds ::
   -- | The request body to send
   GHC.Maybe.Maybe PostApplicationFeesIdRefundsRequestBody ->
   -- | Monadic computation which returns the result of the operation
-  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response PostApplicationFeesIdRefundsResponse)
+  StripeAPI.Common.ClientT m (Network.HTTP.Client.Types.Response PostApplicationFeesIdRefundsResponse)
 postApplicationFeesIdRefunds
   id
   body =

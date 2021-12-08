@@ -52,7 +52,7 @@ postCouponsCoupon ::
   -- | The request body to send
   GHC.Maybe.Maybe PostCouponsCouponRequestBody ->
   -- | Monadic computation which returns the result of the operation
-  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response PostCouponsCouponResponse)
+  StripeAPI.Common.ClientT m (Network.HTTP.Client.Types.Response PostCouponsCouponResponse)
 postCouponsCoupon
   coupon
   body =

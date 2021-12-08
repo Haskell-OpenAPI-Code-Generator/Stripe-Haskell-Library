@@ -21,6 +21,11 @@ instance Show ExternalAccountCustomer'Variants
 instance Eq ExternalAccountCustomer'Variants
 instance FromJSON ExternalAccountCustomer'Variants
 instance ToJSON ExternalAccountCustomer'Variants
+data ExternalAccountObject'
+instance Show ExternalAccountObject'
+instance Eq ExternalAccountObject'
+instance FromJSON ExternalAccountObject'
+instance ToJSON ExternalAccountObject'
 data ExternalAccountRecipient'Variants
 instance Show ExternalAccountRecipient'Variants
 instance Eq ExternalAccountRecipient'Variants

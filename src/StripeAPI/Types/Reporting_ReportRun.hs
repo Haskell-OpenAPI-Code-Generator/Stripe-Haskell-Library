@@ -147,6 +147,8 @@ data Reporting'reportRunResult' = Reporting'reportRunResult'
     reporting'reportRunResult'Id :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
     -- | links: A list of [file links](https:\/\/stripe.com\/docs\/api\#file_links) that point at this file.
     reporting'reportRunResult'Links :: (GHC.Maybe.Maybe Reporting'reportRunResult'Links'),
+    -- | object: String representing the object\'s type. Objects of the same type share the same value.
+    reporting'reportRunResult'Object :: (GHC.Maybe.Maybe Reporting'reportRunResult'Object'),
     -- | purpose: The [purpose](https:\/\/stripe.com\/docs\/file-upload\#uploading-a-file) of the uploaded file.
     reporting'reportRunResult'Purpose :: (GHC.Maybe.Maybe Reporting'reportRunResult'Purpose'),
     -- | size: The size in bytes of the file object.
@@ -176,11 +178,11 @@ data Reporting'reportRunResult' = Reporting'reportRunResult'
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON Reporting'reportRunResult' where
-  toJSON obj = Data.Aeson.Types.Internal.object ("created" Data.Aeson.Types.ToJSON..= reporting'reportRunResult'Created obj : "expires_at" Data.Aeson.Types.ToJSON..= reporting'reportRunResult'ExpiresAt obj : "filename" Data.Aeson.Types.ToJSON..= reporting'reportRunResult'Filename obj : "id" Data.Aeson.Types.ToJSON..= reporting'reportRunResult'Id obj : "links" Data.Aeson.Types.ToJSON..= reporting'reportRunResult'Links obj : "purpose" Data.Aeson.Types.ToJSON..= reporting'reportRunResult'Purpose obj : "size" Data.Aeson.Types.ToJSON..= reporting'reportRunResult'Size obj : "title" Data.Aeson.Types.ToJSON..= reporting'reportRunResult'Title obj : "type" Data.Aeson.Types.ToJSON..= reporting'reportRunResult'Type obj : "url" Data.Aeson.Types.ToJSON..= reporting'reportRunResult'Url obj : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "file" : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("created" Data.Aeson.Types.ToJSON..= reporting'reportRunResult'Created obj) GHC.Base.<> (("expires_at" Data.Aeson.Types.ToJSON..= reporting'reportRunResult'ExpiresAt obj) GHC.Base.<> (("filename" Data.Aeson.Types.ToJSON..= reporting'reportRunResult'Filename obj) GHC.Base.<> (("id" Data.Aeson.Types.ToJSON..= reporting'reportRunResult'Id obj) GHC.Base.<> (("links" Data.Aeson.Types.ToJSON..= reporting'reportRunResult'Links obj) GHC.Base.<> (("purpose" Data.Aeson.Types.ToJSON..= reporting'reportRunResult'Purpose obj) GHC.Base.<> (("size" Data.Aeson.Types.ToJSON..= reporting'reportRunResult'Size obj) GHC.Base.<> (("title" Data.Aeson.Types.ToJSON..= reporting'reportRunResult'Title obj) GHC.Base.<> (("type" Data.Aeson.Types.ToJSON..= reporting'reportRunResult'Type obj) GHC.Base.<> (("url" Data.Aeson.Types.ToJSON..= reporting'reportRunResult'Url obj) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "file")))))))))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("created" Data.Aeson.Types.ToJSON..= reporting'reportRunResult'Created obj : "expires_at" Data.Aeson.Types.ToJSON..= reporting'reportRunResult'ExpiresAt obj : "filename" Data.Aeson.Types.ToJSON..= reporting'reportRunResult'Filename obj : "id" Data.Aeson.Types.ToJSON..= reporting'reportRunResult'Id obj : "links" Data.Aeson.Types.ToJSON..= reporting'reportRunResult'Links obj : "object" Data.Aeson.Types.ToJSON..= reporting'reportRunResult'Object obj : "purpose" Data.Aeson.Types.ToJSON..= reporting'reportRunResult'Purpose obj : "size" Data.Aeson.Types.ToJSON..= reporting'reportRunResult'Size obj : "title" Data.Aeson.Types.ToJSON..= reporting'reportRunResult'Title obj : "type" Data.Aeson.Types.ToJSON..= reporting'reportRunResult'Type obj : "url" Data.Aeson.Types.ToJSON..= reporting'reportRunResult'Url obj : GHC.Base.mempty)
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("created" Data.Aeson.Types.ToJSON..= reporting'reportRunResult'Created obj) GHC.Base.<> (("expires_at" Data.Aeson.Types.ToJSON..= reporting'reportRunResult'ExpiresAt obj) GHC.Base.<> (("filename" Data.Aeson.Types.ToJSON..= reporting'reportRunResult'Filename obj) GHC.Base.<> (("id" Data.Aeson.Types.ToJSON..= reporting'reportRunResult'Id obj) GHC.Base.<> (("links" Data.Aeson.Types.ToJSON..= reporting'reportRunResult'Links obj) GHC.Base.<> (("object" Data.Aeson.Types.ToJSON..= reporting'reportRunResult'Object obj) GHC.Base.<> (("purpose" Data.Aeson.Types.ToJSON..= reporting'reportRunResult'Purpose obj) GHC.Base.<> (("size" Data.Aeson.Types.ToJSON..= reporting'reportRunResult'Size obj) GHC.Base.<> (("title" Data.Aeson.Types.ToJSON..= reporting'reportRunResult'Title obj) GHC.Base.<> (("type" Data.Aeson.Types.ToJSON..= reporting'reportRunResult'Type obj) GHC.Base.<> ("url" Data.Aeson.Types.ToJSON..= reporting'reportRunResult'Url obj)))))))))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON Reporting'reportRunResult' where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "Reporting'reportRunResult'" (\obj -> (((((((((GHC.Base.pure Reporting'reportRunResult' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "created")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "expires_at")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "filename")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "links")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "purpose")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "size")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "title")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "type")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "url"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "Reporting'reportRunResult'" (\obj -> ((((((((((GHC.Base.pure Reporting'reportRunResult' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "created")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "expires_at")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "filename")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "links")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "object")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "purpose")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "size")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "title")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "type")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "url"))
 
 -- | Create a new 'Reporting'reportRunResult'' with all required fields.
 mkReporting'reportRunResult' :: Reporting'reportRunResult'
@@ -191,6 +193,7 @@ mkReporting'reportRunResult' =
       reporting'reportRunResult'Filename = GHC.Maybe.Nothing,
       reporting'reportRunResult'Id = GHC.Maybe.Nothing,
       reporting'reportRunResult'Links = GHC.Maybe.Nothing,
+      reporting'reportRunResult'Object = GHC.Maybe.Nothing,
       reporting'reportRunResult'Purpose = GHC.Maybe.Nothing,
       reporting'reportRunResult'Size = GHC.Maybe.Nothing,
       reporting'reportRunResult'Title = GHC.Maybe.Nothing,
@@ -240,6 +243,31 @@ mkReporting'reportRunResult'Links' reporting'reportRunResult'Links'Data reportin
       reporting'reportRunResult'Links'HasMore = reporting'reportRunResult'Links'HasMore,
       reporting'reportRunResult'Links'Url = reporting'reportRunResult'Links'Url
     }
+
+-- | Defines the enum schema located at @components.schemas.reporting.report_run.properties.result.anyOf.properties.object@ in the specification.
+--
+-- String representing the object\'s type. Objects of the same type share the same value.
+data Reporting'reportRunResult'Object'
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    Reporting'reportRunResult'Object'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    Reporting'reportRunResult'Object'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"file"@
+    Reporting'reportRunResult'Object'EnumFile
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON Reporting'reportRunResult'Object' where
+  toJSON (Reporting'reportRunResult'Object'Other val) = val
+  toJSON (Reporting'reportRunResult'Object'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (Reporting'reportRunResult'Object'EnumFile) = "file"
+
+instance Data.Aeson.Types.FromJSON.FromJSON Reporting'reportRunResult'Object' where
+  parseJSON val =
+    GHC.Base.pure
+      ( if
+            | val GHC.Classes.== "file" -> Reporting'reportRunResult'Object'EnumFile
+            | GHC.Base.otherwise -> Reporting'reportRunResult'Object'Other val
+      )
 
 -- | Defines the enum schema located at @components.schemas.reporting.report_run.properties.result.anyOf.properties.purpose@ in the specification.
 --

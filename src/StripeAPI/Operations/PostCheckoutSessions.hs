@@ -50,7 +50,7 @@ postCheckoutSessions ::
   -- | The request body to send
   PostCheckoutSessionsRequestBody ->
   -- | Monadic computation which returns the result of the operation
-  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response PostCheckoutSessionsResponse)
+  StripeAPI.Common.ClientT m (Network.HTTP.Client.Types.Response PostCheckoutSessionsResponse)
 postCheckoutSessions body =
   GHC.Base.fmap
     ( \response_0 ->

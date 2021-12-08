@@ -52,7 +52,7 @@ postCreditNotesId ::
   -- | The request body to send
   GHC.Maybe.Maybe PostCreditNotesIdRequestBody ->
   -- | Monadic computation which returns the result of the operation
-  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response PostCreditNotesIdResponse)
+  StripeAPI.Common.ClientT m (Network.HTTP.Client.Types.Response PostCreditNotesIdResponse)
 postCreditNotesId
   id
   body =

@@ -46,6 +46,11 @@ instance Show AccountExternalAccounts'Data'Customer'Variants
 instance Eq AccountExternalAccounts'Data'Customer'Variants
 instance FromJSON AccountExternalAccounts'Data'Customer'Variants
 instance ToJSON AccountExternalAccounts'Data'Customer'Variants
+data AccountExternalAccounts'Data'Object'
+instance Show AccountExternalAccounts'Data'Object'
+instance Eq AccountExternalAccounts'Data'Object'
+instance FromJSON AccountExternalAccounts'Data'Object'
+instance ToJSON AccountExternalAccounts'Data'Object'
 data AccountExternalAccounts'Data'Recipient'Variants
 instance Show AccountExternalAccounts'Data'Recipient'Variants
 instance Eq AccountExternalAccounts'Data'Recipient'Variants

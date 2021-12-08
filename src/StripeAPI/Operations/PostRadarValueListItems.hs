@@ -50,7 +50,7 @@ postRadarValueListItems ::
   -- | The request body to send
   PostRadarValueListItemsRequestBody ->
   -- | Monadic computation which returns the result of the operation
-  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response PostRadarValueListItemsResponse)
+  StripeAPI.Common.ClientT m (Network.HTTP.Client.Types.Response PostRadarValueListItemsResponse)
 postRadarValueListItems body =
   GHC.Base.fmap
     ( \response_0 ->

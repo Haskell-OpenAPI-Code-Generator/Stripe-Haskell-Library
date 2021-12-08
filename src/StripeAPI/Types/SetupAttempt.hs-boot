@@ -51,6 +51,11 @@ instance Show SetupAttemptSetupError'Source'Customer'Variants
 instance Eq SetupAttemptSetupError'Source'Customer'Variants
 instance FromJSON SetupAttemptSetupError'Source'Customer'Variants
 instance ToJSON SetupAttemptSetupError'Source'Customer'Variants
+data SetupAttemptSetupError'Source'Object'
+instance Show SetupAttemptSetupError'Source'Object'
+instance Eq SetupAttemptSetupError'Source'Object'
+instance FromJSON SetupAttemptSetupError'Source'Object'
+instance ToJSON SetupAttemptSetupError'Source'Object'
 data SetupAttemptSetupError'Source'Owner'
 instance Show SetupAttemptSetupError'Source'Owner'
 instance Eq SetupAttemptSetupError'Source'Owner'

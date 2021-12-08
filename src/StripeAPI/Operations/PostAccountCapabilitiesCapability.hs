@@ -52,7 +52,7 @@ postAccountCapabilitiesCapability ::
   -- | The request body to send
   GHC.Maybe.Maybe PostAccountCapabilitiesCapabilityRequestBody ->
   -- | Monadic computation which returns the result of the operation
-  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response PostAccountCapabilitiesCapabilityResponse)
+  StripeAPI.Common.ClientT m (Network.HTTP.Client.Types.Response PostAccountCapabilitiesCapabilityResponse)
 postAccountCapabilitiesCapability
   capability
   body =

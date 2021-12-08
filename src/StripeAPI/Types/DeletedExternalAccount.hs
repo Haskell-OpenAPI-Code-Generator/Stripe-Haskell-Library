@@ -40,12 +40,16 @@ data DeletedExternalAccount = DeletedExternalAccount
     --
     -- * Maximum length of 5000
     deletedExternalAccountCurrency :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    -- | deleted: Always true for a deleted object
+    deletedExternalAccountDeleted :: (GHC.Maybe.Maybe DeletedExternalAccountDeleted'),
     -- | id: Unique identifier for the object.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    deletedExternalAccountId :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
+    deletedExternalAccountId :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    -- | object: String representing the object\'s type. Objects of the same type share the same value.
+    deletedExternalAccountObject :: (GHC.Maybe.Maybe DeletedExternalAccountObject')
   }
   deriving
     ( GHC.Show.Show,
@@ -53,16 +57,68 @@ data DeletedExternalAccount = DeletedExternalAccount
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON DeletedExternalAccount where
-  toJSON obj = Data.Aeson.Types.Internal.object ("currency" Data.Aeson.Types.ToJSON..= deletedExternalAccountCurrency obj : "id" Data.Aeson.Types.ToJSON..= deletedExternalAccountId obj : "deleted" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.Bool GHC.Types.True : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "bank_account" : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("currency" Data.Aeson.Types.ToJSON..= deletedExternalAccountCurrency obj) GHC.Base.<> (("id" Data.Aeson.Types.ToJSON..= deletedExternalAccountId obj) GHC.Base.<> (("deleted" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.Bool GHC.Types.True) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "bank_account"))))
+  toJSON obj = Data.Aeson.Types.Internal.object ("currency" Data.Aeson.Types.ToJSON..= deletedExternalAccountCurrency obj : "deleted" Data.Aeson.Types.ToJSON..= deletedExternalAccountDeleted obj : "id" Data.Aeson.Types.ToJSON..= deletedExternalAccountId obj : "object" Data.Aeson.Types.ToJSON..= deletedExternalAccountObject obj : GHC.Base.mempty)
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("currency" Data.Aeson.Types.ToJSON..= deletedExternalAccountCurrency obj) GHC.Base.<> (("deleted" Data.Aeson.Types.ToJSON..= deletedExternalAccountDeleted obj) GHC.Base.<> (("id" Data.Aeson.Types.ToJSON..= deletedExternalAccountId obj) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= deletedExternalAccountObject obj))))
 
 instance Data.Aeson.Types.FromJSON.FromJSON DeletedExternalAccount where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "DeletedExternalAccount" (\obj -> (GHC.Base.pure DeletedExternalAccount GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "id"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "DeletedExternalAccount" (\obj -> (((GHC.Base.pure DeletedExternalAccount GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "deleted")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "object"))
 
 -- | Create a new 'DeletedExternalAccount' with all required fields.
 mkDeletedExternalAccount :: DeletedExternalAccount
 mkDeletedExternalAccount =
   DeletedExternalAccount
     { deletedExternalAccountCurrency = GHC.Maybe.Nothing,
-      deletedExternalAccountId = GHC.Maybe.Nothing
+      deletedExternalAccountDeleted = GHC.Maybe.Nothing,
+      deletedExternalAccountId = GHC.Maybe.Nothing,
+      deletedExternalAccountObject = GHC.Maybe.Nothing
     }
+
+-- | Defines the enum schema located at @components.schemas.deleted_external_account.anyOf.properties.deleted@ in the specification.
+--
+-- Always true for a deleted object
+data DeletedExternalAccountDeleted'
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    DeletedExternalAccountDeleted'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    DeletedExternalAccountDeleted'Typed GHC.Types.Bool
+  | -- | Represents the JSON value @true@
+    DeletedExternalAccountDeleted'EnumTrue
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON DeletedExternalAccountDeleted' where
+  toJSON (DeletedExternalAccountDeleted'Other val) = val
+  toJSON (DeletedExternalAccountDeleted'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (DeletedExternalAccountDeleted'EnumTrue) = Data.Aeson.Types.Internal.Bool GHC.Types.True
+
+instance Data.Aeson.Types.FromJSON.FromJSON DeletedExternalAccountDeleted' where
+  parseJSON val =
+    GHC.Base.pure
+      ( if
+            | val GHC.Classes.== Data.Aeson.Types.Internal.Bool GHC.Types.True -> DeletedExternalAccountDeleted'EnumTrue
+            | GHC.Base.otherwise -> DeletedExternalAccountDeleted'Other val
+      )
+
+-- | Defines the enum schema located at @components.schemas.deleted_external_account.anyOf.properties.object@ in the specification.
+--
+-- String representing the object\'s type. Objects of the same type share the same value.
+data DeletedExternalAccountObject'
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    DeletedExternalAccountObject'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    DeletedExternalAccountObject'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"bank_account"@
+    DeletedExternalAccountObject'EnumBankAccount
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON DeletedExternalAccountObject' where
+  toJSON (DeletedExternalAccountObject'Other val) = val
+  toJSON (DeletedExternalAccountObject'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (DeletedExternalAccountObject'EnumBankAccount) = "bank_account"
+
+instance Data.Aeson.Types.FromJSON.FromJSON DeletedExternalAccountObject' where
+  parseJSON val =
+    GHC.Base.pure
+      ( if
+            | val GHC.Classes.== "bank_account" -> DeletedExternalAccountObject'EnumBankAccount
+            | GHC.Base.otherwise -> DeletedExternalAccountObject'Other val
+      )

@@ -26,6 +26,11 @@ instance Show CustomerDiscount'Customer'Variants
 instance Eq CustomerDiscount'Customer'Variants
 instance FromJSON CustomerDiscount'Customer'Variants
 instance ToJSON CustomerDiscount'Customer'Variants
+data CustomerDiscount'Object'
+instance Show CustomerDiscount'Object'
+instance Eq CustomerDiscount'Object'
+instance FromJSON CustomerDiscount'Object'
+instance ToJSON CustomerDiscount'Object'
 data CustomerDiscount'PromotionCode'Variants
 instance Show CustomerDiscount'PromotionCode'Variants
 instance Eq CustomerDiscount'PromotionCode'Variants
@@ -61,6 +66,11 @@ instance Show CustomerSources'Data'Customer'Variants
 instance Eq CustomerSources'Data'Customer'Variants
 instance FromJSON CustomerSources'Data'Customer'Variants
 instance ToJSON CustomerSources'Data'Customer'Variants
+data CustomerSources'Data'Object'
+instance Show CustomerSources'Data'Object'
+instance Eq CustomerSources'Data'Object'
+instance FromJSON CustomerSources'Data'Object'
+instance ToJSON CustomerSources'Data'Object'
 data CustomerSources'Data'Owner'
 instance Show CustomerSources'Data'Owner'
 instance Eq CustomerSources'Data'Owner'

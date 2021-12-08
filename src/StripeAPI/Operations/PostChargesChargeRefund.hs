@@ -62,7 +62,7 @@ postChargesChargeRefund ::
   -- | The request body to send
   GHC.Maybe.Maybe PostChargesChargeRefundRequestBody ->
   -- | Monadic computation which returns the result of the operation
-  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response PostChargesChargeRefundResponse)
+  StripeAPI.Common.ClientT m (Network.HTTP.Client.Types.Response PostChargesChargeRefundResponse)
 postChargesChargeRefund
   charge
   body =
