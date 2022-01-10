@@ -1,9 +1,11 @@
 cabal-version: 1.12
 
 name:           stripeapi
-version:        1.0.0.0
+version:        2.0.1.0
 synopsis:       Stripe-Library
 description:    Stripe-Library generated from https://github.com/Haskell-OpenAPI-Code-Generator/Haskell-OpenAPI-Client-Code-Generator
+homepage:       https://github.com/Haskell-OpenAPI-Code-Generator/Stripe-Haskell-Library#readme
+bug-reports:    https://github.com/Haskell-OpenAPI-Code-Generator/Stripe-Haskell-Library/issues
 maintainer:     Remo Dörig <remo.doerig@gmail.com> & Joel Fisch <joel.fisch96@gmail.com>
 license-file:   LICENSE
 category:       PSP
@@ -817,7 +819,7 @@ library
     , http-client
     , http-types
     , bytestring
-    , aeson
+    , aeson >=0.6 && <1.6
     , unordered-containers
     , vector
     , scientific
