@@ -1,6 +1,7 @@
 module StripeAPI.Types.PaymentMethodDetailsOxxo where
 import Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Types.Internal
+import qualified StripeAPI.Common
 data PaymentMethodDetailsOxxo
 instance Show PaymentMethodDetailsOxxo
 instance Eq PaymentMethodDetailsOxxo

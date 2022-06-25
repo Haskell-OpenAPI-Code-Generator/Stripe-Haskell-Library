@@ -1,6 +1,7 @@
 module StripeAPI.Types.PaymentIntentNextActionRedirectToUrl where
 import Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Types.Internal
+import qualified StripeAPI.Common
 data PaymentIntentNextActionRedirectToUrl
 instance Show PaymentIntentNextActionRedirectToUrl
 instance Eq PaymentIntentNextActionRedirectToUrl

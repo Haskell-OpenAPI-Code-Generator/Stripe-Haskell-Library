@@ -1,26 +1,27 @@
 module StripeAPI.Types.Review where
 import Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Types.Internal
+import qualified StripeAPI.Common
 data Review
 instance Show Review
 instance Eq Review
 instance FromJSON Review
 instance ToJSON Review
-data ReviewCharge'Variants
-instance Show ReviewCharge'Variants
-instance Eq ReviewCharge'Variants
-instance FromJSON ReviewCharge'Variants
-instance ToJSON ReviewCharge'Variants
-data ReviewClosedReason'
-instance Show ReviewClosedReason'
-instance Eq ReviewClosedReason'
-instance FromJSON ReviewClosedReason'
-instance ToJSON ReviewClosedReason'
-data ReviewIpAddressLocation'
-instance Show ReviewIpAddressLocation'
-instance Eq ReviewIpAddressLocation'
-instance FromJSON ReviewIpAddressLocation'
-instance ToJSON ReviewIpAddressLocation'
+data ReviewCharge'NonNullableVariants
+instance Show ReviewCharge'NonNullableVariants
+instance Eq ReviewCharge'NonNullableVariants
+instance FromJSON ReviewCharge'NonNullableVariants
+instance ToJSON ReviewCharge'NonNullableVariants
+data ReviewClosedReason'NonNullable
+instance Show ReviewClosedReason'NonNullable
+instance Eq ReviewClosedReason'NonNullable
+instance FromJSON ReviewClosedReason'NonNullable
+instance ToJSON ReviewClosedReason'NonNullable
+data ReviewIpAddressLocation'NonNullable
+instance Show ReviewIpAddressLocation'NonNullable
+instance Eq ReviewIpAddressLocation'NonNullable
+instance FromJSON ReviewIpAddressLocation'NonNullable
+instance ToJSON ReviewIpAddressLocation'NonNullable
 data ReviewOpenedReason'
 instance Show ReviewOpenedReason'
 instance Eq ReviewOpenedReason'
@@ -31,8 +32,8 @@ instance Show ReviewPaymentIntent'Variants
 instance Eq ReviewPaymentIntent'Variants
 instance FromJSON ReviewPaymentIntent'Variants
 instance ToJSON ReviewPaymentIntent'Variants
-data ReviewSession'
-instance Show ReviewSession'
-instance Eq ReviewSession'
-instance FromJSON ReviewSession'
-instance ToJSON ReviewSession'
+data ReviewSession'NonNullable
+instance Show ReviewSession'NonNullable
+instance Eq ReviewSession'NonNullable
+instance FromJSON ReviewSession'NonNullable
+instance ToJSON ReviewSession'NonNullable

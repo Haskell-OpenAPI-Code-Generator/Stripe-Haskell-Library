@@ -1,0 +1,9 @@
+module StripeAPI.Types.PaymentLinksResourceAutomaticTax where
+import Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Types.Internal
+import qualified StripeAPI.Common
+data PaymentLinksResourceAutomaticTax
+instance Show PaymentLinksResourceAutomaticTax
+instance Eq PaymentLinksResourceAutomaticTax
+instance FromJSON PaymentLinksResourceAutomaticTax
+instance ToJSON PaymentLinksResourceAutomaticTax

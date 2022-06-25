@@ -1,0 +1,19 @@
+module StripeAPI.Types.PaymentMethodOptionsAffirm where
+import Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Types.Internal
+import qualified StripeAPI.Common
+data PaymentMethodOptionsAffirm
+instance Show PaymentMethodOptionsAffirm
+instance Eq PaymentMethodOptionsAffirm
+instance FromJSON PaymentMethodOptionsAffirm
+instance ToJSON PaymentMethodOptionsAffirm
+data PaymentMethodOptionsAffirmCaptureMethod'
+instance Show PaymentMethodOptionsAffirmCaptureMethod'
+instance Eq PaymentMethodOptionsAffirmCaptureMethod'
+instance FromJSON PaymentMethodOptionsAffirmCaptureMethod'
+instance ToJSON PaymentMethodOptionsAffirmCaptureMethod'
+data PaymentMethodOptionsAffirmSetupFutureUsage'
+instance Show PaymentMethodOptionsAffirmSetupFutureUsage'
+instance Eq PaymentMethodOptionsAffirmSetupFutureUsage'
+instance FromJSON PaymentMethodOptionsAffirmSetupFutureUsage'
+instance ToJSON PaymentMethodOptionsAffirmSetupFutureUsage'

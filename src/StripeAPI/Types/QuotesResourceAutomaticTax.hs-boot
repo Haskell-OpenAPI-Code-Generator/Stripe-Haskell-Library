@@ -1,0 +1,14 @@
+module StripeAPI.Types.QuotesResourceAutomaticTax where
+import Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Types.Internal
+import qualified StripeAPI.Common
+data QuotesResourceAutomaticTax
+instance Show QuotesResourceAutomaticTax
+instance Eq QuotesResourceAutomaticTax
+instance FromJSON QuotesResourceAutomaticTax
+instance ToJSON QuotesResourceAutomaticTax
+data QuotesResourceAutomaticTaxStatus'NonNullable
+instance Show QuotesResourceAutomaticTaxStatus'NonNullable
+instance Eq QuotesResourceAutomaticTaxStatus'NonNullable
+instance FromJSON QuotesResourceAutomaticTaxStatus'NonNullable
+instance ToJSON QuotesResourceAutomaticTaxStatus'NonNullable

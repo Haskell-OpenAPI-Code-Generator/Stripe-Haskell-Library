@@ -1,16 +1,17 @@
 module StripeAPI.Types.FeeRefund where
 import Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Types.Internal
+import qualified StripeAPI.Common
 data FeeRefund
 instance Show FeeRefund
 instance Eq FeeRefund
 instance FromJSON FeeRefund
 instance ToJSON FeeRefund
-data FeeRefundBalanceTransaction'Variants
-instance Show FeeRefundBalanceTransaction'Variants
-instance Eq FeeRefundBalanceTransaction'Variants
-instance FromJSON FeeRefundBalanceTransaction'Variants
-instance ToJSON FeeRefundBalanceTransaction'Variants
+data FeeRefundBalanceTransaction'NonNullableVariants
+instance Show FeeRefundBalanceTransaction'NonNullableVariants
+instance Eq FeeRefundBalanceTransaction'NonNullableVariants
+instance FromJSON FeeRefundBalanceTransaction'NonNullableVariants
+instance ToJSON FeeRefundBalanceTransaction'NonNullableVariants
 data FeeRefundFee'Variants
 instance Show FeeRefundFee'Variants
 instance Eq FeeRefundFee'Variants

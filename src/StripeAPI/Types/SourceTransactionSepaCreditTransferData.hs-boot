@@ -1,6 +1,7 @@
 module StripeAPI.Types.SourceTransactionSepaCreditTransferData where
 import Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Types.Internal
+import qualified StripeAPI.Common
 data SourceTransactionSepaCreditTransferData
 instance Show SourceTransactionSepaCreditTransferData
 instance Eq SourceTransactionSepaCreditTransferData

@@ -1,0 +1,9 @@
+module StripeAPI.Types.ReceivedPaymentMethodDetailsFinancialAccount where
+import Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Types.Internal
+import qualified StripeAPI.Common
+data ReceivedPaymentMethodDetailsFinancialAccount
+instance Show ReceivedPaymentMethodDetailsFinancialAccount
+instance Eq ReceivedPaymentMethodDetailsFinancialAccount
+instance FromJSON ReceivedPaymentMethodDetailsFinancialAccount
+instance ToJSON ReceivedPaymentMethodDetailsFinancialAccount

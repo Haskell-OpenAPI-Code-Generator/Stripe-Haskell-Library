@@ -1,16 +1,17 @@
 module StripeAPI.Types.IssuingAuthorizationRequest where
 import Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Types.Internal
+import qualified StripeAPI.Common
 data IssuingAuthorizationRequest
 instance Show IssuingAuthorizationRequest
 instance Eq IssuingAuthorizationRequest
 instance FromJSON IssuingAuthorizationRequest
 instance ToJSON IssuingAuthorizationRequest
-data IssuingAuthorizationRequestAmountDetails'
-instance Show IssuingAuthorizationRequestAmountDetails'
-instance Eq IssuingAuthorizationRequestAmountDetails'
-instance FromJSON IssuingAuthorizationRequestAmountDetails'
-instance ToJSON IssuingAuthorizationRequestAmountDetails'
+data IssuingAuthorizationRequestAmountDetails'NonNullable
+instance Show IssuingAuthorizationRequestAmountDetails'NonNullable
+instance Eq IssuingAuthorizationRequestAmountDetails'NonNullable
+instance FromJSON IssuingAuthorizationRequestAmountDetails'NonNullable
+instance ToJSON IssuingAuthorizationRequestAmountDetails'NonNullable
 data IssuingAuthorizationRequestReason'
 instance Show IssuingAuthorizationRequestReason'
 instance Eq IssuingAuthorizationRequestReason'

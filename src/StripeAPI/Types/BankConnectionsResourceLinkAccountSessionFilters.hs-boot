@@ -1,0 +1,9 @@
+module StripeAPI.Types.BankConnectionsResourceLinkAccountSessionFilters where
+import Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Types.Internal
+import qualified StripeAPI.Common
+data BankConnectionsResourceLinkAccountSessionFilters
+instance Show BankConnectionsResourceLinkAccountSessionFilters
+instance Eq BankConnectionsResourceLinkAccountSessionFilters
+instance FromJSON BankConnectionsResourceLinkAccountSessionFilters
+instance ToJSON BankConnectionsResourceLinkAccountSessionFilters

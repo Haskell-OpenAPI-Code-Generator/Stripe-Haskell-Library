@@ -1,0 +1,9 @@
+module StripeAPI.Types.FundingInstructionsBankTransferSortCodeRecord where
+import Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Types.Internal
+import qualified StripeAPI.Common
+data FundingInstructionsBankTransferSortCodeRecord
+instance Show FundingInstructionsBankTransferSortCodeRecord
+instance Eq FundingInstructionsBankTransferSortCodeRecord
+instance FromJSON FundingInstructionsBankTransferSortCodeRecord
+instance ToJSON FundingInstructionsBankTransferSortCodeRecord

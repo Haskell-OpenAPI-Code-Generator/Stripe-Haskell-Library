@@ -1,0 +1,9 @@
+module StripeAPI.Types.TreasurySharedResourceBillingDetails where
+import Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Types.Internal
+import qualified StripeAPI.Common
+data TreasurySharedResourceBillingDetails
+instance Show TreasurySharedResourceBillingDetails
+instance Eq TreasurySharedResourceBillingDetails
+instance FromJSON TreasurySharedResourceBillingDetails
+instance ToJSON TreasurySharedResourceBillingDetails

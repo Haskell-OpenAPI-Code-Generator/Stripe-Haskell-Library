@@ -1,6 +1,7 @@
 module StripeAPI.Types.Mandate where
 import Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Types.Internal
+import qualified StripeAPI.Common
 data Mandate
 instance Show Mandate
 instance Eq Mandate

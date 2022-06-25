@@ -1,6 +1,7 @@
 module StripeAPI.Types.DeletedPaymentSource where
 import Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Types.Internal
+import qualified StripeAPI.Common
 data DeletedPaymentSource
 instance Show DeletedPaymentSource
 instance Eq DeletedPaymentSource

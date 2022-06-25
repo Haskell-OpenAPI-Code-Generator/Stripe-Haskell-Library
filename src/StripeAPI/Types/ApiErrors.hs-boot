@@ -1,6 +1,7 @@
 module StripeAPI.Types.ApiErrors where
 import Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Types.Internal
+import qualified StripeAPI.Common
 data ApiErrors
 instance Show ApiErrors
 instance Eq ApiErrors
@@ -11,46 +12,46 @@ instance Show ApiErrorsSource'
 instance Eq ApiErrorsSource'
 instance FromJSON ApiErrorsSource'
 instance ToJSON ApiErrorsSource'
-data ApiErrorsSource'Account'Variants
-instance Show ApiErrorsSource'Account'Variants
-instance Eq ApiErrorsSource'Account'Variants
-instance FromJSON ApiErrorsSource'Account'Variants
-instance ToJSON ApiErrorsSource'Account'Variants
-data ApiErrorsSource'AvailablePayoutMethods'
-instance Show ApiErrorsSource'AvailablePayoutMethods'
-instance Eq ApiErrorsSource'AvailablePayoutMethods'
-instance FromJSON ApiErrorsSource'AvailablePayoutMethods'
-instance ToJSON ApiErrorsSource'AvailablePayoutMethods'
-data ApiErrorsSource'Customer'Variants
-instance Show ApiErrorsSource'Customer'Variants
-instance Eq ApiErrorsSource'Customer'Variants
-instance FromJSON ApiErrorsSource'Customer'Variants
-instance ToJSON ApiErrorsSource'Customer'Variants
+data ApiErrorsSource'Account'NonNullableVariants
+instance Show ApiErrorsSource'Account'NonNullableVariants
+instance Eq ApiErrorsSource'Account'NonNullableVariants
+instance FromJSON ApiErrorsSource'Account'NonNullableVariants
+instance ToJSON ApiErrorsSource'Account'NonNullableVariants
+data ApiErrorsSource'AvailablePayoutMethods'NonNullable
+instance Show ApiErrorsSource'AvailablePayoutMethods'NonNullable
+instance Eq ApiErrorsSource'AvailablePayoutMethods'NonNullable
+instance FromJSON ApiErrorsSource'AvailablePayoutMethods'NonNullable
+instance ToJSON ApiErrorsSource'AvailablePayoutMethods'NonNullable
+data ApiErrorsSource'Customer'NonNullableVariants
+instance Show ApiErrorsSource'Customer'NonNullableVariants
+instance Eq ApiErrorsSource'Customer'NonNullableVariants
+instance FromJSON ApiErrorsSource'Customer'NonNullableVariants
+instance ToJSON ApiErrorsSource'Customer'NonNullableVariants
 data ApiErrorsSource'Object'
 instance Show ApiErrorsSource'Object'
 instance Eq ApiErrorsSource'Object'
 instance FromJSON ApiErrorsSource'Object'
 instance ToJSON ApiErrorsSource'Object'
-data ApiErrorsSource'Owner'
-instance Show ApiErrorsSource'Owner'
-instance Eq ApiErrorsSource'Owner'
-instance FromJSON ApiErrorsSource'Owner'
-instance ToJSON ApiErrorsSource'Owner'
-data ApiErrorsSource'Owner'Address'
-instance Show ApiErrorsSource'Owner'Address'
-instance Eq ApiErrorsSource'Owner'Address'
-instance FromJSON ApiErrorsSource'Owner'Address'
-instance ToJSON ApiErrorsSource'Owner'Address'
-data ApiErrorsSource'Owner'VerifiedAddress'
-instance Show ApiErrorsSource'Owner'VerifiedAddress'
-instance Eq ApiErrorsSource'Owner'VerifiedAddress'
-instance FromJSON ApiErrorsSource'Owner'VerifiedAddress'
-instance ToJSON ApiErrorsSource'Owner'VerifiedAddress'
-data ApiErrorsSource'Recipient'Variants
-instance Show ApiErrorsSource'Recipient'Variants
-instance Eq ApiErrorsSource'Recipient'Variants
-instance FromJSON ApiErrorsSource'Recipient'Variants
-instance ToJSON ApiErrorsSource'Recipient'Variants
+data ApiErrorsSource'Owner'NonNullable
+instance Show ApiErrorsSource'Owner'NonNullable
+instance Eq ApiErrorsSource'Owner'NonNullable
+instance FromJSON ApiErrorsSource'Owner'NonNullable
+instance ToJSON ApiErrorsSource'Owner'NonNullable
+data ApiErrorsSource'Owner'NonNullableAddress'NonNullable
+instance Show ApiErrorsSource'Owner'NonNullableAddress'NonNullable
+instance Eq ApiErrorsSource'Owner'NonNullableAddress'NonNullable
+instance FromJSON ApiErrorsSource'Owner'NonNullableAddress'NonNullable
+instance ToJSON ApiErrorsSource'Owner'NonNullableAddress'NonNullable
+data ApiErrorsSource'Owner'NonNullableVerifiedAddress'NonNullable
+instance Show ApiErrorsSource'Owner'NonNullableVerifiedAddress'NonNullable
+instance Eq ApiErrorsSource'Owner'NonNullableVerifiedAddress'NonNullable
+instance FromJSON ApiErrorsSource'Owner'NonNullableVerifiedAddress'NonNullable
+instance ToJSON ApiErrorsSource'Owner'NonNullableVerifiedAddress'NonNullable
+data ApiErrorsSource'Recipient'NonNullableVariants
+instance Show ApiErrorsSource'Recipient'NonNullableVariants
+instance Eq ApiErrorsSource'Recipient'NonNullableVariants
+instance FromJSON ApiErrorsSource'Recipient'NonNullableVariants
+instance ToJSON ApiErrorsSource'Recipient'NonNullableVariants
 data ApiErrorsSource'Type'
 instance Show ApiErrorsSource'Type'
 instance Eq ApiErrorsSource'Type'

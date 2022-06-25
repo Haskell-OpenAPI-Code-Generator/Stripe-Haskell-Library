@@ -1,51 +1,52 @@
 module StripeAPI.Types.Recipient where
 import Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Types.Internal
+import qualified StripeAPI.Common
 data Recipient
 instance Show Recipient
 instance Eq Recipient
 instance FromJSON Recipient
 instance ToJSON Recipient
-data RecipientActiveAccount'
-instance Show RecipientActiveAccount'
-instance Eq RecipientActiveAccount'
-instance FromJSON RecipientActiveAccount'
-instance ToJSON RecipientActiveAccount'
-data RecipientActiveAccount'Account'Variants
-instance Show RecipientActiveAccount'Account'Variants
-instance Eq RecipientActiveAccount'Account'Variants
-instance FromJSON RecipientActiveAccount'Account'Variants
-instance ToJSON RecipientActiveAccount'Account'Variants
-data RecipientActiveAccount'AvailablePayoutMethods'
-instance Show RecipientActiveAccount'AvailablePayoutMethods'
-instance Eq RecipientActiveAccount'AvailablePayoutMethods'
-instance FromJSON RecipientActiveAccount'AvailablePayoutMethods'
-instance ToJSON RecipientActiveAccount'AvailablePayoutMethods'
-data RecipientActiveAccount'Customer'Variants
-instance Show RecipientActiveAccount'Customer'Variants
-instance Eq RecipientActiveAccount'Customer'Variants
-instance FromJSON RecipientActiveAccount'Customer'Variants
-instance ToJSON RecipientActiveAccount'Customer'Variants
-data RecipientActiveAccount'Object'
-instance Show RecipientActiveAccount'Object'
-instance Eq RecipientActiveAccount'Object'
-instance FromJSON RecipientActiveAccount'Object'
-instance ToJSON RecipientActiveAccount'Object'
-data RecipientCards'
-instance Show RecipientCards'
-instance Eq RecipientCards'
-instance FromJSON RecipientCards'
-instance ToJSON RecipientCards'
-data RecipientDefaultCard'Variants
-instance Show RecipientDefaultCard'Variants
-instance Eq RecipientDefaultCard'Variants
-instance FromJSON RecipientDefaultCard'Variants
-instance ToJSON RecipientDefaultCard'Variants
-data RecipientMigratedTo'Variants
-instance Show RecipientMigratedTo'Variants
-instance Eq RecipientMigratedTo'Variants
-instance FromJSON RecipientMigratedTo'Variants
-instance ToJSON RecipientMigratedTo'Variants
+data RecipientActiveAccount'NonNullable
+instance Show RecipientActiveAccount'NonNullable
+instance Eq RecipientActiveAccount'NonNullable
+instance FromJSON RecipientActiveAccount'NonNullable
+instance ToJSON RecipientActiveAccount'NonNullable
+data RecipientActiveAccount'NonNullableAccount'NonNullableVariants
+instance Show RecipientActiveAccount'NonNullableAccount'NonNullableVariants
+instance Eq RecipientActiveAccount'NonNullableAccount'NonNullableVariants
+instance FromJSON RecipientActiveAccount'NonNullableAccount'NonNullableVariants
+instance ToJSON RecipientActiveAccount'NonNullableAccount'NonNullableVariants
+data RecipientActiveAccount'NonNullableAvailablePayoutMethods'NonNullable
+instance Show RecipientActiveAccount'NonNullableAvailablePayoutMethods'NonNullable
+instance Eq RecipientActiveAccount'NonNullableAvailablePayoutMethods'NonNullable
+instance FromJSON RecipientActiveAccount'NonNullableAvailablePayoutMethods'NonNullable
+instance ToJSON RecipientActiveAccount'NonNullableAvailablePayoutMethods'NonNullable
+data RecipientActiveAccount'NonNullableCustomer'NonNullableVariants
+instance Show RecipientActiveAccount'NonNullableCustomer'NonNullableVariants
+instance Eq RecipientActiveAccount'NonNullableCustomer'NonNullableVariants
+instance FromJSON RecipientActiveAccount'NonNullableCustomer'NonNullableVariants
+instance ToJSON RecipientActiveAccount'NonNullableCustomer'NonNullableVariants
+data RecipientActiveAccount'NonNullableObject'
+instance Show RecipientActiveAccount'NonNullableObject'
+instance Eq RecipientActiveAccount'NonNullableObject'
+instance FromJSON RecipientActiveAccount'NonNullableObject'
+instance ToJSON RecipientActiveAccount'NonNullableObject'
+data RecipientCards'NonNullable
+instance Show RecipientCards'NonNullable
+instance Eq RecipientCards'NonNullable
+instance FromJSON RecipientCards'NonNullable
+instance ToJSON RecipientCards'NonNullable
+data RecipientDefaultCard'NonNullableVariants
+instance Show RecipientDefaultCard'NonNullableVariants
+instance Eq RecipientDefaultCard'NonNullableVariants
+instance FromJSON RecipientDefaultCard'NonNullableVariants
+instance ToJSON RecipientDefaultCard'NonNullableVariants
+data RecipientMigratedTo'NonNullableVariants
+instance Show RecipientMigratedTo'NonNullableVariants
+instance Eq RecipientMigratedTo'NonNullableVariants
+instance FromJSON RecipientMigratedTo'NonNullableVariants
+instance ToJSON RecipientMigratedTo'NonNullableVariants
 data RecipientRolledBackFrom'Variants
 instance Show RecipientRolledBackFrom'Variants
 instance Eq RecipientRolledBackFrom'Variants

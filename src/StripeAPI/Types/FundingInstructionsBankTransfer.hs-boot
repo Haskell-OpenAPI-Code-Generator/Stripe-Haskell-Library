@@ -1,0 +1,14 @@
+module StripeAPI.Types.FundingInstructionsBankTransfer where
+import Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Types.Internal
+import qualified StripeAPI.Common
+data FundingInstructionsBankTransfer
+instance Show FundingInstructionsBankTransfer
+instance Eq FundingInstructionsBankTransfer
+instance FromJSON FundingInstructionsBankTransfer
+instance ToJSON FundingInstructionsBankTransfer
+data FundingInstructionsBankTransferType'
+instance Show FundingInstructionsBankTransferType'
+instance Eq FundingInstructionsBankTransferType'
+instance FromJSON FundingInstructionsBankTransferType'
+instance ToJSON FundingInstructionsBankTransferType'

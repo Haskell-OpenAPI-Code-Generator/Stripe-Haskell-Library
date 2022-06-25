@@ -1,13 +1,14 @@
 module StripeAPI.Types.PaymentMethodDetailsEps where
 import Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Types.Internal
+import qualified StripeAPI.Common
 data PaymentMethodDetailsEps
 instance Show PaymentMethodDetailsEps
 instance Eq PaymentMethodDetailsEps
 instance FromJSON PaymentMethodDetailsEps
 instance ToJSON PaymentMethodDetailsEps
-data PaymentMethodDetailsEpsBank'
-instance Show PaymentMethodDetailsEpsBank'
-instance Eq PaymentMethodDetailsEpsBank'
-instance FromJSON PaymentMethodDetailsEpsBank'
-instance ToJSON PaymentMethodDetailsEpsBank'
+data PaymentMethodDetailsEpsBank'NonNullable
+instance Show PaymentMethodDetailsEpsBank'NonNullable
+instance Eq PaymentMethodDetailsEpsBank'NonNullable
+instance FromJSON PaymentMethodDetailsEpsBank'NonNullable
+instance ToJSON PaymentMethodDetailsEpsBank'NonNullable

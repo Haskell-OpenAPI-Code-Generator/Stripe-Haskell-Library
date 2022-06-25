@@ -1,6 +1,7 @@
 module StripeAPI.Types.CreditNote where
 import Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Types.Internal
+import qualified StripeAPI.Common
 data CreditNote
 instance Show CreditNote
 instance Eq CreditNote
@@ -11,11 +12,11 @@ instance Show CreditNoteCustomer'Variants
 instance Eq CreditNoteCustomer'Variants
 instance FromJSON CreditNoteCustomer'Variants
 instance ToJSON CreditNoteCustomer'Variants
-data CreditNoteCustomerBalanceTransaction'Variants
-instance Show CreditNoteCustomerBalanceTransaction'Variants
-instance Eq CreditNoteCustomerBalanceTransaction'Variants
-instance FromJSON CreditNoteCustomerBalanceTransaction'Variants
-instance ToJSON CreditNoteCustomerBalanceTransaction'Variants
+data CreditNoteCustomerBalanceTransaction'NonNullableVariants
+instance Show CreditNoteCustomerBalanceTransaction'NonNullableVariants
+instance Eq CreditNoteCustomerBalanceTransaction'NonNullableVariants
+instance FromJSON CreditNoteCustomerBalanceTransaction'NonNullableVariants
+instance ToJSON CreditNoteCustomerBalanceTransaction'NonNullableVariants
 data CreditNoteInvoice'Variants
 instance Show CreditNoteInvoice'Variants
 instance Eq CreditNoteInvoice'Variants
@@ -26,16 +27,16 @@ instance Show CreditNoteLines'
 instance Eq CreditNoteLines'
 instance FromJSON CreditNoteLines'
 instance ToJSON CreditNoteLines'
-data CreditNoteReason'
-instance Show CreditNoteReason'
-instance Eq CreditNoteReason'
-instance FromJSON CreditNoteReason'
-instance ToJSON CreditNoteReason'
-data CreditNoteRefund'Variants
-instance Show CreditNoteRefund'Variants
-instance Eq CreditNoteRefund'Variants
-instance FromJSON CreditNoteRefund'Variants
-instance ToJSON CreditNoteRefund'Variants
+data CreditNoteReason'NonNullable
+instance Show CreditNoteReason'NonNullable
+instance Eq CreditNoteReason'NonNullable
+instance FromJSON CreditNoteReason'NonNullable
+instance ToJSON CreditNoteReason'NonNullable
+data CreditNoteRefund'NonNullableVariants
+instance Show CreditNoteRefund'NonNullableVariants
+instance Eq CreditNoteRefund'NonNullableVariants
+instance FromJSON CreditNoteRefund'NonNullableVariants
+instance ToJSON CreditNoteRefund'NonNullableVariants
 data CreditNoteStatus'
 instance Show CreditNoteStatus'
 instance Eq CreditNoteStatus'

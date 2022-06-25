@@ -1,33 +1,34 @@
 module StripeAPI.Types.ExternalAccount where
 import Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Types.Internal
+import qualified StripeAPI.Common
 data ExternalAccount
 instance Show ExternalAccount
 instance Eq ExternalAccount
 instance FromJSON ExternalAccount
 instance ToJSON ExternalAccount
-data ExternalAccountAccount'Variants
-instance Show ExternalAccountAccount'Variants
-instance Eq ExternalAccountAccount'Variants
-instance FromJSON ExternalAccountAccount'Variants
-instance ToJSON ExternalAccountAccount'Variants
-data ExternalAccountAvailablePayoutMethods'
-instance Show ExternalAccountAvailablePayoutMethods'
-instance Eq ExternalAccountAvailablePayoutMethods'
-instance FromJSON ExternalAccountAvailablePayoutMethods'
-instance ToJSON ExternalAccountAvailablePayoutMethods'
-data ExternalAccountCustomer'Variants
-instance Show ExternalAccountCustomer'Variants
-instance Eq ExternalAccountCustomer'Variants
-instance FromJSON ExternalAccountCustomer'Variants
-instance ToJSON ExternalAccountCustomer'Variants
+data ExternalAccountAccount'NonNullableVariants
+instance Show ExternalAccountAccount'NonNullableVariants
+instance Eq ExternalAccountAccount'NonNullableVariants
+instance FromJSON ExternalAccountAccount'NonNullableVariants
+instance ToJSON ExternalAccountAccount'NonNullableVariants
+data ExternalAccountAvailablePayoutMethods'NonNullable
+instance Show ExternalAccountAvailablePayoutMethods'NonNullable
+instance Eq ExternalAccountAvailablePayoutMethods'NonNullable
+instance FromJSON ExternalAccountAvailablePayoutMethods'NonNullable
+instance ToJSON ExternalAccountAvailablePayoutMethods'NonNullable
+data ExternalAccountCustomer'NonNullableVariants
+instance Show ExternalAccountCustomer'NonNullableVariants
+instance Eq ExternalAccountCustomer'NonNullableVariants
+instance FromJSON ExternalAccountCustomer'NonNullableVariants
+instance ToJSON ExternalAccountCustomer'NonNullableVariants
 data ExternalAccountObject'
 instance Show ExternalAccountObject'
 instance Eq ExternalAccountObject'
 instance FromJSON ExternalAccountObject'
 instance ToJSON ExternalAccountObject'
-data ExternalAccountRecipient'Variants
-instance Show ExternalAccountRecipient'Variants
-instance Eq ExternalAccountRecipient'Variants
-instance FromJSON ExternalAccountRecipient'Variants
-instance ToJSON ExternalAccountRecipient'Variants
+data ExternalAccountRecipient'NonNullableVariants
+instance Show ExternalAccountRecipient'NonNullableVariants
+instance Eq ExternalAccountRecipient'NonNullableVariants
+instance FromJSON ExternalAccountRecipient'NonNullableVariants
+instance ToJSON ExternalAccountRecipient'NonNullableVariants

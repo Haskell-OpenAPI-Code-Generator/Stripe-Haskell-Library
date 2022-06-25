@@ -1,38 +1,44 @@
 module StripeAPI.Types.Refund where
 import Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Types.Internal
+import qualified StripeAPI.Common
 data Refund
 instance Show Refund
 instance Eq Refund
 instance FromJSON Refund
 instance ToJSON Refund
-data RefundBalanceTransaction'Variants
-instance Show RefundBalanceTransaction'Variants
-instance Eq RefundBalanceTransaction'Variants
-instance FromJSON RefundBalanceTransaction'Variants
-instance ToJSON RefundBalanceTransaction'Variants
-data RefundCharge'Variants
-instance Show RefundCharge'Variants
-instance Eq RefundCharge'Variants
-instance FromJSON RefundCharge'Variants
-instance ToJSON RefundCharge'Variants
+data RefundBalanceTransaction'NonNullableVariants
+instance Show RefundBalanceTransaction'NonNullableVariants
+instance Eq RefundBalanceTransaction'NonNullableVariants
+instance FromJSON RefundBalanceTransaction'NonNullableVariants
+instance ToJSON RefundBalanceTransaction'NonNullableVariants
+data RefundCharge'NonNullableVariants
+instance Show RefundCharge'NonNullableVariants
+instance Eq RefundCharge'NonNullableVariants
+instance FromJSON RefundCharge'NonNullableVariants
+instance ToJSON RefundCharge'NonNullableVariants
 data RefundFailureBalanceTransaction'Variants
 instance Show RefundFailureBalanceTransaction'Variants
 instance Eq RefundFailureBalanceTransaction'Variants
 instance FromJSON RefundFailureBalanceTransaction'Variants
 instance ToJSON RefundFailureBalanceTransaction'Variants
-data RefundPaymentIntent'Variants
-instance Show RefundPaymentIntent'Variants
-instance Eq RefundPaymentIntent'Variants
-instance FromJSON RefundPaymentIntent'Variants
-instance ToJSON RefundPaymentIntent'Variants
-data RefundSourceTransferReversal'Variants
-instance Show RefundSourceTransferReversal'Variants
-instance Eq RefundSourceTransferReversal'Variants
-instance FromJSON RefundSourceTransferReversal'Variants
-instance ToJSON RefundSourceTransferReversal'Variants
-data RefundTransferReversal'Variants
-instance Show RefundTransferReversal'Variants
-instance Eq RefundTransferReversal'Variants
-instance FromJSON RefundTransferReversal'Variants
-instance ToJSON RefundTransferReversal'Variants
+data RefundPaymentIntent'NonNullableVariants
+instance Show RefundPaymentIntent'NonNullableVariants
+instance Eq RefundPaymentIntent'NonNullableVariants
+instance FromJSON RefundPaymentIntent'NonNullableVariants
+instance ToJSON RefundPaymentIntent'NonNullableVariants
+data RefundReason'NonNullable
+instance Show RefundReason'NonNullable
+instance Eq RefundReason'NonNullable
+instance FromJSON RefundReason'NonNullable
+instance ToJSON RefundReason'NonNullable
+data RefundSourceTransferReversal'NonNullableVariants
+instance Show RefundSourceTransferReversal'NonNullableVariants
+instance Eq RefundSourceTransferReversal'NonNullableVariants
+instance FromJSON RefundSourceTransferReversal'NonNullableVariants
+instance ToJSON RefundSourceTransferReversal'NonNullableVariants
+data RefundTransferReversal'NonNullableVariants
+instance Show RefundTransferReversal'NonNullableVariants
+instance Eq RefundTransferReversal'NonNullableVariants
+instance FromJSON RefundTransferReversal'NonNullableVariants
+instance ToJSON RefundTransferReversal'NonNullableVariants

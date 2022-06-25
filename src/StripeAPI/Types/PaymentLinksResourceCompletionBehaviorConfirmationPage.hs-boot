@@ -1,0 +1,9 @@
+module StripeAPI.Types.PaymentLinksResourceCompletionBehaviorConfirmationPage where
+import Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Types.Internal
+import qualified StripeAPI.Common
+data PaymentLinksResourceCompletionBehaviorConfirmationPage
+instance Show PaymentLinksResourceCompletionBehaviorConfirmationPage
+instance Eq PaymentLinksResourceCompletionBehaviorConfirmationPage
+instance FromJSON PaymentLinksResourceCompletionBehaviorConfirmationPage
+instance ToJSON PaymentLinksResourceCompletionBehaviorConfirmationPage

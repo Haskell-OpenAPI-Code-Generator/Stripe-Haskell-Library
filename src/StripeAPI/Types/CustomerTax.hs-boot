@@ -1,6 +1,7 @@
 module StripeAPI.Types.CustomerTax where
 import Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Types.Internal
+import qualified StripeAPI.Common
 data CustomerTax
 instance Show CustomerTax
 instance Eq CustomerTax
@@ -11,13 +12,13 @@ instance Show CustomerTaxAutomaticTax'
 instance Eq CustomerTaxAutomaticTax'
 instance FromJSON CustomerTaxAutomaticTax'
 instance ToJSON CustomerTaxAutomaticTax'
-data CustomerTaxLocation'
-instance Show CustomerTaxLocation'
-instance Eq CustomerTaxLocation'
-instance FromJSON CustomerTaxLocation'
-instance ToJSON CustomerTaxLocation'
-data CustomerTaxLocation'Source'
-instance Show CustomerTaxLocation'Source'
-instance Eq CustomerTaxLocation'Source'
-instance FromJSON CustomerTaxLocation'Source'
-instance ToJSON CustomerTaxLocation'Source'
+data CustomerTaxLocation'NonNullable
+instance Show CustomerTaxLocation'NonNullable
+instance Eq CustomerTaxLocation'NonNullable
+instance FromJSON CustomerTaxLocation'NonNullable
+instance ToJSON CustomerTaxLocation'NonNullable
+data CustomerTaxLocation'NonNullableSource'
+instance Show CustomerTaxLocation'NonNullableSource'
+instance Eq CustomerTaxLocation'NonNullableSource'
+instance FromJSON CustomerTaxLocation'NonNullableSource'
+instance ToJSON CustomerTaxLocation'NonNullableSource'

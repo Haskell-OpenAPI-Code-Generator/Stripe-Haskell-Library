@@ -1,6 +1,7 @@
 module StripeAPI.Types.CheckoutAcssDebitPaymentMethodOptions where
 import Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Types.Internal
+import qualified StripeAPI.Common
 data CheckoutAcssDebitPaymentMethodOptions
 instance Show CheckoutAcssDebitPaymentMethodOptions
 instance Eq CheckoutAcssDebitPaymentMethodOptions
@@ -11,6 +12,11 @@ instance Show CheckoutAcssDebitPaymentMethodOptionsCurrency'
 instance Eq CheckoutAcssDebitPaymentMethodOptionsCurrency'
 instance FromJSON CheckoutAcssDebitPaymentMethodOptionsCurrency'
 instance ToJSON CheckoutAcssDebitPaymentMethodOptionsCurrency'
+data CheckoutAcssDebitPaymentMethodOptionsSetupFutureUsage'
+instance Show CheckoutAcssDebitPaymentMethodOptionsSetupFutureUsage'
+instance Eq CheckoutAcssDebitPaymentMethodOptionsSetupFutureUsage'
+instance FromJSON CheckoutAcssDebitPaymentMethodOptionsSetupFutureUsage'
+instance ToJSON CheckoutAcssDebitPaymentMethodOptionsSetupFutureUsage'
 data CheckoutAcssDebitPaymentMethodOptionsVerificationMethod'
 instance Show CheckoutAcssDebitPaymentMethodOptionsVerificationMethod'
 instance Eq CheckoutAcssDebitPaymentMethodOptionsVerificationMethod'

@@ -1,93 +1,149 @@
 module StripeAPI.Types.Checkout_Session where
 import Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Types.Internal
+import qualified StripeAPI.Common
 data Checkout'session
 instance Show Checkout'session
 instance Eq Checkout'session
 instance FromJSON Checkout'session
 instance ToJSON Checkout'session
-data Checkout'sessionBillingAddressCollection'
-instance Show Checkout'sessionBillingAddressCollection'
-instance Eq Checkout'sessionBillingAddressCollection'
-instance FromJSON Checkout'sessionBillingAddressCollection'
-instance ToJSON Checkout'sessionBillingAddressCollection'
-data Checkout'sessionCustomer'Variants
-instance Show Checkout'sessionCustomer'Variants
-instance Eq Checkout'sessionCustomer'Variants
-instance FromJSON Checkout'sessionCustomer'Variants
-instance ToJSON Checkout'sessionCustomer'Variants
-data Checkout'sessionCustomerDetails'
-instance Show Checkout'sessionCustomerDetails'
-instance Eq Checkout'sessionCustomerDetails'
-instance FromJSON Checkout'sessionCustomerDetails'
-instance ToJSON Checkout'sessionCustomerDetails'
-data Checkout'sessionCustomerDetails'TaxExempt'
-instance Show Checkout'sessionCustomerDetails'TaxExempt'
-instance Eq Checkout'sessionCustomerDetails'TaxExempt'
-instance FromJSON Checkout'sessionCustomerDetails'TaxExempt'
-instance ToJSON Checkout'sessionCustomerDetails'TaxExempt'
+data Checkout'sessionAfterExpiration'NonNullable
+instance Show Checkout'sessionAfterExpiration'NonNullable
+instance Eq Checkout'sessionAfterExpiration'NonNullable
+instance FromJSON Checkout'sessionAfterExpiration'NonNullable
+instance ToJSON Checkout'sessionAfterExpiration'NonNullable
+data Checkout'sessionAfterExpiration'NonNullableRecovery'NonNullable
+instance Show Checkout'sessionAfterExpiration'NonNullableRecovery'NonNullable
+instance Eq Checkout'sessionAfterExpiration'NonNullableRecovery'NonNullable
+instance FromJSON Checkout'sessionAfterExpiration'NonNullableRecovery'NonNullable
+instance ToJSON Checkout'sessionAfterExpiration'NonNullableRecovery'NonNullable
+data Checkout'sessionBillingAddressCollection'NonNullable
+instance Show Checkout'sessionBillingAddressCollection'NonNullable
+instance Eq Checkout'sessionBillingAddressCollection'NonNullable
+instance FromJSON Checkout'sessionBillingAddressCollection'NonNullable
+instance ToJSON Checkout'sessionBillingAddressCollection'NonNullable
+data Checkout'sessionConsent'NonNullable
+instance Show Checkout'sessionConsent'NonNullable
+instance Eq Checkout'sessionConsent'NonNullable
+instance FromJSON Checkout'sessionConsent'NonNullable
+instance ToJSON Checkout'sessionConsent'NonNullable
+data Checkout'sessionConsent'NonNullablePromotions'NonNullable
+instance Show Checkout'sessionConsent'NonNullablePromotions'NonNullable
+instance Eq Checkout'sessionConsent'NonNullablePromotions'NonNullable
+instance FromJSON Checkout'sessionConsent'NonNullablePromotions'NonNullable
+instance ToJSON Checkout'sessionConsent'NonNullablePromotions'NonNullable
+data Checkout'sessionConsentCollection'NonNullable
+instance Show Checkout'sessionConsentCollection'NonNullable
+instance Eq Checkout'sessionConsentCollection'NonNullable
+instance FromJSON Checkout'sessionConsentCollection'NonNullable
+instance ToJSON Checkout'sessionConsentCollection'NonNullable
+data Checkout'sessionConsentCollection'NonNullablePromotions'NonNullable
+instance Show Checkout'sessionConsentCollection'NonNullablePromotions'NonNullable
+instance Eq Checkout'sessionConsentCollection'NonNullablePromotions'NonNullable
+instance FromJSON Checkout'sessionConsentCollection'NonNullablePromotions'NonNullable
+instance ToJSON Checkout'sessionConsentCollection'NonNullablePromotions'NonNullable
+data Checkout'sessionCustomer'NonNullableVariants
+instance Show Checkout'sessionCustomer'NonNullableVariants
+instance Eq Checkout'sessionCustomer'NonNullableVariants
+instance FromJSON Checkout'sessionCustomer'NonNullableVariants
+instance ToJSON Checkout'sessionCustomer'NonNullableVariants
+data Checkout'sessionCustomerCreation'NonNullable
+instance Show Checkout'sessionCustomerCreation'NonNullable
+instance Eq Checkout'sessionCustomerCreation'NonNullable
+instance FromJSON Checkout'sessionCustomerCreation'NonNullable
+instance ToJSON Checkout'sessionCustomerCreation'NonNullable
+data Checkout'sessionCustomerDetails'NonNullable
+instance Show Checkout'sessionCustomerDetails'NonNullable
+instance Eq Checkout'sessionCustomerDetails'NonNullable
+instance FromJSON Checkout'sessionCustomerDetails'NonNullable
+instance ToJSON Checkout'sessionCustomerDetails'NonNullable
+data Checkout'sessionCustomerDetails'NonNullableAddress'NonNullable
+instance Show Checkout'sessionCustomerDetails'NonNullableAddress'NonNullable
+instance Eq Checkout'sessionCustomerDetails'NonNullableAddress'NonNullable
+instance FromJSON Checkout'sessionCustomerDetails'NonNullableAddress'NonNullable
+instance ToJSON Checkout'sessionCustomerDetails'NonNullableAddress'NonNullable
+data Checkout'sessionCustomerDetails'NonNullableTaxExempt'NonNullable
+instance Show Checkout'sessionCustomerDetails'NonNullableTaxExempt'NonNullable
+instance Eq Checkout'sessionCustomerDetails'NonNullableTaxExempt'NonNullable
+instance FromJSON Checkout'sessionCustomerDetails'NonNullableTaxExempt'NonNullable
+instance ToJSON Checkout'sessionCustomerDetails'NonNullableTaxExempt'NonNullable
 data Checkout'sessionLineItems'
 instance Show Checkout'sessionLineItems'
 instance Eq Checkout'sessionLineItems'
 instance FromJSON Checkout'sessionLineItems'
 instance ToJSON Checkout'sessionLineItems'
-data Checkout'sessionLocale'
-instance Show Checkout'sessionLocale'
-instance Eq Checkout'sessionLocale'
-instance FromJSON Checkout'sessionLocale'
-instance ToJSON Checkout'sessionLocale'
+data Checkout'sessionLocale'NonNullable
+instance Show Checkout'sessionLocale'NonNullable
+instance Eq Checkout'sessionLocale'NonNullable
+instance FromJSON Checkout'sessionLocale'NonNullable
+instance ToJSON Checkout'sessionLocale'NonNullable
 data Checkout'sessionMode'
 instance Show Checkout'sessionMode'
 instance Eq Checkout'sessionMode'
 instance FromJSON Checkout'sessionMode'
 instance ToJSON Checkout'sessionMode'
-data Checkout'sessionPaymentIntent'Variants
-instance Show Checkout'sessionPaymentIntent'Variants
-instance Eq Checkout'sessionPaymentIntent'Variants
-instance FromJSON Checkout'sessionPaymentIntent'Variants
-instance ToJSON Checkout'sessionPaymentIntent'Variants
-data Checkout'sessionPaymentMethodOptions'
-instance Show Checkout'sessionPaymentMethodOptions'
-instance Eq Checkout'sessionPaymentMethodOptions'
-instance FromJSON Checkout'sessionPaymentMethodOptions'
-instance ToJSON Checkout'sessionPaymentMethodOptions'
+data Checkout'sessionPaymentIntent'NonNullableVariants
+instance Show Checkout'sessionPaymentIntent'NonNullableVariants
+instance Eq Checkout'sessionPaymentIntent'NonNullableVariants
+instance FromJSON Checkout'sessionPaymentIntent'NonNullableVariants
+instance ToJSON Checkout'sessionPaymentIntent'NonNullableVariants
+data Checkout'sessionPaymentLink'NonNullableVariants
+instance Show Checkout'sessionPaymentLink'NonNullableVariants
+instance Eq Checkout'sessionPaymentLink'NonNullableVariants
+instance FromJSON Checkout'sessionPaymentLink'NonNullableVariants
+instance ToJSON Checkout'sessionPaymentLink'NonNullableVariants
+data Checkout'sessionPaymentMethodOptions'NonNullable
+instance Show Checkout'sessionPaymentMethodOptions'NonNullable
+instance Eq Checkout'sessionPaymentMethodOptions'NonNullable
+instance FromJSON Checkout'sessionPaymentMethodOptions'NonNullable
+instance ToJSON Checkout'sessionPaymentMethodOptions'NonNullable
 data Checkout'sessionPaymentStatus'
 instance Show Checkout'sessionPaymentStatus'
 instance Eq Checkout'sessionPaymentStatus'
 instance FromJSON Checkout'sessionPaymentStatus'
 instance ToJSON Checkout'sessionPaymentStatus'
-data Checkout'sessionSetupIntent'Variants
-instance Show Checkout'sessionSetupIntent'Variants
-instance Eq Checkout'sessionSetupIntent'Variants
-instance FromJSON Checkout'sessionSetupIntent'Variants
-instance ToJSON Checkout'sessionSetupIntent'Variants
-data Checkout'sessionShipping'
-instance Show Checkout'sessionShipping'
-instance Eq Checkout'sessionShipping'
-instance FromJSON Checkout'sessionShipping'
-instance ToJSON Checkout'sessionShipping'
-data Checkout'sessionShippingAddressCollection'
-instance Show Checkout'sessionShippingAddressCollection'
-instance Eq Checkout'sessionShippingAddressCollection'
-instance FromJSON Checkout'sessionShippingAddressCollection'
-instance ToJSON Checkout'sessionShippingAddressCollection'
-data Checkout'sessionShippingAddressCollection'AllowedCountries'
-instance Show Checkout'sessionShippingAddressCollection'AllowedCountries'
-instance Eq Checkout'sessionShippingAddressCollection'AllowedCountries'
-instance FromJSON Checkout'sessionShippingAddressCollection'AllowedCountries'
-instance ToJSON Checkout'sessionShippingAddressCollection'AllowedCountries'
-data Checkout'sessionSubmitType'
-instance Show Checkout'sessionSubmitType'
-instance Eq Checkout'sessionSubmitType'
-instance FromJSON Checkout'sessionSubmitType'
-instance ToJSON Checkout'sessionSubmitType'
-data Checkout'sessionSubscription'Variants
-instance Show Checkout'sessionSubscription'Variants
-instance Eq Checkout'sessionSubscription'Variants
-instance FromJSON Checkout'sessionSubscription'Variants
-instance ToJSON Checkout'sessionSubscription'Variants
-data Checkout'sessionTotalDetails'
-instance Show Checkout'sessionTotalDetails'
-instance Eq Checkout'sessionTotalDetails'
-instance FromJSON Checkout'sessionTotalDetails'
-instance ToJSON Checkout'sessionTotalDetails'
+data Checkout'sessionSetupIntent'NonNullableVariants
+instance Show Checkout'sessionSetupIntent'NonNullableVariants
+instance Eq Checkout'sessionSetupIntent'NonNullableVariants
+instance FromJSON Checkout'sessionSetupIntent'NonNullableVariants
+instance ToJSON Checkout'sessionSetupIntent'NonNullableVariants
+data Checkout'sessionShipping'NonNullable
+instance Show Checkout'sessionShipping'NonNullable
+instance Eq Checkout'sessionShipping'NonNullable
+instance FromJSON Checkout'sessionShipping'NonNullable
+instance ToJSON Checkout'sessionShipping'NonNullable
+data Checkout'sessionShippingAddressCollection'NonNullable
+instance Show Checkout'sessionShippingAddressCollection'NonNullable
+instance Eq Checkout'sessionShippingAddressCollection'NonNullable
+instance FromJSON Checkout'sessionShippingAddressCollection'NonNullable
+instance ToJSON Checkout'sessionShippingAddressCollection'NonNullable
+data Checkout'sessionShippingAddressCollection'NonNullableAllowedCountries'
+instance Show Checkout'sessionShippingAddressCollection'NonNullableAllowedCountries'
+instance Eq Checkout'sessionShippingAddressCollection'NonNullableAllowedCountries'
+instance FromJSON Checkout'sessionShippingAddressCollection'NonNullableAllowedCountries'
+instance ToJSON Checkout'sessionShippingAddressCollection'NonNullableAllowedCountries'
+data Checkout'sessionShippingRate'NonNullableVariants
+instance Show Checkout'sessionShippingRate'NonNullableVariants
+instance Eq Checkout'sessionShippingRate'NonNullableVariants
+instance FromJSON Checkout'sessionShippingRate'NonNullableVariants
+instance ToJSON Checkout'sessionShippingRate'NonNullableVariants
+data Checkout'sessionStatus'NonNullable
+instance Show Checkout'sessionStatus'NonNullable
+instance Eq Checkout'sessionStatus'NonNullable
+instance FromJSON Checkout'sessionStatus'NonNullable
+instance ToJSON Checkout'sessionStatus'NonNullable
+data Checkout'sessionSubmitType'NonNullable
+instance Show Checkout'sessionSubmitType'NonNullable
+instance Eq Checkout'sessionSubmitType'NonNullable
+instance FromJSON Checkout'sessionSubmitType'NonNullable
+instance ToJSON Checkout'sessionSubmitType'NonNullable
+data Checkout'sessionSubscription'NonNullableVariants
+instance Show Checkout'sessionSubscription'NonNullableVariants
+instance Eq Checkout'sessionSubscription'NonNullableVariants
+instance FromJSON Checkout'sessionSubscription'NonNullableVariants
+instance ToJSON Checkout'sessionSubscription'NonNullableVariants
+data Checkout'sessionTotalDetails'NonNullable
+instance Show Checkout'sessionTotalDetails'NonNullable
+instance Eq Checkout'sessionTotalDetails'NonNullable
+instance FromJSON Checkout'sessionTotalDetails'NonNullable
+instance ToJSON Checkout'sessionTotalDetails'NonNullable

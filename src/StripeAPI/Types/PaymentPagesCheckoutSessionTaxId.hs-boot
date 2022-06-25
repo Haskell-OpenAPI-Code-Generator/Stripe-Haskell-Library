@@ -1,6 +1,7 @@
 module StripeAPI.Types.PaymentPagesCheckoutSessionTaxId where
 import Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Types.Internal
+import qualified StripeAPI.Common
 data PaymentPagesCheckoutSessionTaxId
 instance Show PaymentPagesCheckoutSessionTaxId
 instance Eq PaymentPagesCheckoutSessionTaxId

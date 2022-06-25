@@ -1,16 +1,17 @@
 module StripeAPI.Types.Plan where
 import Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Types.Internal
+import qualified StripeAPI.Common
 data Plan
 instance Show Plan
 instance Eq Plan
 instance FromJSON Plan
 instance ToJSON Plan
-data PlanAggregateUsage'
-instance Show PlanAggregateUsage'
-instance Eq PlanAggregateUsage'
-instance FromJSON PlanAggregateUsage'
-instance ToJSON PlanAggregateUsage'
+data PlanAggregateUsage'NonNullable
+instance Show PlanAggregateUsage'NonNullable
+instance Eq PlanAggregateUsage'NonNullable
+instance FromJSON PlanAggregateUsage'NonNullable
+instance ToJSON PlanAggregateUsage'NonNullable
 data PlanBillingScheme'
 instance Show PlanBillingScheme'
 instance Eq PlanBillingScheme'
@@ -21,26 +22,26 @@ instance Show PlanInterval'
 instance Eq PlanInterval'
 instance FromJSON PlanInterval'
 instance ToJSON PlanInterval'
-data PlanProduct'Variants
-instance Show PlanProduct'Variants
-instance Eq PlanProduct'Variants
-instance FromJSON PlanProduct'Variants
-instance ToJSON PlanProduct'Variants
-data PlanTiersMode'
-instance Show PlanTiersMode'
-instance Eq PlanTiersMode'
-instance FromJSON PlanTiersMode'
-instance ToJSON PlanTiersMode'
-data PlanTransformUsage'
-instance Show PlanTransformUsage'
-instance Eq PlanTransformUsage'
-instance FromJSON PlanTransformUsage'
-instance ToJSON PlanTransformUsage'
-data PlanTransformUsage'Round'
-instance Show PlanTransformUsage'Round'
-instance Eq PlanTransformUsage'Round'
-instance FromJSON PlanTransformUsage'Round'
-instance ToJSON PlanTransformUsage'Round'
+data PlanProduct'NonNullableVariants
+instance Show PlanProduct'NonNullableVariants
+instance Eq PlanProduct'NonNullableVariants
+instance FromJSON PlanProduct'NonNullableVariants
+instance ToJSON PlanProduct'NonNullableVariants
+data PlanTiersMode'NonNullable
+instance Show PlanTiersMode'NonNullable
+instance Eq PlanTiersMode'NonNullable
+instance FromJSON PlanTiersMode'NonNullable
+instance ToJSON PlanTiersMode'NonNullable
+data PlanTransformUsage'NonNullable
+instance Show PlanTransformUsage'NonNullable
+instance Eq PlanTransformUsage'NonNullable
+instance FromJSON PlanTransformUsage'NonNullable
+instance ToJSON PlanTransformUsage'NonNullable
+data PlanTransformUsage'NonNullableRound'
+instance Show PlanTransformUsage'NonNullableRound'
+instance Eq PlanTransformUsage'NonNullableRound'
+instance FromJSON PlanTransformUsage'NonNullableRound'
+instance ToJSON PlanTransformUsage'NonNullableRound'
 data PlanUsageType'
 instance Show PlanUsageType'
 instance Eq PlanUsageType'

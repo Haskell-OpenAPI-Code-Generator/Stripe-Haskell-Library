@@ -1,28 +1,29 @@
 module StripeAPI.Types.ScheduledQueryRun where
 import Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Types.Internal
+import qualified StripeAPI.Common
 data ScheduledQueryRun
 instance Show ScheduledQueryRun
 instance Eq ScheduledQueryRun
 instance FromJSON ScheduledQueryRun
 instance ToJSON ScheduledQueryRun
-data ScheduledQueryRunFile'
-instance Show ScheduledQueryRunFile'
-instance Eq ScheduledQueryRunFile'
-instance FromJSON ScheduledQueryRunFile'
-instance ToJSON ScheduledQueryRunFile'
-data ScheduledQueryRunFile'Links'
-instance Show ScheduledQueryRunFile'Links'
-instance Eq ScheduledQueryRunFile'Links'
-instance FromJSON ScheduledQueryRunFile'Links'
-instance ToJSON ScheduledQueryRunFile'Links'
-data ScheduledQueryRunFile'Object'
-instance Show ScheduledQueryRunFile'Object'
-instance Eq ScheduledQueryRunFile'Object'
-instance FromJSON ScheduledQueryRunFile'Object'
-instance ToJSON ScheduledQueryRunFile'Object'
-data ScheduledQueryRunFile'Purpose'
-instance Show ScheduledQueryRunFile'Purpose'
-instance Eq ScheduledQueryRunFile'Purpose'
-instance FromJSON ScheduledQueryRunFile'Purpose'
-instance ToJSON ScheduledQueryRunFile'Purpose'
+data ScheduledQueryRunFile'NonNullable
+instance Show ScheduledQueryRunFile'NonNullable
+instance Eq ScheduledQueryRunFile'NonNullable
+instance FromJSON ScheduledQueryRunFile'NonNullable
+instance ToJSON ScheduledQueryRunFile'NonNullable
+data ScheduledQueryRunFile'NonNullableLinks'NonNullable
+instance Show ScheduledQueryRunFile'NonNullableLinks'NonNullable
+instance Eq ScheduledQueryRunFile'NonNullableLinks'NonNullable
+instance FromJSON ScheduledQueryRunFile'NonNullableLinks'NonNullable
+instance ToJSON ScheduledQueryRunFile'NonNullableLinks'NonNullable
+data ScheduledQueryRunFile'NonNullableObject'
+instance Show ScheduledQueryRunFile'NonNullableObject'
+instance Eq ScheduledQueryRunFile'NonNullableObject'
+instance FromJSON ScheduledQueryRunFile'NonNullableObject'
+instance ToJSON ScheduledQueryRunFile'NonNullableObject'
+data ScheduledQueryRunFile'NonNullablePurpose'
+instance Show ScheduledQueryRunFile'NonNullablePurpose'
+instance Eq ScheduledQueryRunFile'NonNullablePurpose'
+instance FromJSON ScheduledQueryRunFile'NonNullablePurpose'
+instance ToJSON ScheduledQueryRunFile'NonNullablePurpose'

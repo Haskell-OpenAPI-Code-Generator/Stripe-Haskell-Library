@@ -1,6 +1,7 @@
 module StripeAPI.Types.CardIssuingAccountTermsOfService where
 import Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Types.Internal
+import qualified StripeAPI.Common
 data CardIssuingAccountTermsOfService
 instance Show CardIssuingAccountTermsOfService
 instance Eq CardIssuingAccountTermsOfService

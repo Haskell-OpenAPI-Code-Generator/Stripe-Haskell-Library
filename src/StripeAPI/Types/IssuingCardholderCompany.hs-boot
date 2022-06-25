@@ -1,6 +1,7 @@
 module StripeAPI.Types.IssuingCardholderCompany where
 import Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Types.Internal
+import qualified StripeAPI.Common
 data IssuingCardholderCompany
 instance Show IssuingCardholderCompany
 instance Eq IssuingCardholderCompany

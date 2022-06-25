@@ -1,6 +1,7 @@
 module StripeAPI.Types.MandateBacsDebit where
 import Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Types.Internal
+import qualified StripeAPI.Common
 data MandateBacsDebit
 instance Show MandateBacsDebit
 instance Eq MandateBacsDebit

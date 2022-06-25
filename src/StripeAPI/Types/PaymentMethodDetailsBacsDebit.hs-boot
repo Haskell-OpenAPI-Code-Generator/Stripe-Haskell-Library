@@ -1,6 +1,7 @@
 module StripeAPI.Types.PaymentMethodDetailsBacsDebit where
 import Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Types.Internal
+import qualified StripeAPI.Common
 data PaymentMethodDetailsBacsDebit
 instance Show PaymentMethodDetailsBacsDebit
 instance Eq PaymentMethodDetailsBacsDebit

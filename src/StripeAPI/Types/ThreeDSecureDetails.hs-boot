@@ -1,28 +1,29 @@
 module StripeAPI.Types.ThreeDSecureDetails where
 import Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Types.Internal
+import qualified StripeAPI.Common
 data ThreeDSecureDetails
 instance Show ThreeDSecureDetails
 instance Eq ThreeDSecureDetails
 instance FromJSON ThreeDSecureDetails
 instance ToJSON ThreeDSecureDetails
-data ThreeDSecureDetailsAuthenticationFlow'
-instance Show ThreeDSecureDetailsAuthenticationFlow'
-instance Eq ThreeDSecureDetailsAuthenticationFlow'
-instance FromJSON ThreeDSecureDetailsAuthenticationFlow'
-instance ToJSON ThreeDSecureDetailsAuthenticationFlow'
-data ThreeDSecureDetailsResult'
-instance Show ThreeDSecureDetailsResult'
-instance Eq ThreeDSecureDetailsResult'
-instance FromJSON ThreeDSecureDetailsResult'
-instance ToJSON ThreeDSecureDetailsResult'
-data ThreeDSecureDetailsResultReason'
-instance Show ThreeDSecureDetailsResultReason'
-instance Eq ThreeDSecureDetailsResultReason'
-instance FromJSON ThreeDSecureDetailsResultReason'
-instance ToJSON ThreeDSecureDetailsResultReason'
-data ThreeDSecureDetailsVersion'
-instance Show ThreeDSecureDetailsVersion'
-instance Eq ThreeDSecureDetailsVersion'
-instance FromJSON ThreeDSecureDetailsVersion'
-instance ToJSON ThreeDSecureDetailsVersion'
+data ThreeDSecureDetailsAuthenticationFlow'NonNullable
+instance Show ThreeDSecureDetailsAuthenticationFlow'NonNullable
+instance Eq ThreeDSecureDetailsAuthenticationFlow'NonNullable
+instance FromJSON ThreeDSecureDetailsAuthenticationFlow'NonNullable
+instance ToJSON ThreeDSecureDetailsAuthenticationFlow'NonNullable
+data ThreeDSecureDetailsResult'NonNullable
+instance Show ThreeDSecureDetailsResult'NonNullable
+instance Eq ThreeDSecureDetailsResult'NonNullable
+instance FromJSON ThreeDSecureDetailsResult'NonNullable
+instance ToJSON ThreeDSecureDetailsResult'NonNullable
+data ThreeDSecureDetailsResultReason'NonNullable
+instance Show ThreeDSecureDetailsResultReason'NonNullable
+instance Eq ThreeDSecureDetailsResultReason'NonNullable
+instance FromJSON ThreeDSecureDetailsResultReason'NonNullable
+instance ToJSON ThreeDSecureDetailsResultReason'NonNullable
+data ThreeDSecureDetailsVersion'NonNullable
+instance Show ThreeDSecureDetailsVersion'NonNullable
+instance Eq ThreeDSecureDetailsVersion'NonNullable
+instance FromJSON ThreeDSecureDetailsVersion'NonNullable
+instance ToJSON ThreeDSecureDetailsVersion'NonNullable

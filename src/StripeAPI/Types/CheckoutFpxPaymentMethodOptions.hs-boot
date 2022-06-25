@@ -1,0 +1,14 @@
+module StripeAPI.Types.CheckoutFpxPaymentMethodOptions where
+import Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Types.Internal
+import qualified StripeAPI.Common
+data CheckoutFpxPaymentMethodOptions
+instance Show CheckoutFpxPaymentMethodOptions
+instance Eq CheckoutFpxPaymentMethodOptions
+instance FromJSON CheckoutFpxPaymentMethodOptions
+instance ToJSON CheckoutFpxPaymentMethodOptions
+data CheckoutFpxPaymentMethodOptionsSetupFutureUsage'
+instance Show CheckoutFpxPaymentMethodOptionsSetupFutureUsage'
+instance Eq CheckoutFpxPaymentMethodOptionsSetupFutureUsage'
+instance FromJSON CheckoutFpxPaymentMethodOptionsSetupFutureUsage'
+instance ToJSON CheckoutFpxPaymentMethodOptionsSetupFutureUsage'

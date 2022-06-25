@@ -1,6 +1,7 @@
 module StripeAPI.Types.PaymentMethodDetailsCardWallet where
 import Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Types.Internal
+import qualified StripeAPI.Common
 data PaymentMethodDetailsCardWallet
 instance Show PaymentMethodDetailsCardWallet
 instance Eq PaymentMethodDetailsCardWallet

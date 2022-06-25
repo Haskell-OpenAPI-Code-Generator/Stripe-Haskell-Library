@@ -1,6 +1,7 @@
 module StripeAPI.Types.CardGeneratedFromPaymentMethodDetails where
 import Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Types.Internal
+import qualified StripeAPI.Common
 data CardGeneratedFromPaymentMethodDetails
 instance Show CardGeneratedFromPaymentMethodDetails
 instance Eq CardGeneratedFromPaymentMethodDetails

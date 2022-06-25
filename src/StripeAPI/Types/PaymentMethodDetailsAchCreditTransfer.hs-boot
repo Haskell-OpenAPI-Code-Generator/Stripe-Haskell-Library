@@ -1,6 +1,7 @@
 module StripeAPI.Types.PaymentMethodDetailsAchCreditTransfer where
 import Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Types.Internal
+import qualified StripeAPI.Common
 data PaymentMethodDetailsAchCreditTransfer
 instance Show PaymentMethodDetailsAchCreditTransfer
 instance Eq PaymentMethodDetailsAchCreditTransfer

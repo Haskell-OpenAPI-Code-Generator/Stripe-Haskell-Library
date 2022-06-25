@@ -1,23 +1,24 @@
 module StripeAPI.Types.BankAccount where
 import Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Types.Internal
+import qualified StripeAPI.Common
 data BankAccount
 instance Show BankAccount
 instance Eq BankAccount
 instance FromJSON BankAccount
 instance ToJSON BankAccount
-data BankAccountAccount'Variants
-instance Show BankAccountAccount'Variants
-instance Eq BankAccountAccount'Variants
-instance FromJSON BankAccountAccount'Variants
-instance ToJSON BankAccountAccount'Variants
-data BankAccountAvailablePayoutMethods'
-instance Show BankAccountAvailablePayoutMethods'
-instance Eq BankAccountAvailablePayoutMethods'
-instance FromJSON BankAccountAvailablePayoutMethods'
-instance ToJSON BankAccountAvailablePayoutMethods'
-data BankAccountCustomer'Variants
-instance Show BankAccountCustomer'Variants
-instance Eq BankAccountCustomer'Variants
-instance FromJSON BankAccountCustomer'Variants
-instance ToJSON BankAccountCustomer'Variants
+data BankAccountAccount'NonNullableVariants
+instance Show BankAccountAccount'NonNullableVariants
+instance Eq BankAccountAccount'NonNullableVariants
+instance FromJSON BankAccountAccount'NonNullableVariants
+instance ToJSON BankAccountAccount'NonNullableVariants
+data BankAccountAvailablePayoutMethods'NonNullable
+instance Show BankAccountAvailablePayoutMethods'NonNullable
+instance Eq BankAccountAvailablePayoutMethods'NonNullable
+instance FromJSON BankAccountAvailablePayoutMethods'NonNullable
+instance ToJSON BankAccountAvailablePayoutMethods'NonNullable
+data BankAccountCustomer'NonNullableVariants
+instance Show BankAccountCustomer'NonNullableVariants
+instance Eq BankAccountCustomer'NonNullableVariants
+instance FromJSON BankAccountCustomer'NonNullableVariants
+instance ToJSON BankAccountCustomer'NonNullableVariants

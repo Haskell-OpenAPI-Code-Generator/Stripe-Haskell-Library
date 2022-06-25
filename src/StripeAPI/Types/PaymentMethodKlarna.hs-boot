@@ -1,0 +1,14 @@
+module StripeAPI.Types.PaymentMethodKlarna where
+import Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Types.Internal
+import qualified StripeAPI.Common
+data PaymentMethodKlarna
+instance Show PaymentMethodKlarna
+instance Eq PaymentMethodKlarna
+instance FromJSON PaymentMethodKlarna
+instance ToJSON PaymentMethodKlarna
+data PaymentMethodKlarnaDob'NonNullable
+instance Show PaymentMethodKlarnaDob'NonNullable
+instance Eq PaymentMethodKlarnaDob'NonNullable
+instance FromJSON PaymentMethodKlarnaDob'NonNullable
+instance ToJSON PaymentMethodKlarnaDob'NonNullable

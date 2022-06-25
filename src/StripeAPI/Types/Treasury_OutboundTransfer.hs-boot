@@ -1,0 +1,34 @@
+module StripeAPI.Types.Treasury_OutboundTransfer where
+import Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Types.Internal
+import qualified StripeAPI.Common
+data Treasury'outboundTransfer
+instance Show Treasury'outboundTransfer
+instance Eq Treasury'outboundTransfer
+instance FromJSON Treasury'outboundTransfer
+instance ToJSON Treasury'outboundTransfer
+data Treasury'outboundTransferReturnedDetails'NonNullable
+instance Show Treasury'outboundTransferReturnedDetails'NonNullable
+instance Eq Treasury'outboundTransferReturnedDetails'NonNullable
+instance FromJSON Treasury'outboundTransferReturnedDetails'NonNullable
+instance ToJSON Treasury'outboundTransferReturnedDetails'NonNullable
+data Treasury'outboundTransferReturnedDetails'NonNullableCode'
+instance Show Treasury'outboundTransferReturnedDetails'NonNullableCode'
+instance Eq Treasury'outboundTransferReturnedDetails'NonNullableCode'
+instance FromJSON Treasury'outboundTransferReturnedDetails'NonNullableCode'
+instance ToJSON Treasury'outboundTransferReturnedDetails'NonNullableCode'
+data Treasury'outboundTransferReturnedDetails'NonNullableTransaction'Variants
+instance Show Treasury'outboundTransferReturnedDetails'NonNullableTransaction'Variants
+instance Eq Treasury'outboundTransferReturnedDetails'NonNullableTransaction'Variants
+instance FromJSON Treasury'outboundTransferReturnedDetails'NonNullableTransaction'Variants
+instance ToJSON Treasury'outboundTransferReturnedDetails'NonNullableTransaction'Variants
+data Treasury'outboundTransferStatus'
+instance Show Treasury'outboundTransferStatus'
+instance Eq Treasury'outboundTransferStatus'
+instance FromJSON Treasury'outboundTransferStatus'
+instance ToJSON Treasury'outboundTransferStatus'
+data Treasury'outboundTransferTransaction'Variants
+instance Show Treasury'outboundTransferTransaction'Variants
+instance Eq Treasury'outboundTransferTransaction'Variants
+instance FromJSON Treasury'outboundTransferTransaction'Variants
+instance ToJSON Treasury'outboundTransferTransaction'Variants

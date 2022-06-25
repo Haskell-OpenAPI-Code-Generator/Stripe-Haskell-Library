@@ -1,6 +1,7 @@
 module StripeAPI.Types.PaymentMethodDetailsBoleto where
 import Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Types.Internal
+import qualified StripeAPI.Common
 data PaymentMethodDetailsBoleto
 instance Show PaymentMethodDetailsBoleto
 instance Eq PaymentMethodDetailsBoleto

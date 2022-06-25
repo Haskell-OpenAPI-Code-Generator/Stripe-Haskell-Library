@@ -1,0 +1,9 @@
+module StripeAPI.Types.PaymentPagesCheckoutSessionAfterExpirationRecovery where
+import Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Types.Internal
+import qualified StripeAPI.Common
+data PaymentPagesCheckoutSessionAfterExpirationRecovery
+instance Show PaymentPagesCheckoutSessionAfterExpirationRecovery
+instance Eq PaymentPagesCheckoutSessionAfterExpirationRecovery
+instance FromJSON PaymentPagesCheckoutSessionAfterExpirationRecovery
+instance ToJSON PaymentPagesCheckoutSessionAfterExpirationRecovery

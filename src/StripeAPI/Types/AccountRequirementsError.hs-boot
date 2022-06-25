@@ -1,6 +1,7 @@
 module StripeAPI.Types.AccountRequirementsError where
 import Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Types.Internal
+import qualified StripeAPI.Common
 data AccountRequirementsError
 instance Show AccountRequirementsError
 instance Eq AccountRequirementsError

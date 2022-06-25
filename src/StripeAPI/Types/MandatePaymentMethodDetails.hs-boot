@@ -1,6 +1,7 @@
 module StripeAPI.Types.MandatePaymentMethodDetails where
 import Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Types.Internal
+import qualified StripeAPI.Common
 data MandatePaymentMethodDetails
 instance Show MandatePaymentMethodDetails
 instance Eq MandatePaymentMethodDetails

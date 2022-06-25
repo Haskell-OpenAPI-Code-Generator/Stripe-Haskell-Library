@@ -1,36 +1,37 @@
 module StripeAPI.Types.Payout where
 import Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Types.Internal
+import qualified StripeAPI.Common
 data Payout
 instance Show Payout
 instance Eq Payout
 instance FromJSON Payout
 instance ToJSON Payout
-data PayoutBalanceTransaction'Variants
-instance Show PayoutBalanceTransaction'Variants
-instance Eq PayoutBalanceTransaction'Variants
-instance FromJSON PayoutBalanceTransaction'Variants
-instance ToJSON PayoutBalanceTransaction'Variants
-data PayoutDestination'Variants
-instance Show PayoutDestination'Variants
-instance Eq PayoutDestination'Variants
-instance FromJSON PayoutDestination'Variants
-instance ToJSON PayoutDestination'Variants
-data PayoutFailureBalanceTransaction'Variants
-instance Show PayoutFailureBalanceTransaction'Variants
-instance Eq PayoutFailureBalanceTransaction'Variants
-instance FromJSON PayoutFailureBalanceTransaction'Variants
-instance ToJSON PayoutFailureBalanceTransaction'Variants
-data PayoutOriginalPayout'Variants
-instance Show PayoutOriginalPayout'Variants
-instance Eq PayoutOriginalPayout'Variants
-instance FromJSON PayoutOriginalPayout'Variants
-instance ToJSON PayoutOriginalPayout'Variants
-data PayoutReversedBy'Variants
-instance Show PayoutReversedBy'Variants
-instance Eq PayoutReversedBy'Variants
-instance FromJSON PayoutReversedBy'Variants
-instance ToJSON PayoutReversedBy'Variants
+data PayoutBalanceTransaction'NonNullableVariants
+instance Show PayoutBalanceTransaction'NonNullableVariants
+instance Eq PayoutBalanceTransaction'NonNullableVariants
+instance FromJSON PayoutBalanceTransaction'NonNullableVariants
+instance ToJSON PayoutBalanceTransaction'NonNullableVariants
+data PayoutDestination'NonNullableVariants
+instance Show PayoutDestination'NonNullableVariants
+instance Eq PayoutDestination'NonNullableVariants
+instance FromJSON PayoutDestination'NonNullableVariants
+instance ToJSON PayoutDestination'NonNullableVariants
+data PayoutFailureBalanceTransaction'NonNullableVariants
+instance Show PayoutFailureBalanceTransaction'NonNullableVariants
+instance Eq PayoutFailureBalanceTransaction'NonNullableVariants
+instance FromJSON PayoutFailureBalanceTransaction'NonNullableVariants
+instance ToJSON PayoutFailureBalanceTransaction'NonNullableVariants
+data PayoutOriginalPayout'NonNullableVariants
+instance Show PayoutOriginalPayout'NonNullableVariants
+instance Eq PayoutOriginalPayout'NonNullableVariants
+instance FromJSON PayoutOriginalPayout'NonNullableVariants
+instance ToJSON PayoutOriginalPayout'NonNullableVariants
+data PayoutReversedBy'NonNullableVariants
+instance Show PayoutReversedBy'NonNullableVariants
+instance Eq PayoutReversedBy'NonNullableVariants
+instance FromJSON PayoutReversedBy'NonNullableVariants
+instance ToJSON PayoutReversedBy'NonNullableVariants
 data PayoutType'
 instance Show PayoutType'
 instance Eq PayoutType'

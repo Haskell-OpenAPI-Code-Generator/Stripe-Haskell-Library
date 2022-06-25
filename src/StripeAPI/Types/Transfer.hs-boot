@@ -1,21 +1,22 @@
 module StripeAPI.Types.Transfer where
 import Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Types.Internal
+import qualified StripeAPI.Common
 data Transfer
 instance Show Transfer
 instance Eq Transfer
 instance FromJSON Transfer
 instance ToJSON Transfer
-data TransferBalanceTransaction'Variants
-instance Show TransferBalanceTransaction'Variants
-instance Eq TransferBalanceTransaction'Variants
-instance FromJSON TransferBalanceTransaction'Variants
-instance ToJSON TransferBalanceTransaction'Variants
-data TransferDestination'Variants
-instance Show TransferDestination'Variants
-instance Eq TransferDestination'Variants
-instance FromJSON TransferDestination'Variants
-instance ToJSON TransferDestination'Variants
+data TransferBalanceTransaction'NonNullableVariants
+instance Show TransferBalanceTransaction'NonNullableVariants
+instance Eq TransferBalanceTransaction'NonNullableVariants
+instance FromJSON TransferBalanceTransaction'NonNullableVariants
+instance ToJSON TransferBalanceTransaction'NonNullableVariants
+data TransferDestination'NonNullableVariants
+instance Show TransferDestination'NonNullableVariants
+instance Eq TransferDestination'NonNullableVariants
+instance FromJSON TransferDestination'NonNullableVariants
+instance ToJSON TransferDestination'NonNullableVariants
 data TransferDestinationPayment'Variants
 instance Show TransferDestinationPayment'Variants
 instance Eq TransferDestinationPayment'Variants
@@ -26,8 +27,8 @@ instance Show TransferReversals'
 instance Eq TransferReversals'
 instance FromJSON TransferReversals'
 instance ToJSON TransferReversals'
-data TransferSourceTransaction'Variants
-instance Show TransferSourceTransaction'Variants
-instance Eq TransferSourceTransaction'Variants
-instance FromJSON TransferSourceTransaction'Variants
-instance ToJSON TransferSourceTransaction'Variants
+data TransferSourceTransaction'NonNullableVariants
+instance Show TransferSourceTransaction'NonNullableVariants
+instance Eq TransferSourceTransaction'NonNullableVariants
+instance FromJSON TransferSourceTransaction'NonNullableVariants
+instance ToJSON TransferSourceTransaction'NonNullableVariants

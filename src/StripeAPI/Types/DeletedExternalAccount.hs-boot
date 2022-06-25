@@ -1,6 +1,7 @@
 module StripeAPI.Types.DeletedExternalAccount where
 import Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Types.Internal
+import qualified StripeAPI.Common
 data DeletedExternalAccount
 instance Show DeletedExternalAccount
 instance Eq DeletedExternalAccount

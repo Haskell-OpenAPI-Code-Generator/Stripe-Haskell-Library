@@ -1,6 +1,7 @@
 module StripeAPI.Types.AccountCardPaymentsSettings where
 import Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Types.Internal
+import qualified StripeAPI.Common
 data AccountCardPaymentsSettings
 instance Show AccountCardPaymentsSettings
 instance Eq AccountCardPaymentsSettings
